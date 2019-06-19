@@ -15,17 +15,14 @@ const connectionString = "";
 const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
+  const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  const receiver = client.createReceiver(partitionIds[0], {
-    eventPosition: EventPosition.fromFirstAvailableEvent(),
-    consumerGroup: "$Default"
-  });
+  const consumer = client.createConsumer("$Default", partitionIds[0], EventPosition.earliest());
   const batchSize = 1;
 
   try {
     for (let i = 0; i < 5; i++) {
-      const events = await receiver.receiveBatch(batchSize, 5);
+      const events = await consumer.receiveBatch(batchSize, 5);
       if (!events.length) {
         console.log("No more events to receive");
         break;
@@ -34,7 +31,7 @@ async function main(): Promise<void> {
     }
 
     let iteratorCount = 0;
-    for await (const events of receiver.getEventIterator({ preFetchCount: 5 })) {
+    for await (const events of consumer.getEventIterator()) {
       iteratorCount++;
       console.log(`Received event: ${events.body}`);
       if (iteratorCount === 5) {
@@ -42,7 +39,7 @@ async function main(): Promise<void> {
       }
     }
 
-    await receiver.close();
+    await consumer.close();
   } finally {
     await client.close();
   }

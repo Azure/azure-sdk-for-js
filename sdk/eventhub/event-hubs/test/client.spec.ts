@@ -22,26 +22,22 @@ describe("EventHubClient #RunnableInBrowser", function(): void {
     it("throws when it cannot find the Event Hub path", function(): void {
       const endpoint = "Endpoint=sb://abc";
       const test = function(): EventHubClient {
-        return EventHubClient.createFromConnectionString(endpoint);
+        return new EventHubClient(endpoint);
       };
       test.should.throw(
         Error,
-        `Either provide "path" or the "connectionString": "${endpoint}", must contain EntityPath="<path-to-the-entity>".`
+        'EntityPath is missing in the connection string. The value for the "connectionString" parameter must be of the form ' +
+          '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
       );
     });
 
     it("creates an EventHubClient from a connection string", function(): void {
-      const client = EventHubClient.createFromConnectionString(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-      );
+      const client = new EventHubClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d");
       client.should.be.an.instanceof(EventHubClient);
     });
 
     it("creates an EventHubClient from a connection string and an Event Hub path", function(): void {
-      const client = EventHubClient.createFromConnectionString(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c",
-        "path"
-      );
+      const client = new EventHubClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c", "path");
       client.should.be.an.instanceof(EventHubClient);
     });
   });
@@ -82,7 +78,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
   describe("user-agent", function(): void {
     it("should correctly populate the default user agent", function(done: Mocha.Done): void {
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      client = new EventHubClient(service.connectionString, service.path);
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
       properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
@@ -95,7 +91,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
     it("should correctly populate the custom user agent", function(done: Mocha.Done): void {
       const customua = "/js-event-processor-host=0.2.0";
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path, {
+      client = new EventHubClient(service.connectionString, service.path, {
         userAgent: customua
       });
       const packageVersion = packageJsonInfo.version;
@@ -112,20 +108,20 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
   describe("#close", function(): void {
     it("is a no-op when the connection is already closed", function(): Chai.PromisedAssertion {
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      client = new EventHubClient(service.connectionString, service.path);
       return client.close().should.be.fulfilled;
     });
   });
 
   describe("getPartitionIds", function(): void {
     it("returns an array of partition IDs", async function(): Promise<void> {
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      client = new EventHubClient(service.connectionString, service.path);
       const ids = await client.getPartitionIds();
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
     it("respects cancellationTokens", async function(): Promise<void> {
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      client = new EventHubClient(service.connectionString, service.path);
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
@@ -140,7 +136,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
   describe("non existent eventhub", function(): void {
     it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function(): Promise<void> {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
+        client = new EventHubClient(service.connectionString, "bad" + Math.random());
         await client.getProperties();
       } catch (err) {
         debug(err);
@@ -152,7 +148,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
       void
     > {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
+        client = new EventHubClient(service.connectionString, "bad" + Math.random());
         await client.getPartitionInformation("0");
       } catch (err) {
         debug(err);
@@ -162,7 +158,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
     it("should throw MessagingEntityNotFoundError while creating a sender", async function(): Promise<void> {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
+        client = new EventHubClient(service.connectionString, "bad" + Math.random());
         const sender = client.createProducer({ partitionId: "0" });
         await sender.send([{ body: "Hello World" }]);
       } catch (err) {
@@ -173,7 +169,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
     it("should throw MessagingEntityNotFoundError while creating a receiver", async function(): Promise<void> {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
+        client = new EventHubClient(service.connectionString, "bad" + Math.random());
         const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
         await receiver.receiveBatch(10, 5);
       } catch (err) {
@@ -186,7 +182,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
   describe("createConsumer", function(): void {
     it("should throw an error if EventPosition is missing", function() {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+        client = new EventHubClient(service.connectionString, service.path);
         client.createConsumer(EventHubClient.defaultConsumerGroup, "0", undefined as any);
         throw new Error("Test failure");
       } catch (err) {
@@ -197,7 +193,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 
     it("should throw an error if consumerGroup is missing", function() {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+        client = new EventHubClient(service.connectionString, service.path);
         client.createConsumer(undefined as any, "0", EventPosition.earliest());
         throw new Error("Test failure");
       } catch (err) {
@@ -210,7 +206,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
   describe("non existent consumer group", function(): void {
     it("should throw MessagingEntityNotFoundError while creating a receiver", function(done: Mocha.Done): void {
       try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+        client = new EventHubClient(service.connectionString, service.path);
         debug(">>>>>>>> client created.");
         const onMessage = (data: any) => {
           debug(">>>>> data: ", data);
@@ -240,7 +236,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     invalidIds.forEach(function(id: string): void {
       it(`"${id}" should throw an error`, async function(): Promise<void> {
         try {
-          client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+          client = new EventHubClient(service.connectionString, service.path);
           await client.getPartitionInformation(id);
         } catch (err) {
           debug(`>>>> Received error - `, err);
@@ -257,7 +253,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     invalidIds2.forEach(function(id: string | null): void {
       it(`"${id}" should throw an error`, async function(): Promise<void> {
         try {
-          client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+          client = new EventHubClient(service.connectionString, service.path);
           await client.getPartitionInformation(id as any);
         } catch (err) {
           debug(`>>>> Received error - `, err);

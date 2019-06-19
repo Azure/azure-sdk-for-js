@@ -15,12 +15,9 @@ const connectionString = "";
 const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
+  const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  const receiver = client.createReceiver(partitionIds[0], {
-    eventPosition: EventPosition.fromFirstAvailableEvent(),
-    consumerGroup: "$Default"
-  });
+  const consumer = client.createConsumer("$Default", partitionIds[0], EventPosition.earliest());
 
   const onMessageHandler: OnMessage = (brokeredMessage: EventData) => {
     console.log(`Received event: ${brokeredMessage.body}`);
@@ -30,11 +27,11 @@ async function main(): Promise<void> {
   };
 
   try {
-    const rcvHandler = receiver.receive(onMessageHandler, onErrorHandler);
+    const consumerHandler = consumer.receive(onMessageHandler, onErrorHandler);
 
-    // Waiting long enough before closing the receiver to receive event
+    // Waiting long enough before closing the consumer to receive event
     await delay(5000);
-    await rcvHandler.stop();
+    await consumerHandler.stop();
   } finally {
     await client.close();
   }

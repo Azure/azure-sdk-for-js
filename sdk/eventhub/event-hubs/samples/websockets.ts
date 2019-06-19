@@ -28,7 +28,7 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName, {
+  const client = new EventHubClient(connectionString, eventHubsName, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });

@@ -23,6 +23,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { isTokenCredential } from "@azure/core-http";
 
 /**
  * Retry policy options for operations on the EventHubClient
@@ -187,31 +188,44 @@ export class EventHubClient {
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
    * @constructor
+   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'
+   * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
+   * @param options - The options that can be provided during client creation.
+   */
+  constructor(connectionString: string, eventHubPath: string, options?: EventHubClientOptions);
+  /**
+   * @constructor
    * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
    * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options - The options that can be provided during client creation.
    */
-  constructor(
-    host: string,
-    eventHubPath: string,
-    credential: SharedKeyCredential | TokenCredential,
-    options?: EventHubClientOptions
-  );
+  constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
-    credential?: SharedKeyCredential | TokenCredential,
+    credentialOrOptions?: TokenCredential | EventHubClientOptions,
     options?: EventHubClientOptions
   ) {
     let connectionString;
-    let cred: TokenCredential | SharedKeyCredential;
+    let credential: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
 
-    if (typeof eventHubPathOrOptions !== "string") {
+    if (!isTokenCredential(credentialOrOptions)) {
       connectionString = hostOrConnectionString;
-      options = eventHubPathOrOptions;
+      if (typeof eventHubPathOrOptions !== "string") {
+        options = eventHubPathOrOptions;
+      } else {
+        const eventHubPath = String(eventHubPathOrOptions);
+        if (!eventHubPath) {
+          throw new Error(`Please provide a event hub path.`);
+        }
+        if (connectionString.indexOf(";EntityPath=") === -1) {
+          connectionString = `${connectionString};EntityPath=${eventHubPath}`;
+        }
+        options = credentialOrOptions;
+      }
       const parsedCS = parseConnectionString<EventHubConnectionStringModel>(connectionString);
       if (!parsedCS.EntityPath) {
         throw new Error(
@@ -219,32 +233,21 @@ export class EventHubClient {
             '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
         );
       }
-      cred = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
+      credential = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     } else {
-      const eventHubPath = eventHubPathOrOptions;
-      let sharedAccessKeyName = "defaultKeyName";
-      let sharedAccessKey = "defaultKeyValue";
+      const eventHubPath = String(eventHubPathOrOptions);
+      let host = hostOrConnectionString;
+      credential = credentialOrOptions;
 
-      if (!credential) {
-        throw new Error("Please provide either a token credential interface or a valid SharedKeyCredential object.");
-      }
-
-      cred = credential;
-      if (cred instanceof SharedKeyCredential) {
-        sharedAccessKeyName = cred.keyName;
-        sharedAccessKey = cred.key;
-      }
-
-      let host = String(hostOrConnectionString);
       if (!host.endsWith("/")) host += "/";
-      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventHubPath}`;
+      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
     }
 
     const config = EventHubConnectionConfig.create(connectionString);
     ConnectionConfig.validate(config);
 
     this._clientOptions = options || {};
-    this._context = ConnectionContext.create(config, cred, this._clientOptions);
+    this._context = ConnectionContext.create(config, credential, this._clientOptions);
   }
 
   /**
@@ -362,31 +365,6 @@ export class EventHubClient {
       log.error("An error occurred while getting the partition information: %O", err);
       throw err;
     }
-  }
-
-  /**
-   * Creates an EventHubClient from connection string. If the connection string doesnt have
-   * the EntityPath set in it, then use the entityPath parameter to pass the event hub name
-   * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {string} [entityPath] - EventHub path of the form 'my-event-hub-name'
-   * @param {EventHubClientOptions} [options] Options that can be provided during client creation.
-   * @returns {EventHubClient} - An instance of the eventhub client.
-   */
-
-  static createFromConnectionString(
-    connectionString: string,
-    entityPath?: string,
-    options?: EventHubClientOptions
-  ): EventHubClient {
-    const config = ConnectionConfig.create(connectionString, entityPath);
-    if (!config.entityPath) {
-      throw new Error(
-        `Either provide "path" or the "connectionString": "${connectionString}", ` +
-          `must contain EntityPath="<path-to-the-entity>".`
-      );
-    }
-    const sharedTokenCredential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-    return new EventHubClient(config.host, config.entityPath, sharedTokenCredential, options);
   }
 
   /**
