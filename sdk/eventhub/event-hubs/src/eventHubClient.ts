@@ -287,7 +287,7 @@ export class EventHubClient {
    *
    * @return {Promise<void>} Promise<void>
    */
-  createSender(options?: EventHubProducerOptions): EventHubProducer {
+  createProducer(options?: EventHubProducerOptions): EventHubProducer {
     return new EventHubProducer(this._context, options);
   }
 
@@ -302,7 +302,7 @@ export class EventHubClient {
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
-  createReceiver(
+  createConsumer(
     consumerGroup: string,
     partitionId: string,
     eventPosition: EventPosition,

@@ -29,7 +29,7 @@ export interface EventIteratorOptions {
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
- * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
+ * Use the `createConsumer` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
@@ -161,7 +161,7 @@ export class EventHubConsumer  {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `createReceiver` function on the EventHubClient to instantiate
+   * Use the `createConsumer` function on the EventHubClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
@@ -303,7 +303,7 @@ export class EventHubConsumer  {
     if (this.isClosed) {
       const errorMessage =
         `The receiver for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
-        `Please create a new receiver using the "createReceiver" function on the EventHubClient.`;
+        `Please create a new receiver using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;

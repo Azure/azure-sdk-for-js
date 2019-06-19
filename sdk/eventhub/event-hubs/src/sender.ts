@@ -10,7 +10,7 @@ import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "
 
 /**
  * The Sender class can be used to send messages.
- * Use the `createSender` function on the EventHubClient to instantiate a Sender.
+ * Use the `createProducer` function on the EventHubClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
@@ -68,7 +68,7 @@ export class EventHubProducer {
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
-   * Use the `createSender` function on the EventHubClient to instantiate a new Sender
+   * Use the `createProducer` function on the EventHubClient to instantiate a new Sender
    *
    * @returns {Promise<void>}
    */
@@ -94,7 +94,7 @@ export class EventHubProducer {
     if (this.isClosed) {
       const errorMessage =
         `The sender for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
-        `Please create a new sender using the "createSender" function on the EventHubClient.`;
+        `Please create a new sender using the "createProducer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
