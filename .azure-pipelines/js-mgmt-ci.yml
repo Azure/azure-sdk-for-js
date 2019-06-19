@@ -42,11 +42,11 @@ jobs:
           verbose: false
 
       - task: Npm@1
-        displayName: 'npm run build'
+        displayName: 'npm pack'
         inputs:
           command: custom
           verbose: false
-          customCommand: 'run build --logging-level=trace'
+          customCommand: 'pack --logging-level=trace'
 
       - task: CopyFiles@2
         displayName: 'Copy Files to: drop'
