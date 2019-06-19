@@ -308,8 +308,23 @@ export class QueueServiceClient extends StorageClient {
     });
   }
 
+  /**
+   * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of queues to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all queues remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @memberof QueueServiceClient
+   */
   async *listSegments(
-    marker: string | undefined = undefined,
+    marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
     let listQueuesResponse;
@@ -320,6 +335,20 @@ export class QueueServiceClient extends StorageClient {
     } while (marker);
   }
 
+  /**
+   * Returns an AsyncIterableIterator for Queue Items
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of queues to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all queues remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @memberof QueueServiceClient
+   */
   async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.QueueItem> {
@@ -334,6 +363,60 @@ export class QueueServiceClient extends StorageClient {
    * under the specified account.
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
+   * @example
+   *    let i = 1;
+   *    for await (const item of queueServiceClient.listQueues()) {
+   *      console.log(`Queue${i}: ${item.name}`);
+   *      i++;
+   *    }
+   *
+   * @example
+   *    // Generator syntax .next()
+   *    let i = 1;
+   *    let iterator = queueServiceClient.listQueues();
+   *    let item = await iterator.next();
+   *    while (!item.done) {
+   *      console.log(`Queue${i}: ${iterator.value.name}`);
+   *      i++;
+   *      item = await iterator.next();
+   *    }
+   *
+   * @example
+   *    // Example for .byPage()
+   *    // passing optional maxPageSize in the page settings
+   *    let i = 1;
+   *    for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *      if (item2.queueItems) {
+   *        for (const queueItem of item2.queueItems) {
+   *          console.log(`Queue${i}: ${queueItem.name}`);
+   *          i++;
+   *        }
+   *      }
+   *    }
+   *
+   * @example
+   *    let i = 1;
+   *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+   *    let item = (await iterator.next()).value;
+   *    // Prints 2 queue names
+   *    if (item.queueItems) {
+   *      for (const queueItem of item.queueItems) {
+   *        console.log(`Queue${i}: ${queueItem.name}`);
+   *        i++;
+   *      }
+   *    }
+   *    // Gets next marker
+   *    let marker = item.nextMarker;
+   *    // Passing next marker as continuationToken
+   *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *    item = (await iterator.next()).value;
+   *    // Prints 10 queue names
+   *    if (item.queueItems) {
+   *      for (const queueItem of item.queueItems) {
+   *        console.log(`Queue${i}: ${queueItem.name}`);
+   *        i++;
+   *      }
+   *    }
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
    * @memberof QueueServiceClient
