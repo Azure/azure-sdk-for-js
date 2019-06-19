@@ -75,6 +75,32 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptions {
 }
 
 /**
+ * Options to configure Directory - List Files and Directories operation.
+ *
+ * @export
+ * @interface DirectoryListFilesAndDirectoriesOptions
+ */
+export interface DirectoryListFilesAndDirectoriesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof DirectoryListFilesAndDirectoriesOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * Filters the results to return only entries whose
+   * name begins with the specified prefix.
+   *
+   * @type {string}
+   * @memberof DirectoryListFilesAndDirectoriesOptions
+   */
+  prefix?: string;
+}
+
+/**
  * Options to configure Directory - Delete operation.
  *
  * @export
@@ -399,8 +425,23 @@ export class DirectoryClient extends StorageClient {
     });
   }
 
+  /**
+   * Returns an AsyncIterableIterator for DirectoryListFilesAndDirectoriesSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of files and directories to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all files and directories remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
+   * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @memberof DirectoryClient
+   */
   async *listSegments(
-    marker: string | undefined = undefined,
+    marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     let listFilesAndDirectoriesResponse;
@@ -411,6 +452,14 @@ export class DirectoryClient extends StorageClient {
     } while (marker);
   }
 
+  /**
+   * Returns an AsyncIterableIterator for file and directory items
+   *
+   * @private
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
+   * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @memberof DirectoryClient
+   */
   async *listItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
@@ -425,8 +474,19 @@ export class DirectoryClient extends StorageClient {
     }
   }
 
-  public async *listFilesAndDirectories(
-    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  /**
+   * Returns an async iterable iterator to list all the files and directories
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the files and directories in pages.
+   *
+   * @param {ServiceListQueuesOptions} [options] Options to list files and directories operation.
+   * @memberof DirectoryClient
+   * @returns {PagedAsyncIterableIterator<AzureFileItem | AzureDirectoryItem, Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * An asyncIterableIterator that supports paging.
+   */
+  public listFilesAndDirectories(
+    options: DirectoryListFilesAndDirectoriesOptions = {}
   ): PagedAsyncIterableIterator<
     AzureFileItem | AzureDirectoryItem,
     Models.DirectoryListFilesAndDirectoriesSegmentResponse
@@ -438,8 +498,7 @@ export class DirectoryClient extends StorageClient {
        * @member {Promise} [next] The next method, part of the iteration protocol
        */
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       /**
        * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
