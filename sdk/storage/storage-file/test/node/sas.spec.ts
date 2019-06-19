@@ -16,16 +16,27 @@ import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues
 import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU } from "../utils";
+import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const serviceClient = getBSU();
 
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = new Date();
+    const now = recorder.newDate();
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -56,7 +67,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -90,7 +101,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -121,7 +132,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -155,17 +166,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for share", async () => {
-    const now = new Date();
+    const now = recorder.newDate();
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const shareName = getUniqueName("share");
+    const shareName = recorder.getUniqueName("share");
     const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
@@ -192,25 +203,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for file", async () => {
-    const now = new Date();
+    const now = recorder.newDate();
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const shareName = getUniqueName("share");
+    const shareName = recorder.getUniqueName("share");
     const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
-    const dirName = getUniqueName("dir");
+    const dirName = recorder.getUniqueName("dir");
     const dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
-    const fileName = getUniqueName("file");
+    const fileName = recorder.getUniqueName("file");
     const fileClient = dirClient.createFileClient(fileName);
     await fileClient.create(1024, {
       fileHTTPHeaders: {
@@ -251,25 +262,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for file with access policy", async () => {
-    const now = new Date();
+    const now = recorder.newDate();
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate();
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const shareName = getUniqueName("share");
+    const shareName = recorder.getUniqueName("share");
     const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
-    const dirName = getUniqueName("dir");
+    const dirName = recorder.getUniqueName("dir");
     const dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
-    const fileName = getUniqueName("file");
+    const fileName = recorder.getUniqueName("file");
     const fileClient = dirClient.createFileClient(fileName);
     await fileClient.create(1024, {
       fileHTTPHeaders: {

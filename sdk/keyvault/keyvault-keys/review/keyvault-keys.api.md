@@ -45,7 +45,7 @@ export interface DeletedKey extends Key {
 }
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
 export interface GetKeyOptions {
@@ -92,13 +92,13 @@ export interface JsonWebKey {
 }
 
 // @public
-export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
+export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey';
+export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
 
 // @public
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export interface Key extends KeyAttributes {
@@ -132,9 +132,9 @@ export class KeysClient {
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;

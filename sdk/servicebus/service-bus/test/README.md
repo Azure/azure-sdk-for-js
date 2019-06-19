@@ -28,6 +28,26 @@
   topic-filter-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_SUBSCRIPTION_NAME
   topic-filter-default-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME
 
+    Following are additional environment variables that will need to be defined in order to be able to run the tests in browser 
+
+    Entitiy Name  | Entity Description | Environment Variable if not using default names
+  ------------- | ------------------|----------
+  partitioned-queue-browser | Queue with partitions enabled and sessions disabled | QUEUE_NAME_BROWSER
+  unpartitioned-queue-browser | Queue with partitions and sessions, both disabled | QUEUE_NAME_NO_PARTITION_BROWSER
+  partitioned-queue-sessions-browser | Queue with partitions and sessions, both enabled | QUEUE_NAME_SESSION_BROWSER
+  unpartitioned-queue-sessions-browser | Queue with partitions disabled and sessions enabled | QUEUE_NAME_NO_PARTITION_SESSION_BROWSER
+  partitioned-topic-browser | Topic with partitions enabled, meant for testing subscriptions with sessions disabled | TOPIC_NAME_BROWSER
+  unpartitioned-topic-browser | Topic with partitions disabled, meant for testing subscriptions with sessions disabled | TOPIC_NAME_NO_PARTITION_BROWSER
+  partitioned-topic-sessions-browser | Topic with partitions enabled, meant for testing subscriptions with sessions enabled | TOPIC_NAME_SESSION_BROWSER
+  unpartitioned-topic-sessions-browser | Topic with partitions disabled, meant for testing subscriptions with sessions enabled | TOPIC_NAME_NO_PARTITION_SESSION_BROWSER
+  partitioned-topic-subscription-browser | Subscription with sessions disabled in the Topic, `partitioned-topic-browser` | SUBSCRIPTION_NAME_BROWSER
+  unpartitioned-topic-subscription-browser | Subscription with sessions disabled in the Topic, `unpartitioned-topic-browser` | SUBSCRIPTION_NAME_NO_PARTITION_BROWSER
+  partitioned-topic-sessions-subscription-browser | Subscription with sessions enabled in the Topic, `partitioned-topic-sessions-browser` | SUBSCRIPTION_NAME_SESSION_BROWSER
+  unpartitioned-topic-sessions-subscription-browser | Subscription with sessions enabled in the Topic, `unpartitioned-topic-sessions-browser` | SUBSCRIPTION_NAME_NO_PARTITION_SESSION_BROWSER
+  topic-filter-browser | Topic for testing topic filters | TOPIC_FILTER_NAME_BROWSER
+  topic-filter-subscription-browser | Subscription in the Topic `topic-filter-browser` | TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER
+  topic-filter-default-subscription-browser | Subscription in the Topic `topic-filter-browser` | TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER
+
 
     The environment variables can be set by adding a file by the name `.env` in the root folder of this project.
     Following is a sample .env file template that can be re-used for your environment:
@@ -51,6 +71,27 @@
     TOPIC_FILTER_NAME=topic-filter
     TOPIC_FILTER_SUBSCRIPTION_NAME=topic-filter-subscription
     TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME=topic-filter-default-subscription
+
+    # Resources for use by browser tests
+    QUEUE_NAME_BROWSER=partitioned-queue-browser
+    QUEUE_NAME_NO_PARTITION_BROWSER=unpartitioned-queue-browser
+    QUEUE_NAME_SESSION_BROWSER=partitioned-sessions-queue-browser
+    QUEUE_NAME_NO_PARTITION_SESSION_BROWSER=unpartitioned-sessions-queue-browser
+
+    TOPIC_NAME_BROWSER=partitioned-topic-browser
+    TOPIC_NAME_NO_PARTITION_BROWSER=unpartitioned-topic-browser
+    TOPIC_NAME_SESSION_BROWSER=partitioned-sessions-topic-browser
+    TOPIC_NAME_NO_PARTITION_SESSION_BROWSER=unpartitioned-sessions-topic-browser
+    
+    SUBSCRIPTION_NAME_BROWSER=partitioned-subscription-browser
+    SUBSCRIPTION_NAME_NO_PARTITION_BROWSER=unpartitioned-subscription-browser
+    SUBSCRIPTION_NAME_SESSION_BROWSER=partitioned-sessions-subscription-browser
+    SUBSCRIPTION_NAME_NO_PARTITION_SESSION_BROWSER=unpartitioned-sessions-subscription-browser
+    
+    TOPIC_FILTER_NAME_BROWSER=topic-filter-browser
+    TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER=topic-subscription-browser
+    TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER=topic-subscription-default-browser
+    
     ```
 
 ## Setup
