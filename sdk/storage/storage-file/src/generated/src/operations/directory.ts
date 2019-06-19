@@ -149,6 +149,61 @@ export class Directory {
       listFilesAndDirectoriesSegmentOperationSpec,
       callback) as Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
   }
+
+  /**
+   * Lists handles for directory.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryListHandlesResponse>
+   */
+  listHandles(options?: Models.DirectoryListHandlesOptionalParams): Promise<Models.DirectoryListHandlesResponse>;
+  /**
+   * @param callback The callback
+   */
+  listHandles(callback: msRest.ServiceCallback<Models.ListHandlesResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listHandles(options: Models.DirectoryListHandlesOptionalParams, callback: msRest.ServiceCallback<Models.ListHandlesResponse>): void;
+  listHandles(options?: Models.DirectoryListHandlesOptionalParams | msRest.ServiceCallback<Models.ListHandlesResponse>, callback?: msRest.ServiceCallback<Models.ListHandlesResponse>): Promise<Models.DirectoryListHandlesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listHandlesOperationSpec,
+      callback) as Promise<Models.DirectoryListHandlesResponse>;
+  }
+
+  /**
+   * Closes all handles open for given directory.
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryForceCloseHandlesResponse>
+   */
+  forceCloseHandles(handleId: string, options?: Models.DirectoryForceCloseHandlesOptionalParams): Promise<Models.DirectoryForceCloseHandlesResponse>;
+  /**
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param callback The callback
+   */
+  forceCloseHandles(handleId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  forceCloseHandles(handleId: string, options: Models.DirectoryForceCloseHandlesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  forceCloseHandles(handleId: string, options?: Models.DirectoryForceCloseHandlesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        handleId,
+        options
+      },
+      forceCloseHandlesOperationSpec,
+      callback) as Promise<Models.DirectoryForceCloseHandlesResponse>;
+  }
 }
 
 // Operation Specifications
@@ -279,6 +334,65 @@ const listFilesAndDirectoriesSegmentOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListFilesAndDirectoriesSegmentResponse,
       headersMapper: Mappers.DirectoryListFilesAndDirectoriesSegmentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const listHandlesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{shareName}/{directory}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.marker,
+    Parameters.maxresults,
+    Parameters.timeout,
+    Parameters.sharesnapshot,
+    Parameters.comp6
+  ],
+  headerParameters: [
+    Parameters.recursive,
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListHandlesResponse,
+      headersMapper: Mappers.DirectoryListHandlesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const forceCloseHandlesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.marker,
+    Parameters.sharesnapshot,
+    Parameters.comp7
+  ],
+  headerParameters: [
+    Parameters.handleId,
+    Parameters.recursive,
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.DirectoryForceCloseHandlesHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

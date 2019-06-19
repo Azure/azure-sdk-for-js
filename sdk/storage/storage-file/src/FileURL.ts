@@ -2,8 +2,8 @@ import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@a
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import * as Models from "./generated/lib/models";
-import { File } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { File } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";

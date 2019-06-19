@@ -34,6 +34,18 @@ export const comp1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const comp10: msRest.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'copy',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const comp2: msRest.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -88,7 +100,7 @@ export const comp6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'range',
+    defaultValue: 'listhandles',
     type: {
       name: "String"
     }
@@ -100,7 +112,7 @@ export const comp7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'rangelist',
+    defaultValue: 'forceclosehandles',
     type: {
       name: "String"
     }
@@ -112,7 +124,19 @@ export const comp8: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'copy',
+    defaultValue: 'range',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp9: msRest.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'rangelist',
     type: {
       name: "String"
     }
@@ -190,6 +214,7 @@ export const deleteSnapshots: msRest.OperationParameter = {
 export const fileCacheControl: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileCacheControl"
   ],
   mapper: {
@@ -202,6 +227,7 @@ export const fileCacheControl: msRest.OperationParameter = {
 export const fileContentDisposition: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileContentDisposition"
   ],
   mapper: {
@@ -214,6 +240,7 @@ export const fileContentDisposition: msRest.OperationParameter = {
 export const fileContentEncoding: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileContentEncoding"
   ],
   mapper: {
@@ -226,6 +253,7 @@ export const fileContentEncoding: msRest.OperationParameter = {
 export const fileContentLanguage: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileContentLanguage"
   ],
   mapper: {
@@ -260,6 +288,7 @@ export const fileContentLength1: msRest.OperationParameter = {
 export const fileContentMD5: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileContentMD5"
   ],
   mapper: {
@@ -272,6 +301,7 @@ export const fileContentMD5: msRest.OperationParameter = {
 export const fileContentType: msRest.OperationParameter = {
   parameterPath: [
     "options",
+    "fileHTTPHeaders",
     "fileContentType"
   ],
   mapper: {
@@ -303,6 +333,16 @@ export const fileTypeConstant: msRest.OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-type",
     defaultValue: 'file',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const handleId: msRest.OperationParameter = {
+  parameterPath: "handleId",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-handle-id",
     type: {
       name: "String"
     }
@@ -436,6 +476,18 @@ export const rangeGetContentMD5: msRest.OperationParameter = {
     }
   }
 };
+export const recursive: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "recursive"
+  ],
+  mapper: {
+    serializedName: "x-ms-recursive",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const restype0: msRest.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
@@ -515,9 +567,7 @@ export const version: msRest.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2018-03-28',
     type: {
       name: "String"
     }

@@ -19,29 +19,33 @@ export class StorageClientContext extends msRest.ServiceClient {
 
   /**
    * Initializes a new instance of the StorageClientContext class.
+   * @param version Specifies the version of the operation to use for this request.
    * @param url The URL of the service account, share, directory or file that is the target of the
    * desired operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
-    if (url === null || url === undefined) {
-      throw new Error('\'url\' cannot be null.');
+  constructor(version: string, url: string, options?: msRest.ServiceClientOptions) {
+    if (version == undefined) {
+      throw new Error("'version' cannot be null.");
+    }
+    if (url == undefined) {
+      throw new Error("'url' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(undefined, options);
 
-    this.version = '2018-03-28';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.version = version;
     this.url = url;
-
   }
 }

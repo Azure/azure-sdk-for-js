@@ -342,6 +342,61 @@ export class File {
       abortCopyOperationSpec,
       callback) as Promise<Models.FileAbortCopyResponse>;
   }
+
+  /**
+   * Lists handles for file
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileListHandlesResponse>
+   */
+  listHandles(options?: Models.FileListHandlesOptionalParams): Promise<Models.FileListHandlesResponse>;
+  /**
+   * @param callback The callback
+   */
+  listHandles(callback: msRest.ServiceCallback<Models.ListHandlesResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listHandles(options: Models.FileListHandlesOptionalParams, callback: msRest.ServiceCallback<Models.ListHandlesResponse>): void;
+  listHandles(options?: Models.FileListHandlesOptionalParams | msRest.ServiceCallback<Models.ListHandlesResponse>, callback?: msRest.ServiceCallback<Models.ListHandlesResponse>): Promise<Models.FileListHandlesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listHandlesOperationSpec,
+      callback) as Promise<Models.FileListHandlesResponse>;
+  }
+
+  /**
+   * Closes all handles open for given file
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileForceCloseHandlesResponse>
+   */
+  forceCloseHandles(handleId: string, options?: Models.FileForceCloseHandlesOptionalParams): Promise<Models.FileForceCloseHandlesResponse>;
+  /**
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param callback The callback
+   */
+  forceCloseHandles(handleId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * is a wildcard that specifies all handles.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  forceCloseHandles(handleId: string, options: Models.FileForceCloseHandlesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  forceCloseHandles(handleId: string, options?: Models.FileForceCloseHandlesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileForceCloseHandlesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        handleId,
+        options
+      },
+      forceCloseHandlesOperationSpec,
+      callback) as Promise<Models.FileForceCloseHandlesResponse>;
+  }
 }
 
 // Operation Specifications
@@ -359,13 +414,13 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.fileContentLength0,
     Parameters.fileTypeConstant,
+    Parameters.metadata,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
     Parameters.fileCacheControl,
     Parameters.fileContentMD5,
-    Parameters.fileContentDisposition,
-    Parameters.metadata
+    Parameters.fileContentDisposition
   ],
   responses: {
     201: {
@@ -535,7 +590,7 @@ const uploadRangeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.range1,
@@ -578,7 +633,7 @@ const getRangeListOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.sharesnapshot,
     Parameters.timeout,
-    Parameters.comp7
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.version,
@@ -644,7 +699,7 @@ const abortCopyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeout,
-    Parameters.comp8
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.copyActionAbortConstant,
@@ -653,6 +708,63 @@ const abortCopyOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.FileAbortCopyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const listHandlesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.marker,
+    Parameters.maxresults,
+    Parameters.timeout,
+    Parameters.sharesnapshot,
+    Parameters.comp6
+  ],
+  headerParameters: [
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListHandlesResponse,
+      headersMapper: Mappers.FileListHandlesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const forceCloseHandlesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.marker,
+    Parameters.sharesnapshot,
+    Parameters.comp7
+  ],
+  headerParameters: [
+    Parameters.handleId,
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.FileForceCloseHandlesHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

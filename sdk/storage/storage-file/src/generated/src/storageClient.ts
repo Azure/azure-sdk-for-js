@@ -23,12 +23,13 @@ class StorageClient extends StorageClientContext {
 
   /**
    * Initializes a new instance of the StorageClient class.
+   * @param version Specifies the version of the operation to use for this request.
    * @param url The URL of the service account, share, directory or file that is the target of the
    * desired operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
-    super(url, options);
+  constructor(version: string, url: string, options?: msRest.ServiceClientOptions) {
+    super(version, url, options);
     this.service = new operations.Service(this);
     this.share = new operations.Share(this);
     this.directory = new operations.Directory(this);
