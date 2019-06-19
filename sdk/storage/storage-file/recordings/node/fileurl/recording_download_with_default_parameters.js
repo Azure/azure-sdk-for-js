@@ -1,116 +1,116 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"share":"share156044262222003050","dir":"dir156044262294908190","file":"file156044262319401717"}
+module.exports.testInfo = {"share":"share156093653388409970","dir":"dir156093653435806866","file":"file156093653463208825"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156044262222003050')
+  .put('/share156093653388409970')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'ETag',
-  '"0x8D6EFDFDC721BAF"',
+  '"0x8D6F4981FC830D3"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0fb57826-b01a-0078-20c8-211226000000',
+  '54dd0c38-601a-009d-0280-2644d6000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'Date',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156044262222003050/dir156044262294908190')
+  .put('/share156093653388409970/dir156093653435806866')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'ETag',
-  '"0x8D6EFDFDCAF8890"',
+  '"0x8D6F4981FF81B7C"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f23f030f-701a-008b-25c8-21c14f000000',
+  'f3e73346-701a-00a0-5580-26f1f0000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156044262222003050/dir156044262294908190/file156044262319401717')
+  .put('/share156093653388409970/dir156093653435806866/file156093653463208825')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:16:48 GMT',
+  'Wed, 19 Jun 2019 09:25:53 GMT',
   'ETag',
-  '"0x8D6EFDFDCD69F80"',
+  '"0x8D6F4982022B59E"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'fc3e9b7a-801a-00da-4ac8-21dfba000000',
+  'a72e809b-c01a-0031-4580-266541000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156044262222003050/dir156044262294908190/file156044262319401717', "Hello World")
+  .put('/share156093653388409970/dir156093653435806866/file156093653463208825', "Hello World")
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:16:48 GMT',
+  'Wed, 19 Jun 2019 09:25:53 GMT',
   'ETag',
-  '"0x8D6EFDFDCFEA0F9"',
+  '"0x8D6F498204E1325"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '594ecbc7-801a-009e-50c8-2103d6000000',
+  '5f4b8987-801a-0139-6c80-263867000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 13 Jun 2019 09:16:47 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/share156044262222003050/dir156044262294908190/file156044262319401717')
+  .get('/share156093653388409970/dir156093653435806866/file156093653463208825')
   .reply(200, "Hello World", [ 'Content-Length',
   '11',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:16:48 GMT',
+  'Wed, 19 Jun 2019 09:25:53 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D6EFDFDCFEA0F9"',
+  '"0x8D6F498204E1325"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '2ce2d513-901a-00c5-31c8-2104aa000000',
+  '12c1cf74-a01a-0065-3180-268fcb000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'x-ms-type',
   'File',
   'x-ms-server-encrypted',
@@ -120,24 +120,24 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 13 Jun 2019 09:16:48 GMT',
+  'Wed, 19 Jun 2019 09:25:52 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share156044262222003050')
+  .delete('/share156093653388409970')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '071e9709-c01a-00b0-5bc8-218311000000',
+  'bf0ef958-301a-0049-5780-260df6000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'Date',
-  'Thu, 13 Jun 2019 09:16:51 GMT',
+  'Wed, 19 Jun 2019 09:25:54 GMT',
   'Connection',
   'close' ]);
 
