@@ -112,6 +112,8 @@ export class FileServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of FileServiceClient from connection string.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

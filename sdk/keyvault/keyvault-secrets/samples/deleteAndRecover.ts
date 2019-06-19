@@ -10,9 +10,10 @@ async function main(): Promise<void> {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new EnvironmentCredential();
+
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = new EnvironmentCredential();
   const client = new SecretsClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword11";

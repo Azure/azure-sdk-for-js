@@ -204,6 +204,8 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of QueueClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

@@ -131,7 +131,7 @@ export class LeaseClient {
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
       client.url,
-      client.pipeline.toServiceClientOptions()
+      (client as any).pipeline.toServiceClientOptions()
     );
     this._url = client.url;
 
