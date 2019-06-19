@@ -90,12 +90,6 @@ export interface SendOptions {
 export interface EventReceiverOptions {
   /**
    * @property
-   * The consumer group from which the receiver should receive events from.
-   * If not provided, then default consumer group by the name "$default" is used.
-   */
-  consumerGroup?: string;
-  /**
-   * @property
    * The priority value that this receiver is currently using for partition ownership.
    * If another receiver is currently active for the same partition with no or lesser
    * priority, then it will get disconnected.
@@ -300,17 +294,24 @@ export class EventHubClient {
    * Creates a Receiver that can be used to receive events from the Event Hub for which this
    * client was created.
    *
+   * @param consumerGroup The consumer group from which the receiver should receive events from.
    * @param partitionId The id of the partition from which to receive events
    * @param eventPosition The event position in the partition at which to start receiving messages.
    * @param options Options to create the Receiver where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
-  createReceiver(partitionId: string, eventPosition: EventPosition, options?: EventReceiverOptions): EventReceiver {
+  createReceiver(
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ): EventReceiver {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
     partitionId = String(partitionId);
-    return new EventReceiver(this._context, partitionId, eventPosition, options);
+    return new EventReceiver(this._context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**

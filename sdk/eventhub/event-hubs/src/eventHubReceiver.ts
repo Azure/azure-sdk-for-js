@@ -197,16 +197,17 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
+   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {EventReceiverOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, eventPosition: EventPosition, options?: EventReceiverOptions) {
+  constructor(context: ConnectionContext, consumerGroup: string, partitionId: string | number, eventPosition: EventPosition, options?: EventReceiverOptions) {
     super(context, {
       partitionId: partitionId,
-      name: context.config.getReceiverAddress(partitionId, options && options.consumerGroup)
+      name: context.config.getReceiverAddress(partitionId, consumerGroup)
     });
     if (!options) options = {};
-    this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
+    this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
     this.epoch = options.exclusiveReceiverPriority;

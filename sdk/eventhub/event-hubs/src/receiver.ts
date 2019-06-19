@@ -39,6 +39,10 @@ export class EventReceiver {
    */
   private _context: ConnectionContext;
   /**
+   * @property The consumer group from which the receiver should receive events from.
+   */
+  private _consumerGroup: string;
+  /**
    * @property The event position in the partition at which to start receiving messages.
    */
   private _eventPosition: EventPosition;
@@ -75,8 +79,8 @@ export class EventReceiver {
    * events from.
    * @readonly
    */
-  get consumerGroup(): string | undefined {
-    return this._receiverOptions && this._receiverOptions.consumerGroup;
+  get consumerGroup(): string {
+    return this._consumerGroup;
   }
 
   /**
@@ -92,11 +96,13 @@ export class EventReceiver {
    */
   constructor(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string,
     eventPosition: EventPosition,
     options?: EventReceiverOptions
   ) {
     this._context = context;
+    this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
     this._eventPosition = eventPosition;
     this._receiverOptions = options || {};
@@ -127,6 +133,7 @@ export class EventReceiver {
     }
     this._streamingReceiver = StreamingReceiver.create(
       this._context,
+      this.consumerGroup,
       this.partitionId,
       this._eventPosition,
       this._receiverOptions
@@ -224,6 +231,7 @@ export class EventReceiver {
     if (!this._batchingReceiver) {
       this._batchingReceiver = BatchingReceiver.create(
         this._context,
+        this.consumerGroup,
         this.partitionId,
         this._eventPosition,
         this._receiverOptions
@@ -232,6 +240,7 @@ export class EventReceiver {
       await this._batchingReceiver.close();
       this._batchingReceiver = BatchingReceiver.create(
         this._context,
+        this.consumerGroup,
         this.partitionId,
         this._eventPosition,
         this._receiverOptions

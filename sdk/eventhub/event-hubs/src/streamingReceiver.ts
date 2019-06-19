@@ -95,17 +95,19 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @constructor
    * @param {EventHubClient} client          The EventHub client.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string} partitionId             Partition ID from which to receive.
    * @param {EventPosition} eventPosition    The event position in the partition at
    * @param {EventReceiverOptions} [options]       Options for how you'd like to connect.
    */
   constructor(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string | number,
     eventPosition: EventPosition,
     options?: EventReceiverOptions
   ) {
-    super(context, partitionId, eventPosition, options);
+    super(context, consumerGroup, partitionId, eventPosition, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
 
@@ -167,17 +169,19 @@ export class StreamingReceiver extends EventHubReceiver {
    * @static
    * @ignore
    * @param {ConnectionContext} context    The connection context.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string | number} partitionId  The partitionId to receive events from.
    * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventReceiverOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string | number,
     eventPosition: EventPosition,
     options?: EventReceiverOptions
   ): StreamingReceiver {
-    const sReceiver = new StreamingReceiver(context, partitionId, eventPosition, options);
+    const sReceiver = new StreamingReceiver(context, consumerGroup, partitionId, eventPosition, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }

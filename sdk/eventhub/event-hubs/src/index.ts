@@ -28,3 +28,5 @@ export {
   SharedKeyCredential,
   delay
 } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
+export const defaultConsumerGroup = Constants.defaultConsumerGroup;

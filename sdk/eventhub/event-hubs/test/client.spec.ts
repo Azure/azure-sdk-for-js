@@ -10,7 +10,7 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventHubClient, EventPosition } from "../src";
+import { EventHubClient, EventPosition, defaultConsumerGroup } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
@@ -174,7 +174,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     it("should throw MessagingEntityNotFoundError while creating a receiver", async function(): Promise<void> {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
-        const receiver = client.createReceiver("0", EventPosition.earliest());
+        const receiver = client.createReceiver(defaultConsumerGroup, "0", EventPosition.earliest());
         await receiver.receiveBatch(10, 5);
       } catch (err) {
         debug(err);
@@ -187,11 +187,22 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     it("should throw an error if EventPosition is missing", function() {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-        client.createReceiver("0", undefined as any);
+        client.createReceiver(defaultConsumerGroup, "0", undefined as any);
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
         err.message.should.equal(`Missing parameter "eventPosition"`);
+      }
+    });
+
+    it("should throw an error if consumerGroup is missing", function() {
+      try {
+        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+        client.createReceiver(undefined as any, "0", EventPosition.earliest());
+        throw new Error("Test failure");
+      } catch (err) {
+        err.name.should.equal("TypeError");
+        err.message.should.equal(`Missing parameter "consumerGroup"`);
       }
     });
   });
@@ -214,7 +225,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
             done(should.equal(error.name, "MessagingEntityNotFoundError"));
           }, 3000);
         };
-        const receiver = client.createReceiver("0", EventPosition.earliest(), { consumerGroup: "some-random-name" });
+        const receiver = client.createReceiver("some-random-name", "0", EventPosition.earliest());
         receiver.receive(onMessage, onError);
         debug(">>>>>>>> attached the error handler on the receiver...");
       } catch (err) {
@@ -304,4 +315,3 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
 //     await client.close();
 //   });
 // });
-
