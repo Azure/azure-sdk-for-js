@@ -165,6 +165,8 @@ export class MessagesClient extends StorageClient {
   private messagesContext: Messages;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of MessagesClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

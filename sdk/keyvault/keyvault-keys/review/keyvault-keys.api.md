@@ -4,13 +4,14 @@
 
 ```ts
 
-import { AzureServiceClientOptions } from '@azure/ms-rest-azure-js';
-import { HttpClient } from '@azure/ms-rest-js';
-import { HttpPipelineLogger } from '@azure/ms-rest-js';
-import * as msRest from '@azure/ms-rest-js';
+import { HttpClient } from '@azure/core-http';
+import { HttpPipelineLogger } from '@azure/core-http';
+import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { ServiceClientCredentials } from '@azure/ms-rest-js';
+import { ServiceClientCredentials } from '@azure/core-http';
+import { ServiceClientOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
@@ -77,6 +78,7 @@ export interface JsonWebKey {
     dq?: Uint8Array;
     e?: Uint8Array;
     k?: Uint8Array;
+    // (undocumented)
     keyOps?: string[];
     kid?: string;
     kty?: JsonWebKeyType;
@@ -119,21 +121,21 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
 
 // @public
 export class KeysClient {
-    constructor(url: string, credential: ServiceClientCredentials, pipelineOrOptions?: AzureServiceClientOptions | NewPipelineOptions);
+    constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
-    protected readonly credential: ServiceClientCredentials;
+    protected readonly credential: ServiceClientCredentials | TokenCredential;
     deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
+    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    readonly pipeline: AzureServiceClientOptions;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
     restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key>;

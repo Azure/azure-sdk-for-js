@@ -4,14 +4,15 @@
 
 ```ts
 
-import { AzureServiceClientOptions } from '@azure/ms-rest-azure-js';
-import { HttpClient } from '@azure/ms-rest-js';
-import { HttpPipelineLogger } from '@azure/ms-rest-js';
-import * as msRest from '@azure/ms-rest-js';
+import { HttpClient } from '@azure/core-http';
+import { HttpPipelineLogger } from '@azure/core-http';
+import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { RequestOptionsBase } from '@azure/ms-rest-js';
-import { ServiceClientCredentials } from '@azure/ms-rest-js';
+import { RequestOptionsBase } from '@azure/core-http';
+import { ServiceClientCredentials } from '@azure/core-http';
+import { ServiceClientOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface DeletedSecret extends Secret {
@@ -95,17 +96,17 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
 
 // @public
 export class SecretsClient {
-    constructor(url: string, credential: ServiceClientCredentials, pipelineOrOptions?: AzureServiceClientOptions | NewPipelineOptions);
+    constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
-    protected readonly credential: ServiceClientCredentials;
+    protected readonly credential: ServiceClientCredentials | TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
+    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
-    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
-    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
-    readonly pipeline: AzureServiceClientOptions;
+    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
+    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
+    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
+    readonly pipeline: ServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
     recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;
     restoreSecret(secretBundleBackup: Uint8Array, options?: RequestOptionsBase): Promise<Secret>;

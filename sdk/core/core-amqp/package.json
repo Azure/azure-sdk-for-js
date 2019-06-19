@@ -10,7 +10,6 @@
   "types": "./typings/src/index.d.ts",
   "browser": {
     "./dist/index.js": "./browser/index.js",
-    "./dist-esm/src/index.node.js": "./dist-esm/src/index.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
@@ -65,12 +64,14 @@
     "stream-browserify": "^2.0.2",
     "tslib": "^1.9.3",
     "url": "^0.11.0",
-    "util": "^0.11.1"
+    "util": "^0.11.1",
+    "@azure/core-http": "^1.2.6"
   },
   "peerDependencies": {
     "rhea-promise": "^0.1.15"
   },
   "devDependencies": {
+    "@azure/identity": "^0.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",

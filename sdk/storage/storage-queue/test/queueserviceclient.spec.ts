@@ -1,8 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { newPipeline, SharedKeyCredential } from "../src";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getConnectionStringFromEnvironment, getQSU, wait } from "./utils";
+import { getAlternateQSU, getQSU, wait } from "./utils";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -291,61 +290,5 @@ describe("QueueServiceClient", () => {
         done();
       })
       .catch(done);
-  });
-
-  it("can be created with a url and a credential", async () => {
-    const queueServiceClient = getQSU();
-    const factories = queueServiceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new QueueServiceClient(queueServiceClient.url, credential);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created with a url and a credential and an option bag", async () => {
-    const queueServiceClient = getQSU();
-    const factories = queueServiceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
-      retryOptions: {
-        maxTries: 5
-      }
-    });
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created with a url and a pipeline", async () => {
-    const queueServiceClient = getQSU();
-    const factories = queueServiceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created from a connection string", async () => {
-    const newClient = QueueServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
   });
 });

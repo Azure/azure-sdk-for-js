@@ -87,7 +87,10 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 });
 
-describe("Errors with non existing Namespace #RunInBrowser", function(): void {
+// Following tests have been disabled for browser for until Service Bus is updated to use core-amqp
+// See https://github.com/Azure/azure-sdk-for-js/pull/3930
+// Once resolved, the tests need to be enabled by adding #RuninBrowser to the describe message
+describe("Errors with non existing Namespace", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {

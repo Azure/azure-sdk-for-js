@@ -42,17 +42,6 @@ export function getAlternateQSU(): QueueServiceClient {
   return getGenericQSU("SECONDARY_", "-secondary");
 }
 
-export function getConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
-  const connectionString = process.env[connectionStringEnvVar];
-
-  if (!connectionString) {
-    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
-  }
-
-  return connectionString;
-}
-
 /**
  * Read body from downloading operation methods to string.
  * Work on both Node.js and browser environment.

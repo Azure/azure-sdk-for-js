@@ -286,6 +286,8 @@ export class ShareClient extends StorageClient {
   private context: Share;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of ShareClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

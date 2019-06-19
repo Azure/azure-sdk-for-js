@@ -23,6 +23,7 @@ import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { readStreamToLocalFile } from "./utils/utils.common";
 
 /**
  * Options to configure File - Create operation.
@@ -1273,5 +1274,38 @@ export class FileClient extends StorageClient {
       Math.ceil((maxBuffers / 4) * 3)
     );
     return scheduler.do();
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
+   *
+   * @param {string} filePath
+   * @param {number} [offset] From which position of the block blob to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {BlobDownloadOptions} [options] Options to Blob download options.
+   * @returns {Promise<Models.FileDownloadResponse>} The response data for blob download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
+   * @memberof BlobClient
+   */
+  public async downloadToFile(
+    filePath: string,
+    offset: number = 0,
+    count?: number,
+    options?: FileDownloadOptions
+  ): Promise<Models.FileDownloadResponse> {
+    const response = await this.download(offset, count, options);
+    if (response.readableStreamBody) {
+      await readStreamToLocalFile(response.readableStreamBody, filePath);
+    }
+
+    // The stream is no longer accessible so setting it to undefined.
+    (response as any).fileDownloadStream = undefined;
+    return response;
   }
 }
