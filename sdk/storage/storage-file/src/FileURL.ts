@@ -1,4 +1,5 @@
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
+
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
@@ -8,11 +9,7 @@ import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  FILE_MAX_SIZE_BYTES,
-  FILE_RANGE_MAX_SIZE_BYTES
-} from "./utils/constants";
+import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IFileCreateOptions {
@@ -231,7 +228,7 @@ export class FileURL extends StorageURL {
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.create(size, {
       abortSignal: aborter,
-      ...options.fileHTTPHeaders,
+      fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
   }
@@ -382,7 +379,7 @@ export class FileURL extends StorageURL {
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
-      ...fileHTTPHeaders
+      fileHTTPHeaders
     });
   }
 
