@@ -6,6 +6,10 @@ import { defaultLock, SharedKeyCredential, AccessToken, Constants, TokenType } f
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";
+
+/**
+ * @ignore
+ */
 export interface LinkEntityOptions {
   /**
    * @property [name] The unique name for the entity. If not provided then a guid will be

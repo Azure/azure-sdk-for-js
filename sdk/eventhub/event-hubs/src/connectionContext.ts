@@ -53,6 +53,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 
 /**
  * @internal
+ * @ignore
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -61,6 +62,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 
 /**
  * @internal
+ * @ignore
  */
 export namespace ConnectionContext {
   /**

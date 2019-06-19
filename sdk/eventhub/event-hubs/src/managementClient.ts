@@ -61,6 +61,7 @@ export interface PartitionProperties {
 
 /**
  * @internal
+ * @ignore
  */
 export interface ManagementClientOptions {
   address?: string;

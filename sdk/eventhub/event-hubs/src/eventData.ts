@@ -7,6 +7,7 @@ import { Constants } from "@azure/core-amqp";
 /**
  * Describes the delivery annotations.
  * @interface EventHubDeliveryAnnotations
+ * @ignore
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -34,6 +35,7 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 /**
  * Map containing message attributes that will be held in the message header.
  * @interface EventHubMessageAnnotations
+ * @ignore
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
@@ -182,11 +184,9 @@ export interface EventData {
   /**
    * @property [properties] The application specific properties.
    */
-  properties?: Properties;
-}
-
-export interface Properties {
-  [key: string]: any;
+  properties?: {
+    [key: string]: any;
+  };
 }
 
 /**
@@ -200,7 +200,9 @@ export interface ReceivedEventData {
   /**
    * @property [properties] The application specific properties.
    */
-  properties?: Properties;
+  properties?: {
+    [key: string]: any;
+  };
   /**
    * @property [enqueuedTimeUtc] The enqueued time of the event.
    */
