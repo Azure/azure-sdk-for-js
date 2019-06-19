@@ -39,6 +39,14 @@ export class EventHubConsumer  {
    */
   private _context: ConnectionContext;
   /**
+   * @property The consumer group from which the receiver should receive events from.
+   */
+  private _consumerGroup: string;
+  /**
+   * @property The event position in the partition at which to start receiving messages.
+   */
+  private _eventPosition: EventPosition;
+  /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
@@ -71,24 +79,32 @@ export class EventHubConsumer  {
    * events from.
    * @readonly
    */
-  get consumerGroup(): string | undefined {
-    return this._receiverOptions && this._receiverOptions.consumerGroup;
+  get consumerGroup(): string {
+    return this._consumerGroup;
   }
 
   /**
-   * @property {number} [epoch] The epoch value of the underlying receiver, if present.
+   * @property {number} [ownerLevel] The ownerLevel value of the underlying receiver, if present.
    * @readonly
    */
-  get exclusiveReceiverPriority(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.exclusiveReceiverPriority;
+  get ownerLevel(): number | undefined {
+    return this._receiverOptions && this._receiverOptions.ownerLevel;
   }
 
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId: string, options?: EventHubConsumerOptions) {
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
     this._context = context;
+    this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
+    this._eventPosition = eventPosition;
     this._receiverOptions = options || {};
   }
   /**
@@ -113,9 +129,15 @@ export class EventHubConsumer  {
     }
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
+      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
-    this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+    this._streamingReceiver = StreamingReceiver.create(
+      this._context,
+      this.consumerGroup,
+      this.partitionId,
+      this._eventPosition,
+      this._receiverOptions
+    );
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
     return this._streamingReceiver.receive(onMessage, onError, abortSignal);
   }
@@ -204,13 +226,25 @@ export class EventHubConsumer  {
     this._throwIfAlreadyReceiving();
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
+      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
     if (!this._batchingReceiver) {
-      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+      this._batchingReceiver = BatchingReceiver.create(
+        this._context,
+        this.consumerGroup,
+        this.partitionId,
+        this._eventPosition,
+        this._receiverOptions
+      );
     } else if (this._batchingReceiver.checkpoint < checkpoint!) {
       await this._batchingReceiver.close();
-      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+      this._batchingReceiver = BatchingReceiver.create(
+        this._context,
+        this.consumerGroup,
+        this.partitionId,
+        this._eventPosition,
+        this._receiverOptions
+      );
     }
 
     let result: ReceivedEventData[] = [];

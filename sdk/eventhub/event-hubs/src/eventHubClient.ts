@@ -10,7 +10,8 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   parseConnectionString,
-  EventHubConnectionStringModel
+  EventHubConnectionStringModel,
+  Constants
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -90,24 +91,13 @@ export interface SendOptions {
 export interface EventHubConsumerOptions {
   /**
    * @property
-   * The event position in the partition at which to start receiving messages.
-   */
-  beginReceivingAt?: EventPosition;
-  /**
-   * @property
-   * The consumer group from which the receiver should receive events from.
-   * If not provided, then default consumer group by the name "$default" is used.
-   */
-  consumerGroup?: string;
-  /**
-   * @property
    * The priority value that this receiver is currently using for partition ownership.
    * If another receiver is currently active for the same partition with no or lesser
    * priority, then it will get disconnected.
    * If another receiver is currently active with a higher priority, then this receiver
    * will fail to connect.
    */
-  exclusiveReceiverPriority?: number;
+  ownerLevel?: number;
   /**
    * @property
    * Retry options for the receive operation on the receiver. If no value is provided here, the
@@ -305,15 +295,24 @@ export class EventHubClient {
    * Creates a Receiver that can be used to receive events from the Event Hub for which this
    * client was created.
    *
+   * @param consumerGroup The consumer group from which the receiver should receive events from.
    * @param partitionId The id of the partition from which to receive events
+   * @param eventPosition The event position in the partition at which to start receiving messages.
    * @param options Options to create the Receiver where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
-  createReceiver(partitionId: string, options?: EventHubConsumerOptions): EventHubConsumer {
+  createReceiver(
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ): EventHubConsumer {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
     partitionId = String(partitionId);
-    return new EventHubConsumer(this._context, partitionId, options);
+    return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**
@@ -406,4 +405,10 @@ export class EventHubClient {
     const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
     return new EventHubClient(connectionString, options);
   }
+
+  /**
+   * @property
+   * The name of the default consumer group for any Event Hub instance
+   */
+  static defaultConsumerGroup: string = Constants.defaultConsumerGroup;
 }
