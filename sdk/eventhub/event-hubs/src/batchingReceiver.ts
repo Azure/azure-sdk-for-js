@@ -28,7 +28,7 @@ import { EventPosition } from "./eventPosition";
  */
 export class BatchingReceiver extends EventHubReceiver {
   /**
-   * @property {boolean} isReceivingMessages Indicates whether the link is actively receiving
+   * @property isReceivingMessages Indicates whether the link is actively receiving
    * messages. Default: false.
    */
   isReceivingMessages: boolean = false;
@@ -36,11 +36,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
-   * @param {ConnectionContext} context                        The connection context.
-   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
-   * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
-   * @param {EventHubConsumerOptions} [options]                         Options for how you'd like to connect.
+   * @param context                        The connection context.
+   * @param consumerGroup The consumer group from which the receiver should receive events from.
+   * @param partitionId                               Partition ID from which to receive.
+   * @param eventPosition The event position in the partition at which to start receiving messages.
+   * @param [options]                         Options for how you'd like to connect.
    */
   constructor(
     context: ConnectionContext,
@@ -57,12 +57,12 @@ export class BatchingReceiver extends EventHubReceiver {
    * a given max wait time in seconds, whichever happens first. This method can be used directly
    * after creating the receiver object.
    * @ignore
-   * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
+   * @param maxMessageCount The maximum message count. Must be a value greater than 0.
+   * @param [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {RetryOptions} [retryOptions] Retry options for the receive operation
-   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
-   * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
+   * @param [retryOptions] Retry options for the receive operation
+   * @param abortSignal Signal to cancel current operation.
+   * @returns A promise that resolves with an array of ReceivedEventData objects.
    */
   receive(
     maxMessageCount: number,
@@ -373,11 +373,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * Creates a batching receiver.
    * @static
    * @ignore
-   * @param {ConnectionContext} context    The connection context.
-   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param {string} partitionId  The partitionId to receive events from.
-   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
-   * @param {EventHubConsumerOptions} [options]     Receive options.
+   * @param context    The connection context.
+   * @param consumerGroup  The consumer group from which the receiver should receive events from.
+   * @param partitionId  The partitionId to receive events from.
+   * @param eventPosition The event position in the partition at which to start receiving messages.
+   * @param [options]     Receive options.
    */
   static create(
     context: ConnectionContext,

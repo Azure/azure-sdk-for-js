@@ -47,7 +47,7 @@ export class EventHubConsumer {
    */
   private _eventPosition: EventPosition;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * @property [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
@@ -75,7 +75,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
+   * @property [consumerGroup] The consumer group from which the handler is receiving
    * events from.
    * @readonly
    */
@@ -84,7 +84,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property {number} [ownerLevel] The ownerLevel value of the underlying receiver, if present.
+   * @property [ownerLevel] The ownerLevel value of the underlying receiver, if present.
    * @readonly
    */
   get ownerLevel(): number | undefined {
@@ -126,12 +126,12 @@ export class EventHubConsumer {
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
    * the provided onMessage handler and error will be passed to the provided onError handler.
    *
-   * @param {OnMessage} onMessage The message handler to receive event data objects.
-   * @param {OnError} onError The error handler to receive an error that occurs
+   * @param onMessage The message handler to receive event data objects.
+   * @param onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
+   * @param abortSignal Signal to cancel current operation.
    *
-   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
+   * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
@@ -180,12 +180,12 @@ export class EventHubConsumer {
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
    * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
    *
-   * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
+   * @param maxMessageCount The maximum message count. Must be a value greater than 0.
+   * @param [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
+   * @param abortSignal Signal to cancel current operation.
    *
-   * @returns {Promise<ReceivedEventData[]>} Promise<ReceivedEventData[]>.
+   * @returns Promise<ReceivedEventData[]>.
    */
   async receiveBatch(
     maxMessageCount: number,
@@ -252,7 +252,7 @@ export class EventHubConsumer {
    * Use the `createConsumer` function on the EventHubClient to instantiate
    * a new Receiver
    *
-   * @returns {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     try {

@@ -42,37 +42,37 @@ interface CreateSenderOptions {
  */
 export class EventHubSender extends LinkEntity {
   /**
-   * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
+   * @property senderLock The unqiue lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
+   * @property _onAmqpError The handler function to handle errors that happen on the
    * underlying sender.
    * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The handler function to handle "sender_close" event
+   * @property _onAmqpClose The handler function to handle "sender_close" event
    * that happens on the underlying sender.
    * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * @property _onSessionError The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
    * @private
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * @property _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
    * @private
    */
   private _onSessionClose: OnAmqpEvent;
   /**
-   * @property {Sender} [_sender] The AMQP sender link.
+   * @property [_sender] The AMQP sender link.
    * @private
    */
   private _sender?: Sender;
@@ -81,8 +81,8 @@ export class EventHubSender extends LinkEntity {
    * Creates a new EventHubSender instance.
    * @ignore
    * @constructor
-   * @param {ConnectionContext} context The connection context.
-   * @param {string|number} [partitionId] The EventHub partition id to which the sender
+   * @param context The connection context.
+   * @param [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.
    */
   constructor(context: ConnectionContext, partitionId?: string, name?: string) {
@@ -208,8 +208,8 @@ export class EventHubSender extends LinkEntity {
   /**
    * Will reconnect the sender link if necessary.
    * @ignore
-   * @param {AmqpError | Error} [senderError] The sender error if any.
-   * @returns {Promise<void>} Promise<void>.
+   * @param [senderError] The sender error if any.
+   * @returns Promise<void>.
    */
   async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
@@ -297,7 +297,7 @@ export class EventHubSender extends LinkEntity {
   /**
    * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
    * @ignore
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   async close(): Promise<void> {
     if (this._sender) {
@@ -315,7 +315,7 @@ export class EventHubSender extends LinkEntity {
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
    * @ignore
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._sender! && this._sender!.isOpen();
@@ -426,7 +426,7 @@ export class EventHubSender extends LinkEntity {
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    * @ignore
    * @param message The message to be sent to EventHub.
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   private _trySendBatch(
     message: AmqpMessage | Buffer,
@@ -606,7 +606,7 @@ export class EventHubSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    * @ignore
-   * @returns {Promise<void>}
+   * @returns
    */
   private async _init(options?: RheaSenderOptions): Promise<void> {
     try {
@@ -671,8 +671,8 @@ export class EventHubSender extends LinkEntity {
    * not present in the context or returns the one present in the context.
    * @ignore
    * @static
-   * @param {(string)} [partitionId] Partition ID to which it will send event data.
-   * @returns {Promise<EventHubSender>}
+   * @param [partitionId] Partition ID to which it will send event data.
+   * @returns
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);

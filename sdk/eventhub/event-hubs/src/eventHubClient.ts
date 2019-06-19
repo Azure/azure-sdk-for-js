@@ -245,7 +245,7 @@ export class EventHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   async close(): Promise<void> {
     try {
@@ -280,7 +280,7 @@ export class EventHubClient {
    * @param options Options to create a Sender where you can specify the id of the partition
    * to which events need to be sent to and retry options.
    *
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
     return new EventHubProducer(this._context, options);
@@ -312,7 +312,7 @@ export class EventHubClient {
 
   /**
    * Provides the eventhub runtime information.
-   * @returns {Promise<EventHubProperties>} A promise that resolves with HubInformation.
+   * @returns A promise that resolves with HubInformation.
    */
   async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
     try {
@@ -328,7 +328,7 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
+   * @returns A promise that resolves with an Array of strings.
    */
   async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
     try {
@@ -342,8 +342,8 @@ export class EventHubClient {
 
   /**
    * Provides information about the specified partition.
-   * @param {string} partitionId Partition ID for which partition information is required.
-   * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
+   * @param partitionId Partition ID for which partition information is required.
+   * @returns A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
   async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
@@ -361,9 +361,9 @@ export class EventHubClient {
 
   /**
    * Creates an EventHub Client from connection string.
-   * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {EventHubClientOptions} [options] Options that can be provided during client creation.
-   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   * @param iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param [options] Options that can be provided during client creation.
+   * @returns - Promise<EventHubClient>.
    */
   static async createFromIotHubConnectionString(
     iothubConnectionString: string,

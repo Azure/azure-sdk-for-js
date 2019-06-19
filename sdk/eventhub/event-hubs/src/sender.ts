@@ -55,7 +55,7 @@ export class EventHubProducer {
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send
    * request via retry options, log level and cancellation token.
    *
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -71,7 +71,7 @@ export class EventHubProducer {
    * Once closed, the sender cannot be used for any further operations.
    * Use the `createProducer` function on the EventHubClient to instantiate a new Sender
    *
-   * @returns {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     try {

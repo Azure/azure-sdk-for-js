@@ -27,25 +27,25 @@ import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-pr
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {EventHubConnectionConfig} config The EventHub connection config that is created after
+   * @property config The EventHub connection config that is created after
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
   /**
-   * @property {boolean} wasConnectionCloseCalled Indicates whether the close() method was
+   * @property wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
    */
   wasConnectionCloseCalled: boolean;
   /**
-   * @property {Dictionary<EventHubReceiver>} receivers A dictionary of the EventHub Receivers associated with this client.
+   * @property receivers A dictionary of the EventHub Receivers associated with this client.
    */
   receivers: Dictionary<EventHubReceiver>;
   /**
-   * @property {Dictionary<EventHubSender>} senders A dictionary of the EventHub Senders associated with this client.
+   * @property senders A dictionary of the EventHub Senders associated with this client.
    */
   senders: Dictionary<EventHubSender>;
   /**
-   * @property {ManagementClient} managementSession A reference to the management session ($management endpoint) on
+   * @property managementSession A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
   managementSession?: ManagementClient;
@@ -64,7 +64,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
  */
 export namespace ConnectionContext {
   /**
-   * @property {string} userAgent The user agent string for the EventHubs client.
+   * @property userAgent The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version} (NODE-VERSION ${
