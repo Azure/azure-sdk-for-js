@@ -291,9 +291,8 @@ export class FileServiceClient extends StorageClient {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
        */
-      async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+      next() {
+        return iter.next();
       },
       /**
        * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
