@@ -10,7 +10,8 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   parseConnectionString,
-  EventHubConnectionStringModel
+  EventHubConnectionStringModel,
+  Constants
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -404,4 +405,10 @@ export class EventHubClient {
     const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
     return new EventHubClient(connectionString, options);
   }
+
+  /**
+   * @property
+   * The name of the default consumer group for any Event Hub instance
+   */
+  static defaultConsumerGroup: string = Constants.defaultConsumerGroup;
 }

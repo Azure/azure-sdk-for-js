@@ -18,7 +18,7 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as log from "./log";
-import { EventPosition } from './eventPosition';
+import { EventPosition } from "./eventPosition";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
@@ -42,7 +42,13 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventReceiverOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, consumerGroup: string, partitionId: string | number, eventPosition: EventPosition, options?: EventReceiverOptions) {
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ) {
     super(context, consumerGroup, partitionId, eventPosition, options);
   }
 

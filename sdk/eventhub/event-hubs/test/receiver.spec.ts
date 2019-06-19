@@ -8,15 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import {
-  EventPosition,
-  EventHubClient,
-  EventData,
-  MessagingError,
-  ReceivedEventData,
-  EventReceiver,
-  defaultConsumerGroup
-} from "../src";
+import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventReceiver } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -64,7 +56,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
   describe("with partitionId 0 as number", function(): void {
     it("should work for receiveBatch", async function(): Promise<void> {
-      receiver = client.createReceiver(defaultConsumerGroup, partitionIds[0], EventPosition.fromSequenceNumber(0));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionIds[0],
+        EventPosition.fromSequenceNumber(0)
+      );
       const result = await receiver.receiveBatch(10, 20);
       should.equal(true, Array.isArray(result));
     });
@@ -89,9 +85,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             });
         }
       };
-      receiver = client.createReceiver(defaultConsumerGroup, partitionIds[0], EventPosition.fromOffset("0"), {
-        ownerLevel: 1
-      });
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionIds[0],
+        EventPosition.fromOffset("0"),
+        {
+          ownerLevel: 1
+        }
+      );
       rcvHandler = receiver.receive(onMsg, onError);
     });
   });
@@ -150,7 +151,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createSender({ partitionId: partitionId }).send([ed]);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
       receiver = client.createReceiver(
-        defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroup,
         partitionId,
         EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
       );
@@ -186,7 +187,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
       breceiver = BatchingReceiver.create(
         (client as any)._context,
-        defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroup,
         partitionId,
         EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
       );
@@ -219,7 +220,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug("Sent the new message after creating the receiver. We should only receive this message.");
 
       receiver = client.createReceiver(
-        defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroup,
         partitionId,
         EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
       );
@@ -247,7 +248,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create(
         (client as any)._context,
-        defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroup,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       );
@@ -286,7 +287,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug(`Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create(
         (client as any)._context,
-        defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroup,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       );
@@ -313,7 +314,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } finally {
         await sender.close();
       }
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       const received: ReceivedEventData[] = await new Promise((resolve, reject) => {
         let shouldStop = false;
@@ -345,7 +350,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         await new Promise((resolve, reject) => {
@@ -387,7 +396,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         await new Promise((resolve, reject) => {
@@ -424,7 +437,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   describe("in batch mode #RunnableInBrowser", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.earliest());
+      receiver = client.createReceiver(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.earliest());
       const data = await receiver.receiveBatch(5, 10);
       debug("received messages: ", data);
       data.length.should.equal(5, "Failed to receive five expected messages");
@@ -441,7 +454,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
@@ -465,7 +482,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
@@ -490,7 +511,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // call receiveBatch once to establish a connection
@@ -516,7 +541,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
@@ -553,7 +582,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
       const eventIterator = receiver.getEventIterator();
 
       let messagesReceivedCount = 0;
@@ -580,7 +613,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
@@ -607,7 +644,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await sender.close();
       }
 
-      receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+      receiver = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
 
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
@@ -649,7 +690,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
 
         const data: ReceivedEventData[] = [];
-        receiver = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.fromEnqueuedTime(time));
+        receiver = client.createReceiver(
+          EventHubClient.defaultConsumerGroup,
+          partitionId,
+          EventPosition.fromEnqueuedTime(time)
+        );
 
         // start with iterator
         for await (const event of receiver.getEventIterator()) {
@@ -746,9 +791,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> ownerLevel Receiver 1", data);
       };
-      const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        ownerLevel: 2
-      });
+      const receiver1 = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.latest(),
+        {
+          ownerLevel: 2
+        }
+      );
       ownerLevelRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created ownerLevel receiver 1 %s", ownerLevelRcvr1);
       setTimeout(() => {
@@ -773,9 +823,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> ownerLevel Receiver 2", data);
         };
-        const receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-          ownerLevel: 1
-        });
+        const receiver2 = client.createReceiver(
+          EventHubClient.defaultConsumerGroup,
+          partitionId,
+          EventPosition.latest(),
+          {
+            ownerLevel: 1
+          }
+        );
         ownerLevelRcvr2 = receiver2.receive(onMsg2, onError2);
         debug("Created ownerLevel receiver 2 %s", ownerLevelRcvr2);
       }, 3000);
@@ -807,9 +862,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> ownerLevel Receiver 1", data);
       };
-      const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        ownerLevel: 1
-      });
+      const receiver1 = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.latest(),
+        {
+          ownerLevel: 1
+        }
+      );
       ownerLevelRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created ownerLevel receiver 1 %s", ownerLevelRcvr1);
       setTimeout(() => {
@@ -820,7 +880,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> ownerLevel Receiver 2", data);
         };
-        receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
+        receiver2 = client.createReceiver(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest(), {
           ownerLevel: 2
         });
         ownerLevelRcvr2 = receiver2.receive(onMsg2, onError2);
@@ -839,9 +899,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg1 = (data: ReceivedEventData) => {
         debug(">>>> ownerLevel Receiver ", data);
       };
-      const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        ownerLevel: 1
-      });
+      const receiver1 = client.createReceiver(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.latest(),
+        {
+          ownerLevel: 1
+        }
+      );
       ownerLevelRcvr = receiver1.receive(onmsg1, onerr1);
       debug("Created ownerLevel receiver %s", ownerLevelRcvr);
       const onerr2 = (error: MessagingError | Error) => {
@@ -865,7 +930,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg2 = (data: ReceivedEventData) => {
         debug(">>>> non ownerLevel Receiver", data);
       };
-      const receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest());
+      const receiver2 = client.createReceiver(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest());
       nonownerLevelRcvr = receiver2.receive(onmsg2, onerr2);
       debug("Created non ownerLevel receiver %s", nonownerLevelRcvr);
     });
@@ -897,7 +962,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg3 = (data: ReceivedEventData) => {
         debug(">>>> non ownerLevel Receiver", data);
       };
-      receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest());
+      receiver1 = client.createReceiver(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest());
       nonownerLevelRcvr = receiver1.receive(onmsg3, onerr3);
       debug("Created non ownerLevel receiver %s", nonownerLevelRcvr);
       setTimeout(() => {
@@ -910,7 +975,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onmsg4 = (data: ReceivedEventData) => {
           debug(">>>> ownerLevel Receiver ", data);
         };
-        receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
+        receiver2 = client.createReceiver(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest(), {
           ownerLevel: 1
         });
         ownerLevelRcvr = receiver2.receive(onmsg4, onerr4);
@@ -926,7 +991,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created receiver and will be receiving messages from partition id ...", id);
-            const d = await client.createReceiver(defaultConsumerGroup, id, EventPosition.latest()).receiveBatch(10, 3);
+            const d = await client
+              .createReceiver(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
+              .receiveBatch(10, 3);
             debug("received messages ", d.length);
           } catch (err) {
             debug("Receiver received an error", err);
@@ -942,7 +1009,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         try {
           const id = " ";
           debug("Created receiver and will be receiving messages from partition id ...", id);
-          const d = await client.createReceiver(defaultConsumerGroup, id, EventPosition.latest()).receiveBatch(10, 3);
+          const d = await client
+            .createReceiver(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
+            .receiveBatch(10, 3);
           debug("received messages ", d.length);
         } catch (err) {
           debug("Receiver received an error", err);
@@ -955,7 +1024,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       invalidIds2.forEach(function(id: string): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
-            await client.createReceiver(defaultConsumerGroup, id, EventPosition.latest()).receiveBatch(10, 3);
+            await client
+              .createReceiver(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
+              .receiveBatch(10, 3);
           } catch (err) {
             debug(`>>>> Received error - `, err);
             should.exist(err);
@@ -990,7 +1061,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           debug(err);
         };
         const rcvHndlr = client
-          .createReceiver(defaultConsumerGroup, partitionId, eventPosition)
+          .createReceiver(EventHubClient.defaultConsumerGroup, partitionId, eventPosition)
           .receive(onMsg, onError);
         rcvHndlrs.push(rcvHndlr);
       }
@@ -1019,7 +1090,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             });
         };
         const failedRcvHandler = client
-          .createReceiver(defaultConsumerGroup, partitionId, eventPosition)
+          .createReceiver(EventHubClient.defaultConsumerGroup, partitionId, eventPosition)
           .receive(onmsg2, onerr2);
         rcvHndlrs.push(failedRcvHandler);
       }, 5000);

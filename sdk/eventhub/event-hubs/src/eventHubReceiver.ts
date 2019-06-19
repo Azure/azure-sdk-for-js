@@ -199,6 +199,7 @@ export class EventHubReceiver extends LinkEntity {
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
+   * @param {EventPosition} eventPosition The position in the stream from where to start receiving events.
    * @param {EventReceiverOptions} [options]                         Receiver options.
    */
   constructor(
