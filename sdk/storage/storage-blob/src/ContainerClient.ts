@@ -422,6 +422,8 @@ export class ContainerClient extends StorageClient {
   private containerContext: Container;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of ContainerClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

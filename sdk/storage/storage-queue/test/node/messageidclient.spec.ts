@@ -1,9 +1,11 @@
 import * as assert from "assert";
-import { getQSU } from "../utils";
+import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
+import { MessagesClient } from "../../src/MessagesClient";
+import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 
-describe("MessageIdClient Node", () => {
+describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
@@ -86,5 +88,96 @@ describe("MessageIdClient Node", () => {
         "The request body is too large and exceeds the maximum permissible limit."
       )
     );
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = (messagesClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = (messagesClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = (messagesClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+  });
+
+  it("can be created with a connection string and a queue name", async () => {
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("can be created with a connection string and a queue name and an option bag", async () => {
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("throws error if constructor queueName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new MessagesClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for queueName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

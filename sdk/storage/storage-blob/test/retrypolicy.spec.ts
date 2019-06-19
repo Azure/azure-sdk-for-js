@@ -2,18 +2,22 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { ContainerClient, RestError } from "../src";
-import { newPipeline, Pipeline  } from "../src/Pipeline";
+import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerName: string;
+  let containerClient: ContainerClient;
 
-  beforeEach(async () => {
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
     containerName = getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
@@ -21,6 +25,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -31,7 +36,7 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = containerClient.pipeline.factories.slice(); // clone factories array
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
     const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
@@ -52,8 +57,9 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential =
-      containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
@@ -92,8 +98,9 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential =
-      containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;

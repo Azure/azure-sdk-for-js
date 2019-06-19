@@ -30,7 +30,8 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceFolder}/test/*.spec.ts"
+        "${workspaceFolder}/test/*.spec.ts",
+        "${workspaceFolder}/test/node/*.spec.ts"
       ],
       "env": { "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}" },
       "envFile": "${workspaceFolder}/../.env",

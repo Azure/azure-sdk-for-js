@@ -113,6 +113,8 @@ export class AppendBlobClient extends BlobClient {
   private appendBlobContext: AppendBlob;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of AppendBlobClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

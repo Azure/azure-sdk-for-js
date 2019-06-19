@@ -1,24 +1,29 @@
 import * as assert from "assert";
 import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
   const serviceClient = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
+  let shareName: string;
+  let shareClient: ShareClient;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
   });
 
   afterEach(async () => {
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -29,7 +34,7 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = shareClient.pipeline.factories.slice(); // clone factories array
+    const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
     const injectShareClient = new ShareClient(shareClient.url, pipeline);
@@ -45,12 +50,14 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async () => {
+  it("Retry Policy should fail when requests always fail with 500", async () => {
     const injector = new InjectorPolicyFactory(() => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = shareClient.pipeline.factories[shareClient.pipeline.factories.length - 1];
+    const credential = (shareClient as any).pipeline.factories[
+      (shareClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;

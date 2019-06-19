@@ -115,6 +115,8 @@ export interface ServiceListQueuesSegmentOptions {
  */
 export class QueueServiceClient extends StorageClient {
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of QueueServiceClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
@@ -122,7 +124,10 @@ export class QueueServiceClient extends StorageClient {
    * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
-  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient {
+  public static fromConnectionString(
+    connectionString: string,
+    options?: NewPipelineOptions
+  ): QueueServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     const sharedKeyCredential = new SharedKeyCredential(
       extractedCreds.accountName,

@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - sdk/core/
+    - sdk/cosmosdb/cosmos/
+    - sdk/eventhub/
+    - sdk/identity/
+    - sdk/keyvault/keyvault-certificates/
+    - sdk/keyvault/keyvault-keys/
+    - sdk/keyvault/keyvault-secrets/
+    - sdk/keyvault/keyvault/
+    - sdk/servicebus/service-bus/
+    - sdk/storage/storage-blob/
+    - sdk/storage/storage-datalake/
+    - sdk/storage/storage-file/
+    - sdk/storage/storage-queue/
+    - sdk/template/template/
+
+pr: none
+
+variables:
+  NodeVersion: '12.x'
+
+jobs:
+  - job: 'Build'
+
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Npm@1
+        displayName: 'npm run build'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'run build --logging-level=trace'
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: $(Build.SourcesDirectory)/drop

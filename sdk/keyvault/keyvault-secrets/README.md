@@ -43,67 +43,123 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
+### Configuring your Key Vault
+
+Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to create/get client secret credentials.
+
+ * Create a service principal and configure its access to Azure resources:
+    ```Bash
+    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+    ```
+    Output:
+    ```json
+    {
+        "appId": "generated-app-ID",
+        "displayName": "dummy-app-name",
+        "name": "http://dummy-app-name",
+        "password": "random-password",
+        "tenant": "tenant-ID"
+    }
+    ```
+* Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+  ```Bash
+    export AZURE_CLIENT_ID="generated-app-ID"
+    export AZURE_CLIENT_SECRET="random-password"
+    export AZURE_TENANT_ID="tenant-ID"
+  ```
+
+* Grant the above mentioned application authorization to perform secret operations on the keyvault:
+    ```Bash
+    az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+    ```
+    > --secret-permissions:
+    > Accepted values: backup, delete, get, list, purge, recover, restore, set
+
+* Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
+    ```Bash
+    az keyvault show --name <your-key-vault-name>
+    ```
+
 ### Authenticate the client
 
-Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
+import { EnvironmentCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+```
 
-const clientId = process.env["CLIENT_ID"] || "";
-const clientSecret = process.env["CLIENT_SECRET"] || "";
-const tenantId = process.env["TENANT_ID"] || "";
-const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
+```typescript
+// EnvironmentCredential expects the following three environment variables:
+// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// * AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new EnvironmentCredential();
+
+// Build the URL to reach your key vault
+const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
-const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-  clientId,
-  clientSecret,
-  tenantId,
-  {
-    tokenAudience: 'https://vault.azure.net'
-  }
-);
 
+// Lastly, create our secrets client and connect to the service
 const client = new SecretsClient(url, credential);
 ```
 
 ## Key concepts
 
-> Soon.
+### Creating secrets and secret versions
 
+Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a name and a value. This name acts as a way to reach the secret later.
+
+Secrets in the key vault can have multiple versions of the same secret. These are called versions of that secret.
+
+### Getting secrets from the key vault
+
+The simplest way to read secrets back from the vault is to get a secret by name. This will retrieve the most recent version of the secret. You can optionally get a different version of the secret if you also know the version you want.
+
+Key vaults also support listing the secrets they have, as well as listing the all the versions of the given secret.
+
+### Updating secret attributes
+
+Once a secret is created, it is possible to update attributes of the secret. For example, if a secret needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
+
+### Working with deleted secrets
+
+Key vaults allow deleting secrets so that they are no longer available.
+
+In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
  
 ## Examples
 
-The following sections provide code snippets that cover some of the
-common tasks using Azure KeyVault Secrets
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
 
-- [Single secret](#single-secret)
-
-### Single secret
-
-Once you have created an instance of an `SecretsClient` class, you can:
+Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
 
 ```javascript
+// Create out first secret
 const secretName = "MySecretName";
-const result = await client.setSecret("MySecretName", "MySecretValue");
+const result = await client.setSecret(secretName, "MySecretValue");
 
-for await (let secretAttr of client.getAllSecrets()) {
-  const secret = await client.getSecret(secretAttr.name);
-  console.log("secret: ", secret);
+// Get the secret we just created
+const getResult = await client.getSecret(secretName);
+console.log("getResult: ", getResult);
+
+// List all the versions of the secret in the secret vault
+for await (let version of client.listSecretVersions(secretName)) {
+  console.log("version: ", version);
 }
 
-console.log("result: ", result);
-
-await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
-
-await client.setSecret("MySecretName", "My new SecretValue");
-for await (let version of client.getSecretVersions(secretName)) {
-  const secret = await client.getSecret(secretName, { version: version.version });
-  console.log("secret: ", secret);
+// We can also list all the secrets in our secret vault
+for await (let listedSecret of client.listSecrets()) {
+  console.log("secret: ", listedSecret);
 }
 
+// Update the attributes of one of our secrets
+const result = getSecret(secretName);
+await client.updateSecretAttributes(secretName, result.version, { enabled: true });
+
+// Delete the secret we just created
 await client.deleteSecret(secretName);
 ```
 

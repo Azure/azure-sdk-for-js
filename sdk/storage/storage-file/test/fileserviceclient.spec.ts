@@ -1,11 +1,21 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName, wait, getConnectionStringFromEnvironment } from "./utils";
+
+import { getBSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { FileServiceClient } from "../src/FileServiceClient";
-import { newPipeline, SharedKeyCredential } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("ListShares with default parameters", async () => {
     const serviceClient = getBSU();
     const result = await serviceClient.listSharesSegment();
@@ -29,7 +39,7 @@ describe("FileServiceClient", () => {
   it("ListShares with all parameters configured", async () => {
     const serviceClient = getBSU();
 
-    const shareNamePrefix = getUniqueName("share");
+    const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.createShareClient(shareName1);
@@ -134,90 +144,23 @@ describe("FileServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-    it("createShare and deleteShare", async () => {
-        const serviceClient = getBSU();
-        const shareName = getUniqueName("share");
-        const metadata = { key: "value" };
-
-        const { shareClient } = await serviceClient.createShare(shareName, { metadata });
-        const result = await shareClient.getProperties();
-        assert.deepEqual(result.metadata, metadata);
-
-        await serviceClient.deleteShare(shareName);
-        try {
-            await shareClient.getProperties();
-            assert.fail(
-                "Expecting an error in getting properties from a deleted block blob but didn't get one."
-            );
-        } catch (error) {
-            assert.ok((error.statusCode as number) === 404);
-        }
-    });
-
-  it("can be created with a url and a credential", async () => {
+  it("createShare and deleteShare", async () => {
     const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new FileServiceClient(serviceClient.url, credential);
+    const shareName = recorder.getUniqueName("share");
+    const metadata = { key: "value" };
 
-    const result = await newClient.getProperties();
+    const { shareClient } = await serviceClient.createShare(shareName, { metadata });
+    const result = await shareClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created with a url and a credential and an option bag", async () => {
-    const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new FileServiceClient(serviceClient.url, credential, {
-      retryOptions: { maxTries: 5 }
-    });
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created with a url and a pipeline", async () => {
-    const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new FileServiceClient(serviceClient.url, pipeline);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-  });
-
-  it("can be created from a connection string", async () => {
-    const newClient = FileServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-  });
-
-  it("can be created from a connection string and an option bag", async () => {
-    const newClient = FileServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
-      retryOptions: {
-        maxTries: 5
-      }
-    });
-
-    const result = await newClient.getProperties();
-
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    await serviceClient.deleteShare(shareName);
+    try {
+      await shareClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
   });
 });
