@@ -16,7 +16,8 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  isNode
 } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -200,10 +201,14 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    new LoggingPolicyFactory(),
-    proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)),
-    credential
+    new LoggingPolicyFactory()
   ];
+
+  if (isNode) {
+    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    factories.push(proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)));
+  }
+  factories.push(credential);
 
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,
