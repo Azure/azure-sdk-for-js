@@ -228,7 +228,7 @@ export class EventHubConsumer  {
     if (checkpoint) {
       this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
-    if (!this._batchingReceiver) {
+    if (!this._batchingReceiver || !this._batchingReceiver.isOpen()) {
       this._batchingReceiver = BatchingReceiver.create(
         this._context,
         this.consumerGroup,
@@ -255,6 +255,13 @@ export class EventHubConsumer  {
         this._receiverOptions.retryOptions,
         abortSignal
       );
+      if (result.length < maxMessageCount) {
+       // we are now re-using the same receiver link between multiple calls to receiveBatch() or the iterator on the receiver.
+       // This can result in the receiver link having pending credits if a receiveBatch() call asking for m events returned n events where n < m.
+       // Since Event Hubs doesnt support the drain feature yet, this can result in the receiver link receiving events when the user is not expecting it to.
+       // Hence closing the link when result.length < maxMessageCount
+        await this._batchingReceiver.close();
+      }
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
