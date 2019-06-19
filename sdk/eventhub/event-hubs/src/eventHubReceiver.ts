@@ -13,7 +13,7 @@ import {
 } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { EventReceiverOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
@@ -106,10 +106,10 @@ export class EventHubReceiver extends LinkEntity {
    */
   eventPosition: EventPosition;
   /**
-   * @property {ReceiveOptions} [options] Optional properties that can be set while creating
-   * the EventHubReceiver.
+   * @property {EventHubConsumerOptions} [options] Optional properties that can be set while creating
+   * the EventHubConsumer.
    */
-  options: EventReceiverOptions;
+  options: EventHubConsumerOptions;
   /**
    * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
@@ -200,14 +200,14 @@ export class EventHubReceiver extends LinkEntity {
    * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {EventPosition} eventPosition The position in the stream from where to start receiving events.
-   * @param {EventReceiverOptions} [options]                         Receiver options.
+   * @param {EventHubConsumerOptions} [options]                         Receiver options.
    */
   constructor(
     context: ConnectionContext,
     consumerGroup: string,
     partitionId: string | number,
     eventPosition: EventPosition,
-    options?: EventReceiverOptions
+    options?: EventHubConsumerOptions
   ) {
     super(context, {
       partitionId: partitionId,

@@ -20,8 +20,8 @@ import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { EventSender } from "./sender";
-import { EventReceiver } from "./receiver";
+import { EventHubProducer } from "./sender";
+import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
@@ -51,7 +51,7 @@ export interface RetryOptions {
 /**
  * Options to passed when creating a sender using the EventHubClient
  */
-export interface EventSenderOptions {
+export interface EventHubProducerOptions {
   /**
    * @property
    * The id of the partition to which the event should be sent. If no id is provided,
@@ -86,9 +86,9 @@ export interface SendOptions {
 
 /**
  * Options that can be passed to the receive operations on the EventHubsClient
- * @interface ReceiveOptions
+ * @interface EventHubConsumerOptions
  */
-export interface EventReceiverOptions {
+export interface EventHubConsumerOptions {
   /**
    * @property
    * The priority value that this receiver is currently using for partition ownership.
@@ -287,8 +287,8 @@ export class EventHubClient {
    *
    * @return {Promise<void>} Promise<void>
    */
-  createSender(options?: EventSenderOptions): EventSender {
-    return new EventSender(this._context, options);
+  createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    return new EventHubProducer(this._context, options);
   }
 
   /**
@@ -302,17 +302,17 @@ export class EventHubClient {
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
-  createReceiver(
+  createConsumer(
     consumerGroup: string,
     partitionId: string,
     eventPosition: EventPosition,
-    options?: EventReceiverOptions
-  ): EventReceiver {
+    options?: EventHubConsumerOptions
+  ): EventHubConsumer {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
     partitionId = String(partitionId);
-    return new EventReceiver(this._context, consumerGroup, partitionId, eventPosition, options);
+    return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**
