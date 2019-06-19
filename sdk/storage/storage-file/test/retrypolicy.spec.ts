@@ -34,7 +34,7 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = shareClient.pipeline.factories.slice(); // clone factories array
+    const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
     const injectShareClient = new ShareClient(shareClient.url, pipeline);
@@ -55,7 +55,9 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = shareClient.pipeline.factories[shareClient.pipeline.factories.length - 1];
+    const credential = (shareClient as any).pipeline.factories[
+      (shareClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;

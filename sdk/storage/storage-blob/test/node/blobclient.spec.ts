@@ -234,7 +234,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = blobClient.pipeline.factories;
+    const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
 
@@ -248,7 +248,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = blobClient.pipeline.factories;
+    const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
@@ -266,7 +266,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = blobClient.pipeline.factories;
+    const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);

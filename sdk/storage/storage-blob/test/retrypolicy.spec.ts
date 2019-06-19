@@ -36,7 +36,7 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = containerClient.pipeline.factories.slice(); // clone factories array
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
     const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
@@ -57,8 +57,9 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential =
-      containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
@@ -97,8 +98,9 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential =
-      containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;

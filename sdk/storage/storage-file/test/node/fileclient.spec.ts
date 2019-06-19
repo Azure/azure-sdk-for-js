@@ -77,7 +77,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = fileClient.pipeline.factories;
+    const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new FileClient(fileClient.url, credential);
 
@@ -98,7 +98,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = fileClient.pipeline.factories;
+    const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new FileClient(fileClient.url, credential, {
       retryOptions: {
@@ -123,7 +123,7 @@ describe("FileClient Node.js only", () => {
     };
     await fileClient.setMetadata(metadata);
 
-    const factories = fileClient.pipeline.factories;
+    const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new FileClient(fileClient.url, pipeline);

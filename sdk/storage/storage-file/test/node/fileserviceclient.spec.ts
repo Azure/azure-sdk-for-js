@@ -7,7 +7,7 @@ dotenv.config({ path: "../.env" });
 describe("FileServiceClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new FileServiceClient(serviceClient.url, credential);
 
@@ -21,7 +21,7 @@ describe("FileServiceClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new FileServiceClient(serviceClient.url, credential, {
       retryOptions: { maxTries: 5 }
@@ -37,7 +37,7 @@ describe("FileServiceClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const serviceClient = getBSU();
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new FileServiceClient(serviceClient.url, pipeline);
