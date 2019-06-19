@@ -124,7 +124,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         beginReceivingAt: EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       });
       const data = await receiver.receiveBatch(10, 10);
-      data.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
+      data.length.should.equal(0, "Unexpected message received when using EventPosition.fromSequenceNumber()");
       const events: EventData[] = [];
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
@@ -133,7 +133,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         events.push(ed);
       }
       await client.createSender({ partitionId: partitionId }).send(events);
-      debug(">>>>>>> Sent the new messages. We should only receive these messages.");
+      debug(">>>>>>> Sent 10 messages. We should only receive these 10 messages.");
       const data2 = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data2);
       data2.length.should.equal(10, "Failed to receive the expected nummber of messages");
