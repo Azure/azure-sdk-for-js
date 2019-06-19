@@ -2,18 +2,18 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenCredential } from "@azure/core-http";
-import { SystemCredential } from "./credentials/systemCredential";
+import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
-export { AggregateCredential } from "./credentials/aggregateCredential";
+export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export { IdentityClientOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
-export { SystemCredential } from "./credentials/systemCredential";
+export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 
 export function getDefaultAzureCredential(): TokenCredential {
-  return new SystemCredential();
+  return new DefaultAzureCredential();
 }
