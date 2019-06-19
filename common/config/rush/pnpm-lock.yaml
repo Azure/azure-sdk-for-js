@@ -51,9 +51,9 @@ dependencies:
   '@types/sinon': 5.0.7
   '@types/tough-cookie': 2.3.5
   '@types/tunnel': 0.0.0
-  '@types/underscore': 1.8.20
+  '@types/underscore': 1.9.0
   '@types/uuid': 3.4.4
-  '@types/webpack': 4.4.32
+  '@types/webpack': 4.4.33
   '@types/webpack-dev-middleware': 2.0.2
   '@types/ws': 6.0.1
   '@types/xml2js': 0.4.4
@@ -87,13 +87,13 @@ dependencies:
   events: 3.0.0
   execa: 1.0.0
   express: 4.17.1
-  form-data: 2.3.3
+  form-data: 2.4.0
   fs-extra: 8.0.1
   glob: 7.1.4
   gulp: 4.0.2
   gulp-zip: 4.2.0
   https-proxy-agent: 2.2.1
-  inherits: 2.0.3
+  inherits: 2.0.4
   is-buffer: 2.0.3
   jssha: 2.3.1
   jws: 3.2.2
@@ -285,24 +285,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-AHLfDTCyIH6wBK6+CpImI6sc9mLZ17ZgUrTx3Rhwv+3Mb3Z73BxormkarfR6Stb6scrBYitxJ27FXyndXlGAYg==
-  /@azure/ms-rest-js/1.8.12:
-    dependencies:
-      '@types/tunnel': 0.0.0
-      axios: 0.19.0
-      form-data: 2.3.3
-      tough-cookie: 2.5.0
-      tslib: 1.10.0
-      tunnel: 0.0.6
-      uuid: 3.3.2
-      xml2js: 0.4.19
-    dev: false
-    resolution:
-      integrity: sha512-1jHF1jHDXHKgdql+3uEh7798WXap3J9CefltYvH6iRypua4tu1C6mN1LFkaSUY/+OtOvkzTZkL83cxAfQPP8QA==
   /@azure/ms-rest-js/1.8.13:
     dependencies:
       '@types/tunnel': 0.0.0
       axios: 0.19.0
-      form-data: 2.3.3
+      form-data: 2.4.0
       tough-cookie: 2.5.0
       tslib: 1.10.0
       tunnel: 0.0.6
@@ -720,10 +707,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SudIN9TRJ+v8g5pTG8RRCqfqTMNqgWCKKd3vtynhGzkIIjxaicNAMuY5TRadJ6tzDu3Dotf3ngaMILtmOdmWEQ==
-  /@types/underscore/1.8.20:
+  /@types/underscore/1.9.0:
     dev: false
     resolution:
-      integrity: sha512-J/f05EqP41VFuJQdDXE9YhzyQngjKm0/WRGBUyaoobBagBFXk9JCNlpc9V8kF10On/jQ6mkHNqHT13/ZvngOaA==
+      integrity: sha512-1koEJ2AhXaR0HVP3VlN0pCb51n87g5QL9rUiGaY+Nte9gBd2FYf/zNvS5ZtHg7o6owYNS6QA/4ZJ/mIiz2q1hA==
   /@types/uuid/3.4.4:
     dependencies:
       '@types/node': 8.10.49
@@ -735,11 +722,11 @@ packages:
       '@types/connect': 3.4.32
       '@types/loglevel': 1.5.4
       '@types/memory-fs': 0.3.2
-      '@types/webpack': 4.4.32
+      '@types/webpack': 4.4.33
     dev: false
     resolution:
       integrity: sha512-uZ1avIbAcnspcDKKm0WfgIdvBYRqUapPmwb0MYGzzB74q2F3T4Xi+qPSoS0Oq5iQvIMVxOm7KMqHQJii4VDCsw==
-  /@types/webpack/4.4.32:
+  /@types/webpack/4.4.33:
     dependencies:
       '@types/anymatch': 1.3.1
       '@types/node': 8.10.49
@@ -748,7 +735,7 @@ packages:
       source-map: 0.6.1
     dev: false
     resolution:
-      integrity: sha512-mNARoaSJTzbiHxtZbf9NULFilu2frqD+g9Iyl9V2jPYJWXi+AC3Hz8lQWPZ5LLtgUm7iF4SDDMB/1bPrbRQgFw==
+      integrity: sha512-MU5Lokm30QHF9Wn0+yq/hnToPlEBRQVa72mgn1/W8OpJu63aRDKy0aEdMI+pCk8F6zwQJfSFaVzx1JN1MLXx8A==
   /@types/ws/6.0.1:
     dependencies:
       '@types/events': 3.0.0
@@ -1449,7 +1436,7 @@ packages:
   /asn1.js/4.10.1:
     dependencies:
       bn.js: 4.11.8
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimalistic-assert: 1.0.1
     dev: false
     resolution:
@@ -1499,7 +1486,7 @@ packages:
     dependencies:
       end-of-stream: 1.4.1
       once: 1.4.0
-      process-nextick-args: 2.0.0
+      process-nextick-args: 2.0.1
       stream-exhaust: 1.0.2
     dev: false
     engines:
@@ -2229,7 +2216,7 @@ packages:
       cipher-base: 1.0.4
       create-hash: 1.2.0
       evp_bytestokey: 1.0.3
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     resolution:
@@ -2246,7 +2233,7 @@ packages:
     dependencies:
       cipher-base: 1.0.4
       des.js: 1.0.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     resolution:
@@ -2269,7 +2256,7 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       elliptic: 6.4.1
-      inherits: 2.0.3
+      inherits: 2.0.4
       parse-asn1: 5.1.4
     dev: false
     resolution:
@@ -2283,7 +2270,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000975
-      electron-to-chromium: 1.3.164
+      electron-to-chromium: 1.3.165
     dev: false
     hasBin: true
     resolution:
@@ -2563,7 +2550,7 @@ packages:
       async-each: 1.0.3
       braces: 2.3.2
       glob-parent: 3.1.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       is-binary-path: 1.0.1
       is-glob: 4.0.1
       normalize-path: 3.0.0
@@ -2616,7 +2603,7 @@ packages:
       integrity: sha1-6a94ukf3/7kAYCk6cgoBzSbVC6s=
   /cipher-base/1.0.4:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     resolution:
@@ -2710,8 +2697,8 @@ packages:
       integrity: sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
   /cloneable-readable/1.1.3:
     dependencies:
-      inherits: 2.0.3
-      process-nextick-args: 2.0.0
+      inherits: 2.0.4
+      process-nextick-args: 2.0.1
       readable-stream: 2.3.6
     dev: false
     resolution:
@@ -2837,7 +2824,7 @@ packages:
   /concat-stream/1.6.2:
     dependencies:
       buffer-from: 1.1.1
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
       typedarray: 0.0.6
     dev: false
@@ -2928,6 +2915,7 @@ packages:
       integrity: sha512-7cjuUME+p+S3HZlbllgsn2CDwS+5eCCX16qBgNC4jgSTf49qR1VKy/Zhl400m0IQXl/bPGEVqncgUUMjrr4s8A==
   /core-js/2.6.9:
     dev: false
+    requiresBuild: true
     resolution:
       integrity: sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
   /core-util-is/1.0.2:
@@ -2956,7 +2944,7 @@ packages:
   /create-hash/1.2.0:
     dependencies:
       cipher-base: 1.0.4
-      inherits: 2.0.3
+      inherits: 2.0.4
       md5.js: 1.3.5
       ripemd160: 2.0.2
       sha.js: 2.4.11
@@ -2967,7 +2955,7 @@ packages:
     dependencies:
       cipher-base: 1.0.4
       create-hash: 1.2.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       ripemd160: 2.0.2
       safe-buffer: 5.1.2
       sha.js: 2.4.11
@@ -3023,7 +3011,7 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       diffie-hellman: 5.0.3
-      inherits: 2.0.3
+      inherits: 2.0.4
       pbkdf2: 3.0.17
       public-encrypt: 4.0.3
       randombytes: 2.1.0
@@ -3255,7 +3243,7 @@ packages:
       integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
   /des.js/1.0.0:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimalistic-assert: 1.0.1
     dev: false
     resolution:
@@ -3346,7 +3334,7 @@ packages:
   /duplexify/3.7.1:
     dependencies:
       end-of-stream: 1.4.1
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
       stream-shift: 1.0.0
     dev: false
@@ -3380,17 +3368,17 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.164:
+  /electron-to-chromium/1.3.165:
     dev: false
     resolution:
-      integrity: sha512-VLlalqUeduN4+fayVtRZvGP2Hl1WrRxlwzh2XVVMJym3IFrQUS29BFQ1GP/BxOJXJI1OFCrJ5BnFEsAe8NHtOg==
+      integrity: sha512-iIS8axR524EAnvUtWUNnREnYjQrS0zUvutIKYgTVuN3MzcjrV31EuJYKw7DGOtFO9DQw+JiXeaVDPQWMskG1wQ==
   /elliptic/6.4.1:
     dependencies:
       bn.js: 4.11.8
       brorand: 1.1.0
       hash.js: 1.1.7
       hmac-drbg: 1.0.1
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: false
@@ -4165,7 +4153,7 @@ packages:
       integrity: sha512-R+H8IZclI8AAkSBRQJLVOsxwAoHd6WC40b4QTNWIjzAa6BXOBfQcM587MXDTVPeYaopFNWHUFLx7eNmHDSxMWg==
   /flush-write-stream/1.1.1:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
@@ -4221,6 +4209,16 @@ packages:
       node: '>= 0.12'
     resolution:
       integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==
+  /form-data/2.4.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.24
+    dev: false
+    engines:
+      node: '>= 0.12'
+    resolution:
+      integrity: sha512-4FinE8RfqYnNim20xDwZZE0V2kOs/AuElIjFUbPuegQSaoZM+vUT5FnwSl10KPugH4voTg1bEQlcbCG9ka75TA==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -4243,7 +4241,7 @@ packages:
       integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
   /from2/2.3.0:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
@@ -4423,7 +4421,7 @@ packages:
       integrity: sha1-0p4KBV3qUTj00H7UDomC6DwgZs0=
   /glob/3.2.11:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimatch: 0.3.0
     dev: false
     resolution:
@@ -4431,7 +4429,7 @@ packages:
   /glob/5.0.15:
     dependencies:
       inflight: 1.0.6
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
@@ -4442,7 +4440,7 @@ packages:
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
@@ -4453,7 +4451,7 @@ packages:
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
@@ -4837,7 +4835,7 @@ packages:
       integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   /hash-base/3.0.4:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     engines:
@@ -4846,7 +4844,7 @@ packages:
       integrity: sha1-X8hoaEfs1zSZQDMZprCj8/auSRg=
   /hash.js/1.1.7:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimalistic-assert: 1.0.1
     dev: false
     resolution:
@@ -5043,6 +5041,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+  /inherits/2.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
   /ini/1.3.5:
     dev: false
     resolution:
@@ -6332,14 +6334,14 @@ packages:
   /md5.js/1.3.4:
     dependencies:
       hash-base: 3.0.4
-      inherits: 2.0.3
+      inherits: 2.0.4
     dev: false
     resolution:
       integrity: sha1-6b296UogpawYsENA/Fdk1bCdkB0=
   /md5.js/1.3.5:
     dependencies:
       hash-base: 3.0.4
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     resolution:
@@ -6606,6 +6608,7 @@ packages:
     dependencies:
       for-in: 1.0.2
       is-extendable: 1.0.1
+    deprecated: 'Critical bug fixed in v2.0.1, please upgrade to the latest version.'
     dev: false
     engines:
       node: '>=0.10.0'
@@ -7312,7 +7315,7 @@ packages:
   /parallel-transform/1.1.0:
     dependencies:
       cyclist: 0.2.2
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
@@ -7621,10 +7624,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M=
-  /process-nextick-args/2.0.0:
+  /process-nextick-args/2.0.1:
     dev: false
     resolution:
-      integrity: sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
+      integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
   /process/0.11.10:
     dev: false
     engines:
@@ -7706,7 +7709,7 @@ packages:
   /pumpify/1.5.1:
     dependencies:
       duplexify: 3.7.1
-      inherits: 2.0.3
+      inherits: 2.0.4
       pump: 2.0.1
     dev: false
     resolution:
@@ -7867,7 +7870,7 @@ packages:
   /readable-stream/2.0.6:
     dependencies:
       core-util-is: 1.0.2
-      inherits: 2.0.3
+      inherits: 2.0.4
       isarray: 1.0.0
       process-nextick-args: 1.0.7
       string_decoder: 0.10.31
@@ -7878,9 +7881,9 @@ packages:
   /readable-stream/2.3.6:
     dependencies:
       core-util-is: 1.0.2
-      inherits: 2.0.3
+      inherits: 2.0.4
       isarray: 1.0.0
-      process-nextick-args: 2.0.0
+      process-nextick-args: 2.0.1
       safe-buffer: 5.1.2
       string_decoder: 1.1.1
       util-deprecate: 1.0.2
@@ -8223,7 +8226,7 @@ packages:
   /ripemd160/2.0.2:
     dependencies:
       hash-base: 3.0.4
-      inherits: 2.0.3
+      inherits: 2.0.4
     dev: false
     resolution:
       integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
@@ -8570,6 +8573,7 @@ packages:
       is-extendable: 0.1.1
       is-plain-object: 2.0.4
       to-object-path: 0.3.0
+    deprecated: 'Critical bug fixed in v3.0.1, please upgrade to the latest version.'
     dev: false
     engines:
       node: '>=0.10.0'
@@ -8581,6 +8585,7 @@ packages:
       is-extendable: 0.1.1
       is-plain-object: 2.0.4
       split-string: 3.1.0
+    deprecated: 'Critical bug fixed in v3.0.1, please upgrade to the latest version.'
     dev: false
     engines:
       node: '>=0.10.0'
@@ -8596,7 +8601,7 @@ packages:
       integrity: sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
   /sha.js/2.4.11:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       safe-buffer: 5.1.2
     dev: false
     hasBin: true
@@ -8943,7 +8948,7 @@ packages:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
   /stream-browserify/2.0.2:
     dependencies:
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
@@ -8962,7 +8967,7 @@ packages:
   /stream-http/2.8.3:
     dependencies:
       builtin-status-codes: 3.0.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       readable-stream: 2.3.6
       to-arraybuffer: 1.0.1
       xtend: 4.0.1
@@ -9504,10 +9509,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-f/qGG2tUkrISBlQZEjEqoZ3B2+npJjIf04H1wuAv9iA8i04Icp+61KRXxFdha22670NJopsZCIjhC3SnjPRKrQ==
-  /tslib/1.9.3:
-    dev: false
-    resolution:
-      integrity: sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
   /tslint-config-prettier/1.18.0:
     dev: false
     engines:
@@ -9539,30 +9540,6 @@ packages:
       typescript: ^2.2.0 || ^3.0.0
     resolution:
       integrity: sha512-WlSXE+J2vY/VPgIcqQuijMQiel+UtmXS+4nvK4ZzlDiqBfXse8FAvkNnTcYhnQyOTW5KFM+uRRGXxYhFpuBc6w==
-  /tslint/5.16.0_typescript@3.5.2:
-    dependencies:
-      '@babel/code-frame': 7.0.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.0
-      diff: 3.5.0
-      glob: 7.1.4
-      js-yaml: 3.13.1
-      minimatch: 3.0.4
-      mkdirp: 0.5.1
-      resolve: 1.11.0
-      semver: 5.7.0
-      tslib: 1.9.3
-      tsutils: 2.29.0_typescript@3.5.2
-      typescript: 3.5.2
-    dev: false
-    engines:
-      node: '>=4.8.0'
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
-    resolution:
-      integrity: sha512-UxG2yNxJ5pgGwmMzPMYh/CCnCnh0HfPgtlVRDs1ykZklufFBL1ZoTlWFRz2NQjcoEiDoRp+JyT0lhBbbH/obyA==
   /tslint/5.17.0:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -10519,7 +10496,6 @@ packages:
       integrity: sha1-T6akXQDbwV8xikr6HZr8Aljhdsw=
   'file:projects/abort-controller.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.12
       '@microsoft/api-extractor': 7.2.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -10644,7 +10620,7 @@ packages:
       '@types/tough-cookie': 2.3.5
       '@types/tunnel': 0.0.0
       '@types/uuid': 3.4.4
-      '@types/webpack': 4.4.32
+      '@types/webpack': 4.4.33
       '@types/webpack-dev-middleware': 2.0.2
       '@types/xml2js': 0.4.4
       abortcontroller-polyfill: 1.3.0
@@ -10652,7 +10628,7 @@ packages:
       axios-mock-adapter: 1.16.0_axios@0.19.0
       chai: 4.2.0
       express: 4.17.1
-      form-data: 2.3.3
+      form-data: 2.4.0
       glob: 7.1.4
       karma: 4.1.0
       karma-chai: 0.1.0_chai@4.2.0+karma@4.1.0
@@ -10732,7 +10708,7 @@ packages:
       '@types/semaphore': 1.1.0
       '@types/sinon': 5.0.7
       '@types/tunnel': 0.0.0
-      '@types/underscore': 1.8.20
+      '@types/underscore': 1.9.0
       binary-search-bounds: 2.0.3
       create-hmac: 1.1.7
       execa: 1.0.0
@@ -10905,7 +10881,7 @@ packages:
       cross-env: 5.2.0
       eslint: 5.16.0
       events: 3.0.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       jws: 3.2.2
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.0_mocha@5.2.0
@@ -10934,9 +10910,6 @@ packages:
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
     dependencies:
-      '@azure/ms-rest-azure-js': 1.3.8
-      '@azure/ms-rest-js': 1.8.12
-      '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.2.1
       '@types/chai': 4.1.7
       chai: 4.2.0
@@ -10957,9 +10930,6 @@ packages:
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
-      '@azure/ms-rest-azure-js': 1.3.8
-      '@azure/ms-rest-js': 1.8.12
-      '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.2.1
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
@@ -10992,7 +10962,6 @@ packages:
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.8
       '@azure/ms-rest-js': 1.8.13
-      '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.2.1
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
@@ -11090,7 +11059,6 @@ packages:
       rollup-plugin-terser: 4.0.4_rollup@1.13.1
       ts-node: 7.0.1
       tslib: 1.10.0
-      tslint: 5.16.0_typescript@3.5.2
       typescript: 3.5.2
       ws: 6.2.1
     dev: false
@@ -11125,7 +11093,7 @@ packages:
       fs-extra: 8.0.1
       gulp: 4.0.2
       gulp-zip: 4.2.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       karma: 4.1.0
       karma-chrome-launcher: 2.2.0
       karma-coverage: 1.1.2
@@ -11220,7 +11188,7 @@ packages:
       fs-extra: 8.0.1
       gulp: 4.0.2
       gulp-zip: 4.2.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       karma: 4.1.0
       karma-chrome-launcher: 2.2.0
       karma-coverage: 1.1.2
@@ -11289,7 +11257,7 @@ packages:
       fs-extra: 8.0.1
       gulp: 4.0.2
       gulp-zip: 4.2.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       karma: 4.1.0
       karma-chrome-launcher: 2.2.0
       karma-coverage: 1.1.2
@@ -11350,7 +11318,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.1.1
       events: 3.0.0
-      inherits: 2.0.3
+      inherits: 2.0.4
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.0_mocha@5.2.0
       mocha-multi: 1.1.0_mocha@5.2.0
@@ -11399,7 +11367,6 @@ packages:
       integrity: sha512-c3cFI0Our99carkgcyOFLmX5QRh5fIqyVv9S75VRX7woNtBGXPvWRE8VOxEN9o8N8FjSEQzc6PPEO6YRz7ok8Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/amqp-common': ^1.0.0-preview.5
   '@azure/arm-servicebus': ^0.1.0
