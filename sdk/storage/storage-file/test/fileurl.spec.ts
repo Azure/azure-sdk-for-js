@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
+import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
 import { bodyToString, getBSU } from "./utils";
 import { delay, record } from "./utils/recorder";
@@ -335,6 +336,31 @@ describe("FileURL", () => {
       assert.notDeepStrictEqual(handle.sessionId, undefined);
       assert.notDeepStrictEqual(handle.clientIp, undefined);
       assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: FileForceCloseHandlesResponse = await fileURL.forceCloseHandlesSegment(Aborter.none, marker);
+      marker = response.marker;
+    } while (marker)
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+    
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirURL.forceCloseHandle(Aborter.none, handle.handleId);
     }
   });
 });

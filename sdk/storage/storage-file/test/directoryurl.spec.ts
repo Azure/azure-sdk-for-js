@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
+import { DirectoryForceCloseHandlesResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
@@ -84,7 +85,12 @@ describe("DirectoryURL", () => {
     const subDirURLs = [];
     const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("date").getTime().toString()}`);
+    const prefix = recorder.getUniqueName(
+      `pre${recorder
+        .newDate("date")
+        .getTime()
+        .toString()}`
+    );
     for (let i = 0; i < 3; i++) {
       const subDirURL = DirectoryURL.fromDirectoryURL(
         rootDirURL,
@@ -96,7 +102,10 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, recorder.getUniqueName(`${prefix}file${i}`));
+      const subFileURL = FileURL.fromDirectoryURL(
+        rootDirURL,
+        recorder.getUniqueName(`${prefix}file${i}`)
+      );
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
@@ -132,7 +141,12 @@ describe("DirectoryURL", () => {
     const subDirURLs = [];
     const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("date").getTime().toString()}`);
+    const prefix = recorder.getUniqueName(
+      `pre${recorder
+        .newDate("date")
+        .getTime()
+        .toString()}`
+    );
     for (let i = 0; i < 3; i++) {
       const subDirURL = DirectoryURL.fromDirectoryURL(
         rootDirURL,
@@ -144,7 +158,10 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, recorder.getUniqueName(`${prefix}file${i}`));
+      const subFileURL = FileURL.fromDirectoryURL(
+        rootDirURL,
+        recorder.getUniqueName(`${prefix}file${i}`)
+      );
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
@@ -191,6 +208,29 @@ describe("DirectoryURL", () => {
       assert.notDeepStrictEqual(handle.sessionId, undefined);
       assert.notDeepStrictEqual(handle.clientIp, undefined);
       assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    // TODO: Open or create a handle
+    
+    let marker: string | undefined = "";
+
+    do {
+      const response: DirectoryForceCloseHandlesResponse = await dirURL.forceCloseHandlesSegment(Aborter.none, marker, {
+        recursive: true
+      });
+      marker = response.marker;
+    } while (marker)
+  });
+
+  it("forceCloseHandle should work", async () => {
+    // TODO: Open or create a handle
+
+    const result = await dirURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirURL.forceCloseHandle(Aborter.none, handle.handleId);
     }
   });
 });

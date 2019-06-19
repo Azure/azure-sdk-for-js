@@ -39,12 +39,20 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
   maxresults?: number;
 }
 
-export interface IDirectoryListHandlesOptions {
+export interface IDirectoryListHandlesSegmentOptions {
   /**
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
   maxresults?: number;
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   */
+  recursive?: boolean;
+}
+
+export interface IDirectoryForceCloseHandlesSegmentOptions {
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -235,15 +243,16 @@ export class DirectoryURL extends StorageURL {
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {IDirectoryListHandlesOptions} [options={}]
+   * @param {IDirectoryListHandlesSegmentOptions} [options={}]
    * @returns {Promise<Models.DirectoryListHandlesResponse>}
    * @memberof DirectoryURL
    */
   public async listHandlesSegment(
     aborter: Aborter,
     marker?: string,
-    options: IDirectoryListHandlesOptions = {}
+    options: IDirectoryListHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryListHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
     const response = await this.context.listHandles({
       abortSignal: aborter,
       marker,
@@ -252,9 +261,63 @@ export class DirectoryURL extends StorageURL {
 
     // TODO: Protocol layer issue that when handle list is in returned XML
     // response.handleList is an empty string
-    if (response.handleList as any === "") {
+    if ((response.handleList as any) === "") {
       response.handleList = undefined;
     }
     return response;
+  }
+
+  /**
+   * Force close all handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will 
+   *                          be closed with the next force close handles operation. 
+   *                          The operation returns a marker value within the response 
+   *                          body if there are more handles to close. The marker value 
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @param {IDirectoryForceCloseHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async forceCloseHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IDirectoryForceCloseHandlesSegmentOptions = {}
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+  }
+
+  /**
+   * Force close a specific handle for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleID Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async forceCloseHandle(
+    aborter: Aborter,
+    handleID: string
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    if (handleID === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleID, {
+      abortSignal: aborter
+    });
   }
 }

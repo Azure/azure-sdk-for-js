@@ -175,7 +175,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
     return (
-      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual && lastIndexOfEqual < value.length - 1
+      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual
     );
   });
 

@@ -140,7 +140,7 @@ export interface IFileStartCopyOptions {
   metadata?: IMetadata;
 }
 
-export interface IFileListHandlesOptions {
+export interface IFileListHandlesSegmentOptions {
   /**
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
@@ -598,15 +598,16 @@ export class FileURL extends StorageURL {
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {IFileListHandlesOptions} [options={}]
+   * @param {IFileListHandlesSegmentOptions} [options={}]
    * @returns {Promise<Models.FileListHandlesResponse>}
    * @memberof FileURL
    */
   public async listHandlesSegment(
     aborter: Aborter,
     marker?: string,
-    options: IFileListHandlesOptions = {}
+    options: IFileListHandlesSegmentOptions = {}
   ): Promise<Models.FileListHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
     const response = await this.context.listHandles({
       abortSignal: aborter,
       marker,
@@ -619,5 +620,56 @@ export class FileURL extends StorageURL {
       response.handleList = undefined;
     }
     return response;
+  }
+
+  /**
+   * Force close all handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * 
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will 
+   *                          be closed with the next force close handles operation. 
+   *                          The operation returns a marker value within the response 
+   *                          body if there are more handles to close. The marker value 
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker,
+    });
+  }
+
+  /**
+   * Force close a specific handle for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleID Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandle(
+    aborter: Aborter,
+    handleID: string
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    if (handleID === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleID, {
+      abortSignal: aborter
+    });
   }
 }
