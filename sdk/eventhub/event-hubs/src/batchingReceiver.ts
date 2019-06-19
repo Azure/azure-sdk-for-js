@@ -18,6 +18,7 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as log from "./log";
+import { EventPosition } from "./eventPosition";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
@@ -36,11 +37,19 @@ export class BatchingReceiver extends EventHubReceiver {
    * @ignore
    * @constructor
    * @param {ConnectionContext} context                        The connection context.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventReceiverOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
-    super(context, partitionId, options);
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ) {
+    super(context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**
@@ -365,15 +374,19 @@ export class BatchingReceiver extends EventHubReceiver {
    * @static
    * @ignore
    * @param {ConnectionContext} context    The connection context.
+   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string | number} partitionId  The partitionId to receive events from.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventReceiverOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string | number,
+    eventPosition: EventPosition,
     options?: EventReceiverOptions
   ): BatchingReceiver {
-    const bReceiver = new BatchingReceiver(context, partitionId, options);
+    const bReceiver = new BatchingReceiver(context, consumerGroup, partitionId, eventPosition, options);
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
