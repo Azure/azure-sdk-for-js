@@ -2,7 +2,7 @@
   "name": "@azure/servicefabric",
   "author": "Microsoft Corporation",
   "description": "ServiceFabricClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "dependencies": {
     "@azure/ms-rest-js": "^1.8.1",
     "tslib": "^1.9.3"
