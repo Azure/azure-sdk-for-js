@@ -16,7 +16,8 @@ import {
   ServiceClientOptions,
   WebResource,
   proxyPolicy,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  isNode
 } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -25,7 +26,6 @@ import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { isBrowser } from "../test/utils";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -195,29 +195,25 @@ export function newPipeline(
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
-  let factories: RequestPolicyFactory[];
-  if (isBrowser()) {
-    factories = [
-      new TelemetryPolicyFactory(pipelineOptions.telemetry),
-      new UniqueRequestIDPolicyFactory(),
-      new BrowserPolicyFactory(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      new RetryPolicyFactory(pipelineOptions.retryOptions),
-      new LoggingPolicyFactory(),
-      credential
-    ];
-  } else {
-    factories = [
-      new TelemetryPolicyFactory(pipelineOptions.telemetry),
-      new UniqueRequestIDPolicyFactory(),
-      new BrowserPolicyFactory(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      new RetryPolicyFactory(pipelineOptions.retryOptions),
-      new LoggingPolicyFactory(),
+  const factories: RequestPolicyFactory[] = [
+    new TelemetryPolicyFactory(pipelineOptions.telemetry),
+    new UniqueRequestIDPolicyFactory(),
+    new BrowserPolicyFactory(),
+    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new LoggingPolicyFactory()
+  ];
+
+  if (isNode) {
+    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    factories.push(
       proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)),
       credential
-    ];
+    );
+  } else {
+    factories.push(credential);
   }
+
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,
     logger: pipelineOptions.logger
