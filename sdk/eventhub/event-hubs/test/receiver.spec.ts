@@ -98,12 +98,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
+    // TODO: Below test is commented due to https://github.com/Azure/azure-sdk-for-js/issues/3938
     // it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
     //   const partitionId = partitionIds[0];
     //   debug("Creating new receiver with offset EndOfStream");
-    //   const receiver = client.createReceiver( partitionId, {
-    //     beginReceivingAt: EventPosition.fromNewEventsOnly()
-    //   });
+    //   const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest());
     //   const data = await receiver.receiveBatch(10, 10);
     //   data.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
     //   const events: EventData[] = [];
@@ -113,7 +112,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     //     };
     //     events.push(ed);
     //   }
-    //   await client.createSender({ partitionId: partitionId }).send(events);
+    //   await client.createProducer({ partitionId: partitionId }).send(events);
     //   debug(">>>>>>> Sent the new messages. We should only receive these messages.");
     //   const data2 = await receiver.receiveBatch(10, 20);
     //   debug("received messages: ", data2);
