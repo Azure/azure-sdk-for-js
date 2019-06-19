@@ -28,7 +28,7 @@ import {
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { SendOptions, EventSenderOptions } from "./eventHubClient";
+import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 interface CreateSenderOptions {
@@ -338,7 +338,7 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(events: EventData[], options?: SendOptions & EventSenderOptions): Promise<void> {
+  async send(events: EventData[], options?: SendOptions & EventHubProducerOptions): Promise<void> {
     try {
       if (!this.isOpen()) {
         log.sender(
@@ -431,7 +431,7 @@ export class EventHubSender extends LinkEntity {
   private _trySendBatch(
     message: AmqpMessage | Buffer,
     tag: any,
-    options?: SendOptions & EventSenderOptions,
+    options?: SendOptions & EventHubProducerOptions,
     format?: number
   ): Promise<void> {
     if (!options) {
@@ -451,7 +451,7 @@ export class EventHubSender extends LinkEntity {
 
         if (abortSignal && abortSignal.aborted) {
           // operation has been cancelled, so exit quickly
-          rejectOnAbort();
+          return rejectOnAbort();
         }
 
         let waitTimer: any;

@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
-import { EventHubClient } from "../src";
+import { EventHubClient, EventPosition } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
@@ -42,7 +42,7 @@ describe("EventHub Client with iothub connection string ", function(): void {
 
   it("should be able to receive messages from the event hub", async function(): Promise<void> {
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
-    const receiver = client.createReceiver("0");
+    const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
     const datas = await receiver.receiveBatch(15, 10);
     debug(">>>> Received events from partition %s, %O", "0", datas);
   });

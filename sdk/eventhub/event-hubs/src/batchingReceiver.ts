@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, Receiver as RheaReceiver } from "rhea-promise";
 import {
   translate,
   Func,
@@ -13,11 +13,12 @@ import {
   retry
 } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
+import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as log from "./log";
+import { EventPosition } from "./eventPosition";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
@@ -36,11 +37,19 @@ export class BatchingReceiver extends EventHubReceiver {
    * @ignore
    * @constructor
    * @param {ConnectionContext} context                        The connection context.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {EventReceiverOptions} [options]                         Options for how you'd like to connect.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
+   * @param {EventHubConsumerOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
-    super(context, partitionId, options);
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
+    super(context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**
@@ -66,12 +75,10 @@ export class BatchingReceiver extends EventHubReceiver {
     }
 
     this.isReceivingMessages = true;
-
     const eventDatas: ReceivedEventData[] = [];
-    let timeOver = false;
 
     const receiveEventPromise = () =>
-      new Promise<ReceivedEventData[]>((resolve, reject) => {
+      new Promise<ReceivedEventData[]>(async (resolve, reject) => {
         let onReceiveMessage: OnAmqpEvent;
         let onReceiveError: OnAmqpEvent;
         let onReceiveClose: OnAmqpEvent;
@@ -79,27 +86,46 @@ export class BatchingReceiver extends EventHubReceiver {
         let onSessionClose: OnAmqpEvent;
         let waitTimer: any;
         let actionAfterWaitTimeout: Func<void, void>;
-        // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-        const finalAction = (timeOver: boolean) => {
+
+        const rejectOnAbort = () => {
+          const desc: string =
+            `[${this._context.connectionId}] The request operation on the Receiver "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          log.error(desc);
+          reject(new AbortError("The receive operation has been cancelled by the user."));
+        };
+
+        // operation has been cancelled, so exit quickly
+        if (abortSignal && abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+
+        const cleanUpBeforeReturn = (rheaReceiver?: RheaReceiver) => {
+          if (!rheaReceiver) {
+            rheaReceiver = this._receiver;
+          }
           if (this._abortSignal) {
             this._abortSignal.removeEventListener("abort", this._onAbort);
           }
           // Resetting the mode. Now anyone can call start() or receive() again.
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          if (rheaReceiver) {
+            rheaReceiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+            rheaReceiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+            rheaReceiver.session.removeListener(SessionEvents.sessionError, onSessionError);
           }
 
           this.isReceivingMessages = false;
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
+          clearTimeout(waitTimer);
+        };
+
+        // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
+        const finalAction = () => {
+          cleanUpBeforeReturn();
           resolve(eventDatas);
         };
 
         // Action to be performed after the max wait time is over.
         actionAfterWaitTimeout = () => {
-          timeOver = true;
           log.batching(
             "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
             this._context.connectionId,
@@ -107,7 +133,7 @@ export class BatchingReceiver extends EventHubReceiver {
             eventDatas.length,
             maxWaitTimeInSeconds
           );
-          return finalAction(timeOver);
+          return finalAction();
         };
 
         // Action to be performed on the "message" event.
@@ -140,49 +166,25 @@ export class BatchingReceiver extends EventHubReceiver {
               eventDatas.length,
               maxWaitTimeInSeconds
             );
-            finalAction(timeOver);
+            finalAction();
           }
         };
 
-        this._onAbort = () => {
-          this.isReceivingMessages = false;
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
-          }
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
-          const desc: string =
-            `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
-            `address "${this.address}" has been cancelled by the user.`;
-          log.error(desc);
-          throw new AbortError("The receive operation has been cancelled by the user.");
+        const onAbort = async () => {
+          cleanUpBeforeReturn();
+          await this.close();
+          rejectOnAbort();
         };
 
         // Action to be taken when an error is received.
         onReceiveError = (context: EventContext) => {
-          const receiver = this._receiver || context.receiver!;
-          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+          cleanUpBeforeReturn(this._receiver || context.receiver!);
 
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
-
-          this.isReceivingMessages = false;
           const receiverError = context.receiver && context.receiver.error;
           let error = new MessagingError("An error occuured while receiving messages.");
           if (receiverError) {
             error = translate(receiverError);
             log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
           }
           reject(error);
         };
@@ -277,14 +279,8 @@ export class BatchingReceiver extends EventHubReceiver {
         };
 
         onSessionError = (context: EventContext) => {
-          const receiver = this._receiver || context.receiver!;
-          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
-          this.isReceivingMessages = false;
+          cleanUpBeforeReturn(this._receiver || context.receiver!);
+
           const sessionError = context.session && context.session.error;
           let error = new MessagingError("An error occuured while receiving messages.");
           if (sessionError) {
@@ -295,9 +291,6 @@ export class BatchingReceiver extends EventHubReceiver {
               this.name,
               error
             );
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
           }
           reject(error);
         };
@@ -316,11 +309,6 @@ export class BatchingReceiver extends EventHubReceiver {
           waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
         };
 
-        if (abortSignal) {
-          this._abortSignal = abortSignal;
-          this._abortSignal.addEventListener("abort", this._onAbort);
-        }
-
         if (!this.isOpen()) {
           log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
           this.prefetchCount = 0;
@@ -331,14 +319,33 @@ export class BatchingReceiver extends EventHubReceiver {
             onSessionError: onSessionError,
             onSessionClose: onSessionClose
           });
-          this._init(rcvrOptions)
-            .then(() => addCreditAndSetTimer())
-            .catch(reject);
+
+          try {
+            await this._init(rcvrOptions);
+            if (abortSignal && abortSignal.aborted) {
+              // exit early if operation was cancelled while initializing connection
+              cleanUpBeforeReturn();
+              await this.close();
+              return rejectOnAbort();
+            }
+            addCreditAndSetTimer();
+          } catch (err) {
+            // remove listeners if a connection could not be established
+            cleanUpBeforeReturn();
+            return reject(err);
+          }
         } else {
           addCreditAndSetTimer(true);
           this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
           this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
           this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
+        }
+
+        // only attach abort event listener after the receiver has been initialized
+        // otherwise `close()` can be called during an intermediate state.
+        if (abortSignal) {
+          this._abortSignal = abortSignal;
+          this._abortSignal.addEventListener("abort", onAbort);
         }
       });
 
@@ -367,15 +374,19 @@ export class BatchingReceiver extends EventHubReceiver {
    * @static
    * @ignore
    * @param {ConnectionContext} context    The connection context.
+   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {EventReceiverOptions} [options]     Receive options.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
+   * @param {EventHubConsumerOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string | number,
-    options?: EventReceiverOptions
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
   ): BatchingReceiver {
-    const bReceiver = new BatchingReceiver(context, partitionId, options);
+    const bReceiver = new BatchingReceiver(context, consumerGroup, partitionId, eventPosition, options);
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }

@@ -3,11 +3,12 @@
 
 import { Constants } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
-import { EventReceiverOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { EventPosition } from "./eventPosition";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is
@@ -94,11 +95,19 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @constructor
    * @param {EventHubClient} client          The EventHub client.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string} partitionId             Partition ID from which to receive.
-   * @param {EventReceiverOptions} [options]       Options for how you'd like to connect.
+   * @param {EventPosition} eventPosition    The event position in the partition at
+   * @param {EventHubConsumerOptions} [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
-    super(context, partitionId, options);
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
+    super(context, consumerGroup, partitionId, eventPosition, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
 
@@ -113,13 +122,25 @@ export class StreamingReceiver extends EventHubReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
     if (abortSignal) {
+      // exit early if operation already cancelled
+      if (abortSignal.aborted) {
+        this._onAbort();
+        return this.receiveHandler;
+      }
+
       this._abortSignal = abortSignal;
       this._abortSignal.addEventListener("abort", this._onAbort);
     }
     if (!this.isOpen()) {
-      this._init().catch(err => {
-        this._onError!(err);
-      });
+      this._init()
+        .then(() => {
+          if (abortSignal && abortSignal.aborted) {
+            return this._onAbort();
+          }
+        })
+        .catch(err => {
+          this._onError!(err);
+        });
     } else {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
@@ -148,15 +169,19 @@ export class StreamingReceiver extends EventHubReceiver {
    * @static
    * @ignore
    * @param {ConnectionContext} context    The connection context.
+   * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
    * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {EventReceiverOptions} [options]     Receive options.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
+   * @param {EventHubConsumerOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
+    consumerGroup: string,
     partitionId: string | number,
-    options?: EventReceiverOptions
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
   ): StreamingReceiver {
-    const sReceiver = new StreamingReceiver(context, partitionId, options);
+    const sReceiver = new StreamingReceiver(context, consumerGroup, partitionId, eventPosition, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }

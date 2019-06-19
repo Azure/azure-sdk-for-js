@@ -13,12 +13,12 @@ import {
 } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { EventReceiverOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -98,14 +98,18 @@ export class EventHubReceiver extends LinkEntity {
    */
   runtimeInfo: ReceiverRuntimeInfo;
   /**
-   * @property {number} [epoch] The Receiver epoch.
+   * @property {number} [ownerLevel] The Receiver ownerLevel.
    */
-  epoch?: number;
+  ownerLevel?: number;
   /**
-   * @property {ReceiveOptions} [options] Optional properties that can be set while creating
-   * the EventHubReceiver.
+   * @property {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    */
-  options: EventReceiverOptions;
+  eventPosition: EventPosition;
+  /**
+   * @property {EventHubConsumerOptions} [options] Optional properties that can be set while creating
+   * the EventHubConsumer.
+   */
+  options: EventHubConsumerOptions;
   /**
    * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
@@ -193,19 +197,28 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
+   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {EventReceiverOptions} [options]                         Receiver options.
+   * @param {EventPosition} eventPosition The position in the stream from where to start receiving events.
+   * @param {EventHubConsumerOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
     super(context, {
       partitionId: partitionId,
-      name: context.config.getReceiverAddress(partitionId, options && options.consumerGroup)
+      name: context.config.getReceiverAddress(partitionId, consumerGroup)
     });
     if (!options) options = {};
-    this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
+    this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
-    this.epoch = options.exclusiveReceiverPriority;
+    this.ownerLevel = options.ownerLevel;
+    this.eventPosition = eventPosition;
     this.options = options;
     this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
@@ -243,7 +256,7 @@ export class EventHubReceiver extends LinkEntity {
         `address "${this.address}" has been cancelled by the user.`;
       log.error(desc);
       await this.close();
-      this._onError!(new Error(desc));
+      this._onError!(new AbortError("The receive operation has been cancelled by the user."));
     };
 
     this._onAmqpError = (context: EventContext) => {
@@ -633,14 +646,14 @@ export class EventHubReceiver extends LinkEntity {
       onSessionError: options.onSessionError || this._onSessionError,
       onSessionClose: options.onSessionClose || this._onSessionClose
     };
-    if (this.epoch !== undefined && this.epoch !== null) {
+    if (this.ownerLevel !== undefined && this.ownerLevel !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
-      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);
+      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.ownerLevel);
     }
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
-    const eventPosition = options.eventPosition || this.options.beginReceivingAt;
+    const eventPosition = options.eventPosition || this.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
       const filterClause = getEventPositionFilter(eventPosition);

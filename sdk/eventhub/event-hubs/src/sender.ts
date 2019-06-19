@@ -3,18 +3,18 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventSenderOptions, SendOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * The Sender class can be used to send messages.
- * Use the `createSender` function on the EventHubClient to instantiate a Sender.
+ * Use the `createProducer` function on the EventHubClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
-export class EventSender {
+export class EventHubProducer {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -24,7 +24,7 @@ export class EventSender {
    */
   private _isClosed: boolean = false;
 
-  private _senderOptions: EventSenderOptions;
+  private _senderOptions: EventHubProducerOptions;
 
   private _eventHubSender: EventHubSender;
 
@@ -39,7 +39,7 @@ export class EventSender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, options?: EventSenderOptions) {
+  constructor(context: ConnectionContext, options?: EventHubProducerOptions) {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =
@@ -68,7 +68,7 @@ export class EventSender {
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
-   * Use the `createSender` function on the EventHubClient to instantiate a new Sender
+   * Use the `createProducer` function on the EventHubClient to instantiate a new Sender
    *
    * @returns {Promise<void>}
    */
@@ -94,7 +94,7 @@ export class EventSender {
     if (this.isClosed) {
       const errorMessage =
         `The sender for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
-        `Please create a new sender using the "createSender" function on the EventHubClient.`;
+        `Please create a new sender using the "createProducer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
