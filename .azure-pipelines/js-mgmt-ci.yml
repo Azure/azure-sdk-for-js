@@ -48,6 +48,12 @@ jobs:
           verbose: false
           customCommand: 'run build --logging-level=trace'
 
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: drop'
+        inputs:
+          Contents: '*.tgz'
+          TargetFolder: drop
+
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: $(Build.SourcesDirectory)/drop
