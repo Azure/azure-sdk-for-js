@@ -89,7 +89,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe.only("with EventPosition specified as", function(): void {
+  describe("with EventPosition specified as", function(): void {
     // it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
     //   const partitionId = partitionIds[0];
     //   debug("Creating new receiver with offset EndOfStream");
