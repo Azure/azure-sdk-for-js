@@ -33,7 +33,7 @@ export interface EventIteratorOptions {
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
-export class EventHubConsumer  {
+export class EventHubConsumer {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -154,6 +154,9 @@ export class EventHubConsumer  {
     const maxWaitTimeInSeconds = 60;
     while (true) {
       const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.abortSignal);
+      if (!currentBatch || !currentBatch.length) {
+        continue;
+      }
       yield currentBatch[0];
     }
   }

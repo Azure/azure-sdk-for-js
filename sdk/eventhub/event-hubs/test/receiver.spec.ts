@@ -616,6 +616,35 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
     });
 
+    it("should not return undefined if no messages are found", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(Date.now())
+      );
+      const eventIterator = receiver.getEventIterator({
+        // behind the scenes, eventIterator will wait up to 60 seconds before returning.
+        // set timeout to 70 seconds to give the iterator a chance to yield a value.
+        abortSignal: AbortController.timeout(70000)
+      });
+
+      const data: ReceivedEventData[] = [];
+      try {
+        for await (const event of eventIterator) {
+          data.push(event);
+          break;
+        }
+        // no events should have been received, so fail quickly if one was
+        throw new Error(`Test failure`);
+      } catch (err) {
+        data.length.should.equal(0);
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
     it("should support being cancelled", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
