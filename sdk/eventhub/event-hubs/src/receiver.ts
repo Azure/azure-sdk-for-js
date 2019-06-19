@@ -84,11 +84,11 @@ export class EventReceiver {
   }
 
   /**
-   * @property {number} [epoch] The epoch value of the underlying receiver, if present.
+   * @property {number} [ownerLevel] The ownerLevel value of the underlying receiver, if present.
    * @readonly
    */
-  get exclusiveReceiverPriority(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.exclusiveReceiverPriority;
+  get ownerLevel(): number | undefined {
+    return this._receiverOptions && this._receiverOptions.ownerLevel;
   }
 
   /**

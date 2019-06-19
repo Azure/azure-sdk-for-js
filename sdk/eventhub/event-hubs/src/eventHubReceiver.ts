@@ -98,9 +98,9 @@ export class EventHubReceiver extends LinkEntity {
    */
   runtimeInfo: ReceiverRuntimeInfo;
   /**
-   * @property {number} [epoch] The Receiver epoch.
+   * @property {number} [ownerLevel] The Receiver ownerLevel.
    */
-  epoch?: number;
+  ownerLevel?: number;
   /**
    * @property {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    */
@@ -201,7 +201,13 @@ export class EventHubReceiver extends LinkEntity {
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {EventReceiverOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, consumerGroup: string, partitionId: string | number, eventPosition: EventPosition, options?: EventReceiverOptions) {
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ) {
     super(context, {
       partitionId: partitionId,
       name: context.config.getReceiverAddress(partitionId, consumerGroup)
@@ -210,7 +216,7 @@ export class EventHubReceiver extends LinkEntity {
     this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
-    this.epoch = options.exclusiveReceiverPriority;
+    this.ownerLevel = options.ownerLevel;
     this.eventPosition = eventPosition;
     this.options = options;
     this.receiverRuntimeMetricEnabled = false;
@@ -639,9 +645,9 @@ export class EventHubReceiver extends LinkEntity {
       onSessionError: options.onSessionError || this._onSessionError,
       onSessionClose: options.onSessionClose || this._onSessionClose
     };
-    if (this.epoch !== undefined && this.epoch !== null) {
+    if (this.ownerLevel !== undefined && this.ownerLevel !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
-      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);
+      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.ownerLevel);
     }
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;

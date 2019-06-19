@@ -90,7 +90,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
       };
       receiver = client.createReceiver(defaultConsumerGroup, partitionIds[0], EventPosition.fromOffset("0"), {
-        exclusiveReceiverPriority: 1
+        ownerLevel: 1
       });
       rcvHandler = receiver.receive(onMsg, onError);
     });
@@ -734,35 +734,35 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   //   });
   // });
 
-  describe("with epoch", function(): void {
-    it("should behave correctly when a receiver with lower epoch value is connected after a receiver with higher epoch value to a partition in a consumer group", function(done: Mocha.Done): void {
+  describe("with ownerLevel", function(): void {
+    it("should behave correctly when a receiver with lower ownerLevel value is connected after a receiver with higher ownerLevel value to a partition in a consumer group", function(done: Mocha.Done): void {
       const partitionId = partitionIds[0];
-      let epochRcvr1: ReceiveHandler;
-      let epochRcvr2: ReceiveHandler;
+      let ownerLevelRcvr1: ReceiveHandler;
+      let ownerLevelRcvr2: ReceiveHandler;
       const onError = (error: MessagingError | Error) => {
-        debug(">>>> epoch Receiver 1", error);
-        throw new Error("An Error should not have happened for epoch receiver with epoch value 2.");
+        debug(">>>> ownerLevel Receiver 1", error);
+        throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 2.");
       };
       const onMsg = (data: ReceivedEventData) => {
-        debug(">>>> epoch Receiver 1", data);
+        debug(">>>> ownerLevel Receiver 1", data);
       };
       const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        exclusiveReceiverPriority: 2
+        ownerLevel: 2
       });
-      epochRcvr1 = receiver1.receive(onMsg, onError);
-      debug("Created epoch receiver 1 %s", epochRcvr1);
+      ownerLevelRcvr1 = receiver1.receive(onMsg, onError);
+      debug("Created ownerLevel receiver 1 %s", ownerLevelRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
-          debug(">>>> epoch Receiver 2", error);
+          debug(">>>> ownerLevel Receiver 2", error);
           should.exist(error);
           should.equal(error.name, "ReceiverDisconnectedError");
-          epochRcvr2
+          ownerLevelRcvr2
             .stop()
             .then(() => receiver2.close())
-            .then(() => epochRcvr1.stop())
+            .then(() => ownerLevelRcvr1.stop())
             .then(() => receiver1.close())
             .then(() => {
-              debug("Successfully closed the epoch receivers 1 and 2.");
+              debug("Successfully closed the ownerLevel receivers 1 and 2.");
               done();
             })
             .catch(err => {
@@ -771,32 +771,32 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             });
         };
         const onMsg2 = (data: ReceivedEventData) => {
-          debug(">>>> epoch Receiver 2", data);
+          debug(">>>> ownerLevel Receiver 2", data);
         };
         const receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-          exclusiveReceiverPriority: 1
+          ownerLevel: 1
         });
-        epochRcvr2 = receiver2.receive(onMsg2, onError2);
-        debug("Created epoch receiver 2 %s", epochRcvr2);
+        ownerLevelRcvr2 = receiver2.receive(onMsg2, onError2);
+        debug("Created ownerLevel receiver 2 %s", ownerLevelRcvr2);
       }, 3000);
     });
 
-    it("should behave correctly when a receiver with higher epoch value is connected after a receiver with lower epoch value to a partition in a consumer group", function(done: Mocha.Done): void {
+    it("should behave correctly when a receiver with higher ownerLevel value is connected after a receiver with lower ownerLevel value to a partition in a consumer group", function(done: Mocha.Done): void {
       const partitionId = partitionIds[0];
-      let epochRcvr1: ReceiveHandler;
-      let epochRcvr2: ReceiveHandler;
+      let ownerLevelRcvr1: ReceiveHandler;
+      let ownerLevelRcvr2: ReceiveHandler;
       let receiver2: EventReceiver;
       const onError = (error: MessagingError | Error) => {
-        debug(">>>> epoch Receiver 1", error);
+        debug(">>>> ownerLevel Receiver 1", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
-        epochRcvr1
+        ownerLevelRcvr1
           .stop()
           .then(() => receiver1.close())
-          .then(() => epochRcvr2.stop())
+          .then(() => ownerLevelRcvr2.stop())
           .then(() => receiver2.close())
           .then(() => {
-            debug("Successfully closed the epoch receivers 1 and 2.");
+            debug("Successfully closed the ownerLevel receivers 1 and 2.");
             done();
           })
           .catch(err => {
@@ -805,56 +805,56 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           });
       };
       const onMsg = (data: ReceivedEventData) => {
-        debug(">>>> epoch Receiver 1", data);
+        debug(">>>> ownerLevel Receiver 1", data);
       };
       const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        exclusiveReceiverPriority: 1
+        ownerLevel: 1
       });
-      epochRcvr1 = receiver1.receive(onMsg, onError);
-      debug("Created epoch receiver 1 %s", epochRcvr1);
+      ownerLevelRcvr1 = receiver1.receive(onMsg, onError);
+      debug("Created ownerLevel receiver 1 %s", ownerLevelRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
-          debug(">>>> epoch Receiver 2", error);
-          throw new Error("An Error should not have happened for epoch receiver with epoch value 2.");
+          debug(">>>> ownerLevel Receiver 2", error);
+          throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 2.");
         };
         const onMsg2 = (data: ReceivedEventData) => {
-          debug(">>>> epoch Receiver 2", data);
+          debug(">>>> ownerLevel Receiver 2", data);
         };
-        const receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-          exclusiveReceiverPriority: 2
+        receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
+          ownerLevel: 2
         });
-        epochRcvr2 = receiver2.receive(onMsg2, onError2);
-        debug("Created epoch receiver 2 %s", epochRcvr2);
+        ownerLevelRcvr2 = receiver2.receive(onMsg2, onError2);
+        debug("Created ownerLevel receiver 2 %s", ownerLevelRcvr2);
       }, 3000);
     });
 
-    it("should behave correctly when a non epoch receiver is created after an epoch receiver", function(done: Mocha.Done): void {
+    it("should behave correctly when a non ownerLevel receiver is created after an ownerLevel receiver", function(done: Mocha.Done): void {
       const partitionId = partitionIds[0];
-      let epochRcvr: ReceiveHandler;
-      let nonEpochRcvr: ReceiveHandler;
+      let ownerLevelRcvr: ReceiveHandler;
+      let nonownerLevelRcvr: ReceiveHandler;
       const onerr1 = (error: MessagingError | Error) => {
-        debug(">>>> epoch Receiver ", error);
-        throw new Error("An Error should not have happened for epoch receiver with epoch value 1.");
+        debug(">>>> ownerLevel Receiver ", error);
+        throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 1.");
       };
       const onmsg1 = (data: ReceivedEventData) => {
-        debug(">>>> epoch Receiver ", data);
+        debug(">>>> ownerLevel Receiver ", data);
       };
       const receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-        exclusiveReceiverPriority: 1
+        ownerLevel: 1
       });
-      epochRcvr = receiver1.receive(onmsg1, onerr1);
-      debug("Created epoch receiver %s", epochRcvr);
+      ownerLevelRcvr = receiver1.receive(onmsg1, onerr1);
+      debug("Created ownerLevel receiver %s", ownerLevelRcvr);
       const onerr2 = (error: MessagingError | Error) => {
-        debug(">>>> non epoch Receiver", error);
+        debug(">>>> non ownerLevel Receiver", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
-        nonEpochRcvr
+        nonownerLevelRcvr
           .stop()
           .then(() => receiver2.close())
-          .then(() => epochRcvr.stop())
+          .then(() => ownerLevelRcvr.stop())
           .then(() => receiver1.close())
           .then(() => {
-            debug("Successfully closed the nonEpoch and epoch receivers");
+            debug("Successfully closed the nonownerLevel and ownerLevel receivers");
             done();
           })
           .catch(err => {
@@ -863,30 +863,30 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           });
       };
       const onmsg2 = (data: ReceivedEventData) => {
-        debug(">>>> non epoch Receiver", data);
+        debug(">>>> non ownerLevel Receiver", data);
       };
       const receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest());
-      nonEpochRcvr = receiver2.receive(onmsg2, onerr2);
-      debug("Created non epoch receiver %s", nonEpochRcvr);
+      nonownerLevelRcvr = receiver2.receive(onmsg2, onerr2);
+      debug("Created non ownerLevel receiver %s", nonownerLevelRcvr);
     });
 
-    it("should behave correctly when an epoch receiver is created after a non epoch receiver", function(done: Mocha.Done): void {
+    it("should behave correctly when an ownerLevel receiver is created after a non ownerLevel receiver", function(done: Mocha.Done): void {
       const partitionId = partitionIds[0];
-      let epochRcvr: ReceiveHandler;
-      let nonEpochRcvr: ReceiveHandler;
+      let ownerLevelRcvr: ReceiveHandler;
+      let nonownerLevelRcvr: ReceiveHandler;
       let receiver1: EventReceiver;
       let receiver2: EventReceiver;
       const onerr3 = (error: MessagingError | Error) => {
-        debug(">>>> non epoch Receiver", error);
+        debug(">>>> non ownerLevel Receiver", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
-        nonEpochRcvr
+        nonownerLevelRcvr
           .stop()
           .then(() => receiver1.close())
-          .then(() => epochRcvr.stop())
+          .then(() => ownerLevelRcvr.stop())
           .then(() => receiver2.close())
           .then(() => {
-            debug("Successfully closed the nonEpoch and epoch receivers");
+            debug("Successfully closed the nonownerLevel and ownerLevel receivers");
             done();
           })
           .catch(err => {
@@ -895,24 +895,26 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           });
       };
       const onmsg3 = (data: ReceivedEventData) => {
-        debug(">>>> non epoch Receiver", data);
+        debug(">>>> non ownerLevel Receiver", data);
       };
       receiver1 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest());
-      nonEpochRcvr = receiver1.receive(onmsg3, onerr3);
-      debug("Created non epoch receiver %s", nonEpochRcvr);
+      nonownerLevelRcvr = receiver1.receive(onmsg3, onerr3);
+      debug("Created non ownerLevel receiver %s", nonownerLevelRcvr);
       setTimeout(() => {
         const onerr4 = (error: MessagingError | Error) => {
-          debug(">>>> epoch Receiver ", error);
-          throw new Error("OnErr4 >> An Error should not have happened for epoch receiver with epoch value 1.");
+          debug(">>>> ownerLevel Receiver ", error);
+          throw new Error(
+            "OnErr4 >> An Error should not have happened for ownerLevel receiver with ownerLevel value 1."
+          );
         };
         const onmsg4 = (data: ReceivedEventData) => {
-          debug(">>>> epoch Receiver ", data);
+          debug(">>>> ownerLevel Receiver ", data);
         };
         receiver2 = client.createReceiver(defaultConsumerGroup, partitionId, EventPosition.latest(), {
-          exclusiveReceiverPriority: 1
+          ownerLevel: 1
         });
-        epochRcvr = receiver2.receive(onmsg4, onerr4);
-        debug("Created epoch receiver %s", epochRcvr);
+        ownerLevelRcvr = receiver2.receive(onmsg4, onerr4);
+        debug("Created ownerLevel receiver %s", ownerLevelRcvr);
       }, 3000);
     });
   });

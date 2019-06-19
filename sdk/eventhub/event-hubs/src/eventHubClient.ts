@@ -96,7 +96,7 @@ export interface EventReceiverOptions {
    * If another receiver is currently active with a higher priority, then this receiver
    * will fail to connect.
    */
-  exclusiveReceiverPriority?: number;
+  ownerLevel?: number;
   /**
    * @property
    * Retry options for the receive operation on the receiver. If no value is provided here, the
