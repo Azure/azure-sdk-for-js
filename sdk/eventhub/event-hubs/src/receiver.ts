@@ -222,6 +222,10 @@ export class EventReceiver {
         abortSignal
       );
       if (result.length < maxMessageCount) {
+       // we are now re-using the same receiver link between multiple calls to receiveBatch() or the iterator on the receiver.
+       // This can result in the receiver link having pending credits if a receiveBatch() call asking for m events returned n events where n < m.
+       // Since Event Hubs doesnt support the drain feature yet, this can result in the receiver link receiving events when the user is not expecting it to.
+       // Hence closing the link when result.length < maxMessageCount
         await this._batchingReceiver.close();
       }
     } catch (err) {

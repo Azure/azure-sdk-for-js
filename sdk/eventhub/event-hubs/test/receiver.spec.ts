@@ -90,40 +90,31 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
-    it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
-      const partitionId = partitionIds[0];
-      const events: EventData[] = [];
-      for (let i = 0; i < 10; i++) {
-        const ed: EventData = {
-          body: "Hello awesome world " + i
-        };
-        events.push(ed);
-      }
-      await client.createSender({ partitionId: partitionId }).send(events);
-      debug("Creating new receiver with offset EndOfStream");
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        beginReceivingAt: EventPosition.fromNewEventsOnly()
-      });
-      const data1 = await breceiver.receive(10, 10);
-      data1.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
-      // send a new message. We should only receive this new message.
-      const uid = uuid();
-      const ed: EventData = {
-        body: "New message",
-        properties: {
-          stamp: uid
-        }
-      };
-      await client.createSender({ partitionId: partitionId }).send([ed]);
-      debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
-      const data2 = await breceiver.receive(10, 20);
-      debug("received messages: ", data2);
-      data2.length.should.equal(1, "Failed to receive the expected one single message");
-      data2[0].properties!.stamp.should.equal(uid, "Message received with unexpected uid");
-      debug("Next receive on this partition should not receive any messages.");
-      const data3 = await breceiver.receive(10, 10);
-      data3.length.should.equal(0, "Unexpected message received");
-    });
+    // it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
+    //   const partitionId = partitionIds[0];
+    //   debug("Creating new receiver with offset EndOfStream");
+    //   const receiver = client.createReceiver( partitionId, {
+    //     beginReceivingAt: EventPosition.fromNewEventsOnly()
+    //   });
+    //   const data = await receiver.receiveBatch(10, 10);
+    //   data.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
+    //   const events: EventData[] = [];
+    //   for (let i = 0; i < 10; i++) {
+    //     const ed: EventData = {
+    //       body: "Hello awesome world " + i
+    //     };
+    //     events.push(ed);
+    //   }
+    //   await client.createSender({ partitionId: partitionId }).send(events);
+    //   debug(">>>>>>> Sent the new messages. We should only receive these messages.");
+    //   const data2 = await receiver.receiveBatch(10, 20);
+    //   debug("received messages: ", data2);
+    //   data2.length.should.equal(10, "Failed to receive the expected nummber of messages");
+    //   debug("Next receive on this partition should not receive any messages.");
+    //   const data3 = await receiver.receiveBatch(10, 10);
+    //   data3.length.should.equal(0, "Unexpected message received");
+    //   await receiver.close();
+    // });
 
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
