@@ -322,4 +322,19 @@ describe("FileURL", () => {
     } catch (err) {}
     assert.ok(eventTriggered);
   });
+
+  it("listHandles should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
 });

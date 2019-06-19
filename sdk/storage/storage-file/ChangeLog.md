@@ -10,6 +10,7 @@
 * Export `RetryPolicyType`.
 * Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 * The `ShareURL.getStatistics()` now returns the approximate size in bytes with `shareUsageBytes`.
+* Added `DirectoryURL.listHandlesSegment()` and `FileURL.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 
 2018.01 Version 10.1.0
 

@@ -1,4 +1,5 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
@@ -6,7 +7,7 @@ import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryURL", () => {
@@ -177,6 +178,19 @@ describe("DirectoryURL", () => {
     }
     for (const subDir of subDirURLs) {
       await subDir.delete(Aborter.none);
+    }
+  });
+
+  it("listHandles should work", async () => {
+    const result = await dirURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
     }
   });
 });

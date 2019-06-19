@@ -39,6 +39,19 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
   maxresults?: number;
 }
 
+export interface IDirectoryListHandlesOptions {
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   */
+  maxresults?: number;
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   */
+  recursive?: boolean;
+}
+
 /**
  * A DirectoryURL represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
@@ -209,5 +222,39 @@ export class DirectoryURL extends StorageURL {
       marker,
       ...options
     });
+  }
+
+  /**
+   * Lists handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {IDirectoryListHandlesOptions} [options={}]
+   * @returns {Promise<Models.DirectoryListHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async listHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IDirectoryListHandlesOptions = {}
+  ): Promise<Models.DirectoryListHandlesResponse> {
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if (response.handleList as any === "") {
+      response.handleList = undefined;
+    }
+    return response;
   }
 }

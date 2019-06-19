@@ -140,6 +140,14 @@ export interface IFileStartCopyOptions {
   metadata?: IMetadata;
 }
 
+export interface IFileListHandlesOptions {
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   */
+  maxresults?: number;
+}
+
 /**
  * A FileURL represents a URL to an Azure Storage file.
  *
@@ -577,5 +585,39 @@ export class FileURL extends StorageURL {
     return this.context.abortCopy(copyId, {
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Lists handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {IFileListHandlesOptions} [options={}]
+   * @returns {Promise<Models.FileListHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async listHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IFileListHandlesOptions = {}
+  ): Promise<Models.FileListHandlesResponse> {
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if (response.handleList as any === "") {
+      response.handleList = undefined;
+    }
+    return response;
   }
 }
