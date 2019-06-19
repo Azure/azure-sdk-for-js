@@ -105,7 +105,7 @@ describe("Unpartitioned Queue - Lock Renewal #RunInBrowser", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 55,
       willCompleteFail: true
     });
-  }).timeout(90000);
+  }).timeout(95000);
 
   it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
@@ -174,7 +174,7 @@ describe("Partitioned Queue - Lock Renewal", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 55,
       willCompleteFail: true
     });
-  }).timeout(90000);
+  }).timeout(95000);
 
   it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
@@ -246,7 +246,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 55,
       willCompleteFail: true
     });
-  }).timeout(90000);
+  }).timeout(95000);
 
   it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
@@ -315,7 +315,7 @@ describe("Partitioned Subscription - Lock Renewal", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 55,
       willCompleteFail: true
     });
-  }).timeout(90000);
+  }).timeout(95000);
 
   it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
