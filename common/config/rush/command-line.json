@@ -127,6 +127,14 @@
       "ignoreMissingScript": true
     },
 
+    {
+      "commandKind": "bulk",
+      "name": "generate-doc",
+      "summary": "Run typedoc on projects and generate documentation",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+
     // Global Commands
     {
       "commandKind": "global",
@@ -165,7 +173,7 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": [ "sync-versions" ]
+      "associatedCommands": ["sync-versions"]
     }
   ]
 }
