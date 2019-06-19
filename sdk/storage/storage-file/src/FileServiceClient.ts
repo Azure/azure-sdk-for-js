@@ -59,6 +59,40 @@ export interface ServiceListSharesSegmentOptions {
 }
 
 /**
+ * Options to configure List Shares operation.
+ *
+ * @export
+ * @interface ServiceListSharesOptions
+ */
+export interface ServiceListSharesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListSharesOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * Filters the results to return only entries whose
+   * name begins with the specified prefix.
+   *
+   * @type {string}
+   * @memberof ServiceListSharesOptions
+   */
+  prefix?: string;
+  /**
+   * Include this parameter to
+   * specify one or more datasets to include in the response.
+   *
+   * @type {Models.ListSharesIncludeType[]}
+   * @memberof ServiceListSharesSegmentOptions
+   */
+  include?: Models.ListSharesIncludeType[];
+}
+
+/**
  * Options to configure File Service - Get Properties operation.
  *
  * @export
@@ -261,18 +295,41 @@ export class FileServiceClient extends StorageClient {
     });
   }
 
+  /**
+   * Returns an AsyncIterableIterator for ServiceListSharesSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of shares to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all shares remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
+   * @memberof FileServiceClient
+   */
   async *listSegments(
-    marker: string | undefined = undefined,
+    marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListSharesSegmentResponse> {
-    let listQueuesResponse;
+    let listSharesSegmentResponse;
     do {
-      listQueuesResponse = await this.listSharesSegment(marker, options);
-      marker = listQueuesResponse.nextMarker;
-      yield await listQueuesResponse;
+      listSharesSegmentResponse = await this.listSharesSegment(marker, options);
+      marker = listSharesSegmentResponse.nextMarker;
+      yield await listSharesSegmentResponse;
     } while (marker);
   }
 
+  /**
+   * Returns an AsyncIterableIterator for share items
+   *
+   * @private
+   * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
+   * @memberof FileServiceClient
+   */
   async *listItems(
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ShareItem> {
@@ -282,8 +339,19 @@ export class FileServiceClient extends StorageClient {
     }
   }
 
-  public async *listShares(
-    options: ServiceListSharesSegmentOptions = {}
+  /**
+   * Returns an async iterable iterator to list all the shares
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the shares in pages.
+   *
+   * @param {ServiceListSharesOptions} [options] Options to list shares operation.
+   * @memberof FileServiceClient
+   * @returns {PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse>}
+   * An asyncIterableIterator that supports paging.
+   */
+  public listShares(
+    options: ServiceListSharesOptions = {}
   ): PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse> {
     // AsyncIterableIterator to iterate over queues
     const iter = this.listItems(options);
