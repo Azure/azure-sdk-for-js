@@ -65,7 +65,9 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "dependencies": {
     "tslib": "^1.9.3"
   },

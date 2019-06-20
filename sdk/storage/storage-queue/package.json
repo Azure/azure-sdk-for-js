@@ -71,7 +71,9 @@
     "url": "https://github.com/Azure/azure-storage-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-storage-js#readme",
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3"

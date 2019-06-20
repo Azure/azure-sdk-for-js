@@ -7,7 +7,9 @@
   "license": "MIT",
   "homepage": "http://github.com/azure/azure-sdk-for-js",
   "repository": "github:Azure/azure-sdk-for-js",
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "keywords": [
     "azure",
     "cloud",

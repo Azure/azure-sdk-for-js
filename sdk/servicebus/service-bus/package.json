@@ -63,7 +63,9 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
     "@azure/ms-rest-nodeauth": "^0.9.2",

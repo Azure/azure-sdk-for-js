@@ -56,7 +56,9 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "private": true,
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",

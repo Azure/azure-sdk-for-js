@@ -63,7 +63,9 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
-  "sideEffects": false,
+  "sideEffects": [
+    "!(dist-esm/test/**/*.spec.js)"
+  ],
   "private": true,
   "dependencies": {
     "@azure/core-http": "^1.2.6",
