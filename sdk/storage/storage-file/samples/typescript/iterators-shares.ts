@@ -15,7 +15,6 @@ async function main() {
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential);
 
-  // List shares
   const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
