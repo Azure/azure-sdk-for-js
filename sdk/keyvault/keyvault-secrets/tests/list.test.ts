@@ -156,7 +156,11 @@ describe("Secret client - list secrets in various ways", () => {
   it("can list secret versions (non existing)", async () => {
     let totalVersions = 0;
     for await (const version of client.listSecretVersions(secretName)) {
-      if (!version) break;
+      assert.equal(
+        version.name,
+        secretName,
+        "Unexpected key name in result from listKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
@@ -241,7 +245,14 @@ describe("Secret client - list secrets in various ways", () => {
   it("can list secret versions (non existing)", async () => {
     let totalVersions = 0;
     for await (const page of client.listSecretVersions(secretName).byPage()) {
-      totalVersions += page.length;
+      for (const version of page) {
+        assert.equal(
+          version.name,
+          secretName,
+          "Unexpected key name in result from listKeyVersions()."
+        );
+        totalVersions += 1;
+      }
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });

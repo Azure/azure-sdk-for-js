@@ -118,7 +118,7 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key", async () => {
     let totalVersions = 0;
     for await (const version of client.listKeyVersions(keyName)) {
-      if (!version) break;
+      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
@@ -127,7 +127,14 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key (paged)", async () => {
     let totalVersions = 0;
     for await (const page of client.listKeyVersions(keyName).byPage()) {
-      totalVersions += page.length;
+      for (const version of page) {
+        assert.equal(
+          version.name,
+          keyName,
+          "Unexpected key name in result from listKeyVersions()."
+        );
+        totalVersions += 1;
+      }
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
   });
