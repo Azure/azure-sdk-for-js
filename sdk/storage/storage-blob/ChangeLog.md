@@ -1,5 +1,8 @@
 # Changelog
 
+2019.06 10.4.0
+
+* Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 * Improved comments for `BlockBlobURL.upload()`.
 * Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 * Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.

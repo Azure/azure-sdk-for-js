@@ -67,6 +67,22 @@ npm run test:browser
 
 Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.
 
+### Record & Play
+
+By default, above test commands are live testing against real Azure Storage accounts. Before running above tests, set environment value `TEST_MODE` to switch to offline mock test mode or test recording mode.
+
+Playback mode is for offline mock test, which doesn't require a storage account, it's quick but less coverage:
+
+`export TEST_MODE=playback`
+
+Record tests for next playback. Recording is necessary adding or updating test cases:
+
+`export TEST_MODE=record`
+
+Live tests by clearing `TEST_MODE` environment variable:
+
+`export TEST_MODE=`
+
 ### Testing Features
 
 As you develop a feature, you'll need to write tests to ensure quality. You should also run existing tests related to your change to address any unexpected breaks in both Node.js and Browsers.
