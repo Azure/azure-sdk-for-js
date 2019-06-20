@@ -10,23 +10,23 @@ import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp
  */
 export interface EventPositionOptions {
   /**
-   * @property [offset] The offset of the event at the position. It can be undefined
+   * @property The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
    */
   offset?: string;
   /**
-   * @property isInclusive Indicates if the current event at the specified offset is
+   * @property Indicates if the current event at the specified offset is
    * included or not. It is only applicable if offset is set. Default value: false.
    */
   isInclusive?: boolean;
   /**
-   * @property [enqueuedTime] The enqueued time of the event at the position. It can be undefined
+   * @property The enqueued time of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an offset.
    */
   enqueuedTime?: Date | number;
 
   /**
-   * @property [sequenceNumber] The sequence number of the event at the position. It can be undefined
+   * @property The sequence number of the event at the position. It can be undefined
    * if the position is just created from an enqueued time or an offset.
    */
   sequenceNumber?: number;
@@ -39,38 +39,36 @@ export interface EventPositionOptions {
  */
 export class EventPosition {
   /**
-   * @property startOfStream The offset from which events would be received: `"-1"`.
-   *
+   * @property The offset from which events would be received: `"-1"`.
    * @static
    * @readonly
    */
   private static readonly startOfStream: string = "-1";
 
   /**
-   * @property endOfStream The offset from which events would be received: `"@latest"`.
-   *
+   * @property The offset from which events would be received: `"@latest"`.
    * @static
    * @readonly
    */
   private static readonly endOfStream: string = "@latest";
   /**
-   * @property [offset] The offset of the event at the position. It can be undefined
+   * @property The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
    */
   offset?: string;
   /**
-   * @property isInclusive Indicates if the current event at the specified offset is
+   * @property Indicates if the current event at the specified offset is
    * included or not. It is only applicable if offset is set. Default value: false.
    */
   isInclusive: boolean = false;
   /**
-   * @property [enqueuedTime] The enqueued time of the event at the position. It can be undefined
+   * @property The enqueued time of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an offset.
    */
   enqueuedTime?: Date | number;
 
   /**
-   * @property [sequenceNumber] The sequence number of the event at the position. It can be undefined
+   * @property The sequence number of the event at the position. It can be undefined
    * if the position is just created from an enqueued time or an offset.
    */
   sequenceNumber?: number;

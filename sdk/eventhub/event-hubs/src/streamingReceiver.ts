@@ -11,8 +11,8 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventPosition } from "./eventPosition";
 
 /**
- * Describes the receive handler object that is returned from the receive() method with handlers is
- * called. The ReceiveHandler is used to stop receiving more messages.
+ * Describes the receive handler object that is returned from the receive() method with handlers.
+ * The ReceiveHandler is used to stop receiving more messages.
  * @class ReceiveHandler
  */
 export class ReceiveHandler {
@@ -33,8 +33,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property [partitionId] The partitionId from which the handler is receiving
-   * events from.
+   * @property The partitionId from which the handler is receiving events.
    * @readonly
    */
   get partitionId(): string | undefined {
@@ -42,8 +41,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property [consumerGroup] The consumer group from which the handler is receiving
-   * events from.
+   * @property The consumer group from which the handler is receiving events.
    * @readonly
    */
   get consumerGroup(): string | undefined {
@@ -51,7 +49,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property isReceiverOpen Indicates whether the receiver is connected/open.
+   * @property Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly
    */
@@ -62,6 +60,7 @@ export class ReceiveHandler {
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
     if (this._receiver) {

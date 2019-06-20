@@ -10,51 +10,51 @@ import * as log from "./log";
 import { RetryOptions } from "./eventHubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 /**
- * Describes the runtime information of an EventHub.
+ * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
  */
 export interface EventHubProperties {
   /**
-   * @property path - The name of the event hub.
+   * @property The name of the event hub.
    */
   path: string;
   /**
-   * @property createdAt - The date and time the hub was created in UTC.
+   * @property The date and time the hub was created in UTC.
    */
   createdAt: Date;
   /**
-   * @property partitionIds - The slice of string partition identifiers.
+   * @property The slice of string partition identifiers.
    */
   partitionIds: string[];
 }
 
 /**
  * Describes the runtime information of an EventHub Partition.
- * @interface PartitionInformation
+ * @interface PartitionProperties
  */
 export interface PartitionProperties {
   /**
-   * @property hubPath - The name of the eventhub.
+   * @property The name of the Event Hub.
    */
   eventHubPath: string;
   /**
-   * @property partitionId - Identifier of the partition within the eventhub.
+   * @property Identifier of the partition within the Event Hub.
    */
   partitionId: string;
   /**
-   * @property beginningSequenceNumber - The starting sequence number of the partition's message log.
+   * @property The starting sequence number of the partition's message log.
    */
   beginningSequenceNumber: number;
   /**
-   * @property lastSequenceNumber - The last sequence number of the partition's message log.
+   * @property The last sequence number of the partition's message log.
    */
   lastEnqueuedSequenceNumber: number;
   /**
-   * @property lastEnqueuedOffset - The offset of the last enqueued message in the partition's message log.
+   * @property The offset of the last enqueued message in the partition's message log.
    */
   lastEnqueuedOffset: string;
   /**
-   * @property lastEnqueuedTimeUtc - The time of the last enqueued message in the partition's message log in UTC.
+   * @property The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedTimeUtc: Date;
 }

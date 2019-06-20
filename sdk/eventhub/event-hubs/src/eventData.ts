@@ -173,16 +173,16 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 }
 
 /**
- * Describes the structure of an event to be sent to Event Hub
+ * Describes the structure of an event to be sent to Event Hub.
  * @interface
  */
 export interface EventData {
   /**
-   * @property body - The message body that needs to be sent or is received.
+   * @property The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property [properties] The application specific properties.
+   * @property The application specific properties.
    */
   properties?: {
     [key: string]: any;
@@ -198,26 +198,26 @@ export interface ReceivedEventData {
    */
   body: any;
   /**
-   * @property [properties] The application specific properties.
+   * @property The application specific properties.
    */
   properties?: {
     [key: string]: any;
   };
   /**
-   * @property [enqueuedTimeUtc] The enqueued time of the event.
+   * @property The enqueued time of the event.
    */
   enqueuedTimeUtc: Date;
   /**
-   * @property [partitionKey] If specified EventHub will hash this to a partitionId.
+   * @property When specified Event Hub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   partitionKey: string | null;
   /**
-   * @property [offset] The offset of the event.
+   * @property The offset of the event.
    */
   offset: string;
   /**
-   * @property [sequenceNumber] The sequence number of the event.
+   * @property The sequence number of the event.
    */
   sequenceNumber: number;
 }
