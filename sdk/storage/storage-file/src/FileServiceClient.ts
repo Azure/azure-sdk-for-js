@@ -345,6 +345,57 @@ export class FileServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the shares in pages.
    *
+   * @example
+   *   let i = 1;
+   *   for await (const share of serviceClient.listShares()) {
+   *     console.log(`Share ${i++}: ${share.name}`);
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   let iter = await serviceClient.listShares();
+   *   let shareItem = await iter.next();
+   *   while (!shareItem.done) {
+   *     console.log(`Share ${i++}: ${shareItem.value.name}`);
+   *     shareItem = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
+   *     if (response.shareItems) {
+   *       for (const share of response.shareItems) {
+   *         console.log(`Share ${i++}: ${share.name}`);
+   *       }
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 2 share names
+   *   if (response.shareItems) {
+   *     for (const share of response.shareItems) {
+   *       console.log(`Share ${i++}: ${share.name}`);
+   *     }
+   *   }
+   *   // Gets next marker
+   *   let marker = response.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 share names
+   *   if (response.shareItems) {
+   *     for (const share of response.shareItems) {
+   *       console.log(`Share ${i++}: ${share.name}`);
+   *     }
+   *   }
+   *
    * @param {ServiceListSharesOptions} [options] Options to list shares operation.
    * @memberof FileServiceClient
    * @returns {PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse>}

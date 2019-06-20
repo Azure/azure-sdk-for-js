@@ -471,6 +471,72 @@ export class DirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
+   * @example
+   *   let i = 1;
+   *   for await (const entity of directoryClient.listFilesAndDirectories()) {
+   *     if (entity.kind === "directory") {
+   *       console.log(`${i++} - directory\t: ${entity.name}`);
+   *     } else {
+   *       console.log(`${i++} - file\t: ${entity.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   let iter = await directoryClient.listFilesAndDirectories();
+   *   let entity = await iter.next();
+   *   while (!entity.done) {
+   *     if (entity.value.kind === "directory") {
+   *       console.log(`${i++} - directory\t: ${entity.value.name}`);
+   *     } else {
+   *       console.log(`${i++} - file\t: ${entity.value.name}`);
+   *     }
+   *     entity = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of directoryClient
+   *     .listFilesAndDirectories()
+   *     .byPage({ maxPageSize: 20 })) {
+   *     for (const fileItem of response.segment.fileItems) {
+   *       console.log(`${i++} - file\t: ${fileItem.name}`);
+   *     }
+   *     for (const dirItem of response.segment.directoryItems) {
+   *       console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 3 file and directory names
+   *   for (const fileItem of response.segment.fileItems) {
+   *     console.log(`${i++} - file\t: ${fileItem.name}`);
+   *   }
+   *   for (const dirItem of response.segment.directoryItems) {
+   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *   }
+   *   // Gets next marker
+   *   let dirMarker = response.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   iterator = directoryClient
+   *     .listFilesAndDirectories()
+   *     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 file and directory names
+   *   for (const fileItem of response.segment.fileItems) {
+   *     console.log(`${i++} - file\t: ${fileItem.name}`);
+   *   }
+   *   for (const dirItem of response.segment.directoryItems) {
+   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *   }
+   *
    * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
    * @memberof DirectoryClient
    * @returns {PagedAsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } , Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
