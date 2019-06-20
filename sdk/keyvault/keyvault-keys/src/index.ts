@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/member-ordering: 0 */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -85,163 +86,90 @@ export { ProxyOptions, TelemetryOptions, RetryOptions };
  * The client to interact with the KeyVault keys functionality
  */
 export class KeysClient {
-  private getKeyFromKeyBundle(keyBundle: KeyBundle): Key {
-    const parsedId = parseKeyvaultEntityIdentifier(
-      "keys",
-      keyBundle.key ? keyBundle.key.kid : undefined
-    );
+  /**
+   * A static method used to create a new Pipeline object with the provided Credential.
+   *
+   * @static
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @returns {Pipeline} A new Pipeline object.
+   * @memberof KeysClient
+   */
+  public static getDefaultPipeline(
+    credential: ServiceClientCredentials | TokenCredential,
+    pipelineOptions: NewPipelineOptions = {}
+  ): Pipeline {
+    // Order is important. Closer to the API at the top & closer to the network at the bottom.
+    // The credential's policy factory must appear close to the wire so it can sign any
+    // changes made by other factories (like UniqueRequestIDPolicyFactory)
+    const retryOptions = pipelineOptions.retryOptions || {};
 
-    let resultObject;
-    if (keyBundle.attributes) {
-      resultObject = {
-        keyMaterial: keyBundle.key,
-        ...keyBundle,
-        ...parsedId,
-        ...keyBundle.attributes
-      };
-      delete resultObject.attributes;
+    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
+
+    const requestPolicyFactories: RequestPolicyFactory[] = [
+      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+      userAgentPolicy({ value: userAgentString }),
+      generateClientRequestIdPolicy(),
+      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+      throttlingRetryPolicy(),
+      systemErrorRetryPolicy(),
+      exponentialRetryPolicy(
+        retryOptions.retryCount,
+        retryOptions.retryIntervalInMS,
+        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
+        retryOptions.maxRetryDelayInMs
+      ),
+      redirectPolicy(),
+      isTokenCredential(credential)
+        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        : signingPolicy(credential)
+    ];
+
+    return {
+      httpClient: pipelineOptions.HTTPClient,
+      httpPipelineLogger: pipelineOptions.logger,
+      requestPolicyFactories
+    };
+  }
+
+  /**
+   * The base URL to the vault
+   */
+  public readonly vaultBaseUrl: string;
+
+  /**
+   * The options to create the connection to the service
+   */
+  public readonly pipeline: Pipeline;
+
+  /**
+   * The authentication credentials
+   */
+  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  private readonly client: KeyVaultClient;
+
+  /**
+   * Creates an instance of KeysClient.
+   * @param {string} url the base url to the key vault.
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                                 Omitting this parameter to create the default Pipeline instance.
+   * @memberof KeysClient
+   */
+  constructor(
+    url: string,
+    credential: ServiceClientCredentials | TokenCredential,
+    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
+  ) {
+    this.vaultBaseUrl = url;
+    this.credential = credential;
+    if (isNewPipelineOptions(pipelineOrOptions)) {
+      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
-      resultObject = {
-        keyMaterial: keyBundle.key,
-        ...keyBundle,
-        ...parsedId
-      };
+      this.pipeline = pipelineOrOptions;
     }
 
-    return resultObject;
-  }
-
-  private getKeyAttributesFromKeyItem(keyItem: KeyItem): KeyAttributes {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
-
-    let resultObject;
-    if (keyItem.attributes) {
-      resultObject = {
-        ...keyItem,
-        ...parsedId,
-        ...keyItem.attributes
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...keyItem,
-        ...parsedId
-      };
-    }
-
-    return resultObject;
-  }
-
-  private async *listKeyVersionsPage(
-    name: string,
-    continuationState: PageSettings,
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      };
-      const currentSetResponse = await this.client.getKeyVersions(
-        this.vaultBaseUrl,
-        name,
-        optionsComplete
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeyVersionsNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-  }
-
-  private async *listKeyVersionsAll(
-    name: string,
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes> {
-    const f = {};
-
-    for await (const page of this.listKeyVersionsPage(name, f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
-  }
-
-  private async *listKeysPage(
-    continuationState: PageSettings,
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      };
-      const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeysNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-  }
-
-  private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
-    const f = {};
-
-    for await (const page of this.listKeysPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
-  }
-
-  private async *listDeletedKeysPage(
-    continuationState: PageSettings,
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      };
-      const currentSetResponse = await this.client.getDeletedKeys(
-        this.vaultBaseUrl,
-        optionsComplete
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedKeysNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
-  }
-
-  private async *listDeletedKeysAll(
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes> {
-    const f = {};
-
-    for await (const page of this.listDeletedKeysPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -261,6 +189,8 @@ export class KeysClient {
     }
     return userAgentInfo.join(" ");
   }
+
+  // TODO: do we want Aborter as well?
 
   /**
    * The create key operation can be used to create any key type in Azure Key Vault. If the named key
@@ -594,6 +524,47 @@ export class KeysClient {
     return this.getKeyFromKeyBundle(response);
   }
 
+  private async *listKeyVersionsPage(
+    name: string,
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getKeyVersions(
+        this.vaultBaseUrl,
+        name,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getKeyVersionsNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listKeyVersionsAll(
+    name: string,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
+    const f = {};
+
+    for await (const page of this.listKeyVersionsPage(name, f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
   /**
    * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
    * in the response. This operation requires the keys/list permission.
@@ -615,6 +586,39 @@ export class KeysClient {
       },
       byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, options)
     };
+  }
+
+  private async *listKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getKeysNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
+    const f = {};
+
+    for await (const page of this.listKeysPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
   }
 
   /**
@@ -639,6 +643,44 @@ export class KeysClient {
     };
   }
 
+  private async *listDeletedKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getDeletedKeys(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getDeletedKeysNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listDeletedKeysAll(
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
+    const f = {};
+
+    for await (const page of this.listDeletedKeysPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
   /**
    * Iterates the deleted keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
@@ -661,91 +703,50 @@ export class KeysClient {
     };
   }
 
-  /**
-   * A static method used to create a new Pipeline object with the provided Credential.
-   *
-   * @static
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
-   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
-   * @memberof KeysClient
-   */
-  public static getDefaultPipeline(
-    credential: ServiceClientCredentials | TokenCredential,
-    pipelineOptions: NewPipelineOptions = {}
-  ): Pipeline {
-    // Order is important. Closer to the API at the top & closer to the network at the bottom.
-    // The credential's policy factory must appear close to the wire so it can sign any
-    // changes made by other factories (like UniqueRequestIDPolicyFactory)
-    const retryOptions = pipelineOptions.retryOptions || {};
+  private getKeyFromKeyBundle(keyBundle: KeyBundle): Key {
+    const parsedId = parseKeyvaultEntityIdentifier(
+      "keys",
+      keyBundle.key ? keyBundle.key.kid : undefined
+    );
 
-    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
-
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
-      userAgentPolicy({ value: userAgentString }),
-      generateClientRequestIdPolicy(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      throttlingRetryPolicy(),
-      systemErrorRetryPolicy(),
-      exponentialRetryPolicy(
-        retryOptions.retryCount,
-        retryOptions.retryIntervalInMS,
-        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
-        retryOptions.maxRetryDelayInMs
-      ),
-      redirectPolicy(),
-      isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
-        : signingPolicy(credential)
-    ];
-
-    return {
-      httpClient: pipelineOptions.HTTPClient,
-      httpPipelineLogger: pipelineOptions.logger,
-      requestPolicyFactories
-    };
-  }
-
-  /**
-   * The base URL to the vault
-   */
-  public readonly vaultBaseUrl: string;
-
-  /**
-   * The options to create the connection to the service
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
-   * The authentication credentials
-   */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
-  private readonly client: KeyVaultClient;
-
-  /**
-   * Creates an instance of KeysClient.
-   * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
-   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof KeysClient
-   */
-  constructor(
-    url: string,
-    credential: ServiceClientCredentials | TokenCredential,
-    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
-  ) {
-    this.vaultBaseUrl = url;
-    this.credential = credential;
-    if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
+    let resultObject;
+    if (keyBundle.attributes) {
+      resultObject = {
+        keyMaterial: keyBundle.key,
+        ...keyBundle,
+        ...parsedId,
+        ...keyBundle.attributes
+      };
+      delete resultObject.attributes;
     } else {
-      this.pipeline = pipelineOrOptions;
+      resultObject = {
+        keyMaterial: keyBundle.key,
+        ...keyBundle,
+        ...parsedId
+      };
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    return resultObject;
   }
 
-  // TODO: do we want Aborter as well?
+  private getKeyAttributesFromKeyItem(keyItem: KeyItem): KeyAttributes {
+    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+
+    let resultObject;
+    if (keyItem.attributes) {
+      resultObject = {
+        ...keyItem,
+        ...parsedId,
+        ...keyItem.attributes
+      };
+      delete resultObject.attributes;
+    } else {
+      resultObject = {
+        ...keyItem,
+        ...parsedId
+      };
+    }
+
+    return resultObject;
+  }
 }
