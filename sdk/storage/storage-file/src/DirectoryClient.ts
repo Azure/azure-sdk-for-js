@@ -429,7 +429,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */
-  async *listSegments(
+  private async *listSegments(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
@@ -449,7 +449,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {AsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem>}
    * @memberof DirectoryClient
    */
-  async *listItems(
+  private async *listItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<
     { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem

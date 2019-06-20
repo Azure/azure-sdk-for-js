@@ -310,7 +310,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
-  async *listSegments(
+  private async *listSegments(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListSharesSegmentResponse> {
@@ -330,7 +330,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
-  async *listItems(
+  private async *listItems(
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ShareItem> {
     let marker: string | undefined;
