@@ -46,7 +46,7 @@ This library depends on following ES features which need external polyfills load
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting start with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
+There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 

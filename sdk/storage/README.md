@@ -1,16 +1,21 @@
-# Azure Storage SDK V10 for JavaScript
+# Azure Storage client library for JavaScript
 
+Azure Storage is a Microsoft-managed service providing cloud storage that is highly available, secure, durable, scalable, and redundant.
+
+This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Storage service.
+
+- [Source Code - Blob](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
+- [Source Code - Queue](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
+- [Source Code - File](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
 - @azure/storage-blob [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 - @azure/storage-file [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
 - @azure/storage-queue [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage/client?view=azure-node-preview)
+- [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 - [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
-## Introduction
-
-This project provides a JavaScript SDK that makes it easy to consume Microsoft Azure Storage services from your Node.js and browser-based client applications. This respository contains the source for the latest version of the JavaScript SDK, v10.
-
-Note that this version of the SDK is based on the new Storage SDK architecture and replaces the [legacy SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node).
+## Key concepts
 
 ### Features
 
@@ -54,7 +59,7 @@ This library depends on following ES features which need external polyfills load
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
+There are differences between Node.js and browsers runtime. When getting started with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
@@ -147,131 +152,173 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Tak
 
 - The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
+## Examples
+
 ## Code Samples
 
 ```javascript
 const {
   BlobServiceClient,
   newPipeline,
-  SharedKeyCredential,
-  AnonymousCredential,
-  TokenCredential
+  SharedKeyCredential
 } = require("@azure/storage-blob");
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "account";
-  const accountKey = "accountkey";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential);
 
-  // List containers
   const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
   );
 
-  let marker;
-  do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(
-      marker
-    );
-
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
-
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = blobServiceClient.createContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
-  // Create a blob
-  const content = "hello";
-  const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.createBlobClient(blobName);
-  const blockBlobClient = blobClient.createBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  for (let index = 0; index < 7; index++) {
+    // Create a blob
+    const content = "hello";
+    const blobName = "newblob" + new Date().getTime();
+    const blobClient = containerClient.createBlobClient(blobName);
+    const blockBlobClient = blobClient.createBlockBlobClient();
+    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  }
 
-  // List blobs
-  marker = undefined;
-  do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(
-      marker
-    );
+  // 1. List blobs
+  let i = 1;
+  let iter = await containerClient.listBlobsFlat();
+  for await (const blob of iter) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
+  // 2. Same as the previous example
+  i = 1;
+  for await (const blob of containerClient.listBlobsFlat()) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
+
+  // 3. Generator syntax .next()
+  i = 1;
+  iter = containerClient.listBlobsFlat();
+  let blobItem = await iter.next();
+  while (!blobItem.done) {
+    console.log(`Blob ${i++}: ${blobItem.value.name}`);
+    blobItem = await iter.next();
+  }
+
+  ////////////////////////////////////////////////////////
+  ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
+
+  // 4. list containers by page
+  i = 1;
+  for await (const response of containerClient.listBlobsFlat().byPage()) {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
     }
-  } while (marker);
+  }
 
-  // Get blob content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobClient.download(0);
-  console.log(
-    "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
-  );
+  // 5. Same as the previous example - passing maxPageSize in the page settings
+  i = 1;
+  for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+  }
 
-  // Delete container
-  await containerClient.delete();
+  // 6. Generator syntax .next()
+  i = 1;
+  let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
+  let response = (await iterator.next()).value;
+  do {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+    response = (await iterator.next()).value;
+  } while (response);
 
-  console.log("deleted container");
-}
-
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
-    });
-    readableStream.on("end", () => {
-      resolve(chunks.join(""));
-    });
-    readableStream.on("error", reject);
-  });
+  // 7. Passing marker as an argument (similar to the previous example)
+  i = 1;
+  iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+  response = (await iterator.next()).value;
+  // Prints 2 blob names
+  for (const blob of response.segment.blobItems) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
+  // Gets next marker
+  let marker = response.nextMarker;
+  // Passing next marker as continuationToken
+  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+  response = (await iterator.next()).value;
+  // Prints 5 blob names
+  for (const blob of response.segment.blobItems) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
 main()
   .then(() => {
-    console.log("Successfully executed sample.");
+    console.log("Successfully executed the sample.");
   })
   .catch((err) => {
     console.log(err.message);
   });
 ```
 
-## More Samples
+## Troubleshooting
+
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
+
+```javascript
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
+    }
+  }
+}
+```
+
+When creating the `QueueServiceClient` instance, pass the logger in the options
+
+```javascript
+  const queueServiceClient = new QueueServiceClient(
+    `https://${account}.queue.core.windows.net`,
+    sharedKeyCredential, {
+      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
+    }
+  );
+```
+
+## Next steps
+
+More samples
 
 - [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 - [Blob Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
@@ -280,10 +327,6 @@ main()
 - [File Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/test/)
 - [Queue Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
 - [Queue Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test/)
-
-## License
-
-This project is licensed under MIT.
 
 ## Contributing
 
