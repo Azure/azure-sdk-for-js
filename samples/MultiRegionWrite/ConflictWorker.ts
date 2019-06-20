@@ -46,7 +46,7 @@ export class ConflictWorker {
     });
 
     // See ./lwwSprocDef for the stored procedure definition include the logic
-    const { sproc: lwwSproc } = await udpContainer.scripts.storedProcedures.upsert(lwwSprocDef);
+    const { sproc: lwwSproc } = await udpContainer.scripts.storedProcedures.create(lwwSprocDef);
   }
 
   public async RunManualConflict() {

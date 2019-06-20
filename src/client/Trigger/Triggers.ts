@@ -93,38 +93,4 @@ export class Triggers {
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.code, ref);
   }
-
-  /**
-   * Upsert a trigger.
-   *
-   * Azure Cosmos DB supports pre and post triggers defined in JavaScript to be
-   * executed on creates, updates and deletes.
-   *
-   * For additional details, refer to the server-side JavaScript API documentation.
-   * @param body
-   * @param options
-   */
-  public async upsert(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
-
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
-
-    const path = getPathFromLink(this.container.url, ResourceType.trigger);
-    const id = getIdFromLink(this.container.url);
-
-    const response = await this.clientContext.upsert<TriggerDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.trigger,
-      resourceId: id,
-      options
-    });
-    const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return new TriggerResponse(response.result, response.headers, response.code, ref);
-  }
 }

@@ -95,39 +95,4 @@ export class UserDefinedFunctions {
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, ref);
   }
-
-  /**
-   * Upsert a UserDefinedFunction.
-   *
-   * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers.
-   *
-   * For additional details, refer to the server-side JavaScript API documentation.
-   *
-   */
-  public async upsert(
-    body: UserDefinedFunctionDefinition,
-    options?: RequestOptions
-  ): Promise<UserDefinedFunctionResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
-
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
-
-    const path = getPathFromLink(this.container.url, ResourceType.udf);
-    const id = getIdFromLink(this.container.url);
-
-    const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options
-    });
-    const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, ref);
-  }
 }

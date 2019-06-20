@@ -113,38 +113,4 @@ export class StoredProcedures {
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return new StoredProcedureResponse(response.result, response.headers, response.code, ref);
   }
-
-  /**
-   * Upsert a StoredProcedure.
-   *
-   * Azure Cosmos DB allows stored procedures to be executed in the storage tier,
-   * directly against a document container. The script
-   * gets executed under ACID transactions on the primary storage partition of the
-   *  specified container. For additional details,
-   * refer to the server-side JavaScript API documentation.
-   *
-   */
-  public async upsert(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
-
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
-
-    const path = getPathFromLink(this.container.url, ResourceType.sproc);
-    const id = getIdFromLink(this.container.url);
-
-    const response = await this.clientContext.upsert<StoredProcedureDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.sproc,
-      resourceId: id,
-      options
-    });
-    const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return new StoredProcedureResponse(response.result, response.headers, response.code, ref);
-  }
 }
