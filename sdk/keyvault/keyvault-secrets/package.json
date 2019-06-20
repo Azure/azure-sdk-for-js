@@ -62,7 +62,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -83,6 +83,7 @@
     "@types/mocha": "^5.2.5",
     "@types/nock": "^10.0.1",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
     "fs-extra": "~8.0.1",
     "mocha": "^5.2.0",
