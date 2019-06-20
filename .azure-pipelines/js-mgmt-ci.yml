@@ -41,7 +41,7 @@ jobs:
         inputs:
           verbose: false
 
-      - script: 'gulp pack'
+      - script: 'gulp pack --base-reference=master --head-reference=master'
         displayName: 'gulp pack'
 
       - task: CopyFiles@2
