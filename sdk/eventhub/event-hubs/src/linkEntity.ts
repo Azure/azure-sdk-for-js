@@ -13,9 +13,9 @@ export interface LinkEntityOptions {
    */
   name?: string;
   /**
-   * @property {string | number} [partitionId] The partitionId associated with the link entity.
+   * @property {string} [partitionId] The partitionId associated with the link entity.
    */
-  partitionId?: string | number;
+  partitionId?: string;
   /**
    * @property {string} address The link entity address in one of the following forms:
    */
@@ -65,9 +65,9 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property {string | number} [partitionId] The partitionId associated with the link entity.
+   * @property {string} [partitionId] The partitionId associated with the link entity.
    */
-  partitionId?: string | number;
+  partitionId?: string;
   /**
    * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
    * (establishing) itself. Default value: `false`.

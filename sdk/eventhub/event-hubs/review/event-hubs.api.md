@@ -166,7 +166,7 @@ export class ReceiveHandler {
     constructor(receiver: EventHubReceiver);
     readonly consumerGroup: string | undefined;
     readonly isReceiverOpen: boolean;
-    readonly partitionId: string | number | undefined;
+    readonly partitionId: string | undefined;
     stop(): Promise<void>;
 }
 

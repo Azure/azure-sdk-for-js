@@ -33,12 +33,11 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property {string | number} [partitionId] The partitionId from which the handler is receiving
+   * @property {string} [partitionId] The partitionId from which the handler is receiving
    * events from.
    * @readonly
    */
-
-  get partitionId(): string | number | undefined {
+  get partitionId(): string | undefined {
     return this._receiver ? this._receiver.partitionId : undefined;
   }
 
@@ -47,7 +46,6 @@ export class ReceiveHandler {
    * events from.
    * @readonly
    */
-
   get consumerGroup(): string | undefined {
     return this._receiver ? this._receiver.consumerGroup : undefined;
   }
@@ -103,7 +101,7 @@ export class StreamingReceiver extends EventHubReceiver {
   constructor(
     context: ConnectionContext,
     consumerGroup: string,
-    partitionId: string | number,
+    partitionId: string,
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ) {
@@ -170,14 +168,14 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string} consumerGroup The consumer group from which the receiver should receive events from.
-   * @param {string | number} partitionId  The partitionId to receive events from.
+   * @param {string} partitionId  The partitionId to receive events from.
    * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventHubConsumerOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
     consumerGroup: string,
-    partitionId: string | number,
+    partitionId: string,
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): StreamingReceiver {

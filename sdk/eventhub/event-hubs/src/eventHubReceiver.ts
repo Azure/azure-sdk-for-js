@@ -186,7 +186,7 @@ export class EventHubReceiver extends LinkEntity {
   constructor(
     context: ConnectionContext,
     consumerGroup: string,
-    partitionId: string | number,
+    partitionId: string,
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ) {

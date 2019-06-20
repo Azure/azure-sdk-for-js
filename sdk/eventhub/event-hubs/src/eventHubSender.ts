@@ -85,7 +85,7 @@ export class EventHubSender extends LinkEntity {
    * @param {string|number} [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.
    */
-  constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
+  constructor(context: ConnectionContext, partitionId?: string, name?: string) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
       partitionId: partitionId

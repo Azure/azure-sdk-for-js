@@ -159,10 +159,10 @@ export class ManagementClient extends LinkEntity {
    * Provides information about the specified partition.
    * @ignore
    * @param {Connection} connection - The established amqp connection
-   * @param {(string|number)} partitionId Partition ID for which partition information is required.
+   * @param {string} partitionId Partition ID for which partition information is required.
    */
   async getPartitionProperties(
-    partitionId: string | number,
+    partitionId: string,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike }
   ): Promise<PartitionProperties> {
     if (!options) {
@@ -273,9 +273,8 @@ export class ManagementClient extends LinkEntity {
   /**
    * @private
    * Helper method to make the management request
-   * @param {Connection} connection - The established amqp connection
-   * @param {string} type - The type of entity requested for. Valid values are "eventhub", "partition"
-   * @param {string | number} [partitionId] - The partitionId. Required only when type is "partition".
+   * @param request The AMQP message to send
+   * @param options The options to use when sending a request over a $management link
    */
   private async _makeManagementRequest(
     request: Message,
