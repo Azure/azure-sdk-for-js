@@ -341,13 +341,7 @@ export class QueueServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for Queue Items
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of queues to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all queues remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
    * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
