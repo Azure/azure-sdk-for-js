@@ -50,7 +50,7 @@ async function main() {
 
   // 4. list queues by page
   i = 1;
-  for await (const response of queueServiceClient.listQueues().byPage({})) {
+  for await (const response of queueServiceClient.listQueues().byPage()) {
     if (response.queueItems) {
       for (const queueItem of response.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
