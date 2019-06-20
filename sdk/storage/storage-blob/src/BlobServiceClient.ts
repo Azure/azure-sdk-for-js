@@ -409,7 +409,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
-  async *listSegments(
+  private async *listSegments(
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListContainersSegmentResponse> {
@@ -429,7 +429,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListcontainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
-  async *listItems(
+  private async *listItems(
     options: ServiceListContainersSegmentOptions = {}
   ): AsyncIterableIterator<Models.ContainerItem> {
     let marker: string | undefined;
