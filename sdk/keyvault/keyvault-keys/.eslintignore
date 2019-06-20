@@ -1,2 +1,3 @@
 src/core
 **/*.js
+*lintReport.html
