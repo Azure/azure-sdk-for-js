@@ -22,7 +22,7 @@ trigger:
 pr: none
 
 variables:
-  NodeVersion: '12.x'
+  NodeVersion: '10.x'
 
 jobs:
   - job: 'Build'
