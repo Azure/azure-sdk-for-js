@@ -26,7 +26,7 @@ export class EventHubProducer {
 
   private _senderOptions: EventHubProducerOptions;
 
-  private _eventHubSender: EventHubSender;
+  private _eventHubSender: EventHubSender | undefined;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -63,7 +63,7 @@ export class EventHubProducer {
     if (!Array.isArray(eventData)) {
       eventData = [eventData];
     }
-    return this._eventHubSender.send(eventData, { ...this._senderOptions, ...options });
+    return this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });
   }
 
   /**
@@ -77,6 +77,7 @@ export class EventHubProducer {
     try {
       if (this._context.connection && this._context.connection.isOpen() && this._eventHubSender) {
         await this._eventHubSender.close();
+        this._eventHubSender = undefined;
       }
       this._isClosed = true;
     } catch (err) {

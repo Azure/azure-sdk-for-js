@@ -260,11 +260,13 @@ export class EventHubConsumer {
         // Close the streaming receiver.
         if (this._streamingReceiver) {
           await this._streamingReceiver.close();
+          this._streamingReceiver = undefined;
         }
 
         // Close the batching receiver.
         if (this._batchingReceiver) {
           await this._batchingReceiver.close();
+          this._batchingReceiver = undefined;
         }
       }
     } catch (err) {
