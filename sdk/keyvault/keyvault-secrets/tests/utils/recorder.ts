@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import fs from "fs-extra";
-import queryString from "query-string";
-import { blobToString } from "./index.browser";
 import { delay as restDelay } from "@azure/ms-rest-js";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
@@ -13,7 +11,7 @@ export function isBrowser(): boolean {
 }
 
 export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+  return encodeURIComponent(str).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
 let nock: any;
@@ -77,9 +75,7 @@ abstract class Recorder {
    * */
   protected filterSecrets(recording: string): string {
     let updatedRecording = recording;
-    let lastRecording = recording;
-    for (let k of Object.keys(replaceableVariables)) {
-      lastRecording = updatedRecording;
+    for (const k of Object.keys(replaceableVariables)) {
       const escaped = escapeRegExp(env[k]);
       updatedRecording = updatedRecording.replace(
         new RegExp(escaped, "g"),
@@ -166,7 +162,7 @@ class NockRecorder extends Recorder {
 // Finally, the request is sent to the server
 //    req.send(data);
 
-export function record(testContext: any) {
+export function record(testContext: any): any {
   let recorder: Recorder;
   let testHierarchy: string;
   let testTitle: string;
