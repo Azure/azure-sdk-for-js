@@ -77,6 +77,138 @@ describe("FileServiceClient", () => {
     await shareClient2.delete();
   });
 
+  it("Verify PagedAsyncIterableIterator for listShares", async () => {
+    const serviceClient = getBSU();
+    const shareNamePrefix = recorder.getUniqueName("share");
+    const shareName1 = `${shareNamePrefix}x1`;
+    const shareName2 = `${shareNamePrefix}x2`;
+    const shareClient1 = serviceClient.createShareClient(shareName1);
+    const shareClient2 = serviceClient.createShareClient(shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
+
+    for await (const item of serviceClient.listShares({
+      include: ["metadata", "snapshots"],
+      prefix: shareNamePrefix
+    })) {
+      assert.ok(item.name.startsWith(shareNamePrefix));
+      assert.ok(item.properties.etag.length > 0);
+      assert.ok(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+
+    await shareClient1.delete();
+    await shareClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listShares", async () => {
+    const serviceClient = getBSU();
+
+    const shareNamePrefix = recorder.getUniqueName("share");
+    const shareName1 = `${shareNamePrefix}x1`;
+    const shareName2 = `${shareNamePrefix}x2`;
+    const shareClient1 = serviceClient.createShareClient(shareName1);
+    const shareClient2 = serviceClient.createShareClient(shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
+
+    let iter = await serviceClient.listShares({
+      include: ["metadata", "snapshots"],
+      prefix: shareNamePrefix
+    });
+    let shareItem = await iter.next();
+    assert.ok(shareItem.value.name.startsWith(shareNamePrefix));
+    assert.ok(shareItem.value.properties.etag.length > 0);
+    assert.ok(shareItem.value.properties.lastModified);
+    assert.deepEqual(shareItem.value.metadata!.key, "val");
+
+    shareItem = await iter.next();
+    assert.ok(shareItem.value.name.startsWith(shareNamePrefix));
+    assert.ok(shareItem.value.properties.etag.length > 0);
+    assert.ok(shareItem.value.properties.lastModified);
+    assert.deepEqual(shareItem.value.metadata!.key, "val");
+
+    await shareClient1.delete();
+    await shareClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage()) for listShares", async () => {
+    const shareClients = [];
+    const serviceClient = getBSU();
+    const shareNamePrefix = recorder.getUniqueName("share");
+
+    for (let i = 0; i < 4; i++) {
+      const shareClient = serviceClient.createShareClient(`${shareNamePrefix}x${i}`);
+      await shareClient.create({ metadata: { key: "val" } });
+      shareClients.push(shareClient);
+    }
+
+    for await (const response of serviceClient
+      .listShares({
+        include: ["metadata", "snapshots"],
+        prefix: shareNamePrefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const item of response.shareItems!) {
+        assert.ok(item.name.startsWith(shareNamePrefix));
+        assert.ok(item.properties.etag.length > 0);
+        assert.ok(item.properties.lastModified);
+        assert.deepEqual(item.metadata!.key, "val");
+      }
+    }
+
+    for (const shareClient of shareClients) {
+      await shareClient.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listShares", async () => {
+    const shareClients = [];
+    const serviceClient = getBSU();
+    const shareNamePrefix = recorder.getUniqueName("share");
+
+    for (let i = 0; i < 4; i++) {
+      const shareClient = serviceClient.createShareClient(`${shareNamePrefix}x${i}`);
+      await shareClient.create({ metadata: { key: "val" } });
+      shareClients.push(shareClient);
+    }
+
+    let iter = serviceClient
+      .listShares({
+        include: ["metadata", "snapshots"],
+        prefix: shareNamePrefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    // Gets 2 shares
+    for (const item of response.shareItems!) {
+      assert.ok(item.name.startsWith(shareNamePrefix));
+      assert.ok(item.properties.etag.length > 0);
+      assert.ok(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+    // Gets next marker
+    let marker = response.nextMarker;
+    iter = serviceClient
+      .listShares({
+        include: ["metadata", "snapshots"],
+        prefix: shareNamePrefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 shares
+    for (const item of response.shareItems!) {
+      assert.ok(item.name.startsWith(shareNamePrefix));
+      assert.ok(item.properties.etag.length > 0);
+      assert.ok(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+
+    for (const shareClient of shareClients) {
+      await shareClient.delete();
+    }
+  });
+
   it("GetProperties", async () => {
     const serviceClient = getBSU();
     const result = await serviceClient.getProperties();
