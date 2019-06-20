@@ -92,6 +92,20 @@ export class EventHubConsumer {
   }
 
   /**
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
+   */
+  get isReceivingMessages(): boolean {
+    if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
+      return true;
+    }
+    if (this._batchingReceiver && this._batchingReceiver.isOpen() && this._batchingReceiver.isReceivingMessages) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * @constructor
    * @internal
    */
@@ -152,7 +166,7 @@ export class EventHubConsumer {
     }
 
     const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = 60;
+    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     while (true) {
       const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.abortSignal);
       if (!currentBatch || !currentBatch.length) {
@@ -160,54 +174,6 @@ export class EventHubConsumer {
       }
       yield currentBatch[0];
     }
-  }
-
-  /**
-   * Closes the underlying AMQP receiver link.
-   * Once closed, the receiver cannot be used for any further operations.
-   * Use the `createConsumer` function on the EventHubClient to instantiate
-   * a new Receiver
-   *
-   * @returns {Promise<void>}
-   */
-  async close(): Promise<void> {
-    try {
-      if (this._context.connection && this._context.connection.isOpen()) {
-        // Close the streaming receiver.
-        if (this._streamingReceiver) {
-          await this._streamingReceiver.close();
-        }
-
-        // Close the batching receiver.
-        if (this._batchingReceiver) {
-          await this._batchingReceiver.close();
-        }
-      }
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.connectionId,
-        this._context.config.entityPath,
-        err
-      );
-      throw err;
-    } finally {
-      this._isClosed = true;
-    }
-  }
-
-  /**
-   * Indicates whether the receiver is currently receiving messages or not.
-   * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
-   */
-  isReceivingMessages(): boolean {
-    if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
-      return true;
-    }
-    if (this._batchingReceiver && this._batchingReceiver.isOpen() && this._batchingReceiver.isReceivingMessages) {
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -260,10 +226,10 @@ export class EventHubConsumer {
         abortSignal
       );
       if (result.length < maxMessageCount) {
-       // we are now re-using the same receiver link between multiple calls to receiveBatch() or the iterator on the receiver.
-       // This can result in the receiver link having pending credits if a receiveBatch() call asking for m events returned n events where n < m.
-       // Since Event Hubs doesnt support the drain feature yet, this can result in the receiver link receiving events when the user is not expecting it to.
-       // Hence closing the link when result.length < maxMessageCount
+        // we are now re-using the same receiver link between multiple calls to receiveBatch() or the iterator on the receiver.
+        // This can result in the receiver link having pending credits if a receiveBatch() call asking for m events returned n events where n < m.
+        // Since Event Hubs doesnt support the drain feature yet, this can result in the receiver link receiving events when the user is not expecting it to.
+        // Hence closing the link when result.length < maxMessageCount
         await this._batchingReceiver.close();
       }
     } catch (err) {
@@ -278,6 +244,40 @@ export class EventHubConsumer {
       throw err;
     }
     return result;
+  }
+
+  /**
+   * Closes the underlying AMQP receiver link.
+   * Once closed, the receiver cannot be used for any further operations.
+   * Use the `createConsumer` function on the EventHubClient to instantiate
+   * a new Receiver
+   *
+   * @returns {Promise<void>}
+   */
+  async close(): Promise<void> {
+    try {
+      if (this._context.connection && this._context.connection.isOpen()) {
+        // Close the streaming receiver.
+        if (this._streamingReceiver) {
+          await this._streamingReceiver.close();
+        }
+
+        // Close the batching receiver.
+        if (this._batchingReceiver) {
+          await this._batchingReceiver.close();
+        }
+      }
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the Receiver for %s: %O",
+        this._context.connectionId,
+        this._context.config.entityPath,
+        err
+      );
+      throw err;
+    } finally {
+      this._isClosed = true;
+    }
   }
 
   private getCheckpoint(): number | undefined {
@@ -301,7 +301,7 @@ export class EventHubConsumer {
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this.isReceivingMessages) {
       const errorMessage = `The receiver for "${this._context.config.entityPath}" is already receiving messages.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
