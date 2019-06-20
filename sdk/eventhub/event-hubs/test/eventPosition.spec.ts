@@ -5,7 +5,7 @@ import chai from "chai";
 chai.should();
 
 import { EventPosition } from "../src";
-import { getEventPositionFilter } from "../src/util/utils";
+import { getEventPositionFilter } from "../src/eventPosition";
 
 describe("EventPosition #RunnableInBrowser", function(): void {
   describe("happy", function(): void {

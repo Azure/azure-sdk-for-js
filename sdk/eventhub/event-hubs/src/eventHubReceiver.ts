@@ -16,8 +16,7 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { EventHubConsumerOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { EventPosition } from "./eventPosition";
-import { getEventPositionFilter } from "./util/utils";
+import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 interface CreateReceiverOptions {
