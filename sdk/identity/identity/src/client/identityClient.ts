@@ -67,7 +67,7 @@ export class IdentityClient extends ServiceClient {
     return scope.substr(0, scope.lastIndexOf(DefaultScopeSuffix));
   }
 
-  private dateInSeconds(date: Date) {
+  private dateInSeconds(date: Date): number {
     return Math.floor(date.getTime() / 1000);
   }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
+import { assertRejects } from "./authTestUtils";
 import {
   ChainedTokenCredential,
   TokenCredential,
@@ -34,8 +35,8 @@ describe("ChainedTokenCredential", function () {
       mockCredential(Promise.reject(new Error("Boom.")))
     );
 
-    await (assert as any).rejects(
-      () => chainedTokenCredential.getToken("scope"),
+    await assertRejects(
+      chainedTokenCredential.getToken("scope"),
       (err: AggregateAuthenticationError) => err.errors.length === 2
     );
   });

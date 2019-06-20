@@ -2,23 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
+import { assertRejects } from "../credentials/authTestUtils";
 import { IdentityClient } from "../../src/client/identityClient";
 import { MockAuthHttpClient } from "../credentials/authTestUtils";
 import { AuthenticationError } from "../../src/";
-
-// Node's `assert.rejects` doesn't appear until 8.13.0 so we'll
-// use our own simple implementation here
-async function assertRejects(
-  promise: Promise<any>,
-  expected: (error: any) => boolean,
-  message?: string
-) {
-  try {
-    await promise;
-  } catch (error) {
-    assert.ok(expected(error), message || "The error didn't pass the assertion predicate.")
-  }
-}
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
