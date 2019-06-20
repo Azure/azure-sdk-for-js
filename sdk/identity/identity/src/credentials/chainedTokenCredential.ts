@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 
-export class AggregateCredential implements TokenCredential {
+export class ChainedTokenCredential implements TokenCredential {
   private _sources: TokenCredential[] = [];
 
   constructor(...sources: TokenCredential[]) {

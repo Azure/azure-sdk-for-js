@@ -146,28 +146,48 @@ The following sections provide code snippets that cover some of the common tasks
 
 Once you have authenticated and created an instance of an `KeysClient` class (see "Authenticate the client" above), you can create, read, update, and delete keys:
 
+### Create a key
+`createKey` creates a Key to be stored in the Azure Key Vault. If a key with the same name already exists, then a new version of the key is created.
 ```javascript
 const keyName = "MyKeyName";
 
-// Create a key using the RSA algorithm
 const result = await client.createKey(keyName, "RSA");
 console.log("result: ", result);
+```
 
-// Get the key we just created
+### Get a key
+`getKey` retrieves a key previous stores in the Key Vault.
+```javascript
 const getResult = await client.getKey(keyName);
 console.log("getResult: ", getResult);
+```
 
-// List all the versions of the key in the key vault
+### List all versions of a key
+`listKeyVersions` will list versions of the given key.
+```javascript
 for await (let version of client.listKeyVersions(keyName)) {
   console.log("version: ", version);
 }
+```
 
-// We can also list all the keys in our key vault
+### List all keys
+`listKeys` will list all keys in the Key Vault.
+```javascript
 for await (let listedKey of client.listKeys()) {
   console.log("key: ", listedKey);
 }
+```
 
-// Delete the key we just created
+### Update a key
+`updateKey` updates the attributes of a key.
+```javascript
+const updatedKey = await client.updateKeyAttributes(keyName, result.version, { enabled: false });
+
+```
+
+### Delete a key
+`deleteKey` deletes a key previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the key.
+```javascript
 await client.deleteKey(keyName);
 ```
 
@@ -222,6 +242,8 @@ export DEBUG=azure:keyvault-keys:error,azure-amqp-common:error,rhea-promise:erro
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 directory for detailed examples on how to use this library.
+
+* [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/helloWorld.ts) - Create, read, update, and delete keys
 
 ## Contributing
 
