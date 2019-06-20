@@ -1,7 +1,8 @@
+import uuid from "uuid/v4";
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { generateGuidId, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -189,7 +190,7 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = generateGuidId();
+      body.id = uuid();
     }
 
     const err = {};
@@ -241,7 +242,7 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = generateGuidId();
+      body.id = uuid();
     }
 
     const err = {};

@@ -45,6 +45,7 @@
     "@types/sinon": "7.0.10",
     "@types/tunnel": "^0.0.0",
     "@types/underscore": "^1.8.8",
+    "@types/uuid": "3.4.4",
     "abort-controller": "3.0.0",
     "cross-env": "5.2.0",
     "dotenv": "8.0.0",

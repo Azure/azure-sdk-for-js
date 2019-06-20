@@ -93,41 +93,6 @@ export function getHexaDigit() {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
-// TODO: replace with well known library?
-export function generateGuidId() {
-  let id = "";
-
-  for (let i = 0; i < 8; i++) {
-    id += getHexaDigit();
-  }
-
-  id += "-";
-
-  for (let i = 0; i < 4; i++) {
-    id += getHexaDigit();
-  }
-
-  id += "-";
-
-  for (let i = 0; i < 4; i++) {
-    id += getHexaDigit();
-  }
-
-  id += "-";
-
-  for (let i = 0; i < 4; i++) {
-    id += getHexaDigit();
-  }
-
-  id += "-";
-
-  for (let i = 0; i < 12; i++) {
-    id += getHexaDigit();
-  }
-
-  return id;
-}
-
 export function parsePath(path: string) {
   const pathParts = [];
   let currentIndex = 0;
