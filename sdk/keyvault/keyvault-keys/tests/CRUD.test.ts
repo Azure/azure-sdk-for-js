@@ -72,9 +72,15 @@ describe("Keys client - create, read, update and delete operations", () => {
     client = new KeysClient(keyVaultUrl, credential);
 
     await maybeFlushKey();
+
+    recorder.stop();
   });
 
-  after(async () => {
+  beforeEach(async function() {
+    recorder = record(this); // eslint-disable-line no-invalid-this
+  });
+
+  afterEach(async () => {
     recorder.stop();
   });
 

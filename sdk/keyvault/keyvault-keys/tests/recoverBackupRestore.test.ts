@@ -72,9 +72,15 @@ describe("Keys client - restore keys and recover backups", () => {
     client = new KeysClient(keyVaultUrl, credential);
 
     await maybeFlushKey();
+
+    recorder.stop();
   });
 
-  after(async () => {
+  beforeEach(async function() {
+    recorder = record(this); // eslint-disable-line no-invalid-this
+  });
+
+  afterEach(async () => {
     recorder.stop();
   });
 
