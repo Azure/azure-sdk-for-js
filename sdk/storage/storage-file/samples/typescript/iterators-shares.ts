@@ -24,98 +24,84 @@ async function main() {
 
   console.log(`List shares`);
 
-  ////////////////////////////////////////////////////////
-  ///////////////////  List Shares  //////////////////////
-  ////////////////////////////////////////////////////////
-
+  // 1. List shares
   let i = 1;
-
-  let shareIter1 = serviceClient.listShares();
-  for await (const share of shareIter1) {
-    console.log(`Share${i}: ${share.name}`);
-    const shareClient = serviceClient.createShareClient(share.name);
-    await shareClient.delete();
-    i++;
-    if (i > 3400) {
-      break;
-    }
+  let iter = serviceClient.listShares();
+  for await (const share of iter) {
+    console.log(`Share ${i++}: ${share.name}`);
   }
 
-  // Same as the previous example
+  // 2. Same as the previous example
   i = 1;
-  for await (const item of serviceClient.listShares()) {
-    console.log(`Share${i}: ${item.name}`);
-    i++;
+  for await (const share of serviceClient.listShares()) {
+    console.log(`Share ${i++}: ${share.name}`);
   }
 
-  // Generator syntax .next()
-  let shareIter2 = await serviceClient.listShares();
+  // 3. Generator syntax .next()
   i = 1;
-  let shareItem = await shareIter2.next();
+  iter = await serviceClient.listShares();
+  let shareItem = await iter.next();
   while (!shareItem.done) {
-    console.log(`Share${i}: ${shareItem.value.name}`);
-    i++;
-    shareItem = await shareIter2.next();
+    console.log(`Share ${i++}: ${shareItem.value.name}`);
+    shareItem = await iter.next();
   }
 
+  ////////////////////////////////////////////////////////
   ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
 
+  // 4. list shares by page
   i = 1;
-  for await (const item1 of serviceClient.listShares().byPage()) {
-    if (item1.shareItems) {
-      for (const queueItem of item1.shareItems) {
-        console.log(`Share${i}: ${queueItem.name}`);
-        i++;
+  for await (const response of serviceClient.listShares().byPage()) {
+    if (response.shareItems) {
+      for (const share of response.shareItems) {
+        console.log(`Share ${i++}: ${share.name}`);
       }
     }
   }
 
-  // Same as the previous example - passing maxPageSize in the page settings
+  // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const item2 of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
-    if (item2.shareItems) {
-      for (const queueItem of item2.shareItems) {
-        console.log(`Share${i}: ${queueItem.name}`);
-        i++;
+  for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
+    if (response.shareItems) {
+      for (const share of response.shareItems) {
+        console.log(`Share ${i++}: ${share.name}`);
       }
     }
   }
 
-  // Generator syntax .next()
+  // 6. Generator syntax .next()
   i = 1;
-  let iter3 = serviceClient.listShares().byPage({ maxPageSize: 2 });
-  let item3 = (await iter3.next()).value;
+  let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
+  let response = (await iterator.next()).value;
   do {
-    if (item3.shareItems) {
-      for (const queueItem of item3.shareItems) {
-        console.log(`Share${i}: ${queueItem.name}`);
-        i++;
+    if (response.shareItems) {
+      for (const share of response.shareItems) {
+        console.log(`Share ${i++}: ${share.name}`);
       }
     }
-    item3 = (await iter3.next()).value;
-  } while (item3);
+    response = (await iterator.next()).value;
+  } while (response);
 
-  // Passing marker as an argument (similar to the previous example)
+  // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  let iter4 = serviceClient.listShares().byPage({ maxPageSize: 2 });
-  let shareItem2 = (await iter4.next()).value;
-  // Prints 2 queue names
-  if (shareItem2.shareItems) {
-    for (const queueItem of shareItem2.shareItems) {
-      console.log(`Queue${i}: ${queueItem.name}`);
-      i++;
+  iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
+  response = (await iterator.next()).value;
+  // Prints 2 share names
+  if (response.shareItems) {
+    for (const share of response.shareItems) {
+      console.log(`Share ${i++}: ${share.name}`);
     }
   }
   // Gets next marker
-  let marker = shareItem2.nextMarker;
+  let marker = response.nextMarker;
   // Passing next marker as continuationToken
-  iter4 = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
-  shareItem2 = (await iter4.next()).value;
-  // Prints 10 queue names
-  if (shareItem2.shareItems) {
-    for (const queueItem of shareItem2.shareItems) {
-      console.log(`Queue${i}: ${queueItem.name}`);
-      i++;
+  iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
+  response = (await iterator.next()).value;
+  // Prints 10 share names
+  if (response.shareItems) {
+    for (const share of response.shareItems) {
+      console.log(`Share ${i++}: ${share.name}`);
     }
   }
 }

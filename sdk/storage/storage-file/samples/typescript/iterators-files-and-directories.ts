@@ -15,14 +15,11 @@ async function main() {
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential);
 
-  // List shares
   const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     pipeline
   );
-
-  console.log(`List shares`);
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
@@ -52,118 +49,106 @@ async function main() {
 
   console.log(`List files and directories under directory ${directoryName}`);
 
-  ////////////////////////////////////////////////////////
-  /////////////  List files and directories  /////////////
-  ////////////////////////////////////////////////////////
-
+  // 1. List files and directories
   let i = 1;
-
-  let dirIter1 = directoryClient.listFilesAndDirectories();
-  for await (const item of dirIter1) {
-    if (item.kind === "directory") {
-      console.log(`${i} - directory\t: ${item.name}`);
+  let iter = directoryClient.listFilesAndDirectories();
+  for await (const entity of iter) {
+    if (entity.kind === "directory") {
+      console.log(`${i++} - directory\t: ${entity.name}`);
     } else {
-      console.log(`${i} - file\t: ${item.name}`);
+      console.log(`${i++} - file\t: ${entity.name}`);
     }
-    i++;
   }
 
-  // Same as the previous example
+  // 2. Same as the previous example
   i = 1;
-  for await (const item of directoryClient.listFilesAndDirectories()) {
-    if (item.kind === "directory") {
-      console.log(`${i} - directory\t: ${item.name}`);
+  for await (const entity of directoryClient.listFilesAndDirectories()) {
+    if (entity.kind === "directory") {
+      console.log(`${i++} - directory\t: ${entity.name}`);
     } else {
-      console.log(`${i} - file\t: ${item.name}`);
+      console.log(`${i++} - file\t: ${entity.name}`);
     }
-    i++;
   }
 
-  // Generator syntax .next()
-  let dirIter2 = await directoryClient.listFilesAndDirectories();
+  // 3. Generator syntax .next()
   i = 1;
-  let item = await dirIter2.next();
-  while (!item.done) {
-    if (item.value.kind === "directory") {
-      console.log(`${i} - directory\t: ${item.value.name}`);
+  iter = await directoryClient.listFilesAndDirectories();
+  let entity = await iter.next();
+  while (!entity.done) {
+    if (entity.value.kind === "directory") {
+      console.log(`${i++} - directory\t: ${entity.value.name}`);
     } else {
-      console.log(`${i} - file\t: ${item.value.name}`);
+      console.log(`${i++} - file\t: ${entity.value.name}`);
     }
-    item = await dirIter2.next();
-    i++;
+    entity = await iter.next();
   }
 
+  ////////////////////////////////////////////////////////
   ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
 
+  // 4. list files and directories by page
   i = 1;
-  for await (const item1 of directoryClient.listFilesAndDirectories().byPage()) {
-    for (const fileItem of item1.segment.fileItems) {
-      console.log(`${i} - file\t: ${fileItem.name}`);
-      i++;
+  for await (const response of directoryClient.listFilesAndDirectories().byPage()) {
+    for (const fileItem of response.segment.fileItems) {
+      console.log(`${i++} - file\t: ${fileItem.name}`);
     }
-    for (const dirItem of item1.segment.directoryItems) {
-      console.log(`${i} - directory\t: ${dirItem.name}`);
-      i++;
+    for (const dirItem of response.segment.directoryItems) {
+      console.log(`${i++} - directory\t: ${dirItem.name}`);
     }
   }
 
-  // Same as the previous example - passing maxPageSize in the page settings
+  // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const item2 of directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 20 })) {
-    for (const fileItem of item2.segment.fileItems) {
-      console.log(`${i} - file\t: ${fileItem.name}`);
-      i++;
+  for await (const response of directoryClient
+    .listFilesAndDirectories()
+    .byPage({ maxPageSize: 20 })) {
+    for (const fileItem of response.segment.fileItems) {
+      console.log(`${i++} - file\t: ${fileItem.name}`);
     }
-    for (const dirItem of item2.segment.directoryItems) {
-      console.log(`${i} - directory\t: ${dirItem.name}`);
-      i++;
+    for (const dirItem of response.segment.directoryItems) {
+      console.log(`${i++} - directory\t: ${dirItem.name}`);
     }
   }
 
-  // Generator syntax .next()
+  // 6. Generator syntax .next()
   i = 1;
-  let dirIter3 = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 2 });
-  let item4 = (await dirIter3.next()).value;
+  let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 2 });
+  let response = (await iterator.next()).value;
   do {
-    for (const fileItem of item4.segment.fileItems) {
-      console.log(`${i} - file\t: ${fileItem.name}`);
-      i++;
+    for (const fileItem of response.segment.fileItems) {
+      console.log(`${i++} - file\t: ${fileItem.name}`);
     }
-    for (const dirItem of item4.segment.directoryItems) {
-      console.log(`${i} - directory\t: ${dirItem.name}`);
-      i++;
+    for (const dirItem of response.segment.directoryItems) {
+      console.log(`${i++} - directory\t: ${dirItem.name}`);
     }
-    item4 = (await dirIter3.next()).value;
-  } while (item4);
+    response = (await iterator.next()).value;
+  } while (response);
 
-  // Passing marker as an argument (similar to the previous example)
+  // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  let dirIter4 = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
-  let item5 = (await dirIter4.next()).value;
+  iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+  response = (await iterator.next()).value;
   // Prints 3 file and directory names
-  for (const fileItem of item5.segment.fileItems) {
-    console.log(`${i} - file\t: ${fileItem.name}`);
-    i++;
+  for (const fileItem of response.segment.fileItems) {
+    console.log(`${i++} - file\t: ${fileItem.name}`);
   }
-  for (const dirItem of item5.segment.directoryItems) {
-    console.log(`${i} - directory\t: ${dirItem.name}`);
-    i++;
+  for (const dirItem of response.segment.directoryItems) {
+    console.log(`${i++} - directory\t: ${dirItem.name}`);
   }
   // Gets next marker
-  let dirMarker = item5.nextMarker;
+  let dirMarker = response.nextMarker;
   // Passing next marker as continuationToken
-  dirIter4 = directoryClient
+  iterator = directoryClient
     .listFilesAndDirectories()
     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
-  item5 = (await dirIter4.next()).value;
+  response = (await iterator.next()).value;
   // Prints 10 file and directory names
-  for (const fileItem of item5.segment.fileItems) {
-    console.log(`${i} - file\t: ${fileItem.name}`);
-    i++;
+  for (const fileItem of response.segment.fileItems) {
+    console.log(`${i++} - file\t: ${fileItem.name}`);
   }
-  for (const dirItem of item5.segment.directoryItems) {
-    console.log(`${i} - directory\t: ${dirItem.name}`);
-    i++;
+  for (const dirItem of response.segment.directoryItems) {
+    console.log(`${i++} - directory\t: ${dirItem.name}`);
   }
 
   // Delete share
