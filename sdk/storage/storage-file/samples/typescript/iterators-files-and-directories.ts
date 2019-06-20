@@ -131,7 +131,7 @@ async function main() {
   iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
   response = await iterator.next();
   // Prints 3 file and directory names
-  const segment = response.value.segment;
+  let segment = response.value.segment;
   for (const fileItem of segment.fileItems) {
     console.log(`${i++} - file\t: ${fileItem.name}`);
   }
@@ -145,6 +145,7 @@ async function main() {
     .listFilesAndDirectories()
     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
   response = await iterator.next();
+  segment = response.value.segment;
   // Prints 10 file and directory names
   for (const fileItem of segment.fileItems) {
     console.log(`${i++} - file\t: ${fileItem.name}`);
