@@ -301,22 +301,22 @@ export class DirectoryURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {string} handleID Specific handle ID, cannot be asterisk "*".
+   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseHandlesSegment() to close all handles.
    * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
    * @memberof DirectoryURL
    */
   public async forceCloseHandle(
     aborter: Aborter,
-    handleID: string
+    handleId: string
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    if (handleID === "*") {
+    if (handleId === "*") {
       throw new RangeError(
         `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
       );
     }
 
-    return this.context.forceCloseHandles(handleID, {
+    return this.context.forceCloseHandles(handleId, {
       abortSignal: aborter
     });
   }
