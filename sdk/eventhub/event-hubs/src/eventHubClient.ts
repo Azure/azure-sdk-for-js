@@ -214,15 +214,20 @@ export class EventHubClient {
     if (!isTokenCredential(credentialOrOptions)) {
       connectionString = hostOrConnectionString;
       if (typeof eventHubPathOrOptions !== "string") {
+        // connectionstring and/or options were passed to constructor
         config = EventHubConnectionConfig.create(connectionString);
         options = eventHubPathOrOptions;
       } else {
-        config = EventHubConnectionConfig.create(connectionString, eventHubPathOrOptions);
+        // connectionstring, eventHubPath and/or options were passed to constructor
+        const eventHubPath = eventHubPathOrOptions;
+        config = EventHubConnectionConfig.create(connectionString, eventHubPath);
         options = credentialOrOptions;
       }
+      // Since connectionstring was passed, create a SharedKeyCredential
       credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
     } else {
-      const eventHubPath = String(eventHubPathOrOptions);
+      // host, eventHubPath, a TokenCredential and/or options were passed to constructor
+      const eventHubPath = eventHubPathOrOptions;
       let host = hostOrConnectionString;
       credential = credentialOrOptions;
 
