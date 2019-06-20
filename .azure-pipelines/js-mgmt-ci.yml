@@ -41,12 +41,8 @@ jobs:
         inputs:
           verbose: false
 
-      - task: Npm@1
-        displayName: 'npm pack'
-        inputs:
-          command: custom
-          verbose: false
-          customCommand: 'pack --logging-level=trace'
+      - script: 'gulp pack'
+        displayName: 'gulp pack'
 
       - task: CopyFiles@2
         displayName: 'Copy Files to: drop'
