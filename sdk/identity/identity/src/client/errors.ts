@@ -5,6 +5,9 @@
  * See the official documentation for more details:
  *
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
+ * 
+ * NOTE: This documentation is for v1 OAuth support but the same error
+ * response details still apply to v2.
  */
 export interface ErrorResponse {
   error: string;
