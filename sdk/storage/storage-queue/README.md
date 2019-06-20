@@ -107,9 +107,9 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
-### Create the Queue service Client
+### Create the Queue service client
 
-Use the constructor to create a instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
+Use the constructor to create an instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
 
 ```javascript
   // Enter your storage account name and shared key
@@ -205,11 +205,12 @@ doesn't prevent other code from accessing peeked messages.
 
 ### Processing a message
 
-Messages are processed in two steps.  First call `MessagesClient.dequeue()`. This makes the messages
-invisible to other code reading messagse from this queue for a default period of 30 seconds. When processing
-of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
-This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
-of your code can get the same message and try again.
+Messages are processed in two steps.
+
+  - First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+  - When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+
+If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
   const dequeueResponse = await messagesClient.dequeue();
@@ -249,7 +250,7 @@ A complete example of basic scenarios is at [samples/basic.js](https://github.co
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
 
 ```javascript
 class ConsoleHttpPipelineLogger {

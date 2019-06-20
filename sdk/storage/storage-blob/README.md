@@ -159,9 +159,9 @@ Use `BlobServiceClient.listContainers()` function to iterate the containers,
 with the new `for-await-of` syntax:
 
 ```javascript
-  let iter1 = await blobServiceClient.listContainers();
   let i = 1;
-  for await (const container of iter1) {
+  let iter = await blobServiceClient.listContainers();
+  for await (const container of iter) {
     console.log(`Container ${i++}: ${container.name}`);
   }
 ```
@@ -169,15 +169,27 @@ with the new `for-await-of` syntax:
 Alternatively without using `for-await-of`:
 
 ```javascript
-  let iter2 = await blobServiceClient.listContainers();
   i = 1;
-  let containerItem = await iter2.next();
-  do {
+  iter = blobServiceClient.listContainers();
+  let containerItem = await iter.next();
+  while (!containerItem.done) {
     console.log(`Container ${i++}: ${containerItem.value.name}`);
-    containerItem = await iter2.next();
-  } while (containerItem.value);
+    containerItem = await iter.next();
+  }
 ```
 
+In addition, pagination is supported for listing too via `byPage()`:
+
+```javascript
+  i = 1;
+  for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+    if (response.containerItems) {
+      for (const container of response.containerItems) {
+        console.log(`Container ${i++}: ${container.name}`);
+      }
+    }
+  }
+```
 
 ### Create a blob by uploading data to
 
@@ -201,9 +213,9 @@ Alternatively without using `for-await-of`:
 Similar to listing containers.
 
 ```javascript
-  iter1 = await containerClient.listBlobsFlat();
-  i = 1;
-  for await (const blob of iter1) {
+  let i = 1;
+  let iter = await containerClient.listBlobsFlat();
+  for await (const blob of iter) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 ```
@@ -262,7 +274,7 @@ A complete example of basic scenarios is at [samples/basic.js](https://github.co
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
 
 ```javascript
 class ConsoleHttpPipelineLogger {

@@ -280,7 +280,7 @@ A complete example of basic scenarios is at [samples/basic.js](https://github.co
 
 ## Troubleshooting
 
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
 
 ```javascript
 class ConsoleHttpPipelineLogger {
@@ -319,8 +319,8 @@ When creating the `FileServiceClient` instance, pass the logger in the options
 
 More code samples
 
-- [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
-- [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/test)
 
 ## Contributing
 
