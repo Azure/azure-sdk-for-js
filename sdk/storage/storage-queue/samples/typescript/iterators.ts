@@ -22,91 +22,88 @@ async function main() {
 
   console.log(`List queues`);
 
-  // List queues
+  // 1. List queues
   let i = 1;
-
-  let iter1 = queueServiceClient.listQueues();
-  for await (const item of iter1) {
-    console.log(`Queue${i}: ${item.name}`);
-    i++;
+  let iter = queueServiceClient.listQueues();
+  for await (const item of iter) {
+    console.log(`Queue ${i++}: ${item.name}`);
   }
 
-  // Same as the previous example
+  // 2. Same as the previous example
   i = 1;
   for await (const item of queueServiceClient.listQueues()) {
-    console.log(`Queue${i}: ${item.name}`);
-    i++;
+    console.log(`Queue ${i++}: ${item.name}`);
   }
 
-  // Generator syntax .next()
+  // 3. Generator syntax .next()
   i = 1;
-  let iter2 = queueServiceClient.listQueues();
-  let item2 = await iter2.next();
-  while (!item2.done) {
-    console.log(`Queue${i}: ${item2.value.name}`);
-    i++;
-    item2 = await iter2.next();
+  iter = queueServiceClient.listQueues();
+  let queueItem = await iter.next();
+  while (!queueItem.done) {
+    console.log(`Queue ${i++}: ${queueItem.value.name}`);
+    queueItem = await iter.next();
   }
 
   ////////////////////////////////////////////////////////
   ///////////////  Examples for .byPage()  ///////////////
   ////////////////////////////////////////////////////////
 
+  // 4. list queues by page
   i = 1;
-  for await (const item1 of queueServiceClient.listQueues().byPage({})) {
-    if (item1.queueItems) {
-      for (const queueItem of item1.queueItems) {
-        console.log(`Queue${i}: ${queueItem.name}`);
+  for await (const response of queueServiceClient.listQueues().byPage({})) {
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
         i++;
       }
     }
   }
 
-  // Same as the previous example - passing maxPageSize in the page settings
+  // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-    if (item2.queueItems) {
-      for (const queueItem of item2.queueItems) {
-        console.log(`Queue${i}: ${queueItem.name}`);
+  for await (const response of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
         i++;
       }
     }
   }
 
-  // Generator syntax .next()
+  // 6. Generator syntax .next()
   i = 1;
-  let iter3 = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-  let item3 = (await iter3.next()).value;
+  let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+  let response = (await iterator.next()).value;
   do {
-    if (item3.queueItems) {
-      for (const queueItem of item3.queueItems) {
-        console.log(`Queue${i}: ${queueItem.name}`);
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
         i++;
       }
     }
-    item3 = (await iter3.next()).value;
-  } while (item3);
+    response = (await iterator.next()).value;
+  } while (response);
 
-  // Passing marker as an argument (similar to the previous example)
+  // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  let iter4 = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-  let item = (await iter4.next()).value;
+  iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+  response = (await iterator.next()).value;
   // Prints 2 queue names
-  if (item.queueItems) {
-    for (const queueItem of item.queueItems) {
-      console.log(`Queue${i}: ${queueItem.name}`);
+  if (response.queueItems) {
+    for (const queueItem of response.queueItems) {
+      console.log(`Queue ${i++}: ${queueItem.name}`);
       i++;
     }
   }
   // Gets next marker
-  let marker = item.nextMarker;
+  let marker = response.nextMarker;
   // Passing next marker as continuationToken
-  iter4 = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-  item = (await iter4.next()).value;
+  iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+  response = (await iterator.next()).value;
   // Prints 10 queue names
-  if (item.queueItems) {
-    for (const queueItem of item.queueItems) {
-      console.log(`Queue${i}: ${queueItem.name}`);
+  if (response.queueItems) {
+    for (const queueItem of response.queueItems) {
+      console.log(`Queue ${i++}: ${queueItem.name}`);
       i++;
     }
   }
