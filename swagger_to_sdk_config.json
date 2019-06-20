@@ -9,7 +9,8 @@
     },
     "advanced_options": {
       "clone_dir": "./azure-sdk-for-js",
-      "create_sdk_pull_requests": false
+      "create_sdk_pull_requests": false,
+      "sdk_generation_pull_request_base": "integration_branch"
     },
     "version": "0.2.0"
   }
