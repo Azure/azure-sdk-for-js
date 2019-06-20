@@ -26,6 +26,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { LeaseClient } from "./LeaseClient";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure Container - Create operation.
@@ -398,6 +399,34 @@ export interface ContainerListBlobsSegmentOptions {
    * fewer results than specified by maxresults, or than the default of 5000.
    */
   maxresults?: number;
+  /**
+   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
+   * specify one or more datasets to include in the response.
+   */
+  include?: Models.ListBlobsIncludeItem[];
+}
+
+/**
+ * Options to configure Container - List Blobs operation.
+ *
+ * @export
+ * @interface ContainerListBlobsOptions
+ */
+export interface ContainerListBlobsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerListBlobsOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * @member {string} [prefix] Filters the results to return only containers
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
   /**
    * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
    * specify one or more datasets to include in the response.
@@ -869,53 +898,6 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Iterates over blobs under the specified container.
-   *
-   * @param {ContainerListBlobsSegmentOptions} [options={}] Options to list blobs(optional)
-   * @returns {AsyncIterableIterator<Models.BlobItem>}
-   * @memberof ContainerClient
-   *
-   * @example
-   * for await (const blob of containerClient.listBlobs()) {
-   *   console.log(`Container: ${blob.name}`);
-   * }
-   *
-   * @example
-   * let iter1 = containerClient.listBlobs();
-   * let i = 1;
-   * for await (const blob of iter1) {
-   *   console.log(`${i}: ${blob.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await containerClient.listBlobs();
-   * i = 1;
-   * let blobItem = await iter2.next();
-   * do {
-   *  console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *  blobItem = await iter2.next();
-   * } while (blobItem.value);
-   *
-   */
-  public async *listBlobsFlat(
-    options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<Models.BlobItem> {
-    let marker = undefined;
-    const containerClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listBlobsResponse;
-    do {
-      listBlobsResponse = await containerClient.listBlobFlatSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
-      marker = listBlobsResponse.nextMarker;
-      yield* listBlobsResponse.segment.blobItems;
-    } while (marker);
-  }
-
-  /**
    * listBlobFlatSegment returns a single segment of blobs starting from the
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call ListBlobsFlatSegment again
@@ -963,5 +945,88 @@ export class ContainerClient extends StorageClient {
       marker,
       ...options
     });
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ContainerListBlobFlatSegmentResponse
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse>}
+   * @memberof ContainerClient
+   */
+  async *listSegments(
+    marker?: string,
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse> {
+    let listBlobsFlatSegmentResponse;
+    do {
+      listBlobsFlatSegmentResponse = await this.listBlobFlatSegment(marker, options);
+      marker = listBlobsFlatSegmentResponse.nextMarker;
+      yield await listBlobsFlatSegmentResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for Blob Items
+   *
+   * @private
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerClient
+   */
+  async *listItems(
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.BlobItem> {
+    let marker: string | undefined;
+    for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
+      yield* listBlobsFlatSegmentResponse.segment.blobItems;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the blobs
+   * under the specified account.
+   *
+   *
+   * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
+   * @returns {PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @memberof ContainerClient
+   */
+  public listBlobsFlat(
+    options: ContainerListBlobsOptions = {}
+  ): PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse> {
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 }
