@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "../webResource";
+import { AbortSignalLike } from "./abortSignalLike";
 
 /**
  * Represents a credential capable of providing an authentication token.
