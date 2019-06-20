@@ -8,6 +8,7 @@ import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -71,6 +72,32 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptions {
    * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
+}
+
+/**
+ * Options to configure Directory - List Files and Directories operation.
+ *
+ * @export
+ * @interface DirectoryListFilesAndDirectoriesOptions
+ */
+export interface DirectoryListFilesAndDirectoriesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof DirectoryListFilesAndDirectoriesOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * Filters the results to return only entries whose
+   * name begins with the specified prefix.
+   *
+   * @type {string}
+   * @memberof DirectoryListFilesAndDirectoriesOptions
+   */
+  prefix?: string;
 }
 
 /**
@@ -385,6 +412,167 @@ export class DirectoryClient extends StorageClient {
       abortSignal: aborter,
       metadata
     });
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for DirectoryListFilesAndDirectoriesSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of files and directories to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all files and directories remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
+   * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @memberof DirectoryClient
+   */
+  private async *listSegments(
+    marker?: string,
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
+    let listFilesAndDirectoriesResponse;
+    do {
+      listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
+      marker = listFilesAndDirectoriesResponse.nextMarker;
+      yield await listFilesAndDirectoriesResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for file and directory items
+   *
+   * @private
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
+   * @returns {AsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem>}
+   * @memberof DirectoryClient
+   */
+  private async *listItems(
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): AsyncIterableIterator<
+    { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem
+  > {
+    let marker: string | undefined;
+    for await (const listFilesAndDirectoriesResponse of this.listSegments(marker, options)) {
+      for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
+        yield { kind: "file", name: file.name, properties: file.properties };
+      }
+      for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
+        yield { kind: "directory", name: directory.name };
+      }
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the files and directories
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the files and directories in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   for await (const entity of directoryClient.listFilesAndDirectories()) {
+   *     if (entity.kind === "directory") {
+   *       console.log(`${i++} - directory\t: ${entity.name}`);
+   *     } else {
+   *       console.log(`${i++} - file\t: ${entity.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   let iter = await directoryClient.listFilesAndDirectories();
+   *   let entity = await iter.next();
+   *   while (!entity.done) {
+   *     if (entity.value.kind === "directory") {
+   *       console.log(`${i++} - directory\t: ${entity.value.name}`);
+   *     } else {
+   *       console.log(`${i++} - file\t: ${entity.value.name}`);
+   *     }
+   *     entity = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of directoryClient
+   *     .listFilesAndDirectories()
+   *     .byPage({ maxPageSize: 20 })) {
+   *     for (const fileItem of response.segment.fileItems) {
+   *       console.log(`${i++} - file\t: ${fileItem.name}`);
+   *     }
+   *     for (const dirItem of response.segment.directoryItems) {
+   *       console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 3 file and directory names
+   *   for (const fileItem of response.segment.fileItems) {
+   *     console.log(`${i++} - file\t: ${fileItem.name}`);
+   *   }
+   *   for (const dirItem of response.segment.directoryItems) {
+   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *   }
+   *   // Gets next marker
+   *   let dirMarker = response.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   iterator = directoryClient
+   *     .listFilesAndDirectories()
+   *     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 file and directory names
+   *   for (const fileItem of response.segment.fileItems) {
+   *     console.log(`${i++} - file\t: ${fileItem.name}`);
+   *   }
+   *   for (const dirItem of response.segment.directoryItems) {
+   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *   }
+   *
+   * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
+   * @memberof DirectoryClient
+   * @returns {PagedAsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } , Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * An asyncIterableIterator that supports paging.
+   */
+  public listFilesAndDirectories(
+    options: DirectoryListFilesAndDirectoriesOptions = {}
+  ): PagedAsyncIterableIterator<
+    { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem,
+    Models.DirectoryListFilesAndDirectoriesSegmentResponse
+  > {
+    // AsyncIterableIterator to iterate over files and directories
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
