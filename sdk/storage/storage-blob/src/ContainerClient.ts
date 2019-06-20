@@ -995,6 +995,52 @@ export class ContainerClient extends StorageClient {
    * Returns an async iterable iterator to list all the blobs
    * under the specified account.
    *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   for await (const blob of containerClient.listBlobsFlat()) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   iter = containerClient.listBlobsFlat();
+   *   let blobItem = await iter.next();
+   *   while (!blobItem.done) {
+   *     console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *     blobItem = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+   *     for (const blob of response.segment.blobItems) {
+   *       console.log(`Blob ${i++}: ${blob.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 2 blob names
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *    }
+   *   // Gets next marker
+   *   let marker = response.nextMarker;
+   *    // Passing next marker as continuationToken
+   *   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 blob names
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
    *
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
    * @returns {PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.

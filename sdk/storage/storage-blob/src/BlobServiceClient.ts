@@ -439,7 +439,64 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Iterates over containers under the specified account.
+   * Returns an async iterable iterator to list all the containers
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the containers in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   for await (const container of blobServiceClient.listContainers()) {
+   *     console.log(`Container ${i++}: ${container.name}`);
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   iter = blobServiceClient.listContainers();
+   *   let containerItem = await iter.next();
+   *   while (!containerItem.done) {
+   *     console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *     containerItem = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+   *     if (response.containerItems) {
+   *       for (const container of response.containerItems) {
+   *         console.log(`Container ${i++}: ${container.name}`);
+   *       }
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 2 container names
+   *   if (response.containerItems) {
+   *     for (const container of response.containerItems) {
+   *       console.log(`Container ${i++}: ${container.name}`);
+   *     }
+   *   }
+   *   // Gets next marker
+   *   let marker = response.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   iterator = blobServiceClient
+   *     .listContainers()
+   *     .byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 container names
+   *   if (response.containerItems) {
+   *     for (const container of response.containerItems) {
+   *        console.log(`Container ${i++}: ${container.name}`);
+   *     }
+   *   }
+   *
    *
    * @param {ServiceListContainersOptions} [options={}] Options to list containers.
    * @returns {PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse>} An asyncIterableIterator that supports paging.
