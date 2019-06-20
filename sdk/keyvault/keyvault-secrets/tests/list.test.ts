@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { expect } from "chai";
 import { SecretsClient } from "../src";

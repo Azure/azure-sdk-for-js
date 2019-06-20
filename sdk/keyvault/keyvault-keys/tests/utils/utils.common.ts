@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { env } from "./recorder";
 
 // Async iterator's polyfill for Node 8

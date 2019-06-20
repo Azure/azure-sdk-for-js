@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import fs from "fs-extra";
 import queryString from "query-string";
 import { blobToString } from "./index.browser";
