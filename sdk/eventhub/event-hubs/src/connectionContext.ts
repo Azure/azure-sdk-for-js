@@ -21,7 +21,7 @@ import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-pr
 
 /**
  * @interface ConnectionContext
- * @ignore
+ * @internal
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -51,11 +51,17 @@ export interface ConnectionContext extends ConnectionContextBase {
   managementSession?: ManagementClient;
 }
 
+/**
+ * @internal
+ */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
   managementSessionAudience?: string;
 }
 
+/**
+ * @internal
+ */
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the EventHubs client.

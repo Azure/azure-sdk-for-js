@@ -24,7 +24,7 @@ import { EventPosition } from "./eventPosition";
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
  * @class BatchingReceiver
  * @extends EventHubReceiver
- * @ignore
+ * @internal
  */
 export class BatchingReceiver extends EventHubReceiver {
   /**

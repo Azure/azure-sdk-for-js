@@ -59,6 +59,9 @@ export interface PartitionProperties {
   lastEnqueuedTimeUtc: Date;
 }
 
+/**
+ * @internal
+ */
 export interface ManagementClientOptions {
   address?: string;
   audience?: string;
@@ -66,7 +69,7 @@ export interface ManagementClientOptions {
 
 /**
  * @class ManagementClient
- * @ignore
+ * @internal
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */

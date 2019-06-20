@@ -92,6 +92,7 @@ export class EventHubConsumer {
   }
 
   /**
+   * @constructor
    * @internal
    */
   constructor(

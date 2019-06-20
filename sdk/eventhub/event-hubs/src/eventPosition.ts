@@ -3,7 +3,7 @@
 
 /**
  * Describes the options that can be set while creating an EventPosition.
- * @ignore
+ * @internal
  * @interface EventPositionOptions
  */
 export interface EventPositionOptions {
@@ -73,6 +73,11 @@ export class EventPosition {
    */
   sequenceNumber?: number;
 
+  /**
+   * @constructor
+   * @internal
+   * @param options
+   */
   constructor(options?: EventPositionOptions) {
     if (options) {
       this.offset = options.offset;

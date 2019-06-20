@@ -113,6 +113,9 @@ export interface EventIteratorOptions {
 
 // @public
 export class EventPosition {
+    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
     constructor(options?: EventPositionOptions);
     static earliest(): EventPosition;
     enqueuedTime?: Date | number;
@@ -124,14 +127,6 @@ export class EventPosition {
     offset?: string;
     sequenceNumber?: number;
     }
-
-// @public
-export interface EventPositionOptions {
-    enqueuedTime?: Date | number;
-    isInclusive?: boolean;
-    offset?: string;
-    sequenceNumber?: number;
-}
 
 export { MessagingError }
 
@@ -166,6 +161,8 @@ export interface ReceivedEventData {
 // @public
 export class ReceiveHandler {
     // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
     constructor(receiver: EventHubReceiver);
     readonly consumerGroup: string | undefined;
     readonly isReceiverOpen: boolean;
@@ -184,8 +181,6 @@ export interface SendOptions {
     abortSignal?: AbortSignalLike;
     partitionKey?: string | null;
 }
-
-export { SharedKeyCredential }
 
 export { TokenCredential }
 

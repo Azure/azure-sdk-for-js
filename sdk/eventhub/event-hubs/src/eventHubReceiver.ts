@@ -31,6 +31,7 @@ interface CreateReceiverOptions {
 }
 
 /**
+ * @internal
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
  */
@@ -54,25 +55,6 @@ export interface ReceiverRuntimeInfo {
 }
 
 /**
- * Describes the checkoint information.
- * @interface CheckpointData
- */
-export interface CheckpointData {
-  /**
-   * @property {Date} enqueuedTimeUtc The enqueued time of the event.
-   */
-  enqueuedTimeUtc: Date;
-  /**
-   * @property {string} offset The offset of the event to be checked in.
-   */
-  offset: string;
-  /**
-   * @property {string} sequenceNumber The sequence number of the event to be checked in.
-   */
-  sequenceNumber: number;
-}
-
-/**
  * Describes the message handler signature.
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
@@ -85,7 +67,7 @@ export type OnError = (error: MessagingError | Error) => void;
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
- * @ignore
+ * @internal
  */
 export class EventHubReceiver extends LinkEntity {
   /**

@@ -37,6 +37,7 @@ export class EventHubProducer {
   }
 
   /**
+   * @constructor
    * @internal
    */
   constructor(context: ConnectionContext, options?: EventHubProducerOptions) {

@@ -25,7 +25,7 @@ export class ReceiveHandler {
   /**
    * Creates an instance of the ReceiveHandler.
    * @constructor
-   * @private
+   * @internal
    * @param {EventHubReceiver} receiver The underlying EventHubReceiver.
    */
   constructor(receiver: EventHubReceiver) {
@@ -84,7 +84,7 @@ export class ReceiveHandler {
 /**
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
- * @ignore
+ * @internal
  * @class StreamingReceiver
  * @extends EventHubReceiver
  */

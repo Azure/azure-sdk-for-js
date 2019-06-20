@@ -38,7 +38,7 @@ interface CreateSenderOptions {
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
- * @ignore
+ * @internal
  */
 export class EventHubSender extends LinkEntity {
   /**

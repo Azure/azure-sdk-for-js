@@ -15,7 +15,7 @@ export {
   RetryOptions,
   SendOptions
 } from "./eventHubClient";
-export { EventPosition, EventPositionOptions } from "./eventPosition";
+export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
@@ -25,6 +25,5 @@ export {
   DefaultDataTransformer,
   TokenType,
   TokenCredential,
-  SharedKeyCredential,
   delay
 } from "@azure/core-amqp";
