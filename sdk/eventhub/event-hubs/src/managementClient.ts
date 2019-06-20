@@ -161,7 +161,7 @@ export class ManagementClient extends LinkEntity {
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
-  async getPartitionInformation(
+  async getPartitionProperties(
     partitionId: string | number,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike }
   ): Promise<PartitionProperties> {

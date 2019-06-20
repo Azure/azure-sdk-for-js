@@ -125,7 +125,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
     it("'from last enqueued sequence number' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const partitionInfo = await client.getPartitionInformation(partitionId);
+      const partitionInfo = await client.getPartitionProperties(partitionId);
       debug("Creating a receiver with last enqueued sequence number");
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroup,
@@ -151,7 +151,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const pInfo = await client.getPartitionInformation(partitionId);
+      const pInfo = await client.getPartitionProperties(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
       debug("Establishing the receiver link...");
       // send a new message. We should only receive this new message.
@@ -188,7 +188,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       };
       await client.createProducer({ partitionId: partitionId }).send([ed]);
       debug(`Sent message 1 with stamp: ${uid}.`);
-      const pInfo = await client.getPartitionInformation(partitionId);
+      const pInfo = await client.getPartitionProperties(partitionId);
       const uid2 = uuid();
       const ed2: EventData = {
         body: "New message after last enqueued offset",
@@ -218,7 +218,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
     it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const pInfo = await client.getPartitionInformation(partitionId);
+      const pInfo = await client.getPartitionProperties(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
       debug("Establishing the receiver link...");
 
@@ -246,7 +246,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
     it("'after the particular sequence number' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const pInfo = await client.getPartitionInformation(partitionId);
+      const pInfo = await client.getPartitionProperties(partitionId);
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
@@ -288,7 +288,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       };
       await client.createProducer({ partitionId: partitionId }).send([ed]);
       debug(`Sent message 1 with stamp: ${uid}.`);
-      const pInfo = await client.getPartitionInformation(partitionId);
+      const pInfo = await client.getPartitionProperties(partitionId);
       const uid2 = uuid();
       const ed2: EventData = {
         body: "New message after the last enqueued offset",
@@ -806,7 +806,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   //       debug("sent message - " + i);
   //     }
   //     debug("Getting the partition information");
-  //     const pInfo = await client.getPartitionInformation(partitionId);
+  //     const pInfo = await client.getPartitionProperties(partitionId);
   //     debug("partition info: ", pInfo);
   //     debug("Creating new receiver with offset EndOfStream");
   //     receiver = client.createConsumer(partitionId, { eventPosition: EventPosition.fromStart(), enableReceiverRuntimeMetric: true });

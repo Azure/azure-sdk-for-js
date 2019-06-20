@@ -149,7 +149,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     > {
       try {
         client = new EventHubClient(service.connectionString, "bad" + Math.random());
-        await client.getPartitionInformation("0");
+        await client.getPartitionProperties("0");
       } catch (err) {
         debug(err);
         should.equal(err.name, "MessagingEntityNotFoundError");
@@ -237,7 +237,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
       it(`"${id}" should throw an error`, async function(): Promise<void> {
         try {
           client = new EventHubClient(service.connectionString, service.path);
-          await client.getPartitionInformation(id);
+          await client.getPartitionProperties(id);
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);
@@ -254,7 +254,7 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
       it(`"${id}" should throw an error`, async function(): Promise<void> {
         try {
           client = new EventHubClient(service.connectionString, service.path);
-          await client.getPartitionInformation(id as any);
+          await client.getPartitionProperties(id as any);
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);

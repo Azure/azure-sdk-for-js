@@ -340,11 +340,11 @@ export class EventHubClient {
    * @param {string} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+  async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
     try {
-      return await this._context.managementSession!.getPartitionInformation(partitionId, {
+      return await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
         abortSignal
       });

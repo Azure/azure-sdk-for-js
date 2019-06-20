@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
  This sample demonstrates how to use getHubRuntimeInformation() and
- getPartitionInformation() to get information about the Iot Hub instance.
+ getPartitionProperties() to get information about the Iot Hub instance.
 */
 import { EventHubClient } from "@azure/event-hubs";
 
@@ -16,7 +16,7 @@ async function main(): Promise<void> {
   const info = await client.getProperties();
   console.log("RuntimeInfo: ", info);
 
-  const pInfo = await client.getPartitionInformation(info.partitionIds[0]);
+  const pInfo = await client.getPartitionProperties(info.partitionIds[0]);
   console.log("Partition Information: ", pInfo);
 
   await client.close();

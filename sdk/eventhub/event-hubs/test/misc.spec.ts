@@ -44,7 +44,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const msgString = "A".repeat(220 * 1024);
     const msgBody = Buffer.from(msgString);
     const obj: EventData = { body: msgBody };
-    const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+    const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
     breceiver = BatchingReceiver.create(
@@ -83,7 +83,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       ]
     };
     const obj: EventData = { body: msgBody };
-    const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+    const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
@@ -118,7 +118,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       "some string"
     ];
     const obj: EventData = { body: msgBody, properties: { message_id: uuid() } };
-    const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+    const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
@@ -144,7 +144,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = true;
     const obj: EventData = { body: msgBody };
-    const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+    const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
@@ -169,7 +169,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
   it("should be able to send and receive batched messages correctly ", async function(): Promise<void> {
     try {
       const partitionId = hubInfo.partitionIds[0];
-      const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+      const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       const messageCount = 5;
       const d: EventData[] = [];
@@ -204,7 +204,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
   it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<void> {
     try {
       const partitionId = hubInfo.partitionIds[0];
-      const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
+      const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       const messageCount = 5;
       const d: EventData[] = [];
@@ -260,7 +260,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     debug("Discovering end of stream on each partition.");
     const partitionIds = hubInfo.partitionIds;
     for (const id of partitionIds) {
-      const pInfo = await client.getPartitionInformation(id);
+      const pInfo = await client.getPartitionProperties(id);
       partitionOffsets[id] = pInfo.lastEnqueuedOffset;
       debug(`Partition ${id} has last message with offset ${pInfo.lastEnqueuedOffset}.`);
     }

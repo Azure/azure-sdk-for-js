@@ -48,7 +48,7 @@ export class EventHubClient {
     static defaultConsumerGroup: string;
     readonly eventHubName: string;
     getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
+    getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
     getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
 }
 

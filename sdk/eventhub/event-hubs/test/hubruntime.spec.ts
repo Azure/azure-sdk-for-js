@@ -69,7 +69,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
   it("gets the partition runtime information with partitionId as a string", async function(): Promise<void> {
     client = new EventHubClient(service.connectionString, service.path);
-    const partitionRuntimeInfo = await client.getPartitionInformation("0");
+    const partitionRuntimeInfo = await client.getPartitionProperties("0");
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.id.should.equal("0");
     partitionRuntimeInfo.eventHubPath.should.equal(service.path);
@@ -80,7 +80,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
   it("gets the partition runtime information with partitionId as a number", async function(): Promise<void> {
     client = new EventHubClient(service.connectionString, service.path);
-    const partitionRuntimeInfo = await client.getPartitionInformation(0 as any);
+    const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.id.should.equal("0");
     partitionRuntimeInfo.eventHubPath.should.equal(service.path);
@@ -94,7 +94,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     try {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
-      await client.getPartitionInformation("0", controller.signal);
+      await client.getPartitionProperties("0", controller.signal);
       throw new Error(`Test failure`);
     } catch (err) {
       err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
@@ -104,7 +104,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   it("should fail the partition runtime information when partitionId is empty string", async function(): Promise<void> {
     client = new EventHubClient(service.connectionString, service.path);
     try {
-      await client.getPartitionInformation("");
+      await client.getPartitionProperties("");
     } catch (err) {
       err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi);
     }
@@ -115,7 +115,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   > {
     client = new EventHubClient(service.connectionString, service.path);
     try {
-      await client.getPartitionInformation(-1 as any);
+      await client.getPartitionProperties(-1 as any);
     } catch (err) {
       err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi);
     }
