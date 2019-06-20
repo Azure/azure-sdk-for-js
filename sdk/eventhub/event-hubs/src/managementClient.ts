@@ -40,7 +40,7 @@ export interface PartitionProperties {
   /**
    * @property {string} partitionId - Identifier of the partition within the eventhub.
    */
-  id: string;
+  partitionId: string;
   /**
    * @property {number} beginningSequenceNumber - The starting sequence number of the partition's message log.
    */
@@ -190,7 +190,7 @@ export class ManagementClient extends LinkEntity {
       lastEnqueuedOffset: info.last_enqueued_offset,
       lastEnqueuedTimeUtc: new Date(info.last_enqueued_time_utc),
       lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
-      id: info.partition
+      partitionId: info.partition
     };
     log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;

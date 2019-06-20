@@ -71,7 +71,7 @@ export class EventHubConsumer {
     readonly consumerGroup: string;
     getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
-    isReceivingMessages(): boolean;
+    readonly isReceivingMessages: boolean;
     readonly ownerLevel: number | undefined;
     readonly partitionId: string;
     receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
@@ -140,10 +140,10 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubPath: string;
-    id: string;
     lastEnqueuedOffset: string;
     lastEnqueuedSequenceNumber: number;
     lastEnqueuedTimeUtc: Date;
+    partitionId: string;
 }
 
 // @public
