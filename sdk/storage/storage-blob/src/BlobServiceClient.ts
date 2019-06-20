@@ -395,7 +395,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListContainersSegmentOptions
+   * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -406,7 +406,7 @@ export class BlobServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListContainersSegmentOptions>}
+   * @returns {AsyncIterableIterator<Models.ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
   async *listSegments(
