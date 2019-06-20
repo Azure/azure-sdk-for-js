@@ -84,7 +84,7 @@ async function main() {
   i = 1;
   let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
   let response = await iterator.next();
-  while (response.done) {
+  while (!response.done) {
     const segment = response.value.segment;
     for (const blob of segment.blobItems) {
       console.log(`Blob ${i++}: ${blob.name}`);

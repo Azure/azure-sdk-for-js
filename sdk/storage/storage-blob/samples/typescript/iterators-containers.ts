@@ -72,7 +72,7 @@ async function main() {
   i = 1;
   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 20 });
   let response = await iterator.next();
-  while (response.done) {
+  while (!response.done) {
     if (response.value.containerItems) {
       for (const container of response.value.containerItems) {
         console.log(`Container ${i++}: ${container.name}`);
