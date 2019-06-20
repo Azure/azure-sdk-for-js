@@ -8,6 +8,7 @@ import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -80,7 +81,7 @@ export interface ServiceListQueuesSegmentOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceListQueuesSegmentOptions
    */
   abortSignal?: Aborter;
   /**
@@ -98,6 +99,35 @@ export interface ServiceListQueuesSegmentOptions {
    * fewer results than specified by maxresults, or than the default of 5000.
    */
   maxresults?: number;
+  /**
+   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * specify that the queue's metadata be returned as part of the response
+   * body. Possible values include: 'metadata'
+   */
+  include?: ListQueuesIncludeType;
+}
+
+/**
+ * Options to configure Queue Service - List Queues operation
+ *
+ * @export
+ * @interface ServiceListQueuesOptions
+ */
+export interface ServiceListQueuesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListQueuesOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * @member {string} [prefix] Filters the results to return only queues
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
   /**
    * @member {ListQueuesIncludeType} [include] Include this parameter to
    * specify that the queue's metadata be returned as part of the response
@@ -254,56 +284,6 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Iterates over queues under the specified account.
-   *
-   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues.
-   * @returns {AsyncIterableIterator<Models.QueueItem>} An async iterator to list queues.
-   * @memberof QueueServiceClient
-   *
-   * @example
-   * let i = 1;
-   * for await (const item of queueServiceClient.listQueues()) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter1 = queueServiceClient.listQueues();
-   * let i = 1;
-   * for await (const item of iter1) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await queueServiceClient.listQueues();
-   * i = 1;
-   * let item = await iter2.next();
-   * do {
-   *   console.log(`Queue${i++}: ${item.value.name}`);
-   *   item = await iter2.next();
-   * } while (item.value);
-   *
-   */
-  public async *listQueues(
-    options: ServiceListQueuesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.QueueItem> {
-    let marker = undefined;
-    const queueServiceClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listQueuesResponse;
-    do {
-      listQueuesResponse = await queueServiceClient.listQueuesSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
-
-      marker = listQueuesResponse.nextMarker;
-      yield* listQueuesResponse.queueItems;
-    } while (marker);
-  }
-
-  /**
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
@@ -328,5 +308,143 @@ export class QueueServiceClient extends StorageClient {
       marker,
       ...options
     });
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of queues to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all queues remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @memberof QueueServiceClient
+   */
+  private async *listSegments(
+    marker?: string,
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
+    let listQueuesResponse;
+    do {
+      listQueuesResponse = await this.listQueuesSegment(marker, options);
+      marker = listQueuesResponse.nextMarker;
+      yield await listQueuesResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for Queue Items
+   *
+   * @private
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @memberof QueueServiceClient
+   */
+  private async *listItems(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.QueueItem> {
+    let marker: string | undefined;
+    for await (const segment of this.listSegments(marker, options)) {
+      yield* segment.queueItems;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the queues
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the queues in pages.
+   * @example
+   *    let i = 1;
+   *    for await (const item of queueServiceClient.listQueues()) {
+   *      console.log(`Queue${i}: ${item.name}`);
+   *      i++;
+   *    }
+   *
+   * @example
+   *    // Generator syntax .next()
+   *    let i = 1;
+   *    let iterator = queueServiceClient.listQueues();
+   *    let item = await iterator.next();
+   *    while (!item.done) {
+   *      console.log(`Queue${i}: ${iterator.value.name}`);
+   *      i++;
+   *      item = await iterator.next();
+   *    }
+   *
+   * @example
+   *    // Example for .byPage()
+   *    // passing optional maxPageSize in the page settings
+   *    let i = 1;
+   *    for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *      if (item2.queueItems) {
+   *        for (const queueItem of item2.queueItems) {
+   *          console.log(`Queue${i}: ${queueItem.name}`);
+   *          i++;
+   *        }
+   *      }
+   *    }
+   *
+   * @example
+   *    let i = 1;
+   *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+   *    let item = (await iterator.next()).value;
+   *    // Prints 2 queue names
+   *    if (item.queueItems) {
+   *      for (const queueItem of item.queueItems) {
+   *        console.log(`Queue${i}: ${queueItem.name}`);
+   *        i++;
+   *      }
+   *    }
+   *    // Gets next marker
+   *    let marker = item.nextMarker;
+   *    // Passing next marker as continuationToken
+   *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *    item = (await iterator.next()).value;
+   *    // Prints 10 queue names
+   *    if (item.queueItems) {
+   *      for (const queueItem of item.queueItems) {
+   *        console.log(`Queue${i}: ${queueItem.name}`);
+   *        i++;
+   *      }
+   *    }
+   *
+   * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
+   * @memberof QueueServiceClient
+   * @returns {PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse>} An asyncIterableIterator that supports paging.
+   */
+  public listQueues(
+    options: ServiceListQueuesOptions = {}
+  ): PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse> {
+    // AsyncIterableIterator to iterate over queues
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 }

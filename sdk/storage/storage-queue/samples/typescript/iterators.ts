@@ -22,22 +22,91 @@ async function main() {
 
   console.log(`List queues`);
 
-  // List queues
-  let iter1 = queueServiceClient.listQueues();
+  // 1. List queues
   let i = 1;
-  for await (const item of iter1) {
-    console.log(`Queue${i}: ${item.name}`);
-    i++;
+  let iter = queueServiceClient.listQueues();
+  for await (const item of iter) {
+    console.log(`Queue ${i++}: ${item.name}`);
   }
 
-  // List queues - generator syntax
-  let iter2 = await queueServiceClient.listQueues();
+  // 2. Same as the previous example
   i = 1;
-  let item = await iter2.next();
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${item.name}`);
+  }
+
+  // 3. Generator syntax .next()
+  i = 1;
+  iter = queueServiceClient.listQueues();
+  let queueItem = await iter.next();
+  while (!queueItem.done) {
+    console.log(`Queue ${i++}: ${queueItem.value.name}`);
+    queueItem = await iter.next();
+  }
+
+  ////////////////////////////////////////////////////////
+  ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
+
+  // 4. list queues by page
+  i = 1;
+  for await (const response of queueServiceClient.listQueues().byPage()) {
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
+        i++;
+      }
+    }
+  }
+
+  // 5. Same as the previous example - passing maxPageSize in the page settings
+  i = 1;
+  for await (const response of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
+        i++;
+      }
+    }
+  }
+
+  // 6. Generator syntax .next()
+  i = 1;
+  let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+  let response = (await iterator.next()).value;
   do {
-    console.log(`Queue${i++}: ${item.value.name}`);
-    item = await iter2.next();
-  } while (item.value);
+    if (response.queueItems) {
+      for (const queueItem of response.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
+        i++;
+      }
+    }
+    response = (await iterator.next()).value;
+  } while (response);
+
+  // 7. Passing marker as an argument (similar to the previous example)
+  i = 1;
+  iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+  response = (await iterator.next()).value;
+  // Prints 2 queue names
+  if (response.queueItems) {
+    for (const queueItem of response.queueItems) {
+      console.log(`Queue ${i++}: ${queueItem.name}`);
+      i++;
+    }
+  }
+  // Gets next marker
+  let marker = response.nextMarker;
+  // Passing next marker as continuationToken
+  iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+  response = (await iterator.next()).value;
+  // Prints 10 queue names
+  if (response.queueItems) {
+    for (const queueItem of response.queueItems) {
+      console.log(`Queue ${i++}: ${queueItem.name}`);
+      i++;
+    }
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
