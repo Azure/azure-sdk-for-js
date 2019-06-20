@@ -129,17 +129,16 @@ Once a secret is created, it is possible to update attributes of the secret. For
 Key vaults allow deleting secrets so that they are no longer available.
 
 In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
- 
+
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets.
 
 Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
 
 ### Create a secret
 `setSecret` creates a secret to be stored in the Azure Key Vault. If a secret with the same name already exists, then a new version of the secret is created.
 ```javascript
-// Create out first secret
 const secretName = "MySecretName";
 const result = await client.setSecret(secretName, "MySecretValue");
 ```
@@ -169,7 +168,7 @@ for await (let listedSecret of client.listSecrets()) {
 
 ### Update the attributes of a secret
 `updateSecretAttributes` updates the attributes of a secret.
-```javascript 
+```javascript
 const result = getSecret(secretName);
 await client.updateSecretAttributes(secretName, result.version, { enabled: false });
 ```
@@ -225,7 +224,7 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
     ```bash
       node your-test-script.js &> out.log
     ```
-    
+
 ## Next steps
 
 Please take a look at the
