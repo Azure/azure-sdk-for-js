@@ -325,7 +325,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
-  async *listSegments(
+  private async *listSegments(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
@@ -345,7 +345,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
-  async *listItems(
+  private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.QueueItem> {
     let marker: string | undefined;
