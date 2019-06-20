@@ -114,40 +114,42 @@ async function main() {
   // 6. Generator syntax .next()
   i = 1;
   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 2 });
-  let response = (await iterator.next()).value;
-  do {
-    for (const fileItem of response.segment.fileItems) {
+  let response = await iterator.next();
+  while (!response.done) {
+    const segment = response.value.segment;
+    for (const fileItem of segment.fileItems) {
       console.log(`${i++} - file\t: ${fileItem.name}`);
     }
-    for (const dirItem of response.segment.directoryItems) {
+    for (const dirItem of segment.directoryItems) {
       console.log(`${i++} - directory\t: ${dirItem.name}`);
     }
-    response = (await iterator.next()).value;
-  } while (response);
+    response = await iterator.next();
+  }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
   iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 3 file and directory names
-  for (const fileItem of response.segment.fileItems) {
+  const segment = response.value.segment;
+  for (const fileItem of segment.fileItems) {
     console.log(`${i++} - file\t: ${fileItem.name}`);
   }
-  for (const dirItem of response.segment.directoryItems) {
+  for (const dirItem of segment.directoryItems) {
     console.log(`${i++} - directory\t: ${dirItem.name}`);
   }
   // Gets next marker
-  let dirMarker = response.nextMarker;
+  let dirMarker = response.value.nextMarker;
   // Passing next marker as continuationToken
   iterator = directoryClient
     .listFilesAndDirectories()
     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 10 file and directory names
-  for (const fileItem of response.segment.fileItems) {
+  for (const fileItem of segment.fileItems) {
     console.log(`${i++} - file\t: ${fileItem.name}`);
   }
-  for (const dirItem of response.segment.directoryItems) {
+  for (const dirItem of segment.directoryItems) {
     console.log(`${i++} - directory\t: ${dirItem.name}`);
   }
 

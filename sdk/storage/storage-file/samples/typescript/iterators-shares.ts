@@ -72,34 +72,34 @@ async function main() {
   // 6. Generator syntax .next()
   i = 1;
   let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
-  let response = (await iterator.next()).value;
-  do {
-    if (response.shareItems) {
-      for (const share of response.shareItems) {
+  let response = await iterator.next();
+  while (!response.done) {
+    if (response.value.shareItems) {
+      for (const share of response.value.shareItems) {
         console.log(`Share ${i++}: ${share.name}`);
       }
     }
-    response = (await iterator.next()).value;
-  } while (response);
+    response = await iterator.next();
+  }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
   iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 2 share names
-  if (response.shareItems) {
-    for (const share of response.shareItems) {
+  if (response.value.shareItems) {
+    for (const share of response.value.shareItems) {
       console.log(`Share ${i++}: ${share.name}`);
     }
   }
   // Gets next marker
-  let marker = response.nextMarker;
+  let marker = response.value.nextMarker;
   // Passing next marker as continuationToken
   iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 10 share names
-  if (response.shareItems) {
-    for (const share of response.shareItems) {
+  if (response.value.shareItems) {
+    for (const share of response.value.shareItems) {
       console.log(`Share ${i++}: ${share.name}`);
     }
   }
