@@ -4,8 +4,12 @@
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./StorageClient";
+import { extractConnectionStringParts } from "./utils/utils.common";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -60,7 +64,38 @@ export class MessageIdClient extends StorageClient {
   private messageIdContext: MessageId;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of MessageIdClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} queueName Queue name.
+   * @param {string} messageId Message Id.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof MessageIdClient
+   */
+  constructor(
+    connectionString: string,
+    queueName: string,
+    messageId: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of MessageIdClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue's message, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof MessageIdClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of MessageIdClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue's message, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -69,8 +104,46 @@ export class MessageIdClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    messageIdOrOptions?: string | NewPipelineOptions,
+    options: NewPipelineOptions = {}
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+      options = messageIdOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
+    } else if (
+      !credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName !== "string"
+    ) {
+      options = messageIdOrOptions as NewPipelineOptions;
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string" &&
+      messageIdOrOptions &&
+      typeof messageIdOrOptions === "string"
+    ) {
+      const queueName = credentialOrPipelineOrQueueName;
+      const messageId = messageIdOrOptions;
+
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName + "/" + messageId;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for queueName and messageId parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.messageIdContext = new MessageId(this.storageClientContext);
   }
 
@@ -79,8 +152,8 @@ export class MessageIdClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
-   * @param {MessageIdDeleteOptions} [options] Optional options to MessageId Delete operation.
-   * @returns {Promise<Models.MessageIdDeleteResponse>}
+   * @param {MessageIdDeleteOptions} [options] Options to MessageId Delete operation.
+   * @returns {Promise<Models.MessageIdDeleteResponse>} Response data for the MessageId delete operation.
    * @memberof MessageIdClient
    */
   public async delete(
@@ -106,8 +179,8 @@ export class MessageIdClient extends StorageClient {
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {MessageIdUpdateOptions} [options] Optional options to MessageId Update operation.
-   * @returns {Promise<Models.MessageIdUpdateResponse>}
+   * @param {MessageIdUpdateOptions} [options] Options to MessageId Update operation.
+   * @returns {Promise<Models.MessageIdUpdateResponse>} Response data for the MessageId update operation.
    * @memberof MessageIdClient
    */
   public async update(

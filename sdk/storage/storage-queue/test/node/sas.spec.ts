@@ -16,20 +16,31 @@ import {
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getQSU, getUniqueName, sleep } from "../utils/index";
+import { getQSU, sleep } from "../utils/index";
+import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const queueServiceClient = getQSU();
 
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -56,11 +67,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -90,11 +101,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -124,11 +135,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -161,17 +172,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateQueueSASQueryParameters should work for queue", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const queueName = getUniqueName("queue");
+    const queueName = recorder.getUniqueName("queue");
     const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
@@ -189,27 +200,24 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${queueClient.url}?${queueSAS}`;
-    const queueClientwithSAS = new QueueClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const queueClientwithSAS = new QueueClient(sasURL, newPipeline(new AnonymousCredential()));
 
     await queueClientwithSAS.getProperties();
     await queueClient.delete();
   });
 
   it("generateQueueSASQueryParameters should work for messages", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const queueName = getUniqueName("queue");
+    const queueName = recorder.getUniqueName("queue");
     const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
@@ -239,14 +247,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let pResult = await messagesClient.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdClient = messagesClient.createMessageIdClient(
-      enqueueResult.messageId
-    );
+    const messageIdClient = messagesClient.createMessageIdClient(enqueueResult.messageId);
     const sasURLForMessageId = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientWithSAS = new MessageIdClient(
-      sasURLForMessageId,
-      newPipeline(new AnonymousCredential())
-    );
+    const messageIdClientWithSAS = new MessageIdClient(sasURLForMessageId);
 
     await messageIdClientWithSAS.delete(enqueueResult.popReceipt);
 
@@ -257,17 +260,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateQueueSASQueryParameters should work for queue with access policy", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = queueServiceClient.pipeline.factories;
+    const factories = (queueServiceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const queueName = getUniqueName("queue");
+    const queueName = recorder.getUniqueName("queue");
     const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
@@ -294,10 +297,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const messagesClient = queueClient.createMessagesClient();
 
     const sasURL = `${messagesClient.url}?${queueSAS}`;
-    const messagesClientwithSAS = new MessagesClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const messagesClientwithSAS = new MessagesClient(sasURL);
 
     const messageContent = "hello";
 
@@ -317,10 +317,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURLForMessage = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientwithSAS = new MessageIdClient(
-      sasURLForMessage,
-      newPipeline(new AnonymousCredential())
-    );
+    const messageIdClientwithSAS = new MessageIdClient(sasURLForMessage);
     const deleteResult = await messageIdClientwithSAS.delete(
       dResult.dequeuedMessageItems[0].popReceipt
     );

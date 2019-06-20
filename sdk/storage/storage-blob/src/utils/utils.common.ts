@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { isNode, URLBuilder } from "@azure/ms-rest-js";
+import * as fs from "fs";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -69,6 +71,55 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Blob, account name, and account key.
+ */
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
+  const matchCredentials = connectionString.match(
+    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
+  );
+
+  let defaultEndpointsProtocol;
+  let accountName;
+  let accountKey;
+  let endpointSuffix;
+
+  try {
+    defaultEndpointsProtocol = matchCredentials![1] || "";
+    accountName = matchCredentials![2] || "";
+    accountKey = Buffer.from(matchCredentials![3], "base64");
+    endpointSuffix = matchCredentials![4] || "";
+  } catch (err) {
+    throw new Error("Invalid Connection String");
+  }
+
+  const protocol = defaultEndpointsProtocol.toLowerCase();
+  if (protocol !== "https" && protocol !== "http") {
+    throw new Error(
+      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+    );
+  } else if (!accountName) {
+    throw new Error("Invalid AccountName in the provided Connection String");
+  } else if (accountKey.length === 0) {
+    throw new Error("Invalid AccountKey in the provided Connection String");
+  } else if (!endpointSuffix) {
+    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+  }
+
+  const url = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+
+  return {
+    url: url,
+    accountName: accountName,
+    accountKey: accountKey
+  };
+}
 /**
  * Internal escape method implmented Strategy Two mentioned in escapeURL() description.
  *
@@ -286,4 +337,94 @@ export function padStart(
     }
     return padString.slice(0, targetLength) + currentString;
   }
+}
+
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of originalHeader.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  return headers;
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Writes the content of a readstream to a local file. Returns a Promise which is completed after the file handle is closed.
+ * If Promise is rejected, the reason will be set to the first error raised by either the
+ * ReadableStream or the fs.WriteStream.
+ *
+ * @export
+ * @param {NodeJS.ReadableStream} rs The read stream.
+ * @param {string} file Destination file path.
+ * @returns {Promise<void>}
+ */
+export async function readStreamToLocalFile(
+  rs: NodeJS.ReadableStream,
+  file: string
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const ws = fs.createWriteStream(file);
+
+    // Set STREAM_DEBUG env var to log stream events while running tests
+    if (process.env.STREAM_DEBUG) {
+      rs.on("close", () => console.log("rs.close"));
+      rs.on("data", () => console.log("rs.data"));
+      rs.on("end", () => console.log("rs.end"));
+      rs.on("error", () => console.log("rs.error"));
+
+      ws.on("close", () => console.log("ws.close"));
+      ws.on("drain", () => console.log("ws.drain"));
+      ws.on("error", () => console.log("ws.error"));
+      ws.on("finish", () => console.log("ws.finish"));
+      ws.on("pipe", () => console.log("ws.pipe"));
+      ws.on("unpipe", () => console.log("ws.unpipe"));
+    }
+
+    let error: Error;
+
+    rs.on("error", (err: Error) => {
+      // First error wins
+      if (!error) {
+        error = err;
+      }
+
+      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
+      // to ensure ws.close is eventually raised.
+      rs.emit("end");
+    });
+
+    ws.on("error", (err: Error) => {
+      // First error wins
+      if (!error) {
+        error = err;
+      }
+    });
+
+    ws.on("close", () => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+
+    rs.pipe(ws);
+  });
 }

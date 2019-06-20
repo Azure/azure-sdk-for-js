@@ -5,7 +5,7 @@ keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs).
 
-Azure KeyVault Key management allows you to creatge and control
+Azure KeyVault Key management allows you to create and control
 encryption keys that encrypt your data.
 
 Use the client library for Azure KeyVault Keys in your Node.js application to
@@ -45,67 +45,130 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
+### Configuring your Key Vault
+
+Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to create/get client secret credentials.
+
+ * Create a service principal and configure its access to Azure resources:
+    ```Bash
+    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+    ```
+    Output:
+    ```json
+    {
+        "appId": "generated-app-ID",
+        "displayName": "dummy-app-name",
+        "name": "http://dummy-app-name",
+        "password": "random-password",
+        "tenant": "tenant-ID"
+    }
+    ```
+* Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+  ```Bash
+    export AZURE_CLIENT_ID="generated-app-ID"
+    export AZURE_CLIENT_SECRET="random-password"
+    export AZURE_TENANT_ID="tenant-ID"
+  ```
+
+* Grant the above mentioned application authorization to perform secret operations on the keyvault:
+    ```Bash
+    az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+    ```
+    > --secret-permissions:
+    > Accepted values: backup, delete, get, list, purge, recover, restore, set
+
+* Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
+    ```Bash
+    az keyvault show --name <your-key-vault-name>
+    ```
+
 ### Authenticate the client
 
-Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeysClient, which will connect to the key vault.
 
 ```typescript
+import { EnvironmentCredential } from "@azure/identity";
 import { KeysClient } from "@azure/keyvault-keys";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+```
 
-const clientId = process.env["CLIENT_ID"] || "";
-const clientSecret = process.env["CLIENT_SECRET"] || "";
-const tenantId = process.env["TENANT_ID"] || "";
-const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
+```typescript
+// EnvironmentCredential expects the following three environment variables:
+// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// * AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new EnvironmentCredential();
+
+// Build the URL to reach your key vault
+const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
-const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-  clientId,
-  clientSecret,
-  tenantId,
-  {
-    tokenAudience: 'https://vault.azure.net'
-  }
-);
 
+// Lastly, create our keys client and connect to the service
 const client = new KeysClient(url, credential);
 ```
 
 ## Key concepts
 
-> Soon.
+Azure Key Vault allows you to create and store keys in the key vault. Azure supports RSA keys and elliptic curve keys, each with corresponding support in hardware security modules (HSM).
 
- 
+Multiple keys, and multiple versions of the same key, can be kept in the key vault. Keys can be listed, as well as versions of the same key. Keys can have attributes (Eg, if it is enabled) updated after they are created. Keys can also be deleted, and -- in key vaults with soft delete -- these deleted keys can be recovered.
+
+### Creating keys and key versions
+
+Azure Key Vault allows you to create keys that are stored in the key vault. When a key is first created, it is given a name. This name acts as a way to reach the key later.
+
+Keys in the key vault can have multiple versions of the same key. These are called versions of that key.
+
+Keys can be created using either RSA or elliptic curve algorithms, each with corresponding support for hardware security modules (HSMs).
+
+In addition to creating keys, existing key data can be imported into a key vault.
+
+### Getting keys from the key vault
+
+The simplest way to read keys back from the vault is to get a key by name. This will retrieve the most recent version of the key. You can optionally get a different version of the key if you also know the version you want.
+
+Key vaults also support listing the keys they have, as well as listing the all the versions of the given key.
+
+### Updating key attributes
+
+Once a key is created, it is possible to update attributes of the key. For example, if a key needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
+
+### Working with deleted keys
+
+Key vaults allow deleting keys so that they are no longer available.
+
+In key vaults with 'soft delete' enabled, keys are not immediately removed but instead marked simply as 'deleted'. These deleted keys can be listed, purged, and recovered.
+
 ## Examples
 
-The following sections provide code snippets that cover some of the
-common tasks using Azure KeyVault Keys
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Keys. 
 
-- [Single key](#single-key)
-
-### Single key
-
-Once you have created an instance of an `KeysClient` class, you can:
+Once you have authenticated and created an instance of an `KeysClient` class (see "Authenticate the client" above), you can create, read, update, and delete keys:
 
 ```javascript
-const secretName = "MyKeyName";
-const result = await client.createKey("MyKeyName", "RSA");
+const keyName = "MyKeyName";
 
+// Create a key using the RSA algorithm
+const result = await client.createKey(keyName, "RSA");
 console.log("result: ", result);
 
-for await (let x of client.getKeyVersions("MyKeyName")) {
-  console.log(">> ", x);
-}
-
-const getResult = await client.getKey("MyKeyName");
+// Get the key we just created
+const getResult = await client.getKey(keyName);
 console.log("getResult: ", getResult);
-let encoded = Buffer.from("Hello World");
 
-for await (let x of client.getAllKeys()) {
-  console.log(">> ", x);
+// List all the versions of the key in the key vault
+for await (let version of client.listKeyVersions(keyName)) {
+  console.log("version: ", version);
 }
 
-await client.deleteKey(secretName);
+// We can also list all the keys in our key vault
+for await (let listedKey of client.listKeys()) {
+  console.log("key: ", listedKey);
+}
+
+// Delete the key we just created
+await client.deleteKey(keyName);
 ```
 
 ## Troubleshooting

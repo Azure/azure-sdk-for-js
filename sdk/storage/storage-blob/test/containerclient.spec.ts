@@ -1,7 +1,6 @@
 import * as assert from "assert";
-
-import { getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -62,99 +61,6 @@ describe("ContainerClient", () => {
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
-  });
-
-  it("acquireLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 30;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("releaseLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = -1;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "infinite");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("renewLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await sleep(16 * 1000);
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "expired");
-    assert.equal(result2.leaseStatus, "unlocked");
-
-    await containerClient.renewLease(guid);
-    const result3 = await containerClient.getProperties();
-    assert.equal(result3.leaseDuration, "fixed");
-    assert.equal(result3.leaseState, "leased");
-    assert.equal(result3.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("changeLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await containerClient.changeLease(guid, newGuid);
-
-    await containerClient.getProperties();
-    await containerClient.releaseLease(newGuid);
-  });
-
-  it("breakLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.breakLease(3);
-
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "breaking");
-    assert.equal(result2.leaseStatus, "locked");
-
-    await sleep(3 * 1000);
-
-    const result3 = await containerClient.getProperties();
-    assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, "broken");
-    assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("listBlobFlatSegment with default parameters", async () => {
@@ -222,7 +128,38 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Verify AsyncIterator(generator .next() syntax) for listBlobsFlat", async () => {
+  it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    for await (const blob of containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      prefix
+    })) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      assert.deepStrictEqual(blob.metadata, metadata);
+      i++;
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -256,7 +193,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Verify AsyncIterator(for-loop syntax) for listBlobsFlat", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage()) for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -273,11 +210,65 @@ describe("ContainerClient", () => {
     }
 
     let i = 0;
-    for await (const blob of containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      prefix,
-      maxresults: 2
-    })) {
+    for await (const response of containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const blob of response.segment.blobItems) {
+        assert.ok(blobClients[i].url.indexOf(blob.name));
+        assert.deepStrictEqual(blob.metadata, metadata);
+        i++;
+      }
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    let iter = containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobItems) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      assert.deepStrictEqual(blob.metadata, metadata);
+      i++;
+    }
+    // Gets next marker
+    let marker = response.nextMarker;
+    // Passing next marker as continuationToken
+    iter = containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
       assert.deepStrictEqual(blob.metadata, metadata);
       i++;
@@ -371,6 +362,39 @@ describe("ContainerClient", () => {
 
     for (const blob of blobClients) {
       await blob.delete();
+    }
+  });
+
+  it("uploadBlockBlob and deleteBlob", async () => {
+    const body: string = getUniqueName("randomstring");
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        keya: "vala",
+        keyb: "valb"
+      }
+    };
+    const blobName: string = getUniqueName("blob");
+    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+      blobHTTPHeaders: options,
+      metadata: options.metadata
+    });
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
+
+    await containerClient.deleteBlob(blobName);
+    try {
+      await blockBlobClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
     }
   });
 });

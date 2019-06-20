@@ -9,7 +9,7 @@ import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
 import { Range, rangeToString } from "./Range";
 import { FileHTTPHeaders, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
@@ -17,10 +17,13 @@ import {
   FILE_RANGE_MAX_SIZE_BYTES,
   DEFAULT_HIGH_LEVEL_PARALLELISM
 } from "./utils/constants";
+import { Credential } from "./credentials/Credential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { readStreamToLocalFile } from "./utils/utils.common";
 
 /**
  * Options to configure File - Create operation.
@@ -520,11 +523,43 @@ export class FileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof FileClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of FileClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a file.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
+   *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
+
     super(url, pipeline);
     this.context = new File(this.storageClientContext);
   }
@@ -534,8 +569,8 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
-   * @param {FileCreateOptions} [options] Optional options to File Create operation.
-   * @returns {Promise<Models.FileCreateResponse>}
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns {Promise<Models.FileCreateResponse>} Response data for the File Create  operation.
    * @memberof FileClient
    */
   public async create(
@@ -565,8 +600,8 @@ export class FileClient extends StorageClient {
    *
    * @param {number} [offset] From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {FileDownloadOptions} [options] Optional options to File Download operation.
-   * @returns {Promise<Models.FileDownloadResponse>}
+   * @param {FileDownloadOptions} [options] Options to File Download operation.
+   * @returns {Promise<Models.FileDownloadResponse>} Response data for the File Download operation.
    * @memberof FileClient
    */
   public async download(
@@ -643,8 +678,8 @@ export class FileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
-   * @param {FileGetPropertiesOptions} [options] Optional options to File Get Properties operation.
-   * @returns {Promise<Models.FileGetPropertiesResponse>}
+   * @param {FileGetPropertiesOptions} [options] Options to File Get Properties operation.
+   * @returns {Promise<Models.FileGetPropertiesResponse>} Response data for the File Get Properties operation.
    * @memberof FileClient
    */
   public async getProperties(
@@ -670,8 +705,8 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {FileDeleteOptions} [options] Optional options to File Delete operation.
-   * @returns {Promise<Models.FileDeleteResponse>}
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns {Promise<Models.FileDeleteResponse>} Response data for the File Delete operation.
    * @memberof FileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
@@ -690,8 +725,8 @@ export class FileClient extends StorageClient {
    *
    * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
-   * @param {FileSetHTTPHeadersOptions} [options] Optional options to File Set HTTP Headers operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
+   * @param {FileSetHTTPHeadersOptions} [options] Options to File Set HTTP Headers operation.
+   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async setHTTPHeaders(
@@ -713,8 +748,8 @@ export class FileClient extends StorageClient {
    * @param {number} length Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
-   * @param {FileResizeOptions} [options] Optional options to File Resize operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
+   * @param {FileResizeOptions} [options] Options to File Resize operation.
+   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async resize(
@@ -739,8 +774,8 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
-   * @param {FileSetMetadataOptions} [options] Optional options to File Set Metadata operation.
-   * @returns {Promise<Models.FileSetMetadataResponse>}
+   * @param {FileSetMetadataOptions} [options] Options to File Set Metadata operation.
+   * @returns {Promise<Models.FileSetMetadataResponse>} Response data for the File Set Metadata operation.
    * @memberof FileClient
    */
   public async setMetadata(
@@ -763,8 +798,8 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {FileUploadRangeOptions} [options] Optional options to File Upload Range operation.
-   * @returns {Promise<Models.FileUploadRangeResponse>}
+   * @param {FileUploadRangeOptions} [options] Options to File Upload Range operation.
+   * @returns {Promise<Models.FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof FileClient
    */
   public async uploadRange(
@@ -801,7 +836,7 @@ export class FileClient extends StorageClient {
    *
    * @param {number} offset
    * @param {number} contentLength
-   * @param {FileClearRangeOptions} [options] Optional options to File Clear Range operation.
+   * @param {FileClearRangeOptions} [options] Options to File Clear Range operation.
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -823,7 +858,7 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {FileGetRangeListOptions} [options] Optional options to File Get range List operation.
+   * @param {FileGetRangeListOptions} [options] Options to File Get range List operation.
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
@@ -860,7 +895,7 @@ export class FileClient extends StorageClient {
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {FileStartCopyOptions} [options] Optional options to File Start Copy operation.
+   * @param {FileStartCopyOptions} [options] Options to File Start Copy operation.
    * @returns {Promise<Models.FileStartCopyResponse>}
    * @memberof FileClient
    */
@@ -881,7 +916,7 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
    * @param {string} copyId Id of the Copy File operation to abort.
-   * @param {FileAbortCopyFromURLOptions} [options] Optional options to File Abort Copy From URL operation.
+   * @param {FileAbortCopyFromURLOptions} [options] Options to File Abort Copy From URL operation.
    * @returns {Promise<Models.FileAbortCopyResponse>}
    * @memberof FileClient
    */
@@ -997,10 +1032,7 @@ export class FileClient extends StorageClient {
    * @param {UploadToAzureFileOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(
-    filePath: string,
-    options?: UploadToAzureFileOptions
-  ): Promise<void> {
+  public async uploadFile(filePath: string, options?: UploadToAzureFileOptions): Promise<void> {
     const size = fs.statSync(filePath).size;
     return this.uploadResetableStream(
       (offset, count) =>
@@ -1070,14 +1102,9 @@ export class FileClient extends StorageClient {
           const start = options.rangeSize! * i;
           const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
           const contentLength = end - start;
-          await this.uploadRange(
-            () => streamFactory(start, contentLength),
-            start,
-            contentLength,
-            {
-              abortSignal: aborter
-            }
-          );
+          await this.uploadRange(() => streamFactory(start, contentLength), start, contentLength, {
+            abortSignal: aborter
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
           if (options.progress) {
@@ -1228,7 +1255,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-            `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
           );
         }
 
@@ -1247,5 +1274,38 @@ export class FileClient extends StorageClient {
       Math.ceil((maxBuffers / 4) * 3)
     );
     return scheduler.do();
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
+   *
+   * @param {string} filePath
+   * @param {number} [offset] From which position of the block blob to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {BlobDownloadOptions} [options] Options to Blob download options.
+   * @returns {Promise<Models.FileDownloadResponse>} The response data for blob download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
+   * @memberof BlobClient
+   */
+  public async downloadToFile(
+    filePath: string,
+    offset: number = 0,
+    count?: number,
+    options?: FileDownloadOptions
+  ): Promise<Models.FileDownloadResponse> {
+    const response = await this.download(offset, count, options);
+    if (response.readableStreamBody) {
+      await readStreamToLocalFile(response.readableStreamBody, filePath);
+    }
+
+    // The stream is no longer accessible so setting it to undefined.
+    (response as any).fileDownloadStream = undefined;
+    return response;
   }
 }

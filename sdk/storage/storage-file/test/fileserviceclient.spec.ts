@@ -1,9 +1,21 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName, wait } from "./utils";
+
+import { getBSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("ListShares with default parameters", async () => {
     const serviceClient = getBSU();
     const result = await serviceClient.listSharesSegment();
@@ -27,7 +39,7 @@ describe("FileServiceClient", () => {
   it("ListShares with all parameters configured", async () => {
     const serviceClient = getBSU();
 
-    const shareNamePrefix = getUniqueName("share");
+    const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.createShareClient(shareName1);
@@ -130,5 +142,25 @@ describe("FileServiceClient", () => {
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
+  });
+
+  it("createShare and deleteShare", async () => {
+    const serviceClient = getBSU();
+    const shareName = recorder.getUniqueName("share");
+    const metadata = { key: "value" };
+
+    const { shareClient } = await serviceClient.createShare(shareName, { metadata });
+    const result = await shareClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await serviceClient.deleteShare(shareName);
+    try {
+      await shareClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
   });
 });

@@ -11,21 +11,24 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
-import dotenv from "dotenv";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+const env = getEnvVars();
 
-describe("Misc tests", function(): void {
-  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+describe("Misc tests #RunnableInBrowser", function(): void {
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
   let hubInfo: EventHubRuntimeInformation;
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      process.env.EVENTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     should.exist(
-      process.env.EVENTHUB_NAME,
+      env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
     hubInfo = await client.getHubRuntimeInformation();
@@ -48,7 +51,7 @@ describe("Misc tests", function(): void {
       eventPosition: EventPosition.fromOffset(offset)
     });
     let data = await breceiver.receive(5, 10);
-    data.length.should.equal(0, "Unexpected to receive message before client sends it");
+    should.equal(data.length, 0, "Unexpected to receive message before client sends it");
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
     data = await breceiver.receive(5, 30);
@@ -56,8 +59,8 @@ describe("Misc tests", function(): void {
     await breceiver.close();
     debug("received message: ", data.length);
     should.exist(data);
-    data.length.should.equal(1);
-    data[0].body.toString().should.equal(msgString);
+    should.equal(data.length, 1);
+    should.equal(data[0].body.toString(), msgString);
     should.not.exist((data[0].properties || {}).message_id);
   });
 
@@ -88,7 +91,7 @@ describe("Misc tests", function(): void {
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
-    data.length.should.equal(1);
+    should.equal(data.length, 1);
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
     should.not.exist((data[0].properties || {}).message_id);
@@ -119,7 +122,7 @@ describe("Misc tests", function(): void {
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
-    data.length.should.equal(1);
+    should.equal(data.length, 1);
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
     assert.strictEqual(data[0].properties!.message_id, obj.properties!.message_id);
@@ -141,22 +144,18 @@ describe("Misc tests", function(): void {
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
-    data.length.should.equal(1);
+    should.equal(data.length, 1);
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive batched messages correctly", async function(): Promise<void> {
+  it("should be able to send and receive batched messages correctly ", async function(): Promise<void> {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-      let data = await breceiver.receive(5, 10);
-      data.length.should.equal(0, "Unexpected to receive message before client sends it");
+
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -167,8 +166,11 @@ describe("Misc tests", function(): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
-      await breceiver.close();
+
+      const data = await client.receiveBatch(partitionId, 5, 30, {
+        eventPosition: EventPosition.fromOffset(offset)
+      });
+
       debug("received message: ", data);
       should.exist(data);
       data.length.should.equal(5);
@@ -181,16 +183,12 @@ describe("Misc tests", function(): void {
     }
   });
 
-  it("should be able to send and receive batched messages as JSON objects correctly", async function(): Promise<void> {
+  it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<void> {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-      let data = await breceiver.receive(5, 10);
-      data.length.should.equal(0, "Unexpected to receive message before client sends it");
+
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -218,12 +216,15 @@ describe("Misc tests", function(): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
-      await breceiver.close();
+
+      const data = await client.receiveBatch(partitionId, 5, 30, {
+        eventPosition: EventPosition.fromOffset(offset)
+      });
+
       debug("received message: ", data);
       should.exist(data);
-      data[0].body.count.should.equal(0);
-      data.length.should.equal(5);
+      should.equal(data[0].body.count, 0);
+      should.equal(data.length, 5);
       for (const [index, message] of data.entries()) {
         assert.strictEqual(message.properties!.message_id, d[index].properties!.message_id);
       }
@@ -265,9 +266,7 @@ describe("Misc tests", function(): void {
         debug("pk: ", pk);
         if (partitionMap[pk] && partitionMap[pk] !== id) {
           debug(
-            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${
-              partitionMap[pk]
-            } before.`
+            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
           );
           assert(partitionMap[pk] === id);
         }
@@ -276,6 +275,6 @@ describe("Misc tests", function(): void {
       }
       totalReceived += data.length;
     }
-    totalReceived.should.equal(msgToSendCount);
+    should.equal(totalReceived, msgToSendCount);
   });
 }).timeout(60000);

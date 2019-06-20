@@ -161,4 +161,46 @@ describe("DirectoryClient", () => {
       await subDir.delete();
     }
   });
+
+  it("createSubDirectory and deleteSubDirectory", async () => {
+    const directoryName = getUniqueName("directory");
+    const metadata = { key: "value" };
+
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
+      metadata
+    });
+    const result = await subDirClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await dirClient.deleteSubdirectory(directoryName);
+    try {
+      await subDirClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("createFile and deleteFile", async () => {
+    const directoryName = getUniqueName("directory");
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName);
+    const fileName = getUniqueName("file");
+    const metadata = { key: "value" };
+    const { fileClient } = await subDirClient.createFile(fileName, 256, { metadata });
+    const result = await fileClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await subDirClient.deleteFile(fileName);
+    try {
+      await fileClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+    await subDirClient.delete();
+  });
 });

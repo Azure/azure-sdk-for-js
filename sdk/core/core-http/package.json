@@ -1,5 +1,6 @@
 {
   "name": "@azure/core-http",
+  "sdk-type": "client",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
@@ -62,7 +63,7 @@
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
-    "build:rollup": "rollup -c rollup.config.ts",
+    "build:rollup": "rollup -c rollup.config.ts 2>&1",
     "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/coreHttp.browser.js.map'\" -o ./dist/coreHttp.browser.min.js ./dist/coreHttp.browser.js",
     "build:test-browser": "webpack --config webpack.testconfig.ts",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
@@ -75,7 +76,6 @@
     "lint:fix": "tslint -p . --fix",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "prepack": "npm i && npm run build",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -159,7 +159,7 @@
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
     "rollup-plugin-alias": "^1.4.0",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.2.0",

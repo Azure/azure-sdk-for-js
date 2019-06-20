@@ -21,7 +21,7 @@ const banner = [
 ].join("\n");
 
 const depNames = Object.keys(pkg.dependencies);
-const input = "esm/index.js";
+const input = "dist-esm/index.js";
 
 function nodeConfig(test = false) {
   const externalNodeBuiltins = ["url"];
@@ -44,15 +44,13 @@ function nodeConfig(test = false) {
 function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["ms-rest-js", "ms-rest-azure-js"],
     output: {
       file: "browser/index.js",
       format: "umd",
       name: "Azure.Keyvault.Secrets",
       sourcemap: true,
       globals: {
-        "@azure/ms-rest-js": "msRest",
-        "@azure/ms-rest-azure-js": "msRestAzure"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       banner: banner
     },

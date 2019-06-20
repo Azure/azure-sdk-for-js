@@ -8,39 +8,46 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  getUniqueName,
   isIE
 } from "../utils/index.browser";
+import { record } from "../utils/recorder";
+import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 
 // tslint:disable:no-empty
-describe("Highelvel", () => {
+describe("Highlevel", () => {
   const blobServiceClient = getBSU();
-  let containerName = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
   let tempFile1: File;
   const tempFile1Length: number = 257 * 1024 * 1024 - 1;
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.createBlobClient(blobName);
     blockBlobClient = blobClient.createBlockBlobClient();
   });
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
-  before(async () => {
-    tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
-    tempFile2 = getBrowserFile(getUniqueName("browserfile"), tempFile2Length);
+  before(async function() {
+    recorder = record(this);
+    tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
+    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
+    recorder.stop();
   });
 
   after(async () => {});

@@ -1,7 +1,6 @@
 import * as assert from "assert";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-
 import * as dotenv from "dotenv";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
@@ -121,11 +120,7 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await pageBlobClient.clearPages(512, 512);
 
-    const rangesDiff = await pageBlobClient.getPageRangesDiff(
-      0,
-      1024,
-      snapshotResult.snapshot!
-    );
+    const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
     assert.equal(rangesDiff.pageRange![0].start, 0);
     assert.equal(rangesDiff.pageRange![0].end, 511);
     assert.equal(rangesDiff.clearRange![0].start, 512);

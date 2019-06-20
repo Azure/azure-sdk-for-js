@@ -12,7 +12,7 @@ export class MockAuthHttpClient implements HttpClient {
   public identityClientOptions: IdentityClientOptions;
 
   constructor() {
-    this.requestResolve = (r) => {};
+    this.requestResolve = () => {};
     this.requestPromise = new Promise((resolve) => {
       this.requestResolve = resolve;
     });
@@ -46,24 +46,24 @@ export function assertClientCredentials(
   expectedTenantId: string,
   expectedClientId: string,
   expectedClientSecret: string
-) {
+): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
   } else {
     assert.strictEqual(
       authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
       true,
-      "Request URL doesn't contain expected tenantId"
+      "Request body doesn't contain expected tenantId"
     );
     assert.strictEqual(
       authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
-      "Request URL doesn't contain expected clientId"
+      "Request body doesn't contain expected clientId"
     );
     assert.strictEqual(
       authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
-      "Request URL doesn't contain expected clientSecret"
+      "Request body doesn't contain expected clientSecret"
     );
   }
 }

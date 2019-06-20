@@ -1,21 +1,22 @@
 {
   "name": "@azure/identity",
+  "sdk-type": "client",
   "version": "0.1.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
+  "types": "dist-esm/src/index.d.ts",
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "dist-esm/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "npm run build:node",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -60,11 +61,23 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@azure/core-http": "^1.2.6",
+    "events": "^3.0.0",
+    "jws": "~3.2.2",
+    "qs": "6.7.0",
+    "tslib": "^1.9.3",
+    "uuid": "^3.3.2"
+  },
   "devDependencies": {
+    "@types/jws": "~3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@types/qs": "~6.5.3",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@types/uuid": "^3.4.3",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
@@ -76,7 +89,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.2.0",
@@ -86,13 +99,5 @@
     "rollup-plugin-visualizer": "^1.0.0",
     "typescript": "^3.2.2",
     "util": "^0.11.1"
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "@azure/core-http": "^1.2.6",
-    "events": "^3.0.0",
-    "qs": "6.7.0",
-    "tslib": "^1.9.3"
-  },
-  "private": true
+  }
 }

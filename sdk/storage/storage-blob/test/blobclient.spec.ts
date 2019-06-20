@@ -1,9 +1,10 @@
 import * as assert from "assert";
 
 import { isNode } from "@azure/ms-rest-js";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
+import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 dotenv.config({ path: "../.env" });
+
 describe("BlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
@@ -101,100 +102,6 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
   });
 
-  it("acquireLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 30;
-    await blobClient.acquireLease(guid, duration);
-
-    const result = await blobClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await blobClient.releaseLease(guid);
-  });
-
-  it("releaseLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = -1;
-    await blobClient.acquireLease(guid, duration);
-
-    const result = await blobClient.getProperties();
-    assert.equal(result.leaseDuration, "infinite");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await blobClient.releaseLease(guid);
-  });
-
-  it("renewLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await blobClient.acquireLease(guid, duration);
-
-    const result = await blobClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await sleep(20 * 1000);
-
-    const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "expired");
-    assert.equal(result2.leaseStatus, "unlocked");
-
-    await blobClient.renewLease(guid);
-    const result3 = await blobClient.getProperties();
-    assert.equal(result3.leaseDuration, "fixed");
-    assert.equal(result3.leaseState, "leased");
-    assert.equal(result3.leaseStatus, "locked");
-
-    await blobClient.releaseLease(guid);
-  });
-
-  it("changeLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await blobClient.acquireLease(guid, duration);
-
-    const result = await blobClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await blobClient.changeLease(guid, newGuid);
-
-    await blobClient.getProperties();
-    await blobClient.releaseLease(newGuid);
-  });
-
-  it("breakLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await blobClient.acquireLease(guid, duration);
-
-    const result = await blobClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await blobClient.breakLease(5);
-
-    const result2 = await blobClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "breaking");
-    assert.equal(result2.leaseStatus, "locked");
-
-    await sleep(5 * 1000);
-
-    const result3 = await blobClient.getProperties();
-    assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, "broken");
-    assert.equal(result3.leaseStatus, "unlocked");
-  });
-
   it("delete", async () => {
     await blobClient.delete();
   });
@@ -274,9 +181,7 @@ describe("BlobClient", () => {
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(
-      getUniqueName("copiedblob")
-    );
+    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -288,9 +193,7 @@ describe("BlobClient", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(
-      getUniqueName("copiedblob")
-    );
+    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);

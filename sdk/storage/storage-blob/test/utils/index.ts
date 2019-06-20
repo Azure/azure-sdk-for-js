@@ -11,7 +11,10 @@ dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): BlobServiceClient {
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -22,7 +25,9 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
-    throw new Error(`${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`);
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+    );
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
@@ -40,6 +45,17 @@ export function getBSU(): BlobServiceClient {
 
 export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
+}
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
 }
 
 /**
@@ -69,7 +85,11 @@ export async function bodyToString(
   });
 }
 
-export async function createRandomLocalFile(folder: string, blockNumber: number, blockSize: number): Promise<string> {
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSize: number
+): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
@@ -99,59 +119,5 @@ export async function createRandomLocalFile(folder: string, blockNumber: number,
     });
     ws.on("finish", () => resolve(destFile));
     ws.on("error", reject);
-  });
-}
-
-// Returns a Promise which is completed after the file handle is closed.
-// If Promise is rejected, the reason will be set to the first error raised by either the
-// ReadableStream or the fs.WriteStream.
-export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: string) {
-  return new Promise<void>((resolve, reject) => {
-    const ws = fs.createWriteStream(file);
-
-    // Set STREAM_DEBUG env var to log stream events while running tests
-    if (process.env.STREAM_DEBUG) {
-      rs.on("close", () => console.log("rs.close"));
-      rs.on("data", () => console.log("rs.data"));
-      rs.on("end", () => console.log("rs.end"));
-      rs.on("error", () => console.log("rs.error"));
-
-      ws.on("close", () => console.log("ws.close"));
-      ws.on("drain", () => console.log("ws.drain"));
-      ws.on("error", () => console.log("ws.error"));
-      ws.on("finish", () => console.log("ws.finish"));
-      ws.on("pipe", () => console.log("ws.pipe"));
-      ws.on("unpipe", () => console.log("ws.unpipe"));
-    }
-
-    let error: Error;
-
-    rs.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
-
-      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
-      // to ensure ws.close is eventually raised.
-      rs.emit("end");
-    });
-
-    ws.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
-    });
-
-    ws.on("close", () => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-
-    rs.pipe(ws);
   });
 }

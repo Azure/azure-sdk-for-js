@@ -134,7 +134,6 @@
 | [`@azure/event-processor-host`]( sdk/eventhub/event-processor-host/package.json )| [Readme](sdk/eventhub/event-processor-host/README.md) | [Changelog](sdk/eventhub/event-processor-host/changelog.md) | [NPM]( https://www.npmjs.com/package/@azure/event-processor-host ) |
 | [`@azure/eventgrid`]( sdk/eventgrid/eventgrid/package.json )| [Readme](sdk/eventgrid/eventgrid/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/eventgrid ) |
 | [`@azure/graph`]( sdk/graphrbac/graph/package.json )| [Readme](sdk/graphrbac/graph/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/graph ) |
-| [`@azure/keyvault`]( sdk/keyvault/keyvault/package.json )| [Readme](sdk/keyvault/keyvault/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/keyvault ) |
 | [`@azure/loganalytics`]( sdk/operationalinsights/loganalytics/package.json )| [Readme](sdk/operationalinsights/loganalytics/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/loganalytics ) |
 | [`@azure/service-bus`]( sdk/servicebus/service-bus/package.json )| [Readme](sdk/servicebus/service-bus/README.md) | [Changelog](sdk/servicebus/service-bus/changelog.md) | [NPM]( https://www.npmjs.com/package/@azure/service-bus ) |
 | [`@azure/servicefabric`]( sdk/servicefabric/servicefabric/package.json )| [Readme](sdk/servicefabric/servicefabric/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/servicefabric ) |

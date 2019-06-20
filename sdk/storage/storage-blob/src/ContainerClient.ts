@@ -1,18 +1,32 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure/ms-rest-js";
+import { HttpRequestBody, HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
-import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
-import { BlobClient, StorageClient } from "./internal";
-import { AppendBlobClient } from "./internal";
-import { BlockBlobClient } from "./internal";
-import { PageBlobClient } from "./internal";
+import {
+  appendToURLPath,
+  truncatedISO8061Date,
+  extractConnectionStringParts
+} from "./utils/utils.common";
+import {
+  AppendBlobClient,
+  BlobClient,
+  BlockBlobClient,
+  PageBlobClient,
+  StorageClient,
+  BlockBlobUploadOptions,
+  BlobDeleteOptions
+} from "./internal";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { LeaseClient } from "./LeaseClient";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure Container - Create operation.
@@ -393,6 +407,34 @@ export interface ContainerListBlobsSegmentOptions {
 }
 
 /**
+ * Options to configure Container - List Blobs operation.
+ *
+ * @export
+ * @interface ContainerListBlobsOptions
+ */
+export interface ContainerListBlobsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerListBlobsOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * @member {string} [prefix] Filters the results to return only containers
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
+  /**
+   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
+   * specify one or more datasets to include in the response.
+   */
+  include?: Models.ListBlobsIncludeItem[];
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
@@ -409,17 +451,89 @@ export class ContainerClient extends StorageClient {
   private containerContext: Container;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of ContainerClient.
-   * @param {string} url A URL string pointing to Azure Storage blob container, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ContainerClient
+   */
+  constructor(connectionString: string, containerName: string, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of PageBlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A URL string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
    *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ContainerClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of PageBlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A URL string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+
+   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.containerContext = new Container(this.storageClientContext);
   }
 
@@ -428,7 +542,7 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options] Optional options to Container Create operation.
+   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerClient
    */
@@ -449,14 +563,11 @@ export class ContainerClient extends StorageClient {
    * Creates a BlobClient object.
    *
    * @param {string} blobName A blob name
-   * @returns
+   * @returns {BlobClient} A new BlobClient object for the given blob name.
    * @memberof BlobClient
    */
-  public createBlobClient(blobName: string) {
-    return new BlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+  public createBlobClient(blobName: string): BlobClient {
+    return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
   /**
@@ -466,9 +577,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof ContainerClient
    */
-  public createAppendBlobClient(
-    blobName: string
-  ): AppendBlobClient {
+  public createAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -482,9 +591,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    */
-  public createBlockBlobClient(
-    blobName: string
-  ): BlockBlobClient {
+  public createBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -498,9 +605,7 @@ export class ContainerClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof ContainerClient
    */
-  public createPageBlobClient(
-    blobName: string
-  ): PageBlobClient {
+  public createPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -512,7 +617,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Optional options to Container Get Properties operation.
+   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -536,7 +641,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Optional options to Container Delete operation.
+   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerClient
    */
@@ -586,7 +691,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {ContainerSetMetadataOptions} [options] Optional options to Container Set Metadata operation.
+   * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
@@ -638,7 +743,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {ContainerGetAccessPolicyOptions} [options] Optional options to Container Get Access Policy operation.
+   * @param {ContainerGetAccessPolicyOptions} [options] Options to Container Get Access Policy operation.
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -692,7 +797,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Models.PublicAccessType} [access] The level of public access to data in the container.
    * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
-   * @param {ContainerSetAccessPolicyOptions} [options] Optional options to Container Set Access Policy operation.
+   * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -725,160 +830,71 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Establishes and manages a lock on a container for delete operations.
-   * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * Get a LeaseClient that manages leases on the container.
    *
-   * @param {string} proposedLeaseId Can be specified in any valid GUID string format
-   * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {ContainerAcquireLeaseOptions} [options] Optional options to Container Acquire Lease operation.
-   * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns {LeaseClient} A new LeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
-  public async acquireLease(
-    proposedLeaseId: string,
-    duration: number,
-    options: ContainerAcquireLeaseOptions = {}
-  ): Promise<Models.ContainerAcquireLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.acquireLease({
-      abortSignal: aborter,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId
-    });
+  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**
-   * To free the lease if it is no longer needed so that another client may
-   * immediately acquire a lease against the container.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * Creates a new block blob, or updates the content of an existing block blob.
    *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerReleaseLeaseOptions} [options] Optional options to Container Release Lease operation.
-   * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
+   * Updating an existing block blob overwrites any existing metadata on the blob.
+   * Partial updates are not supported; the content of the existing blob is
+   * overwritten with the new content. To perform a partial update of a block blob's,
+   * use stageBlock and commitBlockList.
+   *
+   * This is a non-parallel uploading method, please use BlockBlobClient.uploadFile(),
+   * BlockBlobClient.uploadStream() or BlockBlobClient.uploadBrowserData() for better performance
+   * with concurrency uploading.
+   *
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {string} blobName Name of the block blob to create or update.
+   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   *                               which returns a new Readable stream whose offset is from data source beginning.
+   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   *                               string including non non-Base64/Hex-encoded characters.
+   * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
+   * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
    * @memberof ContainerClient
    */
-  public async releaseLease(
-    leaseId: string,
-    options: ContainerReleaseLeaseOptions = {}
-  ): Promise<Models.ContainerReleaseLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.releaseLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+  public async uploadBlockBlob(
+    blobName: string,
+    body: HttpRequestBody,
+    contentLength: number,
+    options?: BlockBlobUploadOptions
+  ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
+    const blockBlobClient = this.createBlockBlobClient(blobName);
+    const response = await blockBlobClient.upload(body, contentLength, options);
+    return {
+      blockBlobClient,
+      response
+    };
   }
 
   /**
-   * To renew an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * Marks the specified blob or snapshot for deletion. The blob is later deleted
+   * during garbage collection. Note that in order to delete a blob, you must delete
+   * all of its snapshots. You can delete both at the same time with the Delete
+   * Blob operation.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerRenewLeaseOptions} [options] Optional options to Container Renew Lease operation.
-   * @returns {Promise<Models.ContainerRenewLeaseResponse>}
+   * @param {string} blobName
+   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
+   * @returns {Promise<Models.BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
-  public async renewLease(
-    leaseId: string,
-    options: ContainerRenewLeaseOptions = {}
-  ): Promise<Models.ContainerRenewLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.renewLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To end the lease but ensure that another client cannot acquire a new lease
-   * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {number} period break period
-   * @param {ContainerBreakLeaseOptions} [options] Optional options to Container Break Lease operation.
-   * @returns {Promise<Models.ContainerBreakLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async breakLease(
-    period: number,
-    options: ContainerBreakLeaseOptions = {}
-  ): Promise<Models.ContainerBreakLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.breakLease({
-      abortSignal: aborter,
-      breakPeriod: period,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To change the ID of an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {string} proposedLeaseId Proposed new lease Id.
-   * @param {ContainerChangeLeaseOptions} [options] Optional options to Container Change Lease operation.
-   * @returns {Promise<Models.ContainerChangeLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async changeLease(
-    leaseId: string,
-    proposedLeaseId: string,
-    options: ContainerChangeLeaseOptions = {}
-  ): Promise<Models.ContainerChangeLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.changeLease(leaseId, proposedLeaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * Iterates over blobs under the specified container.
-   *
-   * @param {ContainerListBlobsSegmentOptions} [options={}] Options to list blobs(optional)
-   * @returns {AsyncIterableIterator<Models.BlobItem>}
-   * @memberof ContainerClient
-   *
-   * @example
-   * for await (const blob of containerClient.listBlobs()) {
-   *   console.log(`Container: ${blob.name}`);
-   * }
-   *
-   * @example
-   * let iter1 = containerClient.listBlobs();
-   * let i = 1;
-   * for await (const blob of iter1) {
-   *   console.log(`${i}: ${blob.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await containerClient.listBlobs();
-   * i = 1;
-   * let blobItem = await iter2.next();
-   * do {
-   *  console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *  blobItem = await iter2.next();
-   * } while (blobItem.value);
-   *
-   */
-  public async *listBlobsFlat(
-    options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<Models.BlobItem> {
-    let marker = undefined;
-    const containerClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listBlobsResponse;
-    do {
-      listBlobsResponse = await containerClient.listBlobFlatSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
-      marker = listBlobsResponse.nextMarker;
-      yield* listBlobsResponse.segment.blobItems;
-    } while (marker);
+  public async deleteBlob(
+    blobName: string,
+    options?: BlobDeleteOptions
+  ): Promise<Models.BlobDeleteResponse> {
+    const blobClient = this.createBlobClient(blobName);
+    return await blobClient.delete(options);
   }
 
   /**
@@ -889,7 +905,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Flat Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
@@ -914,7 +930,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Hierarchy Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
@@ -929,5 +945,134 @@ export class ContainerClient extends StorageClient {
       marker,
       ...options
     });
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ContainerListBlobFlatSegmentResponse
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse>}
+   * @memberof ContainerClient
+   */
+  private async *listSegments(
+    marker?: string,
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse> {
+    let listBlobsFlatSegmentResponse;
+    do {
+      listBlobsFlatSegmentResponse = await this.listBlobFlatSegment(marker, options);
+      marker = listBlobsFlatSegmentResponse.nextMarker;
+      yield await listBlobsFlatSegmentResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for Blob Items
+   *
+   * @private
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerClient
+   */
+  private async *listItems(
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.BlobItem> {
+    let marker: string | undefined;
+    for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
+      yield* listBlobsFlatSegmentResponse.segment.blobItems;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the blobs
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   for await (const blob of containerClient.listBlobsFlat()) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   iter = containerClient.listBlobsFlat();
+   *   let blobItem = await iter.next();
+   *   while (!blobItem.done) {
+   *     console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *     blobItem = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+   *     for (const blob of response.segment.blobItems) {
+   *       console.log(`Blob ${i++}: ${blob.name}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 2 blob names
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *    }
+   *   // Gets next marker
+   *   let marker = response.nextMarker;
+   *    // Passing next marker as continuationToken
+   *   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 blob names
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   *
+   * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
+   * @returns {PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @memberof ContainerClient
+   */
+  public listBlobsFlat(
+    options: ContainerListBlobsOptions = {}
+  ): PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse> {
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 }

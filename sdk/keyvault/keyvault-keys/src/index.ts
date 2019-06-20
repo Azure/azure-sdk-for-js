@@ -3,8 +3,11 @@
 
 import {
   ServiceClientCredentials,
+  TokenCredential,
+  isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
+  bearerTokenAuthenticationPolicy,
   signingPolicy,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -14,15 +17,30 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   userAgentPolicy
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
-import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { getDefaultUserAgentValue } from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { TelemetryOptions } from "./core";
-import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "./core/models";
+import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
+import {
+  KeyBundle,
+  JsonWebKeyType,
+  JsonWebKey,
+  JsonWebKeyOperation,
+  JsonWebKeyCurveName,
+  KeyItem,
+  DeletionRecoveryLevel,
+  KeyVaultClientGetKeysOptionalParams
+} from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
+import {
+  NewPipelineOptions,
+  isNewPipelineOptions,
+  Pipeline,
+  ParsedKeyVaultEntityIdentifier
+} from "./core/keyVaultBase";
 import {
   Key,
   DeletedKey,
@@ -32,24 +50,52 @@ import {
   ImportKeyOptions,
   UpdateKeyOptions,
   GetKeyOptions,
-  GetAllKeysOptions,
+  ListKeysOptions,
   KeyAttributes,
   RequestOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
+export {
+  CreateEcKeyOptions,
+  CreateRsaKeyOptions,
+  CreateKeyOptions,
+  DeletedKey,
+  DeletionRecoveryLevel,
+  GetKeyOptions,
+  ListKeysOptions as GetKeysOptions,
+  ImportKeyOptions,
+  JsonWebKey,
+  JsonWebKeyCurveName,
+  JsonWebKeyOperation,
+  JsonWebKeyType,
+  Key,
+  KeyAttributes,
+  NewPipelineOptions,
+  PageSettings,
+  PagedAsyncIterableIterator,
+  ParsedKeyVaultEntityIdentifier,
+  RequestOptions,
+  UpdateKeyOptions
+};
+
+export { ProxyOptions, TelemetryOptions, RetryOptions };
+
+/**
+ * The client to interact with the KeyVault keys functionality
+ */
 export class KeysClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials} credential that implements signRequet().
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof KeysClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials,
+    credential: ServiceClientCredentials | TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -73,7 +119,9 @@ export class KeysClient {
         retryOptions.maxRetryDelayInMs
       ),
       redirectPolicy(),
-      signingPolicy(credential)
+      isTokenCredential(credential)
+        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        : signingPolicy(credential)
     ];
 
     return {
@@ -83,38 +131,44 @@ export class KeysClient {
     };
   }
 
+  /**
+   * The base URL to the vault
+   */
   public readonly vaultBaseUrl: string;
 
+  /**
+   * The options to create the connection to the service
+   */
   public readonly pipeline: Pipeline;
 
-  protected readonly credential: ServiceClientCredentials;
+  /**
+   * The authentication credentials
+   */
+  protected readonly credential: ServiceClientCredentials | TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
    * Creates an instance of KeysClient.
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials} credential credential.
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof KeysClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials,
+    credential: ServiceClientCredentials | TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = KeysClient.getDefaultPipeline(
-        credential as ServiceClientCredentials,
-        pipelineOrOptions
-      );
+      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {
@@ -469,65 +523,180 @@ export class KeysClient {
     return this.getKeyFromKeyBundle(response);
   }
 
-  public async *getKeyVersions(
+  private async *listKeyVersionsPage(
     name: string,
-    options?: GetAllKeysOptions
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      let currentSetResponse = await this.client.getKeyVersions(
+        this.vaultBaseUrl,
+        name,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      let currentSetResponse = await this.client.getKeyVersionsNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listKeyVersionsAll(
+    name: string,
+    options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let currentSetResponse = await this.client.getKeyVersions(this.vaultBaseUrl, name, {
-      ...(options && options.requestOptions ? options.requestOptions : {})
-    });
-    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    let f = {};
 
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getKeyVersionsNext(
-        currentSetResponse.nextLink,
+    for await (const page of this.listKeyVersionsPage(name, f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  /**
+   * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
+   * in the response. This operation requires the keys/list permission.
+   * @param name Name of the key to fetch versions for
+   * @param [options] The optional parameters
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
+   */
+  public listKeyVersions(
+    name: string,
+    options?: ListKeysOptions
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const iter = this.listKeyVersionsAll(name, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, options)
+    };
+  }
+
+  private async *listKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      let currentSetResponse = await this.client.getKeysNext(
+        continuationState.continuationToken,
         options
       );
-      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
+    let f = {};
+
+    for await (const page of this.listKeysPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
     }
   }
 
   /**
    * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
-   * @summary List all versions of the specified key.
-   * @param name The name of the key.
+   * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns AsyncIterableIterator<Key>
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
-    let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, {
-      ...(options && options.requestOptions ? options.requestOptions : {})
-    });
-    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+  public listKeys(
+    options?: ListKeysOptions
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const iter = this.listKeysAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listKeysPage(settings, options)
+    };
+  }
 
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getKeysNext(currentSetResponse.nextLink, options);
-      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+  private async *listDeletedKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, optionsComplete);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+    while (continuationState.continuationToken) {
+      let currentSetResponse = await this.client.getDeletedKeysNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+    }
+  }
+
+  private async *listDeletedKeysAll(
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
+    let f = {};
+
+    for await (const page of this.listDeletedKeysPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
     }
   }
 
   /**
-   * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
+   * Iterates the deleted keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
-   * @summary List all versions of the specified key.
-   * @param name The name of the key.
+   * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns AsyncIterableIterator<Key>
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
-  public async *getAllDeletedKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
-    let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, {
-      ...(options && options.requestOptions ? options.requestOptions : {})
-    });
-    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getDeletedKeysNext(
-        currentSetResponse.nextLink,
-        options
-      );
-      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
-    }
+  public listDeletedKeys(
+    options?: ListKeysOptions
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const iter = this.listDeletedKeysAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
+    };
   }
 
   private getKeyFromKeyBundle(keyBundle: KeyBundle): Key {

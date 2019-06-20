@@ -9,14 +9,26 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import {
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  URLConstants,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+} from "./utils/constants";
+import {
+  setURLParameter,
+  extractConnectionStringParts,
+  readStreamToLocalFile
+} from "./utils/utils.common";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Blob - Download operation.
@@ -468,7 +480,7 @@ export interface DownloadFromBlobOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof DownloadFromBlobOptions
    */
   abortSignal?: Aborter;
 
@@ -542,6 +554,38 @@ export class BlobClient extends StorageClient {
   private blobContext: Blob;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Creates an instance of BlobClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of BlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
@@ -559,8 +603,45 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -745,9 +826,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
-  public async delete(
-    options: BlobDeleteOptions = {}
-  ): Promise<Models.BlobDeleteResponse> {
+  public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
@@ -768,9 +847,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
-  public async undelete(
-    options: BlobUndeleteOptions = {}
-  ): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.undelete({
       abortSignal: aborter || Aborter.none
@@ -833,115 +910,14 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Establishes and manages a lock on a blob for write and delete operations.
-   * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * In versions prior to 2012-02-12, the lock duration is 60 seconds.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * Get a LeaseClient that manages leases on the blob.
    *
-   * @param {string} proposedLeaseId Can be specified in any valid GUID string format
-   * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
-   * @param {BlobAcquireLeaseOptions} [options] Optional options to Blob Acquire Lease operation.
-   * @returns {Promise<Models.BlobAcquireLeaseResponse>}
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns {LeaseClient} A new LeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
-  public async acquireLease(
-    proposedLeaseId: string,
-    duration: number,
-    options: BlobAcquireLeaseOptions = {}
-  ): Promise<Models.BlobAcquireLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.acquireLease({
-      abortSignal: aborter,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId
-    });
-  }
-
-  /**
-   * To free the lease if it is no longer needed so that another client may immediately
-   * acquire a lease against the blob.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the lease to release
-   * @param {BlobReleaseLeaseOptions} [options] Optional options to Blob Release Lease operation.
-   * @returns {Promise<Models.BlobReleaseLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async releaseLease(
-    leaseId: string,
-    options: BlobReleaseLeaseOptions = {}
-  ): Promise<Models.BlobReleaseLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.releaseLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To renew an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the lease to renew.
-   * @param {BlobRenewLeaseOptions} [options] Optional options to Blob Renew Lease operation.
-   * @returns {Promise<Models.BlobRenewLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async renewLease(
-    leaseId: string,
-    options: BlobRenewLeaseOptions = {}
-  ): Promise<Models.BlobRenewLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.renewLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To change the ID of an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {string} proposedLeaseId The proposed new Id.
-   * @param {BlobChangeLeaseOptions} [options] Optional options to the Blob Change Lease operation.
-   * @returns {Promise<Models.BlobChangeLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async changeLease(
-    leaseId: string,
-    proposedLeaseId: string,
-    options: BlobChangeLeaseOptions = {}
-  ): Promise<Models.BlobChangeLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.changeLease(leaseId, proposedLeaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To end the lease but ensure that another client cannot acquire a new lease
-   * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {number} [breakPeriod] The proposed duration of seconds that the lease should continue
-   *                               before it is broken, between 0 and 60 seconds.
-   * @param {BlobBreakLeaseOptions} [options] Optional options to the Blob Break Lease operation.
-   * @returns {Promise<Models.BlobBreakLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async breakLease(
-    breakPeriod?: number,
-    options: BlobBreakLeaseOptions = {}
-  ): Promise<Models.BlobBreakLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.breakLease({
-      abortSignal: aborter,
-      breakPeriod,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**
@@ -1057,7 +1033,6 @@ export class BlobClient extends StorageClient {
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {BlobClient} blobClient A BlobClient object
    * @param {number} offset From which position of the block blob to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
@@ -1130,5 +1105,38 @@ export class BlobClient extends StorageClient {
       });
     }
     await batch.do();
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
+   *
+   * @param {string} filePath
+   * @param {number} [offset] From which position of the block blob to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {BlobDownloadOptions} [options] Options to Blob download options.
+   * @returns {Promise<Models.BlobDownloadResponse>} The response data for blob download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
+   * @memberof BlobClient
+   */
+  public async downloadToFile(
+    filePath: string,
+    offset: number = 0,
+    count?: number,
+    options?: BlobDownloadOptions
+  ): Promise<Models.BlobDownloadResponse> {
+    const response = await this.download(offset, count, options);
+    if (response.readableStreamBody) {
+      await readStreamToLocalFile(response.readableStreamBody, filePath);
+    }
+
+    // The stream is no longer accessible so setting it to undefined.
+    (response as any).blobDownloadStream = undefined;
+    return response;
   }
 }

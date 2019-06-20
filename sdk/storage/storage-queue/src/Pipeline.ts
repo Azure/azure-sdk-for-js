@@ -102,10 +102,10 @@ export class Pipeline {
   }
 
   /**
-   * Transfer Pipeline object to ServiceClientOptions object which required by
+   * Transfers Pipeline object to ServiceClientOptions object which required by
    * ServiceClient constructor.
    *
-   * @returns {ServiceClientOptions}
+   * @returns {ServiceClientOptions} The ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
@@ -160,7 +160,7 @@ export interface NewPipelineOptions {
  *
  * @static
  * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
- * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+ * @param {NewPipelineOptions} [pipelineOptions] Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
  */

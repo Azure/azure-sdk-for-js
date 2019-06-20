@@ -4,34 +4,41 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { Aborter } from "../../src/Aborter";
+import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
+import { record } from "../utils/recorder";
+import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
+import { readStreamToLocalFile } from "../../src/utils/utils.common";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
   const blobServiceClient = getBSU();
-  let containerName = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.createBlobClient(blobName);
     blockBlobClient = blobClient.createBlockBlobClient();
   });
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   before(async () => {
@@ -56,7 +63,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -73,7 +80,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -89,7 +96,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -173,7 +180,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
 
-    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -192,7 +199,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
 
-    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -206,14 +213,9 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await blockBlobClient.uploadStream(
-        rs,
-        4 * 1024 * 1024,
-        20,
-        {
-          abortSignal: aborter
-        }
-      );
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+        abortSignal: aborter
+      });
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -254,17 +256,12 @@ describe("Highlevel", () => {
 
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
-      await blockBlobClient.downloadToBuffer(
-        buf,
-        0,
-        undefined,
-        {
-          abortSignal: Aborter.timeout(1),
-          blockSize: 4 * 1024 * 1024,
-          maxRetryRequestsPerBlock: 5,
-          parallelism: 20
-        }
-      );
+      await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
+        abortSignal: Aborter.timeout(1),
+        blockSize: 4 * 1024 * 1024,
+        maxRetryRequestsPerBlock: 5,
+        parallelism: 20
+      });
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -294,35 +291,29 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should success when internal stream unexcepted ends at the stream end", async () => {
-    const uploadResponse = await blockBlobClient.uploadFile(
-      tempFileSmall,
-      {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 20
-      }
-    );
+    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    });
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    const downloadResponse = await blockBlobClient.download(
-      0,
-      undefined,
-      {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
-        },
-        maxRetryRequests: 1,
-        progress: ev => {
-          if (ev.loadedBytes >= tempFileSmallLength) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await blockBlobClient.download(0, undefined, {
+      blobAccessConditions: {
+        modifiedAccessConditions: {
+          ifMatch: uploadResponse.eTag
         }
+      },
+      maxRetryRequests: 1,
+      progress: (ev) => {
+        if (ev.loadedBytes >= tempFileSmallLength) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
+        }
+      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -333,36 +324,30 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download full data successfully when internal stream unexcepted ends", async () => {
-    const uploadResponse = await blockBlobClient.uploadFile(
-      tempFileSmall,
-      {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 20
-      }
-    );
+    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    });
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(
-      0,
-      undefined,
-      {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
-        },
-        maxRetryRequests: 3,
-        progress: () => {
-          if (injectedErrors++ < 3) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await blockBlobClient.download(0, undefined, {
+      blobAccessConditions: {
+        modifiedAccessConditions: {
+          ifMatch: uploadResponse.eTag
         }
+      },
+      maxRetryRequests: 3,
+      progress: () => {
+        if (injectedErrors++ < 3) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
+        }
+      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -373,38 +358,32 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download partial data when internal stream unexcepted ends", async () => {
-    const uploadResponse = await blockBlobClient.uploadFile(
-      tempFileSmall,
-      {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 20
-      }
-    );
+    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    });
 
     const partialSize = 500 * 1024;
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(
-      0,
-      partialSize,
-      {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
-        },
-        maxRetryRequests: 3,
-        progress: () => {
-          if (injectedErrors++ < 3) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await blockBlobClient.download(0, partialSize, {
+      blobAccessConditions: {
+        modifiedAccessConditions: {
+          ifMatch: uploadResponse.eTag
         }
+      },
+      maxRetryRequests: 3,
+      progress: () => {
+        if (injectedErrors++ < 3) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
+        }
+      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -415,15 +394,12 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
-    const uploadResponse = await blockBlobClient.uploadFile(
-      tempFileSmall,
-      {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 20
-      }
-    );
+    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -454,15 +430,12 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should abort after retrys", async () => {
-    const uploadResponse = await blockBlobClient.uploadFile(
-      tempFileSmall,
-      {
-        blockSize: 4 * 1024 * 1024,
-        parallelism: 20
-      }
-    );
+    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -470,26 +443,23 @@ describe("Highlevel", () => {
 
     try {
       const aborter = Aborter.none;
-      const downloadResponse = await blockBlobClient.download(
-        0,
-        undefined,
-        {
-          abortSignal: aborter,
-          blobAccessConditions: {
-            modifiedAccessConditions: {
-              ifMatch: uploadResponse.eTag
-            }
-          },
-          maxRetryRequests: 3,
-          progress: () => {
-            if (injectedErrors++ < 2) {
-              // Triger 2 times of retry
-              retirableReadableStreamOptions.doInjectErrorOnce = true;
-            } else {
-              // Trigger aborter
-              aborter.abort();
-            }
+      const downloadResponse = await blockBlobClient.download(0, undefined, {
+        abortSignal: aborter,
+        blobAccessConditions: {
+          modifiedAccessConditions: {
+            ifMatch: uploadResponse.eTag
           }
+        },
+        maxRetryRequests: 3,
+        progress: () => {
+          if (injectedErrors++ < 2) {
+            // Triger 2 times of retry
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
+          } else {
+            // Trigger aborter
+            aborter.abort();
+          }
+        }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
@@ -499,5 +469,29 @@ describe("Highlevel", () => {
 
     assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+  });
+
+  it("downloadToFile should success", async () => {
+    const downloadedFilePath = recorder.getUniqueName("downloadedtofile.");
+    const rs = fs.createReadStream(tempFileSmall);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
+
+    assert.ok(
+      response.contentLength === tempFileSmallLength,
+      "response.contentLength doesn't match tempFileSmallLength"
+    );
+    assert.equal(
+      response.readableStreamBody,
+      undefined,
+      "Expecting response.readableStreamBody to be undefined."
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const downloadedFileContent = fs.readFileSync(downloadedFilePath);
+    assert.ok(localFileContent.equals(downloadedFileContent));
+
+    fs.unlinkSync(downloadedFilePath);
   });
 });

@@ -42,3 +42,14 @@ export function getQSU(): QueueServiceClient {
 export function getAlternateQSU(): QueueServiceClient {
   return getGenericQSU("SECONDARY_", "-secondary");
 }
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
+}

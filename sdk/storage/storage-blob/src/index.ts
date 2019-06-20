@@ -28,6 +28,7 @@ export * from "./credentials/SharedKeyCredential";
 export * from "./credentials/TokenCredential";
 export { IPRange } from "./IPRange";
 export { Range } from "./Range";
+export * from "./LeaseClient";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

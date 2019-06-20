@@ -1,35 +1,40 @@
 import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { Aborter } from "../src";
+import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
+import { getBSU, bodyToString, sleep } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
   const serviceClient = getBSU();
-  let shareName = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
-  let dirName = getUniqueName("dir");
-  let dirClient = shareClient.createDirectoryClient(dirName);
-  let fileName = getUniqueName("file");
-  let fileClient = dirClient.createFileClient(fileName);
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: DirectoryClient;
+  let fileName: string;
+  let fileClient: FileClient;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
-    fileName = getUniqueName("file");
+    fileName = recorder.getUniqueName("file");
     fileClient = dirClient.createFileClient(fileName);
   });
 
   afterEach(async () => {
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -140,7 +145,7 @@ describe("FileClient", () => {
 
   it("startCopyFromURL", async () => {
     await fileClient.create(1024);
-    const newFileClient = dirClient.createFileClient(getUniqueName("copiedfile"));
+    const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
 
@@ -153,7 +158,7 @@ describe("FileClient", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
-    const newFileClient = dirClient.createFileClient(getUniqueName("copiedfile"));
+    const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);

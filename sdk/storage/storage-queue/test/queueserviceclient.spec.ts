@@ -1,11 +1,21 @@
 import * as assert from "assert";
-
-import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
+import { QueueServiceClient } from "../src/QueueServiceClient";
+import { getAlternateQSU, getQSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("listQueuesSegment with default parameters", async () => {
     const queueServiceClient = getQSU();
     const result = await queueServiceClient.listQueuesSegment();
@@ -26,7 +36,7 @@ describe("QueueServiceClient", () => {
   it("listQueuesSegment with all parameters", async () => {
     const queueServiceClient = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
     const queueClient1 = queueServiceClient.createQueueClient(queueName1);
@@ -60,10 +70,34 @@ describe("QueueServiceClient", () => {
     await queueClient2.delete();
   });
 
-  it("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
+  it("Verify PagedAsyncIterableIterator for listQueues", async () => {
     const queueServiceClient = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+
+    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    for await (const item of queueServiceClient.listQueues({
+      include: "metadata",
+      prefix: queueNamePrefix
+    })) {
+      assert.ok(item.name.startsWith(queueNamePrefix));
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+
+    await queueClient1.delete();
+    await queueClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listQueues", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
@@ -88,10 +122,10 @@ describe("QueueServiceClient", () => {
     await queueClient2.delete();
   });
 
-  it("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage()) for listQueues", async () => {
     const queueClients = [];
     const queueServiceClient = getQSU();
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
       const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
@@ -99,11 +133,60 @@ describe("QueueServiceClient", () => {
       queueClients.push(queueClient);
     }
 
-    for await (const queueItem of queueServiceClient.listQueues({
-      include: "metadata",
-      maxresults: 2,
-      prefix: queueNamePrefix
-    })) {
+    for await (const response of queueServiceClient
+      .listQueues({
+        include: "metadata",
+        prefix: queueNamePrefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const queueItem of response.queueItems!) {
+        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.deepEqual(queueItem.metadata!.key, "val");
+      }
+    }
+
+    for (const queueClient of queueClients) {
+      await queueClient.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listQueues", async () => {
+    const queueClients = [];
+    const queueServiceClient = getQSU();
+    const queueNamePrefix = recorder.getUniqueName("queue");
+
+    for (let i = 0; i < 4; i++) {
+      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      await queueClient.create({ metadata: { key: "val" } });
+      queueClients.push(queueClient);
+    }
+
+    let iter = queueServiceClient
+      .listQueues({
+        include: "metadata",
+        prefix: queueNamePrefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let item = (await iter.next()).value;
+    // Gets 2 queues
+    if (item.queueItems) {
+      for (const queueItem of item.queueItems) {
+        assert.ok(queueItem.name.startsWith(queueNamePrefix));
+        assert.deepEqual(queueItem.metadata!.key, "val");
+      }
+    }
+    // Gets next marker
+    let marker = item.nextMarker;
+    // Passing next marker as continuationToken
+    iter = queueServiceClient
+      .listQueues({
+        include: "metadata",
+        prefix: queueNamePrefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 10 });
+    item = (await iter.next()).value;
+    // Gets 2 queues
+    for (const queueItem of item.queueItems!) {
       assert.ok(queueItem.name.startsWith(queueNamePrefix));
       assert.deepEqual(queueItem.metadata!.key, "val");
     }

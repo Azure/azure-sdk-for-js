@@ -1,26 +1,30 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
-
 import { QueueClient, RestError, newPipeline } from "../src";
 import { Pipeline } from "../src/Pipeline";
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
   const queueServiceClient = getQSU();
-  let queueName: string = getUniqueName("queue");
-  let queueClient = queueServiceClient.createQueueClient(queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("Retry policy should work when first request fails with 500", async () => {
@@ -31,10 +35,10 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = queueClient.pipeline.factories.slice(); // clone factories array
+    const factories = (queueClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -52,13 +56,15 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = queueClient.pipeline.factories[queueClient.pipeline.factories.length - 1];
+    const credential = (queueClient as any).pipeline.factories[
+      (queueClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     let hasError = false;
     try {
@@ -91,13 +97,15 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential = queueClient.pipeline.factories[queueClient.pipeline.factories.length - 1];
+    const credential = (queueClient as any).pipeline.factories[
+      (queueClient as any).pipeline.factories.length - 1
+    ];
     const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url, pipeline);
 
     let finalRequestURL = "";
     try {

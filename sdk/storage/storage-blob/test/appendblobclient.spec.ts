@@ -1,26 +1,32 @@
 import * as assert from "assert";
 
-import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { bodyToString, getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { AppendBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let appendBlobClient = containerClient.createAppendBlobClient(blobName);
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let appendBlobClient: AppendBlobClient;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     appendBlobClient = containerClient.createAppendBlobClient(blobName);
   });
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {

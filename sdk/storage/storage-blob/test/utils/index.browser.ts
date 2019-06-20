@@ -4,7 +4,10 @@ import { newPipeline } from "../../src/Pipeline";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): BlobServiceClient {
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
