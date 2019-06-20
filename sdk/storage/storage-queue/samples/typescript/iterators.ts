@@ -54,7 +54,6 @@ async function main() {
     if (response.queueItems) {
       for (const queueItem of response.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
   }
@@ -65,7 +64,6 @@ async function main() {
     if (response.queueItems) {
       for (const queueItem of response.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
   }
@@ -78,7 +76,6 @@ async function main() {
     if (response.value.queueItems) {
       for (const queueItem of response.value.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
     response = await iterator.next();
@@ -92,7 +89,6 @@ async function main() {
   if (response.value.queueItems) {
     for (const queueItem of response.value.queueItems) {
       console.log(`Queue ${i++}: ${queueItem.name}`);
-      i++;
     }
   }
   // Gets next marker
@@ -104,7 +100,6 @@ async function main() {
   if (response.value.queueItems) {
     for (const queueItem of response.value.queueItems) {
       console.log(`Queue ${i++}: ${queueItem.name}`);
-      i++;
     }
   }
 }
