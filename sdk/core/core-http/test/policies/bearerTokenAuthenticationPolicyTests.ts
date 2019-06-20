@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
-import { TokenCredential, GetTokenOptions, AccessToken } from "../../lib/credentials/tokenCredential";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
 import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
