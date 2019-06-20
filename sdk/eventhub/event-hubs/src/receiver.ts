@@ -22,16 +22,16 @@ export interface EventIteratorOptions {
    */
   // prefetchCount?: number;
   /**
-   * Cancellation token to cancel the operation
+   * Signal to cancel the operation.
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * The Receiver class can be used to receive messages in a batch or by registering handlers.
- * Use the `createConsumer` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
- * The Receiver class is an abstraction over the underlying AMQP receiver link.
- * @class Receiver
+ * The EventHubConsumer class can be used to receive messages in a batch or by registering handlers.
+ * Use the `createConsumer` function on the EventHubClient to instantiate an EventHubConsumer.
+ * The EventHubConsumer class is an abstraction over the underlying AMQP receiver link.
+ * @class EventHubConsumer
  */
 export class EventHubConsumer {
   /**
@@ -47,7 +47,7 @@ export class EventHubConsumer {
    */
   private _eventPosition: EventPosition;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * @property Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
@@ -57,7 +57,7 @@ export class EventHubConsumer {
   private _batchingReceiver: BatchingReceiver | undefined;
 
   /**
-   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * @property Returns `true` if the consumer is closed. This can happen either because the consumer
    * itself has been closed or the client that created it has been closed.
    * @readonly
    */
@@ -66,8 +66,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
-   * itself has been closed or the client that created it has been closed.
+   * @property Returns the Partition ID to receive events from.
    * @readonly
    */
   public get partitionId(): string {
@@ -75,7 +74,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
+   * @property The consumer group from which the handler is receiving
    * events from.
    * @readonly
    */
@@ -84,7 +83,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property {number} [ownerLevel] The ownerLevel value of the underlying receiver, if present.
+   * @property The ownerLevel value of the underlying consumer, if present.
    * @readonly
    */
   get ownerLevel(): number | undefined {
@@ -92,7 +91,7 @@ export class EventHubConsumer {
   }
 
   /**
-   * Indicates whether the receiver is currently receiving messages or not.
+   * Indicates whether the consumer is currently receiving messages or not.
    * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
    */
   get isReceivingMessages(): boolean {
@@ -123,15 +122,20 @@ export class EventHubConsumer {
     this._receiverOptions = options || {};
   }
   /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
+   * Starts the consumer by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
    * the provided onMessage handler and error will be passed to the provided onError handler.
    *
-   * @param {OnMessage} onMessage The message handler to receive event data objects.
-   * @param {OnError} onError The error handler to receive an error that occurs
+   * @param onMessage The message handler to receive event data objects.
+   * @param onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
+   * @param abortSignal Signal to cancel current operation.
    *
-   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
+   * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws {Error} Thrown if the underlying connection or receiver has been closed.
+   * Create a new EventHubConsumer using the EventHubClient createConsumer method.
+   * @throws {Error} Thrown if the receiver is already receiving messages.
    */
   receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
@@ -158,7 +162,8 @@ export class EventHubConsumer {
   }
 
   /**
-   * Gets an async iterator over events from the receiver.
+   * Gets an async iterator over events from the consumer.
+   * @param [options] Options to pass to the event iterator.
    */
   async *getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
     if (!options) {
@@ -178,14 +183,19 @@ export class EventHubConsumer {
 
   /**
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
+   * happens first. This method can be used directly after creating the consumer object and **MUST NOT** be used along with the `start()` method.
    *
-   * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
+   * @param maxMessageCount The maximum message count. Must be a value greater than 0.
+   * @param [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
+   * @param abortSignal Signal to cancel current operation.
    *
-   * @returns {Promise<ReceivedEventData[]>} Promise<ReceivedEventData[]>.
+   * @returns Promise<ReceivedEventData[]>.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {MessagingError} Thrown if an error is encountered while receiving a message.
+   * @throws {Error} Thrown if the underlying connection or receiver has been closed.
+   * Create a new EventHubConsumer using the EventHubClient createConsumer method.
+   * @throws {Error} Thrown if the receiver is already receiving messages.
    */
   async receiveBatch(
     maxMessageCount: number,
@@ -248,11 +258,12 @@ export class EventHubConsumer {
 
   /**
    * Closes the underlying AMQP receiver link.
-   * Once closed, the receiver cannot be used for any further operations.
+   * Once closed, the consumer cannot be used for any further operations.
    * Use the `createConsumer` function on the EventHubClient to instantiate
-   * a new Receiver
+   * a new EventHubConsumer
    *
-   * @returns {Promise<void>}
+   * @returns
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {

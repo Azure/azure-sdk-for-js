@@ -36,19 +36,19 @@ interface CreateReceiverOptions {
  */
 export interface ReceiverRuntimeInfo {
   /**
-   * @property {number} lastSequenceNumber The logical sequence number of the event.
+   * @property lastSequenceNumber The logical sequence number of the event.
    */
   lastEnqueuedSequenceNumber?: number;
   /**
-   * @property {Date} lastEnqueuedTimeUtc The enqueued time of the last event.
+   * @property lastEnqueuedTimeUtc The enqueued time of the last event.
    */
   lastEnqueuedTimeUtc?: Date;
   /**
-   * @property {string} lastEnqueuedOffset The offset of the last enqueued event.
+   * @property lastEnqueuedOffset The offset of the last enqueued event.
    */
   lastEnqueuedOffset?: string;
   /**
-   * @property {Date} retrievalTime The enqueued time of the last event.
+   * @property retrievalTime The enqueued time of the last event.
    */
   retrievalTime?: Date;
 }
@@ -70,103 +70,103 @@ export type OnError = (error: MessagingError | Error) => void;
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * @property {string} consumerGroup The EventHub consumer group from which the receiver will
+   * @property consumerGroup The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
    */
   consumerGroup: string;
   /**
-   * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info.
+   * @property runtimeInfo The receiver runtime info.
    */
   runtimeInfo: ReceiverRuntimeInfo;
   /**
-   * @property {number} [ownerLevel] The Receiver ownerLevel.
+   * @property [ownerLevel] The Receiver ownerLevel.
    */
   ownerLevel?: number;
   /**
-   * @property {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
+   * @property eventPosition The event position in the partition at which to start receiving messages.
    */
   eventPosition: EventPosition;
   /**
-   * @property {EventHubConsumerOptions} [options] Optional properties that can be set while creating
+   * @property [options] Optional properties that can be set while creating
    * the EventHubConsumer.
    */
   options: EventHubConsumerOptions;
   /**
-   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
+   * @property [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
    */
   prefetchCount?: number = Constants.defaultPrefetchCount;
   /**
-   * @property {boolean} receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
+   * @property receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
    * is enabled. Default: false.
    */
   receiverRuntimeMetricEnabled: boolean = false;
   /**
-   * @property {Receiver} [_receiver] The AMQP receiver link.
+   * @property [_receiver] The AMQP receiver link.
    * @protected
    */
   protected _receiver?: Receiver;
   /**
-   * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+   * @property _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
    * @protected
    */
   protected _onMessage?: OnMessage;
   /**
-   * @property {OnError} _onError The error handler provided by the user that will be wrapped
+   * @property _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    * @protected
    */
   protected _onError?: OnError;
   /**
-   * @property {() => void} onAbort The aborter handler that will be invoked when user will call Aborter.abort()
+   * @property onAbort The aborter handler that will be invoked when user will call Aborter.abort()
    * to cancel the receive request.
    * @protected
    */
   protected _onAbort: () => void;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * @property _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    * @protected
    */
   protected _onAmqpMessage: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * @property _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    * @protected
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The message handler that will be set as the handler on the
+   * @property _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    * @protected
    */
   protected _onAmqpClose: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * @property _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    * @protected
    */
   protected _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * @property _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    * @protected
    */
   protected _onSessionClose: OnAmqpEvent;
   /**
-   * @property {number} _checkpoint Describes sequenceNumber of the last message received.
+   * @property _checkpoint Describes sequenceNumber of the last message received.
    * This is used as the sequenceNumber to receive messages from incase of recovery.
    */
   protected _checkpoint: number;
   /**
-   * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
+   * @property _aborter Describes Aborter instance that will be set by the user
    * to cancel the request.
    */
   protected _abortSignal: AbortSignalLike | undefined;
 
   /**
-   * @property {number} Returns sequenceNumber of the last event received.
+   * @property Returns sequenceNumber of the last event received.
    * @readonly
    */
   get checkpoint(): number {
@@ -177,11 +177,11 @@ export class EventHubReceiver extends LinkEntity {
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
-   * @param {EventHubClient} client                            The EventHub client.
-   * @param {string} consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {EventPosition} eventPosition The position in the stream from where to start receiving events.
-   * @param {EventHubConsumerOptions} [options]                         Receiver options.
+   * @param client                            The EventHub client.
+   * @param consumerGroup  The consumer group from which the receiver should receive events from.
+   * @param partitionId                               Partition ID from which to receive.
+   * @param eventPosition The position in the stream from where to start receiving events.
+   * @param [options]                         Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -393,8 +393,8 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Will reconnect the receiver link if necessary.
    * @ignore
-   * @param {AmqpError | Error} [receiverError] The receiver error if any.
-   * @returns {Promise<void>} Promise<void>.
+   * @param [receiverError] The receiver error if any.
+   * @returns Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     try {
@@ -496,7 +496,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Closes the underlying AMQP receiver.
    * @ignore
-   * @returns {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     if (this._receiver) {
@@ -512,7 +512,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
    * @ignore
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
@@ -535,7 +535,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    * @ignore
-   * @returns {Promise<void>}
+   * @returns
    */
   protected async _init(options?: RheaReceiverOptions): Promise<void> {
     try {

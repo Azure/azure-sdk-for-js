@@ -6,22 +6,26 @@ import { defaultLock, SharedKeyCredential, AccessToken, Constants, TokenType } f
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";
+
+/**
+ * @ignore
+ */
 export interface LinkEntityOptions {
   /**
-   * @property {string} [name] The unique name for the entity. If not provided then a guid will be
+   * @property [name] The unique name for the entity. If not provided then a guid will be
    * assigned.
    */
   name?: string;
   /**
-   * @property {string} [partitionId] The partitionId associated with the link entity.
+   * @property [partitionId] The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property {string} address The link entity address in one of the following forms:
+   * @property address The link entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property {string} audience The link entity token audience in one of the following forms:
+   * @property audience The link entity token audience in one of the following forms:
    */
   audience?: string;
 }
@@ -33,11 +37,11 @@ export interface LinkEntityOptions {
  */
 export class LinkEntity {
   /**
-   * @property {string} [name] The unique name for the entity (mostly a guid).
+   * @property [name] The unique name for the entity (mostly a guid).
    */
   name: string;
   /**
-   * @property {string} address The link entity address in one of the following forms:
+   * @property address The link entity address in one of the following forms:
    *
    * **Sender**
    * - `"<hubName>"`
@@ -51,7 +55,7 @@ export class LinkEntity {
    */
   address: string;
   /**
-   * @property {string} audience The link entity token audience in one of the following forms:
+   * @property audience The link entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -65,28 +69,28 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property {string} [partitionId] The partitionId associated with the link entity.
+   * @property [partitionId] The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
+   * @property isConnecting Indicates whether the link is in the process of connecting
    * (establishing) itself. Default value: `false`.
    */
   isConnecting: boolean = false;
   /**
-   * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
+   * @property _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
    */
   protected _context: ConnectionContext;
   /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
+   * @property _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Link Entity is due for token renewal.
    * @protected
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property {number} _tokenTimeout Indicates token timeout
+   * @property _tokenTimeout Indicates token timeout
    * @protected
    */
   protected _tokenTimeout?: number;
@@ -94,8 +98,8 @@ export class LinkEntity {
    * Creates a new LinkEntity instance.
    * @ignore
    * @constructor
-   * @param {ConnectionContext} context The connection context.
-   * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
+   * @param context The connection context.
+   * @param [options] Options that can be provided while creating the LinkEntity.
    */
   constructor(context: ConnectionContext, options?: LinkEntityOptions) {
     if (!options) options = {};
@@ -110,8 +114,8 @@ export class LinkEntity {
    * Negotiates cbs claim for the LinkEntity.
    * @ignore
    * @protected
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
+   * @param [setTokenRenewal] Set the token renewal timer. Default false.
+   * @returns Promise<void>
    */
   protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
@@ -180,7 +184,7 @@ export class LinkEntity {
    * Ensures that the token is renewed within the predefined renewal margin.
    * @ignore
    * @protected
-   * @returns {void}
+   * @returns
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeout) {
@@ -215,7 +219,7 @@ export class LinkEntity {
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
    * @ignore
-   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
+   * @param [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
   protected async _closeLink(link?: Sender | Receiver): Promise<void> {
@@ -247,7 +251,7 @@ export class LinkEntity {
 
   /**
    * Provides the current type of the LinkEntity.
-   * @return {string} The entity type.
+   * @returns The entity type.
    */
   private get _type(): string {
     let result = "LinkEntity";

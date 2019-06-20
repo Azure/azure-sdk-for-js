@@ -10,57 +10,58 @@ import * as log from "./log";
 import { RetryOptions } from "./eventHubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 /**
- * Describes the runtime information of an EventHub.
+ * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
  */
 export interface EventHubProperties {
   /**
-   * @property {string} path - The name of the event hub.
+   * @property The name of the event hub.
    */
   path: string;
   /**
-   * @property {Date} createdAt - The date and time the hub was created in UTC.
+   * @property The date and time the hub was created in UTC.
    */
   createdAt: Date;
   /**
-   * @property {string[]} partitionIds - The slice of string partition identifiers.
+   * @property The slice of string partition identifiers.
    */
   partitionIds: string[];
 }
 
 /**
  * Describes the runtime information of an EventHub Partition.
- * @interface PartitionInformation
+ * @interface PartitionProperties
  */
 export interface PartitionProperties {
   /**
-   * @property {string} hubPath - The name of the eventhub.
+   * @property The name of the Event Hub.
    */
   eventHubPath: string;
   /**
-   * @property {string} partitionId - Identifier of the partition within the eventhub.
+   * @property Identifier of the partition within the Event Hub.
    */
   partitionId: string;
   /**
-   * @property {number} beginningSequenceNumber - The starting sequence number of the partition's message log.
+   * @property The starting sequence number of the partition's message log.
    */
   beginningSequenceNumber: number;
   /**
-   * @property {number} lastSequenceNumber - The last sequence number of the partition's message log.
+   * @property The last sequence number of the partition's message log.
    */
   lastEnqueuedSequenceNumber: number;
   /**
-   * @property {string} lastEnqueuedOffset - The offset of the last enqueued message in the partition's message log.
+   * @property The offset of the last enqueued message in the partition's message log.
    */
   lastEnqueuedOffset: string;
   /**
-   * @property {Date} lastEnqueuedTimeUtc - The time of the last enqueued message in the partition's message log in UTC.
+   * @property The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedTimeUtc: Date;
 }
 
 /**
  * @internal
+ * @ignore
  */
 export interface ManagementClientOptions {
   address?: string;
@@ -76,12 +77,12 @@ export interface ManagementClientOptions {
 export class ManagementClient extends LinkEntity {
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
-   * @property {string} entityPath - The name/path of the entity (hub name) for which the management
+   * @property entityPath - The name/path of the entity (hub name) for which the management
    * request needs to be made.
    */
   entityPath: string;
   /**
-   * @property {string} replyTo The reply to Guid for the management client.
+   * @property replyTo The reply to Guid for the management client.
    */
   replyTo: string = uuid();
   /**
@@ -94,8 +95,8 @@ export class ManagementClient extends LinkEntity {
    * Instantiates the management client.
    * @constructor
    * @ignore
-   * @param {BaseConnectionContext} context The connection context.
-   * @param {string} [address] The address for the management endpoint. For IotHub it will be
+   * @param context The connection context.
+   * @param [address] The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
@@ -110,8 +111,8 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides the eventhub runtime information.
    * @ignore
-   * @param {Connection} connection - The established amqp connection
-   * @returns {Promise<EventHubProperties>}
+   * @param connection - The established amqp connection
+   * @returns
    */
   async getHubRuntimeInformation(options?: {
     retryOptions?: RetryOptions;
@@ -147,8 +148,8 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides an array of partitionIds.
    * @ignore
-   * @param {Connection} connection - The established amqp connection
-   * @returns {Promise<Array<string>>}
+   * @param connection - The established amqp connection
+   * @returns
    */
   async getPartitionIds(): Promise<Array<string>> {
     const runtimeInfo = await this.getHubRuntimeInformation();
@@ -158,8 +159,8 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides information about the specified partition.
    * @ignore
-   * @param {Connection} connection - The established amqp connection
-   * @param {string} partitionId Partition ID for which partition information is required.
+   * @param connection - The established amqp connection
+   * @param partitionId Partition ID for which partition information is required.
    */
   async getPartitionProperties(
     partitionId: string,
@@ -200,7 +201,7 @@ export class ManagementClient extends LinkEntity {
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @ignore
-   * @return {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     try {

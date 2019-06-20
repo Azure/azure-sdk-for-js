@@ -9,10 +9,10 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * The Sender class can be used to send messages.
- * Use the `createProducer` function on the EventHubClient to instantiate a Sender.
- * The Sender class is an abstraction over the underlying AMQP sender link.
- * @class Sender
+ * The EventHubProducer class can be used to send messages.
+ * Use the `createProducer` function on the EventHubClient to instantiate an EventHubProducer.
+ * The EventHubProducer class is an abstraction over the underlying AMQP sender link.
+ * @class EventHubProducer
  */
 export class EventHubProducer {
   /**
@@ -29,7 +29,7 @@ export class EventHubProducer {
   private _eventHubSender: EventHubSender | undefined;
 
   /**
-   * @property Returns `true` if either the sender or the client that created it has been closed
+   * @property Returns `true` if either the producer or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -55,7 +55,12 @@ export class EventHubProducer {
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send
    * request via retry options, log level and cancellation token.
    *
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {MessagingError} Thrown if an error is encountered while sending a message.
+   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws {Error} Thrown if the underlying connection or sender has been closed.
+   * Create a new producer using the EventHubClient createProducer method.
    */
   async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -68,10 +73,11 @@ export class EventHubProducer {
 
   /**
    * Closes the underlying AMQP sender link.
-   * Once closed, the sender cannot be used for any further operations.
-   * Use the `createProducer` function on the EventHubClient to instantiate a new Sender
+   * Once closed, the producer cannot be used for any further operations.
+   * Use the `createProducer` function on the EventHubClient to instantiate a new EventHubProducer.
    *
-   * @returns {Promise<void>}
+   * @returns
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {

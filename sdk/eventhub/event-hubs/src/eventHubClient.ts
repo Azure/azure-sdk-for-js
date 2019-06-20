@@ -24,15 +24,15 @@ import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * Retry policy options for operations on the EventHubClient
+ * Retry policy options for operations on the EventHubClient.
  */
 export interface RetryOptions {
   /**
-   * Total number of times to attempt an operation
+   * Total number of times to attempt an operation.
    */
   retryCount?: number;
   /**
-   * Number of milliseconds to wait between retries
+   * Number of milliseconds to wait between retries.
    */
   retryInterval?: number;
   // /**
@@ -48,7 +48,7 @@ export interface RetryOptions {
 }
 
 /**
- * Options to passed when creating a sender using the EventHubClient
+ * Options to passed when creating a producer using the EventHubClient.
  */
 export interface EventHubProducerOptions {
   /**
@@ -59,54 +59,54 @@ export interface EventHubProducerOptions {
   partitionId?: string;
   /**
    * @property
-   * Retry options for the send operation on the sender. If no value is provided here, the
+   * Retry options for the send operation on the producer. If no value is provided here, the
    * retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
 }
 
 /**
- * Options that can be passed when sending a batch of events using the EventHubsClient
+ * Options that can be passed when sending a batch of events using the EventHubsClient.
  */
 export interface SendOptions {
   /**
    * @property
-   * If specified EventHub will hash this string to map to a partitionId.
+   * If specified, Event Hubs will hash this string to map to a partitionId.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * This will be ignored if the sender was created using a `paritionId`.
+   * This will be ignored if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;
   /**
    * @property
-   * Cancel current operation
+   * Can cancel the current operation.
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * Options that can be passed to the receive operations on the EventHubsClient
+ * Options that can be passed to the receive operations on the EventHubsClient.
  * @interface EventHubConsumerOptions
  */
 export interface EventHubConsumerOptions {
   /**
    * @property
-   * The priority value that this receiver is currently using for partition ownership.
-   * If another receiver is currently active for the same partition with no or lesser
-   * priority, then it will get disconnected.
-   * If another receiver is currently active with a higher priority, then this receiver
+   * The level that this consumer is currently using for partition ownership.
+   * If another consumer is currently active for the same partition with no or lower
+   * level, then it will get disconnected.
+   * If another consumer is currently active with a higher level, then this consumer
    * will fail to connect.
    */
   ownerLevel?: number;
   /**
    * @property
-   * Retry options for the receive operation on the receiver. If no value is provided here, the
+   * Retry options for the receive operation on the consumer. If no value is provided here, the
    * retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
 }
 
 /**
- * Describes the options that can be provided while creating the EventHub Client.
+ * Describes the options that can be provided while creating the EventHubClient.
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -148,8 +148,8 @@ export interface EventHubClientOptions {
   webSocketConstructorOptions?: any;
   /**
    * @property
-   * Retry options for all the operations on the client/sender/receiver.
-   * This can be overridden by the retry options set on the sender and receiver.
+   * Retry options for all the operations on the client/producer/consumer.
+   * This can be overridden by the retry options set on the producer and consumer.
    */
   retryOptions?: RetryOptions;
 }
@@ -172,7 +172,7 @@ export class EventHubClient {
   /**
    * @property
    * @readonly
-   * The name of the Event Hub instance for which this client is created
+   * The name of the Event Hub instance for which this client is created.
    */
   get eventHubName(): string {
     return this._context.config.entityPath;
@@ -180,13 +180,13 @@ export class EventHubClient {
 
   /**
    * @constructor
-   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'
+   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - The options that can be provided during client creation.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
    * @constructor
-   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'
+   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
    * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
    * @param options - The options that can be provided during client creation.
    */
@@ -195,7 +195,7 @@ export class EventHubClient {
    * @constructor
    * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
-   * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
+   * @param eventHubPath - EventHub path of the form 'my-event-hub-name'.
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options - The options that can be provided during client creation.
    */
@@ -245,7 +245,8 @@ export class EventHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<void>} Promise<void>
+   * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -274,28 +275,29 @@ export class EventHubClient {
   }
 
   /**
-   * Creates a Sender that can be used to send events to the Event Hub for which this client
+   * Creates an EventHubProducer that can be used to send events to the Event Hub for which this client
    * was created.
    *
-   * @param options Options to create a Sender where you can specify the id of the partition
-   * to which events need to be sent to and retry options.
+   * @param options Options to create a EventHubProducer where you can specify the id of the partition
+   * to which events need to be sent to, and retry options.
    *
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
     return new EventHubProducer(this._context, options);
   }
 
   /**
-   * Creates a Receiver that can be used to receive events from the Event Hub for which this
+   * Creates an EventHubConsumer that can be used to receive events from the Event Hub for which this
    * client was created.
    *
-   * @param consumerGroup The consumer group from which the receiver should receive events from.
-   * @param partitionId The id of the partition from which to receive events
+   * @param consumerGroup The consumer group from which the consumer should receive events.
+   * @param partitionId The id of the partition from which to receive events.
    * @param eventPosition The event position in the partition at which to start receiving messages.
-   * @param options Options to create the Receiver where you can specify the position from
+   * @param options Options to create the EventHubConsumer where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
+   * @throws {TypeError} Thrown if a required parameter is missing.
    */
   createConsumer(
     consumerGroup: string,
@@ -311,8 +313,9 @@ export class EventHubClient {
   }
 
   /**
-   * Provides the eventhub runtime information.
-   * @returns {Promise<EventHubProperties>} A promise that resolves with HubInformation.
+   * Provides the Event Hub runtime information.
+   * @returns A promise that resolves with EventHubProperties.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
     try {
@@ -328,7 +331,8 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
+   * @returns A promise that resolves with an Array of strings.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
     try {
@@ -342,8 +346,9 @@ export class EventHubClient {
 
   /**
    * Provides information about the specified partition.
-   * @param {string} partitionId Partition ID for which partition information is required.
-   * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
+   * @param partitionId Partition ID for which partition information is required.
+   * @returns A promise that resoloves with PartitionProperties.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
@@ -360,10 +365,11 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an EventHub Client from connection string.
-   * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {EventHubClientOptions} [options] Options that can be provided during client creation.
-   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   * Creates an EventHubClient from connection string.
+   * @param iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'.
+   * @param [options] Options that can be provided during client creation.
+   * @returns - Promise<EventHubClient>.
+   * @throws {Error} Thrown if the iothubConnectionString is not provided as a string.
    */
   static async createFromIotHubConnectionString(
     iothubConnectionString: string,
