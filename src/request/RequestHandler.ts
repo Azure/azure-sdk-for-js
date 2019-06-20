@@ -4,6 +4,7 @@ import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
+import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
@@ -45,7 +46,12 @@ async function httpRequest(requestContext: RequestContext) {
     response = await fetch(trimSlashes(requestContext.endpoint) + requestContext.path, {
       method: requestContext.method,
       headers: requestContext.headers as any,
-      agent: requestContext.requestAgent,
+      agent: (parsedUrl: URL) => {
+        if (requestContext.requestAgent) {
+          return requestContext.requestAgent;
+        }
+        return parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
+      },
       signal,
       body: requestContext.body
     } as RequestInit);

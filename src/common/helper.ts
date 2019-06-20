@@ -243,3 +243,7 @@ export function getResourceIdFromPath(resourcePath: string) {
 
   return pathSegments[pathSegments.length - 1];
 }
+
+// https://github.com/iliakan/detect-node/blob/master/index.js
+export const isNode: boolean =
+  Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]";
