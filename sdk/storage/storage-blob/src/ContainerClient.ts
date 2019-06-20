@@ -962,7 +962,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
-  async *listSegments(
+  private async *listSegments(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse> {
@@ -982,7 +982,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.BlobItem>}
    * @memberof ContainerClient
    */
-  async *listItems(
+  private async *listItems(
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.BlobItem> {
     let marker: string | undefined;
