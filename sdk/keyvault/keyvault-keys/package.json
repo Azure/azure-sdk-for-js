@@ -55,7 +55,7 @@
     "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 1200000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src tests samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.json src tests samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o keyvault-secrets-lintReport.html || exit 0",
+    "lint": "eslint -c ../../.eslintrc.json src tests samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o keyvault-keys-lintReport.html || exit 0",
     "lint:terminal": "eslint -c ../../.eslintrc.json src tests samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
