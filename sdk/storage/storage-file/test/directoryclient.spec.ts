@@ -162,6 +162,174 @@ describe("DirectoryClient", () => {
     }
   });
 
+  it("Verify PagedAsyncIterableIterator for listFilesAndDirectories", async () => {
+    const subDirClients = [];
+    const rootDirClient = shareClient.createDirectoryClient("");
+
+    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    for await (const entity of rootDirClient.listFilesAndDirectories({ prefix })) {
+      assert.ok(entity.name.startsWith(prefix));
+      if (entity.kind == "file") {
+        assert.deepEqual(entity.properties.contentLength, 1024);
+      }
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listFilesAndDirectories", async () => {
+    const subDirClients = [];
+    const rootDirClient = shareClient.createDirectoryClient("");
+
+    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    let iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    let entity = (await iter.next()).value;
+    assert.ok(entity.name.startsWith(prefix));
+    if (entity.kind == "file") {
+      assert.deepEqual(entity.properties.contentLength, 1024);
+    }
+
+    entity = (await iter.next()).value;
+    assert.ok(entity.name.startsWith(prefix));
+    if (entity.kind == "file") {
+      assert.deepEqual(entity.properties.contentLength, 1024);
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator for listFilesAndDirectories", async () => {
+    const subDirClients = [];
+    const rootDirClient = shareClient.createDirectoryClient("");
+
+    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    for await (const response of rootDirClient
+      .listFilesAndDirectories({
+        prefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const fileItem of response.segment.fileItems) {
+        assert.ok(fileItem.name.startsWith(prefix));
+        assert.deepEqual(fileItem.properties.contentLength, 1024);
+      }
+      for (const dirItem of response.segment.directoryItems) {
+        assert.ok(dirItem.name.startsWith(prefix));
+      }
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listFilesAndDirectories", async () => {
+    const subDirClients = [];
+    const rootDirClient = shareClient.createDirectoryClient("");
+
+    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
+    const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
+
+    let iter = await rootDirClient
+      .listFilesAndDirectories({
+        prefix
+      })
+      .byPage({ maxPageSize: firstRequestSize });
+    let response = (await iter.next()).value;
+
+    assert.deepStrictEqual(
+      response.segment.directoryItems.length + response.segment.fileItems.length,
+      firstRequestSize
+    );
+    assert.notDeepEqual(response.nextMarker, undefined);
+
+    iter = await rootDirClient
+      .listFilesAndDirectories({
+        prefix
+      })
+      .byPage({
+        continuationToken: response.nextMarker,
+        maxPageSize: firstRequestSize + secondRequestSize
+      });
+    response = (await iter.next()).value;
+    assert.deepStrictEqual(
+      response.segment.directoryItems.length + response.segment.fileItems.length,
+      secondRequestSize
+    );
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
   it("createSubDirectory and deleteSubDirectory", async () => {
     const directoryName = getUniqueName("directory");
     const metadata = { key: "value" };
