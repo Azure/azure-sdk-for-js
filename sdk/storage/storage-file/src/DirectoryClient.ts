@@ -154,17 +154,6 @@ export interface DirectorySetMetadataOptions {
   abortSignal?: Aborter;
 }
 
-export interface AzureDirectoryItem {
-  kind: "directory";
-  name: string;
-}
-
-export interface AzureFileItem {
-  kind: "file";
-  name: string;
-  properties: Models.FileProperty;
-}
-
 /**
  * A DirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
@@ -457,12 +446,14 @@ export class DirectoryClient extends StorageClient {
    *
    * @private
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
-   * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @returns {AsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem>}
    * @memberof DirectoryClient
    */
   async *listItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
+  ): AsyncIterableIterator<
+    { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem
+  > {
     let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.listSegments(marker, options)) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
@@ -480,15 +471,15 @@ export class DirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
-   * @param {ServiceListQueuesOptions} [options] Options to list files and directories operation.
+   * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
    * @memberof DirectoryClient
-   * @returns {PagedAsyncIterableIterator<AzureFileItem | AzureDirectoryItem, Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @returns {PagedAsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } , Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * An asyncIterableIterator that supports paging.
    */
   public listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesOptions = {}
   ): PagedAsyncIterableIterator<
-    AzureFileItem | AzureDirectoryItem,
+    { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem,
     Models.DirectoryListFilesAndDirectoriesSegmentResponse
   > {
     // AsyncIterableIterator to iterate over files and directories
