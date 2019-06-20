@@ -210,7 +210,7 @@ export class BatchingReceiver extends EventHubReceiver {
                 this.name,
                 this.address
               );
-              await this.detached(receiverError);
+              await this.onDetached(receiverError);
             } else {
               log.error(
                 "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -255,7 +255,7 @@ export class BatchingReceiver extends EventHubReceiver {
                 this.name,
                 this.address
               );
-              await this.detached(sessionError);
+              await this.onDetached(sessionError);
             } else {
               log.error(
                 "[%s] 'session_close' event occurred on the session of receiver '%s' with " +

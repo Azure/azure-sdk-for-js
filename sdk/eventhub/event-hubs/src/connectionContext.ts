@@ -182,7 +182,7 @@ export namespace ConnectionContext {
               sender.name,
               sender.address
             );
-            sender.detached(connectionError || contextError).catch(err => {
+            sender.onDetached(connectionError || contextError).catch(err => {
               log.error(
                 "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
@@ -211,7 +211,7 @@ export namespace ConnectionContext {
               receiver.name,
               receiver.address
             );
-            receiver.detached(connectionError || contextError).catch(err => {
+            receiver.onDetached(connectionError || contextError).catch(err => {
               log.error(
                 "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id,

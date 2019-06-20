@@ -315,7 +315,7 @@ export class EventHubReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(receiverError);
+          await this.onDetached(receiverError);
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -364,7 +364,7 @@ export class EventHubReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(sessionError);
+          await this.onDetached(sessionError);
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
@@ -397,7 +397,7 @@ export class EventHubReceiver extends LinkEntity {
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async detached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     try {
       const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
@@ -485,7 +485,7 @@ export class EventHubReceiver extends LinkEntity {
       }
     } catch (err) {
       log.error(
-        "[%s] An error occurred while processing detached() of Receiver '%s' with address " + "'%s': %O",
+        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " + "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
