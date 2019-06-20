@@ -515,8 +515,19 @@ describe("Peek session", function(): void {
 
     // At this point AMQP receiver link has not been established.
     // peek() will not establish the link if sessionId was provided
-    const peekedMsgs = await receiver.peek(1);
-    should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
+
+    // try peeking a certain pf times (probabilistic factor) until we see the expected number of messages
+    const pf = 10;
+    const expectedNumberOfMessages = 1;
+    let peekedMsgs: any = [];
+    for (var i = 0; i < pf; i++) {
+      peekedMsgs = await receiver.peek(expectedNumberOfMessages);
+      if (peekedMsgs.length === expectedNumberOfMessages) {
+        break;
+      }
+    }
+
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked");
     should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       peekedMsgs[0].messageId,
@@ -530,7 +541,7 @@ describe("Peek session", function(): void {
     );
 
     const msgs = await receiver.receiveMessages(1);
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
