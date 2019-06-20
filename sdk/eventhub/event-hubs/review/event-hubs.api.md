@@ -31,8 +31,9 @@ export { delay }
 // @public
 export interface EventData {
     body: any;
-    // Warning: (ae-forgotten-export) The symbol "Properties" needs to be exported by the entry point index.d.ts
-    properties?: Properties;
+    properties?: {
+        [key: string]: any;
+    };
 }
 
 // @public
@@ -151,7 +152,9 @@ export interface ReceivedEventData {
     enqueuedTimeUtc: Date;
     offset: string;
     partitionKey: string | null;
-    properties?: Properties;
+    properties?: {
+        [key: string]: any;
+    };
     sequenceNumber: number;
 }
 

@@ -9,7 +9,7 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * The Sender class can be used to send messages.
+ * The EventHubProducer class can be used to send messages.
  * Use the `createProducer` function on the EventHubClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
@@ -56,6 +56,11 @@ export class EventHubProducer {
    * request via retry options, log level and cancellation token.
    *
    * @returns Promise<void>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws {MessagingError} Thrown if an error is encountered while sending a message.
+   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws {Error} Thrown if the underlying connection or sender has been closed.
+   * Create a new producer using the EventHubClient createProducer method.
    */
   async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -72,6 +77,7 @@ export class EventHubProducer {
    * Use the `createProducer` function on the EventHubClient to instantiate a new Sender
    *
    * @returns
+   * * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {

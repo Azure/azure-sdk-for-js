@@ -246,6 +246,7 @@ export class EventHubClient {
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -296,6 +297,7 @@ export class EventHubClient {
    * @param options Options to create the Receiver where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
+   * @throws {TypeError} Thrown if a required parameter is missing.
    */
   createConsumer(
     consumerGroup: string,
@@ -313,6 +315,7 @@ export class EventHubClient {
   /**
    * Provides the eventhub runtime information.
    * @returns A promise that resolves with HubInformation.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
     try {
@@ -329,6 +332,7 @@ export class EventHubClient {
   /**
    * Provides an array of partitionIds.
    * @returns A promise that resolves with an Array of strings.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
     try {
@@ -344,6 +348,7 @@ export class EventHubClient {
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
    * @returns A promise that resoloves with EventHubPartitionRuntimeInformation.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
@@ -364,6 +369,7 @@ export class EventHubClient {
    * @param iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param [options] Options that can be provided during client creation.
    * @returns - Promise<EventHubClient>.
+   * @throws {Error} Thrown if the iothubConnectionString is not provided as a string.
    */
   static async createFromIotHubConnectionString(
     iothubConnectionString: string,
