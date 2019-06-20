@@ -10,10 +10,10 @@ import { EventHubClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = new EventHubClient(connectionString, eventHubsName);
+  const client = new EventHubClient(connectionString, eventHubName);
 
   const info = await client.getProperties();
   console.log("RuntimeInfo: ", info);

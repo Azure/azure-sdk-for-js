@@ -27,11 +27,11 @@ async function main(): Promise<void> {
   };
 
   try {
-    const consumerHandler = consumer.receive(onMessageHandler, onErrorHandler);
+    const rcvHandler = consumer.receive(onMessageHandler, onErrorHandler);
 
     // Waiting long enough before closing the consumer to receive event
     await delay(5000);
-    await consumerHandler.stop();
+    await rcvHandler.stop();
   } finally {
     await client.close();
   }

@@ -20,14 +20,14 @@ const env = getEnvVars();
 describe("EventHubClient #RunnableInBrowser", function(): void {
   describe(".fromConnectionString", function(): void {
     it("throws when it cannot find the Event Hub path", function(): void {
-      const endpoint = "Endpoint=sb://abc";
+      const connectionString = "Endpoint=sb://abc";
       const test = function(): EventHubClient {
-        return new EventHubClient(endpoint);
+        return new EventHubClient(connectionString);
       };
       test.should.throw(
         Error,
-        'EntityPath is missing in the connection string. The value for the "connectionString" parameter must be of the form ' +
-          '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
+        `Either provide "path" or the "connectionString": "${connectionString}", ` +
+        `must contain EntityPath="<path-to-the-entity>".`
       );
     });
 

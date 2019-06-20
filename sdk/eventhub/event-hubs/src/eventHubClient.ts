@@ -9,8 +9,7 @@ import {
   EventHubConnectionConfig,
   SharedKeyCredential,
   ConnectionConfig,
-  parseConnectionString,
-  EventHubConnectionStringModel,
+  isTokenCredential,
   Constants
 } from "@azure/core-amqp";
 
@@ -23,7 +22,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { isTokenCredential } from "@azure/core-http";
 
 /**
  * Retry policy options for operations on the EventHubClient
@@ -209,31 +207,20 @@ export class EventHubClient {
     options?: EventHubClientOptions
   ) {
     let connectionString;
+    let config;
     let credential: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
 
     if (!isTokenCredential(credentialOrOptions)) {
       connectionString = hostOrConnectionString;
       if (typeof eventHubPathOrOptions !== "string") {
+        config = EventHubConnectionConfig.create(connectionString);
         options = eventHubPathOrOptions;
       } else {
-        const eventHubPath = String(eventHubPathOrOptions);
-        if (!eventHubPath) {
-          throw new Error(`Please provide a event hub path.`);
-        }
-        if (connectionString.indexOf(";EntityPath=") === -1) {
-          connectionString = `${connectionString};EntityPath=${eventHubPath}`;
-        }
+        config = EventHubConnectionConfig.create(connectionString, eventHubPathOrOptions);
         options = credentialOrOptions;
       }
-      const parsedCS = parseConnectionString<EventHubConnectionStringModel>(connectionString);
-      if (!parsedCS.EntityPath) {
-        throw new Error(
-          'EntityPath is missing in the connection string. The value for the "connectionString" parameter must be of the form ' +
-            '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
-        );
-      }
-      credential = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
+      credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
     } else {
       const eventHubPath = String(eventHubPathOrOptions);
       let host = hostOrConnectionString;
@@ -241,9 +228,9 @@ export class EventHubClient {
 
       if (!host.endsWith("/")) host += "/";
       connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+      config = EventHubConnectionConfig.create(connectionString);
     }
 
-    const config = EventHubConnectionConfig.create(connectionString);
     ConnectionConfig.validate(config);
 
     this._clientOptions = options || {};

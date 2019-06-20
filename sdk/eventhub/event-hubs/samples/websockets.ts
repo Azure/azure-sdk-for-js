@@ -18,7 +18,7 @@ const httpsProxyAgent = require("https-proxy-agent");
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 // Create an instance of the `HttpsProxyAgent` class with the proxy server information like
 // proxy url, username and password
@@ -28,7 +28,7 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
-  const client = new EventHubClient(connectionString, eventHubsName, {
+  const client = new EventHubClient(connectionString, eventHubName, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });
