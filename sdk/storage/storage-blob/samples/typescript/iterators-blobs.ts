@@ -22,22 +22,6 @@ async function main() {
     pipeline
   );
 
-  // List Containers
-  let iter1 = await blobServiceClient.listContainers();
-  let i = 1;
-  for await (const container of iter1) {
-    console.log(`Container ${i++}: ${container.name}`);
-  }
-
-  // List containers - generator syntax
-  let iter2 = await blobServiceClient.listContainers();
-  i = 1;
-  let containerItem = await iter2.next();
-  do {
-    console.log(`Container ${i++}: ${containerItem.value.name}`);
-    containerItem = await iter2.next();
-  } while (containerItem.value);
-
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = blobServiceClient.createContainerClient(containerName);
@@ -45,7 +29,7 @@ async function main() {
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
-  for (let index = 0; index < 4; index++) {
+  for (let index = 0; index < 7; index++) {
     // Create a blob
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
@@ -55,21 +39,76 @@ async function main() {
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
-  // List blobs
-  iter1 = await containerClient.listBlobsFlat();
-  i = 1;
-  for await (const blob of iter1) {
+  // 1. List blobs
+  let i = 1;
+  let iter = await containerClient.listBlobsFlat();
+  for await (const blob of iter) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 
-  // List blobs - generator syntax
-  iter2 = await containerClient.listBlobsFlat();
+  // 2. Same as the previous example
   i = 1;
-  let blobItem = await iter2.next();
-  do {
+  for await (const blob of containerClient.listBlobsFlat()) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
+
+  // 3. Generator syntax .next()
+  i = 1;
+  iter = containerClient.listBlobsFlat();
+  let blobItem = await iter.next();
+  while (!blobItem.done) {
     console.log(`Blob ${i++}: ${blobItem.value.name}`);
-    blobItem = await iter2.next();
-  } while (blobItem.value);
+    blobItem = await iter.next();
+  }
+
+  ////////////////////////////////////////////////////////
+  ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
+
+  // 4. list containers by page
+  i = 1;
+  for await (const response of containerClient.listBlobsFlat().byPage()) {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+  }
+
+  // 5. Same as the previous example - passing maxPageSize in the page settings
+  i = 1;
+  for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+  }
+
+  // 6. Generator syntax .next()
+  i = 1;
+  let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
+  let response = (await iterator.next()).value;
+  do {
+    for (const blob of response.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
+    response = (await iterator.next()).value;
+  } while (response);
+
+  // 7. Passing marker as an argument (similar to the previous example)
+  i = 1;
+  iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+  response = (await iterator.next()).value;
+  // Prints 2 blob names
+  for (const blob of response.segment.blobItems) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
+  // Gets next marker
+  let marker = response.nextMarker;
+  // Passing next marker as continuationToken
+  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
+  response = (await iterator.next()).value;
+  // Prints 5 blob names
+  for (const blob of response.segment.blobItems) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
