@@ -128,7 +128,38 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Verify AsyncIterator(generator .next() syntax) for listBlobsFlat", async () => {
+  it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    for await (const blob of containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      prefix
+    })) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      assert.deepStrictEqual(blob.metadata, metadata);
+      i++;
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -162,7 +193,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Verify AsyncIterator(for-loop syntax) for listBlobsFlat", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage()) for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -179,11 +210,65 @@ describe("ContainerClient", () => {
     }
 
     let i = 0;
-    for await (const blob of containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      prefix,
-      maxresults: 2
-    })) {
+    for await (const response of containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const blob of response.segment.blobItems) {
+        assert.ok(blobClients[i].url.indexOf(blob.name));
+        assert.deepStrictEqual(blob.metadata, metadata);
+        i++;
+      }
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    let iter = containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const blob of response.segment.blobItems) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      assert.deepStrictEqual(blob.metadata, metadata);
+      i++;
+    }
+    // Gets next marker
+    let marker = response.nextMarker;
+    // Passing next marker as continuationToken
+    iter = containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
       assert.deepStrictEqual(blob.metadata, metadata);
       i++;

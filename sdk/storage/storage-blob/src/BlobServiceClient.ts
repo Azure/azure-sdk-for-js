@@ -16,6 +16,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -120,6 +121,35 @@ export interface ServiceListContainersSegmentOptions {
    * fewer results than specified by maxresults, or than the default of 5000.
    */
   maxresults?: number;
+  /**
+   * @member {ListContainersIncludeType} [include] Include this parameter to
+   * specify that the container's metadata be returned as part of the response
+   * body. Possible values include: 'metadata'
+   */
+  include?: ListContainersIncludeType;
+}
+
+/**
+ * Options to configure the Service - List Containers operation.
+ *
+ * @export
+ * @interface ServiceListContainersOptions
+ */
+export interface ServiceListContainersOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListContainersOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * @member {string} [prefix] Filters the results to return only containers
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
   /**
    * @member {ListContainersIncludeType} [include] Include this parameter to
    * specify that the container's metadata be returned as part of the response
@@ -336,53 +366,6 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Iterates over containers under the specified account.
-   *
-   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers.
-   * @returns {AsyncIterableIterator<Models.ContainerItem>} An async iterator to list containers.
-   * @memberof BlobServiceClient
-   *
-   * @example
-   * for await (const container of blobServiceClient.listContainers()) {
-   *   console.log(`Container: ${container.name}`);
-   * }
-   *
-   * @example
-   * let iter1 = blobServiceClient.listContainers();
-   * let i = 1;
-   * for await (const container of iter1) {
-   *   console.log(`${i}: ${container.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await blobServiceClient.listContainers();
-   * i = 1;
-   * let containerItem = await iter2.next();
-   * do {
-   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
-   *   containerItem = await iter2.next();
-   * } while (containerItem.value);
-   *
-   */
-  public async *listContainers(
-    options: ServiceListContainersSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ContainerItem> {
-    let marker = undefined;
-    const blobServiceClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listContainersResponse;
-    do {
-      listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
-      marker = listContainersResponse.nextMarker;
-      yield* listContainersResponse.containerItems;
-    } while (marker);
-  }
-
-  /**
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
@@ -409,5 +392,143 @@ export class BlobServiceClient extends StorageClient {
       marker,
       ...options
     });
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of containers to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all containers remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListContainersSegmentResponse>}
+   * @memberof BlobServiceClient
+   */
+  private async *listSegments(
+    marker?: string,
+    options: ServiceListContainersSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ServiceListContainersSegmentResponse> {
+    let listContainersSegmentResponse;
+    do {
+      listContainersSegmentResponse = await this.listContainersSegment(marker, options);
+      marker = listContainersSegmentResponse.nextMarker;
+      yield await listContainersSegmentResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for Container Items
+   *
+   * @private
+   * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
+   * @returns {AsyncIterableIterator<Models.ServiceListcontainersSegmentResponse>}
+   * @memberof BlobServiceClient
+   */
+  private async *listItems(
+    options: ServiceListContainersSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerItem> {
+    let marker: string | undefined;
+    for await (const segment of this.listSegments(marker, options)) {
+      yield* segment.containerItems;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the containers
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the containers in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   for await (const container of blobServiceClient.listContainers()) {
+   *     console.log(`Container ${i++}: ${container.name}`);
+   *   }
+   *
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   iter = blobServiceClient.listContainers();
+   *   let containerItem = await iter.next();
+   *   while (!containerItem.done) {
+   *     console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *     containerItem = await iter.next();
+   *   }
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+   *     if (response.containerItems) {
+   *       for (const container of response.containerItems) {
+   *         console.log(`Container ${i++}: ${container.name}`);
+   *       }
+   *     }
+   *   }
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
+   *   let response = (await iterator.next()).value;
+   *   // Prints 2 container names
+   *   if (response.containerItems) {
+   *     for (const container of response.containerItems) {
+   *       console.log(`Container ${i++}: ${container.name}`);
+   *     }
+   *   }
+   *   // Gets next marker
+   *   let marker = response.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   iterator = blobServiceClient
+   *     .listContainers()
+   *     .byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = (await iterator.next()).value;
+   *   // Prints 10 container names
+   *   if (response.containerItems) {
+   *     for (const container of response.containerItems) {
+   *        console.log(`Container ${i++}: ${container.name}`);
+   *     }
+   *   }
+   *
+   *
+   * @param {ServiceListContainersOptions} [options={}] Options to list containers.
+   * @returns {PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @memberof BlobServiceClient
+   */
+  public listContainers(
+    options: ServiceListContainersOptions = {}
+  ): PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse> {
+    // AsyncIterableIterator to iterate over containers
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 }
