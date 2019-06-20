@@ -175,6 +175,12 @@ export class QueryIterator<T> {
 
   private async createPipelinedExecutionContext() {
     const queryPlanResponse = await this.queryPlanPromise;
+
+    // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
+    if (queryPlanResponse instanceof Error) {
+      throw queryPlanResponse;
+    }
+
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
@@ -191,13 +197,15 @@ export class QueryIterator<T> {
 
   private async fetchQueryPlan() {
     if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
-      return this.clientContext.getQueryPlan(
-        getPathFromLink(this.resourceLink) + "/docs",
-        ResourceType.item,
-        this.resourceLink,
-        this.query,
-        this.options
-      );
+      return this.clientContext
+        .getQueryPlan(
+          getPathFromLink(this.resourceLink) + "/docs",
+          ResourceType.item,
+          this.resourceLink,
+          this.query,
+          this.options
+        )
+        .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }
     return this.queryPlanPromise;
   }

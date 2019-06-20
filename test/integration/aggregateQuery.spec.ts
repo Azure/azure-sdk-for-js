@@ -223,7 +223,7 @@ describe("Aggregate Query", function() {
       const response = await queryIterator.fetchAll();
       assert.fail("Should throw an error");
     } catch (error) {
-      assert(error);
+      assert.equal(error.code, 400);
     }
   });
 });
