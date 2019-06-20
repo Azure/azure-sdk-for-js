@@ -20,7 +20,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
-  const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+  const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   let breceiver: BatchingReceiver;
   let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];

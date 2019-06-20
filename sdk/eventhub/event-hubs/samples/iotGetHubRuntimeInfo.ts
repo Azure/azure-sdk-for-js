@@ -13,7 +13,7 @@ const connectionString = "";
 async function main(): Promise<void> {
   const client = await EventHubClient.createFromIotHubConnectionString(connectionString);
 
-  const info = await client.getHubRuntimeInformation();
+  const info = await client.getProperties();
   console.log("RuntimeInfo: ", info);
 
   const pInfo = await client.getPartitionInformation(info.partitionIds[0]);
