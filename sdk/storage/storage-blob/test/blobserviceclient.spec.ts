@@ -74,7 +74,39 @@ describe("BlobServiceClient", () => {
     await containerClient2.delete();
   });
 
-  it("Verify AsyncIterator(generator .next() syntax) for ListContainers", async () => {
+  it("Verify PagedAsyncIterableIterator for ListContainers", async () => {
+    const containerClients = [];
+    const blobServiceClient = getBSU();
+
+    const containerNamePrefix = getUniqueName("container");
+
+    for (let i = 0; i < 4; i++) {
+      const containerName = `${containerNamePrefix}x${i}`;
+      const containerClient = blobServiceClient.createContainerClient(containerName);
+      await containerClient.create({ metadata: { key: "val" } });
+      containerClients.push(containerClient);
+    }
+
+    for await (const container of blobServiceClient.listContainers({
+      include: "metadata",
+      prefix: containerNamePrefix
+    })) {
+      assert.ok(container.name.startsWith(containerNamePrefix));
+      assert.ok(container.properties.etag.length > 0);
+      assert.ok(container.properties.lastModified);
+      assert.ok(!container.properties.leaseDuration);
+      assert.ok(!container.properties.publicAccess);
+      assert.deepEqual(container.properties.leaseState, "available");
+      assert.deepEqual(container.properties.leaseStatus, "unlocked");
+      assert.deepEqual(container.metadata!.key, "val");
+    }
+
+    for (const client of containerClients) {
+      await client.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for ListContainers", async () => {
     const blobServiceClient = getBSU();
 
     const containerNamePrefix = getUniqueName("container");
@@ -114,7 +146,7 @@ describe("BlobServiceClient", () => {
     await containerClient2.delete();
   });
 
-  it("Verify AsyncIterator(for-loop syntax) for ListContainers", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage()) for ListContainers", async () => {
     const containerClients = [];
     const blobServiceClient = getBSU();
 
@@ -127,11 +159,71 @@ describe("BlobServiceClient", () => {
       containerClients.push(containerClient);
     }
 
-    for await (const container of blobServiceClient.listContainers({
-      include: "metadata",
-      prefix: containerNamePrefix,
-      maxresults: 2
-    })) {
+    for await (const response of blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const container of response.containerItems) {
+        assert.ok(container.name.startsWith(containerNamePrefix));
+        assert.ok(container.properties.etag.length > 0);
+        assert.ok(container.properties.lastModified);
+        assert.ok(!container.properties.leaseDuration);
+        assert.ok(!container.properties.publicAccess);
+        assert.deepEqual(container.properties.leaseState, "available");
+        assert.deepEqual(container.properties.leaseStatus, "unlocked");
+        assert.deepEqual(container.metadata!.key, "val");
+      }
+    }
+
+    for (const client of containerClients) {
+      await client.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListContainers", async () => {
+    const containerClients = [];
+    const blobServiceClient = getBSU();
+
+    const containerNamePrefix = getUniqueName("container");
+
+    for (let i = 0; i < 4; i++) {
+      const containerName = `${containerNamePrefix}x${i}`;
+      const containerClient = blobServiceClient.createContainerClient(containerName);
+      await containerClient.create({ metadata: { key: "val" } });
+      containerClients.push(containerClient);
+    }
+
+    let iter = blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const container of response.containerItems) {
+      assert.ok(container.name.startsWith(containerNamePrefix));
+      assert.ok(container.properties.etag.length > 0);
+      assert.ok(container.properties.lastModified);
+      assert.ok(!container.properties.leaseDuration);
+      assert.ok(!container.properties.publicAccess);
+      assert.deepEqual(container.properties.leaseState, "available");
+      assert.deepEqual(container.properties.leaseStatus, "unlocked");
+      assert.deepEqual(container.metadata!.key, "val");
+    }
+    // Gets next marker
+    let marker = response.nextMarker;
+    // Passing next marker as continuationToken
+    iter = blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 containers
+    for (const container of response.containerItems) {
       assert.ok(container.name.startsWith(containerNamePrefix));
       assert.ok(container.properties.etag.length > 0);
       assert.ok(container.properties.lastModified);
