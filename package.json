@@ -76,8 +76,7 @@
     "tslint": "5.16.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "0.14.2",
-    "typescript": "3.5.1",
-    "uuid": "3.3.2"
+    "typescript": "3.5.1"
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
@@ -90,7 +89,8 @@
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
     "tslib": "^1.9.3",
-    "universal-user-agent": "2.1.0"
+    "universal-user-agent": "2.1.0",
+    "uuid": "3.3.2"
   },
   "repository": {
     "type": "git",
