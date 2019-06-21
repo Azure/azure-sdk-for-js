@@ -74,11 +74,12 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = (await (await containerClient
+    let listBlobResponse = (await containerClient
       .listBlobsFlat({
         include: ["copy", "snapshots"]
       })
-      .byPage()).next()).value;
+      .byPage()
+      .next()).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -90,11 +91,12 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    listBlobResponse = (await (await containerClient
+    listBlobResponse = (await containerClient
       .listBlobsFlat({
         include: ["copy", "snapshots"]
       })
-      .byPage()).next()).value;
+      .byPage()
+      .next()).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
