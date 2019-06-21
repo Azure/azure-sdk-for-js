@@ -64,9 +64,10 @@ console.log(serviceFolders);
 let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
-  //if(count > 5)
-  //break;
   count++;
+  if(count > 5)
+  break;
+
   console.log("count = " + count);
   const eachServicePath = path.join(workingDir, eachService);
   const stat = fs.statSync(eachServicePath);
