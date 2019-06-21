@@ -105,7 +105,7 @@ const consumer = client.createConsumer("$Default", partitionIds[0], EventPositio
 
 You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--) function to get the ids of all available partitions in your Event Hub instance.
 
-`createConsumer` method takes an optionsal parameter of type [EventHubConsumerOptions](link) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
+`createConsumer` method takes an optional parameter of type [EventHubConsumerOptions](link) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
 
 You can use this consumer in one of 3 ways to receive events:
 
