@@ -117,9 +117,11 @@ describe("BlobClient", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result2 = (await (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()).next()).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -132,9 +134,11 @@ describe("BlobClient", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result3 = (await (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()).next()).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -168,15 +172,22 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    const result = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+    const result = (await (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()).next()).value;
+
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+
+    const result2 = (await (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()).next()).value;
+
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 

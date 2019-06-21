@@ -7,7 +7,7 @@ import {
   Models,
   SharedKeyCredential,
   newPipeline,
-  TokenCredential,
+  TokenCredential
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -39,17 +39,10 @@ async function main() {
     pipeline
   );
 
-  let marker;
-  do {
-    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
-      marker
-    );
-
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const container of blobServiceClient.listContainers()) {
+    console.log(`Container ${i++}: ${container.name}`);
+  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
@@ -67,17 +60,10 @@ async function main() {
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
-  marker = undefined;
-  do {
-    const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerClient.listBlobFlatSegment(
-      marker
-    );
-
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
-    }
-  } while (marker);
+  i = 1;
+  for await (const blob of containerClient.listBlobsFlat()) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody

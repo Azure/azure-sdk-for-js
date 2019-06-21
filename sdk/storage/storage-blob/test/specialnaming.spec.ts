@@ -41,9 +41,12 @@ describe("Special Naming Tests", () => {
     const blockBlobClient = containerClient.createBlockBlobClient(blobName);
 
     await blockBlobClient.upload("A", 1);
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -55,9 +58,12 @@ describe("Special Naming Tests", () => {
     );
 
     await blockBlobClient.upload("A", 1);
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -67,9 +73,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -82,9 +91,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -94,9 +106,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -109,9 +124,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -121,9 +139,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -136,9 +157,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -150,10 +174,13 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-      prefix: blobName.replace(/\\/g, "/")
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+        prefix: blobName.replace(/\\/g, "/")
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -171,10 +198,13 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-      prefix: blobName.replace(/\\/g, "/")
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+        prefix: blobName.replace(/\\/g, "/")
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -185,9 +215,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobNameEncoded
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobNameEncoded
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -197,9 +230,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -212,9 +248,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -225,9 +264,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobNameEncoded
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobNameEncoded
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -237,9 +279,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -252,9 +297,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -265,9 +313,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobNameEncoded
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobNameEncoded
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -277,9 +328,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -292,9 +346,12 @@ describe("Special Naming Tests", () => {
 
     await blockBlobClient.upload("A", 1);
     await blockBlobClient.getProperties();
-    const response = await containerClient.listBlobFlatSegment(undefined, {
-      prefix: blobName
-    });
+    const response = (await (await containerClient
+      .listBlobsFlat({
+        prefix: blobName
+      })
+      .byPage()).next()).value;
+
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 });

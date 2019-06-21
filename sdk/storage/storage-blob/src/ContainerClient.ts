@@ -371,10 +371,9 @@ export interface ContainerChangeLeaseOptions {
 /**
  * Options to configure Container - List Blobs Segment operation.
  *
- * @export
  * @interface ContainerListBlobsSegmentOptions
  */
-export interface ContainerListBlobsSegmentOptions {
+interface ContainerListBlobsSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -909,7 +908,7 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
-  public async listBlobFlatSegment(
+  private async listBlobFlatSegment(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {

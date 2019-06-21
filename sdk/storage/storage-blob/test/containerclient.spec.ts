@@ -72,7 +72,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = await containerClient.listBlobFlatSegment();
+    const result = (await (await containerClient.listBlobsFlat().byPage()).next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -100,22 +100,25 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 1,
-      prefix
-    });
+    const result = (await (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 1 })).next()).value;
+
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
     assert.deepStrictEqual(result.segment.blobItems![0].metadata, metadata);
 
-    const result2 = await containerClient.listBlobFlatSegment(result.nextMarker, {
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 2,
-      prefix
-    });
+    const result2 = (await (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 2 })).next()).value;
 
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result2.containerName));
