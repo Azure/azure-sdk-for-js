@@ -179,7 +179,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       }
 
       const sender = client.createProducer({ partitionId });
-      await sender.send(d, { partitionKey: "pk1234656" });
+      await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(
@@ -231,7 +231,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       }
 
       const sender = client.createProducer({ partitionId });
-      await sender.send(d, { partitionKey: "pk1234656" });
+      await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(
