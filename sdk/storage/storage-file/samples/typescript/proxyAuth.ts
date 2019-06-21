@@ -17,7 +17,7 @@ async function main() {
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential,
     {
-      // Proxy authentication is supported only in Node.js, not in browsers
+      // Proxy is supported in Node.js environment only, not in browsers
       proxy: { url: "http://localhost:3128" }
     }
   );
