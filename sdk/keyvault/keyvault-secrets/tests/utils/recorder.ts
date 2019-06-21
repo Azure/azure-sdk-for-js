@@ -39,7 +39,7 @@ export function setReplacements(maps: any): void {
   replacements = maps;
 }
 
-export function delay(milliseconds: number): Promise<void> {
+export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
 }
 
