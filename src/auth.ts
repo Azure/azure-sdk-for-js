@@ -73,6 +73,8 @@ export class AuthHandler {
           headers
         })
       );
+    } else {
+      throw new Error("No authorization mechanism provided");
     }
   }
 

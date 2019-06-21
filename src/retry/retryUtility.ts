@@ -116,6 +116,7 @@ export class RetryUtility {
       // TODO: any error
       let retryPolicy: IRetryPolicy = null;
       const headers = err.headers || {};
+      err.requestHeaders = requestOptions.headers;
       if (err.code === StatusCodes.Forbidden && err.substatus === SubStatusCodes.WriteForbidden) {
         retryPolicy = endpointDiscoveryRetryPolicy;
       } else if (err.code === StatusCodes.TooManyRequests) {
