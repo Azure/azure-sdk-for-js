@@ -35,87 +35,99 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
+### Key concepts
+
+ - An **Event Hub client** is the primary interface for developers interacting with the Event Hubs client library, allowing for inspection of Event Hub metadata and providing a guided experience towards specific Event Hub operations such as the creation of producers and consumers.
+
+ - An **Event Hub producer** is a source of telemetry data, diagnostics information, usage logs, or other log data, as part of an embedded device solution, a mobile device application, a game title running on a console or other device, some client or server based business solution, or a web site.  
+
+ - An **Event Hub consumer** picks up such information from the Event Hub and processes it. Processing may involve aggregation, complex computation and filtering. Processing may also involve distribution or storage of the information in a raw or transformed fashion. Event Hub consumers are often robust and high-scale platform infrastructure parts with built-in analytics capabilities, like Azure Stream Analytics, Apache Spark, or Apache Storm.  
+
+ - A **partition** is an ordered sequence of events that is held in an Event Hub. Partitions are a means of data organization associated with the parallelism required by event consumers.  Azure Event Hubs provides message streaming through a partitioned consumer pattern in which each consumer only reads a specific subset, or partition, of the message stream. As newer events arrive, they are added to the end of this sequence. The number of partitions is specified at the time an Event Hub is created and cannot be changed.
+
+ - A **consumer group** is a view of an entire Event Hub. Consumer groups enable multiple consuming applications to each have a separate view of the event stream, and to read the stream independently at their own pace and from their own position.  There can be at most 5 concurrent readers on a partition per consumer group; however it is recommended that there is only one active consumer for a given partition and consumer group pairing. Each active reader receives all of the events from its partition; If there are multiple readers on the same partition, then they will receive duplicate events. 
+
+ For more concepts and deeper discussion, see: [Event Hubs Features](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features)
+
+ 
 ### Authenticate the client
 
 Interaction with Event Hubs starts with an instance of the [EventHubClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest) class. You can instantiate
-this class using one of the below static methods on it
+this class using one of the below
 
-- [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#createfromconnectionstring-string--string--clientoptions-)
-  - This method takes the connection string and entity name to your Event Hub instance. You can get the connection string
-    from the Azure portal
-- [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromtokenprovider-string--string--tokenprovider--clientoptionsbase-)
-  - This method takes the host name and entity name of your Event Hub instance and your custom Token Provider. The
-    host name is of the format `name-of-event-hub-instance.servicebus.windows.net`.
-- [createFromAADTokenCredentials](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromaadtokencredentials-string--string--applicationtokencredentials---usertokencredentials---devicetokencredentials---msitokencredentials--clientoptionsbase-)
-  - This method takes the host name and entity name of your Event Hub instance and a credentials object that you need
-    to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
-    library. The host name is of the format `name-of-event-hub-instance.servicebus.windows.net`.
+- [EventHubClient](link)
+  - This constructor takes the connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can get the connection string from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal)
+- [EventHubClient](link)
+  - This constructor takes only the connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'. You can get the connection string from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal)
+- [EventHubClient](link) 
+  - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. The host name is of the format `name-of-event-hub-instance.servicebus.windows.net`.
 
 ### Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Event Hubs
 
-- [Send events](#send-events)
-- [Receive events](#receive-events)
+- [Publish events to an Event Hub](#publish-events-to-an-hvent-hub)
+- [Consume events from an Event Hub](#consume-events-from-an-event-hub)
 - [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
 
-### Send events
+### Publish events to an Event Hub
 
-Once you have created an instance of an `EventHubClient` class, send events
-using the [send](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
+In order to publish events, you'll need to create an `EventHubProducer`. Producers may be dedicated to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the our example, we will take advantage of automatic routing.
 
-You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#sendbatch-eventdata----string---number-) method to send multiple events using a single call.
+You can also use the [send](link) method to send multiple events using a single call.
 
 ```javascript
-const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
-
-await client.send({ body: "my-event-body" });
-await client.sendBatch(
-  [
-    { body: "my-event-body-1" },
-    { body: "my-event-body-2" },
-    { body: "my-event-body-3" }
-  ]
-);
+const client = new EventHubClient("connectionString", "eventHubName");
+const producer = client.createProducer();
+await producer.send({ body: "my-event-body" });
 ```
 
-To send events to a particular partition, use the optional parameter `partitionId` on the `send` and `sendBatch` functions.
-You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--)
+To send events to a particular partition, use the optional parameter `partitionId` on the `createProducer` function.
+Many Event Hub operations take place within the scope of a specific partition.  Because partitions are owned by the Event Hub, their names are assigned at the time of creation.  To understand what partitions are available, You can use the [getPartitionIds](link)
 function to get the ids of all available partitions in your Event Hub instance.
+
+`createProducer` method takes an optional parameter of type [EventHubProducerOptions](link) which you can use to specify the retry options for the send operation.
+
+`send` method takes an optional parameter of type [SendOptions](link) which you can use to specify `abortSignal` to cancel current operation.
+
 
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
 For example: `body: { "message": "Hello World" }`
 
-### Receive events
+### Consume events from an Event Hub
 
-Once you have created an instance of an `EventHubClient` class, you can receive events in one of 2 ways:
+In order to consume events, you'll need to create an `EventHubConsumer` for a specific partition and consumer group combination.  When an Event Hub is created, it starts with a default consumer group that can be used to get started.  A consumer also needs to specify where in the event stream to begin receiving events; in our example, we will focus on reading new events as they are published.
+
+```javascript
+const client = new EventHubClient("connectionString", "eventHubName");
+const consumer = client.createConsumer("$Default", partitionIds[0], EventPosition.latest());
+```
+
+You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--) function to get the ids of all available partitions in your Event Hub instance.
+
+`createConsumer` method takes an optionsal parameter of type [EventHubConsumerOptions](link) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
+
+You can use this consumer in one of 3 ways to receive events:
 
 - [Get an array of events](#get-an-array-of-events)
 - [Register event handler](#register-event-handler)
-
-Both ways require you to know the id of the partition that you want to receive events from.
-You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--)
-function to get the ids of all available partitions in your Event Hub instance.
+- [Use async iterator](#use-async-iterator)
 
 #### Get an array of events
 
-Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receivebatch-string---number--number--number--receiveoptions-) function which returns a promise that resolves to an array of events.
+Use the [receiveBatch](link) function which returns a promise that resolves to an array of events.
 
-This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
-which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving events.
+This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
-const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
-const myEvents = await client.receiveBatch("my-partitionId", 10);
+const myEvents = await consumer.receiveBatch(10);
 ```
 
 #### Register event handler
 
-Use the [receive](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receive-string---number--onmessage--onerror--receiveoptions-) to set up event handlers and have it running as long as you
-need. 
+Use the [receive](link) to set up event handlers and have it running as long as you need. 
 
-This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
-which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving events.
+This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
 const myEventHandler = event => {
@@ -124,11 +136,23 @@ const myEventHandler = event => {
 const myErrorHandler = error => {
   // your error handler here
 };
-const receiveHandler = client.receive("partitionId", myEventHandler, myErrorHandler);
+const receiveHandler = consumer.receive(myEventHandler, myErrorHandler);
 
 // When ready to stop receiving
 await receiveHandler.stop();
 
+```
+
+#### Use async iterator
+
+Use the [getMessageIterator](link) to get an async iterator over events
+
+This function takes an optional parameter called `abortSignal` to cancel current operation.
+
+```javascript
+for await (const events of consumer.getEventIterator()){
+  // your code here
+}
 ```
 
 ### Use EventHubClient to work with IotHub
