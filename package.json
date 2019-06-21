@@ -29,7 +29,7 @@
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && node writeSDKVersion.js && npm run docs && npm run bundle && npm run bundle-types",
-    "test": "tsc -b --verbose && mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
+    "test": "tsc -b src test --verbose && mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
     "prepack": "npm install && npm run build",
     "test-browser": "karma start ./karma.config.js --single-run",
     "test-consumer": "node consumer-test.js"

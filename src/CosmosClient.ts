@@ -1,6 +1,7 @@
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
+import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
@@ -45,33 +46,46 @@ export class CosmosClient {
    * Use `.offer(id)` to read, or replace existing offers.
    */
   public readonly offers: Offers;
+  private clientContext: ClientContext;
+  /**
+   * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
+   */
+  constructor(connectionString: string);
   /**
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
    * @param options bag of options - require at least endpoint and auth to be configured
    */
+  constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
+  constructor(optionsOrConnectionString: string | CosmosClientOptions) {
+    if (typeof optionsOrConnectionString === "string") {
+      optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    }
 
-  private clientContext: ClientContext;
-  constructor(private options: CosmosClientOptions) {
-    options.connectionPolicy = Object.assign({}, defaultConnectionPolicy, options.connectionPolicy);
+    optionsOrConnectionString.connectionPolicy = Object.assign(
+      {},
+      defaultConnectionPolicy,
+      optionsOrConnectionString.connectionPolicy
+    );
 
-    options.defaultHeaders = options.defaultHeaders || {};
-    options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-    options.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
-    if (options.consistencyLevel !== undefined) {
-      options.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
+    optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
+    if (optionsOrConnectionString.consistencyLevel !== undefined) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
+        optionsOrConnectionString.consistencyLevel;
     }
 
     const platformDefaultHeaders = getPlatformDefaultHeaders() || {};
     for (const platformDefaultHeader of Object.keys(platformDefaultHeaders)) {
-      options.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
+      optionsOrConnectionString.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
     }
 
-    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
 
-    const globalEndpointManager = new GlobalEndpointManager(this.options, async (opts: RequestOptions) =>
+    const globalEndpointManager = new GlobalEndpointManager(optionsOrConnectionString, async (opts: RequestOptions) =>
       this.getDatabaseAccount(opts)
     );
-    this.clientContext = new ClientContext(options, globalEndpointManager);
+    this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
 
     this.databases = new Databases(this, this.clientContext);
     this.offers = new Offers(this, this.clientContext);
