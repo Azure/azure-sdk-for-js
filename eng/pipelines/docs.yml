@@ -33,7 +33,7 @@ jobs:
       - script: |
           npm i -g nunjucks
           npm i -g fs-extra
-        displayName: "Install typedoc"
+        displayName: "Install nunjucks and fs-extra"
 
       - powershell: |
           cd $(Build.SourcesDirectory)
