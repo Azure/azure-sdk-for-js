@@ -21,7 +21,7 @@ import { IotHubClient } from "./iothub/iothubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
 
 /**
  * Retry policy options for operations on the EventHubClient.
@@ -281,9 +281,11 @@ export class EventHubClient {
    * @param options Options to create a EventHubProducer where you can specify the id of the partition
    * to which events need to be sent to, and retry options.
    *
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    throwErrorIfConnectionClosed(this._context);
     return new EventHubProducer(this._context, options);
   }
 
@@ -297,6 +299,7 @@ export class EventHubClient {
    * @param options Options to create the EventHubConsumer where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
   createConsumer(
@@ -305,6 +308,7 @@ export class EventHubClient {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): EventHubConsumer {
+    throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
@@ -315,9 +319,11 @@ export class EventHubClient {
   /**
    * Provides the Event Hub runtime information.
    * @returns A promise that resolves with EventHubProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
+    throwErrorIfConnectionClosed(this._context);
     try {
       return await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -332,9 +338,11 @@ export class EventHubClient {
   /**
    * Provides an array of partitionIds.
    * @returns A promise that resolves with an Array of strings.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
+    throwErrorIfConnectionClosed(this._context);
     try {
       const runtimeInfo = await this.getProperties(abortSignal);
       return runtimeInfo.partitionIds;
@@ -348,9 +356,11 @@ export class EventHubClient {
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
    * @returns A promise that resoloves with PartitionProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+    throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
     try {

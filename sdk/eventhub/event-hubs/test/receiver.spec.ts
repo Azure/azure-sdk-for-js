@@ -794,6 +794,53 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
+  describe("Errors when calling createConsumer", function(): void {
+    it("should throw an error if EventPosition is missing", function() {
+      try {
+        client.createConsumer(EventHubClient.defaultConsumerGroup, "0", undefined as any);
+        throw new Error("Test failure");
+      } catch (err) {
+        err.name.should.equal("TypeError");
+        err.message.should.equal(`Missing parameter "eventPosition"`);
+      }
+    });
+
+    it("should throw an error if consumerGroup is missing", function() {
+      try {
+        client.createConsumer(undefined as any, "0", EventPosition.earliest());
+        throw new Error("Test failure");
+      } catch (err) {
+        err.name.should.equal("TypeError");
+        err.message.should.equal(`Missing parameter "consumerGroup"`);
+      }
+    });
+
+    it("should throw MessagingEntityNotFoundError fr non existing consumer group", function(done: Mocha.Done): void {
+      try {
+        debug(">>>>>>>> client created.");
+        const onMessage = (data: any) => {
+          debug(">>>>> data: ", data);
+        };
+        const onError = (error: any) => {
+          debug(">>>>>>>> error occurred", error);
+          // sleep for 3 seconds so that receiver link and the session can be closed properly then
+          // in aftereach the connection can be closed. closing the connection while the receiver
+          // link and it's session are being closed (and the session being removed from rhea's
+          // internal map) can create havoc.
+          setTimeout(() => {
+            done(should.equal(error.name, "MessagingEntityNotFoundError"));
+          }, 3000);
+        };
+        const receiver = client.createConsumer("some-random-name", "0", EventPosition.earliest());
+        receiver.receive(onMessage, onError);
+        debug(">>>>>>>> attached the error handler on the receiver...");
+      } catch (err) {
+        debug(">>> Some error", err);
+        throw new Error("This code path must not have hit.. " + JSON.stringify(err));
+      }
+    });
+  });
+
   // describe("with receiverRuntimeMetricEnabled", function (): void {
   //   it("should have ReceiverRuntimeInfo populated", async function (): Promise<void> {
   //     const partitionId = hubInfo.partitionIds[0];
