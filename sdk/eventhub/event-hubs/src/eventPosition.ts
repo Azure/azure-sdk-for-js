@@ -1,40 +1,35 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { translate, Constants, ErrorNameConditionMapper } from "@azure/amqp-common";
+import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
 
 /**
  * Describes the options that can be set while creating an EventPosition.
- * @ignore
+ * @internal
  * @interface EventPositionOptions
  */
 export interface EventPositionOptions {
   /**
-   * @property {string} [offset] The offset of the event at the position. It can be undefined
+   * @property The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
    */
   offset?: string;
   /**
-   * @property {boolean} isInclusive Indicates if the current event at the specified offset is
+   * @property Indicates if the current event at the specified offset is
    * included or not. It is only applicable if offset is set. Default value: false.
    */
   isInclusive?: boolean;
   /**
-   * @property {Date|number} [enqueuedTime] The enqueued time of the event at the position. It can be undefined
+   * @property The enqueued time of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an offset.
    */
   enqueuedTime?: Date | number;
 
   /**
-   * @property {number} [sequenceNumber] The sequence number of the event at the position. It can be undefined
+   * @property The sequence number of the event at the position. It can be undefined
    * if the position is just created from an enqueued time or an offset.
    */
   sequenceNumber?: number;
-
-  /**
-   * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
-   */
-  customFilter?: string;
 }
 
 /**
@@ -44,156 +39,147 @@ export interface EventPositionOptions {
  */
 export class EventPosition {
   /**
-   * @property {string} startOfStream The offset from which events would be received: `"-1"`.
+   * @property The offset from which events would be received: `"-1"`.
    * @static
    * @readonly
    */
-  static readonly startOfStream: string = "-1";
+  private static readonly startOfStream: string = "-1";
+
   /**
-   * @property {string} endOfStream The offset from which events would be received: `"@latest"`.
+   * @property The offset from which events would be received: `"@latest"`.
    * @static
    * @readonly
    */
-  static readonly endOfStream: string = "@latest";
+  private static readonly endOfStream: string = "@latest";
   /**
-   * @property {string} [offset] The offset of the event at the position. It can be undefined
+   * @property The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
    */
   offset?: string;
   /**
-   * @property {boolean} isInclusive Indicates if the current event at the specified offset is
+   * @property Indicates if the current event at the specified offset is
    * included or not. It is only applicable if offset is set. Default value: false.
    */
   isInclusive: boolean = false;
   /**
-   * @property {Date|number} [enqueuedTime] The enqueued time of the event at the position. It can be undefined
+   * @property The enqueued time of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an offset.
    */
   enqueuedTime?: Date | number;
 
   /**
-   * @property {number} [sequenceNumber] The sequence number of the event at the position. It can be undefined
+   * @property The sequence number of the event at the position. It can be undefined
    * if the position is just created from an enqueued time or an offset.
    */
   sequenceNumber?: number;
 
   /**
-   * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
+   * @constructor
+   * @internal
+   * @param options
    */
-  customFilter?: string;
-
   constructor(options?: EventPositionOptions) {
     if (options) {
       this.offset = options.offset;
       this.enqueuedTime = options.enqueuedTime;
       this.sequenceNumber = options.sequenceNumber;
       this.isInclusive = options.isInclusive || false;
-      this.customFilter = options.customFilter;
     }
-  }
-
-  /**
-   * Gets the expression (filter clause) that needs to be set on the source.
-   * @return {string} filterExpression
-   */
-  getExpression(): string {
-    let result;
-    // order of preference
-    if (this.offset != undefined) {
-      result = this.isInclusive
-        ? `${Constants.offsetAnnotation} >= '${this.offset}'`
-        : `${Constants.offsetAnnotation} > '${this.offset}'`;
-    } else if (this.sequenceNumber != undefined) {
-      result = this.isInclusive
-        ? `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'`
-        : `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
-    } else if (this.enqueuedTime != undefined) {
-      const time = this.enqueuedTime instanceof Date ? this.enqueuedTime.getTime() : this.enqueuedTime;
-      result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
-    } else if (this.customFilter != undefined) {
-      result = this.customFilter;
-    }
-
-    if (!result) {
-      throw translate({
-        condition: ErrorNameConditionMapper.ArgumentError,
-        description: "No starting position was set in the EventPosition."
-      });
-    }
-    return result;
   }
 
   /**
    * Creates a position at the given offset.
-   * @param {string} offset The offset of the data relative to the Event Hub partition stream.
+   * @param offset The offset of the data relative to the Event Hub partition stream.
    * The offset is a marker or identifier for an event within the Event Hubs stream.
    * The identifier is unique within a partition of the Event Hubs stream.
-   * @param {boolean} isInclusive If true, the specified event is included;
+   * @param isInclusive If true, the specified event is included;
    * otherwise the next event is returned. Default: false.
-   * @return {EventPosition} EventPosition
+   * @returns EventPosition
    */
   static fromOffset(offset: string, isInclusive?: boolean): EventPosition {
-    if (!offset || typeof offset !== "string") {
-      throw new Error("'offset' is a required parameter and must be a non-empty string.");
+    if (offset == undefined) {
+      throw new Error('Missing parameter "offset"');
     }
-    return new EventPosition({ offset: offset, isInclusive: isInclusive });
+    return new EventPosition({ offset: String(offset), isInclusive: isInclusive });
   }
 
   /**
    * Creates a position at the given sequence number.
-   * @param {number} sequenceNumber The logical sequence number of the event within the partition stream of the Event Hub.
-   * @param {boolean} isInclusive If true, the specified event is included;
+   * @param sequenceNumber The logical sequence number of the event within the partition stream of the Event Hub.
+   * @param isInclusive If true, the specified event is included;
    * otherwise the next event is returned. Default false.
-   * @return {EventPosition} EventPosition
+   * @returns EventPosition
    */
   static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition {
-    if (sequenceNumber == undefined || typeof sequenceNumber !== "number") {
-      throw new Error("'sequenceNumber' is a required parameter and must be of type 'number'.");
+    if (sequenceNumber == undefined) {
+      throw new Error('Missing parameter "sequenceNumber"');
+    }
+    if (typeof sequenceNumber !== "number") {
+      throw new Error('The parameter "sequenceNumber" should be of type "number"');
     }
     return new EventPosition({ sequenceNumber: sequenceNumber, isInclusive: isInclusive });
   }
 
   /**
    * Creates a position at the given enqueued time.
-   * @param {Date | number} enqueuedTime The enqueue time. This value represents the actual time of enqueuing the message.
-   * @param {boolean} isInclusive If true, the specified event is included; otherwise the next event is returned.
-   * @return {EventPosition} EventPosition
+   * @param enqueuedTime The enqueue time. This value represents the actual time of enqueuing the message.
+   * @returns EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (enqueuedTime == undefined || (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date))) {
-      throw new Error("'enqueuedTime' is a required parameter and must be an instance of 'Date' or of type 'number'.");
+    if (enqueuedTime == undefined) {
+      throw new Error('Missing parameter "enqueuedTime"');
     }
     return new EventPosition({ enqueuedTime: enqueuedTime });
   }
 
   /**
-   * Creates a position based on the given custom filter.
-   * @param {string} customFilter The cutom filter expression that needs to be applied on the receiver. This should be used
-   * only when one of the other methods `fromOffset()`, `fromSequenceNumber()`, `fromEnqueuedTime()` is not applicable for
-   * your scenario.
-   */
-  static withCustomFilter(customFilter: string): EventPosition {
-    if (!customFilter || typeof customFilter !== "string") {
-      throw new Error("'customFilter' is a required parameter and must be a non-empty string.");
-    }
-    return new EventPosition({ customFilter: customFilter });
-  }
-
-  /**
    * Returns the position for the start of a stream. Provide this position in receiver creation to
    * start receiving from the first available event in the partition.
-   * @return {EventPosition} EventPosition
+   * @returns EventPosition
    */
-  static fromStart(): EventPosition {
+
+  static earliest(): EventPosition {
     return EventPosition.fromOffset(EventPosition.startOfStream);
   }
 
   /**
    * Returns the position for the end of a stream. Provide this position in receiver creation to
    * start receiving from the next available event in the partition after the receiver is created.
-   * @return {EventPosition} EventPosition
+   * @returns EventPosition
    */
-  static fromEnd(): EventPosition {
+
+  static latest(): EventPosition {
     return EventPosition.fromOffset(EventPosition.endOfStream);
   }
+}
+
+/**
+ * @internal
+ * Gets the expression to be set as the filter clause when creating the receiver
+ * @return {string} filterExpression
+ */
+export function getEventPositionFilter(eventPosition: EventPosition): string {
+  let result;
+  // order of preference
+  if (eventPosition.offset != undefined) {
+    result = eventPosition.isInclusive
+      ? `${Constants.offsetAnnotation} >= '${eventPosition.offset}'`
+      : `${Constants.offsetAnnotation} > '${eventPosition.offset}'`;
+  } else if (eventPosition.sequenceNumber != undefined) {
+    result = eventPosition.isInclusive
+      ? `${Constants.sequenceNumberAnnotation} >= '${eventPosition.sequenceNumber}'`
+      : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
+  } else if (eventPosition.enqueuedTime != undefined) {
+    const time =
+      eventPosition.enqueuedTime instanceof Date ? eventPosition.enqueuedTime.getTime() : eventPosition.enqueuedTime;
+    result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
+  }
+
+  if (!result) {
+    throw translate({
+      condition: ErrorNameConditionMapper.ArgumentError,
+      description: "No starting position was set in the EventPosition."
+    });
+  }
+  return result;
 }
