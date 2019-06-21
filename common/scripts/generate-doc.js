@@ -65,8 +65,8 @@ let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  if(count > 5)
-  break;
+  //if(count > 5)
+  //break;
 
   console.log("count = " + count);
   const eachServicePath = path.join(workingDir, eachService);
