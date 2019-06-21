@@ -1,6 +1,9 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const childProcess = require("child_process");
+const nunjucks = require('nunjucks');
+
+nunjucks.configure('documentation/templateDocGen', { autoescape: true });
 
 function walk(dir, checks) {
   var list = fs.readdirSync(dir);
@@ -53,17 +56,28 @@ try {
 }
 
 let workingDir = path.join(process.cwd(), "sdk");
+let pathToAssets = "";
 
 const serviceFolders = fs.readdirSync(workingDir);
 console.log("Service folders:");
 console.log(serviceFolders);
+let serviceList = [];
+let count = 0;
 for (const eachService of serviceFolders) {
+  if(count > 5)
+    break;
+  count++;
+  console.log("count = "+ count);
   const eachServicePath = path.join(workingDir, eachService);
   const stat = fs.statSync(eachServicePath);
 
   if (stat && stat.isDirectory()) {
     var packageList = fs.readdirSync(eachServicePath);
 
+    //for template
+    serviceList.push({"name": eachService, "packageList": packageList});
+
+   //continue code
     for (const eachPackage of packageList) {
       let checks = { isRush: false, isPrivate: false, srcPresent: false };
       console.log(
@@ -75,6 +89,7 @@ for (const eachService of serviceFolders) {
           checks.srcPresent
       );
       eachPackagePath = path.join(eachServicePath, eachPackage);
+      pathToAssets = eachPackagePath+"/assets";
       const packageStat = fs.statSync(eachPackagePath);
       if (packageStat && packageStat.isDirectory()) {
         checks = walk(eachPackagePath, checks);
@@ -142,5 +157,25 @@ for (const eachService of serviceFolders) {
         }
       }
     }
-  }
+  }// end-for ServiceFolders
+}
+
+var renderedIndex = nunjucks.render('template.html', { serviceList: serviceList });
+console.log("rendered html:");
+console.log(renderedIndex);
+var dest = process.cwd() + "/docGen/referenceIndex.html";
+fs.writeFile(dest, renderedIndex, function(err, result) {
+  if(err) console.log('error in writing the generated html to docGen/referenceIndex.html', err);
+  console.log('Generated html written to docGen/referenceIndex.html');
+});
+
+console.log("serviceList length = " + serviceList.length);
+if(serviceList.length > 0){
+  //copy from pathToAssets to docGen/assets
+  pathToAssets = process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
+  var assetsDest = process.cwd() + '/docGen/assets/';
+  fs.copy(pathToAssets, assetsDest, err => {
+    if (err) return console.error('error copying the assets folder to docGen/assets/',err)
+    console.log('assets folder copied to docGen!');
+  });
 }
