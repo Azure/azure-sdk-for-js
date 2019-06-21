@@ -7,8 +7,6 @@ import { record, setReplaceableVariables, delay, setReplacements, env } from "./
 import { EnvironmentCredential } from "@azure/identity";
 
 describe("Secret client - restore secrets and recover backups", () => {
-  const secretValue = "SECRET_VALUE";
-  const version = "";
   let client: SecretsClient;
   let recorder: any;
 
@@ -23,16 +21,16 @@ describe("Secret client - restore secrets and recover backups", () => {
   // - These functions are probably better moved to a common utility file.
   //   However, to do that we'll have to create a class or closure to maintain
   //   the instance of the KeyClient available.
-  async function purgeSecret() {
+  async function purgeSecret(): Promise<void> {
     await client.purgeDeletedSecret(secretName);
     await delay(30000);
   }
-  async function flushSecret() {
+  async function flushSecret(): Promise<void> {
     await client.deleteSecret(secretName);
     await delay(30000);
     await purgeSecret();
   }
-  async function maybeFlushSecret() {
+  async function maybeFlushSecret(): Promise<void> {
     try {
       await client.deleteSecret(secretName);
       await delay(30000);
@@ -59,7 +57,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
 
     const vaultName = env.KEYVAULT_NAME;
     const url = `https://${vaultName}.vault.azure.net`;

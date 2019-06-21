@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
   ServiceClientCredentials,
@@ -171,7 +172,7 @@ export class KeysClient {
     this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
-  private static getUserAgentString(telemetry?: TelemetryOptions) {
+  private static getUserAgentString(telemetry?: TelemetryOptions): string {
     const userAgentInfo: string[] = [];
     if (telemetry) {
       if (userAgentInfo.indexOf(telemetry.value) === -1) {
@@ -207,12 +208,12 @@ export class KeysClient {
     options?: CreateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -248,12 +249,12 @@ export class KeysClient {
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -289,12 +290,12 @@ export class KeysClient {
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -330,12 +331,12 @@ export class KeysClient {
    */
   public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -392,12 +393,12 @@ export class KeysClient {
     options?: UpdateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -529,11 +530,11 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getKeyVersions(
+      const currentSetResponse = await this.client.getKeyVersions(
         this.vaultBaseUrl,
         name,
         optionsComplete
@@ -542,7 +543,7 @@ export class KeysClient {
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeyVersionsNext(
+      const currentSetResponse = await this.client.getKeyVersionsNext(
         continuationState.continuationToken,
         options
       );
@@ -555,7 +556,7 @@ export class KeysClient {
     name: string,
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listKeyVersionsPage(name, f, options)) {
       for (const item of page) {
@@ -592,16 +593,16 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeysNext(
+      const currentSetResponse = await this.client.getKeysNext(
         continuationState.continuationToken,
         options
       );
@@ -611,7 +612,7 @@ export class KeysClient {
   }
 
   private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listKeysPage(f, options)) {
       for (const item of page) {
@@ -647,16 +648,19 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getDeletedKeys(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getDeletedKeysNext(
+      const currentSetResponse = await this.client.getDeletedKeysNext(
         continuationState.continuationToken,
         options
       );
@@ -668,7 +672,7 @@ export class KeysClient {
   private async *listDeletedKeysAll(
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listDeletedKeysPage(f, options)) {
       for (const item of page) {
