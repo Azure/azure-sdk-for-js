@@ -14,8 +14,8 @@ import {
 } from "../src";
 
 // Define connection string and related entity path here
-export const connectionString = "";
-export const path = "";
+const connectionString = "";
+const path = "";
 export const connectionConfig = ConnectionConfig.create(connectionString, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: connectionConfig,

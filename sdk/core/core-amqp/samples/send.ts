@@ -6,17 +6,17 @@
 */
 
 import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
-import { authenticate, connectionContext, connectionConfig, path } from "./cbsAuth";
+import { authenticate, connectionContext, connectionConfig } from "./cbsAuth";
 
 async function main(): Promise<void> {
-  await authenticate(`${connectionConfig.endpoint}${path}`, false);
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
   const senderName = "sender-1";
   const senderOptions: SenderOptions = {
     name: senderName,
     target: {
       // Address for EventHub Sender, it can be "<EventHubName>" or "<EventHubName>/Partitions/<PartitionId>"
       // For ServiceBus Queue, it will be "<QueueName>"
-      address: `${path}`
+      address: `${connectionConfig.entityPath}`
     },
     onError: (context: EventContext) => {
       const senderError = context.sender && context.sender.error;

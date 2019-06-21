@@ -13,13 +13,13 @@ import {
   delay,
   types
 } from "rhea-promise";
-import { authenticate, connectionContext, connectionConfig, path } from "./cbsAuth";
+import { authenticate, connectionContext, connectionConfig } from "./cbsAuth";
 
 async function main(): Promise<void> {
-  await authenticate(`${connectionConfig.endpoint}${path}`, false);
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
   const receiverName = "receiver-1";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
-  const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
+  const receiverAddress = `${connectionConfig.entityPath}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
   const receiverOptions: ReceiverOptions = {
     name: receiverName,
     source: {
