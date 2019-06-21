@@ -91,7 +91,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
         throw new Error("Test Failure");
       } catch (err) {
-        err.message.should.equal(`PartitionId "0" and PartitionKey "1" are both defined.`);
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
       }
     });
   });
@@ -166,6 +168,22 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender paritition id and partition key"
+          }
+        ];
+        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
       }
     });
   });

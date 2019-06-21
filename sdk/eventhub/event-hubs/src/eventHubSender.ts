@@ -85,7 +85,7 @@ export class EventHubSender extends LinkEntity {
    * @param [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.
    */
-  constructor(context: ConnectionContext, partitionId?: string, name?: string) {
+  constructor(context: ConnectionContext, partitionId?: string) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
       partitionId: partitionId
@@ -343,9 +343,13 @@ export class EventHubSender extends LinkEntity {
       // throw an error if partition key and partition id are both defined
       if (options && typeof options.partitionKey === "string" && typeof options.partitionId === "string") {
         const error = new Error(
-          `PartitionId "${options.partitionId}" and PartitionKey "${options.partitionKey}" are both defined.`
+          "Partition key is not supported when using producers that were created using a partition id."
         );
-        log.error("PartitionId and PartitionKey were both defined while trying to send the message %O", error);
+        log.error(
+          "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
+          this._context.connectionId,
+          error
+        );
         throw error;
       }
       if (!this.isOpen()) {
