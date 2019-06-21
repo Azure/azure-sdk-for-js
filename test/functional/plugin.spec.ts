@@ -1,6 +1,6 @@
-import { CosmosClient } from "../../dist-esm";
+import { CosmosClient, CosmosClientOptions } from "../../dist-esm";
 import { RequestContext } from "../../dist-esm/request/RequestContext";
-import { Plugin, Next } from "../../dist-esm/plugins/Plugin";
+import { Plugin, Next, PluginConfig } from "../../dist-esm/plugins/Plugin";
 
 import * as assert from "assert";
 
@@ -25,16 +25,19 @@ describe("Plugin", function() {
       return successResponse;
     };
 
-    const client = new CosmosClient({
+    const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY",
-      plugins: [
-        {
-          on: "request",
-          plugin: sometimesThrow
-        }
-      ]
-    });
+      key: "THIS IS A FAKE KEY"
+    };
+
+    const plugins: PluginConfig[] = [
+      {
+        on: "request",
+        plugin: sometimesThrow
+      }
+    ];
+
+    const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
     assert.equal(requestCount, FAILCOUNT + 1); // Get Database Account + FAILED GET Database + Get Database
     assert.notEqual(response, undefined);
@@ -59,20 +62,23 @@ describe("Plugin", function() {
       throw new Error("I always throw!");
     };
 
-    const client = new CosmosClient({
+    const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY",
-      plugins: [
-        {
-          on: "request",
-          plugin: alwaysThrow // I'll never be called since operation will always succeed.
-        },
-        {
-          on: "operation",
-          plugin: alwaysSucceed
-        }
-      ]
-    });
+      key: "THIS IS A FAKE KEY"
+    };
+
+    const plugins: PluginConfig[] = [
+      {
+        on: "request",
+        plugin: alwaysThrow // I'll never be called since operation will always succeed.
+      },
+      {
+        on: "operation",
+        plugin: alwaysSucceed
+      }
+    ];
+
+    const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
     assert.equal(requestCount, 2); // Get Database Account + Get Database
     assert.notEqual(response, undefined);
@@ -103,20 +109,23 @@ describe("Plugin", function() {
       return response;
     };
 
-    const client = new CosmosClient({
+    const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY",
-      plugins: [
-        {
-          on: "operation",
-          plugin: counts // I'll never be called since operation will always succeed.
-        },
-        {
-          on: "operation",
-          plugin: alwaysSucceed
-        }
-      ]
-    });
+      key: "THIS IS A FAKE KEY"
+    };
+
+    const plugins: PluginConfig[] = [
+      {
+        on: "operation",
+        plugin: counts // I'll never be called since operation will always succeed.
+      },
+      {
+        on: "operation",
+        plugin: alwaysSucceed
+      }
+    ];
+
+    const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
     assert.equal(requestCount, 2); // Get Database Account + Get Database
     assert.equal(responseCount, 2); // Get Database Account + Get Database

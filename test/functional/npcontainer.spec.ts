@@ -1,26 +1,29 @@
 import assert from "assert";
-import { CosmosClient, Constants, Container } from "../../dist-esm";
+import { CosmosClient, Constants, Container, PluginConfig, CosmosClientOptions } from "../../dist-esm";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../dist-esm/common";
 
-const legacyClient = new CosmosClient({
-  endpoint,
-  key: masterKey,
-  plugins: [
-    {
-      on: "request",
-      plugin: (context, next) => {
-        // Intercepts the API request to create a non-partitioned container using an old API version
-        if (context.resourceType === ResourceType.container && context.method === HTTPMethod.post) {
-          context.body = JSON.stringify({ id: JSON.parse(context.body).id });
-        }
-        context.headers[Constants.HttpHeaders.Version] = "2018-06-18";
-        return next(context);
+const plugins: PluginConfig[] = [
+  {
+    on: "request",
+    plugin: (context, next) => {
+      // Intercepts the API request to create a non-partitioned container using an old API version
+      if (context.resourceType === ResourceType.container && context.method === HTTPMethod.post) {
+        context.body = JSON.stringify({ id: JSON.parse(context.body).id });
       }
+      context.headers[Constants.HttpHeaders.Version] = "2018-06-18";
+      return next(context);
     }
-  ]
-});
+  }
+];
+
+const options: CosmosClientOptions = {
+  endpoint,
+  key: masterKey
+};
+
+const legacyClient = new CosmosClient({ ...options, plugins } as any);
 
 const client = new CosmosClient({
   endpoint,

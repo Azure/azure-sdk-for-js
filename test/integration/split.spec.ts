@@ -1,6 +1,6 @@
 ﻿import { Container } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { Constants, CosmosClient, PluginOn } from "../../dist-esm";
+import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
 import { masterKey, endpoint } from "../common/_testConfig";
 import { SubStatusCodes } from "../../dist-esm/common";
 import assert from "assert";
@@ -41,29 +41,30 @@ describe("Partition Splits", () => {
   it("handles one split part way through iteration", async () => {
     let hasSplit = false;
     const partitionKeyRanges = new Set();
-    const client = new CosmosClient({
-      endpoint,
-      key: masterKey,
-      plugins: [
-        {
-          on: PluginOn.request,
-          plugin: async (context, next) => {
-            const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
-            if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
-              hasSplit = true;
-              const error = new Error("Fake Partition Split") as any;
-              error.code = 410;
-              error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-              throw error;
-            }
-            if (partitionKeyRangeId) {
-              partitionKeyRanges.add(partitionKeyRangeId);
-            }
-            return next(context);
+    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, next) => {
+          const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
+            hasSplit = true;
+            const error = new Error("Fake Partition Split") as any;
+            error.code = 410;
+            error.substatus = SubStatusCodes.PartitionKeyRangeGone;
+            throw error;
           }
+          if (partitionKeyRangeId) {
+            partitionKeyRanges.add(partitionKeyRangeId);
+          }
+          return next(context);
         }
-      ]
-    });
+      }
+    ];
+    const client = new CosmosClient({
+      ...options,
+      plugins
+    } as any);
     const { resources } = await client
       .database(container.database.id)
       .container(container.id)
