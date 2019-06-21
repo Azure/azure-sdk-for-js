@@ -16,10 +16,9 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 /**
  * Options to configure List Shares Segment operation.
  *
- * @export
  * @interface ServiceListSharesSegmentOptions
  */
-export interface ServiceListSharesSegmentOptions {
+interface ServiceListSharesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -445,7 +444,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
    * @memberof FileServiceClient
    */
-  public async listSharesSegment(
+  private async listSharesSegment(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
