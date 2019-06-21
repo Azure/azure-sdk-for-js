@@ -30,6 +30,11 @@ jobs:
           npm i -g typedoc
         displayName: 'Install typedoc'
 
+      - script: |
+          npm i -g nunjucks
+          npm i -g fs-extra
+        displayName: 'Install typedoc'
+
       - powershell: |
           cd $(Build.SourcesDirectory)
           node .\common\scripts\generate-doc.js -dg
