@@ -31,11 +31,11 @@ jobs:
         displayName: "Install typedoc"
 
       - script: |
-          npm i -g nunjucks
+          npm install nunjucks
         displayName: "Install nunjucks"
 
       - script: |
-          npm i -g fs-extra
+          npm install fs-extra
         displayName: "Install fs-extra"
 
       - powershell: |
