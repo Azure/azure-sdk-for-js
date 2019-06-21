@@ -60,6 +60,7 @@ export class EventHubProducer {
    * @throws {MessagingError} Thrown if an error is encountered while sending a message.
    * @throws {TypeError} Thrown if a required parameter is missing.
    * @throws {Error} Thrown if the underlying connection or sender has been closed.
+   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {

@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventHubClient, EventData } from "../src";
+import { EventHubClient, EventData, EventHubProducer } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
@@ -43,6 +43,58 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData = { body: "Hello World 1" };
       await client.createProducer().send(data, { partitionKey: "1" });
+    });
+
+    it("with partition key as a number should be sent successfully.", async function(): Promise<void> {
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer().send(data, { partitionKey: 1 as any });
+    });
+
+    it("should be sent successfully to a specific partition.", async function(): Promise<void> {
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer({ partitionId: "0" }).send(data);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const data: EventData = { body: "Sender single message Cancellation Test - timeout 0" };
+        const sender = client.createProducer();
+        // call send() once to create a connection
+        await sender.send(data);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await sender.send(data, { abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const abortController = new AbortController();
+      abortController.abort();
+
+      try {
+        const data: EventData = { body: "Sender single message Cancellation Test - immediate" };
+        await client.createProducer().send(data, { abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+      try {
+        const data: EventData = { body: "Sender paritition id and partition key" };
+        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
+      }
     });
   });
 
@@ -118,6 +170,47 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         err.message.should.equal("The send operation has been cancelled by the user.");
       }
     });
+
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender paritition id and partition key"
+          }
+        ];
+        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
+      }
+    });
+  });
+
+  describe("multiple producers", function(): void {
+    it("should be isolated on same partitionId", async function(): Promise<void> {
+      const producers: EventHubProducer[] = [];
+
+      // create multiple producers with the same partition id
+      for (let i = 0; i < 5; i++) {
+        producers.push(client.createProducer({ partitionId: "0" }));
+      }
+
+      // ensure all producers can send a message
+      for (const producer of producers) {
+        await producer.send({ body: "foo" });
+      }
+
+      do {
+        // close one of the producers and send messages with remaining senders
+        // also closes all of the senders by the end of the test!
+        await producers.pop()!.close();
+        for (const producer of producers) {
+          await producer.send({ body: "bar" });
+        }
+      } while (producers.length);
+    });
   });
 
   describe("Multiple messages", function(): void {
@@ -187,19 +280,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         err.message.should.match(
           /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
         );
-      }
-    });
-
-    it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World"
-      };
-      try {
-        await client.createProducer({ partitionId: "0" }).send([data], { partitionKey: 1 as any });
-      } catch (err) {
-        debug(err);
-        should.exist(err);
-        err.message.should.match(/.*'partitionKey' must be of type 'string'.*/gi);
       }
     });
 

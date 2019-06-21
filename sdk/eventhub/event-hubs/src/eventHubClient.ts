@@ -73,7 +73,7 @@ export interface SendOptions {
    * @property
    * If specified, Event Hubs will hash this string to map to a partitionId.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * This will be ignored if the producer was created using a `paritionId`.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;
   /**
