@@ -8,7 +8,15 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventHubConsumer } from "../src";
+import {
+  EventPosition,
+  EventHubClient,
+  EventData,
+  MessagingError,
+  ReceivedEventData,
+  EventHubConsumer,
+  delay
+} from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -55,45 +63,13 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with partitionId 0 as number", function(): void {
-    it("should work for receiveBatch", async function(): Promise<void> {
+    it("should not throw an error", async function(): Promise<void> {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroup,
-        partitionIds[0],
+        0 as any,
         EventPosition.fromSequenceNumber(0)
       );
-      const result = await receiver.receiveBatch(10, 20);
-      should.equal(true, Array.isArray(result));
-    });
-
-    it("should work for receive", function(done: Mocha.Done): void {
-      let rcvHandler: ReceiveHandler;
-      let stopCalled = false;
-      const onError = (error: MessagingError | Error) => {
-        debug(">>>> An error occurred: %O", error);
-      };
-      const onMsg = (data: ReceivedEventData) => {
-        debug(">>>> Received Data: %O", data);
-        if (!stopCalled) {
-          stopCalled = true;
-          rcvHandler
-            .stop()
-            .then(() => {
-              done();
-            })
-            .catch(() => {
-              done();
-            });
-        }
-      };
-      receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
-        partitionIds[0],
-        EventPosition.fromOffset("0"),
-        {
-          ownerLevel: 1
-        }
-      );
-      rcvHandler = receiver.receive(onMsg, onError);
+      await receiver.receiveBatch(10, 20);
     });
   });
 
@@ -446,6 +422,72 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         err.message.should.equal("The receive operation has been cancelled by the user.");
       }
     });
+
+    it("should support creating a new handler after cancellation", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createProducer({ partitionId });
+      try {
+        await sender.send({ body: "receive cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
+
+      try {
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+          const events: ReceivedEventData[] = [];
+
+          // create an AbortSignal that's in the aborted state
+          const abortController = new AbortController();
+          abortController.abort();
+
+          const handler = receiver!.receive(
+            event => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            },
+            reject,
+            abortController.signal
+          );
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+
+        const events: ReceivedEventData[] = [];
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+
+          const handler = receiver!.receive(event => {
+            if (!shouldStop) {
+              events.push(event);
+              shouldStop = true;
+              handler
+                .stop()
+                .then(() => resolve(events))
+                .catch(reject);
+            }
+          }, reject);
+        });
+
+        events.length.should.equal(1);
+      }
+    });
   });
 
   describe("in batch mode #RunnableInBrowser", function(): void {
@@ -616,6 +658,53 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
     });
 
+    it("should properly drain if broken out of", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+
+      receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest());
+      const eventIterator = receiver.getEventIterator();
+
+      const eventPromise = eventIterator.next();
+
+      // wait 65 seconds before sending a message to give underlying receiveBatch a chance to return 0 results
+      const raceResult = await Promise.race([delay(65000, "delay"), eventPromise]);
+
+      // the timeout should happen before the event is resolved
+      raceResult.should.equal("delay");
+
+      // send an event and ensure the event iterator reads it
+      const sender = client.createProducer({ partitionId });
+      const expectedBodies: string[] = [];
+      const messageCount = 5;
+      for (let i = 0; i < messageCount; i++) {
+        expectedBodies.push(`Event Iterator Drainage - ${Date.now()} - ${i}`);
+      }
+
+      try {
+        await sender.send(
+          expectedBodies.map(body => {
+            return { body };
+          })
+        );
+      } finally {
+        await sender.close();
+      }
+
+      const events = [];
+      events.push((await eventPromise).value);
+      for await (const event of eventIterator) {
+        events.push(event);
+        if (events.length === 5) {
+          break;
+        }
+      }
+
+      events.length.should.equal(5);
+      events.forEach((event, index) => {
+        event.body.should.equal(expectedBodies[index]);
+      });
+    });
+
     it("should not return undefined if no messages are found", async function(): Promise<void> {
       const partitionId = partitionIds[0];
 
@@ -705,6 +794,50 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support creating a new iterator after a cancellation", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createProducer({ partitionId });
+      try {
+        await sender.send({ body: "getEventIterator post-cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroup,
+        partitionId,
+        EventPosition.fromEnqueuedTime(time)
+      );
+
+      // abortSignal event listeners will be triggered after synchronous paths are executed
+      const abortSignal = AbortController.timeout(0);
+      const eventIterator = receiver.getEventIterator({ abortSignal });
+      try {
+        for await (const _ of eventIterator) {
+        }
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+        const events = [];
+
+        const eventIterator2 = receiver.getEventIterator();
+        try {
+          for await (const event of eventIterator2) {
+            events.push(event);
+            break;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+
+        events.length.should.equal(1);
+        events[0].should.haveOwnProperty("body");
       }
     });
   });
