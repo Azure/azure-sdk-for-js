@@ -62,7 +62,7 @@ export class EventHubConsumer {
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
   /**
