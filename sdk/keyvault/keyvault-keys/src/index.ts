@@ -1,6 +1,6 @@
-/* eslint @typescript-eslint/member-ordering: 0 */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
   ServiceClientCredentials,
