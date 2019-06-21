@@ -166,14 +166,14 @@ var renderedIndex = nunjucks.render("template.html", {
 });
 console.log("rendered html:");
 console.log(renderedIndex);
-var dest = process.cwd() + "/docGen/referenceIndex.html";
+var dest = process.cwd() + "/docGen/index.html";
 fs.writeFile(dest, renderedIndex, function(err, result) {
   if (err)
     console.log(
-      "error in writing the generated html to docGen/referenceIndex.html",
+      "error in writing the generated html to docGen/index.html",
       err
     );
-  console.log("Generated html written to docGen/referenceIndex.html");
+  console.log("Generated html written to docGen/index.html");
 });
 
 console.log("serviceList length = " + serviceList.length);
