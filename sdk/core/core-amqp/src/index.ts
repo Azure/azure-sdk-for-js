@@ -11,12 +11,10 @@ export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-htt
 export { SharedKeyCredential } from "./auth/sas";
 export { IotSharedKeyCredential } from "./auth/iotSas";
 
-export {
-  ConnectionConfig,
-  ConnectionConfigOptions,
-  EventHubConnectionConfig,
-  IotHubConnectionConfig
-} from "./connectionConfig";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
+export { EventHubConnectionConfig } from "./connectionConfig/eventhubConnectionConfig";
+export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfig";
+
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };
