@@ -1,8 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+  This sample demonstrates how to send messages/events to Service Bus/Event Hubs.
+*/
+
 import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
 import { authenticate, connectionContext, connectionConfig, path } from "./cbsAuth";
 
@@ -20,7 +22,7 @@ async function main(): Promise<void> {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         console.log(
-          ">>>>> [%s] An error occurred for sender '%s': %O.",
+          "[%s] An error occurred for sender '%s': %O.",
           connectionContext.connection.id,
           senderName,
           senderError
@@ -31,7 +33,7 @@ async function main(): Promise<void> {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         console.log(
-          ">>>>> [%s] An error occurred for session of sender '%s': %O.",
+          "[%s] An error occurred for session of sender '%s': %O.",
           connectionContext.connection.id,
           senderName,
           sessionError
@@ -47,7 +49,7 @@ async function main(): Promise<void> {
   };
 
   const delivery: Delivery = await sender.send(message);
-  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
+  console.log("[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
 
   await sender.close();
   await connectionContext.connection.close();

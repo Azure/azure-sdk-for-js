@@ -1,5 +1,21 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+/*Copyright (c) Microsoft Corporation. All rights reserved.
+ Licensed under the MIT License. See License.txt in the project root for license information.
+
+This sample utilizes Event Hubs and demonstrates how to authenticate using AAD token credentials
+obtained from using Service Principal Secrets.
+
+Setup :
+      Please ensure that your Azure Event Hubs resource is in US East, US East 2, or West Europe
+      region. AAD Role Based Access Control is not supported in other regions yet.
+
+Register a new application in AAD and assign the "owner" role to it
+     - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+       to register a new application in the Azure Active Directory.
+     - Note down the CLIENT_ID and TENANT_ID from the above step.
+     - In the "Certificates & Secrets" tab, create a secret and note that down.
+     - In the Azure portal, go to your Even Hubs resource and click on the Access control(IAM)
+       tab.Here, assign "owner" role to the registered application.
+*/
 
 import {
   ConnectionContextBase,
@@ -9,14 +25,15 @@ import {
   TokenType,
   Constants
 } from "../src";
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 import { EnvironmentCredential } from "@azure/identity";
 
-const str = process.env.CONNECTION_STRING || "";
-const path = process.env.ENTITY_PATH || "";
+// Define Event Hubs Endpoint and related entity name here
+const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
+const eventHubName = "";
 
-const ehConnectionConfig = EventHubConnectionConfig.create(str, path);
+// Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
+
+const ehConnectionConfig = EventHubConnectionConfig.create(evenHubsEndpoint, eventHubName);
 const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
   connectionProperties: {

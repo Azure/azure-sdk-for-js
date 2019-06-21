@@ -1,8 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+   This sample demonstrates how to receive messages/events from Service Bus/Event Hubs.
+*/
+
 import {
   Receiver,
   ReceiverOptions,
@@ -31,7 +33,7 @@ async function main(): Promise<void> {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         console.log(
-          ">>>>> [%s] An error occurred for session of receiver '%s': %O.",
+          "[%s] An error occurred for session of receiver '%s': %O.",
           connectionContext.connection.id,
           receiverName,
           sessionError
@@ -48,14 +50,14 @@ async function main(): Promise<void> {
     const receiverError = context.receiver && context.receiver.error;
     if (receiverError) {
       console.log(
-        ">>>>> [%s] An error occurred for receiver '%s': %O.",
+        "[%s] An error occurred for receiver '%s': %O.",
         connectionContext.connection.id,
         receiverName,
         receiverError
       );
     }
   });
-  // sleeping for 2 mins to let the receiver receive messages and then closing it.
+  // Waiting long enough before closing the receiver to receive messages/events
   await delay(120000);
   await receiver.close();
   await connectionContext.connection.close();

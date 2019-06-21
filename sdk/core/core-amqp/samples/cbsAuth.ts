@@ -1,6 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
+ This sample utilizes Service Bus/Event Hubs and demonstrates how to authenticate using SharedKeyCredential.
+*/
 import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
@@ -9,12 +12,11 @@ import {
   TokenType,
   SharedKeyCredential
 } from "../src";
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
-export const str = process.env.CONNECTION_STRING || "";
-export const path = process.env.ENTITY_PATH;
-export const connectionConfig = ConnectionConfig.create(str, path);
+// Define connection string and related entity path here
+export const connectionString = "";
+export const path = "";
+export const connectionConfig = ConnectionConfig.create(connectionString, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: connectionConfig,
   connectionProperties: {
