@@ -6,6 +6,9 @@
 
   If your Event Hubs instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate Event Hubs before running this sample.
+
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
 import { EventHubClient, EventPosition } from "@azure/event-hubs";
