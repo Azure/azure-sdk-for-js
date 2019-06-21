@@ -340,6 +340,14 @@ export class EventHubSender extends LinkEntity {
    */
   async send(events: EventData[], options?: SendOptions & EventHubProducerOptions): Promise<void> {
     try {
+      // throw an error if partition key and partition id are both defined
+      if (options && typeof options.partitionKey === "string" && typeof options.partitionId === "string") {
+        const error = new Error(
+          `PartitionId "${options.partitionId}" and PartitionKey "${options.partitionKey}" are both defined.`
+        );
+        log.error("PartitionId and PartitionKey were both defined while trying to send the message %O", error);
+        throw error;
+      }
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
