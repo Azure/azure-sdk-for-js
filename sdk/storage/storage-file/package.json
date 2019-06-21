@@ -36,9 +36,9 @@
     "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o storage-file-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
+    "test": "npm run clean && npm run build:test && npm run integration-test",
     "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
     "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
