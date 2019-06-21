@@ -1,2 +1,3 @@
 src/**/*.js
 samples/**/*.js
+*lintReport.html
