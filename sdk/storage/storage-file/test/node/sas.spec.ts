@@ -317,8 +317,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${shareClient.url}?${shareSAS}`;
     const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
-    const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
-    (await dirURLwithSAS
+    const dirClientwithSAS = shareClientwithSAS.createDirectoryClient("");
+    (await dirClientwithSAS
       .listFilesAndDirectories()
       .byPage()
       .next()).value;
