@@ -32,8 +32,11 @@ jobs:
 
       - script: |
           npm i -g nunjucks
+        displayName: "Install nunjucks"
+
+      - script: |
           npm i -g fs-extra
-        displayName: "Install nunjucks and fs-extra"
+        displayName: "Install fs-extra"
 
       - powershell: |
           cd $(Build.SourcesDirectory)
