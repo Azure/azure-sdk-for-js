@@ -1,7 +1,7 @@
 {
   "name": "@azure/amqp-common",
   "sdk-type": "client",
-  "version": "1.0.0-preview.5",
+  "version": "1.0.0-preview.6",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
