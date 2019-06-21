@@ -5,7 +5,7 @@ import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 import { TokenProvider } from "./auth/token";
-import { ConnectionConfig } from "./connectionConfig";
+import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SasTokenProvider } from "./auth/sas";
 
 import * as Constants from "./util/constants";
