@@ -281,6 +281,7 @@ export class EventHubClient {
    * @param options Options to create a EventHubProducer where you can specify the id of the partition
    * to which events need to be sent to, and retry options.
    *
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
@@ -298,6 +299,7 @@ export class EventHubClient {
    * @param options Options to create the EventHubConsumer where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
   createConsumer(
@@ -317,6 +319,7 @@ export class EventHubClient {
   /**
    * Provides the Event Hub runtime information.
    * @returns A promise that resolves with EventHubProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
@@ -335,6 +338,7 @@ export class EventHubClient {
   /**
    * Provides an array of partitionIds.
    * @returns A promise that resolves with an Array of strings.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
@@ -352,6 +356,7 @@ export class EventHubClient {
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
    * @returns A promise that resoloves with PartitionProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
