@@ -28,23 +28,23 @@ describe("Keys client - list keys in various ways", () => {
   //   the instance of the KeyClient available.
   async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
-    await delay(30000);
+    await delay(60000);
   }
   async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     await purgeKey();
   }
   async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
     try {
       await client.purgeDeletedKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
@@ -156,7 +156,7 @@ describe("Keys client - list keys in various ways", () => {
 
     for (const name of keyNames) {
       await client.deleteKey(name);
-      await delay(30000);
+      await delay(60000);
       await client.purgeDeletedKey(name);
     }
   });
@@ -180,7 +180,7 @@ describe("Keys client - list keys in various ways", () => {
 
     for (const name of keyNames) {
       await client.deleteKey(name);
-      await delay(30000);
+      await delay(60000);
       await client.purgeDeletedKey(name);
     }
   });
@@ -194,7 +194,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.deleteKey(name);
     }
 
-    await delay(30000);
+    await delay(60000);
 
     let found = 0;
     for await (const key of client.listDeletedKeys()) {
@@ -219,7 +219,7 @@ describe("Keys client - list keys in various ways", () => {
       await client.deleteKey(name);
     }
 
-    await delay(30000);
+    await delay(60000);
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {

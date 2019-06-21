@@ -28,23 +28,23 @@ describe("Keys client - restore keys and recover backups", () => {
   //   the instance of the KeyClient available.
   async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
-    await delay(30000);
+    await delay(60000);
   }
   async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     await purgeKey();
   }
   async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
     try {
       await client.purgeDeletedKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
@@ -89,11 +89,11 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can recover a deleted key", async () => {
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     const getDeletedResult = await client.getDeletedKey(keyName);
     assert.equal(getDeletedResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.recoverDeletedKey(keyName);
-    await delay(30000);
+    await delay(60000);
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await flushKey();
@@ -133,11 +133,11 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     await client.purgeDeletedKey(keyName);
-    await delay(30000);
+    await delay(60000);
     await client.restoreKey(backup);
-    await delay(30000);
+    await delay(60000);
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await flushKey();

@@ -23,23 +23,23 @@ describe("Secret client - restore secrets and recover backups", () => {
   //   the instance of the KeyClient available.
   async function purgeSecret(): Promise<void> {
     await client.purgeDeletedSecret(secretName);
-    await delay(30000);
+    await delay(60000);
   }
   async function flushSecret(): Promise<void> {
     await client.deleteSecret(secretName);
-    await delay(30000);
+    await delay(60000);
     await purgeSecret();
   }
   async function maybeFlushSecret(): Promise<void> {
     try {
       await client.deleteSecret(secretName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
     try {
       await client.purgeDeletedSecret(secretName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
@@ -76,7 +76,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   it("can recover a deleted secret", async () => {
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(20000);
+    await delay(60000);
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getDeletedResult.name,
@@ -84,7 +84,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
-    await delay(20000);
+    await delay(60000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await flushSecret();
@@ -127,11 +127,11 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await client.deleteSecret(secretName);
-    await delay(20000);
+    await delay(60000);
     await client.purgeDeletedSecret(secretName);
-    await delay(20000);
+    await delay(60000);
     await client.restoreSecret(backup);
-    await delay(20000);
+    await delay(60000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await flushSecret();

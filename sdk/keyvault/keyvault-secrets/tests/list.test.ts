@@ -26,23 +26,23 @@ describe("Secret client - list secrets in various ways", () => {
   //   the instance of the KeyClient available.
   async function purgeSecret(): Promise<void> {
     await client.purgeDeletedSecret(secretName);
-    await delay(30000);
+    await delay(60000);
   }
   async function flushSecret(): Promise<void> {
     await client.deleteSecret(secretName);
-    await delay(30000);
+    await delay(60000);
     await purgeSecret();
   }
   async function maybeFlushSecret(): Promise<void> {
     try {
       await client.deleteSecret(secretName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
     try {
       await client.purgeDeletedSecret(secretName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
@@ -93,10 +93,10 @@ describe("Secret client - list secrets in various ways", () => {
 
     for (const name of secretNames) {
       await client.deleteSecret(name);
-      await delay(20000);
+      await delay(60000);
       await client.purgeDeletedSecret(name);
     }
-    await delay(20000);
+    await delay(60000);
   });
 
   it("can list deleted secrets", async () => {
@@ -108,7 +108,7 @@ describe("Secret client - list secrets in various ways", () => {
       await client.deleteSecret(name);
     }
 
-    await delay(20000);
+    await delay(60000);
 
     let found = 0;
     for await (const secret of client.listDeletedSecrets()) {
@@ -122,7 +122,7 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
-    await delay(20000);
+    await delay(60000);
   });
 
   it("can retrieve all versions of a secret", async () => {
@@ -182,10 +182,10 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
     for (const name of secretNames) {
       await client.deleteSecret(name);
-      await delay(20000);
+      await delay(60000);
       await client.purgeDeletedSecret(name);
     }
-    await delay(20000);
+    await delay(60000);
   });
 
   it("can list deleted secrets", async () => {
@@ -196,7 +196,7 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       await client.deleteSecret(name);
     }
-    await delay(20000);
+    await delay(60000);
     let found = 0;
     for await (const page of client.listDeletedSecrets().byPage()) {
       for (const secret of page) {
@@ -209,7 +209,7 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
-    await delay(20000);
+    await delay(60000);
   });
 
   it("can retrieve all versions of a secret", async () => {

@@ -28,23 +28,23 @@ describe("Keys client - create, read, update and delete operations", () => {
   //   the instance of the KeyClient available.
   async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
-    await delay(30000);
+    await delay(60000);
   }
   async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     await purgeKey();
   }
   async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
     try {
       await client.purgeDeletedKey(keyName);
-      await delay(30000);
+      await delay(60000);
     } catch (e) {
       // It will fail if the key doesn't exist. This expected.
     }
@@ -237,7 +237,7 @@ describe("Keys client - create, read, update and delete operations", () => {
         throw e;
       }
     }
-    await delay(30000);
+    await delay(60000);
     await purgeKey();
   });
 
@@ -272,7 +272,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can get a deleted key", async () => {
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    await delay(30000);
+    await delay(60000);
     const getResult = await client.getDeletedKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await purgeKey();
