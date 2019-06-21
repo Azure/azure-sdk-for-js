@@ -4,8 +4,8 @@ import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { MessagesURL } from "../src/MessagesURL";
 import { MessageIdURL } from "../src/MessageIdURL";
-import { getQSU, sleep } from "./utils";
-import { record } from "./utils/recorder";
+import { getQSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -87,7 +87,7 @@ describe("MessageIdURL", () => {
     let pResult = await messagesURL.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 0);
 
-    await sleep(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
+    await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
     let pResult2 = await messagesURL.peek(Aborter.none);
     assert.equal(pResult2.peekedMessageItems.length, 1);

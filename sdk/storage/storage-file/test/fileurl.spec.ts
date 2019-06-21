@@ -5,8 +5,8 @@ import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
-import { bodyToString, getBSU, sleep } from "./utils";
-import { record } from "./utils/recorder";
+import { bodyToString, getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -166,7 +166,7 @@ describe("FileURL", () => {
     const newFileURL = FileURL.fromDirectoryURL(dirURL, recorder.getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileURL.abortCopyFromURL(Aborter.none, result.copyId!);

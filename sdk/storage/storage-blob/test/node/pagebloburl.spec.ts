@@ -4,8 +4,8 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
-import { getBSU, sleep } from "../utils";
-import { record } from "../utils/recorder";
+import { getBSU } from "../utils";
+import { record, delay } from "../utils/recorder";
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
@@ -43,11 +43,14 @@ describe("PageBlobURL", () => {
     let snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobURL = PageBlobURL.fromContainerURL(containerURL, recorder.getUniqueName("page"));
+    const destPageBlobURL = PageBlobURL.fromContainerURL(
+      containerURL,
+      recorder.getUniqueName("page")
+    );
 
     await containerURL.setAccessPolicy(Aborter.none, "container");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
@@ -63,7 +66,7 @@ describe("PageBlobURL", () => {
         case "aborted":
           throw new Error("Copy unexcepted aborted.");
         case "pending":
-          await sleep(3000);
+          await delay(3000);
           copyResponse = await destPageBlobURL.getProperties(Aborter.none);
           await waitForCopy(++retries);
           return;
