@@ -136,7 +136,7 @@ describe("ServiceURL", () => {
     }
 
     await serviceURL.setProperties(Aborter.none, serviceProperties);
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await serviceURL.getProperties(Aborter.none);
     assert.ok(typeof result.requestId);
