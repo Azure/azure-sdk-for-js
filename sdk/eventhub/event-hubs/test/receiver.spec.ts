@@ -827,13 +827,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const events = [];
 
         const eventIterator2 = receiver.getEventIterator();
-        try {
-          for await (const event of eventIterator2) {
-            events.push(event);
-            break;
-          }
-        } catch (err) {
-          console.error(err);
+        for await (const event of eventIterator2) {
+          events.push(event);
+          break;
         }
 
         events.length.should.equal(1);
