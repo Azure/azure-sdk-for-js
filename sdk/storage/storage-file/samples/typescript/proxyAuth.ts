@@ -10,12 +10,14 @@ async function main() {
   const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   const serviceClient = new FileServiceClient(
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential,
     {
+      // Proxy authentication is supported only in Node.js, not in browsers
       proxy: { url: "http://localhost:3128" }
     }
   );
