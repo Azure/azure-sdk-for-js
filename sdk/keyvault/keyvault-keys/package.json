@@ -96,7 +96,6 @@
     "mocha": "^5.2.0",
     "nock": "^10.0.6",
     "prettier": "^1.16.4",
-    "query-string": "^6.5.0",
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
     "rollup-plugin-commonjs": "^10.0.0",
