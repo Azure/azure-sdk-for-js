@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
     // mark assert as external
     baseConfig.external.push("assert", "fs", "os", "tty", "child_process");
 
-    baseConfig.onwarn = warning => {
+    baseConfig.onwarn = (warning) => {
       if (
         warning.code === "CIRCULAR_DEPENDENCY" &&
         warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
@@ -63,6 +63,11 @@ export function nodeConfig(test = false) {
 
       console.error(`(!) ${warning.message}`);
     };
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets `sideEffects=false`, this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -97,7 +102,7 @@ export function browserConfig(test = false) {
         }
       ),
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
@@ -111,6 +116,11 @@ export function browserConfig(test = false) {
     baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets `sideEffects=false`, this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
