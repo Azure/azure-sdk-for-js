@@ -8,6 +8,8 @@ import {
   bodyToString
 } from "../utils";
 import { newPipeline, PageBlobClient, SharedKeyCredential } from "../../src";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
@@ -120,6 +122,17 @@ describe("PageBlobClient Node.js only", () => {
     await newClient.create(512);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it.only("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new PageBlobClient(pageBlobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {

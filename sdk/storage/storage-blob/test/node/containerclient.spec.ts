@@ -3,6 +3,8 @@ import * as assert from "assert";
 import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 import { ContainerClient, newPipeline, SharedKeyCredential } from "../../src";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("ContainerClient Node.js only", () => {
   const blobServiceClient = getBSU();
@@ -85,6 +87,17 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(result.version);
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
+  });
+
+  it.only("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new ContainerClient(containerClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {
