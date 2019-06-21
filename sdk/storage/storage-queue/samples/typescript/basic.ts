@@ -2,13 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import {
-  QueueServiceClient,
-  StorageClient,
-  SharedKeyCredential,
-  TokenCredential,
-  Models
-} from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, SharedKeyCredential, TokenCredential, newPipeline } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -44,35 +38,24 @@ async function main() {
   );
 
   console.log(`List queues`);
-  let marker;
-  do {
-    const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await queueServiceClient.listQueuesSegment(
-      marker
-    );
-
-    marker = listQueuesResponse.nextMarker;
-    for (const queue of listQueuesResponse.queueItems!) {
-      console.log(`Queue: ${queue.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${item.name}`);
+  }
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
   const queueClient = queueServiceClient.createQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${
-      createQueueResponse.requestId
-    }`
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
   );
 
   // Enqueue a message into the queue using the enqueue method.
   const messagesClient = queueClient.createMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
   console.log(
-    `Enqueue message successfully, service assigned message Id: ${
-      enqueueQueueResponse.messageId
-    }, service assigned request Id: ${enqueueQueueResponse.requestId}`
+    `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
   );
 
   // Peek a message using peek method.

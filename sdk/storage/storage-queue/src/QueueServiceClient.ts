@@ -71,10 +71,9 @@ export interface ServiceGetStatisticsOptions {
 /**
  * Options to configure Queue Service - List Queues Segment operation
  *
- * @export
  * @interface ServiceListQueuesSegmentOptions
  */
-export interface ServiceListQueuesSegmentOptions {
+interface ServiceListQueuesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -298,7 +297,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
-  public async listQueuesSegment(
+  private async listQueuesSegment(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
