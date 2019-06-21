@@ -62,7 +62,7 @@ export function nodeConfig(test = false) {
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
-    // the "sideEffects" field in package.json.  Since our package.json sets `sideEffects=false`, this also
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
@@ -126,7 +126,7 @@ export function browserConfig(test = false, production = false) {
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
-    // the "sideEffects" field in package.json.  Since our package.json sets `sideEffects=false`, this also
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
