@@ -63,7 +63,7 @@ describe("ContainerClient", () => {
     done();
   });
 
-  it("listBlobFlatSegment with default parameters", async () => {
+  it("listBlobsFlat with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.createBlobClient(getUniqueName(`blockblob/${i}`));
@@ -84,7 +84,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobFlatSegment with all parameters configured", async () => {
+  it("listBlobsFlat with all parameters configured", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -118,7 +118,7 @@ describe("ContainerClient", () => {
         include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
         prefix
       })
-      .byPage({ maxPageSize: 2 })).next()).value;
+      .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })).next()).value;
 
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result2.containerName));
