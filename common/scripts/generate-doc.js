@@ -28,7 +28,7 @@ function walk(dir, checks) {
     if (stat && stat.isDirectory()) {
       checks = walk(filePath, checks);
     } else {
-      // console.log(path.resolve(filePath));
+      // console.log(path.resolve(filePath)); //For-debug
     }
   }
   return checks;
@@ -49,7 +49,7 @@ try {
     shell: true
   });
   console.log('result.output for "rush install":' + result.output);
-  //process.exit(result.status);
+  //process.exit(result.status); //For-debug
 } catch (e) {
   console.error(`\n\n${e.toString()}\n\n`);
   process.exit(1);
@@ -59,26 +59,24 @@ let workingDir = path.join(process.cwd(), "sdk");
 let pathToAssets = "";
 
 const serviceFolders = fs.readdirSync(workingDir);
-console.log("Service folders:");
-console.log(serviceFolders);
+//console.log("Service folders:"); //For-debug
+//console.log(serviceFolders); //For-debug
+
+//Initializing package list for template index generation
 let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  //if(count > 5)
-  //break;
+  //if(count > 5) //For-debug
+  //break; //For-debug
 
   console.log("count = " + count);
   const eachServicePath = path.join(workingDir, eachService);
   const stat = fs.statSync(eachServicePath);
 
   if (stat && stat.isDirectory()) {
-    var packageList = fs.readdirSync(eachServicePath);
-
-    //building serviceList array for reference index
-    serviceList.push({ name: eachService, packageList: packageList });
-
-    //continue code
+    //Initializing package list for template index generation
+    let packageList = [];
     for (const eachPackage of packageList) {
       let checks = { isRush: false, isPrivate: false, srcPresent: false };
       console.log(
@@ -150,6 +148,8 @@ for (const eachService of serviceFolders) {
               console.error(`\n\n${e.toString()}\n\n`);
               process.exit(1);
             }
+            //Adding package to packageList for the template index generation
+            packageList.add(eachPackage);
           } else {
             console.log("...SKIPPING Since src folder could not be found.....");
           }
@@ -158,14 +158,17 @@ for (const eachService of serviceFolders) {
         }
       }
     }
+    //Adding service entry for the template index generation
+    serviceList.push({ name: eachService, packageList: packageList });
   } // end-for ServiceFolders
 }
 
 var renderedIndex = nunjucks.render("template.html", {
   serviceList: serviceList
 });
-//console.log("rendered html:");
-//console.log(renderedIndex);
+
+//console.log("rendered html:"); //For-debug
+//console.log(renderedIndex); //For-debug
 var dest = process.cwd() + "/docGen/index.html";
 fs.writeFile(dest, renderedIndex, function(err, result) {
   if (err)
