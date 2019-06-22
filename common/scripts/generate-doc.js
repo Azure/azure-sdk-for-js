@@ -164,8 +164,8 @@ for (const eachService of serviceFolders) {
 var renderedIndex = nunjucks.render("template.html", {
   serviceList: serviceList
 });
-console.log("rendered html:");
-console.log(renderedIndex);
+//console.log("rendered html:");
+//console.log(renderedIndex);
 var dest = process.cwd() + "/docGen/index.html";
 fs.writeFile(dest, renderedIndex, function(err, result) {
   if (err)
