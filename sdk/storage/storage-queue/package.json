@@ -79,6 +79,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/identity": "^0.1.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@azure/core-paging": "^1.0.0",
     "@types/dotenv": "^6.1.0",

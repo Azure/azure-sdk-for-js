@@ -1,7 +1,10 @@
 import * as assert from "assert";
+import { MessageIdClient } from '../src';
 import { getQSU, sleep } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record } from "./utils/recorder";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from './utils/assert';
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -13,7 +16,7 @@ describe("MessageIdClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
@@ -159,5 +162,16 @@ describe("MessageIdClient", () => {
       error = err;
     }
     assert.ok(error);
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new MessageIdClient("https://queue", tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 });
