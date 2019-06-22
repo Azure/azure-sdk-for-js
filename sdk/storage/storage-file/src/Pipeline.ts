@@ -15,9 +15,6 @@ import {
   RequestPolicyOptions,
   ServiceClientOptions,
   WebResource,
-  TokenCredential,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
@@ -168,7 +165,7 @@ export interface NewPipelineOptions {
  * @memberof Pipeline
  */
 export function newPipeline(
-  credential: Credential | TokenCredential,
+  credential: Credential,
   pipelineOptions: NewPipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -181,9 +178,7 @@ export function newPipeline(
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
     new LoggingPolicyFactory(),
-    isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
-      : credential
+    credential
   ];
 
   return new Pipeline(factories, {

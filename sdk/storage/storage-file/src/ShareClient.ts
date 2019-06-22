@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-http";
+import { HttpResponse } from "@azure/core-http";
 
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
@@ -307,12 +303,12 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential | TokenCredential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                  If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -327,16 +323,13 @@ export class ShareClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?: Credential | TokenCredential | Pipeline | string,
+    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrShareName;
-    } else if (
-      credentialOrPipelineOrShareName instanceof Credential ||
-      isTokenCredential(credentialOrPipelineOrShareName)
-    ) {
+    } else if (credentialOrPipelineOrShareName instanceof Credential) {
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (
       !credentialOrPipelineOrShareName &&
