@@ -23,3 +23,8 @@ export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export { Models, RestError };
+
+// async iterator polyfill.
+if (typeof Symbol === undefined || !Symbol.asyncIterator) {
+  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
+}

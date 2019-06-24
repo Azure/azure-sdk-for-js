@@ -30,3 +30,8 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export { Models, RestError };
+
+// async iterator polyfill.
+if (typeof Symbol === undefined || !Symbol.asyncIterator) {
+  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
+}

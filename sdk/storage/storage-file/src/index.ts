@@ -33,3 +33,8 @@ export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };
+
+// async iterator polyfill.
+if (typeof Symbol === undefined || !Symbol.asyncIterator) {
+  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
+}
