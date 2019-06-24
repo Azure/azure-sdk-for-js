@@ -97,10 +97,9 @@ export interface ServiceGetStatisticsOptions {
 /**
  * Options to configure the Service - List Container Segment operation.
  *
- * @export
  * @interface ServiceListContainersSegmentOptions
  */
-export interface ServiceListContainersSegmentOptions {
+interface ServiceListContainersSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -390,7 +389,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
-  public async listContainersSegment(
+  private async listContainersSegment(
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
