@@ -378,16 +378,16 @@ describe("Errors after close()", function(): void {
 
   it("errors after close() on sender", async function(): Promise<void> {
     const senderErrorMsg =
-      `The sender for "${client.eventHubName}" has been closed and can no longer be used. ` +
-      `Please create a new sender using the "createProducer" function on the EventHubClient.`;
+      `The EventHubProducer for "${client.eventHubName}" has been closed and can no longer be used. ` +
+      `Please create a new EventHubProducer using the "createProducer" function on the EventHubClient.`;
     await beforeEachTest("sender");
     await testSender(senderErrorMsg);
   });
 
   it("errors after close() on receiver", async function(): Promise<void> {
     const receiverErrorMsg =
-      `The receiver for "${client.eventHubName}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "createConsumer" function on the EventHubClient.`;
+      `The EventHubConsumer for "${client.eventHubName}" has been closed and can no longer be used. ` +
+      `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
     await beforeEachTest("receiver");
     await testReceiver(receiverErrorMsg);
   });
