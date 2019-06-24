@@ -166,7 +166,7 @@ for (const eachService of serviceFolders) {
 var renderedIndex = nunjucks.render("template.html", {
   serviceList: serviceList
 });
-
+console.log(serviceList);
 //console.log("rendered html:"); //For-debug
 //console.log(renderedIndex); //For-debug
 var dest = process.cwd() + "/docGen/index.html";
@@ -178,7 +178,7 @@ fs.writeFile(dest, renderedIndex, function(err, result) {
     );
   console.log("Generated html written to docGen/index.html");
 });
-
+console.log(serviceList[0].packageList[0]);
 console.log("serviceList length = " + serviceList.length);
 if (serviceList.length > 0) {
   //copy from pathToAssets to docGen/assets
