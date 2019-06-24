@@ -7,17 +7,17 @@ dotenv.config({ path: "../.env" });
 describe("DirectoryClient Node.js only", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
+  let shareClient = serviceClient.getShareClient(shareName);
   let dirName = getUniqueName("dir");
-  let dirClient = shareClient.createDirectoryClient(dirName);
+  let dirClient = shareClient.getDirectoryClient(dirName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
     dirName = getUniqueName("dir");
-    dirClient = shareClient.createDirectoryClient(dirName);
+    dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
   });
 

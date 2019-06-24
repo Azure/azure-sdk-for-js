@@ -16,7 +16,7 @@ describe("MessageIdClient", () => {
   beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -26,7 +26,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete empty message with default parameters", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -38,7 +38,7 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = "";
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
     let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
@@ -60,7 +60,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete message with all parameters", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -72,7 +72,7 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
     let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
@@ -91,7 +91,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -103,7 +103,7 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
     let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
@@ -117,7 +117,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -130,7 +130,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = new Array(64 * 1024 + 2).join("a");
 
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
 
     let error;
     try {
@@ -147,10 +147,10 @@ describe("MessageIdClient", () => {
   });
 
   it("delete message negative", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
 
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
 
     let error;
     try {

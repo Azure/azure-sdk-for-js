@@ -34,8 +34,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
-    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
+    const containerClient1 = blobServiceClient.getContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -89,7 +89,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }
@@ -119,8 +119,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
-    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
+    const containerClient1 = blobServiceClient.getContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -161,7 +161,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }
@@ -197,7 +197,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }

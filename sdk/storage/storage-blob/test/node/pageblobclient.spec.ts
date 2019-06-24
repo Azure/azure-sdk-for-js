@@ -14,18 +14,18 @@ import { assertClientUsesTokenCredential } from '../utils/assert';
 describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerClient = blobServiceClient.getContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let pageBlobClient = blobClient.createPageBlobClient();
+  let blobClient = containerClient.getBlobClient(blobName);
+  let pageBlobClient = blobClient.getPageBlobClient();
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    pageBlobClient = blobClient.createPageBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    pageBlobClient = blobClient.getPageBlobClient();
   });
 
   afterEach(async () => {
@@ -43,7 +43,7 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.createPageBlobClient(getUniqueName("page"));
+    const destPageBlobClient = containerClient.getPageBlobClient(getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
 

@@ -17,7 +17,7 @@ describe("RetryPolicy", () => {
   beforeEach(async function() {
     recorder = record(this);
     shareName = recorder.getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
 

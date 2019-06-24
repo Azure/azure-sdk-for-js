@@ -399,7 +399,7 @@ export class ShareClient extends StorageClient {
    * @returns {DirectoryClient} The DirectoryClient object for the given directory name.
    * @memberof ShareClient
    */
-  public createDirectoryClient(directoryName: string): DirectoryClient {
+  public getDirectoryClient(directoryName: string): DirectoryClient {
     return new DirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
       this.pipeline
@@ -415,7 +415,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public get rootDirectoryClient(): DirectoryClient {
-    return this.createDirectoryClient("");
+    return this.getDirectoryClient("");
   }
 
   /**
@@ -434,7 +434,7 @@ export class ShareClient extends StorageClient {
     directoryClient: DirectoryClient;
     directoryCreateResponse: Models.DirectoryCreateResponse;
   }> {
-    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryClient = this.getDirectoryClient(directoryName);
     const directoryCreateResponse = await directoryClient.create(options);
     return {
       directoryClient,
@@ -456,7 +456,7 @@ export class ShareClient extends StorageClient {
     directoryName: string,
     options?: DirectoryDeleteOptions
   ): Promise<Models.DirectoryDeleteResponse> {
-    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryClient = this.getDirectoryClient(directoryName);
     return await directoryClient.delete(options);
   }
 
@@ -477,7 +477,7 @@ export class ShareClient extends StorageClient {
     options?: FileCreateOptions
   ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
     const directoryClient = this.rootDirectoryClient;
-    const fileClient = directoryClient.createFileClient(fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
     const fileCreateResponse = await fileClient.create(size, options);
     return {
       fileClient,
@@ -510,7 +510,7 @@ export class ShareClient extends StorageClient {
     options?: FileDeleteOptions
   ): Promise<Models.FileDeleteResponse> {
     const directoryClient = this.rootDirectoryClient;
-    const fileClient = directoryClient.createFileClient(fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
     return await fileClient.delete(options);
   }
 
