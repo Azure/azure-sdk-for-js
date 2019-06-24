@@ -102,8 +102,8 @@ export class EventHubProducer {
     throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
       const errorMessage =
-        `The sender for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
-        `Please create a new sender using the "createProducer" function on the EventHubClient.`;
+        `The EventHubProducer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
+        `Please create a new EventHubProducer using the "createProducer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;

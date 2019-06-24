@@ -129,6 +129,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         try {
           client = new EventHubClient(service.connectionString, service.path);
           await client.getPartitionProperties(id as any);
+          throw new Error("Test failure");
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);

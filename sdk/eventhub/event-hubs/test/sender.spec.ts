@@ -244,21 +244,22 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should fail when a message greater than 256 KB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
+    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
       void
     > {
       const data: EventData = {
-        body: Buffer.from("Z".repeat(300000))
+        body: Buffer.from("Z".repeat(1300000))
       };
       try {
-        debug("Sendina message of 300KB...");
+        debug("Sending a message of 300KB...");
         await client.createProducer({ partitionId: "0" }).send([data]);
+        throw new Error("Test failure");
       } catch (err) {
         debug(err);
         should.exist(err);
         should.equal(err.name, "MessageTooLargeError");
         err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
+          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
       }
       await client.createProducer({ partitionId: "0" }).send([{ body: "Hello World EventHub!!" }]);
@@ -267,31 +268,33 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Negative scenarios", function(): void {
-    it("a message greater than 256 KB should fail.", async function(): Promise<void> {
+    it("a message greater than 1 MB should fail.", async function(): Promise<void> {
       const data: EventData = {
-        body: Buffer.from("Z".repeat(300000))
+        body: Buffer.from("Z".repeat(1300000))
       };
       try {
         await client.createProducer().send([data]);
+        throw new Error("Test failure");
       } catch (err) {
         debug(err);
         should.exist(err);
         should.equal(err.name, "MessageTooLargeError");
         err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
+          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
       }
     });
 
     describe("on invalid partition ids like", function(): void {
       // tslint:disable-next-line: no-null-keyword
-      const invalidIds = ["XYZ", "-1", "1000", "-", null];
+      const invalidIds = ["XYZ", "-1", "1000", "-"];
       invalidIds.forEach(function(id: string | null): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.createProducer().send([{ body: "Hello world!" }], id as any);
+            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
             debug("sent the message.");
+            throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);
             should.exist(err);
@@ -307,8 +310,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an invalid EventHub address error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.createProducer().send([{ body: "Hello world!" }], id as any);
+            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
             debug("sent the message.");
+            throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received invalid EventHub address error for partition id "${id}" - `, err);
             should.exist(err);

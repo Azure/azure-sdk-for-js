@@ -315,7 +315,7 @@ export class EventHubConsumer {
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages) {
-      const errorMessage = `The receiver for "${this._context.config.entityPath}" is already receiving messages.`;
+      const errorMessage = `The EventHubConsumer for "${this._context.config.entityPath}" is already receiving messages.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
@@ -326,8 +326,8 @@ export class EventHubConsumer {
     throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
       const errorMessage =
-        `The receiver for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
-        `Please create a new receiver using the "createConsumer" function on the EventHubClient.`;
+        `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
+        `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
