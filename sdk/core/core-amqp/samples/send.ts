@@ -31,10 +31,7 @@ const parameters: CreateConnectionContextBaseParameters = {
 };
 const connectionContext = ConnectionContextBase.create(parameters);
 
-async function authenticate(
-  audience: string,
-  closeConnection: boolean = false
-): Promise<CbsResponse> {
+async function authenticate(audience: string): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
   const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
   const tokenObject = sharedTokenCredential.getToken(audience);
@@ -44,15 +41,11 @@ async function authenticate(
     TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);
-  if (closeConnection) {
-    await connectionContext.connection.close();
-    console.log("Successfully closed the connection.");
-  }
   return result;
 }
 
 async function main(): Promise<void> {
-  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`);
   const senderName = "sender-1";
   const senderOptions: SenderOptions = {
     name: senderName,
