@@ -3,8 +3,6 @@ import { getQSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from './utils/assert';
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -118,16 +116,5 @@ describe("QueueClient", () => {
       error = err;
     }
     assert.ok(error); // For browser, permission denied; For node, invalid permission
-  });
-
-  it("can be created with a url and a TokenCredential", async () => {
-    const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
-    const newClient = new QueueClient("https://queue", tokenCredential);
-    assertClientUsesTokenCredential(newClient);
   });
 });

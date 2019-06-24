@@ -2,8 +2,6 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, wait } from "./utils";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from './utils/assert';
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -292,16 +290,5 @@ describe("QueueServiceClient", () => {
         done();
       })
       .catch(done);
-  });
-
-  it("can be created with a url and a TokenCredential", async () => {
-    const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
-    const newClient = new QueueServiceClient("https://queue", tokenCredential);
-    assertClientUsesTokenCredential(newClient);
   });
 });
