@@ -8,30 +8,30 @@ const {
     SharedKeyCredential,
     AnonymousCredential,
     HttpPipelineLogLevel,
-    TokenCredential
+    RawTokenCredential
 } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
+    constructor(minimumLogLevel) {
+        this.minimumLogLevel = minimumLogLevel;
     }
-  }
+    log(logLevel, message) {
+        const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+        switch (logLevel) {
+            case HttpPipelineLogLevel.ERROR:
+                // tslint:disable-next-line:no-console
+                console.error(logMessage);
+                break;
+            case HttpPipelineLogLevel.WARNING:
+                // tslint:disable-next-line:no-console
+                console.warn(logMessage);
+                break;
+            case HttpPipelineLogLevel.INFO:
+                // tslint:disable-next-line:no-console
+                console.log(logMessage);
+                break;
+        }
+    }
 }
 
 async function main() {
@@ -43,7 +43,7 @@ async function main() {
     const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
     // Use TokenCredential with OAuth token
-    const tokenCredential = new TokenCredential("token");
+    const tokenCredential = new RawTokenCredential("token");
     tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
     // Use AnonymousCredential when url already includes a SAS signature

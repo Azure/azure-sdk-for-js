@@ -7,7 +7,7 @@ import {
   Models,
   SharedKeyCredential,
   newPipeline,
-  TokenCredential,
+  RawTokenCredential,
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -19,7 +19,7 @@ async function main() {
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature

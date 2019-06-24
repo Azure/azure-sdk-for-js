@@ -6,7 +6,7 @@ import {
   QueueServiceClient,
   StorageClient,
   SharedKeyCredential,
-  TokenCredential,
+  RawTokenCredential,
   Models
 } from "../../src"; // Change to "@azure/storage-queue" in your package
 
@@ -18,7 +18,7 @@ async function main() {
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
@@ -62,7 +62,7 @@ async function main() {
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
-      createQueueResponse.requestId
+    createQueueResponse.requestId
     }`
   );
 
@@ -71,7 +71,7 @@ async function main() {
   const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
   console.log(
     `Enqueue message successfully, service assigned message Id: ${
-      enqueueQueueResponse.messageId
+    enqueueQueueResponse.messageId
     }, service assigned request Id: ${enqueueQueueResponse.requestId}`
   );
 
