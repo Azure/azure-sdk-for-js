@@ -105,7 +105,7 @@ export interface ServiceListQueuesSegmentOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: ListQueuesIncludeType[];
 }
 
 /**
@@ -134,7 +134,7 @@ export interface ServiceListQueuesOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: ListQueuesIncludeType[];
 }
 
 /**

@@ -1,7 +1,7 @@
 # Breaking Changes
 
 2019.6 Version 11.0.0-preview.1
-* The type of the `include` field of `ServiceListQueuesSegmentOptionalParams` has changed from `ListQueuesIncludeType` to `ListQueuesIncludeType[]` due to changes in the underlying OpenAPI specification.
+* The type of the `include` field of both `ServiceListQueuesOptions` and `ServiceListQueuesSegmentOptions` has changed from `ListQueuesIncludeType` to `ListQueuesIncludeType[]` due to changes in the underlying OpenAPI specification.
 * `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
 
 2019.1 Version 10.1.0
