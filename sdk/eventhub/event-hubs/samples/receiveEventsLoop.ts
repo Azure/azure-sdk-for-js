@@ -6,33 +6,46 @@
 
   If your Event Hubs instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate Event Hubs before running this sample.
+
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
 import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+  const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  let eventPosition = EventPosition.fromStart();
+  const consumer = client.createConsumer("$Default", partitionIds[0], EventPosition.earliest());
   const batchSize = 1;
 
-  for (let i = 0; i < 10; i++) {
-    const events = await client.receiveBatch(partitionIds[0], batchSize, 5, {
-      eventPosition: eventPosition,
-      consumerGroup: "$Default"
-    });
-    if (!events.length) {
-      console.log("No more events to receive");
-      break;
+  try {
+    for (let i = 0; i < 5; i++) {
+      const events = await consumer.receiveBatch(batchSize, 5);
+      if (!events.length) {
+        console.log("No more events to receive");
+        break;
+      }
+      console.log(`Received events: ${events.map(event => event.body)}`);
     }
-    eventPosition = EventPosition.fromSequenceNumber(events[events.length - 1].sequenceNumber!);
-    console.log(`Received events #${i}: ${events.map(event => event.body)}`);
+
+    let iteratorCount = 0;
+    for await (const events of consumer.getEventIterator()) {
+      iteratorCount++;
+      console.log(`Received event: ${events.body}`);
+      if (iteratorCount === 5) {
+        break;
+      }
+    }
+
+    await consumer.close();
+  } finally {
+    await client.close();
   }
-  await client.close();
 }
 
 main().catch(err => {

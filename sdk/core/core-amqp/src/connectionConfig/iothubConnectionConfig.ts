@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { ConnectionConfig, EventHubConnectionConfig } from ".";
+import { ConnectionConfig } from "./connectionConfig";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 import {
   parseConnectionString,
   IotHubConnectionStringModel
