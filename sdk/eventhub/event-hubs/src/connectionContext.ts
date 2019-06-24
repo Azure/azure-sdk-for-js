@@ -11,52 +11,62 @@ import {
   delay,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
-  EventHubConnectionConfig
-} from "@azure/amqp-common";
+  EventHubConnectionConfig,
+  TokenCredential,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { ClientOptions } from "./eventHubClient";
+import { EventHubClientOptions } from "./eventHubClient";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
  * @interface ConnectionContext
- * @ignore
+ * @internal
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {EventHubConnectionConfig} config The EventHub connection config that is created after
+   * @property config The EventHub connection config that is created after
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
   /**
-   * @property {boolean} wasConnectionCloseCalled Indicates whether the close() method was
+   * @property wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
    */
   wasConnectionCloseCalled: boolean;
   /**
-   * @property {Dictionary<EventHubReceiver>} receivers A dictionary of the EventHub Receivers associated with this client.
+   * @property receivers A dictionary of the EventHub Receivers associated with this client.
    */
   receivers: Dictionary<EventHubReceiver>;
   /**
-   * @property {Dictionary<EventHubSender>} senders A dictionary of the EventHub Senders associated with this client.
+   * @property senders A dictionary of the EventHub Senders associated with this client.
    */
   senders: Dictionary<EventHubSender>;
   /**
-   * @property {ManagementClient} managementSession A reference to the management session ($management endpoint) on
+   * @property managementSession A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
   managementSession?: ManagementClient;
 }
 
-export interface ConnectionContextOptions extends ClientOptions {
+/**
+ * @internal
+ * @ignore
+ */
+export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
   managementSessionAudience?: string;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export namespace ConnectionContext {
   /**
-   * @property {string} userAgent The user agent string for the EventHubs client.
+   * @property userAgent The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version} (NODE-VERSION ${
@@ -74,12 +84,20 @@ export namespace ConnectionContext {
     return finalUserAgent;
   }
 
-  export function create(config: EventHubConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
+  export function create(
+    config: EventHubConnectionConfig,
+    tokenCredential: SharedKeyCredential | TokenCredential,
+    options?: ConnectionContextOptions
+  ): ConnectionContext {
     if (!options) options = {};
+
+    config.webSocket = options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options.webSocketConstructorOptions;
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: options.tokenProvider,
+      tokenCredential: tokenCredential,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
       connectionProperties: {
@@ -166,7 +184,7 @@ export namespace ConnectionContext {
               sender.name,
               sender.address
             );
-            sender.detached(connectionError || contextError).catch(err => {
+            sender.onDetached(connectionError || contextError).catch(err => {
               log.error(
                 "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
@@ -195,7 +213,7 @@ export namespace ConnectionContext {
               receiver.name,
               receiver.address
             );
-            receiver.detached(connectionError || contextError).catch(err => {
+            receiver.onDetached(connectionError || contextError).catch(err => {
               log.error(
                 "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id,

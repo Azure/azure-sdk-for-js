@@ -5,7 +5,7 @@ import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 import { TokenCredential } from "@azure/core-http";
-import { ConnectionConfig } from "./connectionConfig";
+import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
 import * as Constants from "./util/constants";
@@ -137,7 +137,9 @@ export module ConnectionContextBase {
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
-        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
+        `The user-agent string cannot be more than ${
+          Constants.maxUserAgentLength
+        } characters in length.` +
           `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
       );
     }

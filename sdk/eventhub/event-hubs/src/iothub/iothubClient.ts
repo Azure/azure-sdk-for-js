@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { translate, MessagingError, IotSasTokenProvider } from "@azure/amqp-common";
-import { IotHubConnectionConfig } from "@azure/amqp-common";
+import { translate, MessagingError, IotSharedKeyCredential } from "@azure/core-amqp";
+import { IotHubConnectionConfig } from "@azure/core-amqp";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import * as log from "../log";
 
@@ -28,7 +28,7 @@ export interface EHConfig extends ParsedRedirectError {
  */
 export class IotHubClient {
   /**
-   * @property {string} connectionString the IotHub connection string.
+   * @property connectionString the IotHub connection string.
    */
   connectionString: string;
 
@@ -39,22 +39,18 @@ export class IotHubClient {
    * Constructs the EventHub connection string by catching the redirect error and parsing the error
    * information.
    * @ignore
-   * @param {ConnectionContextOptions} [options] optional parameters to be provided while creating
+   * @param [options] optional parameters to be provided while creating
    * the connection context.
-   * @return {Promise<string>} Promise<string>
+   * @returns Promise<string>
    */
   async getEventHubConnectionString(options?: ConnectionContextOptions): Promise<string> {
     const iothubconfig = IotHubConnectionConfig.create(this.connectionString);
     const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
     let result: string = "";
     if (!options) options = {};
-    options.tokenProvider = new IotSasTokenProvider(
-      config.endpoint,
-      config.sharedAccessKeyName,
-      config.sharedAccessKey
-    );
+    const tokenProvider = new IotSharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
     options.managementSessionAddress = `/messages/events/$management`;
-    const context = ConnectionContext.create(config, options);
+    const context = ConnectionContext.create(config, tokenProvider, options);
     try {
       log.iotClient("Getting the hub runtime info from the iothub connection string to get the redirect error.");
       await context.managementSession!.getHubRuntimeInformation();
@@ -79,7 +75,7 @@ export class IotHubClient {
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @ignore
-   * @returns {Promise<any>}
+   * @returns
    */
   async close(context: ConnectionContext): Promise<any> {
     try {

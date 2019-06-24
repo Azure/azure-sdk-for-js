@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
   ServiceClientCredentials,
@@ -154,7 +155,7 @@ export class SecretsClient {
     this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
-  private static getUserAgentString(telemetry?: TelemetryOptions) {
+  private static getUserAgentString(telemetry?: TelemetryOptions): string {
     const userAgentInfo: string[] = [];
     if (telemetry) {
       if (userAgentInfo.indexOf(telemetry.value) === -1) {
@@ -184,14 +185,18 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async setSecret(secretName: string, value: string, options?: SetSecretOptions) {
+  public async setSecret(
+    secretName: string,
+    value: string,
+    options?: SetSecretOptions
+  ): Promise<Secret> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         secretAttributes: unflattenedAttributes
@@ -247,12 +252,12 @@ export class SecretsClient {
     options?: UpdateSecretOptions
   ): Promise<Secret> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         secretAttributes: unflattenedAttributes
@@ -351,11 +356,12 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Uint8Array | undefined>
    */
-  public async backupSecret(
-    secretName: string,
-    options?: RequestOptionsBase
-  ): Promise<Uint8Array | undefined> {
-    const response = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
+  public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
+    const response: any = await this.client.backupSecret(
+      this.vaultBaseUrl,
+      secretName,
+      options
+    );
     return response.value;
   }
 
@@ -385,11 +391,11 @@ export class SecretsClient {
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getSecretVersions(
+      const currentSetResponse = await this.client.getSecretVersions(
         this.vaultBaseUrl,
         secretName,
         optionsComplete
@@ -398,7 +404,7 @@ export class SecretsClient {
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getSecretVersionsNext(
+      const currentSetResponse = await this.client.getSecretVersionsNext(
         continuationState.continuationToken,
         options
       );
@@ -411,7 +417,7 @@ export class SecretsClient {
     secretName: string,
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listSecretVersionsPage(secretName, f, options)) {
       for (const item of page) {
@@ -449,16 +455,16 @@ export class SecretsClient {
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getSecretsNext(
+      const currentSetResponse = await this.client.getSecretsNext(
         continuationState.continuationToken,
         options
       );
@@ -470,7 +476,7 @@ export class SecretsClient {
   private async *listSecretsAll(
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listSecretsPage(f, options)) {
       for (const item of page) {
@@ -506,11 +512,11 @@ export class SecretsClient {
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getDeletedSecrets(
+      const currentSetResponse = await this.client.getDeletedSecrets(
         this.vaultBaseUrl,
         optionsComplete
       );
@@ -518,7 +524,7 @@ export class SecretsClient {
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getDeletedSecretsNext(
+      const currentSetResponse = await this.client.getDeletedSecretsNext(
         continuationState.continuationToken,
         options
       );
@@ -530,7 +536,7 @@ export class SecretsClient {
   private async *listDeletedSecretsAll(
     options?: ListSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listDeletedSecretsPage(f, options)) {
       for (const item of page) {

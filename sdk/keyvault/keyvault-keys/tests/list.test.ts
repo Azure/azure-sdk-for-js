@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
-import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
-import { TokenCredential, RestError } from "@azure/core-http";
+import { KeysClient } from "../src";
+import { TokenCredential } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 
@@ -23,16 +26,16 @@ describe("Keys client - list keys in various ways", () => {
   // - These functions are probably better moved to a common utility file.
   //   However, to do that we'll have to create a class or closure to maintain
   //   the instance of the KeyClient available.
-  async function purgeKey() {
+  async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
     await delay(30000);
   }
-  async function flushKey() {
+  async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
     await delay(30000);
     await purgeKey();
   }
-  async function maybeFlushKey() {
+  async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
       await delay(30000);
@@ -62,7 +65,7 @@ describe("Keys client - list keys in various ways", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
     credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
@@ -74,7 +77,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
   });
 
   afterEach(async () => {
@@ -86,7 +89,7 @@ describe("Keys client - list keys in various ways", () => {
   it("can get the versions of a key", async () => {
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (let version of client.listKeyVersions(keyName)) {
+    for await (const version of client.listKeyVersions(keyName)) {
       assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
       totalVersions += 1;
     }
@@ -98,8 +101,8 @@ describe("Keys client - list keys in various ways", () => {
   it("can get the versions of a key (paged)", async () => {
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (let page of client.listKeyVersions(keyName).byPage()) {
-      for (let version of page) {
+    for await (const page of client.listKeyVersions(keyName).byPage()) {
+      for (const version of page) {
         assert.equal(
           version.name,
           keyName,
@@ -114,7 +117,8 @@ describe("Keys client - list keys in various ways", () => {
 
   it("list 0 versions of a non-existing key", async () => {
     let totalVersions = 0;
-    for await (let version of client.listKeyVersions(keyName)) {
+    for await (const version of client.listKeyVersions(keyName)) {
+      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
@@ -122,8 +126,13 @@ describe("Keys client - list keys in various ways", () => {
 
   it("list 0 versions of a non-existing key (paged)", async () => {
     let totalVersions = 0;
-    for await (let page of client.listKeyVersions(keyName).byPage()) {
-      for (let version of page) {
+    for await (const page of client.listKeyVersions(keyName).byPage()) {
+      for (const version of page) {
+        assert.equal(
+          version.name,
+          keyName,
+          "Unexpected key name in result from listKeyVersions()."
+        );
         totalVersions += 1;
       }
     }
@@ -132,7 +141,7 @@ describe("Keys client - list keys in various ways", () => {
 
   it("can get several inserted keys", async () => {
     const keyNames = [`${keyName}-inserted-0`, `${keyName}-inserted-1`];
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
 
@@ -145,7 +154,7 @@ describe("Keys client - list keys in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of keys found by getKeys.");
 
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.deleteKey(name);
       await delay(30000);
       await client.purgeDeletedKey(name);
@@ -154,13 +163,13 @@ describe("Keys client - list keys in various ways", () => {
 
   it("can get several inserted keys (paged)", async () => {
     const keyNames = [`${keyName}-inserted-paged-0`, `${keyName}-inserted-paged-1`];
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
 
     let found = 0;
     for await (const page of client.listKeys().byPage()) {
-      for (let key of page) {
+      for (const key of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(key.name)) continue;
         found += 1;
@@ -169,7 +178,7 @@ describe("Keys client - list keys in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of keys found by getKeys.");
 
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.deleteKey(name);
       await delay(30000);
       await client.purgeDeletedKey(name);
@@ -178,10 +187,10 @@ describe("Keys client - list keys in various ways", () => {
 
   it("list deleted keys", async () => {
     const keyNames = [`${keyName}-deleted-0`, `${keyName}-deleted-1`];
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.deleteKey(name);
     }
 
@@ -196,17 +205,17 @@ describe("Keys client - list keys in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
 
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.purgeDeletedKey(name);
     }
   });
 
   it("list deleted keys (paged)", async () => {
     const keyNames = [`${keyName}-deleted-paged-0`, `${keyName}-deleted-paged-1`];
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.deleteKey(name);
     }
 
@@ -214,7 +223,7 @@ describe("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {
-      for (let key of page) {
+      for (const key of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(key.name)) continue;
         found += 1;
@@ -223,7 +232,7 @@ describe("Keys client - list keys in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
 
-    for (let name of keyNames) {
+    for (const name of keyNames) {
       await client.purgeDeletedKey(name);
     }
   });

@@ -1,9 +1,9 @@
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
-import { record } from "./utils/recorder";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
-import { getBSU, bodyToString, sleep } from "./utils";
+import { getBSU, bodyToString } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -18,7 +18,7 @@ describe("FileClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this);
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.createShareClient(shareName);
@@ -161,7 +161,7 @@ describe("FileClient", () => {
     const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);
@@ -293,7 +293,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => { });
+          rs.on("data", () => {});
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -303,7 +303,7 @@ describe("FileClient", () => {
 
       assert.fail();
       // tslint:disable-next-line:no-empty
-    } catch (err) { }
+    } catch (err) {}
     assert.ok(eventTriggered);
   });
 });

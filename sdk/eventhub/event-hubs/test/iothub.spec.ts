@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
-import { EventHubClient } from "../src";
+import { EventHubClient, EventPosition } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
@@ -30,15 +30,9 @@ describe("EventHub Client with iothub connection string ", function(): void {
 
   it("should be able to get hub runtime info", async function(): Promise<void> {
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
-    const runtimeInfo = await client.getHubRuntimeInformation();
+    const runtimeInfo = await client.getProperties();
     debug(">>> RuntimeInfo: ", runtimeInfo);
     should.exist(runtimeInfo, `RuntimeIno does not exist. Found ${runtimeInfo}`);
-    should.equal(runtimeInfo.type, "com.microsoft:eventhub", `Runtime Type is not equal and found ${runtimeInfo.type}`);
-    should.equal(
-      runtimeInfo.partitionCount > 0,
-      true,
-      `partitionCount is not > 0 and found ${runtimeInfo.partitionCount}`
-    );
     should.equal(
       runtimeInfo.partitionIds.length > 0,
       true,
@@ -48,7 +42,8 @@ describe("EventHub Client with iothub connection string ", function(): void {
 
   it("should be able to receive messages from the event hub", async function(): Promise<void> {
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
-    const datas = await client.receiveBatch("0", 15, 10);
+    const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
+    const datas = await receiver.receiveBatch(15, 10);
     debug(">>>> Received events from partition %s, %O", "0", datas);
   });
 }).timeout(30000);

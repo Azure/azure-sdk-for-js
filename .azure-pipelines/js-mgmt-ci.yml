@@ -22,7 +22,7 @@ trigger:
 pr: none
 
 variables:
-  NodeVersion: '12.x'
+  NodeVersion: '10.x'
 
 jobs:
   - job: 'Build'
@@ -41,12 +41,14 @@ jobs:
         inputs:
           verbose: false
 
-      - task: Npm@1
-        displayName: 'npm run build'
+      - script: 'gulp pack --base-reference=master --head-reference=master'
+        displayName: 'gulp pack'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: drop'
         inputs:
-          command: custom
-          verbose: false
-          customCommand: 'run build --logging-level=trace'
+          Contents: '*.tgz'
+          TargetFolder: drop
 
       - task: PublishBuildArtifacts@1
         inputs:

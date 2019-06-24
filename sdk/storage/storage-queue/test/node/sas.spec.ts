@@ -16,8 +16,8 @@ import {
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getQSU, sleep } from "../utils/index";
-import { record } from "../utils/recorder";
+import { getQSU } from "../utils/index";
+import { record, delay } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -310,7 +310,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
 
-    await sleep(2 * 1000);
+    await delay(2 * 1000);
 
     const messageIdClient = messagesClient.createMessageIdClient(
       dResult.dequeuedMessageItems[0].messageId
