@@ -11,6 +11,7 @@
 * Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
 * Export `RetryPolicyType`.
 * `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+* Service SAS generation now supports snapshot access control from 2018-11-09 in `generateBlobSASQueryParameters()`.
 
 2018.12 10.3.0
 
