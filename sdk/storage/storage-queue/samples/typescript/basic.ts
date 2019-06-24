@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, SharedKeyCredential, TokenCredential, newPipeline } from "../../src"; // Change to "@azure/storage-queue" in your package
+import {
+  QueueServiceClient,
+  newPipeline,
+  SharedKeyCredential,
+  RawTokenCredential
+} from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -12,8 +17,11 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  // Use RawTokenCredential with OAuth token.  You can find more
+  // TokenCredential implementations in the @azure/identity library
+  // to use client secrets, certificates, or managed identities for
+  // authentication.
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature

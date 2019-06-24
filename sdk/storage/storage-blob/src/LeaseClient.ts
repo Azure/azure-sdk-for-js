@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, generateUuid } from "@azure/ms-rest-js";
+import { HttpResponse, generateUuid } from "@azure/core-http";
 import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ContainerClient } from "./ContainerClient";

@@ -17,8 +17,11 @@ import {
   WebResource,
   proxyPolicy,
   getDefaultProxySettings,
-  isNode
-} from "@azure/ms-rest-js";
+  isNode,
+  TokenCredential,
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-http";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
@@ -184,12 +187,13 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+ * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+ *                                                  or a TokenCredential from @azure/identity.
  * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: Credential,
+  credential: Credential | TokenCredential,
   pipelineOptions: NewPipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -208,7 +212,10 @@ export function newPipeline(
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
     factories.push(proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)));
   }
-  factories.push(credential);
+  factories.push(
+    isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
+      : credential);
 
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,

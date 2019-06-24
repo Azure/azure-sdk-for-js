@@ -8,7 +8,10 @@ dotenv.config({ path: "../.env" });
 describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
-    const result = await blobServiceClient.listContainersSegment();
+    const result = (await blobServiceClient
+      .listContainers()
+      .byPage()
+      .next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -36,11 +39,13 @@ describe("BlobServiceClient", () => {
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await blobServiceClient.listContainersSegment(undefined, {
-      include: "metadata",
-      maxresults: 1,
-      prefix: containerNamePrefix
-    });
+    const result1 = (await blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.containerItems!.length, 1);
@@ -53,11 +58,13 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await blobServiceClient.listContainersSegment(result1.nextMarker, {
-      include: "metadata",
-      maxresults: 1,
-      prefix: containerNamePrefix
-    });
+    const result2 = (await blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.containerItems!.length, 1);

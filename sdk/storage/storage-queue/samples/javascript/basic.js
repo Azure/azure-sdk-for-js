@@ -8,7 +8,7 @@ const {
   SharedKeyCredential,
   AnonymousCredential,
   HttpPipelineLogLevel,
-  TokenCredential
+  RawTokenCredential
 } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 class ConsoleHttpPipelineLogger {
@@ -40,11 +40,13 @@ async function main() {
   const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  // Use RawTokenCredential with OAuth token.  You can find more
+  // TokenCredential implementations in the @azure/identity library
+  // to use client secrets, certificates, or managed identities for
+  // authentication.
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
@@ -75,6 +77,14 @@ async function main() {
   for await (const item of queueServiceClient.listQueues()) {
     console.log(`Queue ${i++}: ${item.name}`);
   }
+
+  // Create a new queue
+  const queueName = `newqueue${new Date().getTime()}`;
+  const queueClient = queueServiceClient.createQueueClient(queueName);
+  const createQueueResponse = await queueClient.create();
+  console.log(
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+  );
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
