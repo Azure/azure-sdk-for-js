@@ -210,12 +210,17 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    factories.push(proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)));
+    factories.push(
+      proxyPolicy(
+        getDefaultProxySettings(pipelineOptions.proxy ? pipelineOptions.proxy.url : undefined)
+      )
+    );
   }
   factories.push(
     isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
-      : credential);
+      : credential
+  );
 
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,
