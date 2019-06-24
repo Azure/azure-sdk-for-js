@@ -33,13 +33,14 @@ export interface EventPositionOptions {
 }
 
 /**
- * Represents options can be set during the creation of a event hub receiver.
- * Defines a position of an @link~EventData in the event hub partition.
- * @class EventPosition
+ * The position of events in an Event Hub partition, typically used in the creation of
+ * an `EventHubProducer`.
+ * @class
  */
 export class EventPosition {
   /**
-   * @property The offset from which events would be received: `"-1"`.
+   * @property The token that represents the beginning event in the stream of a partition.
+   * Defaults to `"-1"`.
    * @static
    * @readonly
    */
@@ -52,24 +53,29 @@ export class EventPosition {
    */
   private static readonly endOfStream: string = "@latest";
   /**
-   * @property The offset of the event at the position. It can be undefined
-   * if the position is just created from a sequence number or an enqueued time.
+   * @property The offset of the event identified by this position.
+   * Expected to be undefined if the position is just created from a sequence number or an enqueued time.
+   *
+   * The offset is the relative position for event in the context of the stream.
+   * The offset should not be considered a stable value, as the same offset may refer to a different event
+   * as events reach the age limit for retention and are no longer visible within the stream.
    */
   offset?: string;
   /**
-   * @property Indicates if the current event at the specified offset is
-   * included or not. It is only applicable if offset is set. Default value: false.
+   * @property Indicates if the specified offset is inclusive of the event which it identifies.
+   * This information is only relevent if the event position was identified by an offset or sequence number.
+   * Default value: `false`.
    */
   isInclusive: boolean = false;
   /**
-   * @property The enqueued time of the event at the position. It can be undefined
-   * if the position is just created from a sequence number or an offset.
+   * @property The enqueued time of the event identified by this position.
+   * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
   enqueuedTime?: Date | number;
 
   /**
-   * @property The sequence number of the event at the position. It can be undefined
-   * if the position is just created from an enqueued time or an offset.
+   * @property The sequence number of the event identified by this poistion.
+   * Expected to be undefined if the position is just created from an offset or enqueued time.
    */
   sequenceNumber?: number;
 
@@ -88,12 +94,12 @@ export class EventPosition {
   }
 
   /**
-   * Creates a position at the given offset.
-   * @param offset The offset of the data relative to the Event Hub partition stream.
-   * The offset is a marker or identifier for an event within the Event Hubs stream.
-   * The identifier is unique within a partition of the Event Hubs stream.
+   * Corresponds to the event in the partition at the provided offset.
+   *
+   * @param offset The offset of an event with respect to its relative position in the partition.
    * @param isInclusive If true, the specified event is included;
-   * otherwise the next event is returned. Default: false.
+   * otherwise the next event is returned.
+   * Default: `false`.
    * @returns EventPosition
    */
   static fromOffset(offset: string, isInclusive?: boolean): EventPosition {
@@ -104,10 +110,12 @@ export class EventPosition {
   }
 
   /**
-   * Creates a position at the given sequence number.
-   * @param sequenceNumber The logical sequence number of the event within the partition stream of the Event Hub.
-   * @param isInclusive If true, the specified event is included;
-   * otherwise the next event is returned. Default false.
+   * Corresponds to the event in the partition having a specified sequence number associated with it.
+   *
+   * @param sequenceNumber The sequence number assigned to an event when it was enqueued in the partition.
+   * @param isInclusive If true, event with the `sequenceNumber` is included;
+   * otherwise the next event in sequence will be received.
+   * Default `false`.
    * @returns EventPosition
    */
   static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition {
@@ -121,8 +129,10 @@ export class EventPosition {
   }
 
   /**
-   * Creates a position at the given enqueued time.
-   * @param enqueuedTime The enqueue time. This value represents the actual time of enqueuing the message.
+   * Corresponds to a specific date and time within the partition to begin seeking an event;
+   * the event enqueued after the requested `enqueuedTime` will become the current position.
+   *
+   * @param enqueuedTime The date and time, in UTC, from which the next available event should be chosen.
    * @returns EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
@@ -133,8 +143,9 @@ export class EventPosition {
   }
 
   /**
-   * Returns the position for the start of a stream. Provide this position in receiver creation to
-   * start receiving from the first available event in the partition.
+   * Corresponds to the location of the the first event present in the partition.
+   * Use this position to begin receiving from the first event that was enqueued in the partition
+   * which has not expired due to the retention policy.
    * @returns EventPosition
    */
 
@@ -143,8 +154,9 @@ export class EventPosition {
   }
 
   /**
-   * Returns the position for the end of a stream. Provide this position in receiver creation to
-   * start receiving from the next available event in the partition after the receiver is created.
+   * Corresponds to the end of the partition, where no more events are currently enqueued.
+   * Use this position to begin receiving from the next event to be enqueued in the partion after an ``EventHubConsumer``
+   * is created with this position.
    * @returns EventPosition
    */
 

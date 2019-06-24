@@ -9,10 +9,20 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * The EventHubProducer class can be used to send messages.
+ * A producer responsible for transmitting `EventData` to a specific Event Hub.
+ * Depending on the options specified at creation, the producer may be created to allow event data
+ * to be automatically routed to an available partition or specific to a partition.
+ *
+ * Allowing automatic routing of partitions is recommended when:
+ *  - The sending of events needs to be highly available.
+ *  - The event data should be evenly distributed among all available partitions.
+ *
+ * If no partition is specified, the following rules are used for automatically selecting one:
+ *  1. Distribute the events equally amongst all available partitions using a round-robin approach.
+ *  2. If a partition becomes unavailable, the Event Hubs service will automatically detect it and forward the message to another available partition.
+ *
  * Use the `createProducer` function on the EventHubClient to instantiate an EventHubProducer.
- * The EventHubProducer class is an abstraction over the underlying AMQP sender link.
- * @class EventHubProducer
+ * @class
  */
 export class EventHubProducer {
   /**
@@ -49,11 +59,11 @@ export class EventHubProducer {
   }
 
   /**
-   * Send a batch of EventData to the EventHub using the options provided.
+   * Send an individual or set of event data to the associated Event Hub.
    *
-   * @param eventData  An individual EventData or array of EventData objects to be sent in a Batch message.
-   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
-   * request via retry options, log level and cancellation token.
+   * @param eventData  An individual event data or array of event data objects to send.
+   * @param options The set of options where you can specifiy the partition to send the message to along with controlling the send
+   * request via retry options, log level and abort signal.
    *
    * @returns Promise<void>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
