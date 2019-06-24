@@ -8,10 +8,7 @@
 
 export {
   discriminators,
-  ErrorDetail,
-  ErrorResponse,
-  MachineLearningServiceError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  CloudError,
+  VirtualMachineSize,
+  VirtualMachineSizeListResult
 } from "../models/mappers";
