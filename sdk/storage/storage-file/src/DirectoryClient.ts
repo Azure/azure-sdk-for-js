@@ -181,8 +181,8 @@ export class DirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Credential } [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                   If not specified, AnonymousCredential is used.
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                  If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof DirectoryClient
    */

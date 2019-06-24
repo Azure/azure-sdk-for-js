@@ -267,7 +267,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it.only("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () => Promise.resolve({
         token: 'token',

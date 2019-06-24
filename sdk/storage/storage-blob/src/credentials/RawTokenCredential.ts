@@ -50,10 +50,10 @@ export class RawTokenCredential implements TokenCredential {
    * @param _options Ignored since token is already known.
    * @returns {AccessToken} The access token details.
    */
-  getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
-    return Promise.resolve({
+  async getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+    return {
       token: this.token,
       expiresOnTimestamp: Date.now() + 2 * 60 * 1000 // 2 Minutes
-    });
+    };
   }
 }

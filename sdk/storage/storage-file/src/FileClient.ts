@@ -1276,11 +1276,11 @@ export class FileClient extends StorageClient {
     return scheduler.do();
   }
 
-  /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
-   * Downloads an Azure Blob to a local file.
-   * Fails if the the given file path already exits.
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Downloads an Azure Blob to a local file.
+ * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
    * @param {string} filePath

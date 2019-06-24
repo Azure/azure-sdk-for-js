@@ -124,7 +124,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it.only("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () => Promise.resolve({
         token: 'token',

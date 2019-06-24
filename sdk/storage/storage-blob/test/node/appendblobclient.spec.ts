@@ -46,7 +46,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it.only("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () => Promise.resolve({
         token: 'token',
