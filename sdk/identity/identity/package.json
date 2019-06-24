@@ -64,7 +64,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure/core-http": "^1.0.0-preview.1",
     "events": "^3.0.0",
