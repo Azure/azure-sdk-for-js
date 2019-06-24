@@ -68,7 +68,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.2.6",
+    "@azure/core-http": "^1.0.0-preview.1.0",
     "@azure/core-paging": "^1.0.0",
     "tslib": "^1.9.3"
   },
