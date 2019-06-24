@@ -41,10 +41,9 @@ export interface DirectoryCreateOptions {
 /**
  * Options to configure Directory - List Files and Directories Segment operation.
  *
- * @export
  * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
-export interface DirectoryListFilesAndDirectoriesSegmentOptions {
+interface DirectoryListFilesAndDirectoriesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -585,7 +584,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>} Response data for the Directory List Files and Directories operation.
    * @memberof DirectoryClient
    */
-  public async listFilesAndDirectoriesSegment(
+  private async listFilesAndDirectoriesSegment(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
