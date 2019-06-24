@@ -43,6 +43,7 @@
   ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
+    "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
