@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 
@@ -40,17 +40,17 @@ export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
   log(logLevel: HttpPipelineLogLevel, message: string): void {
     const logMessage = `${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
-    case HttpPipelineLogLevel.ERROR:
-      console.error(logMessage);
-      break;
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
 
-    case HttpPipelineLogLevel.WARNING:
-      console.warn(logMessage);
-      break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
 
-    case HttpPipelineLogLevel.INFO:
-      console.log(logMessage);
-      break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
     }
   }
 }

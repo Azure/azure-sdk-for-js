@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { WebResource } from "./webResource";
 import { HttpHeaders } from "./httpHeaders";
@@ -29,7 +29,7 @@ declare global {
    * Stub declaration of the browser-only Blob type.
    * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
    */
-  interface Blob {}
+  interface Blob { }
 }
 
 /**
