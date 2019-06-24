@@ -31,7 +31,7 @@ async function main(): Promise<void> {
   console.log("key: ", key);
 
   // Or list the keys we have
-  for await (let keyAttributes of client.listKeys()) {
+  for await (const keyAttributes of client.listKeys()) {
     const key = await client.getKey(keyAttributes.name);
     console.log("key: ", key);
   }

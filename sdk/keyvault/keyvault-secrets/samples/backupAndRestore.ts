@@ -2,9 +2,9 @@ import { SecretsClient } from "../src";
 import fs = require("fs");
 import { EnvironmentCredential } from "@azure/identity";
 
-function writeFile(filename: string, text: Uint8Array) {
+function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {
-    fs.writeFile(filename, text, err => {
+    fs.writeFile(filename, text, (err) => {
       if (err) reject(err);
       else resolve();
     });
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new EnvironmentCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretsClient(url, credential);
 
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
   await client.setSecret(secretName, "XYZ789");
 
   // Backup secret
-  let backupResult = await client.backupSecret(secretName);
+  const backupResult = await client.backupSecret(secretName);
 
   // Write the backup to a file
   await writeFile("secret_backup.dat", backupResult);
@@ -58,10 +58,10 @@ async function main(): Promise<void> {
 
   // Read our backup from a file
   console.log("about to restore secret");
-  let backupContents = await readFile("secret_backup.dat");
+  const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  let result = await client.restoreSecret(backupContents);
+  const result = await client.restoreSecret(backupContents);
   console.log("Restored secret: ", result);
 
   await client.deleteSecret(secretName);

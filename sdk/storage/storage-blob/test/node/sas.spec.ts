@@ -205,7 +205,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    await containerClientwithSAS.listBlobFlatSegment();
+    (await containerClientwithSAS
+      .listBlobsFlat()
+      .byPage()
+      .next()).value;
     await containerClient.delete();
   });
 

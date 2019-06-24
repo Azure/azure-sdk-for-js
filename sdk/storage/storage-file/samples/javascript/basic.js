@@ -32,17 +32,10 @@ async function main() {
   );
 
   console.log(`List shares`);
-  let marker;
-  do {
-    const listSharesResponse = await serviceClient.listSharesSegment(
-      marker
-    );
-
-    marker = listSharesResponse.nextMarker;
-    for (const share of listSharesResponse.shareItems) {
-      console.log(`\tShare: ${share.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const share of serviceClient.listShares()) {
+    console.log(`Share ${i++}: ${share.name}`);
+  }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
@@ -69,30 +62,21 @@ async function main() {
 
   // List directories and files
   console.log(`List directories and files under directory ${directoryName}`);
-  marker = undefined;
-  do {
-    const listFilesAndDirectoriesResponse = await directoryClient.listFilesAndDirectoriesSegment(
-      marker
-    );
-
-    marker = listFilesAndDirectoriesResponse.nextMarker;
-    for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
-      console.log(`\tFile: ${file.name}`);
+  i = 1;
+  for await (const entity of directoryClient.listFilesAndDirectories()) {
+    if (entity.kind === "directory") {
+      console.log(`${i++} - directory\t: ${entity.name}`);
+    } else {
+      console.log(`${i++} - file\t: ${entity.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-        .directoryItems) {
-      console.log(`\tDirectory: ${directory.name}`);
-    }
-  } while (marker);
+  }
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody
-    )}`
+    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
   );
 
   // Delete share
@@ -104,7 +88,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -119,6 +103,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

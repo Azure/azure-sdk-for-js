@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { IdentityClientOptions } from "../client/identityClient";
-import { AggregateCredential } from "./aggregateCredential";
+import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 
-export class SystemCredential extends AggregateCredential {
+export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(identityClientOptions?: IdentityClientOptions) {
     super(
       new EnvironmentCredential(identityClientOptions),

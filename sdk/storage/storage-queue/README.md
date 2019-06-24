@@ -285,6 +285,10 @@ When creating the `QueueServiceClient` instance, pass the logger in the options
   );
 ```
 
+## Authenticating with Azure Active Directory
+
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account.  This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](./samples/azureAdAuth.ts).
+
 ## Next steps
 
 More code samples

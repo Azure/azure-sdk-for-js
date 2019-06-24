@@ -41,10 +41,9 @@ export interface DirectoryCreateOptions {
 /**
  * Options to configure Directory - List Files and Directories Segment operation.
  *
- * @export
  * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
-export interface DirectoryListFilesAndDirectoriesSegmentOptions {
+interface DirectoryListFilesAndDirectoriesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -182,7 +181,7 @@ export class DirectoryClient extends StorageClient {
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   *                                  If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof DirectoryClient
    */
@@ -585,7 +584,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>} Response data for the Directory List Files and Directories operation.
    * @memberof DirectoryClient
    */
-  public async listFilesAndDirectoriesSegment(
+  private async listFilesAndDirectoriesSegment(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {

@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "2.1.0",
+  "version": "3.0.0-preview.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "build:samples": "cd samples && tsc -p .",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build:test": "npm run build:test:node && npm run build:test:browser",
+    "build:test": "npm run build",
     "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
@@ -48,7 +48,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:node": "ts-mocha -p test/tsconfig.test.json test/*.ts --timeout 1200000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
     "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o event-hubs-lintReport.html || exit 0",
@@ -62,8 +62,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/amqp-common": "^1.0.0-preview.5",
-    "@azure/ms-rest-nodeauth": "^0.9.2",
+    "@azure/abort-controller": "1.0.0-preview.1",
+    "@azure/core-amqp": "^1.0.0-preview.1",
     "async-lock": "^1.1.3",
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
@@ -73,6 +73,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@azure/identity": "^0.1.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
@@ -131,6 +132,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.15.0",
     "typescript": "^3.2.2",
-    "ws": "^6.2.1"
+    "ws": "^6.2.1",
+    "ts-mocha": "^6.0.0"
   }
 }

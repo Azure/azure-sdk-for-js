@@ -11,7 +11,7 @@ import {
   RequestPolicyOptions,
   RestError,
   WebResource
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";

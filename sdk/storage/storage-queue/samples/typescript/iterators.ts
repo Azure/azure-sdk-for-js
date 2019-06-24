@@ -9,6 +9,7 @@ async function main() {
   const account = "";
   const accountKey = "";
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
@@ -54,7 +55,6 @@ async function main() {
     if (response.queueItems) {
       for (const queueItem of response.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
   }
@@ -65,7 +65,6 @@ async function main() {
     if (response.queueItems) {
       for (const queueItem of response.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
   }
@@ -73,38 +72,35 @@ async function main() {
   // 6. Generator syntax .next()
   i = 1;
   let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-  let response = (await iterator.next()).value;
-  do {
-    if (response.queueItems) {
-      for (const queueItem of response.queueItems) {
+  let response = await iterator.next();
+  while (!response.done) {
+    if (response.value.queueItems) {
+      for (const queueItem of response.value.queueItems) {
         console.log(`Queue ${i++}: ${queueItem.name}`);
-        i++;
       }
     }
-    response = (await iterator.next()).value;
-  } while (response);
+    response = await iterator.next();
+  }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
   iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 2 queue names
-  if (response.queueItems) {
-    for (const queueItem of response.queueItems) {
+  if (response.value.queueItems) {
+    for (const queueItem of response.value.queueItems) {
       console.log(`Queue ${i++}: ${queueItem.name}`);
-      i++;
     }
   }
   // Gets next marker
-  let marker = response.nextMarker;
+  let marker = response.value.nextMarker;
   // Passing next marker as continuationToken
   iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 10 queue names
-  if (response.queueItems) {
-    for (const queueItem of response.queueItems) {
+  if (response.value.queueItems) {
+    for (const queueItem of response.value.queueItems) {
       console.log(`Queue ${i++}: ${queueItem.name}`);
-      i++;
     }
   }
 }

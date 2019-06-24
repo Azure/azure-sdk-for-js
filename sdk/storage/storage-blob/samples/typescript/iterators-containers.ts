@@ -71,36 +71,36 @@ async function main() {
   // 6. Generator syntax .next()
   i = 1;
   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 20 });
-  let response = (await iterator.next()).value;
-  do {
-    if (response.containerItems) {
-      for (const container of response.containerItems) {
+  let response = await iterator.next();
+  while (!response.done) {
+    if (response.value.containerItems) {
+      for (const container of response.value.containerItems) {
         console.log(`Container ${i++}: ${container.name}`);
       }
     }
-    response = (await iterator.next()).value;
-  } while (response);
+    response = await iterator.next();
+  }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
   iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 2 container names
-  if (response.containerItems) {
-    for (const container of response.containerItems) {
+  if (response.value.containerItems) {
+    for (const container of response.value.containerItems) {
       console.log(`Container ${i++}: ${container.name}`);
     }
   }
   // Gets next marker
-  let marker = response.nextMarker;
+  let marker = response.value.nextMarker;
   // Passing next marker as continuationToken
   iterator = blobServiceClient
     .listContainers()
     .byPage({ continuationToken: marker, maxPageSize: 10 });
-  response = (await iterator.next()).value;
+  response = await iterator.next();
   // Prints 10 container names
-  if (response.containerItems) {
-    for (const container of response.containerItems) {
+  if (response.value.containerItems) {
+    for (const container of response.value.containerItems) {
       console.log(`Container ${i++}: ${container.name}`);
     }
   }

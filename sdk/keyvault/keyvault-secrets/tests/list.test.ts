@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { expect } from "chai";
 import { SecretsClient } from "../src";
@@ -7,7 +10,6 @@ import "./utils/utils.common"; // This loads the asyncIterator polyfill
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
-  const version = "";
   let client: SecretsClient;
   let recorder: any;
 
@@ -22,16 +24,16 @@ describe("Secret client - list secrets in various ways", () => {
   // - These functions are probably better moved to a common utility file.
   //   However, to do that we'll have to create a class or closure to maintain
   //   the instance of the KeyClient available.
-  async function purgeSecret() {
+  async function purgeSecret(): Promise<void> {
     await client.purgeDeletedSecret(secretName);
     await delay(30000);
   }
-  async function flushSecret() {
+  async function flushSecret(): Promise<void> {
     await client.deleteSecret(secretName);
     await delay(30000);
     await purgeSecret();
   }
-  async function maybeFlushSecret() {
+  async function maybeFlushSecret(): Promise<void> {
     try {
       await client.deleteSecret(secretName);
       await delay(30000);
@@ -58,7 +60,7 @@ describe("Secret client - list secrets in various ways", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
 
     const vaultName = env.KEYVAULT_NAME;
     const url = `https://${vaultName}.vault.azure.net`;
@@ -76,7 +78,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secrets", async () => {
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
 
@@ -89,7 +91,7 @@ describe("Secret client - list secrets in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
 
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
       await delay(20000);
       await client.purgeDeletedSecret(name);
@@ -99,10 +101,10 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list deleted secrets", async () => {
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
     }
 
@@ -117,7 +119,7 @@ describe("Secret client - list secrets in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
 
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
     await delay(20000);
@@ -125,24 +127,24 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can retrieve all versions of a secret", async () => {
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
-    interface versionValuePair {
+    interface VersionValuePair {
       version: string;
       value: string;
     }
-    let versions: versionValuePair[] = [];
+    const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
       versions.push({ version: response.version!, value: response.value! });
     }
 
-    let results: versionValuePair[] = [];
+    const results: VersionValuePair[] = [];
     for await (const item of client.listSecretVersions(secretName)) {
       const version = item.version!;
       const secret = await client.getSecret(secretName, { version: version });
       results.push({ version: item.version!, value: secret.value! });
     }
 
-    const comp = (a: versionValuePair, b: versionValuePair) =>
+    const comp = (a: VersionValuePair, b: VersionValuePair): number =>
       (a.version + a.value).localeCompare(b.version + b.value);
     results.sort(comp);
     versions.sort(comp);
@@ -153,7 +155,12 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secret versions (non existing)", async () => {
     let totalVersions = 0;
-    for await (let version of client.listSecretVersions(secretName)) {
+    for await (const version of client.listSecretVersions(secretName)) {
+      assert.equal(
+        version.name,
+        secretName,
+        "Unexpected key name in result from listKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
@@ -161,7 +168,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secrets", async () => {
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
@@ -173,7 +180,7 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
       await delay(20000);
       await client.purgeDeletedSecret(name);
@@ -183,10 +190,10 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list deleted secrets", async () => {
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
     }
     await delay(20000);
@@ -199,7 +206,7 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
     await delay(20000);
@@ -207,17 +214,17 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can retrieve all versions of a secret", async () => {
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
-    interface versionValuePair {
+    interface VersionValuePair {
       version: string;
       value: string;
     }
-    let versions: versionValuePair[] = [];
+    const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
       versions.push({ version: response.version!, value: response.value! });
     }
 
-    let results: versionValuePair[] = [];
+    const results: VersionValuePair[] = [];
     for await (const page of client.listSecretVersions(secretName).byPage()) {
       for (const item of page) {
         const version = item.version!;
@@ -226,7 +233,7 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
 
-    const comp = (a: versionValuePair, b: versionValuePair) =>
+    const comp = (a: VersionValuePair, b: VersionValuePair): number =>
       (a.version + a.value).localeCompare(b.version + b.value);
     results.sort(comp);
     versions.sort(comp);
@@ -238,7 +245,12 @@ describe("Secret client - list secrets in various ways", () => {
   it("can list secret versions (non existing)", async () => {
     let totalVersions = 0;
     for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const secret of page) {
+      for (const version of page) {
+        assert.equal(
+          version.name,
+          secretName,
+          "Unexpected key name in result from listKeyVersions()."
+        );
         totalVersions += 1;
       }
     }

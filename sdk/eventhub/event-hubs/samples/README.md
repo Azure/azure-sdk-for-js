@@ -1,5 +1,7 @@
 ## Getting started with samples ##
 
+The samples in this folder are for version 3.0.0 and above of this library. If you are using version 2.1.0 or lower, then please use [samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples) instead
+
 ## Install the library
 
 Run the below in your samples folder to install the npm package for Event Hubs library.

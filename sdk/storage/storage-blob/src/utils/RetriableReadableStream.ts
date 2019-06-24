@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
+import { RestError, TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
 import { Aborter } from "../Aborter";

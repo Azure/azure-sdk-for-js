@@ -1,9 +1,9 @@
 import * as assert from "assert";
-import { isNode } from "@azure/ms-rest-js";
-import { record } from "./utils/recorder";
+import { isNode } from "@azure/core-http";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
-import { getBSU, bodyToString, sleep } from "./utils";
+import { getBSU, bodyToString } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -161,7 +161,7 @@ describe("FileClient", () => {
     const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);

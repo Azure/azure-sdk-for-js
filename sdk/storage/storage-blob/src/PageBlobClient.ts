@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
+import {
+  HttpRequestBody,
+  TransferProgressEvent,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -303,11 +308,12 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    *
@@ -326,7 +332,7 @@ export class PageBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    credentialOrPipelineOrContainerName: string | Credential | TokenCredential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -335,7 +341,10 @@ export class PageBlobClient extends BlobClient {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
-    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrContainerName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrContainerName)
+    ) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (

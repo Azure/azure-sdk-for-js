@@ -18,7 +18,11 @@ describe("FileServiceClient", () => {
 
   it("ListShares with default parameters", async () => {
     const serviceClient = getBSU();
-    const result = await serviceClient.listSharesSegment();
+
+    const result = (await serviceClient
+      .listShares()
+      .byPage()
+      .next()).value;
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -47,11 +51,13 @@ describe("FileServiceClient", () => {
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await serviceClient.listSharesSegment(undefined, {
-      include: ["metadata", "snapshots"],
-      maxresults: 1,
-      prefix: shareNamePrefix
-    });
+    const result1 = (await serviceClient
+      .listShares({
+        include: ["metadata", "snapshots"],
+        prefix: shareNamePrefix
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.shareItems!.length, 1);
@@ -60,11 +66,13 @@ describe("FileServiceClient", () => {
     assert.ok(result1.shareItems![0].properties.lastModified);
     assert.deepEqual(result1.shareItems![0].metadata!.key, "val");
 
-    const result2 = await serviceClient.listSharesSegment(result1.nextMarker, {
-      include: ["metadata", "snapshots"],
-      maxresults: 1,
-      prefix: shareNamePrefix
-    });
+    const result2 = (await serviceClient
+      .listShares({
+        include: ["metadata", "snapshots"],
+        prefix: shareNamePrefix
+      })
+      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.shareItems!.length, 1);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**

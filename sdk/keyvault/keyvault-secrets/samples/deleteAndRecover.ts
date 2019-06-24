@@ -31,7 +31,7 @@ async function main(): Promise<void> {
   await delay(30000);
 
   console.log("Showing deleted secrets");
-  for await (let deletedSecret of client.listDeletedSecrets()) {
+  for await (const deletedSecret of client.listDeletedSecrets()) {
     console.log(deletedSecret);
   }
 
@@ -53,7 +53,7 @@ async function main(): Promise<void> {
   await client.purgeDeletedSecret(bankAccountSecretName);
   await delay(30000);
 
-  for await (let deletedSecret of client.listDeletedSecrets()) {
+  for await (const deletedSecret of client.listDeletedSecrets()) {
     console.log(deletedSecret);
   }
 

@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
-import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
-import { TokenCredential, RestError } from "@azure/core-http";
+import { KeysClient } from "../src";
+import { TokenCredential } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 
@@ -23,16 +26,16 @@ describe("Keys client - restore keys and recover backups", () => {
   // - These functions are probably better moved to a common utility file.
   //   However, to do that we'll have to create a class or closure to maintain
   //   the instance of the KeyClient available.
-  async function purgeKey() {
+  async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
     await delay(30000);
   }
-  async function flushKey() {
+  async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
     await delay(30000);
     await purgeKey();
   }
-  async function maybeFlushKey() {
+  async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
       await delay(30000);
@@ -62,7 +65,7 @@ describe("Keys client - restore keys and recover backups", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
     credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
@@ -74,7 +77,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
   });
 
   afterEach(async () => {

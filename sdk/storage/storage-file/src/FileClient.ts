@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
-import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
+import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
 import { Aborter } from "./Aborter";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
@@ -524,7 +524,7 @@ export class FileClient extends StorageClient {
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   *                                  If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileClient
    */
@@ -1255,7 +1255,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-              `Please make sure stream length is less or equal than file size.`
+            `Please make sure stream length is less or equal than file size.`
           );
         }
 
@@ -1276,11 +1276,11 @@ export class FileClient extends StorageClient {
     return scheduler.do();
   }
 
-  /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
-   * Downloads an Azure Blob to a local file.
-   * Fails if the the given file path already exits.
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Downloads an Azure Blob to a local file.
+ * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
    * @param {string} filePath

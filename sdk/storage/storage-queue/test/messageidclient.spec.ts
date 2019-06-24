@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { getQSU, sleep } from "./utils";
+import { getQSU } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { record } from "./utils/recorder";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -83,7 +83,7 @@ describe("MessageIdClient", () => {
     let pResult = await messagesClient.peek();
     assert.equal(pResult.peekedMessageItems.length, 0);
 
-    await sleep(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
+    await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
     let pResult2 = await messagesClient.peek();
     assert.equal(pResult2.peekedMessageItems.length, 1);
