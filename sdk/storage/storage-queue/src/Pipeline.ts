@@ -15,6 +15,9 @@ import {
   RequestPolicyOptions,
   ServiceClientOptions,
   WebResource,
+  proxyPolicy,
+  getDefaultProxySettings,
+  isNode,
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy
@@ -42,6 +45,26 @@ export {
   RequestPolicy,
   RequestPolicyOptions
 };
+
+/**
+ * Interface of proxy policy options.
+ * @example
+ *   // Use SharedKeyCredential with storage account and account key
+ *   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+ *   const queueServiceClient = new QueueServiceClient(
+ *     `https://${account}.queue.core.windows.net`,
+ *     sharedKeyCredential,
+ *     {
+ *       proxy: { url: "http://localhost:3128" }
+ *     }
+ *   );
+ *
+ * @export
+ * @interface ProxyOptions
+ */
+export interface ProxyOptions {
+  url?: string;
+}
 
 /**
  * Option interface for Pipeline constructor.
@@ -127,6 +150,7 @@ export class Pipeline {
  * @interface NewPipelineOptions
  */
 export interface NewPipelineOptions {
+  proxy?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -182,11 +206,22 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    new LoggingPolicyFactory(),
+    new LoggingPolicyFactory()
+  ];
+
+  if (isNode) {
+    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    factories.push(
+      proxyPolicy(
+        getDefaultProxySettings(pipelineOptions.proxy ? pipelineOptions.proxy.url : undefined)
+      )
+    );
+  }
+  factories.push(
     isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
       : credential
-  ];
+  );
 
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,
