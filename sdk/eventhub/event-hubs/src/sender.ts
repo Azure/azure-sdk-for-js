@@ -17,10 +17,6 @@ import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "
  *  - The sending of events needs to be highly available.
  *  - The event data should be evenly distributed among all available partitions.
  *
- * If no partition is specified, the following rules are used for automatically selecting one:
- *  1. Distribute the events equally amongst all available partitions using a round-robin approach.
- *  2. If a partition becomes unavailable, the Event Hubs service will automatically detect it and forward the message to another available partition.
- *
  * Use the `createProducer` function on the EventHubClient to instantiate an EventHubProducer.
  * @class
  */
@@ -49,6 +45,7 @@ export class EventHubProducer {
   /**
    * @constructor
    * @internal
+   * @ignore
    */
   constructor(context: ConnectionContext, options?: EventHubProducerOptions) {
     this._context = context;

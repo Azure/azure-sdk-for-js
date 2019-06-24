@@ -33,23 +33,24 @@ export interface EventPositionOptions {
 }
 
 /**
- * The position of events in an Event Hub partition, typically used in the creation of
+ * Represents the position of an event in an Event Hub partition, typically used in the creation of
  * an `EventHubProducer`.
  * @class
  */
 export class EventPosition {
   /**
-   * @property The token that represents the beginning event in the stream of a partition.
-   * Defaults to `"-1"`.
+   * @property The token that represents the beginning event in the stream of a partition: `"-1"`.
    * @static
    * @readonly
+   * @ignore
    */
   private static readonly startOfStream: string = "-1";
 
   /**
-   * @property The offset from which events would be received: `"@latest"`.
+   * @property The token that represents the last event in the stream of a partition: `"@latest"`.
    * @static
    * @readonly
+   * @ignore
    */
   private static readonly endOfStream: string = "@latest";
   /**
@@ -82,6 +83,7 @@ export class EventPosition {
   /**
    * @constructor
    * @internal
+   * @ignore
    * @param options
    */
   constructor(options?: EventPositionOptions) {
@@ -94,7 +96,7 @@ export class EventPosition {
   }
 
   /**
-   * Corresponds to the event in the partition at the provided offset.
+   * Gets an instance of `EventPosition` corresponding to the event in the partition at the provided offset.
    *
    * @param offset The offset of an event with respect to its relative position in the partition.
    * @param isInclusive If true, the specified event is included;
@@ -110,7 +112,7 @@ export class EventPosition {
   }
 
   /**
-   * Corresponds to the event in the partition having a specified sequence number associated with it.
+   * Gets an instance of `EventPosition` corresponding to the event in the partition having a specified sequence number associated with it.
    *
    * @param sequenceNumber The sequence number assigned to an event when it was enqueued in the partition.
    * @param isInclusive If true, event with the `sequenceNumber` is included;
@@ -129,7 +131,7 @@ export class EventPosition {
   }
 
   /**
-   * Corresponds to a specific date and time within the partition to begin seeking an event;
+   * Gets an instance of `EventPosition` corresponding to a specific date and time within the partition to begin seeking an event;
    * the event enqueued after the requested `enqueuedTime` will become the current position.
    *
    * @param enqueuedTime The date and time, in UTC, from which the next available event should be chosen.
@@ -143,7 +145,7 @@ export class EventPosition {
   }
 
   /**
-   * Corresponds to the location of the the first event present in the partition.
+   * Gets an instance of `EventPosition` corresponding to the location of the the first event present in the partition.
    * Use this position to begin receiving from the first event that was enqueued in the partition
    * which has not expired due to the retention policy.
    * @returns EventPosition
@@ -154,7 +156,7 @@ export class EventPosition {
   }
 
   /**
-   * Corresponds to the end of the partition, where no more events are currently enqueued.
+   * Gets an instance of `EventPosition` corresponding to the end of the partition, where no more events are currently enqueued.
    * Use this position to begin receiving from the next event to be enqueued in the partion after an ``EventHubConsumer``
    * is created with this position.
    * @returns EventPosition
@@ -167,6 +169,7 @@ export class EventPosition {
 
 /**
  * @internal
+ * @ignore
  * Gets the expression to be set as the filter clause when creating the receiver
  * @return {string} filterExpression
  */

@@ -22,20 +22,19 @@ export interface EventIteratorOptions {
    */
   // prefetchCount?: number;
   /**
-   * An `AbortSignal` instance to signal the `EventIterator` to cancel the operation.
+   * An implementation of `AbortSignalLike` to signal the `EventIterator` to cancel the operation.
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
- * and as a member of a specific consumer group.
+ * in the context of a specific consumer group.
  *
- * A consumer may be exclusive, which asserts ownership over the partition for the consumer
- * group to ensure that only one consumer from that group is reading the from the partition.
- *
- * A consumer may also be non-exclusive, allowing multiple consumers from the same consumer
- * group to be actively reading events from the partition.
+ * Multiple consumers are allowed on the same partition in a consumer group.
+ * If there is a need to have an exclusive consumer for a partition in a consumer group,
+ * then specify the `ownerLevel` in the `options`.
+ * Exclusive consumers were previously referred to as "Epoch Receivers".
  *
  * The consumer can be used to receive messages in a batch or by registering handlers.
  * Use the `createConsumer` function on the EventHubClient to instantiate an EventHubConsumer.
@@ -92,9 +91,9 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property The priority to associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
+   * @property The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
    *
-   * When populated, the priority indicates that a consumer is intended to be the only reader of events for the
+   * When populated, the owner level indicates that a consumer is intended to be the only receiver of events for the
    * requested partition and an associated consumer group.  To do so, this consumer will attempt to assert ownership
    * over the partition; in the case where more than one exclusive consumer attempts to assert ownership for the same
    * partition/consumer group pair, the one having a larger onwership level value will "win."
@@ -124,6 +123,7 @@ export class EventHubConsumer {
   /**
    * @constructor
    * @internal
+   * @ignore
    */
   constructor(
     context: ConnectionContext,
@@ -145,7 +145,7 @@ export class EventHubConsumer {
    * @param onMessage The message handler to receive event data objects.
    * @param onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param abortSignal An `AbortSignal` instance to signal the request to cancel the operation.
+   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
    *
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.

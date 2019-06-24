@@ -28,7 +28,7 @@ import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "
  */
 export interface RetryOptions {
   /**
-   * The maximum number of attempts allowed to call an operation.
+   * The maximum number of times to attempt an operation.
    */
   retryCount?: number;
   /**
@@ -48,13 +48,14 @@ export interface RetryOptions {
 }
 
 /**
- * The set of options that can be specified when creating an `EventHubProducer` via `createProducer`
- * to configure its behavior.
+ * The set of options that can be specified when creating an `EventHubProducer`.
+ * These can be specified when creating the producer via the `createProducer` method.
  */
 export interface EventHubProducerOptions {
   /**
    * @property
    * The identifier of the partition that the producer will be bound to.
+   * If an id is provided, all events sent using the producer will reach the same partition.
    * If no id is provided, the service will determine the partition to which the event will be sent.
    */
   partitionId?: string;
@@ -80,21 +81,21 @@ export interface SendOptions {
   partitionKey?: string | null;
   /**
    * @property
-   * An `AbortSignal` instance to signal the request to cancel the operation.
+   * An implementation of `AbortSignalLike` to signal the request to cancel the operation.
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * The set of options that can be specified when creating an `EventHubConsumer` via `createConsumer`
- * to configure its behavior.
+ * The set of options to configure the behavior of an `EventHubConsumer`.
+ * These can be specified when creating the consumer using the `createConsumer` method.
  */
 export interface EventHubConsumerOptions {
   /**
    * @property
-   * The priority to associated with an exclusive consumer; for a non-exclusive consumer, this value should be null or undefined.
+   * The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value should be null or undefined.
    *
-   * When populated, the priority indicates that a consumer is intended to be the only reader of events for the
+   * When populated, the owner level indicates that a consumer is intended to be the only receiver of events for the
    * requested partition and an associated consumer group. To do so, this consumer will attempt to assert ownership
    * over the partition; in the case where more than one exclusive consumer attempts to assert ownership for the same
    * partition/consumer group pair, the one having a larger `ownerLevel` value will "win."
@@ -162,9 +163,9 @@ export interface EventHubClientOptions {
 
 /**
  * @class
- * The main point of interaction with Azure Event Hubs, the client offers a
- * connection to a specific Event Hub within the Event Hubs namespace and offers operations
- * for sending event data, receiving events, and inspecting the connected Event Hub.
+ * The client is the main point of interaction with Azure Event Hubs service.
+ * It offers connection to a specific Event Hub within the Event Hubs namespace and
+ * offers operations for sending event data, receiving events, and inspecting the connected Event Hub.
  */
 export class EventHubClient {
   /**
@@ -188,7 +189,9 @@ export class EventHubClient {
 
   /**
    * @constructor
-   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
@@ -285,17 +288,13 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an Event Hub producer responsible for transmitting `EventData` to the Event Hub.
-   * Depending on the `options` specified, the producer may be created to allow event data to
+   * Creates an Event Hub producer responsible for sending `EventData` to the Event Hub.
+   * Depending on whether a `partitionId` is specified in the `options`, the producer may be created to allow event data to
    * be automatically routed to an available partition or specific to a partition.
    *
    * Allowing automatic routing of partitions is recommended when:
    *  - The sending of events needs to be highly available.
    *  - The event data should be evenly distributed among all available partitions.
-   *
-   * If no partition is specified, the following rules are used for automatically selecting one:
-   *  1. Distribute the events equally amongst all available partitions using a round-robin approach.
-   *  2. If a partition becomes unavailable, the Event Hubs service will automatically detect it and forward the message to another available partition.
    *
    * @param options The set of options to apply when creating the producer where you can specify the id of the partition
    * to which events need to be sent to, and retry options.
@@ -309,18 +308,15 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an Event Hub consumer responsible for reading `EventData` from a specific Event Hub parition,
-   * and as a member of a specific consumer group.
+   * Creates an Event Hub consumer responsible for reading `EventData` from a specific Event Hub partition,
+   * in the context of a specific consumer group.
    *
-   * A consumer may be exclusive, which asserts ownership over the partition for the consumer
-   * group to ensure that only one consumer from that group is reading the from the partition.
-   * These exclusive consumers are sometimes referred to as "Epoch Consumers."
+   * Multiple consumers are allowed on the same partition in a consumer group.
+   * If there is a need to have an exclusive consumer for a partition in a consumer group,
+   * then specify the `ownerLevel` in the `options`.
+   * Exclusive consumers were previously referred to as "Epoch Receivers".
    *
-   * A consumer may also be non-exclusive, allowing multiple consumers from the same consumer
-   * group to be actively reading events from the partition.  These non-exclusive consumers are
-   * sometimes referred to as "Non-epoch Consumers."
-   *
-   * Designating a consumer as exclusive may be specified in the `options`.
+   * Designating a consumer as exclusive may be specified in the `options` via `ownerLevel`.
    * By default, consumers are created as non-exclusive.
    *
    * @param consumerGroup The name of the consumer group this consumer is associated with. Events are read in the context of this group.
@@ -346,7 +342,7 @@ export class EventHubClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param abortSignal An `AbortSignal` instance to signal the request to cancel the operation.
+   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
    * @returns A promise that resolves with EventHubProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -366,7 +362,7 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @param abortSignal An `AbortSignal` instance to signal the request to cancel the operation.
+   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
    * @returns A promise that resolves with an Array of strings.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -385,7 +381,7 @@ export class EventHubClient {
   /**
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
-   * @param abortSignal An `AbortSignal` instance to signal the request to cancel the operation.
+   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
    * @returns A promise that resoloves with PartitionProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -427,5 +423,5 @@ export class EventHubClient {
    * @property
    * The name of the default consumer group in the Event Hubs service.
    */
-  static defaultConsumerGroup: string = Constants.defaultConsumerGroup;
+  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }
