@@ -239,7 +239,7 @@ export class ManagementClient extends LinkEntity {
         };
         const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt(
-          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
+          "[%s] Creating producer/consumer links on a session for $management endpoint with " +
             "srOpts: %o, receiverOpts: %O.",
           this._context.connectionId,
           sropt,
@@ -257,7 +257,7 @@ export class ManagementClient extends LinkEntity {
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
         });
         log.mgmt(
-          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+          "[%s] Created producer '%s' and consumer '%s' links for $management endpoint.",
           this._context.connectionId,
           this._mgmtReqResLink.sender.name,
           this._mgmtReqResLink.receiver.name

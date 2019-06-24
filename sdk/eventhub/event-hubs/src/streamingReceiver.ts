@@ -68,7 +68,7 @@ export class ReceiveHandler {
         await this._receiver.close();
       } catch (err) {
         log.error(
-          "An error occurred while stopping the receiver '%s' with address '%s': %O",
+          "An error occurred while stopping the consumer '%s' with address '%s': %O",
           this._receiver.name,
           this._receiver.address,
           err
@@ -143,7 +143,7 @@ export class StreamingReceiver extends EventHubReceiver {
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
       log.streaming(
-        "[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+        "[%s] Consumer link is already present for '%s' due to previous receive() calls. " +
           "Hence reusing it and attaching message and error handlers.",
         this._context.connectionId,
         this.name
@@ -153,7 +153,7 @@ export class StreamingReceiver extends EventHubReceiver {
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming(
-        "[%s] Receiver '%s', set the prefetch count to 1000 and " + "providing a credit of the same amount.",
+        "[%s] Consumer '%s', set the prefetch count to 1000 and " + "providing a credit of the same amount.",
         this._context.connectionId,
         this.name
       );

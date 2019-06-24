@@ -97,7 +97,7 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         const err = translate(senderError);
-        log.error("[%s] An error occurred for sender '%s': %O.", this._context.connectionId, this.name, err);
+        log.error("[%s] An error occurred for producer '%s': %O.", this._context.connectionId, this.name, err);
       }
     };
 
@@ -106,7 +106,7 @@ export class EventHubSender extends LinkEntity {
       if (sessionError) {
         const err = translate(sessionError);
         log.error(
-          "[%s] An error occurred on the session of sender '%s': %O.",
+          "[%s] An error occurred on the session of producer '%s': %O.",
           this._context.connectionId,
           this.name,
           err
@@ -119,7 +119,7 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error(
-          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'sender_close' event occurred for producer '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -129,8 +129,8 @@ export class EventHubSender extends LinkEntity {
       if (sender && !sender.isItselfClosed()) {
         if (!this.isConnecting) {
           log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
+            "[%s] 'sender_close' event occurred on the producer '%s' with address '%s' " +
+              "and the sdk did not initiate this. The producer is not reconnecting. Hence, calling " +
               "detached from the _onAmqpClose() handler.",
             this._context.connectionId,
             this.name,
@@ -139,8 +139,8 @@ export class EventHubSender extends LinkEntity {
           await this.onDetached(senderError);
         } else {
           log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
+            "[%s] 'sender_close' event occurred on the producer '%s' with address '%s' " +
+              "and the sdk did not initate this. Moreover the producer is already re-connecting. " +
               "Hence not calling detached from the _onAmqpClose() handler.",
             this._context.connectionId,
             this.name,
@@ -149,7 +149,7 @@ export class EventHubSender extends LinkEntity {
         }
       } else {
         log.error(
-          "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+          "[%s] 'sender_close' event occurred on the producer '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
             "() handler.",
           this._context.connectionId,
@@ -164,7 +164,7 @@ export class EventHubSender extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error(
-          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'session_close' event occurred for producer '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -174,7 +174,7 @@ export class EventHubSender extends LinkEntity {
       if (sender && !sender.isSessionItselfClosed()) {
         if (!this.isConnecting) {
           log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
+            "[%s] 'session_close' event occurred on the session of producer '%s' with " +
               "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
               "_onSessionClose() handler.",
             this._context.connectionId,
@@ -184,8 +184,8 @@ export class EventHubSender extends LinkEntity {
           await this.onDetached(sessionError);
         } else {
           log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
+            "[%s] 'session_close' event occurred on the session of producer '%s' with " +
+              "address '%s' and the sdk did not initiate this. Moreover the producer is already " +
               "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
             this._context.connectionId,
             this.name,
@@ -194,7 +194,7 @@ export class EventHubSender extends LinkEntity {
         }
       } else {
         log.error(
-          "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
+          "[%s] 'session_close' event occurred on the session of producer '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
             "() handler.",
           this._context.connectionId,
@@ -224,18 +224,18 @@ export class EventHubSender extends LinkEntity {
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+            "[%s] close() method of Producer '%s' with address '%s' was not called. There " +
               "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-              "the sender link.",
+              "the producer link.",
             this._context.connectionId,
             this.name,
             this.address
           );
         } else {
           log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+            "[%s] close() method of Producer '%s' with address '%s' was not called. There " +
               "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the sender link.",
+              "the producer link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -244,9 +244,9 @@ export class EventHubSender extends LinkEntity {
       } else if (!wasCloseInitiated) {
         shouldReopen = true;
         log.error(
-          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+          "[%s] close() method of Producer '%s' with address '%s' was not called. There " +
             "was no accompanying error as well. This is a candidate for re-establishing " +
-            "the sender link.",
+            "the producer link.",
           this._context.connectionId,
           this.name,
           this.address
@@ -258,7 +258,7 @@ export class EventHubSender extends LinkEntity {
           _sender: this._sender
         };
         log.error(
-          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
+          "[%s] Something went wrong. State of producer '%s' with address '%s' is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -285,7 +285,7 @@ export class EventHubSender extends LinkEntity {
       }
     } catch (err) {
       log.error(
-        "[%s] An error occurred while processing onDetached() of Sender '%s' with address " + "'%s': %O",
+        "[%s] An error occurred while processing onDetached() of Producer '%s' with address " + "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -302,7 +302,7 @@ export class EventHubSender extends LinkEntity {
   async close(): Promise<void> {
     if (this._sender) {
       log.sender(
-        "[%s] Closing the Sender for the entity '%s'.",
+        "[%s] Closing the Producer for the entity '%s'.",
         this._context.connectionId,
         this._context.config.entityPath
       );
@@ -320,7 +320,7 @@ export class EventHubSender extends LinkEntity {
   isOpen(): boolean {
     const result: boolean = this._sender! && this._sender!.isOpen();
     log.error(
-      "[%s] Sender '%s' with address '%s' is open? -> %s",
+      "[%s] Producer '%s' with address '%s' is open? -> %s",
       this._context.connectionId,
       this.name,
       this.address,
@@ -354,14 +354,14 @@ export class EventHubSender extends LinkEntity {
       }
       if (!this.isOpen()) {
         log.sender(
-          "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
+          "Acquiring lock %s for initializing the session, producer and " + "possibly the connection.",
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
           return this._init();
         });
       }
-      log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
+      log.sender("[%s] Producer '%s', trying to send EventData[].", this._context.connectionId, this.name);
       const partitionKey = (options && options.partitionKey) || undefined;
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
@@ -391,7 +391,7 @@ export class EventHubSender extends LinkEntity {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
       log.sender(
-        "[%s] Sender '%s', sending encoded batch message.",
+        "[%s] Producer '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
         encodedBatchMessage
@@ -407,7 +407,7 @@ export class EventHubSender extends LinkEntity {
     this._sender = undefined;
     delete this._context.senders[this.name];
     log.error(
-      "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
+      "[%s] Deleted the producer '%s' with address '%s' from the client cache.",
       this._context.connectionId,
       this.name,
       this.address
@@ -426,7 +426,7 @@ export class EventHubSender extends LinkEntity {
       onSessionError: this._onSessionError,
       onSessionClose: this._onSessionClose
     };
-    log.sender("Creating sender with options: %O", srOptions);
+    log.sender("Creating producer with options: %O", srOptions);
     return srOptions;
   }
 
@@ -455,7 +455,7 @@ export class EventHubSender extends LinkEntity {
       new Promise<void>((resolve, reject) => {
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+            `[${this._context.connectionId}] The send operation on the Producer "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           reject(new AbortError("The send operation has been cancelled by the user."));
@@ -468,7 +468,7 @@ export class EventHubSender extends LinkEntity {
 
         let waitTimer: any;
         log.sender(
-          "[%s] Sender '%s', credit: %d available: %d",
+          "[%s] Producer '%s', credit: %d available: %d",
           this._context.connectionId,
           this.name,
           this._sender!.credit,
@@ -476,7 +476,7 @@ export class EventHubSender extends LinkEntity {
         );
         if (this._sender!.sendable()) {
           log.sender(
-            "[%s] Sender '%s', sending message with id '%s'.",
+            "[%s] Producer '%s', sending message with id '%s'.",
             this._context.connectionId,
             this.name,
             (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
@@ -511,25 +511,25 @@ export class EventHubSender extends LinkEntity {
             // we send a message, we need to remove listener for both the events.
             // This will ensure duplicate listeners are not added for the same event.
             removeListeners();
-            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+            log.sender("[%s] Producer '%s', got event accepted.", this._context.connectionId, this.name);
             resolve();
           };
           onRejected = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+            log.error("[%s] Producer '%s', got event rejected.", this._context.connectionId, this.name);
             const err = translate(context!.delivery!.remote_state!.error);
             log.error(err);
             reject(err);
           };
           onReleased = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+            log.error("[%s] Producer '%s', got event released.", this._context.connectionId, this.name);
             let err: Error;
             if (context!.delivery!.remote_state!.error) {
               err = translate(context!.delivery!.remote_state!.error);
             } else {
               err = new Error(
-                `[${this._context.connectionId}] Sender '${this.name}', ` +
+                `[${this._context.connectionId}] Producer '${this.name}', ` +
                   `received a release disposition.Hence we are rejecting the promise.`
               );
             }
@@ -538,13 +538,13 @@ export class EventHubSender extends LinkEntity {
           };
           onModified = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+            log.error("[%s] Producer '%s', got event modified.", this._context.connectionId, this.name);
             let err: Error;
             if (context!.delivery!.remote_state!.error) {
               err = translate(context!.delivery!.remote_state!.error);
             } else {
               err = new Error(
-                `[${this._context.connectionId}] Sender "${this.name}", ` +
+                `[${this._context.connectionId}] Producer "${this.name}", ` +
                   `received a modified disposition.Hence we are rejecting the promise.`
               );
             }
@@ -555,7 +555,7 @@ export class EventHubSender extends LinkEntity {
           const actionAfterTimeout = () => {
             removeListeners();
             const desc: string =
-              `[${this._context.connectionId}] Sender "${this.name}" with ` +
+              `[${this._context.connectionId}] Producer "${this.name}" with ` +
               `address "${this.address}", was not able to send the message right now, due ` +
               `to operation timeout.`;
             log.error(desc);
@@ -576,7 +576,7 @@ export class EventHubSender extends LinkEntity {
           waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
           const delivery = this._sender!.send(message, tag, 0x80013700);
           log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+            "[%s] Producer '%s', sent message with delivery id: %d and tag: %s",
             this._context.connectionId,
             this.name,
             delivery.id,
@@ -585,7 +585,7 @@ export class EventHubSender extends LinkEntity {
         } else {
           // let us retry to send the message after some time.
           const msg =
-            `[${this._context.connectionId}] Sender "${this.name}", ` +
+            `[${this._context.connectionId}] Producer "${this.name}", ` +
             `cannot send the message right now. Please try later.`;
           log.error(msg);
           const amqpError: AmqpError = {
@@ -629,7 +629,7 @@ export class EventHubSender extends LinkEntity {
       // false    false          Yes
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
-          "[%s] The sender '%s' with address '%s' is not open and is not currently " +
+          "[%s] The producer '%s' with address '%s' is not open and is not currently " +
             "establishing itself. Hence let's try to connect.",
           this._context.connectionId,
           this.name,
@@ -644,25 +644,31 @@ export class EventHubSender extends LinkEntity {
         this._sender = await this._context.connection.createSender(options);
         this.isConnecting = false;
         log.error(
-          "[%s] Sender '%s' with address '%s' has established itself.",
+          "[%s] Producer '%s' with address '%s' has established itself.",
           this._context.connectionId,
           this.name,
           this.address
         );
         this._sender.setMaxListeners(1000);
         log.error(
-          "[%s] Promise to create the sender resolved. Created sender with name: %s",
+          "[%s] Promise to create the sender resolved. Created producer with name: %s",
           this._context.connectionId,
           this.name
         );
-        log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
+        log.error(
+          "[%s] Producer '%s' created with producer options: %O",
+          this._context.connectionId,
+          this.name,
+          options
+        );
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
         await this._ensureTokenRenewal();
       } else {
         log.error(
-          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " + "-> %s. Hence not reconnecting.",
+          "[%s] The producer '%s' with address '%s' is open -> %s and is connecting " +
+            "-> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,
@@ -673,7 +679,7 @@ export class EventHubSender extends LinkEntity {
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
-      log.error("[%s] An error occurred while creating the sender %s", this._context.connectionId, this.name, err);
+      log.error("[%s] An error occurred while creating the producer %s", this._context.connectionId, this.name, err);
       throw err;
     }
   }

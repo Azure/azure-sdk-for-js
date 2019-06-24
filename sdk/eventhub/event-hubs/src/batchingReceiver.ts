@@ -89,7 +89,7 @@ export class BatchingReceiver extends EventHubReceiver {
 
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The request operation on the Receiver "${this.name}" with ` +
+            `[${this._context.connectionId}] The request operation on the Consumer "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           reject(new AbortError("The receive operation has been cancelled by the user."));
@@ -184,7 +184,7 @@ export class BatchingReceiver extends EventHubReceiver {
           let error = new MessagingError("An error occuured while receiving messages.");
           if (receiverError) {
             error = translate(receiverError);
-            log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
+            log.error("[%s] Consumer '%s' received an error:\n%O", this._context.connectionId, this.name, error);
           }
           reject(error);
         };
@@ -203,8 +203,8 @@ export class BatchingReceiver extends EventHubReceiver {
           if (receiver && !receiver.isItselfClosed()) {
             if (!this.isConnecting) {
               log.error(
-                "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-                  "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+                "[%s] 'receiver_close' event occurred on the consumer '%s' with address '%s' " +
+                  "and the sdk did not initiate this. The consumer is not reconnecting. Hence, calling " +
                   "detached from the onReceiveClose() handler.",
                 this._context.connectionId,
                 this.name,
@@ -213,8 +213,8 @@ export class BatchingReceiver extends EventHubReceiver {
               await this.onDetached(receiverError);
             } else {
               log.error(
-                "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-                  "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+                "[%s] 'receiver_close' event occurred on the consumer '%s' with address '%s' " +
+                  "and the sdk did not initate this. Moreover the consumer is already re-connecting. " +
                   "Hence not calling detached from the onReceiveClose() handler.",
                 this._context.connectionId,
                 this.name,
@@ -223,7 +223,7 @@ export class BatchingReceiver extends EventHubReceiver {
             }
           } else {
             log.error(
-              "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+              "[%s] 'receiver_close' event occurred on the consumer '%s' with address '%s' " +
                 "because the sdk initiated it. Hence not calling detached from the onReceiveClose" +
                 "() handler.",
               this._context.connectionId,
@@ -239,7 +239,7 @@ export class BatchingReceiver extends EventHubReceiver {
           const sessionError = context.session && context.session.error;
           if (sessionError) {
             log.error(
-              "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+              "[%s] 'session_close' event occurred for consumer '%s'. The associated error is: %O",
               this._context.connectionId,
               this.name,
               sessionError
@@ -248,7 +248,7 @@ export class BatchingReceiver extends EventHubReceiver {
           if (receiver && !receiver.isSessionItselfClosed()) {
             if (!this.isConnecting) {
               log.error(
-                "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+                "[%s] 'session_close' event occurred on the session of consumer '%s' with " +
                   "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
                   "onSessionClose() handler.",
                 this._context.connectionId,
@@ -258,8 +258,8 @@ export class BatchingReceiver extends EventHubReceiver {
               await this.onDetached(sessionError);
             } else {
               log.error(
-                "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-                  "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+                "[%s] 'session_close' event occurred on the session of consumer '%s' with " +
+                  "address '%s' and the sdk did not initiate this. Moreover the consumer is already " +
                   "re-connecting. Hence not calling detached from the onSessionClose() handler.",
                 this._context.connectionId,
                 this.name,
@@ -268,7 +268,7 @@ export class BatchingReceiver extends EventHubReceiver {
             }
           } else {
             log.error(
-              "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
+              "[%s] 'session_close' event occurred on the session of consumer '%s' with address " +
                 "'%s' because the sdk initiated it. Hence not calling detached from the onSessionClose" +
                 "() handler.",
               this._context.connectionId,
@@ -286,7 +286,7 @@ export class BatchingReceiver extends EventHubReceiver {
           if (sessionError) {
             error = translate(sessionError);
             log.error(
-              "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+              "[%s] 'session_close' event occurred for Consumer '%s' received an error:\n%O",
               this._context.connectionId,
               this.name,
               error
@@ -297,20 +297,20 @@ export class BatchingReceiver extends EventHubReceiver {
 
         const addCreditAndSetTimer = (reuse?: boolean) => {
           log.batching(
-            "[%s] Receiver '%s', adding credit for receiving %d messages.",
+            "[%s] Consumer '%s', adding credit for receiving %d messages.",
             this._context.connectionId,
             this.name,
             maxMessageCount
           );
           this._receiver!.addCredit(maxMessageCount);
-          let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
-          if (reuse) msg += " Receiver link already present, hence reusing it.";
+          let msg: string = "[%s] Setting the wait timer for %d seconds for consumer '%s'.";
+          if (reuse) msg += " Consumer link already present, hence reusing it.";
           log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
           waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
         };
 
         if (!this.isOpen()) {
-          log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
+          log.batching("[%s] Consumer '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
           this.prefetchCount = 0;
           const rcvrOptions = this._createReceiverOptions({
             onMessage: onReceiveMessage,

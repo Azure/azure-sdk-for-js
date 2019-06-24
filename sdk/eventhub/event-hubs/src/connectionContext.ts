@@ -170,7 +170,7 @@ export namespace ConnectionContext {
       if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
         log.error(
           "[%s] connection.close() was not called from the sdk and there were some " +
-            "sender or receiver links or both. We should reconnect.",
+            "producer or consumer links or both. We should reconnect.",
           connectionContext.connection.id
         );
         await delay(Constants.connectionReconnectDelay);
@@ -179,14 +179,14 @@ export namespace ConnectionContext {
           const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
             log.error(
-              "[%s] calling detached on sender '%s' with address '%s'.",
+              "[%s] calling detached on producer '%s' with address '%s'.",
               connectionContext.connection.id,
               sender.name,
               sender.address
             );
             sender.onDetached(connectionError || contextError).catch(err => {
               log.error(
-                "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+                "[%s] An error occurred while reconnecting the producer '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
                 sender.name,
                 sender.address,
@@ -195,8 +195,8 @@ export namespace ConnectionContext {
             });
           } else {
             log.error(
-              "[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
-                "calling detached on the sender.",
+              "[%s] producer '%s' with address '%s' is already reconnecting. Hence not " +
+                "calling detached on the producer.",
               connectionContext.connection.id,
               sender.name,
               sender.address
@@ -208,14 +208,14 @@ export namespace ConnectionContext {
           const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
             log.error(
-              "[%s] calling detached on receiver '%s' with address '%s'.",
+              "[%s] calling detached on consumer '%s' with address '%s'.",
               connectionContext.connection.id,
               receiver.name,
               receiver.address
             );
             receiver.onDetached(connectionError || contextError).catch(err => {
               log.error(
-                "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+                "[%s] An error occurred while reconnecting the consumer '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
                 receiver.name,
                 receiver.address,
