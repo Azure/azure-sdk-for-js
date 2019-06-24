@@ -63,8 +63,9 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run  integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "test:node:record": "cross-env TEST_MODE=record npm run integration-test:node && npm run unit-test:node"
   },
   "sideEffects": false,
   "dependencies": {

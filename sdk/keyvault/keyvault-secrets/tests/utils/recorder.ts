@@ -3,6 +3,7 @@
 
 import fs from "fs-extra";
 import { delay as restDelay } from "@azure/ms-rest-js";
+import { retry as realRetry, RetryFunction, RetryOptions } from './retry'
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -41,6 +42,15 @@ export function setReplacements(maps: any): void {
 
 export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
+}
+
+export async function retry(
+  target: RetryFunction,
+  options: RetryOptions
+): Promise<any> {
+  return realRetry(target, isPlayingBack ? {
+		minTimeout: 0,
+	} as RetryOptions : options)
 }
 
 abstract class Recorder {
@@ -151,6 +161,10 @@ class NockRecorder extends Recorder {
   }
 }
 
+export function makeUnique(str: string): string {
+  return isPlayingBack ? str : `${str}-${Math.random()}`
+}
+
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
 // A new request object is created
 //    let req = new XMLHttpRequest();
@@ -208,4 +222,4 @@ export function record(testContext: any): any {
       return date;
     }
   };
-}
+} 

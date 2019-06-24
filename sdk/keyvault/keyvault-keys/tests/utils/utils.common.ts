@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env } from "./recorder";
-import { delay } from "@azure/core-http";
+import { env, retry } from "./recorder";
+import { KeysClient } from '../../src'
 
 // Async iterator's polyfill for Node 8
 if (!Symbol || !(Symbol as any).asyncIterator) {
@@ -20,38 +20,25 @@ export function getKeyvaultName(): string {
   return keyVaultName;
 }
 
-export type RetryFunction = () => Promise<any>;
-export interface RetryOptions {
-  retries: number;
-  factor: number;
-  minTimeout: number;
-  maxTimeout: number;
-}
-
-/**
- * A simple abstraction to retry, and exponentially de-escalate retrying, a
- * given async function until it is fulfileld.
- * @param {RetryFunction} target The async function you want to retry.
- * @param {RetryOptions} options An object with configuration values.
- * @returns {Promise<any>} Resolved promise
- */
-export async function retry(
-  target: RetryFunction,
-  { retries = 10, factor = 2, minTimeout = 1000, maxTimeout = Infinity }: RetryOptions
-): Promise<any> {
-  let timeout = minTimeout;
-  let error: any;
-
-  while (retries > 0 && timeout < maxTimeout) {
-    try {
-      return await target();
-    } catch (e) {
-      error = e;
-    }
-    if (retries) await delay(timeout);
-    retries--;
-    timeout *= factor;
+export class TestClient {
+  public readonly client: KeysClient;
+  constructor(client: KeysClient) {
+   	this.client = client
   }
-
-  if (error) throw error;
+	public async checkPurged(keyName: string): Promise<void> {
+		try {
+		  this.client.getKey(keyName);
+		} catch(e) {
+		  console.log('checkPurged error', e)
+		}
+	}
+  public async purgeKey(keyName: string): Promise<void> {
+		const that = this
+    await that.client.purgeDeletedKey(keyName);
+		await retry(async () => that.checkPurged(keyName), {});
+  }
+  public async flushKey(keyName: string): Promise<void> {
+    await this.client.deleteKey(keyName);
+    await this.purgeKey(keyName);
+  }
 }

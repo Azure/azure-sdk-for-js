@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { retry, RetryOptions } from "./utils.common";
+import { retry, RetryOptions } from "./retry";
 
 describe("retry utility function", function() {
   it("throws an exception if we reach the maximum retries", async () => {
