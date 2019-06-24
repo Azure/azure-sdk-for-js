@@ -2,23 +2,28 @@ import * as assert from "assert";
 
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { bodyToString, getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
+import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.createBlobClient(blobName);
     blockBlobClient = blobClient.createBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
@@ -26,6 +31,7 @@ describe("BlobClient", () => {
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("download with with default parameters", async () => {
@@ -169,7 +175,7 @@ describe("BlobClient", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobClient.delete();
@@ -196,7 +202,7 @@ describe("BlobClient", () => {
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -208,10 +214,10 @@ describe("BlobClient", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);

@@ -1,22 +1,28 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { getBSU, getUniqueName, sleep } from "./utils";
+import { getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
+import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("LeaseClient from Container", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerName: string;
+  let containerClient: ContainerClient;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
   });
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -72,7 +78,7 @@ describe("LeaseClient from Container", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(16 * 1000);
+    await delay(16 * 1000);
     const result2 = await containerClient.getProperties();
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
@@ -123,7 +129,7 @@ describe("LeaseClient from Container", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(3 * 1000);
+    await delay(3 * 1000);
 
     const result3 = await containerClient.getProperties();
     assert.ok(!result3.leaseDuration);
@@ -134,18 +140,20 @@ describe("LeaseClient from Container", () => {
 
 describe("LeaseClient from Blob", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
+  let recorder: any;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.createBlobClient(blobName);
     blockBlobClient = blobClient.createBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
@@ -153,6 +161,7 @@ describe("LeaseClient from Blob", () => {
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -194,7 +203,7 @@ describe("LeaseClient from Blob", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(20 * 1000);
+    await delay(20 * 1000);
 
     const result2 = await blobClient.getProperties();
     assert.ok(!result2.leaseDuration);
@@ -246,7 +255,7 @@ describe("LeaseClient from Blob", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     const result3 = await blobClient.getProperties();
     assert.ok(!result3.leaseDuration);

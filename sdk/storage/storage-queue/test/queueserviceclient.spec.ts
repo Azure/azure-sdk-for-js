@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, wait } from "./utils";
-import { record } from "./utils/recorder";
+import { getAlternateQSU, getQSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
@@ -271,7 +271,7 @@ describe("QueueServiceClient", () => {
     }
 
     await queueServiceClient.setProperties(serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await queueServiceClient.getProperties();
     assert.ok(typeof result.requestId);
