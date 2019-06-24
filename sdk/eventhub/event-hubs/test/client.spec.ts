@@ -13,7 +13,7 @@ const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient, EventPosition, TokenCredential, EventHubProducer, EventHubConsumer } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-// import { EnvironmentCredential } from "@azure/identity";
+import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
 describe("Create EventHubClient #RunnableInBrowser", function(): void {
@@ -57,29 +57,29 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     should.equal(client.eventHubName, "my-event-hub-path");
   });
 
-  // it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<void> {
-  //   should.exist(
-  //     env[EnvVarKeys.AZURE_CLIENT_ID],
-  //     "define AZURE_CLIENT_ID in your environment before running integration tests."
-  //   );
-  //   should.exist(
-  //     env[EnvVarKeys.AZURE_TENANT_ID],
-  //     "define AZURE_TENANT_ID in your environment before running integration tests."
-  //   );
-  //   should.exist(
-  //     env[EnvVarKeys.AZURE_CLIENT_SECRET],
-  //     "define AZURE_CLIENT_SECRET in your environment before running integration tests."
-  //   );
-  //   should.exist(env[EnvVarKeys.ENDPOINT], "define ENDPOINT in your environment before running integration tests.");
+  it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<void> {
+    should.exist(
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      "define AZURE_CLIENT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.AZURE_TENANT_ID],
+      "define AZURE_TENANT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+    );
+    should.exist(env[EnvVarKeys.ENDPOINT], "define ENDPOINT in your environment before running integration tests.");
 
-  //   const credential = new EnvironmentCredential();
-  //   const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME, credential);
+    const credential = new EnvironmentCredential();
+    const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME, credential);
 
-  //   // Extra check involving actual call to the service to ensure this works
-  //   const hubInfo = await client.getProperties();
-  //   should.equal(hubInfo.path, client.eventHubName);
-  //   await client.close();
-  // });
+    // Extra check involving actual call to the service to ensure this works
+    const hubInfo = await client.getProperties();
+    should.equal(hubInfo.path, client.eventHubName);
+    await client.close();
+  });
 });
 
 describe("ServiceCommunicationError for non existent namespace", function(): void {
