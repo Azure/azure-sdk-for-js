@@ -4,6 +4,7 @@
 
  This sample utilizes Service Bus/Event Hubs and demonstrates how to authenticate using SharedKeyCredential.
 */
+
 import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
@@ -79,7 +80,7 @@ async function main(): Promise<void> {
   await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
   /*
  Refer to other samples, and place your code here
- to send/receive events
+ to send/receive messages/events
 */
   await connectionContext.connection.close();
 }
