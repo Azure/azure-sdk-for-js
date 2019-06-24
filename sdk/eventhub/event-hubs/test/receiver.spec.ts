@@ -1214,6 +1214,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
               .createConsumer(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
               .receiveBatch(10, 3);
             debug("received messages ", d.length);
+            throw new Error("Test failure");
           } catch (err) {
             debug("Receiver received an error", err);
             should.exist(err);
@@ -1232,6 +1233,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             .createConsumer(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
             .receiveBatch(10, 3);
           debug("received messages ", d.length);
+          throw new Error("Test failure");
         } catch (err) {
           debug("Receiver received an error", err);
           should.exist(err);
@@ -1246,6 +1248,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             await client
               .createConsumer(EventHubClient.defaultConsumerGroup, id, EventPosition.latest())
               .receiveBatch(10, 3);
+            throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received error - `, err);
             should.exist(err);

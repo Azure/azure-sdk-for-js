@@ -96,6 +96,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   it("should throw ServiceCommunicationError while getting hub runtime info", async function(): Promise<void> {
     try {
       await client.getProperties();
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "ServiceCommunicationError");
@@ -105,6 +106,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   it("should throw ServiceCommunicationError while getting partition runtime info", async function(): Promise<void> {
     try {
       await client.getPartitionProperties("0");
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "ServiceCommunicationError");
@@ -115,6 +117,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
     try {
       const sender = client.createProducer({ partitionId: "0" });
       await sender.send([{ body: "Hello World" }]);
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "ServiceCommunicationError");
@@ -125,6 +128,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
     try {
       const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
       await receiver.receiveBatch(10, 5);
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "ServiceCommunicationError");
@@ -150,6 +154,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
   it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function(): Promise<void> {
     try {
       await client.getProperties();
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "MessagingEntityNotFoundError");
@@ -159,6 +164,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
   it("should throw MessagingEntityNotFoundError while getting partition runtime info", async function(): Promise<void> {
     try {
       await client.getPartitionProperties("0");
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "MessagingEntityNotFoundError");
@@ -169,6 +175,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     try {
       const sender = client.createProducer({ partitionId: "0" });
       await sender.send([{ body: "Hello World" }]);
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "MessagingEntityNotFoundError");
@@ -179,6 +186,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     try {
       const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
       await receiver.receiveBatch(10, 5);
+      throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.name, "MessagingEntityNotFoundError");
@@ -353,7 +361,11 @@ describe("Errors after close()", function(): void {
     } catch (err) {
       errorGetPartitionProperties = err.message;
     }
-    should.equal(errorGetPartitionProperties, expectedErrorMsg, "Expected error not thrown for getPartitionProperties()");
+    should.equal(
+      errorGetPartitionProperties,
+      expectedErrorMsg,
+      "Expected error not thrown for getPartitionProperties()"
+    );
 
     let errorGetProperties: string = "";
     try {
@@ -362,7 +374,6 @@ describe("Errors after close()", function(): void {
       errorGetProperties = err.message;
     }
     should.equal(errorGetProperties, expectedErrorMsg, "Expected error not thrown for getProperties()");
-
   });
 
   it("errors after close() on sender", async function(): Promise<void> {
