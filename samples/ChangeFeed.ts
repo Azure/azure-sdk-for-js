@@ -1,22 +1,15 @@
-﻿// @ts-check
-"use strict";
+﻿import { finish, handleError, logSampleHeader } from "./Shared/handleError";
+import { CosmosClient } from "../dist";
+import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
 
-const cosmos = require("../../dist/");
-const CosmosClient = cosmos.CosmosClient;
-const config = require("../Shared/config");
-const databaseId = config.names.database;
-const containerId = config.names.container;
-
-const endpoint = config.connection.endpoint;
-const masterKey = config.connection.authKey;
-
+logSampleHeader("Change Feed");
 // Establish a new instance of the CosmosClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({ endpoint, key });
 
 // We'll use the same pk value for all these samples
 const pk = "0";
 
-function doesMatch(actual, expected) {
+function doesMatch(actual: any[], expected: any[]) {
   for (let i = 0; i < actual.length; i++) {
     if (actual[i] !== expected[i]) {
       return "❌";
@@ -25,13 +18,17 @@ function doesMatch(actual, expected) {
   return "✅";
 }
 
-function logResult(scenario, actual, expected) {
+function logResult(scenario: string, actual: any[], expected: any[]) {
   const status = doesMatch(actual, expected);
   console.log(`  ${status} ${scenario} - expected: [${expected.join(", ")}] - actual: [${actual.join(", ")}]`);
 }
 
 async function run() {
-  const container = await init();
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { container } = await database.containers.createIfNotExists({
+    id: containerId,
+    partitionKey: { paths: ["/pk"] }
+  });
 
   try {
     console.log(`
@@ -127,31 +124,7 @@ async function run() {
   } catch (err) {
     handleError(err);
   } finally {
-    await finish(container);
+    await finish();
   }
 }
-
-async function init() {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
-  const { container } = await database.containers.createIfNotExists({
-    id: containerId,
-    partitionKey: { paths: ["/pk"] }
-  });
-  return container;
-}
-
-async function handleError(error) {
-  console.log("\nAn error with code '" + error.code + "' has occurred:");
-  console.log("\t" + error);
-}
-
-async function finish(container) {
-  try {
-    await container.database.delete();
-    console.log("\nEnd of demo.");
-  } catch (err) {
-    console.log(`Database[${databaseId}] might not have deleted properly. You might need to delete it manually.`);
-  }
-}
-
 run().catch(handleError);

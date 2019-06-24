@@ -1,5 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
@@ -105,6 +106,10 @@ export class StoredProcedure {
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
+    if (partitionKey === undefined) {
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+    }
     const response = await this.clientContext.execute<T>({ sprocLink: this.url, params, options, partitionKey });
     return new ResourceResponse<T>(response.result, response.headers, response.code);
   }

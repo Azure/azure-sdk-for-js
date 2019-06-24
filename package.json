@@ -25,6 +25,7 @@
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc -b --pretty",
+    "compile:samples": "tsc -b samples",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",

@@ -66,6 +66,18 @@ jobs:
           MOCHA_TIMEOUT: 100000
       - bash: npm run test-consumer
         displayName: "TypeScript consumer tests"
+      
+      - bash: npm run compile:samples
+        displayName: "Typecheck Samples"
+
+      - bash: |
+          npm run UserManagement --prefix ./samples
+          npm run ItemManagement --prefix ./samples
+          npm run DatabaseManagement --prefix ./samples
+          npm run ContainerManagement --prefix ./samples
+          npm run ServerSideScripts --prefix ./samples
+          npm run ChangeFeed --prefix ./samples
+        displayName: "Run Samples"
   # - job: NightlyEmulator
   #   pool:
   #     vmImage: vs2017-win2016

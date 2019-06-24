@@ -1,76 +1,38 @@
-﻿// @ts-check
+﻿import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+import { CosmosClient } from "../dist";
+import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
+import { readFileSync } from "fs";
 
-console.log();
-console.log("Azure Cosmos DB Node.js Samples");
-console.log("================================");
-console.log();
-console.log("ITEM MANAGEMENT");
-console.log("===================");
-console.log();
+logSampleHeader("Item Management");
 
-const cosmos = require("../../dist/");
-const CosmosClient = cosmos.CosmosClient;
-const config = require("../Shared/config");
-const fs = require("fs");
-const databaseId = config.names.database;
-const containerId = config.names.container;
-
-const endpoint = config.connection.endpoint;
-const masterKey = config.connection.authKey;
-
-const getItemDefinitions = function() {
-  const data = fs.readFileSync("../Shared/Data/Families.json", "utf8");
-  return JSON.parse(data).Families;
-};
+const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8")).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, key: masterKey });
-
-//-------------------------------------------------------------------------------------------------------
-// This demo performs a few steps
-// 1. create items   - Insert some items in to container
-// 2. list items     - Read the item feed for a container
-// 3. read item
-// 3.1                  - Read a single item by its id
-// 3.2                  - Use ETag and AccessCondition to only return a item if ETag does not match
-// 4. query items    - Query for items by some property
-// 5. replace item
-// 5.1                  - Update some properties and replace the item
-// 5.2                  - Use ETag and AccessCondition to only replace item if it has not changed
-// 6. upsert item    - Update a item if it exists, else create new item
-// 7. delete item    - Given a item id, delete it
-//-------------------------------------------------------------------------------------------------------
+const client = new CosmosClient({ endpoint, key });
 
 async function run() {
   //ensuring a database & container exists for us to work with
-  const { container, database } = await init();
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { container } = await database.containers.createIfNotExists({ id: containerId });
 
-  //1.
-  console.log("\n1. insert items in to database '" + databaseId + "' and container '" + containerId + "'");
-  const itemDefs = getItemDefinitions();
-  const p = [];
-  for (const itemDef of itemDefs) {
-    p.push(container.items.create(itemDef));
-  }
-  await Promise.all(p);
+  logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
+
+  await Promise.all(itemDefs.map((itemDef: any) => container.items.create(itemDef)));
   console.log(itemDefs.length + " items created");
 
-  //2.
-  console.log("\n2. list items in container '" + container.id + "'");
+  logStep("List items in container '" + container.id + "'");
   const { resources: itemDefList } = await container.items.readAll().fetchAll();
 
   for (const itemDef of itemDefList) {
     console.log(itemDef.id);
   }
 
-  //3.1
   const item = container.item(itemDefList[0].id, undefined);
-  console.log("\n3.1 read item '" + item.id + "'");
+  logStep("Read item '" + item.id + "'");
   const { resource: readDoc } = await item.read();
   console.log("item with id '" + item.id + "' found");
 
-  //3.2
-  console.log("\n3.2 read item with AccessCondition and no change to _etag");
+  logStep("Read item with AccessCondition and no change to _etag");
   const { resource: item2, headers } = await item.read({
     accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
@@ -93,7 +55,6 @@ async function run() {
     console.log("This time the read request returned the item because the etag values did not match");
   }
 
-  //4.
   const querySpec = {
     query: "SELECT * FROM Families f WHERE  f.lastName = @lastName",
     parameters: [
@@ -104,7 +65,7 @@ async function run() {
     ]
   };
 
-  console.log("\n4. query items in container '" + container.id + "'");
+  logStep("Query items in container '" + container.id + "'");
   const { resources: results } = await container.items.query(querySpec).fetchAll();
 
   if (results.length == 0) {
@@ -128,15 +89,13 @@ async function run() {
   person.children.push(childDef);
   person.lastName = "Updated Family";
 
-  //5.1
-  console.log("\n5.1 replace item with id '" + item.id + "'");
-  const { resource: updatedPerson } = await item.replace(person);
+  logStep("Replace item with id '" + item.id + "'");
+  const { resource: updatedPerson } = await container.items.upsert(person);
 
   console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
   console.log("The '" + person.id + "' family has " + updatedPerson.children.length + " children '");
 
-  // 5.2
-  console.log("\n5.2 trying to replace item when item has changed in the database");
+  logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
   // If you want to prevent this from happening you can opt-in to a conditional update
   // Using accessCondition and etag you can specify that the replace only occurs if the etag you are sending matches the etag on the server
@@ -159,46 +118,25 @@ async function run() {
     }
   }
 
-  //6.
   const upsertSource = itemDefList[1];
-  console.log(`6. Upserting person ${upsertSource.id} with _rid ${upsertSource._rid}...`);
+  logStep(`Upserting person ${upsertSource.id} with id ${upsertSource.id}...`);
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson1.id} to _rid ${upsertedPerson1._rid}.`);
+  console.log(`Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`);
 
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson2.id} to _rid ${upsertedPerson2._rid}.`);
+  console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
 
-  if (upsertedPerson1._rid === upsertedPerson2._rid)
+  if (upsertedPerson1.id === upsertedPerson2.id)
     throw new Error("These two upserted records should have different resource IDs.");
 
-  //7.
-  console.log("\n6. delete item '" + item.id + "'");
+  logStep("Delete item '" + item.id + "'");
   await item.delete();
 
   await finish();
 }
-
-async function init() {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
-  const { container } = await database.containers.createIfNotExists({ id: containerId });
-  return { database, container };
-}
-
-async function handleError(error) {
-  console.log("\nAn error with code '" + error.code + "' has occurred:");
-  console.log("\t" + error.body || error);
-
-  await finish();
-}
-
-async function finish() {
-  await client.database(databaseId).delete();
-  console.log("\nEnd of demo.");
-}
-
 run().catch(handleError);

@@ -1,8 +1,7 @@
-import { ConsistencyLevel, CosmosClient } from "../../dist-esm";
+import { ConsistencyLevel, CosmosClient } from "../../dist";
 import config from "./config";
 import { ConflictWorker } from "./ConflictWorker";
 import { Worker } from "./Worker";
-// tslint:disable:no-console
 export class MultiRegionWriteScenario {
   private basicWorkers: Worker[] = [];
   private conflictWorker: ConflictWorker;
