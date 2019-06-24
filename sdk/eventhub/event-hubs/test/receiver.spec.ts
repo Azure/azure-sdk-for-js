@@ -708,11 +708,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     it("should not return undefined if no messages are found", async function(): Promise<void> {
       const partitionId = partitionIds[0];
 
-      receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
-        partitionId,
-        EventPosition.fromEnqueuedTime(Date.now())
-      );
+      receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, partitionId, EventPosition.latest());
       const eventIterator = receiver.getEventIterator({
         // behind the scenes, eventIterator will wait up to 60 seconds before returning.
         // set timeout to 70 seconds to give the iterator a chance to yield a value.
