@@ -16,9 +16,10 @@ import { AuthenticationError } from "./errors";
 
 const SelfSignedJwtLifetimeMins = 10;
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
-const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
-const MsiApiVersion = "2018-02-01";
 const DefaultScopeSuffix = "/.default";
+export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
+export const MsiVmApiVersion = "2018-02-01";
+export const MsiAppServiceApiVersion = "2017-09-01";
 
 export class IdentityClient extends ServiceClient {
   constructor(options?: IdentityClientOptions) {
@@ -35,13 +36,19 @@ export class IdentityClient extends ServiceClient {
   }
 
   private async sendTokenRequest(
-    requestOptions: RequestPrepareOptions
+    requestOptions: RequestPrepareOptions,
+    expiresOnParser?: (responseBody: any) => number
   ): Promise<AccessToken | null> {
     const response = await this.sendRequest(requestOptions);
+
+    expiresOnParser = expiresOnParser || ((responseBody: any) => {
+      return Date.now() + responseBody.expires_in * 1000
+    });
+
     if (response.status === 200 || response.status === 201) {
       return {
         token: response.parsedBody.access_token,
-        expiresOnTimestamp: Date.now() + response.parsedBody.expires_in * 1000
+        expiresOnTimestamp: expiresOnParser(response.parsedBody)
       };
     } else {
       throw new AuthenticationError(response.status, response.bodyAsText);
@@ -74,6 +81,69 @@ export class IdentityClient extends ServiceClient {
   private addMinutes(date: Date, minutes: number): Date {
     date.setMinutes(date.getMinutes() + minutes);
     return date;
+  }
+
+  private createAzureVmMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const queryParameters: any = {
+      resource,
+      "api-version": MsiVmApiVersion
+    };
+
+    if (clientId) {
+      queryParameters.client_id = clientId;
+    }
+
+    return {
+      url: ImdsEndpoint,
+      method: "GET",
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        Metadata: true
+      }
+    };
+  }
+
+  private createAppServiceMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const queryParameters: any = {
+      resource,
+      "api-version": MsiAppServiceApiVersion,
+    };
+
+    if (clientId) {
+      queryParameters.client_id = clientId;
+    }
+
+    return {
+      url: process.env.MSI_ENDPOINT,
+      method: "GET",
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        secret: process.env.MSI_SECRET
+      }
+    };
+  }
+
+  private createCloudShellMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const body: any = {
+      resource
+    };
+
+    if (clientId) {
+      body.client_id = clientId;
+    }
+
+    return {
+      url: process.env.MSI_ENDPOINT,
+      method: "POST",
+      body: qs.stringify(body),
+      headers: {
+        Accept: "application/json",
+        Metadata: true,
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
   }
 
   authenticateClientSecret(
@@ -110,29 +180,38 @@ export class IdentityClient extends ServiceClient {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const queryParameters: any = {
-      resource: this.mapScopesToResource(scopes),
-      "api-version": MsiApiVersion
-    };
+    let authRequestOptions: RequestPrepareOptions;
+    const resource = this.mapScopesToResource(scopes);
+    let expiresInParser: ((requestBody: any) => number) | undefined;
 
-    if (clientId) {
-      queryParameters.client_id = clientId;
+    // Detect which type of environment we are running in
+    if (process.env.MSI_ENDPOINT) {
+      if (process.env.MSI_SECRET) {
+        // Running in App Service
+        authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
+        expiresInParser = (requestBody: any) => {
+          // Parse a date format like "06/20/2019 02:57:58 +00:00" and
+          // convert it into a JavaScript-formatted date
+          const m = requestBody.expires_on.match(/(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/)
+          return Date.parse(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`)
+        };
+      } else {
+        // Running in Cloud Shell
+        authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
+      }
+    } else {
+      // Running in an Azure VM
+      authRequestOptions = this.createAzureVmMsiAuthRequest(resource, clientId);
     }
 
     const webResource = this.createWebResource({
-      url: ImdsEndpoint,
-      method: "GET",
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        Metadata: true
-      },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal,
+      ...authRequestOptions
     });
 
-    return this.sendTokenRequest(webResource);
+    return this.sendTokenRequest(webResource, expiresInParser);
   }
 
   authenticateClientCertificate(
