@@ -5,8 +5,51 @@
   This sample demonstrates how to send messages/events to Service Bus/Event Hubs.
 */
 
+import {
+  ConnectionContextBase,
+  CreateConnectionContextBaseParameters,
+  CbsResponse,
+  ConnectionConfig,
+  TokenType,
+  SharedKeyCredential
+} from "@azure/core-amqp";
+
 import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
-import { authenticate, connectionContext, connectionConfig } from "./cbsAuth";
+
+// Define connection string and related entity path here
+const connectionString = "";
+const path = "";
+
+const connectionConfig = ConnectionConfig.create(connectionString, path);
+const parameters: CreateConnectionContextBaseParameters = {
+  config: connectionConfig,
+  connectionProperties: {
+    product: "MSJSClient",
+    userAgent: "/js-core-amqp",
+    version: "0.1.0"
+  }
+};
+const connectionContext = ConnectionContextBase.create(parameters);
+
+async function authenticate(
+  audience: string,
+  closeConnection: boolean = false
+): Promise<CbsResponse> {
+  await connectionContext.cbsSession.init();
+  const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedTokenCredential.getToken(audience);
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    tokenObject,
+    TokenType.CbsTokenTypeSas
+  );
+  console.log("Result is: %O", result);
+  if (closeConnection) {
+    await connectionContext.connection.close();
+    console.log("Successfully closed the connection.");
+  }
+  return result;
+}
 
 async function main(): Promise<void> {
   await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);

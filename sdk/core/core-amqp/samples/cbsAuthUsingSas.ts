@@ -11,12 +11,13 @@ import {
   CbsResponse,
   TokenType,
   SharedKeyCredential
-} from "../src";
+} from "@azure/core-amqp";
 
 // Define connection string and related entity path here
 const connectionString = "";
 const path = "";
-export const connectionConfig = ConnectionConfig.create(connectionString, path);
+
+const connectionConfig = ConnectionConfig.create(connectionString, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: connectionConfig,
   connectionProperties: {
@@ -25,7 +26,7 @@ const parameters: CreateConnectionContextBaseParameters = {
     version: "0.1.0"
   }
 };
-export const connectionContext = ConnectionContextBase.create(parameters);
+const connectionContext = ConnectionContextBase.create(parameters);
 
 /**
  * audience The entity token audience in one of the following forms:
@@ -59,8 +60,8 @@ export async function authenticate(
   closeConnection: boolean
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
-  const tokenObject = sharedTokenCredential.getToken(audience);
+  const sharedKeyCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedKeyCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
     tokenObject,
@@ -74,6 +75,13 @@ export async function authenticate(
   return result;
 }
 
-// Audience is for an EventHub or ServiceBus sender.
-// You can uncomment the following line and just run this sample, if required.
-// authenticate(`${config.endpoint}${path}`).catch((err) => console.log(err));
+async function main(): Promise<void> {
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
+  /*
+ Refer to other samples, and place your code here
+ to send/receive events
+*/
+  await connectionContext.connection.close();
+}
+
+main().catch((err) => console.log(err));

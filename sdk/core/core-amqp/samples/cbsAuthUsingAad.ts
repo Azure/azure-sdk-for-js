@@ -24,16 +24,16 @@ import {
   EventHubConnectionConfig,
   TokenType,
   Constants
-} from "../src";
+} from "@azure/core-amqp";
 import { EnvironmentCredential } from "@azure/identity";
 
-// Define Event Hubs Endpoint and related entity name here
-const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
+// Define connection string and related Event Hubs entity name here
+const connectionString = "";
 const eventHubName = "";
 
 // Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
 
-const ehConnectionConfig = EventHubConnectionConfig.create(evenHubsEndpoint, eventHubName);
+const ehConnectionConfig = EventHubConnectionConfig.create(connectionString, eventHubName);
 const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
   connectionProperties: {
