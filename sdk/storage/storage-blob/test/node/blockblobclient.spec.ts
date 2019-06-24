@@ -2,6 +2,8 @@ import * as assert from "assert";
 
 import { bodyToString, getBSU, getUniqueName, getConnectionStringFromEnvironment } from "../utils";
 import { BlockBlobClient, newPipeline, SharedKeyCredential } from "../../src";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("BlockBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
@@ -76,6 +78,17 @@ describe("BlockBlobClient Node.js only", () => {
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new BlockBlobClient(blockBlobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {

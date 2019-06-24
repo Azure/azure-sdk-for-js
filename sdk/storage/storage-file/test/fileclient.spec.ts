@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
@@ -18,7 +18,7 @@ describe("FileClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.createShareClient(shareName);
@@ -293,7 +293,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => { });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -303,7 +303,7 @@ describe("FileClient", () => {
 
       assert.fail();
       // tslint:disable-next-line:no-empty
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 });

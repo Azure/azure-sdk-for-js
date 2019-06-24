@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 dotenv.config({ path: "../.env" });

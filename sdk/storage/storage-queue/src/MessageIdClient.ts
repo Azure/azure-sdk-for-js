@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { TokenCredential, isTokenCredential } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
@@ -87,12 +88,17 @@ export class MessageIdClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, anonymous credential is used.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: Credential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of MessageIdClient.
    *
@@ -107,14 +113,17 @@ export class MessageIdClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
     messageIdOrOptions?: string | NewPipelineOptions,
     options: NewPipelineOptions = {}
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
-    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrQueueName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrQueueName)
+    ) {
       options = messageIdOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (

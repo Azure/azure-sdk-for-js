@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { BlobClient, newPipeline, SharedKeyCredential } from "../../src";
 import {
@@ -10,6 +10,8 @@ import {
   getUniqueName,
   sleep
 } from "../utils";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -263,6 +265,17 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new BlobClient(blobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {
