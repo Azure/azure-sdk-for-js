@@ -3,6 +3,11 @@ import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
+// async iterator polyfill for Node v8.
+if (Symbol["asyncIterator"] === undefined) {
+  (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+}
+
 describe("DirectoryClient", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");

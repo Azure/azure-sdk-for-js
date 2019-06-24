@@ -3,6 +3,11 @@ import * as dotenv from "dotenv";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
+// async iterator polyfill for Node v8.
+if (Symbol["asyncIterator"] === undefined) {
+  (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+}
+
 describe("ContainerClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");

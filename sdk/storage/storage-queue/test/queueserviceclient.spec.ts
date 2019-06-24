@@ -5,6 +5,11 @@ import { getAlternateQSU, getQSU, wait } from "./utils";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
+// async iterator polyfill for Node v8.
+if (Symbol["asyncIterator"] === undefined) {
+  (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+}
+
 describe("QueueServiceClient", () => {
   let recorder: any;
 

@@ -5,6 +5,11 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
+// async iterator polyfill for Node v8.
+if (Symbol["asyncIterator"] === undefined) {
+  (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+}
+
 describe("FileServiceClient", () => {
   let recorder: any;
 

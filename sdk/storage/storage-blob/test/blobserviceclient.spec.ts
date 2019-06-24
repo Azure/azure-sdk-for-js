@@ -5,6 +5,11 @@ import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 dotenv.config({ path: "../.env" });
 
+// async iterator polyfill for Node v8.
+if (Symbol["asyncIterator"] === undefined) {
+  (Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");
+}
+
 describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
