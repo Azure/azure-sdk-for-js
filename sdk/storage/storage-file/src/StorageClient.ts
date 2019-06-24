@@ -6,7 +6,7 @@ import { Pipeline } from "./Pipeline";
 import { escapeURLPath } from "./utils/utils.common";
 
 /**
- * A ServiceClient represents a based URL class for ServiceClient, ContainerURL and etc.
+ * A StorageClient represents a base client class for ServiceClient, ContainerClient and etc.
  *
  * @export
  * @class StorageClient

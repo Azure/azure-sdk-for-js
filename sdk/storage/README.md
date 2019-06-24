@@ -148,7 +148,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Take Blob SDK as example:
 
-- ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+- ServiceClient, ContainerClient and BlobClient objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
 
 - The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 

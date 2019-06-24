@@ -368,7 +368,6 @@ export class PageBlobClient extends BlobClient {
   }
 
   /**
-   * Creates a new PageBlobURL object identical to the source but with the
    * Creates a new PageBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
