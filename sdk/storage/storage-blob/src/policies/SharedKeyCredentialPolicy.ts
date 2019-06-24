@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
+import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/core-http";
 import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";

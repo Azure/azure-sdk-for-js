@@ -14,8 +14,8 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource
-} from "@azure/ms-rest-js";
+  WebResource,
+} from "@azure/core-http";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -27,7 +27,7 @@ class StorageClient extends StorageClientContext {
    * desired operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
+  constructor(url: string, options?: coreHttp.ServiceClientOptions) {
     super(url, options);
     this.service = new operations.Service(this);
     this.share = new operations.Share(this);
