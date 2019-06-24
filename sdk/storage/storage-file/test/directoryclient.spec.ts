@@ -68,7 +68,7 @@ describe("DirectoryClient", () => {
     done();
   });
 
-  it("listFilesAndDirectoriesSegment under root directory", async () => {
+  it("listFilesAndDirectories under root directory", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.createDirectoryClient("");
 
@@ -86,9 +86,11 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = await rootDirClient.listFilesAndDirectoriesSegment(undefined, {
-      prefix
-    });
+    const result = (await rootDirClient
+      .listFilesAndDirectories({ prefix })
+      .byPage()
+      .next()).value;
+
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -113,7 +115,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listFilesAndDirectoriesSegment with all parameters confirgured", async () => {
+  it("listFilesAndDirectories with all parameters confirgured", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.createDirectoryClient("");
 
@@ -134,10 +136,10 @@ describe("DirectoryClient", () => {
     const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
     const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
 
-    const firstResult = await rootDirClient.listFilesAndDirectoriesSegment(undefined, {
-      prefix,
-      maxresults: firstRequestSize
-    });
+    const firstResult = (await rootDirClient
+      .listFilesAndDirectories({ prefix })
+      .byPage({ maxPageSize: firstRequestSize })
+      .next()).value;
 
     assert.deepStrictEqual(
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
@@ -145,10 +147,13 @@ describe("DirectoryClient", () => {
     );
     assert.notDeepEqual(firstResult.nextMarker, undefined);
 
-    const secondResult = await rootDirClient.listFilesAndDirectoriesSegment(
-      firstResult.nextMarker,
-      { prefix, maxresults: firstRequestSize + secondRequestSize }
-    );
+    const secondResult = (await rootDirClient
+      .listFilesAndDirectories({ prefix })
+      .byPage({
+        continuationToken: firstResult.nextMarker,
+        maxPageSize: firstRequestSize + secondRequestSize
+      })
+      .next()).value;
     assert.deepStrictEqual(
       secondResult.segment.directoryItems.length + secondResult.segment.fileItems.length,
       secondRequestSize

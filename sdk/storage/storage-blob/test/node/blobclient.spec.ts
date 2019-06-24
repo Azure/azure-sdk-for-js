@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { BlobClient, newPipeline, SharedKeyCredential } from "../../src";
 import {
@@ -10,6 +10,8 @@ import {
   getUniqueName,
   sleep
 } from "../utils";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -124,9 +126,12 @@ describe("BlobClient Node.js only", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result2 = (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -139,9 +144,12 @@ describe("BlobClient Node.js only", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result3 = (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -175,15 +183,24 @@ describe("BlobClient Node.js only", () => {
 
     await blobClient.delete();
 
-    const result = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+    const result = (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()
+      .next()).value;
+
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+
+    const result2 = (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()
+      .next()).value;
+
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
@@ -263,6 +280,17 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new BlobClient(blobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {

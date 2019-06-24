@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/blockBlobMappers";
 import * as Parameters from "../models/parameters";
@@ -37,21 +37,21 @@ export class BlockBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlockBlobUploadResponse>
    */
-  upload(body: msRest.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams): Promise<Models.BlockBlobUploadResponse>;
+  upload(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams): Promise<Models.BlockBlobUploadResponse>;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  upload(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  upload(body: coreHttp.HttpRequestBody, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  upload(body: msRest.HttpRequestBody, contentLength: number, options: Models.BlockBlobUploadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  upload(body: msRest.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobUploadResponse> {
+  upload(body: coreHttp.HttpRequestBody, contentLength: number, options: Models.BlockBlobUploadOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  upload(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlockBlobUploadResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -72,7 +72,7 @@ export class BlockBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlockBlobStageBlockResponse>
    */
-  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams): Promise<Models.BlockBlobStageBlockResponse>;
+  stageBlock(blockId: string, contentLength: number, body: coreHttp.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams): Promise<Models.BlockBlobStageBlockResponse>;
   /**
    * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the
    * string must be less than or equal to 64 bytes in size. For a given blob, the length of the value
@@ -81,7 +81,7 @@ export class BlockBlob {
    * @param body Initial data
    * @param callback The callback
    */
-  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  stageBlock(blockId: string, contentLength: number, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the
    * string must be less than or equal to 64 bytes in size. For a given blob, the length of the value
@@ -91,8 +91,8 @@ export class BlockBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options: Models.BlockBlobStageBlockOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockResponse> {
+  stageBlock(blockId: string, contentLength: number, body: coreHttp.HttpRequestBody, options: Models.BlockBlobStageBlockOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  stageBlock(blockId: string, contentLength: number, body: coreHttp.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockResponse> {
     return this.client.sendOperationRequest(
       {
         blockId,
@@ -124,7 +124,7 @@ export class BlockBlob {
    * @param sourceUrl Specify a URL to the copy source.
    * @param callback The callback
    */
-  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, callback: msRest.ServiceCallback<void>): void;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the
    * string must be less than or equal to 64 bytes in size. For a given blob, the length of the value
@@ -134,8 +134,8 @@ export class BlockBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options: Models.BlockBlobStageBlockFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options?: Models.BlockBlobStageBlockFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options: Models.BlockBlobStageBlockFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options?: Models.BlockBlobStageBlockFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         blockId,
@@ -164,14 +164,14 @@ export class BlockBlob {
    * @param blocks
    * @param callback The callback
    */
-  commitBlockList(blocks: Models.BlockLookupList, callback: msRest.ServiceCallback<void>): void;
+  commitBlockList(blocks: Models.BlockLookupList, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param blocks
    * @param options The optional parameters
    * @param callback The callback
    */
-  commitBlockList(blocks: Models.BlockLookupList, options: Models.BlockBlobCommitBlockListOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  commitBlockList(blocks: Models.BlockLookupList, options?: Models.BlockBlobCommitBlockListOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobCommitBlockListResponse> {
+  commitBlockList(blocks: Models.BlockLookupList, options: Models.BlockBlobCommitBlockListOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  commitBlockList(blocks: Models.BlockLookupList, options?: Models.BlockBlobCommitBlockListOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlockBlobCommitBlockListResponse> {
     return this.client.sendOperationRequest(
       {
         blocks,
@@ -197,7 +197,7 @@ export class BlockBlob {
    * 'all'
    * @param callback The callback
    */
-  getBlockList(listType: Models.BlockListType, callback: msRest.ServiceCallback<Models.BlockList>): void;
+  getBlockList(listType: Models.BlockListType, callback: coreHttp.ServiceCallback<Models.BlockList>): void;
   /**
    * @param listType Specifies whether to return the list of committed blocks, the list of
    * uncommitted blocks, or both lists together. Possible values include: 'committed', 'uncommitted',
@@ -205,8 +205,8 @@ export class BlockBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBlockList(listType: Models.BlockListType, options: Models.BlockBlobGetBlockListOptionalParams, callback: msRest.ServiceCallback<Models.BlockList>): void;
-  getBlockList(listType: Models.BlockListType, options?: Models.BlockBlobGetBlockListOptionalParams | msRest.ServiceCallback<Models.BlockList>, callback?: msRest.ServiceCallback<Models.BlockList>): Promise<Models.BlockBlobGetBlockListResponse> {
+  getBlockList(listType: Models.BlockListType, options: Models.BlockBlobGetBlockListOptionalParams, callback: coreHttp.ServiceCallback<Models.BlockList>): void;
+  getBlockList(listType: Models.BlockListType, options?: Models.BlockBlobGetBlockListOptionalParams | coreHttp.ServiceCallback<Models.BlockList>, callback?: coreHttp.ServiceCallback<Models.BlockList>): Promise<Models.BlockBlobGetBlockListResponse> {
     return this.client.sendOperationRequest(
       {
         listType,
@@ -218,8 +218,8 @@ export class BlockBlob {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const uploadOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const uploadOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -269,7 +269,7 @@ const uploadOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const stageBlockOperationSpec: msRest.OperationSpec = {
+const stageBlockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -310,7 +310,7 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
+const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -342,7 +342,7 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const commitBlockListOperationSpec: msRest.OperationSpec = {
+const commitBlockListOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
   urlParameters: [
@@ -388,7 +388,7 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getBlockListOperationSpec: msRest.OperationSpec = {
+const getBlockListOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
   urlParameters: [
