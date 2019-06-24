@@ -59,8 +59,8 @@ let workingDir = path.join(process.cwd(), "sdk");
 let pathToAssets = "";
 
 const serviceFolders = fs.readdirSync(workingDir);
-//console.log("Service folders:"); //For-debug
-//console.log(serviceFolders); //For-debug
+console.log("Service folders:"); //For-debug
+console.log(serviceFolders); //For-debug
 
 //Initializing package list for template index generation
 let serviceList = [];
@@ -75,8 +75,9 @@ for (const eachService of serviceFolders) {
   const stat = fs.statSync(eachServicePath);
 
   if (stat && stat.isDirectory()) {
+    var packageList = fs.readdirSync(eachServicePath);
     //Initializing package list for template index generation
-    let packageList = [];
+    let indexPackageList = [];
     for (const eachPackage of packageList) {
       let checks = { isRush: false, isPrivate: false, srcPresent: false };
       console.log(
@@ -130,6 +131,7 @@ for (const eachService of serviceFolders) {
                 [
                   "--excludePrivate",
                   '--exclude "node_modules/**/*"',
+                  "--ignoreCompilerErrors",
                   "--mode modules",
                   docOutputFolder
                 ],
@@ -139,7 +141,7 @@ for (const eachService of serviceFolders) {
                 }
               );
               console.log(
-                'result3.output for "typedoc ----excludePrivate  --exclude "node_modules/**/*" --mode modules ' +
+                'result3.output for "typedoc ----excludePrivate  --exclude "node_modules/**/*" -ignoreCompilerErrors --mode modules ' +
                   docOutputFolder +
                   ' ":' +
                   result3.output
@@ -149,7 +151,7 @@ for (const eachService of serviceFolders) {
               process.exit(1);
             }
             //Adding package to packageList for the template index generation
-            packageList.add(eachPackage);
+            indexPackageList.push(eachPackage);
           } else {
             console.log("...SKIPPING Since src folder could not be found.....");
           }
@@ -159,14 +161,14 @@ for (const eachService of serviceFolders) {
       }
     }
     //Adding service entry for the template index generation
-    serviceList.push({ name: eachService, packageList: packageList });
+    serviceList.push({ name: eachService, packageList: indexPackageList });
   } // end-for ServiceFolders
 }
 
 var renderedIndex = nunjucks.render("template.html", {
   serviceList: serviceList
 });
-console.log(serviceList);
+//console.log(serviceList);
 //console.log("rendered html:"); //For-debug
 //console.log(renderedIndex); //For-debug
 var dest = process.cwd() + "/docGen/index.html";
