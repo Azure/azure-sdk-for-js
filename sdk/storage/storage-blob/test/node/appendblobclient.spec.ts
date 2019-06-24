@@ -3,6 +3,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, newPipeline, SharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "../utils";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient Node.js only", () => {
@@ -42,6 +44,17 @@ describe("AppendBlobClient Node.js only", () => {
 
     await newClient.create();
     await newClient.download();
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new AppendBlobClient(appendBlobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {

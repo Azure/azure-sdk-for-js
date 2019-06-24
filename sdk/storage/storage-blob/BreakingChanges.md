@@ -1,5 +1,8 @@
 # Breaking Changes
 
+2019.6 Version 11.0.0-preview.1
+* `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
+
 2018.12 10.3.0
 
 * Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.

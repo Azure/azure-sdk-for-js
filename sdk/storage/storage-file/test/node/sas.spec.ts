@@ -63,7 +63,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    await serviceClientWithSAS.listSharesSegment();
+    (await serviceClientWithSAS
+      .listShares()
+      .byPage()
+      .next()).value;
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -197,7 +200,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment();
+    (await dirURLwithSAS
+      .listFilesAndDirectories()
+      .byPage()
+      .next()).value;
 
     await shareClient.delete();
   });
@@ -311,8 +317,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${shareClient.url}?${shareSAS}`;
     const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
-    const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment();
+    const dirClientwithSAS = shareClientwithSAS.createDirectoryClient("");
+    (await dirClientwithSAS
+      .listFilesAndDirectories()
+      .byPage()
+      .next()).value;
     await shareClient.delete();
   });
 });

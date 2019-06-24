@@ -52,5 +52,5 @@ export interface AccessToken {
  * @param credential The assumed TokenCredential to be tested.
  */
 export function isTokenCredential(credential: any): credential is TokenCredential {
-  return "getToken" in credential;
+  return credential && typeof credential.getToken === "function";
 }

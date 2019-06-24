@@ -14,8 +14,11 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource
-} from "@azure/ms-rest-js";
+  WebResource,
+  proxyPolicy,
+  getDefaultProxySettings,
+  isNode
+} from "@azure/core-http";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
@@ -39,6 +42,27 @@ export {
   RequestPolicy,
   RequestPolicyOptions
 };
+
+/**
+ * Interface of proxy policy options.
+ *
+ * @example
+ *   // Use SharedKeyCredential with storage account and account key
+ *   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+ *   const serviceClient = new FileServiceClient(
+ *     `https://${account}.file.core.windows.net`,
+ *     sharedKeyCredential,
+ *     {
+ *       proxy: { url: "http://localhost:3128" }
+ *     }
+ *   );
+ *
+ * @export
+ * @interface ProxyOptions
+ */
+export interface ProxyOptions {
+  url?: string;
+}
 
 /**
  * Option interface for Pipeline constructor.
@@ -124,6 +148,7 @@ export class Pipeline {
  * @interface NewPipelineOptions
  */
 export interface NewPipelineOptions {
+  proxy?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -177,9 +202,14 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    new LoggingPolicyFactory(),
-    credential
+    new LoggingPolicyFactory()
   ];
+
+  if (isNode) {
+    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    factories.push(proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)));
+  }
+  factories.push(credential);
 
   return new Pipeline(factories, {
     HTTPClient: pipelineOptions.httpClient,

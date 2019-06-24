@@ -23,7 +23,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "os"];
+  const externalNodeBuiltins = ["@azure/core-http", "crypto", "fs", "os"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
