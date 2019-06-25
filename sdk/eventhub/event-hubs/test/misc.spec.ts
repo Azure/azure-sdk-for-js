@@ -49,7 +49,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     debug("Sending one message with %d bytes.", bodysize);
     breceiver = BatchingReceiver.create(
       (client as any)._context,
-      EventHubClient.defaultConsumerGroup,
+      EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
     );
@@ -88,7 +88,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
       (client as any)._context,
-      EventHubClient.defaultConsumerGroup,
+      EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
     );
@@ -123,7 +123,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
       (client as any)._context,
-      EventHubClient.defaultConsumerGroup,
+      EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
     );
@@ -149,7 +149,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create(
       (client as any)._context,
-      EventHubClient.defaultConsumerGroup,
+      EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
     );
@@ -183,7 +183,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromOffset(offset)
       );
@@ -235,7 +235,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromOffset(offset)
       );
@@ -278,7 +278,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     let totalReceived = 0;
     for (const id of partitionIds) {
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroup,
+        EventHubClient.defaultConsumerGroupName,
         id,
         EventPosition.fromOffset(partitionOffsets[id])
       );

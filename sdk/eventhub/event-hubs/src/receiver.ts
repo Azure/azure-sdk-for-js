@@ -94,7 +94,7 @@ export class EventHubConsumer {
    * @property The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
    *
    * When populated, the owner level indicates that a consumer is intended to be the only receiver of events for the
-   * requested partition and an associated consumer group.  To do so, this consumer will attempt to assert ownership
+   * requested partition and an associated consumer group. To do so, this consumer will attempt to assert ownership
    * over the partition; in the case where more than one exclusive consumer attempts to assert ownership for the same
    * partition/consumer group pair, the one having a larger onwership level value will "win."
    *
