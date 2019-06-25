@@ -20,7 +20,9 @@ describe("retry utility function", function() {
     const endingDate = new Date();
 
     assert.strictEqual(error.message, "I always fail");
-    assert.strictEqual(Math.floor((endingDate.getTime() - startingDate.getTime()) / 100), 3); // Close to 300 milliseconds
+    // The difference is locally around 300 but it's taking around 500 on our pipelines
+    const difference = endingDate.getTime() - startingDate.getTime();
+    assert.ok(difference > 300 && difference < 1000);
   });
 
   it("returns the value if resolved on time", async () => {
@@ -31,6 +33,6 @@ describe("retry utility function", function() {
       retries: 2
     } as RetryOptions);
 
-    assert.strictEqual(result, true)
+    assert.strictEqual(result, true);
   });
 });
