@@ -679,7 +679,7 @@ export class BlobClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof BlobClient
    */
-  public createAppendBlobClient(): AppendBlobClient {
+  public getAppendBlobClient(): AppendBlobClient {
     return new AppendBlobClient(this.url, this.pipeline);
   }
 
@@ -689,7 +689,7 @@ export class BlobClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof BlobClient
    */
-  public createBlockBlobClient(): BlockBlobClient {
+  public getBlockBlobClient(): BlockBlobClient {
     return new BlockBlobClient(this.url, this.pipeline);
   }
 
@@ -699,7 +699,7 @@ export class BlobClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof BlobClient
    */
-  public createPageBlobClient(): PageBlobClient {
+  public getPageBlobClient(): PageBlobClient {
     return new PageBlobClient(this.url, this.pipeline);
   }
 

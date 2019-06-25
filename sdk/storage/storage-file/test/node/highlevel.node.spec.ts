@@ -31,13 +31,13 @@ describe("Highlevel Node.js only", () => {
   beforeEach(async function() {
     recorder = record(this);
     shareName = recorder.getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
     dirName = recorder.getUniqueName("dir");
-    dirClient = shareClient.createDirectoryClient(dirName);
+    dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
     fileName = recorder.getUniqueName("file");
-    fileClient = dirClient.createFileClient(fileName);
+    fileClient = dirClient.getFileClient(fileName);
   });
 
   afterEach(async () => {

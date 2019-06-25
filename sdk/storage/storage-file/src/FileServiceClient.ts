@@ -216,7 +216,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof FileServiceClient
    */
-  public createShareClient(shareName: string): ShareClient {
+  public getShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
   }
 
@@ -232,7 +232,7 @@ export class FileServiceClient extends StorageClient {
     shareName: string,
     options?: ShareCreateOptions
   ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
-    const shareClient = this.createShareClient(shareName);
+    const shareClient = this.getShareClient(shareName);
     const shareCreateResponse = await shareClient.create(options);
     return {
       shareCreateResponse,
@@ -252,7 +252,7 @@ export class FileServiceClient extends StorageClient {
     shareName: string,
     options?: ShareDeleteMethodOptions
   ): Promise<Models.ShareDeleteResponse> {
-    const shareClient = this.createShareClient(shareName);
+    const shareClient = this.getShareClient(shareName);
     return await shareClient.delete(options);
   }
 

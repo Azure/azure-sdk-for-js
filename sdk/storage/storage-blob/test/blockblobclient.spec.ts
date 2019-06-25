@@ -19,11 +19,11 @@ describe("BlockBlobClient", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
   });
 
   afterEach(async () => {
@@ -88,7 +88,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = containerClient.createBlockBlobClient(
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
       recorder.getUniqueName("newblockblob")
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url);
@@ -110,7 +110,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = containerClient.createBlockBlobClient(
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
       recorder.getUniqueName("newblockblob")
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url, 0, 4);

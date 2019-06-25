@@ -9,11 +9,11 @@ import { assertClientUsesTokenCredential } from '../utils/assert';
 describe("ContainerClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerClient = blobServiceClient.getContainerClient(containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
 

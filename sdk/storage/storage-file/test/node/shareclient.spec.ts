@@ -5,11 +5,11 @@ import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "./../
 describe("ShareClient Node.js only", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
+  let shareClient = serviceClient.getShareClient(shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
 

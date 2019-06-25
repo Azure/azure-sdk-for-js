@@ -6,11 +6,11 @@ dotenv.config({ path: "../.env" });
 describe("ShareClient", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
+  let shareClient = serviceClient.getShareClient(shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
 
@@ -45,7 +45,7 @@ describe("ShareClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const shareClient2 = serviceClient.createShareClient(getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(getUniqueName(shareName));
     const metadata = { key: "value" };
     await shareClient2.create({ metadata });
     const result = await shareClient2.getProperties();
