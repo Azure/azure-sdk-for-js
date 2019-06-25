@@ -1,38 +1,49 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU, getUniqueName } from "../utils";
+import { bodyToString, getBSU } from "../utils";
 import { Buffer } from "buffer";
-import { FileClient, newPipeline, SharedKeyCredential } from "../../src";
+import {
+  FileClient,
+  newPipeline,
+  SharedKeyCredential,
+  ShareClient,
+  DirectoryClient
+} from "../../src";
+import { record } from "../utils/recorder";
 
 describe("FileClient Node.js only", () => {
   const serviceClient = getBSU();
-  let shareName = getUniqueName("share");
-  let shareClient = serviceClient.getShareClient(shareName);
-  let dirName = getUniqueName("dir");
-  let dirClient = shareClient.getDirectoryClient(dirName);
-  let fileName = getUniqueName("file");
-  let fileClient = dirClient.getFileClient(fileName);
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: DirectoryClient;
+  let fileName: string;
+  let fileClient: FileClient;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
 
-    fileName = getUniqueName("file");
+    fileName = recorder.getUniqueName("file");
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("upload with buffer and default parameters", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
     await fileClient.create(body.length);
@@ -42,7 +53,7 @@ describe("FileClient Node.js only", () => {
   });
 
   it("upload with Node.js stream", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
 
     await fileClient.create(body.length);
     await fileClient.uploadRange(
@@ -60,7 +71,7 @@ describe("FileClient Node.js only", () => {
   });
 
   it("upload with Chinese string body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring你好");
+    const body: string = recorder.getUniqueName("randomstring你好");
     const bodyLength = Buffer.byteLength(body);
 
     await fileClient.create(bodyLength);

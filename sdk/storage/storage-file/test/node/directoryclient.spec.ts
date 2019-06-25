@@ -1,22 +1,26 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU } from "../utils";
 import * as dotenv from "dotenv";
-import { DirectoryClient, newPipeline, SharedKeyCredential } from "../../src";
+import { DirectoryClient, newPipeline, SharedKeyCredential, ShareClient } from "../../src";
+import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient Node.js only", () => {
   const serviceClient = getBSU();
-  let shareName = getUniqueName("share");
-  let shareClient = serviceClient.getShareClient(shareName);
-  let dirName = getUniqueName("dir");
-  let dirClient = shareClient.getDirectoryClient(dirName);
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: DirectoryClient;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
   });
@@ -24,6 +28,7 @@ describe("DirectoryClient Node.js only", () => {
   afterEach(async () => {
     await dirClient.delete();
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {
