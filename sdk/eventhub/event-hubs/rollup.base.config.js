@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process");
+    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process", "@azure/identity");
 
     baseConfig.onwarn = warning => {
       if (
