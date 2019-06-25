@@ -80,6 +80,8 @@ const skip = [
   "node/highlevel_nodejs_only/recording_uploadstream_should_success.js",
   // Size (263MB), Tempfile
   "node/highlevel_nodejs_only/recording_uploadstream_should_update_progress_event.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/fileclient/recording_startcopyfromurl.json"
 ];
