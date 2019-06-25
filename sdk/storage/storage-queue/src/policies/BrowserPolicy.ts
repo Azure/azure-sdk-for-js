@@ -8,7 +8,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { HeaderConstants, URLConstants } from "../utils/constants";
 import { setURLParameter } from "../utils/utils.common";

@@ -1,9 +1,9 @@
 import * as assert from "assert";
-import { isNode } from "@azure/ms-rest-js";
-import { record } from "./utils/recorder";
+import { isNode } from "@azure/core-http";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
-import { getBSU, bodyToString, sleep } from "./utils";
+import { getBSU, bodyToString } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -21,15 +21,15 @@ describe("FileClient", () => {
   beforeEach(async function() {
     recorder = record(this);
     shareName = recorder.getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
     dirName = recorder.getUniqueName("dir");
-    dirClient = shareClient.createDirectoryClient(dirName);
+    dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
 
     fileName = recorder.getUniqueName("file");
-    fileClient = dirClient.createFileClient(fileName);
+    fileClient = dirClient.getFileClient(fileName);
   });
 
   afterEach(async () => {
@@ -145,7 +145,7 @@ describe("FileClient", () => {
 
   it("startCopyFromURL", async () => {
     await fileClient.create(1024);
-    const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
 
@@ -158,10 +158,10 @@ describe("FileClient", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
-    const newFileClient = dirClient.createFileClient(recorder.getUniqueName("copiedfile"));
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);

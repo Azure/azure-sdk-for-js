@@ -168,7 +168,7 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.createQueueClient(queueName);
+  const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
@@ -177,7 +177,7 @@ async function main() {
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = queueClient.createMessagesClient();
+  const messagesClient = queueClient.getMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue(
     "Hello World!"
   );
@@ -207,7 +207,7 @@ async function main() {
         dequeueMessageItem.messageText
       }`
     );
-    const messageIdClient = messagesClient.createMessageIdClient(
+    const messageIdClient = messagesClient.getMessageIdClient(
       dequeueMessageItem.messageId
     );
     const deleteMessageResponse = await messageIdClient.delete(
@@ -238,6 +238,10 @@ main()
     console.log(err.message);
   });
 ```
+
+## Authenticating with Azure Active Directory
+
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account.  This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](./samples/azureAdAuth.ts).
 
 ## More Code Samples
 

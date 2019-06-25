@@ -1,4 +1,4 @@
-import { URLBuilder } from "@azure/ms-rest-js";
+import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import { QueueClient, RestError, newPipeline } from "../src";
 import { Pipeline } from "../src/Pipeline";
@@ -18,7 +18,7 @@ describe("RetryPolicy", () => {
   beforeEach(async function() {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 

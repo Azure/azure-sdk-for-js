@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpRequestBody, HttpResponse } from "@azure/ms-rest-js";
+import {
+  HttpRequestBody,
+  HttpResponse,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
@@ -199,24 +204,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.ContainerGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.ContainerGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * Options to configure Container - Set Access Policy operation.
@@ -371,10 +376,9 @@ export interface ContainerChangeLeaseOptions {
 /**
  * Options to configure Container - List Blobs Segment operation.
  *
- * @export
  * @interface ContainerListBlobsSegmentOptions
  */
-export interface ContainerListBlobsSegmentOptions {
+interface ContainerListBlobsSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -475,12 +479,13 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -503,13 +508,16 @@ export class ContainerClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
-    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrContainerName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrContainerName)
+    ) {
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
@@ -566,7 +574,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlobClient} A new BlobClient object for the given blob name.
    * @memberof BlobClient
    */
-  public createBlobClient(blobName: string): BlobClient {
+  public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
@@ -577,7 +585,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof ContainerClient
    */
-  public createAppendBlobClient(blobName: string): AppendBlobClient {
+  public getAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -591,7 +599,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    */
-  public createBlockBlobClient(blobName: string): BlockBlobClient {
+  public getBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -605,7 +613,7 @@ export class ContainerClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof ContainerClient
    */
-  public createPageBlobClient(blobName: string): PageBlobClient {
+  public getPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -869,7 +877,7 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options?: BlockBlobUploadOptions
   ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
-    const blockBlobClient = this.createBlockBlobClient(blobName);
+    const blockBlobClient = this.getBlockBlobClient(blobName);
     const response = await blockBlobClient.upload(body, contentLength, options);
     return {
       blockBlobClient,
@@ -893,7 +901,7 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options?: BlobDeleteOptions
   ): Promise<Models.BlobDeleteResponse> {
-    const blobClient = this.createBlobClient(blobName);
+    const blobClient = this.getBlobClient(blobName);
     return await blobClient.delete(options);
   }
 
@@ -909,7 +917,7 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
-  public async listBlobFlatSegment(
+  private async listBlobFlatSegment(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {

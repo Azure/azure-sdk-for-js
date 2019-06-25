@@ -1,29 +1,25 @@
 import * as assert from "assert";
 
-import {
-  getBSU,
-  getUniqueName,
-  sleep,
-  getConnectionStringFromEnvironment,
-  bodyToString
-} from "../utils";
+import { getBSU, getUniqueName, getConnectionStringFromEnvironment, bodyToString } from "../utils";
 import { newPipeline, PageBlobClient, SharedKeyCredential } from "../../src";
+import { TokenCredential, delay } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerClient = blobServiceClient.getContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let pageBlobClient = blobClient.createPageBlobClient();
+  let blobClient = containerClient.getBlobClient(blobName);
+  let pageBlobClient = blobClient.getPageBlobClient();
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    pageBlobClient = blobClient.createPageBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    pageBlobClient = blobClient.getPageBlobClient();
   });
 
   afterEach(async () => {
@@ -41,11 +37,11 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.createPageBlobClient(getUniqueName("page"));
+    const destPageBlobClient = containerClient.getPageBlobClient(getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -61,7 +57,7 @@ describe("PageBlobClient Node.js only", () => {
         case "aborted":
           throw new Error("Copy unexcepted aborted.");
         case "pending":
-          await sleep(3000);
+          await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();
           await waitForCopy(++retries);
           return;
@@ -74,9 +70,12 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["copy", "snapshots"]
-    });
+    let listBlobResponse = (await containerClient
+      .listBlobsFlat({
+        include: ["copy", "snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -88,9 +87,12 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    listBlobResponse = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["copy", "snapshots"]
-    });
+    listBlobResponse = (await containerClient
+      .listBlobsFlat({
+        include: ["copy", "snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
@@ -120,6 +122,18 @@ describe("PageBlobClient Node.js only", () => {
     await newClient.create(512);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
+    const newClient = new PageBlobClient(pageBlobClient.url, tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 
   it("can be created with a url and a pipeline", async () => {

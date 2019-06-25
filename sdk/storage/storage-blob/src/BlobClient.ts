@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
+import {
+  isNode,
+  TransferProgressEvent,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -579,12 +584,13 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -606,14 +612,17 @@ export class BlobClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
-    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrContainerName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrContainerName)
+    ) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
@@ -670,7 +679,7 @@ export class BlobClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof BlobClient
    */
-  public createAppendBlobClient(): AppendBlobClient {
+  public getAppendBlobClient(): AppendBlobClient {
     return new AppendBlobClient(this.url, this.pipeline);
   }
 
@@ -680,7 +689,7 @@ export class BlobClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof BlobClient
    */
-  public createBlockBlobClient(): BlockBlobClient {
+  public getBlockBlobClient(): BlockBlobClient {
     return new BlockBlobClient(this.url, this.pipeline);
   }
 
@@ -690,7 +699,7 @@ export class BlobClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof BlobClient
    */
-  public createPageBlobClient(): PageBlobClient {
+  public getPageBlobClient(): PageBlobClient {
     return new PageBlobClient(this.url, this.pipeline);
   }
 

@@ -2,13 +2,17 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
+import { getAlternateBSU, getBSU, getUniqueName } from "./utils";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
-    const result = await blobServiceClient.listContainersSegment();
+    const result = (await blobServiceClient
+      .listContainers()
+      .byPage()
+      .next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -31,16 +35,18 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
-    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
+    const containerClient1 = blobServiceClient.getContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await blobServiceClient.listContainersSegment(undefined, {
-      include: "metadata",
-      maxresults: 1,
-      prefix: containerNamePrefix
-    });
+    const result1 = (await blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.containerItems!.length, 1);
@@ -53,11 +59,13 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await blobServiceClient.listContainersSegment(result1.nextMarker, {
-      include: "metadata",
-      maxresults: 1,
-      prefix: containerNamePrefix
-    });
+    const result2 = (await blobServiceClient
+      .listContainers({
+        include: "metadata",
+        prefix: containerNamePrefix
+      })
+      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .next()).value;
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.containerItems!.length, 1);
@@ -82,7 +90,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }
@@ -112,8 +120,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
-    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
+    const containerClient1 = blobServiceClient.getContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -154,7 +162,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }
@@ -190,7 +198,7 @@ describe("BlobServiceClient", () => {
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
-      const containerClient = blobServiceClient.createContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       await containerClient.create({ metadata: { key: "val" } });
       containerClients.push(containerClient);
     }
@@ -314,7 +322,7 @@ describe("BlobServiceClient", () => {
     }
 
     await blobServiceClient.setProperties(serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await blobServiceClient.getProperties();
     assert.ok(typeof result.requestId);

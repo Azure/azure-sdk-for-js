@@ -2,6 +2,8 @@ import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("QueueClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -10,10 +12,10 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -122,5 +124,16 @@ describe("QueueClient Node.js only", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new QueueClient("https://queue", tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 });

@@ -1,9 +1,12 @@
 import * as assert from "assert";
+import { MessageIdClient } from '../../src';
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -13,10 +16,10 @@ describe("MessageIdClient Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -26,7 +29,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -43,7 +46,7 @@ describe("MessageIdClient Node.js only", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
     let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
@@ -57,7 +60,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -74,7 +77,7 @@ describe("MessageIdClient Node.js only", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
 
     let error;
     try {
@@ -91,7 +94,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
@@ -108,7 +111,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential, {
@@ -129,7 +132,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
@@ -179,5 +182,16 @@ describe("MessageIdClient Node.js only", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new MessageIdClient("https://queue", tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 });

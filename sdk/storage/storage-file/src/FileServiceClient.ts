@@ -16,10 +16,9 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 /**
  * Options to configure List Shares Segment operation.
  *
- * @export
  * @interface ServiceListSharesSegmentOptions
  */
-export interface ServiceListSharesSegmentOptions {
+interface ServiceListSharesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -175,7 +174,7 @@ export class FileServiceClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, AnonymousCredential is used.
+   *                                  If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
@@ -217,7 +216,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof FileServiceClient
    */
-  public createShareClient(shareName: string): ShareClient {
+  public getShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
   }
 
@@ -233,7 +232,7 @@ export class FileServiceClient extends StorageClient {
     shareName: string,
     options?: ShareCreateOptions
   ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
-    const shareClient = this.createShareClient(shareName);
+    const shareClient = this.getShareClient(shareName);
     const shareCreateResponse = await shareClient.create(options);
     return {
       shareCreateResponse,
@@ -253,7 +252,7 @@ export class FileServiceClient extends StorageClient {
     shareName: string,
     options?: ShareDeleteMethodOptions
   ): Promise<Models.ShareDeleteResponse> {
-    const shareClient = this.createShareClient(shareName);
+    const shareClient = this.getShareClient(shareName);
     return await shareClient.delete(options);
   }
 
@@ -429,7 +428,7 @@ export class FileServiceClient extends StorageClient {
         });
       }
     };
-  }
+}
 
   /**
    * Gets the properties of a storage account's File service, including properties for Storage
@@ -445,7 +444,7 @@ export class FileServiceClient extends StorageClient {
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
    * @memberof FileServiceClient
    */
-  public async listSharesSegment(
+  private async listSharesSegment(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {

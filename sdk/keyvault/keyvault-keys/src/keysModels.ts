@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as msRest from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "./core/models";

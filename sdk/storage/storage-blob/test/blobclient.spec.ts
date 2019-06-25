@@ -1,26 +1,27 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerClient = blobServiceClient.getContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let blobClient = containerClient.getBlobClient(blobName);
+  let blockBlobClient = blobClient.getBlockBlobClient();
   const content = "Hello World";
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
   });
 
@@ -117,9 +118,12 @@ describe("BlobClient", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result2 = (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -132,9 +136,12 @@ describe("BlobClient", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["snapshots"]
-    });
+    const result3 = (await containerClient
+      .listBlobsFlat({
+        include: ["snapshots"]
+      })
+      .byPage()
+      .next()).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -163,25 +170,34 @@ describe("BlobClient", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobClient.delete();
 
-    const result = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+    const result = (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()
+      .next()).value;
+
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
-    const result2 = await containerClient.listBlobFlatSegment(undefined, {
-      include: ["deleted"]
-    });
+
+    const result2 = (await containerClient
+      .listBlobsFlat({
+        include: ["deleted"]
+      })
+      .byPage()
+      .next()).value;
+
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -193,10 +209,10 @@ describe("BlobClient", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);

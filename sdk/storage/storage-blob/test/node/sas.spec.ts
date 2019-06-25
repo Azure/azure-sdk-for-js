@@ -183,7 +183,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = recorder.getUniqueName("container");
-    const containerClient = blobServiceClient.createContainerClient(containerName);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     const containerSAS = generateBlobSASQueryParameters(
@@ -205,7 +205,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    await containerClientwithSAS.listBlobFlatSegment();
+    (await containerClientwithSAS
+      .listBlobsFlat()
+      .byPage()
+      .next()).value;
     await containerClient.delete();
   });
 
@@ -221,10 +224,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = recorder.getUniqueName("container");
-    const containerClient = blobServiceClient.createContainerClient(containerName);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const blobName = recorder.getUniqueName("blob");
-    const blobClient = containerClient.createPageBlobClient(blobName);
+    const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
@@ -275,13 +278,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = recorder.getUniqueName("container-with-dash");
-    const containerClient = blobServiceClient.createContainerClient(containerName);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     const blobName = recorder.getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
-    const blobClient = containerClient.createPageBlobClient(blobName);
+    const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
@@ -333,11 +336,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = recorder.getUniqueName("container");
-    const containerClient = blobServiceClient.createContainerClient(containerName);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     const blobName = recorder.getUniqueName("blob");
-    const blobClient = containerClient.createPageBlobClient(blobName);
+    const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
     const id = "unique-id";

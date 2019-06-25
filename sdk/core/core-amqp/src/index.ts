@@ -7,16 +7,14 @@ export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
 export { retry, RetryConfig, RetryOperationType } from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
-export { AccessToken, TokenCredential } from "@azure/core-http";
+export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-http";
 export { SharedKeyCredential } from "./auth/sas";
 export { IotSharedKeyCredential } from "./auth/iotSas";
 
-export {
-  ConnectionConfig,
-  ConnectionConfigOptions,
-  EventHubConnectionConfig,
-  IotHubConnectionConfig
-} from "./connectionConfig";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
+export { EventHubConnectionConfig } from "./connectionConfig/eventhubConnectionConfig";
+export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfig";
+
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };

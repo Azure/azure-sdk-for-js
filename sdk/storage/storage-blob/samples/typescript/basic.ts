@@ -9,21 +9,14 @@ async function main() {
   const CONNECTION_STRING = "";
   const blobServiceClient = new BlobServiceClient(CONNECTION_STRING);
 
-  let marker;
-  do {
-    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
-      marker
-    );
-
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const container of blobServiceClient.listContainers()) {
+    console.log(`Container ${i++}: ${container.name}`);
+  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.createContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
@@ -31,23 +24,16 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.createBlobClient(blobName);
-  const blockBlobClient = blobClient.createBlockBlobClient();
+  const blobClient = containerClient.getBlobClient(blobName);
+  const blockBlobClient = blobClient.getBlockBlobClient();
   const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
-  marker = undefined;
-  do {
-    const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerClient.listBlobFlatSegment(
-      marker
-    );
-
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
-    }
-  } while (marker);
+  i = 1;
+  for await (const blob of containerClient.listBlobsFlat()) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody

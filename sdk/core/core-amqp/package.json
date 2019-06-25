@@ -51,6 +51,7 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
+    "@azure/abort-controller": "1.0.0-preview.1",
     "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/async-lock": "^1.1.0",
     "@types/is-buffer": "^2.0.0",

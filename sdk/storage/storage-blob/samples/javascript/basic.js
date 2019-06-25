@@ -7,7 +7,7 @@ const {
   newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
-  TokenCredential
+  RawTokenCredential
 } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -18,8 +18,11 @@ async function main() {
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  // Use RawTokenCredential with OAuth token.  You can find more
+  // TokenCredential implementations in the @azure/identity library
+  // to use client secrets, certificates, or managed identities for
+  // authentication.
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
@@ -35,19 +38,14 @@ async function main() {
     pipeline
   );
 
-  let marker;
-  do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(marker);
-
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const container of blobServiceClient.listContainers()) {
+    console.log(`Container ${i++}: ${container.name}`);
+  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.createContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
@@ -55,27 +53,16 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.createBlobClient(blobName);
-  const blockBlobClient = blobClient.createBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const blobClient = containerClient.getBlobClient(blobName);
+  const blockBlobClient = blobClient.getBlockBlobClient();
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
-  marker = undefined;
-  do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(marker);
-
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
-    }
-  } while (marker);
+  i = 1;
+  for await (const blob of containerClient.listBlobsFlat()) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody

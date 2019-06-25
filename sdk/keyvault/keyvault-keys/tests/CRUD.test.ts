@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
@@ -23,16 +26,16 @@ describe("Keys client - create, read, update and delete operations", () => {
   // - These functions are probably better moved to a common utility file.
   //   However, to do that we'll have to create a class or closure to maintain
   //   the instance of the KeyClient available.
-  async function purgeKey() {
+  async function purgeKey(): Promise<void> {
     await client.purgeDeletedKey(keyName);
     await delay(30000);
   }
-  async function flushKey() {
+  async function flushKey(): Promise<void> {
     await client.deleteKey(keyName);
     await delay(30000);
     await purgeKey();
   }
-  async function maybeFlushKey() {
+  async function maybeFlushKey(): Promise<void> {
     try {
       await client.deleteKey(keyName);
       await delay(30000);
@@ -62,7 +65,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
     credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
@@ -74,7 +77,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
   });
 
   afterEach(async () => {
@@ -128,7 +131,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key with size", async () => {
-    let options = {
+    const options = {
       keySize: 2048
     };
     const result = await client.createRsaKey(keyName, options);
@@ -143,7 +146,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create an EC key with curve", async () => {
-    let options: CreateEcKeyOptions = {
+    const options: CreateEcKeyOptions = {
       curve: "P-256"
     };
     const result = await client.createEcKey(keyName, options);
@@ -152,7 +155,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a disabled key", async () => {
-    let options = {
+    const options = {
       enabled: false
     };
     const result = await client.createRsaKey(keyName, options);
@@ -162,11 +165,11 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with notBefore", async () => {
-    let date = new Date("2019-01-01");
-    let notBefore = new Date(date.getTime() + 5000); // 5 seconds later
+    const date = new Date("2019-01-01");
+    const notBefore = new Date(date.getTime() + 5000); // 5 seconds later
     notBefore.setMilliseconds(0);
 
-    let options = { notBefore };
+    const options = { notBefore };
     const result = await client.createRsaKey(keyName, options);
 
     assert.equal(
@@ -179,11 +182,11 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with expires", async () => {
-    let date = new Date("2019-01-01");
-    let expires = new Date(date.getTime() + 5000); // 5 seconds later
+    const date = new Date("2019-01-01");
+    const expires = new Date(date.getTime() + 5000); // 5 seconds later
     expires.setMilliseconds(0);
 
-    let options = { expires };
+    const options = { expires };
     const result = await client.createRsaKey(keyName, options);
 
     assert.equal(
@@ -197,7 +200,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   it("can update key", async () => {
     const { version } = await client.createRsaKey(keyName);
-    let options: UpdateKeyOptions = { enabled: false };
+    const options: UpdateKeyOptions = { enabled: false };
     const result = await client.updateKey(keyName, version, options);
     assert.equal(result.enabled, false, "Unexpected enabled value from updateKey().");
     await flushKey();
@@ -221,7 +224,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can delete a key", async () => {
-    const result = await client.createKey(keyName, "RSA");
+    await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
 
     try {
@@ -252,7 +255,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a key", async () => {
-    const result = await client.createKey(keyName, "RSA");
+    await client.createKey(keyName, "RSA");
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await flushKey();

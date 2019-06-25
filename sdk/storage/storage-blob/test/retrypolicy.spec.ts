@@ -1,4 +1,4 @@
-import { URLBuilder } from "@azure/ms-rest-js";
+import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 
 import { ContainerClient, RestError } from "../src";
@@ -19,7 +19,7 @@ describe("RetryPolicy", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
 

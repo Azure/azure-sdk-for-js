@@ -9,7 +9,7 @@ import {
   RequestPolicyOptions,
   RestError,
   WebResource
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { RequestLogOptions } from "../LoggingPolicyFactory";
 import { HTTPURLConnection } from "../utils/constants";

@@ -4,6 +4,8 @@ import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { TokenCredential } from '@azure/core-http';
+import { assertClientUsesTokenCredential } from '../utils/assert';
 
 describe("MessagesClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -13,10 +15,10 @@ describe("MessagesClient Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -26,7 +28,7 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024); //64KB
@@ -76,7 +78,7 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.createMessagesClient();
+    let messagesClient = queueClient.getMessagesClient();
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024 + 1);
@@ -99,7 +101,7 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
@@ -116,7 +118,7 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential, {
@@ -137,7 +139,7 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const messagesClient = queueClient.createMessagesClient();
+    const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
@@ -187,5 +189,16 @@ describe("MessagesClient Node.js only", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("can be created with a url and a TokenCredential", async () => {
+    const tokenCredential: TokenCredential = {
+      getToken: () => Promise.resolve({
+        token: 'token',
+        expiresOnTimestamp: 12345
+      })
+    }
+    const newClient = new MessagesClient("https://queue", tokenCredential);
+    assertClientUsesTokenCredential(newClient);
   });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpHeaders, URLBuilder } from "@azure/ms-rest-js";
+import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure/ms-rest-js";
+import {
+  HttpResponse,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
@@ -168,24 +172,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -221,12 +225,17 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, anonymous credential is used.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: Credential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of QueueClient.
    *
@@ -241,13 +250,16 @@ export class QueueClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
-    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrQueueName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrQueueName)
+    ) {
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
@@ -295,7 +307,7 @@ export class QueueClient extends StorageClient {
    * Creates a MessagesClient object.
    * @param queueName
    */
-  public createMessagesClient(): MessagesClient {
+  public getMessagesClient(): MessagesClient {
     return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
   }
 

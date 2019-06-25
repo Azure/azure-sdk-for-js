@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { TokenCredential, isTokenCredential } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
@@ -71,10 +72,9 @@ export interface ServiceGetStatisticsOptions {
 /**
  * Options to configure Queue Service - List Queues Segment operation
  *
- * @export
  * @interface ServiceListQueuesSegmentOptions
  */
-export interface ServiceListQueuesSegmentOptions {
+interface ServiceListQueuesSegmentOptions {
   /**
    * Aborter instance to cancel request. It can be created with Aborter.none
    * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
@@ -104,7 +104,7 @@ export interface ServiceListQueuesSegmentOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: ListQueuesIncludeType[];
 }
 
 /**
@@ -133,7 +133,7 @@ export interface ServiceListQueuesOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: ListQueuesIncludeType[];
 }
 
 /**
@@ -183,12 +183,17 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   *                                If not specified, anonymous credential is used.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: Credential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of QueueServiceClient.
    *
@@ -202,13 +207,16 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second paramter is undefined. Use anonymous credential.
@@ -222,7 +230,7 @@ export class QueueServiceClient extends StorageClient {
    * Creates a QueueClient object.
    * @param queueName
    */
-  public createQueueClient(queueName: string): QueueClient {
+  public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
   }
 
@@ -298,7 +306,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
-  public async listQueuesSegment(
+  private async listQueuesSegment(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
@@ -307,7 +315,7 @@ export class QueueServiceClient extends StorageClient {
       abortSignal: aborter,
       marker,
       ...options
-    });
+    } as Models.ServiceListQueuesSegmentOptionalParams);
   }
 
   /**

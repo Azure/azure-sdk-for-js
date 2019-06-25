@@ -4,10 +4,9 @@
 
 import {
   QueueServiceClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
-  TokenCredential,
-  Models
+  RawTokenCredential
 } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
@@ -15,10 +14,14 @@ async function main() {
   const account = "";
   const accountKey = "";
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
+  // Use RawTokenCredential with OAuth token.  You can find more
+  // TokenCredential implementations in the @azure/identity library
+  // to use client secrets, certificates, or managed identities for
+  // authentication.
+  const tokenCredential = new RawTokenCredential("token");
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
@@ -44,35 +47,24 @@ async function main() {
   );
 
   console.log(`List queues`);
-  let marker;
-  do {
-    const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await queueServiceClient.listQueuesSegment(
-      marker
-    );
-
-    marker = listQueuesResponse.nextMarker;
-    for (const queue of listQueuesResponse.queueItems!) {
-      console.log(`Queue: ${queue.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${item.name}`);
+  }
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.createQueueClient(queueName);
+  const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${
-      createQueueResponse.requestId
-    }`
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = queueClient.createMessagesClient();
+  const messagesClient = queueClient.getMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
   console.log(
-    `Enqueue message successfully, service assigned message Id: ${
-      enqueueQueueResponse.messageId
-    }, service assigned request Id: ${enqueueQueueResponse.requestId}`
+    `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
   );
 
   // Peek a message using peek method.
@@ -87,7 +79,7 @@ async function main() {
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
     console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-    const messageIdClient = messagesClient.createMessageIdClient(dequeueMessageItem.messageId);
+    const messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
     const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
     console.log(
       `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`

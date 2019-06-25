@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -48,7 +48,7 @@ import { HeaderConstants, URLConstants } from "./constants";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `ContainerClient.createBlobClient(blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `ContainerClient.getBlobClient(blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
