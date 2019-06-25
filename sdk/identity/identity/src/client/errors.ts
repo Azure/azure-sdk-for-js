@@ -18,6 +18,11 @@ export interface ErrorResponse {
   correlation_id?: string;
 }
 
+/**
+ * Provides details about a failure to authenticate with Azure Active
+ * Directory.  The `errorResponse` field contains more details about
+ * the specific failure.
+ */
 export class AuthenticationError extends Error {
   public readonly statusCode: number;
   public readonly errorResponse: ErrorResponse;
@@ -68,6 +73,10 @@ export class AuthenticationError extends Error {
   }
 }
 
+/**
+ * Provides an `errors` array containing {@link AuthenticationError} instance
+ * for authentication failures from credentials in a {@link ChainedTokenCredential}.
+ */
 export class AggregateAuthenticationError extends Error {
   public errors: any[];
   constructor(errors: any[]) {
