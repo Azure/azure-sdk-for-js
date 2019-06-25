@@ -161,9 +161,8 @@ class NockRecorder extends Recorder {
   }
 }
 
-export function uniqueName(str: string): string {
-  const formattedString = str.replace(/[^0-9a-zA-Z-]/g, '');
-  return isPlayingBack ? formattedString : `${formattedString}-${Math.random().toString().slice(2)}`
+export function uniqueString(): string {
+  return isPlayingBack ? "" : Math.random().toString().slice(2)
 }
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
