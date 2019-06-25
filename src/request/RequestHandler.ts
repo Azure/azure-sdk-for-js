@@ -2,6 +2,7 @@ import { Agent, OutgoingHttpHeaders } from "http";
 import { RequestOptions } from "https"; // TYPES ONLY
 import * as querystring from "querystring";
 import { Constants, IHeaders } from "..";
+import { AuthOptions } from "../auth";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { RetryUtility } from "../retry";
@@ -45,7 +46,10 @@ export class RequestHandler {
     request: RequestContext,
     data: string | Buffer,
     queryParams: any, // TODO: any query params types
-    headers: IHeaders
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
   ): Promise<Response<any>> {
     // TODO: any
     const path = (request as { path: string }).path === undefined ? request : (request as { path: string }).path;
@@ -102,7 +106,10 @@ export class RequestHandler {
         this.createRequestObjectStub,
         connectionPolicy,
         requestOptions,
-        request
+        request,
+        authOptions,
+        resourceId,
+        resourceType
       );
     } else {
       return RetryUtility.execute(
@@ -111,13 +118,23 @@ export class RequestHandler {
         this.createRequestObjectStub,
         connectionPolicy,
         requestOptions,
-        request
+        request,
+        authOptions,
+        resourceId,
+        resourceType
       );
     }
   }
 
   /** @ignore */
-  public get(urlString: string, request: RequestContext, headers: IHeaders) {
+  public get(
+    urlString: string,
+    request: RequestContext,
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
+  ) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -128,12 +145,23 @@ export class RequestHandler {
       request,
       undefined,
       "",
-      headers
+      headers,
+      authOptions,
+      resourceId,
+      resourceType
     );
   }
 
   /** @ignore */
-  public post(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
+  public post(
+    urlString: string,
+    request: RequestContext,
+    body: any,
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
+  ) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -144,12 +172,23 @@ export class RequestHandler {
       request,
       body,
       "",
-      headers
+      headers,
+      authOptions,
+      resourceId,
+      resourceType
     );
   }
 
   /** @ignore */
-  public put(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
+  public put(
+    urlString: string,
+    request: RequestContext,
+    body: any,
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
+  ) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -160,12 +199,22 @@ export class RequestHandler {
       request,
       body,
       "",
-      headers
+      headers,
+      authOptions,
+      resourceId,
+      resourceType
     );
   }
 
   /** @ignore */
-  public head(urlString: string, request: any, headers: IHeaders) {
+  public head(
+    urlString: string,
+    request: any,
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
+  ) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -176,12 +225,22 @@ export class RequestHandler {
       request,
       undefined,
       "",
-      headers
+      headers,
+      authOptions,
+      resourceId,
+      resourceType
     );
   }
 
   /** @ignore */
-  public delete(urlString: string, request: RequestContext, headers: IHeaders) {
+  public delete(
+    urlString: string,
+    request: RequestContext,
+    headers: IHeaders,
+    authOptions: AuthOptions,
+    resourceId: string,
+    resourceType: string
+  ) {
     return RequestHandler.request(
       this.globalEndpointManager,
       this.connectionPolicy,
@@ -191,7 +250,10 @@ export class RequestHandler {
       request,
       undefined,
       "",
-      headers
+      headers,
+      authOptions,
+      resourceId,
+      resourceType
     );
   }
 }

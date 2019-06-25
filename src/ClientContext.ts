@@ -65,7 +65,14 @@ export class ClientContext {
       };
       // read will use ReadEndpoint since it uses GET operation
       const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
-      const response = await this.requestHandler.get(endpoint, request, requestHeaders);
+      const response = await this.requestHandler.get(
+        endpoint,
+        request,
+        requestHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Read, response.headers);
       return response;
     } catch (err) {
@@ -111,7 +118,14 @@ export class ClientContext {
       );
       this.applySessionToken(path, reqHeaders);
 
-      const response = await this.requestHandler.get(endpoint, request, reqHeaders);
+      const response = await this.requestHandler.get(
+        endpoint,
+        request,
+        reqHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, response.headers);
       return this.processQueryFeedResponse(response, !!query, resultFn);
     } else {
@@ -143,7 +157,15 @@ export class ClientContext {
       );
       this.applySessionToken(path, reqHeaders);
 
-      const response = await this.requestHandler.post(endpoint, request, query, reqHeaders);
+      const response = await this.requestHandler.post(
+        endpoint,
+        request,
+        query,
+        reqHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, response.headers);
       return this.processQueryFeedResponse(response, !!query, resultFn);
     }
@@ -188,7 +210,14 @@ export class ClientContext {
       this.applySessionToken(path, reqHeaders);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
-      const response = await this.requestHandler.delete(endpoint, request, reqHeaders);
+      const response = await this.requestHandler.delete(
+        endpoint,
+        request,
+        reqHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       if (Helper.parseLink(path).type !== "colls") {
         this.captureSessionToken(undefined, path, Constants.OperationTypes.Delete, response.headers);
       } else {
@@ -252,7 +281,15 @@ export class ClientContext {
       this.applySessionToken(path, requestHeaders);
 
       const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
-      const response = await this.requestHandler.post(endpoint, request, body, requestHeaders);
+      const response = await this.requestHandler.post(
+        endpoint,
+        request,
+        body,
+        requestHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Create, response.headers);
       return response;
     } catch (err) {
@@ -330,7 +367,15 @@ export class ClientContext {
 
       // replace will use WriteEndpoint since it uses PUT operation
       const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(reqHeaders);
-      const response = await this.requestHandler.put(endpoint, request, resource, reqHeaders);
+      const response = await this.requestHandler.put(
+        endpoint,
+        request,
+        resource,
+        reqHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Replace, response.headers);
       return response;
     } catch (err) {
@@ -388,7 +433,15 @@ export class ClientContext {
 
       // upsert will use WriteEndpoint since it uses POST operation
       const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
-      const response = await this.requestHandler.post(endpoint, request, body, requestHeaders);
+      const response = await this.requestHandler.post(
+        endpoint,
+        request,
+        body,
+        requestHeaders,
+        this.cosmosClientOptions.auth,
+        id,
+        type
+      );
       this.captureSessionToken(undefined, path, Constants.OperationTypes.Upsert, response.headers);
       return response;
     } catch (err) {
@@ -411,6 +464,7 @@ export class ClientContext {
     }
     const path = Helper.getPathFromLink(sprocLink);
     const id = Helper.getIdFromLink(sprocLink);
+    const type = "sprocs";
 
     const headers = await getHeaders(
       this.cosmosClientOptions.auth,
@@ -418,7 +472,7 @@ export class ClientContext {
       "post",
       path,
       id,
-      "sprocs",
+      type,
       options,
       undefined,
       this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
@@ -433,7 +487,7 @@ export class ClientContext {
 
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     const endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
-    return this.requestHandler.post(endpoint, request, params, headers);
+    return this.requestHandler.post(endpoint, request, params, headers, this.cosmosClientOptions.auth, id, type);
   }
 
   /**
@@ -463,7 +517,14 @@ export class ClientContext {
       resourceType: "DatabaseAccount"
     };
 
-    const { result, headers } = await this.requestHandler.get(urlConnection, request, requestHeaders);
+    const { result, headers } = await this.requestHandler.get(
+      urlConnection,
+      request,
+      requestHeaders,
+      this.cosmosClientOptions.auth,
+      "",
+      ""
+    );
 
     const databaseAccount = new DatabaseAccount(result, headers);
 
