@@ -2,7 +2,8 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
+import { getAlternateBSU, getBSU, getUniqueName } from "./utils";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
@@ -321,7 +322,7 @@ describe("BlobServiceClient", () => {
     }
 
     await blobServiceClient.setProperties(serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await blobServiceClient.getProperties();
     assert.ok(typeof result.requestId);

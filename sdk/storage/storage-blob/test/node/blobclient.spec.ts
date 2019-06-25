@@ -3,15 +3,9 @@ import * as assert from "assert";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { BlobClient, newPipeline, SharedKeyCredential } from "../../src";
-import {
-  bodyToString,
-  getBSU,
-  getConnectionStringFromEnvironment,
-  getUniqueName,
-  sleep
-} from "../utils";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from '../utils/assert';
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "../utils";
+import { TokenCredential, delay } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -178,7 +172,7 @@ describe("BlobClient Node.js only", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobClient.delete();
@@ -220,7 +214,7 @@ describe("BlobClient Node.js only", () => {
     const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);
@@ -284,11 +278,12 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
     const newClient = new BlobClient(blobClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);
   });

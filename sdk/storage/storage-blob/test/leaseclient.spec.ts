@@ -1,7 +1,8 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { getBSU, getUniqueName, sleep } from "./utils";
+import { getBSU, getUniqueName } from "./utils";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("LeaseClient from Container", () => {
@@ -72,7 +73,7 @@ describe("LeaseClient from Container", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(16 * 1000);
+    await delay(16 * 1000);
     const result2 = await containerClient.getProperties();
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
@@ -123,7 +124,7 @@ describe("LeaseClient from Container", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(3 * 1000);
+    await delay(3 * 1000);
 
     const result3 = await containerClient.getProperties();
     assert.ok(!result3.leaseDuration);
@@ -194,7 +195,7 @@ describe("LeaseClient from Blob", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(20 * 1000);
+    await delay(20 * 1000);
 
     const result2 = await blobClient.getProperties();
     assert.ok(!result2.leaseDuration);
@@ -246,7 +247,7 @@ describe("LeaseClient from Blob", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     const result3 = await blobClient.getProperties();
     assert.ok(!result3.leaseDuration);

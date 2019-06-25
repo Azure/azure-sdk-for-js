@@ -2,7 +2,8 @@ import * as assert from "assert";
 
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -169,7 +170,7 @@ describe("BlobClient", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobClient.delete();
@@ -211,7 +212,7 @@ describe("BlobClient", () => {
     const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);
