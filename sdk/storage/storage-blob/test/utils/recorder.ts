@@ -94,24 +94,7 @@ const skip = [
   // Size (263MB), Tempfile, UUID (uploadStream)
   "node/highlevel/recording_uploadstream_should_update_progress_event.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/blobclient/recording_startcopyfromurl.json",
-  // Skipping the tests with connection string
-  "node/appendblobclient_nodejs_only/recording_can_be_created_with_a_connection_string.js",
-  "node/appendblobclient_nodejs_only/recording_throws_error_if_constructor_containername_parameter_is_empty.js",
-  "node/appendblobclient_nodejs_only/recording_throws_error_if_constructor_blobname_parameter_is_empty.js",
-  "node/blobclient_nodejs_only/recording_can_be_created_with_a_connection_string.js",
-  "node/blobclient_nodejs_only/recording_throws_error_if_constructor_containername_parameter_is_empty.js",
-  "node/blobclient_nodejs_only/recording_throws_error_if_constructor_blobname_parameter_is_empty.js",
-  "node/blobserviceclient_nodejs_only/recording_can_be_created_from_a_connection_string.js",
-  "node/pageblobclient_nodejs_only/recording_can_be_created_with_a_connection_string.js",
-  "node/pageblobclient_nodejs_only/recording_throws_error_if_constructor_containername_parameter_is_empty.js",
-  "node/pageblobclient_nodejs_only/recording_throws_error_if_constructor_blobname_parameter_is_empty.js",
-  "node/blockblobclient_nodejs_only/recording_can_be_created_with_a_connection_string.js",
-  "node/blockblobclient_nodejs_only/recording_throws_error_if_constructor_containername_parameter_is_empty.js",
-  "node/blockblobclient_nodejs_only/recording_throws_error_if_constructor_blobname_parameter_is_empty.js",
-  "node/containerclient_nodejs_only/recording_can_be_created_with_a_connection_string.js",
-  "node/containerclient_nodejs_only/recording_can_be_created_with_a_connection_string_and_a_container_name_and_an_option_bag.js",
-  "node/containerclient_nodejs_only/recording_throws_error_if_constructor_containername_parameter_is_empty.js"
+  "browsers/blobclient/recording_startcopyfromurl.json"
 ];
 
 abstract class Recorder {
