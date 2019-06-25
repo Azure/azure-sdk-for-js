@@ -102,7 +102,7 @@
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^4.2.0",
+    "rollup-plugin-node-resolve": "^5.0.2",
     "ts-mocha": "^6.0.0",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",

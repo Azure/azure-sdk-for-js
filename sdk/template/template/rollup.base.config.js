@@ -43,6 +43,11 @@ export function nodeConfig(test = false) {
 
     // mark assert as external
     baseConfig.external.push("assert");
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -74,7 +79,7 @@ export function browserConfig(test = false, production = false) {
         }
       }),
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
@@ -88,6 +93,11 @@ export function browserConfig(test = false, production = false) {
     baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.output.file = "browser/azure-template.min.js";
     baseConfig.plugins.push(uglify());
