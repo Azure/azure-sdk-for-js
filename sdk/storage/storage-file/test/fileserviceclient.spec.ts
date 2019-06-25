@@ -1,8 +1,9 @@
 import * as assert from "assert";
 
-import { getBSU, wait } from "./utils";
+import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
@@ -274,7 +275,7 @@ describe("FileServiceClient", () => {
     }
 
     await serviceClient.setProperties(serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
     assert.ok(typeof result.requestId);
