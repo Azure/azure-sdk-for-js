@@ -28,7 +28,7 @@ This project provides a client library in JavaScript that makes it easy to consu
 
 ### Compatibility
 
-This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=6.5) and latest versions of Chrome, Firefox and Edge.
+This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
 
 #### Compatible with IE11
 

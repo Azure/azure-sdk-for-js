@@ -25,7 +25,7 @@ This project provides a client library in JavaScript that makes it easy to consu
 
 ### Compatibility
 
-This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=6.5) and latest versions of Chrome, Firefox and Edge.
+This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
 
 #### Compatible with IE11
 
@@ -54,7 +54,7 @@ if (typeof Symbol === undefined || !Symbol.asyncIterator) {
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting started with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
+There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
@@ -88,7 +88,7 @@ const Azure = require("@azure/storage-queue");
 
 ### JavaScript bundle
 
-To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
+To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
 ```html
 <script src="https://mydomain/azure-storage-queue.min.js"></script>
