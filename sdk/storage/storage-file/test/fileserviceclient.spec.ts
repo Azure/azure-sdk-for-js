@@ -1,8 +1,9 @@
 import * as assert from "assert";
 
 import { getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {

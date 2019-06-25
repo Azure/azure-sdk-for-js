@@ -2,7 +2,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record } from "./utils/recorder";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {

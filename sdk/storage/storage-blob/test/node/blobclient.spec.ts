@@ -225,7 +225,7 @@ describe("BlobClient Node.js only", () => {
     const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-    await delay(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);
