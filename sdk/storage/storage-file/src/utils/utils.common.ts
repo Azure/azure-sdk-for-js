@@ -8,7 +8,7 @@ import { HeaderConstants, URLConstants } from "./constants";
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
- * ## URL encode and escape strategy for JSv10 SDKs
+ * ## URL encode and escape strategy for JS SDKs
  *
  * When customers pass a URL string into XXXClient classes constructor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL

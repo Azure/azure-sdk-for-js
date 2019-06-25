@@ -124,7 +124,7 @@ Use the constructor to create an instance of `QueueServiceClient`, passing in th
     `https://${account}.queue.core.windows.net`,
     sharedKeyCredential, {
       retryOptions: { maxTries: 4 }, // Retry options
-      telemetry: { value: "BasicSample/V10.0.0" } // Customized telemetry string
+      telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
   });
 ```
 

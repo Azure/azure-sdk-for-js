@@ -35,7 +35,7 @@ async function main() {
       maxTries: 4
     }, // Retry options
     telemetry: {
-      value: "BasicSample V10.0.0"
+      value: "BasicSample/V11.0.0"
     } // Customized telemetry string
   });
 
