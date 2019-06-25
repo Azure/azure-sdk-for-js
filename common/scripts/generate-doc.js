@@ -132,12 +132,10 @@ for (const eachService of serviceFolders) {
             }
 
             try {
-              if(checks.typedocPresent){
+              if (checks.typedocPresent) {
                 const result3 = childProcess.spawnSync(
                   "typedoc",
-                  [
-                    docOutputFolder
-                  ],
+                  [docOutputFolder],
                   {
                     cwd: eachPackagePath,
                     shell: true
@@ -149,8 +147,7 @@ for (const eachService of serviceFolders) {
                     ' ":' +
                     result3.output
                 );
-              }
-              else{
+              } else {
                 const result3 = childProcess.spawnSync(
                   "typedoc",
                   [
@@ -189,8 +186,8 @@ for (const eachService of serviceFolders) {
     }
     //Adding service entry for the template index generation
     serviceList.push({ name: eachService, packageList: indexPackageList });
-  } // end-for ServiceFolders
-}
+  }
+} // end-for ServiceFolders
 
 var renderedIndex = nunjucks.render("template.html", {
   serviceList: serviceList
