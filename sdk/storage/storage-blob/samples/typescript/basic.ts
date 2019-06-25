@@ -6,8 +6,8 @@ import { BlobServiceClient, Models } from "../../src"; // Change to "@azure/stor
 
 async function main() {
   // Create Blob Service Client from Connection String
-  const CONNECTION_STRING = "";
-  const blobServiceClient = new BlobServiceClient(CONNECTION_STRING);
+  const STORAGE_CONNECTION_STRING = "";
+  const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   let i = 1;
   for await (const container of blobServiceClient.listContainers()) {

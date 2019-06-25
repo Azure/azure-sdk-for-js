@@ -2,7 +2,7 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
