@@ -44,7 +44,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "tsc samples/helloWorld.ts && tsc samples/listOperations.ts && tsc samples/backupAndRestore.ts && tsc samples/deleteAndRecover.ts",
+    "build:samples": "tsc samples/helloWorld.ts && tsc samples/listOperations.ts && tsc samples/backupAndRestore.ts && tsc samples/deleteAndRecover.ts && tsc samples/challenge.ts",
     "build:test": "npm run build",
     "build": "npm run extract-api && npm run build:samples && rollup -c rollup.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
