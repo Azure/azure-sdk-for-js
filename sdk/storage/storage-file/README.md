@@ -29,7 +29,8 @@ This SDK is compatible with Node.js and browsers, and validated against LTS Node
 #### Compatible with IE11
 
 You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-Or you can load separate polyfills for missed ES feature(s).
+
+You can also load separate polyfills for missed ES feature(s).
 This library depends on following ES features which need external polyfills loaded.
 
 - `Promise`
@@ -55,6 +56,7 @@ There are differences between Node.js and browsers runtime. When getting started
   - `FileClient.uploadFile()`
   - `FileClient.uploadStream()`
   - `FileClient.downloadToBuffer()`
+  - `FileClient.downloadToFile()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
@@ -155,10 +157,10 @@ Alternatively without `for-await-of`:
   let shareIter2 = await serviceClient.listShares();
   i = 1;
   let shareItem = await shareIter2.next();
-  do {
+  while (!shareItem.done) {
     console.log(`Share${i++}: ${shareItem.value.name}`);
     shareItem = await shareIter2.next();
-  } while (shareItem.value);
+  }
 ```
 
 ### Create a new share and a directory
@@ -223,6 +225,7 @@ Alternatively without using `for-await-of`:
     item = await dirIter2.next();
   }
 ```
+For a complete sample on iterating blobs please see [samples/iterators-files-and-directories.ts](./samples/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 

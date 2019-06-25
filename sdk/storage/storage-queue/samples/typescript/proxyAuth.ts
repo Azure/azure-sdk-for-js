@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { SharedKeyCredential, QueueServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { SharedKeyCredential, QueueServiceClient } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -24,7 +24,7 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.createQueueClient(queueName);
+  const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`

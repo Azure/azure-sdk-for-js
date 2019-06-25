@@ -30,7 +30,8 @@ This SDK is compatible with Node.js and browsers, and validated against LTS Node
 #### Compatible with IE11
 
 You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-Or you can load separate polyfills for missed ES feature(s).
+
+You can also load separate polyfills for missed ES feature(s).
 This library depends on following ES features which need external polyfills loaded.
 
 - `Promise`
@@ -154,9 +155,11 @@ Alternatively without `for-await-of`:
   }
 ```
 
+For a complete sample on iterating queues please see [samples/iterators.ts](./samples/iterators.ts).
+
 ### Create a new queue
 
-Use `QueueServiceClient.createQueueClient()` function to create a new queue.
+Use `QueueServiceClient.getQueueClient()` function to create a new queue.
 
 ```javascript
   const queueName = `newqueue${new Date().getTime()}`;
@@ -172,7 +175,7 @@ Use `QueueServiceClient.createQueueClient()` function to create a new queue.
 ### Send a message to the queue
 
 Send messages using a `MessageClient` instance which can be obtained by calling
-`QueueClient.createMessagesClient()`. The returned response contains data about
+`QueueClient.getMessagesClient()`. The returned response contains data about
 the enqueued message, include a `messageId`, and a `popReceipt` that can be used
 to update the message later.
 

@@ -33,7 +33,8 @@ This library is compatible with Node.js and browsers, and validated against LTS 
 #### Compatible with IE11
 
 You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-Or you can load separate polyfills for missed ES feature(s).
+
+You can also load separate polyfills for missed ES feature(s).
 This library depends on following ES features which need external polyfills loaded.
 
 - `Promise`
@@ -59,6 +60,7 @@ There are differences between Node.js and browsers runtime. When getting started
   - `BlockBlobClient.uploadFile()`
   - `BlockBlobClient.uploadStream()`
   - `BlobClient.downloadToBuffer()`
+  - `BlobClient.downloadToFile()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
@@ -139,7 +141,7 @@ Use the constructor to create a instance of `BlobServiceClient`.
 
 ### Create a new container
 
-Use `BlobServiceClient.createContainerClient()` to create a new container.
+Use `BlobServiceClient.getContainerClient()` to create a new container.
 
 ```javascript
   // Create a container
@@ -191,6 +193,8 @@ In addition, pagination is supported for listing too via `byPage()`:
   }
 ```
 
+For a complete sample on iterating containers please see [samples/iterators-containers.ts](./samples/iterators-containers.ts).
+
 ### Create a blob by uploading data to
 
 ```javascript
@@ -219,6 +223,8 @@ Similar to listing containers.
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 ```
+
+For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](./samples/iterators-blobs.ts).
 
 ### Download a blob and convert it to a string (Node.js)
 
