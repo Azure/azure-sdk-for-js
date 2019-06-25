@@ -69,7 +69,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/identity": "^0.1.0",
+    "@azure/identity": "^1.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/node": "^8.0.0",
