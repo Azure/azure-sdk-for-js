@@ -23,7 +23,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.createContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
@@ -32,8 +32,8 @@ async function main() {
     // Create a blob
     const content = "hello";
     const blobName = "newblob" + new Date().getTime();
-    const blobClient = containerClient.createBlobClient(blobName);
-    const blockBlobClient = blobClient.createBlockBlobClient();
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }

@@ -267,7 +267,7 @@ export class MessagesClient extends StorageClient {
    * @param {string} messageId Id of a message.
    * @returns {MessageIdClient} a MessageIdClient instance for the given messageId.
    */
-  public createMessageIdClient(messageId: string): MessageIdClient {
+  public getMessageIdClient(messageId: string): MessageIdClient {
     return new MessageIdClient(appendToURLPath(this.url, messageId), this.pipeline);
   }
 

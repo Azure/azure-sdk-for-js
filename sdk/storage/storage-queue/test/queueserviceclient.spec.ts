@@ -42,8 +42,8 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -84,8 +84,8 @@ describe("QueueServiceClient", () => {
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -108,8 +108,8 @@ describe("QueueServiceClient", () => {
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -135,7 +135,7 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
-      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
       await queueClient.create({ metadata: { key: "val" } });
       queueClients.push(queueClient);
     }
@@ -163,7 +163,7 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
-      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
       await queueClient.create({ metadata: { key: "val" } });
       queueClients.push(queueClient);
     }

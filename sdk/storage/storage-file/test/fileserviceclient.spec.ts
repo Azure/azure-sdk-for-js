@@ -47,8 +47,8 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareClient1 = serviceClient.createShareClient(shareName1);
-    const shareClient2 = serviceClient.createShareClient(shareName2);
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
@@ -91,8 +91,8 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareClient1 = serviceClient.createShareClient(shareName1);
-    const shareClient2 = serviceClient.createShareClient(shareName2);
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
@@ -116,8 +116,8 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareClient1 = serviceClient.createShareClient(shareName1);
-    const shareClient2 = serviceClient.createShareClient(shareName2);
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
@@ -147,7 +147,7 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = recorder.getUniqueName("share");
 
     for (let i = 0; i < 4; i++) {
-      const shareClient = serviceClient.createShareClient(`${shareNamePrefix}x${i}`);
+      const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
       await shareClient.create({ metadata: { key: "val" } });
       shareClients.push(shareClient);
     }
@@ -177,7 +177,7 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = recorder.getUniqueName("share");
 
     for (let i = 0; i < 4; i++) {
-      const shareClient = serviceClient.createShareClient(`${shareNamePrefix}x${i}`);
+      const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
       await shareClient.create({ metadata: { key: "val" } });
       shareClients.push(shareClient);
     }

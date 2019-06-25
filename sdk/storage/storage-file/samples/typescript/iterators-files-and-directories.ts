@@ -23,13 +23,13 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = serviceClient.createShareClient(shareName);
+  const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = shareClient.createDirectoryClient(directoryName);
+  const directoryClient = shareClient.getDirectoryClient(directoryName);
   await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
@@ -38,11 +38,11 @@ async function main() {
 
   // Creates 3 files and 3 directories in the above directory
   for (let i = 0; i < 3; i++) {
-    const directoryClient2 = directoryClient.createDirectoryClient(directoryName + "-sub-" + i);
+    const directoryClient2 = directoryClient.getDirectoryClient(directoryName + "-sub-" + i);
     await directoryClient2.create();
     console.log(`Create sub directory ${directoryName + "-sub-" + i} successfully`);
 
-    const fileClient = directoryClient.createFileClient(fileName + "-sub-" + i);
+    const fileClient = directoryClient.getFileClient(fileName + "-sub-" + i);
     await fileClient.create(content.length);
     console.log(`Create file ${fileName + "-sub-" + i} successfully`);
   }

@@ -574,7 +574,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlobClient} A new BlobClient object for the given blob name.
    * @memberof BlobClient
    */
-  public createBlobClient(blobName: string): BlobClient {
+  public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
@@ -585,7 +585,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof ContainerClient
    */
-  public createAppendBlobClient(blobName: string): AppendBlobClient {
+  public getAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -599,7 +599,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    */
-  public createBlockBlobClient(blobName: string): BlockBlobClient {
+  public getBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -613,7 +613,7 @@ export class ContainerClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof ContainerClient
    */
-  public createPageBlobClient(blobName: string): PageBlobClient {
+  public getPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -877,7 +877,7 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options?: BlockBlobUploadOptions
   ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
-    const blockBlobClient = this.createBlockBlobClient(blobName);
+    const blockBlobClient = this.getBlockBlobClient(blobName);
     const response = await blockBlobClient.upload(body, contentLength, options);
     return {
       blockBlobClient,
@@ -901,7 +901,7 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options?: BlobDeleteOptions
   ): Promise<Models.BlobDeleteResponse> {
-    const blobClient = this.createBlobClient(blobName);
+    const blobClient = this.getBlobClient(blobName);
     return await blobClient.delete(options);
   }
 
