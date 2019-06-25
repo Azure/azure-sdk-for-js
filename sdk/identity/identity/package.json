@@ -66,7 +66,7 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/core-http": "^1.0.0-preview.1.0",
+    "@azure/core-http": "^1.0.0-preview.1",
     "events": "^3.0.0",
     "jws": "~3.2.2",
     "qs": "6.7.0",
