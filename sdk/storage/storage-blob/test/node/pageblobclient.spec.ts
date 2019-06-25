@@ -32,7 +32,7 @@ describe("PageBlobClient Node.js only", () => {
     pageBlobClient = blobClient.createPageBlobClient();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

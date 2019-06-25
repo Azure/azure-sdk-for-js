@@ -33,6 +33,7 @@ describe("BlockBlobClient Node.js only", () => {
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("upload with Readable stream body and default parameters", async () => {
