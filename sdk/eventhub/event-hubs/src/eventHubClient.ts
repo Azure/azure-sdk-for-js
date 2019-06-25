@@ -161,7 +161,7 @@ export interface EventHubClientOptions {
 /**
  * @class
  * The client is the main point of interaction with Azure Event Hubs service.
- * It offers connection to a specific Event Hub within the Event Hubs namespace and
+ * It offers connection to a specific Event Hub within the Event Hubs namespace along with
  * operations for sending event data, receiving events, and inspecting the connected Event Hub.
  */
 export class EventHubClient {
