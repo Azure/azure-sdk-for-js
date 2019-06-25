@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "37126fe1-c01a-0038-50ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Tue, 25 Jun 2019 23:28:04 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

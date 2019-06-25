@@ -1,0 +1,65 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426/Upper%20file%20empty%20another156150527608503513",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:55 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:56 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4C0BA31FB\"",
+    "x-ms-request-id": "37126f5f-c01a-0038-5bad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426/Upper%20file%20empty%20another156150527608503513",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:56 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:56 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4C0BA31FB\"",
+    "x-ms-server-encrypted": "true",
+    "content-type": "application/octet-stream",
+    "x-ms-request-id": "37126f61-c01a-0038-5dad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-type": "File",
+    "content-length": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426",
+   "query": {
+    "comp": "list",
+    "prefix": "Upper file empty another156150527608503513",
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156150527513402942\" DirectoryPath=\"dir156150527513408426\"><Prefix>Upper file empty another156150527608503513</Prefix><Entries><File><Name>Upper file empty another156150527608503513</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:56 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "37126f63-c01a-0038-5fad-2b3bc8000000",
+    "x-ms-version": "2018-03-28"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "Upper file empty another": "Upper file empty another156150527608503513"
+ }
+}
