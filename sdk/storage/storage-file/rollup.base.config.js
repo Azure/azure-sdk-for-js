@@ -109,7 +109,7 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
+          "events/": ["EventEmitter"],
           assert: [
             "ok",
             "deepEqual",
