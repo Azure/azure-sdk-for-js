@@ -37,8 +37,7 @@ describe("LeaseClient from Container", () => {
   it("acquireLease without specifying a lease id", async () => {
     const duration = 30;
     const leaseClient = containerClient.getLeaseClient();
-    const l = await leaseClient.acquireLease(duration);
-    console.log(l);
+    await leaseClient.acquireLease(duration);
 
     const result = await containerClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
