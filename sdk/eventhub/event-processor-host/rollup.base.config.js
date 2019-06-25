@@ -106,7 +106,7 @@ export function browserConfig(test = false) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: { "events/": ["EventEmitter"] }
       }),
       json()
     ]

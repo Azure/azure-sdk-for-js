@@ -131,7 +131,7 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          events: ["EventEmitter"]
+          "events/": ["EventEmitter"]
         }
       }),
 

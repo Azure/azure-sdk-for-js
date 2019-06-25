@@ -143,7 +143,7 @@ export function browserConfig({ test = false, production = false } = {}) {
         dedupe: ["buffer"]
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        namedExports: { "events/": ["EventEmitter"], long: ["ZERO"] }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
