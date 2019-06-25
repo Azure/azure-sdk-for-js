@@ -439,7 +439,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // we need to put back the document producer to the queue if it has more elements.
           // the lock will be released after we know document producer must be put back in the queue or not
           try {
-            const { result: afterItem } = await documentProducer.current();
+            const { result: afterItem, headers: otherHeaders } = await documentProducer.current();
+            this._mergeWithActiveResponseHeaders(otherHeaders);
             if (afterItem === undefined) {
               // no more results is left in this document producer
             } else {

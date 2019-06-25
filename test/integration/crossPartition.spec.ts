@@ -182,16 +182,25 @@ describe("Cross Partition", function() {
       query,
       options,
       expectedOrderIds,
-      expectedCount
+      expectedCount,
+      expectedRus
     }: {
       query: string | SqlQuerySpec;
       options: any;
       expectedOrderIds?: any[];
       expectedCount?: number;
+      expectedRus?: number;
     }) {
       options.populateQueryMetrics = true;
       const queryIterator = container.items.query(query, options);
       const fetchAllResponse = await validateFetchAll(queryIterator, options, expectedOrderIds, expectedCount);
+      if (expectedRus) {
+        const percentDifference = Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
+        assert(
+          percentDifference <= 0.05,
+          "difference between fetchAll request charge and expected request charge should be less than 5%"
+        );
+      }
       queryIterator.reset();
       await validateFetchNextAndHasMoreResults(
         options,
@@ -294,7 +303,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds, expectedRus: 35 });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function() {

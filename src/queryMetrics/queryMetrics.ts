@@ -53,23 +53,21 @@ export class QueryMetrics {
     queryMetricsArray.push(this);
 
     for (const queryMetrics of queryMetricsArray) {
-      if (queryMetrics == null) {
-        throw new Error("queryMetricsArray has null or undefined item(s)");
+      if (queryMetrics) {
+        retrievedDocumentCount += queryMetrics.retrievedDocumentCount;
+        retrievedDocumentSize += queryMetrics.retrievedDocumentSize;
+        outputDocumentCount += queryMetrics.outputDocumentCount;
+        outputDocumentSize += queryMetrics.outputDocumentSize;
+        indexHitDocumentCount += queryMetrics.indexHitDocumentCount;
+        totalQueryExecutionTime = totalQueryExecutionTime.add(queryMetrics.totalQueryExecutionTime);
+        queryPreparationTimesArray.push(queryMetrics.queryPreparationTimes);
+        indexLookupTime = indexLookupTime.add(queryMetrics.indexLookupTime);
+        documentLoadTime = documentLoadTime.add(queryMetrics.documentLoadTime);
+        vmExecutionTime = vmExecutionTime.add(queryMetrics.vmExecutionTime);
+        runtimeExecutionTimesArray.push(queryMetrics.runtimeExecutionTimes);
+        documentWriteTime = documentWriteTime.add(queryMetrics.documentWriteTime);
+        clientSideQueryMetricsArray.push(queryMetrics.clientSideMetrics);
       }
-
-      retrievedDocumentCount += queryMetrics.retrievedDocumentCount;
-      retrievedDocumentSize += queryMetrics.retrievedDocumentSize;
-      outputDocumentCount += queryMetrics.outputDocumentCount;
-      outputDocumentSize += queryMetrics.outputDocumentSize;
-      indexHitDocumentCount += queryMetrics.indexHitDocumentCount;
-      totalQueryExecutionTime = totalQueryExecutionTime.add(queryMetrics.totalQueryExecutionTime);
-      queryPreparationTimesArray.push(queryMetrics.queryPreparationTimes);
-      indexLookupTime = indexLookupTime.add(queryMetrics.indexLookupTime);
-      documentLoadTime = documentLoadTime.add(queryMetrics.documentLoadTime);
-      vmExecutionTime = vmExecutionTime.add(queryMetrics.vmExecutionTime);
-      runtimeExecutionTimesArray.push(queryMetrics.runtimeExecutionTimes);
-      documentWriteTime = documentWriteTime.add(queryMetrics.documentWriteTime);
-      clientSideQueryMetricsArray.push(queryMetrics.clientSideMetrics);
     }
 
     return new QueryMetrics(
