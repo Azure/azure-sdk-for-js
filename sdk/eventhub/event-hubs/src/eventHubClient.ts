@@ -48,40 +48,40 @@ export interface RetryOptions {
 }
 
 /**
- * The set of options that can be specified when creating an `EventHubProducer`.
+ * The set of options to configure the behavior of an `EventHubProducer`.
  * These can be specified when creating the producer via the `createProducer` method.
  */
 export interface EventHubProducerOptions {
   /**
    * @property
    * The identifier of the partition that the producer will be bound to.
-   * If an id is provided, all events sent using the producer will reach the same partition.
-   * If no id is provided, the service will determine the partition to which the event will be sent.
+   * If no value is provided, all events sent using the producer will reach the same partition.
+   * If no value is provided, the service will determine the partition to which the event will be sent.
    */
   partitionId?: string;
   /**
    * @property
-   * The retry options used to govern retry attempts when an issue is encountered while sending.
+   * The retry options used to govern retry attempts when an issue is encountered while sending events.
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
 }
 
 /**
- * The set of options that can be specified to influence the way in which events are sent to the
- * Event Hubs service.
+ * The set of options to configure the send operation on the `EventHubProducer`.
  */
 export interface SendOptions {
   /**
    * @property
-   * The partition hashing key to associate with the event or batch of events.
+   * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;
   /**
    * @property
-   * An implementation of `AbortSignalLike` to signal the request to cancel the operation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
 }
@@ -93,20 +93,17 @@ export interface SendOptions {
 export interface EventHubConsumerOptions {
   /**
    * @property
-   * The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value should be null or undefined.
+   * The owner level associated with an exclusive consumer.
    *
-   * When populated, the owner level indicates that a consumer is intended to be the only receiver of events for the
-   * requested partition and an associated consumer group. To do so, this consumer will attempt to assert ownership
-   * over the partition; in the case where more than one exclusive consumer attempts to assert ownership for the same
-   * partition/consumer group pair, the one having a larger `ownerLevel` value will "win."
-   *
-   * When an exclusive consumer is used, other consumers which are non-exclusive or which have a lower owner level will either
-   * not be allowed to be created or if they already exist, will encounter an exception during the next attempted operation.
+   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
+   * requested partition and the associated consumer group.
+   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
+   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
    */
   ownerLevel?: number;
   /**
    * @property
-   * The retry options used to govern retry attempts when an issue is encountered while receiving.
+   * The retry options used to govern retry attempts when an issue is encountered while receiving events.
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
@@ -165,7 +162,7 @@ export interface EventHubClientOptions {
  * @class
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace and
- * offers operations for sending event data, receiving events, and inspecting the connected Event Hub.
+ * operations for sending event data, receiving events, and inspecting the connected Event Hub.
  */
 export class EventHubClient {
   /**
@@ -289,8 +286,9 @@ export class EventHubClient {
 
   /**
    * Creates an Event Hub producer responsible for sending `EventData` to the Event Hub.
-   * Depending on whether a `partitionId` is specified in the `options`, the producer may be created to allow event data to
-   * be automatically routed to an available partition or specific to a partition.
+   * If `partitionId` is specified in the `options`, all event data sent using the producer
+   * will be sent to the specified partition.
+   * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
    *
    * Allowing automatic routing of partitions is recommended when:
    *  - The sending of events needs to be highly available.
@@ -317,7 +315,6 @@ export class EventHubClient {
    * Exclusive consumers were previously referred to as "Epoch Receivers".
    *
    * Designating a consumer as exclusive may be specified in the `options` via `ownerLevel`.
-   * By default, consumers are created as non-exclusive.
    *
    * @param consumerGroup The name of the consumer group this consumer is associated with. Events are read in the context of this group.
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
@@ -342,7 +339,8 @@ export class EventHubClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns A promise that resolves with EventHubProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -362,7 +360,8 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns A promise that resolves with an Array of strings.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -381,7 +380,8 @@ export class EventHubClient {
   /**
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
-   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns A promise that resoloves with PartitionProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.

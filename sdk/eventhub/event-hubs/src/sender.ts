@@ -9,9 +9,10 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * A producer responsible for transmitting `EventData` to a specific Event Hub.
- * Depending on the options specified at creation, the producer may be created to allow event data
- * to be automatically routed to an available partition or specific to a partition.
+ * A producer responsible for sending `EventData` to a specific Event Hub.
+ * If `partitionId` is specified in the `options`, all event data sent using the producer
+ * will be sent to the specified partition.
+ * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
  *
  * Allowing automatic routing of partitions is recommended when:
  *  - The sending of events needs to be highly available.
@@ -56,11 +57,11 @@ export class EventHubProducer {
   }
 
   /**
-   * Send an individual or set of event data to the associated Event Hub.
+   * Send a single or an array of events to the associated Event Hub.
    *
    * @param eventData  An individual event data or array of event data objects to send.
-   * @param options The set of options where you can specifiy the partition to send the message to along with controlling the send
-   * request via retry options, log level and abort signal.
+   * @param options The set of options that can be specified to influence the way in which
+   * events are sent to the associated Event Hub, including an abort signal to cancel the operation.
    *
    * @returns Promise<void>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.

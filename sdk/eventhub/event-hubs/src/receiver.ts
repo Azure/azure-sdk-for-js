@@ -22,7 +22,8 @@ export interface EventIteratorOptions {
    */
   // prefetchCount?: number;
   /**
-   * An implementation of `AbortSignalLike` to signal the `EventIterator` to cancel the operation.
+   * An implementation of the `AbortSignalLike` interface to signal the `EventIterator` to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
 }
@@ -93,13 +94,10 @@ export class EventHubConsumer {
   /**
    * @property The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
    *
-   * When populated, the owner level indicates that a consumer is intended to be the only receiver of events for the
-   * requested partition and an associated consumer group. To do so, this consumer will attempt to assert ownership
-   * over the partition; in the case where more than one exclusive consumer attempts to assert ownership for the same
-   * partition/consumer group pair, the one having a larger onwership level value will "win."
-   *
-   * When an exclusive consumer is used, those consumers which are not exclusive or which have a lower owner level will either
-   * not be allowed to be created, if they already exist, will encounter an exception during the next attempted operation.
+   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
+   * requested partition and the associated consumer group.
+   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
+   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
    * @readonly
    */
   get ownerLevel(): number | undefined {
@@ -145,8 +143,8 @@ export class EventHubConsumer {
    * @param onMessage The message handler to receive event data objects.
    * @param onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param abortSignal An implementation of `AbortSignalLike` to signal the request to cancel the operation.
-   *
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {TypeError} Thrown if a required parameter is missing.
@@ -181,7 +179,7 @@ export class EventHubConsumer {
   /**
    * Returns an async iterable that retrieves events.
    *
-   * The async iterable will not indicate that it is done.
+   * The async iterable cannot indicate that it is done.
    * When using `for..await..of` to iterate over the events returned
    * by the async iterable, take care to exit the for loop after receiving the
    * desired number of messages, or provide an `AbortSignal` to control when to exit the loop.
@@ -211,7 +209,8 @@ export class EventHubConsumer {
    * @param maxMessageCount The maximum number of messages to receive in this batch. Must be a value greater than 0.
    * @param [maxWaitTimeInSeconds] The maximum amount of time to wait to build up the requested message count for the batch;
    * If not provided, it defaults to 60 seconds.
-   * @param abortSignal An `AbortSignal` instance to signal the request to cancel the operation.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @returns Promise<ReceivedEventData[]>.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.

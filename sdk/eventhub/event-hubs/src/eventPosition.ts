@@ -57,9 +57,10 @@ export class EventPosition {
    * @property The offset of the event identified by this position.
    * Expected to be undefined if the position is just created from a sequence number or an enqueued time.
    *
-   * The offset is the relative position for event in the context of the stream.
-   * The offset should not be considered a stable value, as the same offset may refer to a different event
-   * as events reach the age limit for retention and are no longer visible within the stream.
+   * The offset is the relative position for an event in the context of the partition.
+   * The offset should not be considered a stable value.
+   * The same offset may refer to a different event as events reach the age limit for
+   * retention and are no longer visible within the partition.
    */
   offset?: string;
   /**
