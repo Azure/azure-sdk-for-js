@@ -155,7 +155,7 @@ for (const eachService of serviceFolders) {
                     "--excludeNotExported",
                     '--exclude "node_modules/**/*"',
                     "--ignoreCompilerErrors",
-                    "--mode modules",
+                    "--mode file",
                     docOutputFolder
                   ],
                   {
@@ -164,7 +164,7 @@ for (const eachService of serviceFolders) {
                   }
                 );
                 console.log(
-                  'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode modules ' +
+                  'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
                     docOutputFolder +
                     ' ":' +
                     result3.output

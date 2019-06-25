@@ -1,5 +1,5 @@
 {
-  "mode": "modules",
+  "mode": "file",
   "out": "../../../docGen/event-hubs",
   "excludeNotExported": true,
   "excludePrivate": true,
