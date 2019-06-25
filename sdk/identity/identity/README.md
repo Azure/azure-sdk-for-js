@@ -12,7 +12,7 @@ to authenticate API requests. It supports token authentication using an Azure Ac
   - if you don't have one, you can sign up for a [free account](https://azure.microsoft.com/free/)
 - Node.js 8 LTS or higher
 
-**NOTE:** These credential implementations are not supported in the browser yet.  We will provide browser-ready implementations in a future preview release.
+**NOTE:** The credential implementations in this library are not yet supported in the browser.  We will provide browser-supported implementations for some in a future preview release.
 
 ### Install the package
 
@@ -25,8 +25,8 @@ npm install --save @azure/identity
 
 ### Credentials
 
-Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration. Azure SDK management
-libraries do not accept these credentials.
+Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples.  Azure SDK management plane libraries (those starting with `@azure/arm-*`)
+do not accept these credentials.
 
 Credentials differ mostly in configuration:
 
@@ -41,7 +41,8 @@ Credentials differ mostly in configuration:
 Credentials can be chained and tried in turn until one succeeds; see [chaining credentials](#chaining-credentials) for details.
 
 ### DefaultAzureCredential
-`DefaultAzureCredential` is appropriate for most scenarios. It supports authenticating as a service principal or managed identity. To authenticate as a service principal, provide configuration in environment variables as described in the next section.
+
+`DefaultAzureCredential` is appropriate for most scenarios. It supports authenticating as a service principal or managed identity. To authenticate as a service principal, provide configuration in environment variables as described in the next section.  Currently this credential attempts to use the `EnvironmentCredential` and `ManagedIdentityCredential`, in that order.
 
 Authenticating as a managed identity requires no configuration, but does require platform support. See the [managed identity documentation](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities) for more information.
 
