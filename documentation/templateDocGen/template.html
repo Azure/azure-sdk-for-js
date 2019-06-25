@@ -10,22 +10,30 @@
   </head>
   <body>
     <header>
-        <div class="container">
-          <h1 id="azure-sdk-for-javascript">Azure SDK for Javascript</h1>
-        </div>
+      <div class="container">
+        <h1 id="azure-sdk-for-javascript">Azure SDK for Javascript</h1>
+      </div>
     </header>
     <div class="container container-main">
       <div class="row">
-        <div class="col-8 col-content">
+        <div class="col-30 col-content">
           <div class=" tsd-typography">
             <section class="tsd-panel tsd-index-panel">
               <div class="tsd-index-content">
                 <section class="tsd-index-section ">
                   {% for service in serviceList %}
-                  <h3>{{service.name}}</h3>
+                  <h4
+                    style="margin: 0 -20px 10px -20px; padding: 0 20px 10px 20px; border-bottom: 1px solid #eee;"
+                  >
+                    {{ service.name }}
+                  </h4>
                   <ul class="tsd-index-list">
                     {% for package in service.packageList %}
-                    <li class="tsd-kind-external-module"><a href="{{package}}/index.html" class="tsd-kind-icon">"{{package}}"</a></li>
+                    <li class="tsd-kind-external-module">
+                      <a href="{{ package }}/index.html" class="tsd-kind-icon"
+                        >"{{ package }}"</a
+                      >
+                    </li>
                     {% endfor %}
                   </ul>
                   {% endfor %}

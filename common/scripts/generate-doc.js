@@ -81,7 +81,12 @@ for (const eachService of serviceFolders) {
     //Initializing package list for template index generation
     let indexPackageList = [];
     for (const eachPackage of packageList) {
-      let checks = { isRush: false, isPrivate: false, srcPresent: false, typedocPresent: false };
+      let checks = {
+        isRush: false,
+        isPrivate: false,
+        srcPresent: false,
+        typedocPresent: false
+      };
       console.log(
         "checks before walk: checks.isRush = " +
           checks.isRush +
