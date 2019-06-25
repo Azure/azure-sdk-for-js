@@ -6,6 +6,7 @@ import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp
 /**
  * Describes the options that can be set while creating an EventPosition.
  * @internal
+ * @ignore
  * @interface EventPositionOptions
  */
 export interface EventPositionOptions {

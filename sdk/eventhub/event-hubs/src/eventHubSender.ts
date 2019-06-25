@@ -31,6 +31,9 @@ import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
+/**
+ * @ignore
+ */
 interface CreateSenderOptions {
   newName?: boolean;
 }
@@ -39,6 +42,7 @@ interface CreateSenderOptions {
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  * @internal
+ * @ignore
  */
 export class EventHubSender extends LinkEntity {
   /**

@@ -22,6 +22,7 @@ import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-pr
 /**
  * @interface ConnectionContext
  * @internal
+ * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */

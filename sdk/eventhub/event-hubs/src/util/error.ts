@@ -6,6 +6,7 @@ import { ConnectionContext } from "../connectionContext";
 
 /**
  * @internal
+ * @ignore
  * Logs and throws Error if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */
@@ -20,6 +21,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is undefined or null
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to check
