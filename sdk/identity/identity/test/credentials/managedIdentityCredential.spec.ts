@@ -5,12 +5,13 @@ import qs from "qs";
 import assert from "assert";
 import { ManagedIdentityCredential } from "../../src";
 import { ImdsEndpoint, ImdsApiVersion, AppServiceMsiApiVersion } from "../../src/client/identityClient";
-import { MockAuthHttpClient, MockAuthResponse } from "./authTestUtils";
+import { MockAuthHttpClient, MockAuthHttpClientOptions } from "./authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 
 interface AuthRequestDetails {
   request: WebResource,
-  token: AccessToken | null
+  token: AccessToken | null,
+  sendRequestCount: number
 };
 
 describe("ManagedIdentityCredential", function () {
@@ -44,16 +45,48 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
+  it("returns null when IMDS endpoint can't be detected", async function () {
+    // Mock a timeout so that the endpoint ping fails
+    const authDetails =
+      await getMsiTokenAuthRequest(
+        ["https://service/.default"],
+        "client",
+        { mockTimeout: true });
+
+    assert.strictEqual(authDetails.request.timeout, 500);
+    assert.strictEqual(authDetails.token, null);
+  });
+
+  it("doesn't try IMDS endpoint again once it can't be detected", async function () {
+    const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
+    const credential = new ManagedIdentityCredential(
+      "client",
+      mockHttpClient.identityClientOptions
+    );
+
+    // Run getToken twice and verify that an auth request is only
+    // attempted the first time.  It should be skipped the second
+    // time after no IMDS endpoint was found.
+    const firstGetToken = await credential.getToken("scopes");
+    const secondGetToken = await credential.getToken("scopes");
+
+    assert.strictEqual(firstGetToken, null);
+    assert.strictEqual(secondGetToken, null);
+    assert.strictEqual(mockHttpClient.sendRequestCount, 1);
+  });
+
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
     process.env.MSI_SECRET = "secret";
 
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
-      status: 200,
-      parsedBody: {
-        token: "token",
-        expires_on: "06/20/2019 02:57:58 +00:00"
+      authResponse: {
+        status: 200,
+        parsedBody: {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        }
       }
     });
     const authRequest = authDetails.request;
@@ -95,9 +128,9 @@ describe("ManagedIdentityCredential", function () {
   async function getMsiTokenAuthRequest(
     scopes: string | string[],
     clientId?: string,
-    mockAuthResponse?: MockAuthResponse
+    mockAuthOptions?: MockAuthHttpClientOptions
   ): Promise<AuthRequestDetails> {
-    const mockHttpClient = new MockAuthHttpClient(mockAuthResponse);
+    const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
     const credential = new ManagedIdentityCredential(
       clientId,
       mockHttpClient.identityClientOptions
@@ -105,8 +138,9 @@ describe("ManagedIdentityCredential", function () {
 
     const token = await credential.getToken(scopes);
     return {
+      token,
       request: await mockHttpClient.getAuthRequest(),
-      token
+      sendRequestCount: mockHttpClient.sendRequestCount
     };
   }
 });

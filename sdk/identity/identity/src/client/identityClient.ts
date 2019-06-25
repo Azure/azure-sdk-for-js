@@ -10,7 +10,8 @@ import {
   ServiceClientOptions,
   GetTokenOptions,
   WebResource,
-  RequestPrepareOptions
+  RequestPrepareOptions,
+  RestError
 } from "@azure/core-http";
 import { AuthenticationError } from "./errors";
 
@@ -36,10 +37,10 @@ export class IdentityClient extends ServiceClient {
   }
 
   private async sendTokenRequest(
-    requestOptions: RequestPrepareOptions,
-    expiresOnParser?: (responseBody: any) => number
+    webResource: WebResource,
+    expiresOnParser?: (responseBody: any) => number,
   ): Promise<AccessToken | null> {
-    const response = await this.sendRequest(requestOptions);
+    const response = await this.sendRequest(webResource);
 
     expiresOnParser = expiresOnParser || ((responseBody: any) => {
       return Date.now() + responseBody.expires_in * 1000
@@ -146,6 +147,35 @@ export class IdentityClient extends ServiceClient {
     };
   }
 
+  private async pingImdsEndpoint(resource: string, clientId?: string): Promise<boolean> {
+    const request = this.createImdsAuthRequest(resource, clientId);
+
+    // This will always be populated, but let's make TypeScript happy
+    if (request.headers) {
+      // Remove the Metadata header to invoke a request error from
+      // IMDS endpoint
+      delete request.headers.Metadata;
+    }
+
+    // Create a request with a 500 msec timeout since we expect that
+    // not having a "Metadata" header should cause an error to be
+    // returned quickly from the endpoint, proving its availability.
+    const webResource = this.createWebResource(request);
+    webResource.timeout = 500;
+
+    try {
+      await this.sendRequest(webResource);
+    } catch (err) {
+      if (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) {
+        // Either request failed or IMDS endpoint isn't available
+        return false;
+      }
+    }
+
+    // If we received any response, the endpoint is available
+    return true;
+  }
+
   authenticateClientSecret(
     tenantId: string,
     clientId: string,
@@ -175,8 +205,9 @@ export class IdentityClient extends ServiceClient {
     return this.sendTokenRequest(webResource);
   }
 
-  authenticateManagedIdentity(
+  async authenticateManagedIdentity(
     scopes: string | string[],
+    checkIfImdsEndpointAvailable: boolean,
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
@@ -200,8 +231,15 @@ export class IdentityClient extends ServiceClient {
         authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
       }
     } else {
-      // Running in an Azure VM
-      authRequestOptions = this.createImdsAuthRequest(resource, clientId);
+      // Ping the IMDS endpoint to see if it's available
+      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId)) {
+        // Running in an Azure VM
+        authRequestOptions = this.createImdsAuthRequest(resource, clientId);
+      } else {
+        // Returning null tells the ManagedIdentityCredential that
+        // no MSI authentication endpoints are available
+        return null;
+      }
     }
 
     const webResource = this.createWebResource({
