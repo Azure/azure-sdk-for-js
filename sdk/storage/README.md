@@ -182,7 +182,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.createContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);

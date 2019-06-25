@@ -144,7 +144,7 @@ Use `BlobServiceClient.createContainerClient()` to create a new container.
 ```javascript
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.createContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(
@@ -196,8 +196,8 @@ In addition, pagination is supported for listing too via `byPage()`:
 ```javascript
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.createBlobClient(blobName);
-  const blockBlobClient = blobClient.createBlockBlobClient();
+  const blobClient = containerClient.getBlobClient(blobName);
+  const blockBlobClient = blobClient.getBlockBlobClient();
   const uploadBlobResponse = await blockBlobClient.upload(
     content,
     content.length

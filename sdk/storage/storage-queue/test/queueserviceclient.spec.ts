@@ -1,8 +1,9 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, wait } from "./utils";
+import { getAlternateQSU, getQSU } from "./utils";
 import { record } from "./utils/recorder";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
@@ -42,8 +43,8 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -84,8 +85,8 @@ describe("QueueServiceClient", () => {
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -108,8 +109,8 @@ describe("QueueServiceClient", () => {
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
-    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient1 = queueServiceClient.getQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -135,7 +136,7 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
-      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
       await queueClient.create({ metadata: { key: "val" } });
       queueClients.push(queueClient);
     }
@@ -163,7 +164,7 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
-      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      const queueClient = queueServiceClient.getQueueClient(`${queueNamePrefix}x${i}`);
       await queueClient.create({ metadata: { key: "val" } });
       queueClients.push(queueClient);
     }
@@ -271,7 +272,7 @@ describe("QueueServiceClient", () => {
     }
 
     await queueServiceClient.setProperties(serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await queueServiceClient.getProperties();
     assert.ok(typeof result.requestId);

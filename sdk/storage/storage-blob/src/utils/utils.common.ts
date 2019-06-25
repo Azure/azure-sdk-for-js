@@ -48,7 +48,7 @@ import { HeaderConstants, URLConstants } from "./constants";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `containerClient.createBlobClient(blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `containerClient.getBlobClient(blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *

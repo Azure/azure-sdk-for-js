@@ -30,19 +30,19 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = serviceClient.createShareClient(shareName);
+  const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = shareClient.createDirectoryClient(directoryName);
+  const directoryClient = shareClient.getDirectoryClient(directoryName);
   await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = directoryClient.createFileClient(fileName);
+  const fileClient = directoryClient.getFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
   // Parallel uploading with FileClient.uploadFile() in Node.js runtime

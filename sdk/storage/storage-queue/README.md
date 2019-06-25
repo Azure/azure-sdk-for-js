@@ -160,7 +160,7 @@ Use `QueueServiceClient.createQueueClient()` function to create a new queue.
 
 ```javascript
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.createQueueClient(queueName);
+  const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
@@ -178,7 +178,7 @@ to update the message later.
 
 ```javascript
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = queueClient.createMessagesClient();
+  const messagesClient = queueClient.getMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue(
     "Hello World!"
   );
@@ -221,7 +221,7 @@ If your code fails to process a message due to hardware or software failure, thi
         dequeueMessageItem.messageText
       }`
     );
-    const messageIdClient = messagesClient.createMessageIdClient(
+    const messageIdClient = messagesClient.getMessageIdClient(
       dequeueMessageItem.messageId
     );
     const deleteMessageResponse = await messageIdClient.delete(

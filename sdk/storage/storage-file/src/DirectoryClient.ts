@@ -246,7 +246,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {DirectoryClient} The DirectoryClient object for the given subdirectory name.
    * @memberof DirectoryClient
    */
-  public createDirectoryClient(subDirectoryName: string): DirectoryClient {
+  public getDirectoryClient(subDirectoryName: string): DirectoryClient {
     return new DirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
       this.pipeline
@@ -269,7 +269,7 @@ export class DirectoryClient extends StorageClient {
     directoryClient: DirectoryClient;
     directoryCreateResponse: Models.DirectoryCreateResponse;
   }> {
-    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryClient = this.getDirectoryClient(directoryName);
     const directoryCreateResponse = await directoryClient.create(options);
     return {
       directoryClient,
@@ -291,7 +291,7 @@ export class DirectoryClient extends StorageClient {
     directoryName: string,
     options?: DirectoryDeleteOptions
   ): Promise<Models.DirectoryDeleteResponse> {
-    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryClient = this.getDirectoryClient(directoryName);
     return await directoryClient.delete(options);
   }
 
@@ -310,7 +310,7 @@ export class DirectoryClient extends StorageClient {
     size: number,
     options?: FileCreateOptions
   ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
-    const fileClient = this.createFileClient(fileName);
+    const fileClient = this.getFileClient(fileName);
     const fileCreateResponse = await fileClient.create(size, options);
     return {
       fileClient,
@@ -341,7 +341,7 @@ export class DirectoryClient extends StorageClient {
     fileName: string,
     options?: FileDeleteOptions
   ): Promise<Models.FileDeleteResponse> {
-    const fileClient = this.createFileClient(fileName);
+    const fileClient = this.getFileClient(fileName);
     return await fileClient.delete(options);
   }
 
@@ -352,7 +352,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {FileClient} A new FileClient object for the given file name.
    * @memberof FileClient
    */
-  public createFileClient(fileName: string): FileClient {
+  public getFileClient(fileName: string): FileClient {
     return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
   }
 

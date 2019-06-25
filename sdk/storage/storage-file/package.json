@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file",
   "sdk-type": "client",
-  "version": "11.0.0-preview.1",
+  "version": "11.0.0-preview.1.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -41,8 +41,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run integration-test",
-    "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [

@@ -15,7 +15,7 @@ describe("QueueClient", () => {
   beforeEach(async function () {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -46,7 +46,7 @@ describe("QueueClient", () => {
 
   it("getProperties negative", async () => {
     const queueName2 = recorder.getUniqueName("queue", "queue2");
-    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    const queueClient2 = queueServiceClient.getQueueClient(queueName2);
     let error;
     try {
       await queueClient2.getProperties();
@@ -67,7 +67,7 @@ describe("QueueClient", () => {
   });
 
   it("create with all parameters", async () => {
-    const qClient = queueServiceClient.createQueueClient(recorder.getUniqueName(queueName));
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
     const metadata = { key: "value" };
     await qClient.create({ metadata });
     const result = await qClient.getProperties();
@@ -76,7 +76,7 @@ describe("QueueClient", () => {
 
   // create with invalid queue name
   it("create negative", async () => {
-    const qClient = queueServiceClient.createQueueClient("");
+    const qClient = queueServiceClient.getQueueClient("");
     let error;
     try {
       await qClient.create();

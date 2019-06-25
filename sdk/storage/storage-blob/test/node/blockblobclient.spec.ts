@@ -8,18 +8,18 @@ import { assertClientUsesTokenCredential } from '../utils/assert';
 describe("BlockBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerClient = blobServiceClient.getContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let blobClient = containerClient.getBlobClient(blobName);
+  let blockBlobClient = blobClient.getBlockBlobClient();
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
   });
 
   afterEach(async () => {

@@ -249,7 +249,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    */
-  public createContainerClient(containerName: string): ContainerClient {
+  public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline
@@ -271,7 +271,7 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerCreateResponse: Models.ContainerCreateResponse;
   }> {
-    const containerClient = this.createContainerClient(containerName);
+    const containerClient = this.getContainerClient(containerName);
     const containerCreateResponse = await containerClient.create(options);
     return {
       containerClient,
@@ -291,7 +291,7 @@ export class BlobServiceClient extends StorageClient {
     containerName: string,
     options?: ContainerDeleteMethodOptions
   ): Promise<Models.ContainerDeleteResponse> {
-    const containerClient = this.createContainerClient(containerName);
+    const containerClient = this.getContainerClient(containerName);
     return await containerClient.delete(options);
   }
 

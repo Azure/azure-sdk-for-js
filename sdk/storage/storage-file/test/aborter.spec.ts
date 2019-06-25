@@ -18,7 +18,7 @@ describe("Aborter", () => {
   beforeEach(async function() {
     recorder = record(this);
     shareName = getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
   });
 
   afterEach(() => {
