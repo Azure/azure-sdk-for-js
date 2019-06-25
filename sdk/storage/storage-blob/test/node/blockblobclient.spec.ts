@@ -1,23 +1,32 @@
 import * as assert from "assert";
 
-import { bodyToString, getBSU, getUniqueName, getConnectionStringFromEnvironment } from "../utils";
-import { BlockBlobClient, newPipeline, SharedKeyCredential } from "../../src";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from '../utils/assert';
+import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
+import {
+  BlockBlobClient,
+  newPipeline,
+  SharedKeyCredential,
+  BlobClient,
+  ContainerClient
+} from "../../src";
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
+import { record } from "../utils/recorder";
 
 describe("BlockBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.createBlobClient(blobName);
-  let blockBlobClient = blobClient.createBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
+  let recorder: any;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.createBlobClient(blobName);
     blockBlobClient = blobClient.createBlockBlobClient();
   });
@@ -27,7 +36,7 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("upload with Readable stream body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
     await blockBlobClient.upload(bodyBuffer, body.length);
@@ -48,7 +57,7 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("upload with Chinese string body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring你好");
+    const body: string = recorder.getUniqueName("randomstring你好");
     await blockBlobClient.upload(body, Buffer.byteLength(body));
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
@@ -59,7 +68,7 @@ describe("BlockBlobClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
 
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -74,7 +83,7 @@ describe("BlockBlobClient Node.js only", () => {
       }
     });
 
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -82,11 +91,12 @@ describe("BlockBlobClient Node.js only", () => {
 
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
     const newClient = new BlockBlobClient(blockBlobClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);
   });
@@ -97,7 +107,7 @@ describe("BlockBlobClient Node.js only", () => {
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
 
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -110,7 +120,7 @@ describe("BlockBlobClient Node.js only", () => {
       blobName
     );
 
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);

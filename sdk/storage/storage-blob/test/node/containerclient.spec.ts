@@ -1,24 +1,28 @@
 import * as assert from "assert";
 
-import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "../utils";
+import { getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 import { ContainerClient, newPipeline, SharedKeyCredential } from "../../src";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from '../utils/assert';
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
+import { record } from "../utils/recorder";
 
 describe("ContainerClient Node.js only", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.createContainerClient(containerName);
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let recorder: any;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
   });
 
   afterEach(async () => {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("getAccessPolicy", async () => {
@@ -91,11 +95,12 @@ describe("ContainerClient Node.js only", () => {
 
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
     const newClient = new ContainerClient(containerClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);
   });
