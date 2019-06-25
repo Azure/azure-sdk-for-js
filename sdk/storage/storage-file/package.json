@@ -41,8 +41,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
+    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
