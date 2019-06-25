@@ -2,12 +2,32 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, Models } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, SharedKeyCredential, Models } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
-  // Create Blob Service Client from Connection String
-  const STORAGE_CONNECTION_STRING = "";
-  const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
+  // Enter your storage account name and shared key
+  const account = "";
+  const accountKey = "";
+
+  // Use SharedKeyCredential with storage account and account key
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+
+  // Use TokenCredential with OAuth token
+  // const tokenCredential = new RawTokenCredential("token");
+  // tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
+
+  // Use AnonymousCredential when url already includes a SAS signature
+  // const anonymousCredential = new AnonymousCredential();
+
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  // const pipeline = newPipeline(sharedKeyCredential);
+
+  // List containers
+  const blobServiceClient = new BlobServiceClient(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
+    `https://${account}.blob.core.windows.net`,
+    sharedKeyCredential
+  );
 
   let i = 1;
   for await (const container of blobServiceClient.listContainers()) {
