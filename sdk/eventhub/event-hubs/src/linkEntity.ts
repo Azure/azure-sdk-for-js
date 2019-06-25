@@ -33,6 +33,7 @@ export interface LinkEntityOptions {
 /**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
+ * @ignore
  * @class LinkEntity
  */
 export class LinkEntity {
