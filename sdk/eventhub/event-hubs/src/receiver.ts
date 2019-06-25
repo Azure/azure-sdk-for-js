@@ -22,16 +22,24 @@ export interface EventIteratorOptions {
    */
   // prefetchCount?: number;
   /**
-   * Signal to cancel the operation.
+   * An implementation of the `AbortSignalLike` interface to signal the `EventIterator` to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
- * The EventHubConsumer class can be used to receive messages in a batch or by registering handlers.
+ * A consumer is responsible for reading `EventData` from a specific Event Hub partition
+ * in the context of a specific consumer group.
+ *
+ * Multiple consumers are allowed on the same partition in a consumer group.
+ * If there is a need to have an exclusive consumer for a partition in a consumer group,
+ * then specify the `ownerLevel` in the `options`.
+ * Exclusive consumers were previously referred to as "Epoch Receivers".
+ *
+ * The consumer can be used to receive messages in a batch or by registering handlers.
  * Use the `createConsumer` function on the EventHubClient to instantiate an EventHubConsumer.
- * The EventHubConsumer class is an abstraction over the underlying AMQP receiver link.
- * @class EventHubConsumer
+ * @class
  */
 export class EventHubConsumer {
   /**
@@ -66,7 +74,8 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property Returns the Partition ID to receive events from.
+   * @property The identifier of the Event Hub partition that this consumer is associated with.
+   * Events will be read only from this partition.
    * @readonly
    */
   public get partitionId(): string {
@@ -74,8 +83,8 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property The consumer group from which the handler is receiving
-   * events from.
+   * @property The name of the consumer group that this consumer is associated with.
+   * Events will be read only in the context of this group.
    * @readonly
    */
   get consumerGroup(): string {
@@ -83,7 +92,12 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property The ownerLevel value of the underlying consumer, if present.
+   * @property The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
+   *
+   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
+   * requested partition and the associated consumer group.
+   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
+   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
    * @readonly
    */
   get ownerLevel(): number | undefined {
@@ -107,6 +121,7 @@ export class EventHubConsumer {
   /**
    * @constructor
    * @internal
+   * @ignore
    */
   constructor(
     context: ConnectionContext,
@@ -128,8 +143,8 @@ export class EventHubConsumer {
    * @param onMessage The message handler to receive event data objects.
    * @param onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param abortSignal Signal to cancel current operation.
-   *
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {TypeError} Thrown if a required parameter is missing.
@@ -162,8 +177,14 @@ export class EventHubConsumer {
   }
 
   /**
-   * Gets an async iterator over events from the consumer.
-   * @param [options] Options to pass to the event iterator.
+   * Returns an async iterable that retrieves events.
+   *
+   * The async iterable cannot indicate that it is done.
+   * When using `for..await..of` to iterate over the events returned
+   * by the async iterable, take care to exit the for loop after receiving the
+   * desired number of messages, or provide an `AbortSignal` to control when to exit the loop.
+   *
+   * @param [options] A set of options to apply to an event iterator.
    */
   async *getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
     if (!options) {
@@ -185,10 +206,11 @@ export class EventHubConsumer {
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
    * happens first. This method can be used directly after creating the consumer object and **MUST NOT** be used along with the `start()` method.
    *
-   * @param maxMessageCount The maximum message count. Must be a value greater than 0.
-   * @param [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
-   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param abortSignal Signal to cancel current operation.
+   * @param maxMessageCount The maximum number of messages to receive in this batch. Must be a value greater than 0.
+   * @param [maxWaitTimeInSeconds] The maximum amount of time to wait to build up the requested message count for the batch;
+   * If not provided, it defaults to 60 seconds.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @returns Promise<ReceivedEventData[]>.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
@@ -260,7 +282,7 @@ export class EventHubConsumer {
    * Closes the underlying AMQP receiver link.
    * Once closed, the consumer cannot be used for any further operations.
    * Use the `createConsumer` function on the EventHubClient to instantiate
-   * a new EventHubConsumer
+   * a new EventHubConsumer.
    *
    * @returns
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
