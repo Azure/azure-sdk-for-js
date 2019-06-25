@@ -161,8 +161,8 @@ class NockRecorder extends Recorder {
   }
 }
 
-export function makeUnique(str: string): string {
-  return isPlayingBack ? str : `${str}-${Math.random()}`
+export function uniqueString(): string {
+  return isPlayingBack ? "" : Math.random().toString().slice(2)
 }
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
@@ -222,4 +222,4 @@ export function record(testContext: any): any {
       return date;
     }
   };
-} 
+}  

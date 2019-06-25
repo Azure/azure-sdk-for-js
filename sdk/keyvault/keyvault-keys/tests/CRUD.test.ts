@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
-import { TokenCredential, RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
 import {
   record,
@@ -18,9 +18,6 @@ import { RetryOptions } from "./utils/retry";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - create, read, update and delete operations", () => {
-  let credential: TokenCredential;
-  let keyVaultName: string;
-  let keyVaultUrl: string;
   let client: KeysClient;
   let testClient: TestClient;
   let recorder: any;
@@ -48,9 +45,9 @@ describe("Keys client - create, read, update and delete operations", () => {
     ]);
 
     recorder = record(this); // eslint-disable-line no-invalid-this
-    credential = await new EnvironmentCredential();
-    keyVaultName = getKeyvaultName();
-    keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
+    const credential = await new EnvironmentCredential();
+    const keyVaultName = getKeyvaultName();
+    const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new KeysClient(keyVaultUrl, credential);
     testClient = new TestClient(client);
   });
