@@ -96,6 +96,7 @@ export function browserConfig(test = false, production = false) {
         fs: `
           export function statSync() { }
           export function createReadStream() { }
+          export function createWriteStream() { }
         `,
         os: `
           export const type = 1;
