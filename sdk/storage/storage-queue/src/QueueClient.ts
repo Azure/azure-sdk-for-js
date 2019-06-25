@@ -307,7 +307,7 @@ export class QueueClient extends StorageClient {
    * Creates a MessagesClient object.
    * @param queueName
    */
-  public createMessagesClient(): MessagesClient {
+  public getMessagesClient(): MessagesClient {
     return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
   }
 

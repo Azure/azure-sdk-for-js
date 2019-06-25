@@ -29,11 +29,11 @@ describe("BlobClient Node.js only", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
   });
 
@@ -210,7 +210,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -222,7 +222,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
     delay(1 * 1000);

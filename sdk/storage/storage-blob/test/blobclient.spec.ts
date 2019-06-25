@@ -2,14 +2,9 @@ import * as assert from "assert";
 
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-<<<<<<< HEAD
 import { bodyToString, getBSU } from "./utils";
 import { record, delay } from "./utils/recorder";
 import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
-=======
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-import { delay } from "@azure/core-http";
->>>>>>> upstream/feature/storage
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -26,11 +21,11 @@ describe("BlobClient", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
   });
 
@@ -207,7 +202,7 @@ describe("BlobClient", () => {
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -219,14 +214,10 @@ describe("BlobClient", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
-<<<<<<< HEAD
-    await delay(1 * 1000);
-=======
     delay(1 * 1000);
->>>>>>> upstream/feature/storage
 
     try {
       await newBlobClient.startCopyFromURL(result.copyId!);

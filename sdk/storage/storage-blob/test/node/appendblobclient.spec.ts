@@ -20,10 +20,10 @@ describe("AppendBlobClient Node.js only", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    appendBlobClient = containerClient.createAppendBlobClient(blobName);
+    appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
   afterEach(async () => {

@@ -6,17 +6,17 @@ dotenv.config({ path: "../.env" });
 describe("DirectoryClient", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = serviceClient.createShareClient(shareName);
+  let shareClient = serviceClient.getShareClient(shareName);
   let dirName = getUniqueName("dir");
-  let dirClient = shareClient.createDirectoryClient(dirName);
+  let dirClient = shareClient.getDirectoryClient(dirName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = serviceClient.createShareClient(shareName);
+    shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
     dirName = getUniqueName("dir");
-    dirClient = shareClient.createDirectoryClient(dirName);
+    dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
   });
 
@@ -56,7 +56,7 @@ describe("DirectoryClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cClient = serviceClient.createShareClient(getUniqueName(shareName));
+    const cClient = serviceClient.getShareClient(getUniqueName(shareName));
     const metadata = { key: "value" };
     await cClient.create({ metadata });
     const result = await cClient.getProperties();
@@ -70,18 +70,18 @@ describe("DirectoryClient", () => {
 
   it("listFilesAndDirectories under root directory", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -117,18 +117,18 @@ describe("DirectoryClient", () => {
 
   it("listFilesAndDirectories with all parameters confirgured", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -169,18 +169,18 @@ describe("DirectoryClient", () => {
 
   it("Verify PagedAsyncIterableIterator for listFilesAndDirectories", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -202,18 +202,18 @@ describe("DirectoryClient", () => {
 
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listFilesAndDirectories", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -241,18 +241,18 @@ describe("DirectoryClient", () => {
 
   it("Verify PagedAsyncIterableIterator for listFilesAndDirectories", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -281,18 +281,18 @@ describe("DirectoryClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listFilesAndDirectories", async () => {
     const subDirClients = [];
-    const rootDirClient = shareClient.createDirectoryClient("");
+    const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirClient = rootDirClient.createDirectoryClient(getUniqueName(`${prefix}dir${i}`));
+      const subDirClient = rootDirClient.getDirectoryClient(getUniqueName(`${prefix}dir${i}`));
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = rootDirClient.createFileClient(getUniqueName(`${prefix}file${i}`));
+      const subFileClient = rootDirClient.getFileClient(getUniqueName(`${prefix}file${i}`));
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }

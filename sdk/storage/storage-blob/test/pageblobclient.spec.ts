@@ -18,11 +18,11 @@ describe("PageBlobClient", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    pageBlobClient = blobClient.createPageBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    pageBlobClient = blobClient.getPageBlobClient();
   });
 
   afterEach(async () => {

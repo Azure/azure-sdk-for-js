@@ -29,11 +29,11 @@ describe("Highlevel", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
   });
 
   afterEach(async function() {

@@ -25,11 +25,11 @@ describe("PageBlobClient Node.js only", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    pageBlobClient = blobClient.createPageBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    pageBlobClient = blobClient.getPageBlobClient();
   });
 
   afterEach(async function() {
@@ -48,7 +48,7 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.createPageBlobClient(recorder.getUniqueName("page"));
+    const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
 

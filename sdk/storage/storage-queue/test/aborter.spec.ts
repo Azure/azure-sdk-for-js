@@ -18,7 +18,7 @@ describe("Aborter", () => {
   beforeEach(async function() {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
-    queueClient = queueServiceClient.createQueueClient(queueName);
+    queueClient = queueServiceClient.getQueueClient(queueName);
   });
 
   afterEach(async () => {

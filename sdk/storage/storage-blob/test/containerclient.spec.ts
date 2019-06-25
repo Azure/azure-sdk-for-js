@@ -15,7 +15,7 @@ describe("ContainerClient", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
 
@@ -55,7 +55,7 @@ describe("ContainerClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cClient = blobServiceClient.createContainerClient(recorder.getUniqueName(containerName));
+    const cClient = blobServiceClient.getContainerClient(recorder.getUniqueName(containerName));
     const metadata = { key: "value" };
     const access = "container";
     await cClient.create({ metadata, access });
@@ -72,8 +72,8 @@ describe("ContainerClient", () => {
   it("listBlobsFlat with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`blockblob/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
       blobClients.push(blobClient);
     }
@@ -101,8 +101,8 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 2; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });
@@ -150,8 +150,8 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 4; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });
@@ -181,8 +181,8 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 2; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });
@@ -215,8 +215,8 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 4; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });
@@ -250,8 +250,8 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 4; i++) {
-      const blobClient = containerClient.createBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });
@@ -296,10 +296,10 @@ describe("ContainerClient", () => {
   it("listBlobHierarchySegment with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.createBlobClient(
+      const blobClient = containerClient.getBlobClient(
         recorder.getUniqueName(`blockblob${i}/${i}`)
       );
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
       blobClients.push(blobClient);
     }
@@ -331,10 +331,10 @@ describe("ContainerClient", () => {
     };
     const delimiter = "/";
     for (let i = 0; i < 2; i++) {
-      const blobClient = containerClient.createBlobClient(
+      const blobClient = containerClient.getBlobClient(
         recorder.getUniqueName(`${prefix}${i}${delimiter}${i}`)
       );
-      const blockBlobClient = blobClient.createBlockBlobClient();
+      const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
       });

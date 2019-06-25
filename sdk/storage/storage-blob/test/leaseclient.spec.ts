@@ -16,7 +16,7 @@ describe("LeaseClient from Container", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
 
@@ -42,8 +42,7 @@ describe("LeaseClient from Container", () => {
   it("acquireLease without specifying a lease id", async () => {
     const duration = 30;
     const leaseClient = containerClient.getLeaseClient();
-    const l = await leaseClient.acquireLease(duration);
-    console.log(l);
+    await leaseClient.acquireLease(duration);
 
     const result = await containerClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
@@ -151,11 +150,11 @@ describe("LeaseClient from Blob", () => {
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerClient = blobServiceClient.createContainerClient(containerName);
+    containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     blobName = recorder.getUniqueName("blob");
-    blobClient = containerClient.createBlobClient(blobName);
-    blockBlobClient = blobClient.createBlockBlobClient();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
   });
 
