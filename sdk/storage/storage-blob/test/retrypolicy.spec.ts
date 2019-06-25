@@ -3,7 +3,7 @@ import * as assert from "assert";
 
 import { ContainerClient, RestError } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
@@ -18,7 +18,7 @@ describe("RetryPolicy", () => {
 
   beforeEach(async function() {
     recorder = record(this);
-    containerName = getUniqueName("container");
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
   });
