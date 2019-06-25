@@ -55,7 +55,7 @@ export interface EventHubProducerOptions {
   /**
    * @property
    * The identifier of the partition that the producer will be bound to.
-   * If no value is provided, all events sent using the producer will reach the same partition.
+   * If a value is provided, all events sent using the producer will reach the same partition.
    * If no value is provided, the service will determine the partition to which the event will be sent.
    */
   partitionId?: string;
