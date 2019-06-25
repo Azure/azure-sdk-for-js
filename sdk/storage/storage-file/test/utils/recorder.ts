@@ -21,6 +21,7 @@ if (isPlayingBack) {
   env.ACCOUNT_NAME = "fakestorageaccount";
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
+  env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
