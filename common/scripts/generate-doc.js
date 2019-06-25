@@ -23,7 +23,9 @@ function walk(dir, checks) {
         checks.isPrivate = true;
       }
     }
-
+    if (fileName == "typedoc.json") {
+      checks.typedocPresent = true;
+    }
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
       checks = walk(filePath, checks);
@@ -79,14 +81,16 @@ for (const eachService of serviceFolders) {
     //Initializing package list for template index generation
     let indexPackageList = [];
     for (const eachPackage of packageList) {
-      let checks = { isRush: false, isPrivate: false, srcPresent: false };
+      let checks = { isRush: false, isPrivate: false, srcPresent: false, typedocPresent: false };
       console.log(
         "checks before walk: checks.isRush = " +
           checks.isRush +
           " , checks.isPrivate = " +
           checks.isPrivate +
           ", checks.srcPresent = " +
-          checks.srcPresent
+          checks.srcPresent +
+          ", typedocPresent = " +
+          checks.typedocPresent
       );
       eachPackagePath = path.join(eachServicePath, eachPackage);
       pathToAssets = eachPackagePath + "/assets";
@@ -100,7 +104,9 @@ for (const eachService of serviceFolders) {
             " , checks.isPrivate = " +
             checks.isPrivate +
             ", checks.srcPresent = " +
-            checks.srcPresent
+            checks.srcPresent +
+            ", typedocPresent = " +
+            checks.typedocPresent
         );
         console.log("Path: " + eachPackagePath);
         if (!checks.isPrivate) {
@@ -126,27 +132,47 @@ for (const eachService of serviceFolders) {
             }
 
             try {
-              const result3 = childProcess.spawnSync(
-                "typedoc",
-                [
-                  "--excludePrivate",
-                  "--excludeNotExported",
-                  '--exclude "node_modules/**/*"',
-                  "--ignoreCompilerErrors",
-                  "--mode modules",
-                  docOutputFolder
-                ],
-                {
-                  cwd: eachPackagePath,
-                  shell: true
-                }
-              );
-              console.log(
-                'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode modules ' +
-                  docOutputFolder +
-                  ' ":' +
-                  result3.output
-              );
+              if(checks.typedocPresent){
+                const result3 = childProcess.spawnSync(
+                  "typedoc",
+                  [
+                    docOutputFolder
+                  ],
+                  {
+                    cwd: eachPackagePath,
+                    shell: true
+                  }
+                );
+                console.log(
+                  'result3.output for "typedoc ' +
+                    docOutputFolder +
+                    ' ":' +
+                    result3.output
+                );
+              }
+              else{
+                const result3 = childProcess.spawnSync(
+                  "typedoc",
+                  [
+                    "--excludePrivate",
+                    "--excludeNotExported",
+                    '--exclude "node_modules/**/*"',
+                    "--ignoreCompilerErrors",
+                    "--mode modules",
+                    docOutputFolder
+                  ],
+                  {
+                    cwd: eachPackagePath,
+                    shell: true
+                  }
+                );
+                console.log(
+                  'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode modules ' +
+                    docOutputFolder +
+                    ' ":' +
+                    result3.output
+                );
+              }
             } catch (e) {
               console.error(`\n\n${e.toString()}\n\n`);
               process.exit(1);

@@ -1,0 +1,20 @@
+{
+  "mode": "modules",
+  "out": "../../../docGen/event-hubs",
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "exclude": [
+    "src/iothub/*",
+    "src/util/*",
+    "src/batchingReceiver.ts",
+    "src/connectionContext.ts",
+    "src/eventHubReceiver.ts",
+    "src/eventHubSender.ts",
+    "src/linkEntity.ts",
+    "src/log.ts",
+    "src/managementClient.ts",
+    "src/streamingReceiver.ts"
+  ],
+  "src": ["src/index.ts"],
+  "ignoreCompilerErrors": true
+}
