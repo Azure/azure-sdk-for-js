@@ -18,8 +18,8 @@ const SelfSignedJwtLifetimeMins = 10;
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
-export const MsiVmApiVersion = "2018-02-01";
-export const MsiAppServiceApiVersion = "2017-09-01";
+export const ImdsApiVersion = "2018-02-01";
+export const AppServiceMsiApiVersion = "2017-09-01";
 
 export class IdentityClient extends ServiceClient {
   constructor(options?: IdentityClientOptions) {
@@ -83,10 +83,10 @@ export class IdentityClient extends ServiceClient {
     return date;
   }
 
-  private createAzureVmMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createImdsAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
-      "api-version": MsiVmApiVersion
+      "api-version": ImdsApiVersion
     };
 
     if (clientId) {
@@ -107,7 +107,7 @@ export class IdentityClient extends ServiceClient {
   private createAppServiceMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
-      "api-version": MsiAppServiceApiVersion,
+      "api-version": AppServiceMsiApiVersion,
     };
 
     if (clientId) {
@@ -201,7 +201,7 @@ export class IdentityClient extends ServiceClient {
       }
     } else {
       // Running in an Azure VM
-      authRequestOptions = this.createAzureVmMsiAuthRequest(resource, clientId);
+      authRequestOptions = this.createImdsAuthRequest(resource, clientId);
     }
 
     const webResource = this.createWebResource({

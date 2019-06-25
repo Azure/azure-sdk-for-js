@@ -4,7 +4,7 @@
 import qs from "qs";
 import assert from "assert";
 import { ManagedIdentityCredential } from "../../src";
-import { ImdsEndpoint, MsiVmApiVersion, MsiAppServiceApiVersion } from "../../src/client/identityClient";
+import { ImdsEndpoint, ImdsApiVersion, AppServiceMsiApiVersion } from "../../src/client/identityClient";
 import { MockAuthHttpClient, MockAuthResponse } from "./authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 
@@ -29,7 +29,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(authRequest.query["client_id"], "client");
       assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
       assert.ok(authRequest.url.startsWith(ImdsEndpoint), "URL does not start with expected host and path");
-      assert.ok(authRequest.url.indexOf(`api-version=${MsiVmApiVersion}`) > -1, "URL does not have expected version");
+      assert.ok(authRequest.url.indexOf(`api-version=${ImdsApiVersion}`) > -1, "URL does not have expected version");
     }
   });
 
@@ -65,7 +65,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
       assert.ok(authRequest.url.startsWith(process.env.MSI_ENDPOINT), "URL does not start with expected host and path");
       assert.equal(authRequest.headers.get("secret"), process.env.MSI_SECRET);
-      assert.ok(authRequest.url.indexOf(`api-version=${MsiAppServiceApiVersion}`) > -1, "URL does not have expected version");
+      assert.ok(authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1, "URL does not have expected version");
       if (authDetails.token) {
         assert.equal(authDetails.token.expiresOnTimestamp, 1560999478000);
       } else {
