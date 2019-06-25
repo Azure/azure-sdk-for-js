@@ -73,11 +73,11 @@ There are differences between Node.js and browsers runtime. When getting started
 - Parallel uploading and downloading
   - `FileClient.uploadBrowserData()`
 
-## Getting Started
+## Getting started
 
 ### NPM
 
-The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
+The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
 npm install @azure/storage-file
@@ -95,7 +95,7 @@ Or
 const Azure = require("@azure/storage-file");
 ```
 
-### JavaScript Bundle
+### JavaScript bundle
 
 To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
@@ -128,7 +128,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
-### Create the File service client
+### Create the file service client
 
 Use the constructor to create a instance of `FileServiceClient`, passing in the credential.
 
@@ -187,7 +187,7 @@ Alternatively without `for-await-of`:
   console.log(`Create directory ${directoryName} successfully`);
 ```
 
-### Create an Azure File then upload to it
+### Create an azure file then upload to it
 
 ```javascript
   const content = "Hello World!";

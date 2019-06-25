@@ -64,11 +64,11 @@ There are differences between Node.js and browsers runtime. When getting started
   - `generateAccountSASQueryParameters()`
   - `generateQueueSASQueryParameters()`
 
-## Getting Started
+## Getting started
 
 ### NPM
 
-The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
+The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
 npm install @azure/storage-queue
@@ -86,7 +86,7 @@ Or
 const Azure = require("@azure/storage-queue");
 ```
 
-### JavaScript Bundle
+### JavaScript bundle
 
 To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
@@ -118,7 +118,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
-### Create the Queue service client
+### Create the queue service client
 
 Use the constructor to create an instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
 

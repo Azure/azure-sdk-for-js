@@ -77,11 +77,11 @@ There are differences between Node.js and browsers runtime. When getting started
 - Parallel uploading and downloading
   - `BlockBlobClient.uploadBrowserData()`
 
-## Getting Started
+## Getting started
 
 ### NPM
 
-The preferred way to install the Azure Storage library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
+The preferred way to install the Azure Blob Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
 npm install @azure/storage-blob
@@ -99,7 +99,7 @@ Or
 const Azure = require("@azure/storage-blob");
 ```
 
-### JavaScript Bundle
+### JavaScript bundle
 
 To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
@@ -131,7 +131,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
-### Create the Blob service Client
+### Create the blob service client
 
 Use the constructor to create a instance of `BlobServiceClient`.
 
