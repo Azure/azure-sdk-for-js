@@ -12,6 +12,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { isNode } from "@azure/core-http";
 
 /**
  * Options to configure List Shares Segment operation.
@@ -158,13 +159,17 @@ export class FileServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): FileServiceClient {
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
-    const pipeline = newPipeline(sharedKeyCredential, options);
-    return new FileServiceClient(extractedCreds.url, pipeline);
+    if (isNode) {
+      const extractedCreds = extractConnectionStringParts(connectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      const pipeline = newPipeline(sharedKeyCredential, options);
+      return new FileServiceClient(extractedCreds.url, pipeline);
+    } else {
+      throw new Error("Connection string is only supported in Node.js environment");
+    }
   }
 
   /**
@@ -428,7 +433,7 @@ export class FileServiceClient extends StorageClient {
         });
       }
     };
-}
+  }
 
   /**
    * Gets the properties of a storage account's File service, including properties for Storage
