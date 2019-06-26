@@ -48,9 +48,6 @@
 - We leverage mocha's `.skip()` functionality to skip the test
   `this.skip()` - https://mochajs.org/#inclusive-tests
   By this, the tests in the skip list will only be executed if the `TEST_MODE` is neither `"record"` nor `"playback"`.
-- Number of tests being covered in storage-queue:
-  - Node: 48/48 (100%)
-  - Browser: 30/35 (85%)
 
 ---
 
