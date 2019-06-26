@@ -76,6 +76,8 @@
   [ Following this rule - `./recordings/browsers/<describe-block-title>/recording_<test-title>.json` ]
 
 - Just like the test recordings, we save the requests and responses from the before and after sections of the describe block in - `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
+- In node recordings(Nock), the query parameters are being skipped and only the SAS Token query parameters are being skipped in browser recordings(Nise).
+- ENV Variables - As an additional layer of security, any potential secrets in the recordings are replaced with dummy values. In case of storage-packages, `ACCOUNT_NAME` is replaced with "fakestorageaccount", secret part of `ACCOUNT_SAS` and `ACCOUNT_KEY` are replaced with "aaaaa". These dummy values are used as the secrets during the playback mode.
 
 ---
 
@@ -165,6 +167,10 @@
 - If a new test/test-suite is added, execute the test/test-suite(or all the tests) by setting the env variable `TEST_MODE = record` and **commit** the generated recording files.
 
 - If the new test is supposed to skipped, it must be added in the skip list as described in the earlier section. Doing this would allow the tests in the skip list to be executed only if the `TEST_MODE` is neither `"record"` nor `"playback"`.
+
+- Importing the `delay` from recorder.ts
+  - This `delay` has no effect if the `TEST_MODE` is `"playback"`.
+  - `delay` works as expected(`await delay(<milliseconds>)`) if the `TEST_MODE` is not `"playback"`.
 
 ---
 
