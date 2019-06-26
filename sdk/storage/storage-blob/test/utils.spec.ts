@@ -2,9 +2,20 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { HttpHeaders } from "../src";
 import { sanitizeHeaders, sanitizeURL } from "../src/utils/utils.common";
+import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
     const sanitized = sanitizeURL(url);
