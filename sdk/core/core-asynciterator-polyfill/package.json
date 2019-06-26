@@ -1,12 +1,12 @@
 {
-  "name": "@azure/core-paging",
+  "name": "@azure/core-asynciterator-polyfill",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0",
-  "description": "Core types for paging async iterable iterators",
+  "version": "1.0.0-preview.1",
+  "description": "Polyfill for IE/Node 8 for Symbol.asyncIterator",
   "tags": [
     "microsoft",
     "clientruntime"
@@ -16,16 +16,14 @@
     "clientruntime"
   ],
   "main": "./dist-esm/index.js",
-  "types": "./types/corePaging.d.ts",
   "files": [
-    "types/*.d.ts",
     "dist-esm/**/*.js",
     "LICENSE",
     "README.md",
     "ThirdPartyNotices.txt"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-paging",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-asynciterator-polyfill",
   "repository": {
     "type": "git",
     "url": "git@github.com:Azure/azure-sdk-for-js.git"
@@ -56,11 +54,8 @@
   },
   "sideEffects": true,
   "private": true,
-  "dependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
