@@ -12,7 +12,7 @@ describe("Utility Helpers", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 

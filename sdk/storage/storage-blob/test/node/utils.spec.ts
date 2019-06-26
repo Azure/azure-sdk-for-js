@@ -11,7 +11,7 @@ describe("Utility Helpers Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
