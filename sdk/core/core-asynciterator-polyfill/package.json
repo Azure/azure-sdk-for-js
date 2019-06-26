@@ -53,7 +53,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": true,
-  "private": true,
+  "private": false,
   "dependencies": {},
   "devDependencies": {}
 }
