@@ -12,14 +12,14 @@ describe("QueueClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await queueClient.delete();
     recorder.stop();
   });

@@ -4,8 +4,8 @@ import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from '../utils/assert';
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("MessagesClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -15,14 +15,14 @@ describe("MessagesClient Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await queueClient.delete();
     recorder.stop();
   });
@@ -193,11 +193,12 @@ describe("MessagesClient Node.js only", () => {
 
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
     const newClient = new MessagesClient("https://queue", tokenCredential);
     assertClientUsesTokenCredential(newClient);
   });

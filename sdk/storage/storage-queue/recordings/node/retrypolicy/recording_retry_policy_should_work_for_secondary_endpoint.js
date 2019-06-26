@@ -1,35 +1,35 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue156029728092100590"}
+module.exports.testInfo = {"queue":"queue156149553883704721"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156029728092100590')
+  .put('/queue156149553883704721')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '9903dd94-0003-006a-5ab1-20263a000000',
+  '953d566f-4003-0000-0396-2b7a91000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 23:54:40 GMT',
+  'Tue, 25 Jun 2019 20:45:38 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount-secondary.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156029728092100590')
+  .get('/queue156149553883704721')
   .query(true)
-  .reply(404, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:391db5ec-0003-0029-22b1-201cc6000000\nTime:2019-06-11T23:54:41.7458973Z</Message></Error>", [ 'Content-Length',
+  .reply(404, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:1693b343-3003-00c4-3196-2b1542000000\nTime:2019-06-25T20:45:39.6269987Z</Message></Error>", [ 'Content-Length',
   '217',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '391db5ec-0003-0029-22b1-201cc6000000',
+  '1693b343-3003-00c4-3196-2b1542000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-error-code',
@@ -39,24 +39,24 @@ nock('https://fakestorageaccount-secondary.queue.core.windows.net:443', {"encode
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 11 Jun 2019 23:54:41 GMT',
+  'Tue, 25 Jun 2019 20:45:39 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156029728092100590')
+  .delete('/queue156149553883704721')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'c8bd4d94-9003-00c5-73b1-2004aa000000',
+  '314d61a6-c003-0055-0496-2b91e6000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 23:54:42 GMT',
+  'Tue, 25 Jun 2019 20:45:39 GMT',
   'Connection',
   'close' ]);
 

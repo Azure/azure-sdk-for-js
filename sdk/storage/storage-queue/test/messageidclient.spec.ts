@@ -20,7 +20,7 @@ describe("MessageIdClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await queueClient.delete();
     recorder.stop();
   });

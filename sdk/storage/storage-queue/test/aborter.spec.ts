@@ -21,7 +21,7 @@ describe("Aborter", () => {
     queueClient = queueServiceClient.getQueueClient(queueName);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     recorder.stop();
   });
 
