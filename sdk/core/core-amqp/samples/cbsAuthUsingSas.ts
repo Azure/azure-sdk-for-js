@@ -7,7 +7,6 @@
 
 import {
   ConnectionContextBase,
-  CreateConnectionContextBaseParameters,
   ConnectionConfig,
   CbsResponse,
   TokenType,
@@ -19,7 +18,7 @@ const connectionString = "";
 const path = "";
 
 const connectionConfig = ConnectionConfig.create(connectionString, path);
-const parameters: CreateConnectionContextBaseParameters = {
+const parameters = {
   config: connectionConfig,
   connectionProperties: {
     product: "MSJSClient",
@@ -79,8 +78,8 @@ export async function authenticate(
 async function main(): Promise<void> {
   await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
   /*
- Refer to other samples, and place your code here
- to send/receive messages/events
+ Add code here to create a sender or receiver link for which you have
+ just sent the authentication request
 */
   await connectionContext.connection.close();
 }

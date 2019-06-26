@@ -19,7 +19,6 @@ Register a new application in AAD and assign the "owner" role to it
 
 import {
   ConnectionContextBase,
-  CreateConnectionContextBaseParameters,
   CbsResponse,
   EventHubConnectionConfig,
   TokenType,
@@ -34,7 +33,7 @@ const eventHubName = "";
 // Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
 
 const ehConnectionConfig = EventHubConnectionConfig.create(connectionString, eventHubName);
-const parameters: CreateConnectionContextBaseParameters = {
+const parameters = {
   config: ehConnectionConfig,
   connectionProperties: {
     product: "MSJSClient",
@@ -70,8 +69,8 @@ async function authenticate(
 async function main(): Promise<void> {
   await authenticate(ehConnectionConfig.getSenderAudience());
   /*
- Refer to other event hub samples, and place your code here
- to send/receive events
+ Add code here to create a sender or receiver link for which you have
+ just sent the authentication request
 */
   await connectionContext.connection.close();
 }

@@ -2,12 +2,12 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how to send messages/events to Service Bus/Event Hubs.
+  This sample demonstrates how to send messages/events to Service Bus/Event Hubs
+  by authenticating the sender link using the shared key information in the connection string
 */
 
 import {
   ConnectionContextBase,
-  CreateConnectionContextBaseParameters,
   CbsResponse,
   ConnectionConfig,
   TokenType,
@@ -21,7 +21,7 @@ const connectionString = "";
 const path = "";
 
 const connectionConfig = ConnectionConfig.create(connectionString, path);
-const parameters: CreateConnectionContextBaseParameters = {
+const parameters = {
   config: connectionConfig,
   connectionProperties: {
     product: "MSJSClient",
@@ -33,8 +33,10 @@ const connectionContext = ConnectionContextBase.create(parameters);
 
 async function authenticate(audience: string): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
-  const tokenObject = sharedTokenCredential.getToken(audience);
+  // We use the shared key information in the connection string to perform the authentication.
+  // If you want to use Azure Active Directory, then refer `cbsAuthUsingAad.ts` sample.
+  const sharedKeyCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedKeyCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
     tokenObject,
