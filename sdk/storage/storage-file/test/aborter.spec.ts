@@ -21,7 +21,7 @@ describe("Aborter", () => {
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 

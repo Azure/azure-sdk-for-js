@@ -25,7 +25,7 @@ describe("DirectoryClient Node.js only", () => {
     await dirClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await dirClient.delete();
     await shareClient.delete();
     recorder.stop();

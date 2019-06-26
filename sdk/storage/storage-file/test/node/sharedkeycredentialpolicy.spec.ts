@@ -27,7 +27,7 @@ describe("SharedKeyCredentialPolicy Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 

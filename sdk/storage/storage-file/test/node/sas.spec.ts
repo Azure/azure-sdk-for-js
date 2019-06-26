@@ -28,7 +28,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
