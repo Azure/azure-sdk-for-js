@@ -68,12 +68,12 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.0.0-preview.1.0",
-    "@azure/core-paging": "^1.0.0",
+    "@azure/core-http": "^1.0.0-preview.1",
+    "@azure/core-paging": "^1.0.0-preview.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/core-paging": "^1.0.0",
+    "@azure/core-paging": "^1.0.0-preview.1",
     "@azure/identity": "^0.1.0",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",

@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "description": "Core types for paging async iterable iterators",
   "tags": [
     "microsoft",
@@ -57,10 +57,10 @@
   "sideEffects": true,
   "private": true,
   "dependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0"
+    "@azure/core-asynciterator-polyfill": "^1.0.0-preview.1"
   },
   "devDependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0",
+    "@azure/core-asynciterator-polyfill": "^1.0.0-preview.1",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
