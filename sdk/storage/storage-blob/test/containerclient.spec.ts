@@ -287,7 +287,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobHierarchySegment with default parameters", async () => {
+  it("listBlobsByHierarchy with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(getUniqueName(`blockblob${i}/${i}`));
@@ -297,7 +297,11 @@ describe("ContainerClient", () => {
     }
 
     const delimiter = "/";
-    const result = await containerClient.listBlobHierarchySegment(delimiter);
+    const result = (await containerClient
+      .listBlobsByHierarchy(delimiter)
+      .byPage()
+      .next()).value;
+
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -314,7 +318,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobHierarchySegment with all parameters configured", async () => {
+  it("listBlobsByHierarchy with all parameters configured", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -333,33 +337,42 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = await containerClient.listBlobHierarchySegment(delimiter, undefined, {
-      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 1,
-      prefix
-    });
+    const result = (await containerClient
+      .listBlobsByHierarchy(delimiter, {
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
+
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result.segment.blobItems!.length, 0);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobPrefixes![0].name));
 
-    const result2 = await containerClient.listBlobHierarchySegment(delimiter, result.nextMarker, {
-      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 2,
-      prefix
-    });
+    const result2 = (await containerClient
+      .listBlobsByHierarchy(delimiter, {
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix
+      })
+      .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })
+      .next()).value;
+
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result2.containerName));
     assert.deepStrictEqual(result2.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result2.segment.blobItems!.length, 0);
     assert.ok(blobClients[0].url.indexOf(result2.segment.blobPrefixes![0].name));
 
-    const result3 = await containerClient.listBlobHierarchySegment(delimiter, undefined, {
-      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 2,
-      prefix: `${prefix}0${delimiter}`
-    });
+    const result3 = (await containerClient
+      .listBlobsByHierarchy(delimiter, {
+        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        prefix: `${prefix}0${delimiter}`
+      })
+      .byPage({ maxPageSize: 2 })
+      .next()).value;
+
     assert.ok(result3.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result3.containerName));
     assert.deepStrictEqual(result3.nextMarker, "");
@@ -367,6 +380,46 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.deepStrictEqual(result3.segment.blobItems![0].metadata, metadata);
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator for listBlobsByHierarchy", async () => {
+    const blobClients = [];
+    const prefix = getUniqueName("prefix");
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 6; i++) {
+      let name;
+      if (i < 2) {
+        name = getUniqueName("blockblob");
+      } else {
+        name = `${prefix}/${i}`;
+      }
+      const blobClient = containerClient.getBlobClient(name);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    for await (const item of containerClient.listBlobsByHierarchy("/", {
+      include: ["metadata"]
+    })) {
+      if (item.kind === "prefix") {
+        assert.equal(item.name, prefix + "/");
+      } else {
+        assert.ok(blobClients[i].url.indexOf(item.name));
+        assert.deepStrictEqual(item.metadata, metadata);
+        i++;
+      }
+    }
 
     for (const blob of blobClients) {
       await blob.delete();
