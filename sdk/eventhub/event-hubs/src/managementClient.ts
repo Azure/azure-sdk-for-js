@@ -71,6 +71,7 @@ export interface ManagementClientOptions {
 /**
  * @class ManagementClient
  * @internal
+ * @ignore
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */

@@ -82,6 +82,7 @@ export class ReceiveHandler {
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @internal
+ * @ignore
  * @class StreamingReceiver
  * @extends EventHubReceiver
  */

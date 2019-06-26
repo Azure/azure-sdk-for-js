@@ -21,6 +21,7 @@ import {
 } from "@azure/core-http";
 
 import { getDefaultUserAgentValue } from "@azure/core-http";
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";

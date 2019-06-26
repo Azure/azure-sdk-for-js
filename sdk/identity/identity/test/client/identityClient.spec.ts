@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import { assertRejects } from "../credentials/authTestUtils";
@@ -19,8 +19,10 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
 describe("IdentityClient", function () {
   it("throws an exception when an authentication request fails", async () => {
     const mockHttp = new MockAuthHttpClient({
-      status: 400,
-      bodyAsText: `{ "error": "test_error", "error_description": "This is a test error" }`
+      authResponse: {
+        status: 400,
+        bodyAsText: `{ "error": "test_error", "error_description": "This is a test error" }`
+      }
     });
     const client = new IdentityClient(mockHttp.identityClientOptions);
 
@@ -34,7 +36,13 @@ describe("IdentityClient", function () {
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
-    const mockHttp = new MockAuthHttpClient({ status: 500, bodyAsText: '' });
+    const mockHttp = new MockAuthHttpClient({
+      authResponse: {
+        status: 500,
+        bodyAsText: ''
+      }
+    });
+
     const client = new IdentityClient(mockHttp.identityClientOptions);
     await assertRejects(
       client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),

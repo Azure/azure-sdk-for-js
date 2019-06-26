@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 "use strict";
 
 import * as msRest from "../lib/coreHttp";
@@ -25,4 +28,3 @@ const req: msRest.RequestPrepareOptions = {
 client.sendRequest(req).then(function (res: msRest.HttpOperationResponse) {
   console.log(res.bodyAsText);
 });
-
