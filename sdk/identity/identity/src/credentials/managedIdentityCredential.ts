@@ -16,6 +16,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private _clientId: string | undefined;
+  private isEndpointUnavailable: boolean | null = null;
 
   constructor(clientId?: string, options?: IdentityClientOptions) {
     this.identityClient = new IdentityClient(options);
@@ -32,10 +33,29 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public getToken(
+  public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    return this.identityClient.authenticateManagedIdentity(scopes, this._clientId, options);
+    let result: AccessToken | null = null;
+
+    // isEndpointAvailable can be true, false, or null,
+    // the latter indicating that we don't yet know whether
+    // the endpoint is available and need to check for it.
+    if (this.isEndpointUnavailable !== true) {
+      result =
+        await this.identityClient.authenticateManagedIdentity(
+          scopes,
+          this.isEndpointUnavailable === null,
+          this._clientId,
+          options);
+
+      // If authenticateManagedIdentity returns null, it means no MSI
+      // endpoints are available.  In this case, don't try them in future
+      // requests.
+      this.isEndpointUnavailable = result === null;
+    }
+
+    return result;
   }
 }

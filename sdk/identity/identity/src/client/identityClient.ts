@@ -10,15 +10,17 @@ import {
   ServiceClientOptions,
   GetTokenOptions,
   WebResource,
-  RequestPrepareOptions
+  RequestPrepareOptions,
+  RestError
 } from "@azure/core-http";
 import { AuthenticationError } from "./errors";
 
 const SelfSignedJwtLifetimeMins = 10;
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
-const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
-const MsiApiVersion = "2018-02-01";
 const DefaultScopeSuffix = "/.default";
+export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
+export const ImdsApiVersion = "2018-02-01";
+export const AppServiceMsiApiVersion = "2017-09-01";
 
 export class IdentityClient extends ServiceClient {
   constructor(options?: IdentityClientOptions) {
@@ -35,13 +37,19 @@ export class IdentityClient extends ServiceClient {
   }
 
   private async sendTokenRequest(
-    requestOptions: RequestPrepareOptions
+    webResource: WebResource,
+    expiresOnParser?: (responseBody: any) => number,
   ): Promise<AccessToken | null> {
-    const response = await this.sendRequest(requestOptions);
+    const response = await this.sendRequest(webResource);
+
+    expiresOnParser = expiresOnParser || ((responseBody: any) => {
+      return Date.now() + responseBody.expires_in * 1000
+    });
+
     if (response.status === 200 || response.status === 201) {
       return {
         token: response.parsedBody.access_token,
-        expiresOnTimestamp: Date.now() + response.parsedBody.expires_in * 1000
+        expiresOnTimestamp: expiresOnParser(response.parsedBody)
       };
     } else {
       throw new AuthenticationError(response.status, response.bodyAsText);
@@ -76,6 +84,98 @@ export class IdentityClient extends ServiceClient {
     return date;
   }
 
+  private createImdsAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const queryParameters: any = {
+      resource,
+      "api-version": ImdsApiVersion
+    };
+
+    if (clientId) {
+      queryParameters.client_id = clientId;
+    }
+
+    return {
+      url: ImdsEndpoint,
+      method: "GET",
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        Metadata: true
+      }
+    };
+  }
+
+  private createAppServiceMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const queryParameters: any = {
+      resource,
+      "api-version": AppServiceMsiApiVersion,
+    };
+
+    if (clientId) {
+      queryParameters.client_id = clientId;
+    }
+
+    return {
+      url: process.env.MSI_ENDPOINT,
+      method: "GET",
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        secret: process.env.MSI_SECRET
+      }
+    };
+  }
+
+  private createCloudShellMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+    const body: any = {
+      resource
+    };
+
+    if (clientId) {
+      body.client_id = clientId;
+    }
+
+    return {
+      url: process.env.MSI_ENDPOINT,
+      method: "POST",
+      body: qs.stringify(body),
+      headers: {
+        Accept: "application/json",
+        Metadata: true,
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
+  }
+
+  private async pingImdsEndpoint(resource: string, clientId?: string): Promise<boolean> {
+    const request = this.createImdsAuthRequest(resource, clientId);
+
+    // This will always be populated, but let's make TypeScript happy
+    if (request.headers) {
+      // Remove the Metadata header to invoke a request error from
+      // IMDS endpoint
+      delete request.headers.Metadata;
+    }
+
+    // Create a request with a 500 msec timeout since we expect that
+    // not having a "Metadata" header should cause an error to be
+    // returned quickly from the endpoint, proving its availability.
+    const webResource = this.createWebResource(request);
+    webResource.timeout = 500;
+
+    try {
+      await this.sendRequest(webResource);
+    } catch (err) {
+      if (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) {
+        // Either request failed or IMDS endpoint isn't available
+        return false;
+      }
+    }
+
+    // If we received any response, the endpoint is available
+    return true;
+  }
+
   authenticateClientSecret(
     tenantId: string,
     clientId: string,
@@ -105,34 +205,51 @@ export class IdentityClient extends ServiceClient {
     return this.sendTokenRequest(webResource);
   }
 
-  authenticateManagedIdentity(
+  async authenticateManagedIdentity(
     scopes: string | string[],
+    checkIfImdsEndpointAvailable: boolean,
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const queryParameters: any = {
-      resource: this.mapScopesToResource(scopes),
-      "api-version": MsiApiVersion
-    };
+    let authRequestOptions: RequestPrepareOptions;
+    const resource = this.mapScopesToResource(scopes);
+    let expiresInParser: ((requestBody: any) => number) | undefined;
 
-    if (clientId) {
-      queryParameters.client_id = clientId;
+    // Detect which type of environment we are running in
+    if (process.env.MSI_ENDPOINT) {
+      if (process.env.MSI_SECRET) {
+        // Running in App Service
+        authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
+        expiresInParser = (requestBody: any) => {
+          // Parse a date format like "06/20/2019 02:57:58 +00:00" and
+          // convert it into a JavaScript-formatted date
+          const m = requestBody.expires_on.match(/(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/)
+          return Date.parse(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`)
+        };
+      } else {
+        // Running in Cloud Shell
+        authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
+      }
+    } else {
+      // Ping the IMDS endpoint to see if it's available
+      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId)) {
+        // Running in an Azure VM
+        authRequestOptions = this.createImdsAuthRequest(resource, clientId);
+      } else {
+        // Returning null tells the ManagedIdentityCredential that
+        // no MSI authentication endpoints are available
+        return null;
+      }
     }
 
     const webResource = this.createWebResource({
-      url: ImdsEndpoint,
-      method: "GET",
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        Metadata: true
-      },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal,
+      ...authRequestOptions
     });
 
-    return this.sendTokenRequest(webResource);
+    return this.sendTokenRequest(webResource, expiresInParser);
   }
 
   authenticateClientCertificate(
