@@ -23,7 +23,7 @@ describe("RetryPolicy", () => {
     await containerClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

@@ -37,7 +37,7 @@ describe("BlobClient Node.js only", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

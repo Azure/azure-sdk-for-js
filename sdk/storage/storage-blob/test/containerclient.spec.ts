@@ -19,7 +19,7 @@ describe("ContainerClient", () => {
     await containerClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

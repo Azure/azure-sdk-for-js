@@ -25,7 +25,7 @@ describe("PageBlobClient", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

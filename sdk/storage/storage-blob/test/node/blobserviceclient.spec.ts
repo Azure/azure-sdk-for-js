@@ -13,7 +13,7 @@ describe("BlobServiceClient Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     recorder.stop();
   });
 
