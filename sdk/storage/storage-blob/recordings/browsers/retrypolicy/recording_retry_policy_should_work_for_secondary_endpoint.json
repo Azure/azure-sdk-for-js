@@ -1,0 +1,62 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150842297708839",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:20:22 GMT",
+    "last-modified": "Wed, 26 Jun 2019 00:20:23 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9CC146BDD87\"",
+    "x-ms-request-id": "9f3126f8-301e-00a5-3db4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount-secondary.blob.core.windows.net/container156150842297708839",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:af0ecb83-801e-0033-45b4-2b33a9000000\nTime:2019-06-26T00:20:23.6758910Z</Message></Error>",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:20:23 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "ContainerNotFound",
+    "content-type": "application/xml",
+    "x-ms-request-id": "af0ecb83-801e-0033-45b4-2b33a9000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "225"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150842297708839",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "9f3127ed-301e-00a5-08b4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Wed, 26 Jun 2019 00:20:23 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156150842297708839"
+ }
+}
