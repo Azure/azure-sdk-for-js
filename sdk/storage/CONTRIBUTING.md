@@ -26,6 +26,21 @@ You can generate a valid account SAS from Azure portal or tools like Azure Stora
 set "ACCOUNT_SAS=<YOUR_SAS>"
 ```
 
+### Record and playback tests
+
+The environment variable **TEST_MODE** controls how tests are running.
+
+- If TEST_MODE = "record",
+  - Tests hit the live-service
+  - Nock/Nise are used for recording the request-responses for future use
+  - If recordings are already present, forces re-recording
+- Else If TEST_MODE = "playback",
+  - Existing recordings are used
+- Else
+  - Tests hit the live-service, we don't record the requests/responses
+
+Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details about record and playback tests.
+
 #### CORS
 
 You need to set up CORS rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
