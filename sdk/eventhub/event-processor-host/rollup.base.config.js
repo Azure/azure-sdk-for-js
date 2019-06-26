@@ -106,7 +106,10 @@ export function browserConfig(test = false) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
+        // modules with built-in names must have a trailing slash.
+        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
+        namedExports: { "events/": ["EventEmitter"] }
       }),
       json()
     ]

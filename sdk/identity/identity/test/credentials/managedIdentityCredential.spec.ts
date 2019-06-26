@@ -1,12 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import { ManagedIdentityCredential } from "../../src";
 import { MockAuthHttpClient } from "./authTestUtils";
 import { WebResource } from "@azure/core-http";
 
-describe("ManagedIdentityCredential", function() {
+describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with a modified resource name", async () => {
     const authRequest = await getMsiTokenAuthRequest(["https://service/.default"], "client");
     assert.ok(authRequest.query, "No query string parameters on request");

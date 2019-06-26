@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process");
+    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process", "@azure/identity");
 
     baseConfig.onwarn = warning => {
       if (
@@ -130,8 +130,11 @@ export function browserConfig(test = false) {
       }),
 
       cjs({
+        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
+        // modules with built-in names must have a trailing slash.
+        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         namedExports: {
-          events: ["EventEmitter"]
+          "events/": ["EventEmitter"]
         }
       }),
 

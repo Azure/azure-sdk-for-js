@@ -1,0 +1,50 @@
+trigger:
+  - master
+
+variables:
+  NodeVersion: "10.x"
+
+jobs:
+  - job: "DocGen"
+    variables:
+      skipComponentGovernanceDetection: true
+    timeoutInMinutes: 120
+    pool:
+      vmImage: "vs2017-win2016"
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          npm install -g npm@6.9.0
+        displayName: "Install npm version 6.9.0"
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - script: |
+          npm i -g typedoc
+        displayName: "Install typedoc"
+
+      - script: |
+          npm install nunjucks
+        displayName: "Install nunjucks"
+
+      - script: |
+          npm install fs-extra
+        displayName: "Install fs-extra"
+
+      - powershell: |
+          cd $(Build.SourcesDirectory)
+          node .\common\scripts\generate-doc.js -dg
+          Copy-Item -Path $(Build.SourcesDirectory)/docGen/* -Destination $(Build.ArtifactStagingDirectory) -Recurse -Force
+        displayName: "Generate Typedoc Docs"
+
+      - upload: $(Build.ArtifactStagingDirectory)
+        artifact: docfolder
+        condition: succeededOrFailed()
+        displayName: "Publish Artifacts"

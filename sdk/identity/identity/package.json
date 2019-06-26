@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "0.1.0",
+  "version": "1.0.0-preview.1.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -64,7 +64,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure/core-http": "^1.0.0-preview.1",
     "events": "^3.0.0",
