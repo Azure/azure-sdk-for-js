@@ -1,8 +1,6 @@
 # Azure Async Iterator Polyfill client library for JS
 
-[![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.ms-rest-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=6)
-
-This library acts to polyfill Node 8/IE support for Symbol.asyncIterator
+This library acts to polyfill for Symbol.asyncIterator
 
 ## Getting started
 
@@ -15,7 +13,7 @@ This library acts to polyfill Node 8/IE support for Symbol.asyncIterator
 
 ## Key concepts
 
-You can find an explanation of how this repository's code works by going to our [architecture overview](https://github.com/Azure/ms-rest-js/blob/master/docs/architectureOverview.md).
+This is a polyfill for Symbol.asyncIterator for platforms that do not have support for it by default.
 
 ## Examples
 
