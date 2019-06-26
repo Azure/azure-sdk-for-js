@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { MessageProperties as AmqpMessageProperties } from "rhea-promise";
 import * as log from "./log";
@@ -76,9 +76,7 @@ export namespace MessageProperties {
    * @param {MessageProperties} props Message properties.
    * @returns {AmqpMessageProperties} AmqpMessageProperties.
    */
-  export function toAmqpMessageProperties(
-    props: MessageProperties
-  ): AmqpMessageProperties {
+  export function toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties {
     const amqpProperties: AmqpMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
       amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
@@ -129,9 +127,7 @@ export namespace MessageProperties {
    * @param {AmqpMessageProperties} props Amqp message properties.
    * @returns {MessageProperties} MessageProperties.
    */
-  export function fromAmqpMessageProperties(
-    props: AmqpMessageProperties
-  ): MessageProperties {
+  export function fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties {
     const msgProperties: MessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
       msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
