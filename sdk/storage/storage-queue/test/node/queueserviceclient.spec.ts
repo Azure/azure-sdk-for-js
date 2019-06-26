@@ -4,17 +4,17 @@ import { record } from "../utils/recorder";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { newPipeline } from "../../src";
-import { TokenCredential } from '@azure/core-http';
-import { assertClientUsesTokenCredential } from '../utils/assert';
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("QueueServiceClient Node.js only", () => {
   let recorder: any;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
@@ -76,11 +76,12 @@ describe("QueueServiceClient Node.js only", () => {
 
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
-      getToken: () => Promise.resolve({
-        token: 'token',
-        expiresOnTimestamp: 12345
-      })
-    }
+      getToken: () =>
+        Promise.resolve({
+          token: "token",
+          expiresOnTimestamp: 12345
+        })
+    };
     const newClient = new QueueServiceClient("https://queue", tokenCredential);
     assertClientUsesTokenCredential(newClient);
   });

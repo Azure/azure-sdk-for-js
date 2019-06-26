@@ -8,11 +8,11 @@ dotenv.config({ path: "../.env" });
 describe("QueueServiceClient", () => {
   let recorder: any;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
