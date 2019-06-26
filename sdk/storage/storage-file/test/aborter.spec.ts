@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
@@ -17,11 +17,11 @@ describe("Aborter", () => {
 
   beforeEach(async function() {
     recorder = record(this);
-    shareName = getUniqueName("share");
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 

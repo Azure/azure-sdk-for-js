@@ -1,75 +1,75 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-06-17T23:54:11.913Z","share":"share156081565191300579","dir":"dir156081565222302176","file":"file156081565253705300"}
+module.exports.testInfo = {"undefined":"2019-06-25T23:34:09.924Z","share":"share156150564992401985","dir":"dir156150565021704300","file":"file156150565053903613"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156081565191300579')
+  .put('/share156150564992401985')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'ETag',
-  '"0x8D6F37F18C94B2E"',
+  '"0x8D6F9C59FA2A34C"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bb7c42c6-a01a-00ab-2d67-25ad83000000',
+  '97befd49-b01a-0037-54ae-2bd63e000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Mon, 17 Jun 2019 23:54:11 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156081565191300579/dir156081565222302176')
+  .put('/share156150564992401985/dir156150565021704300')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'ETag',
-  '"0x8D6F37F18F8AEFB"',
+  '"0x8D6F9C59FCF1098"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '232f25de-b01a-0015-3b67-25b808000000',
+  '263ab676-f01a-0056-20ae-2b92e1000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156081565191300579/dir156081565222302176/file156081565253705300')
+  .put('/share156150564992401985/dir156150565021704300/file156150565053903613')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'ETag',
-  '"0x8D6F37F192FF57F"',
+  '"0x8D6F9C5A0051E8F"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5f0fddca-b01a-005a-3867-257c10000000',
+  '00668dd0-501a-009c-1fae-2b012c000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/share156081565191300579/dir156081565222302176/file156081565253705300')
+  .head('/share156150564992401985/dir156150565021704300/file156150565053903613')
   .query(true)
   .reply(200, [], [ 'Cache-Control',
   'cache-control-override',
@@ -82,13 +82,13 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Content-Language',
   'content-language-override',
   'Last-Modified',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'ETag',
-  '"0x8D6F37F192FF57F"',
+  '"0x8D6F9C5A0051E8F"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '59e4f377-b01a-00d2-7167-25c4c9000000',
+  'e65da29b-801a-00da-42ae-2bdfba000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-type',
@@ -102,24 +102,24 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Mon, 17 Jun 2019 23:54:12 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share156081565191300579')
+  .delete('/share156150564992401985')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '91a05ab6-d01a-000e-1167-25969a000000',
+  '8a4ddec1-c01a-0099-0cae-2bf553000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Mon, 17 Jun 2019 23:54:13 GMT',
+  'Tue, 25 Jun 2019 23:34:10 GMT',
   'Connection',
   'close' ]);
 

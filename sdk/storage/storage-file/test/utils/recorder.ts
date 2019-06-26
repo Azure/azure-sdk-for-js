@@ -47,41 +47,43 @@ const skip = [
   // Abort
   "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // Unknown reason (playback fails, probably same as Nock)
-  "browsers/fileurl/recording_download_should_update_progress_and_abort_successfully.json",
+  "browsers/fileclient/recording_download_should_update_progress_and_abort_successfully.json",
   // Unknown reason (recording throws an error, but file is generated and playback works)
-  "browsers/fileurl/recording_uploadrange_with_progress_event.json",
+  "browsers/fileclient/recording_uploadrange_with_progress_event.json",
   // Progress
-  "node/fileurl/recording_download_should_update_progress_and_abort_successfully.js",
+  "node/fileclient/recording_download_should_update_progress_and_abort_successfully.js",
   // Progress, Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_abort_after_retrys.js",
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_abort_after_retrys.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
   // Size (263MB), Tempfile
-  "node/highlevel/recording_downloadazurefiletobuffer_should_abort.js",
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_abort.js",
   // Size (526MB), Tempfile
-  "node/highlevel/recording_downloadazurefiletobuffer_should_success.js",
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_success.js",
   // Progress, Size (15MB), Tempfile
-  "node/highlevel/recording_downloadazurefiletobuffer_should_update_progress_event.js",
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_update_progress_event.js",
   // Size (526MB), Tempfile
-  "node/highlevel/recording_uploadfiletoazurefile_should_success_for_large_data.js",
+  "node/highlevel_nodejs_only/recording_uploadfile_should_success_for_large_data.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_uploadfiletoazurefile_should_success_for_small_data.js",
+  "node/highlevel_nodejs_only/recording_uploadfile_should_success_for_small_data.js",
   // Progress, Size (4MB), Tempfile
-  "node/highlevel/recording_uploadfiletoazurefile_should_update_progress_for_large_data.js",
+  "node/highlevel_nodejs_only/recording_uploadfile_should_update_progress_for_large_data.js",
   // Progress, Size (3MB), Tempfile
-  "node/highlevel/recording_uploadfiletoazurefile_should_update_progress_for_small_data.js",
+  "node/highlevel_nodejs_only/recording_uploadfile_should_update_progress_for_small_data.js",
   // Size (526MB), Tempfile
-  "node/highlevel/recording_uploadstreamtoazurefile_should_success.js",
+  "node/highlevel_nodejs_only/recording_uploadstream_should_success.js",
   // Size (263MB), Tempfile
-  "node/highlevel/recording_uploadstreamtoazurefile_should_update_progress_event.js",
+  "node/highlevel_nodejs_only/recording_uploadstream_should_update_progress_event.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/fileurl/recording_startcopyfromurl.json"
+  "browsers/fileclient/recording_startcopyfromurl.json"
 ];
 
 abstract class Recorder {
