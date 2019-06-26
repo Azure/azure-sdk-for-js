@@ -21,7 +21,7 @@ describe("Aborter", () => {
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 

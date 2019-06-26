@@ -1,9 +1,20 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(function() {
+    recorder.stop();
+  });
+
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {
       extractConnectionStringParts(

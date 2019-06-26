@@ -63,39 +63,43 @@ const skip = [
   // Character, Size (2MB), Tempfile
   "browsers/highlevel/recording_uploadbrowserdatatoblockblob_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.json",
   // Progress, Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_abort_after_retrys.js",
+  "node/highlevel/recording_blobclientdownload_should_abort_after_retrys.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  "node/highlevel/recording_blobclientdownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel/recording_blobclientdownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
   // Size (15MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  "node/highlevel/recording_blobclientdownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
-  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_abort.js",
-  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_success.js",
-  // Progress, Size (15MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_downloadblobtobuffer_should_update_progress_event.js",
+  "node/highlevel/recording_blobclientdownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_abort.js",
+  // Size (526MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_success.js",
+  // Progress, Size (15MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_downloadtobuffer_should_update_progress_event.js",
   // Size (526MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
   // Size (30MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
+  "node/highlevel/recording_uploadfile_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
   // Progress, Size (4MB), Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  "node/highlevel/recording_uploadfile_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
   // Progress, Tempfile
-  "node/highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.js",
-  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_success.js",
-  // UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js",
-  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js",
+  "node/highlevel/recording_uploadfile_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  // Size (526MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_success.js",
+  // UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_success_for_tiny_buffers.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_update_progress_event.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_abort.js",
+  // Size (263MB), Tempfile
+  "node/highlevel/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/bloburl/recording_startcopyfromurl.json"
+  "browsers/blobclient/recording_startcopyfromclient.json"
 ];
 
 abstract class Recorder {

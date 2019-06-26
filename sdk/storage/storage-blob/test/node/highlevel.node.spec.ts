@@ -36,12 +36,13 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });
 
-  before(async () => {
+  before(async function() {
+    recorder = record(this);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -49,11 +50,14 @@ describe("Highlevel", () => {
     tempFileLargeLength = 257 * 1024 * 1024;
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, 1024 * 1024);
     tempFileSmallLength = 15 * 1024 * 1024;
+    recorder.stop();
   });
 
-  after(async () => {
+  after(async function() {
+    recorder = record(this);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
+    recorder.stop();
   });
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
