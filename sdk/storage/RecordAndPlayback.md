@@ -100,7 +100,7 @@
 
 ## Adding a new test/test-suite
 
-- Any function call that is not in the `it`-block and belongs to a `describe`-block must go in one of the `beforeEach`, `afterEach`, `before` or `after` sections.
+- Any function call that affects http requests or generates [unique information](#UniqueInfo) that is not in the `it`-block and belongs to a `describe`-block must go in one of the `beforeEach`, `afterEach`, `before` or `after` sections.
 
 - Recordings corresponding to `before` or `after` sections are saved under `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
 
@@ -142,7 +142,7 @@
   });
   ```
 
-- **Saving randomly generated information/unique info of a test run. Example - `getUniqueName` in storage-queue**
+- <a name="UniqueInfo"></a>**Saving randomly generated information/unique info of a test run. Example - `getUniqueName` in storage-queue**
 
   - Before Record and Playback, `getUniqueName` was being imported from `utils` in the `.spec.ts` test files. `getUniqueName` generates a new value each time we run.
 
