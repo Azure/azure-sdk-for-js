@@ -94,6 +94,10 @@ const skip = [
   "node/highlevel/recording_uploadstream_should_success_for_tiny_buffers.js",
   // Size (263MB), Tempfile, UUID (uploadStream)
   "node/highlevel/recording_uploadstream_should_update_progress_event.js",
+  // Size (263MB), Tempfile, UUID (uploadStream)
+  "node/highlevel/recording_uploadstream_should_abort.js",
+  // Size (263MB), Tempfile
+  "node/highlevel/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/blobclient/recording_startcopyfromurl.json"
 ];
