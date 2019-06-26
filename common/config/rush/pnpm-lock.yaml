@@ -122,7 +122,7 @@ dependencies:
   mocha-multi: 1.1.0
   mocha-multi-reporters: 1.1.7
   moment: 2.24.0
-  ms-rest: 2.5.0
+  ms-rest: 2.5.1
   ms-rest-azure: 2.6.0
   nise: 1.5.0
   nock: 10.0.6
@@ -138,7 +138,6 @@ dependencies:
   qs: 6.7.0
   query-string: 6.8.1
   requirejs: 2.3.6
-  resolve: 1.11.0
   rhea: 1.0.7
   rhea-promise: 0.1.15
   rimraf: 2.6.3
@@ -5895,7 +5894,7 @@ packages:
       acorn-walk: 6.1.1
       babel-core: 6.26.3
       babel-preset-env: 1.7.0
-      log4js: 4.3.2
+      log4js: 4.4.0
       magic-string: 0.25.2
     dev: false
     resolution:
@@ -5948,7 +5947,7 @@ packages:
       http-proxy: 1.17.0
       isbinaryfile: 3.0.3
       lodash: 4.17.11
-      log4js: 4.3.2
+      log4js: 4.4.0
       mime: 2.4.4
       minimatch: 3.0.4
       optimist: 0.6.1
@@ -6063,7 +6062,7 @@ packages:
       is-plain-object: 2.0.4
       object.map: 1.0.1
       rechoir: 0.6.2
-      resolve: 1.11.0
+      resolve: 1.11.1
     dev: false
     engines:
       node: '>= 0.8'
@@ -6191,7 +6190,7 @@ packages:
       node: '>=6.0'
     resolution:
       integrity: sha512-ezXZk6oPJCWL483zj64pNkMuY/NcRX5MPiB0zE6tjZM137aeusrOnW1ecxgF9cmwMWkBMhjteQxBPoZBh9FDxQ==
-  /log4js/4.3.2:
+  /log4js/4.4.0:
     dependencies:
       date-format: 2.0.0
       debug: 4.1.1
@@ -6202,7 +6201,7 @@ packages:
     engines:
       node: '>=6.0'
     resolution:
-      integrity: sha512-72GjgSP+ifL156MD/bXEhE7UlFLKS2KkCXujodb1nl1z6PpKhCfS+41dyNQ7zKi4iM49TQl+aWLEISXGLcGCCQ==
+      integrity: sha512-xwRvmxFsq8Hb7YeS+XKfvCrsH114bXex6mIwJ2+KmYVi23pB3+hlzyGq1JPycSFTJWNLhD/7PCtM0RfPy6/2yg==
   /loglevel/1.6.3:
     dev: false
     engines:
@@ -6337,7 +6336,7 @@ packages:
     dependencies:
       findup-sync: 2.0.0
       micromatch: 3.1.10
-      resolve: 1.11.0
+      resolve: 1.11.1
       stack-trace: 0.0.10
     dev: false
     engines:
@@ -6769,13 +6768,13 @@ packages:
       adal-node: 0.1.28
       async: 2.6.0
       moment: 2.24.0
-      ms-rest: 2.5.0
+      ms-rest: 2.5.1
       request: 2.88.0
       uuid: 3.3.2
     dev: false
     resolution:
       integrity: sha512-J6386a9krZ4VtU7CRt+Ypgo9RGf8+d3gjMBkH7zbkM4zzkhbbMOYiPRaZ+bHZcfihkKLlktTgA6rjshTjF329A==
-  /ms-rest/2.5.0:
+  /ms-rest/2.5.1:
     dependencies:
       duplexer: 0.1.1
       is-buffer: 1.1.6
@@ -6787,7 +6786,7 @@ packages:
       uuid: 3.3.2
     dev: false
     resolution:
-      integrity: sha512-QUTg9CsmWpofDO0MR37z8B28/T9ObpQ+FM23GGDMKXw8KYDJ3cEBdK6dJTDDrtSoZG3U+S/vdmSEwJ7FNj6Kog==
+      integrity: sha512-bRRHn/asERilNDXrm4/paFRAljnIh+L6Qo6zQkBUZRXaDiHYDRq4AFCNX4Bau0db+eXlcnjnHyu3A9EjQc4s6Q==
   /ms/2.0.0:
     dev: false
     resolution:
@@ -6955,7 +6954,7 @@ packages:
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.7.1
-      resolve: 1.11.0
+      resolve: 1.11.1
       semver: 5.7.0
       validate-npm-package-license: 3.0.4
     dev: false
@@ -7927,7 +7926,7 @@ packages:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
   /rechoir/0.6.2:
     dependencies:
-      resolve: 1.11.0
+      resolve: 1.11.1
     dev: false
     engines:
       node: '>= 0.10'
@@ -8191,12 +8190,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-IDEU2CrSxe2ejgQRs5ModeiJ6Xs=
-  /resolve/1.11.0:
-    dependencies:
-      path-parse: 1.0.6
-    dev: false
-    resolution:
-      integrity: sha512-WL2pBDjqT6pGUNSUzMw00o4T7If+z4H2x3Gz893WoUQ5KW8Vr9txp00ykiP16VBaZF5+j/OcXJHZ9+PCvdiDKw==
   /resolve/1.11.1:
     dependencies:
       path-parse: 1.0.6
@@ -8272,7 +8265,7 @@ packages:
       estree-walker: 0.6.1
       is-reference: 1.1.2
       magic-string: 0.25.2
-      resolve: 1.11.0
+      resolve: 1.11.1
       rollup-pluginutils: 2.8.1
     dev: false
     peerDependencies:
@@ -8284,7 +8277,7 @@ packages:
       estree-walker: 0.6.1
       is-reference: 1.1.2
       magic-string: 0.25.2
-      resolve: 1.11.0
+      resolve: 1.11.1
       rollup: 1.16.2
       rollup-pluginutils: 2.8.1
     dev: false
@@ -9569,7 +9562,7 @@ packages:
       js-yaml: 3.13.1
       minimatch: 3.0.4
       mkdirp: 0.5.1
-      resolve: 1.11.0
+      resolve: 1.11.1
       semver: 5.7.0
       tslib: 1.10.0
       tsutils: 2.29.0
@@ -9592,7 +9585,7 @@ packages:
       js-yaml: 3.13.1
       minimatch: 3.0.4
       mkdirp: 0.5.1
-      resolve: 1.11.0
+      resolve: 1.11.1
       semver: 5.7.0
       tslib: 1.10.0
       tsutils: 2.29.0_typescript@3.5.2
@@ -10592,7 +10585,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-Dhyn9gRkEU9ZpiOY3uW4g19RrwTUTA4qgZIPe5D8qjiqV/cda/MOm4B7ZEzQpLKTvrkppU34VByB41GzwTNJlQ==
+      integrity: sha512-BICh0k87v2xAkac5zRjM+IeGG//1HofVLVcS3wBnrZCpLlngZqGfaRDw8qlUSDiKXa1olBA9pA5MTB4uh/2l0w==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -10799,7 +10792,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-QXyUr2N5XQMnkkGAgciMl7TFr52QBFqiFgJoxKHBS1vP0ZxGdKhdwcIdTUT8o5Jw0kmUbBOMmABwxDhBEJuyFA==
+      integrity: sha512-v8qGRfKY/GKBvu3cwr9IP/5+iCnLYMtcw0L2ehuuMnGrqyrJxp63YELP4axqEfPiuc3vySOYJAGtoD5xP4r3vw==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10895,7 +10888,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-UkuO1RjTZ2m1wg9OYu0CmYtAI2I7E32KobuMxsgWgFUOy7mltwfGFa0g7kR36P/MhrM5vwC2mUm0EkNfkKzrtw==
+      integrity: sha512-y2WmfBDceGCJgs9ezi2Cq6mDHmroMOWrIOdzHbqHJUhIdUq3NB/jrYPtJLWlm1J4G+U5Ugzvr30ES+DGDowo5A==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10916,7 +10909,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-7gCwnUwySG9dH+mPtOALfO0fV1ozBlOIeAN1gwn2/BzTb0BNVxcQz+J8KOg//F7KYRFg9YSXgVjPMtF8QL8yZA==
+      integrity: sha512-SJ9V43ox97Aa4JzrDkCUhoA5Zmj7D36TgGj0OFQBL68G4ucyUZH3GAYsmQcje1C0tUARz2gOwtnI2wNsv7zomQ==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10943,7 +10936,6 @@ packages:
       mocha: 5.2.0
       nock: 10.0.6
       prettier: 1.18.2
-      query-string: 6.8.1
       rimraf: 2.6.3
       rollup: 1.16.2
       rollup-plugin-commonjs: 10.0.0_rollup@1.16.2
@@ -10956,7 +10948,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-PQIrY4XXNkmE9LLMmh3ujlsIwC72aOMi3/L+tqygHxe12oQl/B4z0qs5Gn+BhzEPWkcZfks4POwrIglBWX1I8g==
+      integrity: sha512-7gzv0q8pmORQ0n6Ex1HUzZbajU7DlZ2sUQdzb3/4Kh6MtDX1ZkCs6ERYfA2ahlq4v5y8aNidVLZe6aLuEgfMuQ==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10997,7 +10989,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-8HWeQ+IGLnF7kx676AB+v9mYNaWYEnATs0sGH112kvUc3BjoWv4ooJ+Geip7p2EjkBEJrgNyqh3uyy3wd0HS4g==
+      integrity: sha512-R59FGxD/p3G5NBmxepRfnoRJmwq7ZXmUN+3iFiepwCGbYmBE291CzazkTntcF8dl7Ku7lQ/oqBP1t8kircdyDg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -11364,7 +11356,7 @@ packages:
       debug: 3.2.6
       is-buffer: 2.0.3
       jssha: 2.3.1
-      ms-rest: 2.5.0
+      ms-rest: 2.5.1
       ms-rest-azure: 2.6.0
       rhea: 1.0.7
       rimraf: 2.6.3
@@ -11378,7 +11370,6 @@ packages:
       integrity: sha512-c3cFI0Our99carkgcyOFLmX5QRh5fIqyVv9S75VRX7woNtBGXPvWRE8VOxEN9o8N8FjSEQzc6PPEO6YRz7ok8Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/amqp-common': ^1.0.0-preview.5
   '@azure/arm-servicebus': ^0.1.0
@@ -11519,7 +11510,6 @@ specifiers:
   qs: 6.7.0
   query-string: ^6.5.0
   requirejs: ^2.3.5
-  resolve: 1.11.0
   rhea: ^1.0.4
   rhea-promise: ^0.1.15
   rimraf: ^2.6.2
