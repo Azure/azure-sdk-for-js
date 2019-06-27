@@ -18,7 +18,7 @@ to authenticate API requests. It supports token authentication using an Azure Ac
 
 Install Azure Identity with `npm`:
 ```sh
-npm install --save @azure/identity
+npm install --save @azure/identity@1.0.0-preview.1
 ```
 
 ## Key concepts

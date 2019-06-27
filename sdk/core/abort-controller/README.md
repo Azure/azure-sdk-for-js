@@ -12,7 +12,7 @@ parameter to cancel an operation.
 - Installing this library
 
 ```
-npm install @azure/abort-controller
+npm install @azure/abort-controller@1.0.0-preview.1
 ```
 
 ## Key Concepts

@@ -24,7 +24,7 @@ Some of the common functionalities include:
 - Installing this library
 
 ```bash
-npm install @azure/core-amqp
+npm install @azure/core-amqp@1.0.0-preview.1
 ```
 
 - [`rhea-promise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
