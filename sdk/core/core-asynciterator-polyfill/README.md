@@ -13,7 +13,7 @@ then simply run `rush install` after cloning the repo.
 Otherwise, use npm to install this package in your application as follows
 
 ```
-npm install @azure/abort-controller
+npm install @azure/core-asynciterator-polyfill
 ```
 
 
