@@ -48,14 +48,14 @@ For more concepts and deeper discussion, see: [Event Hubs Features](https://docs
 
 ### Authenticate the client
 
-Interaction with Event Hubs starts with an instance of the [EventHubClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest) class. You can instantiate
+Interaction with Event Hubs starts with an instance of the [EventHubClient](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#constructor) class. You can instantiate
 this class using one of the below
 
 ```javascript
 const client = new EventHubClient("my-connection-string", "my-event-hub");
 ```
 
-- This constructor takes the [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can get the connection string from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
+- This constructor takes the connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can get the connection string from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
 ```javascript
 const client = new EventHubClient("my-connection-string-with-entity-path");
