@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-http";
+import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
@@ -172,24 +168,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -231,11 +227,7 @@ export class QueueClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(
-    url: string,
-    credential?: Credential | TokenCredential,
-    options?: NewPipelineOptions
-  );
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -271,15 +263,19 @@ export class QueueClient extends StorageClient {
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
-      const queueName = credentialOrPipelineOrQueueName;
+      if (isNode) {
+        const queueName = credentialOrPipelineOrQueueName;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + queueName;
-      pipeline = newPipeline(sharedKeyCredential, options);
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + queueName;
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }

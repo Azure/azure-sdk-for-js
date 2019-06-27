@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
@@ -94,11 +94,7 @@ export class MessageIdClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessageIdClient
    */
-  constructor(
-    url: string,
-    credential?: Credential | TokenCredential,
-    options?: NewPipelineOptions
-  );
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of MessageIdClient.
    *
@@ -139,16 +135,20 @@ export class MessageIdClient extends StorageClient {
       messageIdOrOptions &&
       typeof messageIdOrOptions === "string"
     ) {
-      const queueName = credentialOrPipelineOrQueueName;
-      const messageId = messageIdOrOptions;
+      if (isNode) {
+        const queueName = credentialOrPipelineOrQueueName;
+        const messageId = messageIdOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + queueName + "/" + messageId;
-      pipeline = newPipeline(sharedKeyCredential, options);
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + queueName + "/" + messageId;
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
     }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
@@ -158,14 +158,18 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): QueueServiceClient {
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
+    if (isNode) {
+      const extractedCreds = extractConnectionStringParts(connectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
 
-    const pipeline = newPipeline(sharedKeyCredential, options);
-    return new QueueServiceClient(extractedCreds.url, pipeline);
+      const pipeline = newPipeline(sharedKeyCredential, options);
+      return new QueueServiceClient(extractedCreds.url, pipeline);
+    } else {
+      throw new Error("Connection string is only supported in Node.js environment");
+    }
   }
 
   /**
@@ -189,11 +193,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(
-    url: string,
-    credential?: Credential | TokenCredential,
-    options?: NewPipelineOptions
-  );
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueServiceClient.
    *
