@@ -60,6 +60,11 @@ export function nodeConfig(test = false) {
     baseConfig.external.push("assert", "fs", "path");
 
     baseConfig.context = "null";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -103,9 +108,12 @@ export function browserConfig(test = false, production = false) {
         preferBuiltins: false
       }),
       cjs({
+        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
+        // modules with built-in names must have a trailing slash.
+        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         namedExports: {
-          events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
+          "events/": ["EventEmitter"],
+          "assert/": ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
         }
       })
     ]
@@ -119,6 +127,11 @@ export function browserConfig(test = false, production = false) {
     baseConfig.external = ["fs-extra"];
 
     baseConfig.context = "null";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.output.file = "browser/azure-storage-blob.min.js";
     baseConfig.plugins.push(

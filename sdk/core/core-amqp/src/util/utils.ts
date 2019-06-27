@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import AsyncLock from "async-lock";
 export { AsyncLock };
@@ -30,10 +30,7 @@ export interface AsyncLockOptions {
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
-  !!process &&
-  !!process.version &&
-  !!process.versions &&
-  !!process.versions.node;
+  !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
  * Describes the servicebus connection string model.
@@ -102,9 +99,7 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  * @param {string} connectionString The connection string to be parsed.
  * @returns {ParsedOutput<T>} ParsedOutput<T>.
  */
-export function parseConnectionString<T>(
-  connectionString: string
-): ParsedOutput<T> {
+export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   const output: { [k: string]: string } = {};
   const parts = connectionString.trim().split(";");
 
@@ -125,9 +120,7 @@ export function parseConnectionString<T>(
 
     const key = part.substring(0, splitIndex).trim();
     if (key === "") {
-      throw new Error(
-        "Connection string malformed: missing key for assignment"
-      );
+      throw new Error("Connection string malformed: missing key for assignment");
     }
 
     const value = part.substring(splitIndex + 1).trim();
@@ -210,7 +203,7 @@ export class Timeout {
  * @returns {Promise<T>} - Resolved promise
  */
 export function delay<T>(t: number, value?: T): Promise<T> {
-  return new Promise(resolve => setTimeout(() => resolve(value), t));
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
 /**
@@ -244,7 +237,7 @@ export function executePromisesSequentially(
   kickstart?: any
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
-  promiseFactories.forEach(promiseFactory => {
+  promiseFactories.forEach((promiseFactory) => {
     result = result.then(promiseFactory);
   });
   return result;
@@ -260,12 +253,7 @@ export function isIotHubConnectionString(connectionString: string): boolean {
 
   let result: boolean = false;
   const model: any = parseConnectionString<any>(connectionString);
-  if (
-    model &&
-    model.HostName &&
-    model.SharedAccessKey &&
-    model.SharedAccessKeyName
-  ) {
+  if (model && model.HostName && model.SharedAccessKey && model.SharedAccessKeyName) {
     result = true;
   }
   return result;

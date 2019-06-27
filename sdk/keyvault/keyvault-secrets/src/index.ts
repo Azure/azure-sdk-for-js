@@ -21,6 +21,7 @@ import {
   userAgentPolicy
 } from "@azure/core-http";
 
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecretBundle,

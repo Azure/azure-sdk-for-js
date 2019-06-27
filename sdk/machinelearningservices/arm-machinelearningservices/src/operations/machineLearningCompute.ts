@@ -113,29 +113,69 @@ export class MachineLearningCompute {
   }
 
   /**
+   * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
+   * nonrecoverable operation.
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters Additional parameters for cluster update.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MachineLearningComputeUpdateResponse>
+   */
+  update(resourceGroupName: string, workspaceName: string, computeName: string, parameters: Models.ClusterUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,workspaceName,computeName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MachineLearningComputeUpdateResponse>;
+  }
+
+  /**
    * Deletes specified Machine Learning compute.
    * @param resourceGroupName Name of the resource group in which workspace is located.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
+   * @param underlyingResourceAction Delete the underlying compute if 'Delete', or detach the
+   * underlying compute from workspace if 'Detach'. Possible values include: 'Delete', 'Detach'
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineLearningComputeDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,computeName,options)
+  deleteMethod(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: Models.UnderlyingResourceAction, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeDeleteResponse> {
+    return this.beginDeleteMethod(resourceGroupName,workspaceName,computeName,underlyingResourceAction,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MachineLearningComputeDeleteResponse>;
   }
 
   /**
-   * System Update On Machine Learning compute.
+   * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
    * @param resourceGroupName Name of the resource group in which workspace is located.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
    * @param [options] The optional parameters
-   * @returns Promise<Models.MachineLearningComputeSystemUpdateResponse>
+   * @returns Promise<Models.MachineLearningComputeListNodesResponse>
    */
-  systemUpdate(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeSystemUpdateResponse> {
-    return this.beginSystemUpdate(resourceGroupName,workspaceName,computeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MachineLearningComputeSystemUpdateResponse>;
+  listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListNodesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param callback The callback
+   */
+  listNodes(resourceGroupName: string, workspaceName: string, computeName: string, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  /**
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): void;
+  listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AmlComputeNodesInformation>, callback?: msRest.ServiceCallback<Models.AmlComputeNodesInformation>): Promise<Models.MachineLearningComputeListNodesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        options
+      },
+      listNodesOperationSpec,
+      callback) as Promise<Models.MachineLearningComputeListNodesResponse>;
   }
 
   /**
@@ -199,42 +239,48 @@ export class MachineLearningCompute {
   }
 
   /**
-   * Deletes specified Machine Learning compute.
+   * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
+   * nonrecoverable operation.
    * @param resourceGroupName Name of the resource group in which workspace is located.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters Additional parameters for cluster update.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: Models.ClusterUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         workspaceName,
         computeName,
+        parameters,
         options
       },
-      beginDeleteMethodOperationSpec,
+      beginUpdateOperationSpec,
       options);
   }
 
   /**
-   * System Update On Machine Learning compute.
+   * Deletes specified Machine Learning compute.
    * @param resourceGroupName Name of the resource group in which workspace is located.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param computeName Name of the Azure Machine Learning compute.
+   * @param underlyingResourceAction Delete the underlying compute if 'Delete', or detach the
+   * underlying compute from workspace if 'Detach'. Possible values include: 'Delete', 'Detach'
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginSystemUpdate(resourceGroupName: string, workspaceName: string, computeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: Models.UnderlyingResourceAction, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         workspaceName,
         computeName,
+        underlyingResourceAction,
         options
       },
-      beginSystemUpdateOperationSpec,
+      beginDeleteMethodOperationSpec,
       options);
   }
 
@@ -321,6 +367,32 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listNodesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AmlComputeNodesInformation
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listKeys",
@@ -385,6 +457,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ClusterUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ComputeResource
+    },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
@@ -395,7 +500,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.computeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.underlyingResourceAction
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -406,35 +512,6 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     },
     202: {
       headersMapper: Mappers.MachineLearningComputeDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const beginSystemUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      headersMapper: Mappers.MachineLearningComputeSystemUpdateHeaders
-    },
-    202: {
-      headersMapper: Mappers.MachineLearningComputeSystemUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.MachineLearningServiceError

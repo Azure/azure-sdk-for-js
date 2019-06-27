@@ -126,7 +126,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
 
   it("should throw ServiceCommunicationError while creating a receiver", async function(): Promise<void> {
     try {
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
@@ -184,7 +184,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
 
   it("should throw MessagingEntityNotFoundError while creating a receiver", async function(): Promise<void> {
     try {
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
@@ -269,7 +269,11 @@ describe("Errors after close()", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.fromEnqueuedTime(timeNow));
+    receiver = client.createConsumer(
+      EventHubClient.defaultConsumerGroupName,
+      "0",
+      EventPosition.fromEnqueuedTime(timeNow)
+    );
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
 
@@ -341,7 +345,7 @@ describe("Errors after close()", function(): void {
 
     let errorNewReceiver: string = "";
     try {
-      receiver = client.createConsumer(EventHubClient.defaultConsumerGroup, "0", EventPosition.earliest());
+      receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
     } catch (err) {
       errorNewReceiver = err.message;
     }

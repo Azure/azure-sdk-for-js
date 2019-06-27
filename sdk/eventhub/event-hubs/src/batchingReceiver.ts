@@ -25,6 +25,7 @@ import { EventPosition } from "./eventPosition";
  * @class BatchingReceiver
  * @extends EventHubReceiver
  * @internal
+ * @ignore
  */
 export class BatchingReceiver extends EventHubReceiver {
   /**

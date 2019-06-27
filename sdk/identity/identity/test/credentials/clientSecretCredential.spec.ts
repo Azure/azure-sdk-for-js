@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { ClientSecretCredential } from "../../src";
 import { MockAuthHttpClient, assertClientCredentials } from "./authTestUtils";
 
-describe("ClientSecretCredential", function() {
+describe("ClientSecretCredential", function () {
   it("sends an authorization request with the given credentials", async () => {
     const mockHttpClient = new MockAuthHttpClient();
 

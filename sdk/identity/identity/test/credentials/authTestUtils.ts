@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import { IdentityClientOptions } from "../../src";
-import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient } from "@azure/core-http";
+import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient, delay, RestError } from "@azure/core-http";
 
 export interface MockAuthResponse {
   status: number;
@@ -12,20 +12,29 @@ export interface MockAuthResponse {
   bodyAsText?: string;
 }
 
+export interface MockAuthHttpClientOptions {
+  authResponse?: MockAuthResponse,
+  mockTimeout?: boolean
+}
+
 export class MockAuthHttpClient implements HttpClient {
   private requestPromise: Promise<WebResource>;
   private requestResolve: (request: WebResource) => void;
+
   private authResponse: MockAuthResponse;
+  private mockTimeout: boolean;
 
   public identityClientOptions: IdentityClientOptions;
+  public sendRequestCount: number = 0;
 
-  constructor(authResponse?: MockAuthResponse) {
+  constructor(options?: MockAuthHttpClientOptions) {
+    options = options || {};
     this.requestResolve = () => { };
     this.requestPromise = new Promise((resolve) => {
       this.requestResolve = resolve;
     });
 
-    this.authResponse = authResponse || {
+    this.authResponse = options.authResponse || {
       status: 200,
       headers: new HttpHeaders(),
       parsedBody: {
@@ -34,6 +43,11 @@ export class MockAuthHttpClient implements HttpClient {
       }
     };
 
+    this.mockTimeout =
+      options.mockTimeout !== undefined
+        ? options.mockTimeout
+        : false;
+
     this.identityClientOptions = {
       authorityHost: "https://authority",
       httpClient: this,
@@ -41,13 +55,19 @@ export class MockAuthHttpClient implements HttpClient {
     };
   }
 
-  sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
+  async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
+    this.sendRequestCount++;
     this.requestResolve(httpRequest);
-    return Promise.resolve({
+
+    if (this.mockTimeout) {
+      await delay(httpRequest.timeout);
+      throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
+    }
+    return {
       request: httpRequest,
       headers: this.authResponse.headers || new HttpHeaders(),
       ...this.authResponse
-    });
+    };
   }
 
   getAuthRequest(): Promise<WebResource> {
