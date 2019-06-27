@@ -45,15 +45,6 @@ This library depends on following ES features which need external polyfills load
 - `Array.prototype.includes`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
-- `Symbol.asyncIterator`
-
-[polyfill.io](https://polyfill.io/v2/docs/) doesn't support `Symbol.asyncIterator` yet. One way to add it (after adding `Symbol` polyfill) is
-
-```javascript
-if (typeof Symbol === undefined || !Symbol.asyncIterator) {
-  Symbol.asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
-```
 
 #### Differences between Node.js and browsers
 
