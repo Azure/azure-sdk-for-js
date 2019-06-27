@@ -59,7 +59,9 @@ export class AadTokenProvider implements TokenProvider {
       );
     }
     if (credentials instanceof MSITokenCredentials) {
-      credentials.resource = Constants.aadEventHubsAudience;
+      if (!credentials.resource || credentials.resource == undefined) {
+        throw new Error("'resource' on credentials must be set to a valid value");
+      }
     }
     this.credentials = credentials;
   }
