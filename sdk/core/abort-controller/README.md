@@ -1,15 +1,16 @@
 # Azure Abort Controller library for JS
 
-The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes that are compatible
-with the `AbortController` built into modern browsers and the `AbortSignal` used by `fetch`.
-These classes are provided for use with APIs in the Azure SDK for JavaScript that accept an `AbortSignalLike`
-parameter to cancel an operation.
+The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes. These classes are compatible
+with the [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) built into modern browsers
+and the `AbortSignal` used by [fetch](https://www.npmjs.com/package/fetch).
+Use the `AbortController` class to create an instance of the `AbortSignal` class that can be used to cancel an operation
+in an Azure SDK that accept a parameter of type `AbortSignalLike`.
 
 ## Getting started
 
 ### Installation
 
-- Installing this library
+Install this libray using npm as follows
 
 ```
 npm install @azure/abort-controller
@@ -28,12 +29,15 @@ Any subsequent calls to `abort()` on the same controller will have no effect.
 
 The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
 
-`AbortSignals` can also be linked so that when `abort()` is called on parent signal,
-it also fires on all linked signals.
+Multiple instances of an `AbortSignal` can be linked so that calling `abort()` on the parent signal,
+fires the same on all linked signals.
 This linkage is one-way, meaning that a parent signal can affect a linked signal, but not the other way around.
 To link `AbortSignals` together, pass in the parent signals to the `AbortController` constructor.
 
 ## Examples
+
+The below examples assume that `doAsyncWork` is a function that takes a bag of properties, one of which is
+of the abort signal.
 
 ### Example 1 - basic usage
 
@@ -84,10 +88,6 @@ const subTask = new AbortController(allTasksController.signal, AbortController.t
 allTasksController.abort(); // aborts allTasksSignal, subTask
 subTask.abort(); // aborts only subTask
 ```
-
-## Next Steps
-
-Please take a look at the Examples section above to use this package.
 
 ## Contributing
 
