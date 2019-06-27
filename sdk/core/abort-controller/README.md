@@ -1,8 +1,8 @@
 # Azure Abort Controller library for JS
 
 The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes. These classes are compatible
-with the [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) built into modern browsers
-and the `AbortSignal` used by [fetch](https://www.npmjs.com/package/fetch).
+with the [AbortController](https://developer.mozilla.org/docs/Web/API/AbortController) built into modern browsers
+and the `AbortSignal` used by [fetch](https://developer.mozilla.org/docs/Web/API/Fetch_API).
 Use the `AbortController` class to create an instance of the `AbortSignal` class that can be used to cancel an operation
 in an Azure SDK that accept a parameter of type `AbortSignalLike`.
 
@@ -30,7 +30,7 @@ Any subsequent calls to `abort()` on the same controller will have no effect.
 The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
 
 Multiple instances of an `AbortSignal` can be linked so that calling `abort()` on the parent signal,
-fires the same on all linked signals.
+aborts all linked signals.
 This linkage is one-way, meaning that a parent signal can affect a linked signal, but not the other way around.
 To link `AbortSignals` together, pass in the parent signals to the `AbortController` constructor.
 
