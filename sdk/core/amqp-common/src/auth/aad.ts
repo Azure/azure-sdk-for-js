@@ -58,11 +58,10 @@ export class AadTokenProvider implements TokenProvider {
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."
       );
     }
-    if (credentials instanceof MSITokenCredentials) {
-      if (!credentials.resource) {
-        throw new Error("'resource' on credentials must be set to a valid value");
-      }
+    if (credentials instanceof MSITokenCredentials && !credentials.resource) {
+      throw new Error("'resource' on credentials must be set to a valid value");
     }
+
     this.credentials = credentials;
   }
 
