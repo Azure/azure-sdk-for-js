@@ -7,7 +7,7 @@ for platforms that do not have support for it by default.
 
 ### Installation
 
-If using this as part of another project in the [azure-sdk-fo-js](https://github.com/Azure/azure-sdk-for-js) repo,
+If using this as part of another project in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo,
 then simply run `rush install` after cloning the repo.
 
 Otherwise, use npm to install this package in your application as follows
