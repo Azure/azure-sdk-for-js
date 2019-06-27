@@ -8,7 +8,7 @@ for platforms that do not have support for it by default.
 ### Installation
 
 If using this as part of another project in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo,
-then simply run `rush install` after cloning the repo.
+then run `rush install` after cloning the repo.
 
 Otherwise, use npm to install this package in your application as follows
 
@@ -16,7 +16,7 @@ Otherwise, use npm to install this package in your application as follows
 npm install @azure/core-asynciterator-polyfill
 ```
 
-## Key Concepts
+## Key concepts
 
 [Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) is not supported 
 in all platforms and therefore you might need a polyfill in order to get it working on such platforms. Importing the polyfill from
