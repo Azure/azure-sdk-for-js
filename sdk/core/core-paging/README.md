@@ -49,6 +49,14 @@ And using the types:
   }
 ```
 
+## Next steps
+
+Try out this package in your application when dealing with async iterable iterators and provide feedback!
+
+## Troubleshooting
+
+Log an issue at https://github.com/Azure/azure-sdk-for-js/issues
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

@@ -25,6 +25,15 @@ To use this polyfill, just include an import of this library in your code
 import "@azure/core-asynciterator-polyfill";
 ```
 
+## Next steps
+
+Try out this package in your application if you are working on platforms that do not have support for
+[Symbol.asyncIterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) and provide feedback!
+
+## Troubleshooting
+
+Log an issue at https://github.com/Azure/azure-sdk-for-js/issues
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
