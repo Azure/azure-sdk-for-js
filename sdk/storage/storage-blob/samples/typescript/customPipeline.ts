@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential, newPipeline, RawTokenCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, SharedKeyCredential, newPipeline } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -11,13 +11,6 @@ async function main() {
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new RawTokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
