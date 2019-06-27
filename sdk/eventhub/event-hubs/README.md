@@ -20,7 +20,7 @@ Install the Azure Event Hubs client library using npm
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 6.x or higher.
+If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Configure Typescript
 
