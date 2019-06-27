@@ -1,8 +1,8 @@
 {
   "name": "testhub",
-  "sdk-type": "client",
   "version": "0.1.0",
   "license": "MIT",
+  "private": true,
   "engine": {
     "node": ">=6.0.0"
   },
