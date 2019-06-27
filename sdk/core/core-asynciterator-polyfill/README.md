@@ -16,6 +16,11 @@ Otherwise, use npm to install this package in your application as follows
 npm install @azure/core-asynciterator-polyfill
 ```
 
+## Key Concepts
+
+[Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) is not supported 
+in all platforms and therefore you might need a polyfill in order to get it working on such platforms. Importing the polyfill from
+this library lets you use the iterator in your applications.
 
 ## Examples
 
