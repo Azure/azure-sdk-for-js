@@ -1,19 +1,17 @@
 # Azure Async Iterator Polyfill client library for JS
 
-This library acts to polyfill for Symbol.asyncIterator
+This library provides a polyfill for [Symbol.asyncIterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator)
+for platforms that do not have support for it by default.
 
 ## Getting started
 
-### Requirements
-- node.js version > 6.x
-- npm install -g typescript
-
 ### Installation
-- After cloning the repo, execute `rush install`
 
-## Key concepts
+Use npm to install this package as follow
 
-This is a polyfill for Symbol.asyncIterator for platforms that do not have support for it by default.
+```
+npm install @azure/abort-controller
+```
 
 ## Examples
 
@@ -23,21 +21,7 @@ To use this polyfill, just include an import of this library in your code
 import "@azure/core-asynciterator-polyfill";
 ```
 
-## Next steps
-
-### node.js
-- Set the subscriptionId and token
-- Run `node samples/node-sample.js`
-
-### In the browser
-- Set the subscriptionId and token and then run
-- Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
-
-## Troubleshooting
-
-To be added later.
-
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
