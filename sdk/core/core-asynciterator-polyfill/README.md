@@ -7,11 +7,15 @@ for platforms that do not have support for it by default.
 
 ### Installation
 
-Use npm to install this package as follow
+If using this as part of another project in the [azure-sdk-fo-js](https://github.com/Azure/azure-sdk-for-js) repo,
+then simply run `rush install` after cloning the repo.
+
+Otherwise, use npm to install this package in your application as follows
 
 ```
 npm install @azure/abort-controller
 ```
+
 
 ## Examples
 
