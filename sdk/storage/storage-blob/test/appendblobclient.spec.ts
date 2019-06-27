@@ -24,7 +24,7 @@ describe("AppendBlobClient", () => {
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

@@ -19,6 +19,9 @@ import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
+/**
+ * @ignore
+ */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
   onError: OnAmqpEvent;
@@ -31,6 +34,7 @@ interface CreateReceiverOptions {
 
 /**
  * @internal
+ * @ignore
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
  */
@@ -67,6 +71,7 @@ export type OnError = (error: MessagingError | Error) => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  * @internal
+ * @ignore
  */
 export class EventHubReceiver extends LinkEntity {
   /**

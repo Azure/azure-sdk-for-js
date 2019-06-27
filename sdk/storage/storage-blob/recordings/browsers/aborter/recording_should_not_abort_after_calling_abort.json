@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156058697809306189",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150830230202417",
    "query": {
     "restype": "container"
    },
@@ -10,17 +10,17 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 15 Jun 2019 08:22:57 GMT",
-    "last-modified": "Sat, 15 Jun 2019 08:22:58 GMT",
+    "date": "Wed, 26 Jun 2019 00:18:22 GMT",
+    "last-modified": "Wed, 26 Jun 2019 00:18:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6F16AAC77E5A4\"",
-    "x-ms-request-id": "9567147c-201e-0039-5053-233a35000000",
+    "etag": "\"0x8D6F9CBCCB7FFFA\"",
+    "x-ms-request-id": "9f307aa5-301e-00a5-19b4-2b4188000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156058697809306189"
+  "container": "container156150830230202417"
  }
 }

@@ -9,10 +9,17 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * The EventHubProducer class can be used to send messages.
+ * A producer responsible for sending `EventData` to a specific Event Hub.
+ * If `partitionId` is specified in the `options`, all event data sent using the producer
+ * will be sent to the specified partition.
+ * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
+ *
+ * Allowing automatic routing of partitions is recommended when:
+ *  - The sending of events needs to be highly available.
+ *  - The event data should be evenly distributed among all available partitions.
+ *
  * Use the `createProducer` function on the EventHubClient to instantiate an EventHubProducer.
- * The EventHubProducer class is an abstraction over the underlying AMQP sender link.
- * @class EventHubProducer
+ * @class
  */
 export class EventHubProducer {
   /**
@@ -39,6 +46,7 @@ export class EventHubProducer {
   /**
    * @constructor
    * @internal
+   * @ignore
    */
   constructor(context: ConnectionContext, options?: EventHubProducerOptions) {
     this._context = context;
@@ -49,11 +57,11 @@ export class EventHubProducer {
   }
 
   /**
-   * Send a batch of EventData to the EventHub using the options provided.
+   * Send a single or an array of events to the associated Event Hub.
    *
-   * @param eventData  An individual EventData or array of EventData objects to be sent in a Batch message.
-   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
-   * request via retry options, log level and cancellation token.
+   * @param eventData  An individual event data or array of event data objects to send.
+   * @param options The set of options that can be specified to influence the way in which
+   * events are sent to the associated Event Hub, including an abort signal to cancel the operation.
    *
    * @returns Promise<void>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.

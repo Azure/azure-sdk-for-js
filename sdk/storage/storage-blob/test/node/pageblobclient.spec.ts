@@ -1,29 +1,40 @@
 import * as assert from "assert";
 
-import { getBSU, getUniqueName, getConnectionStringFromEnvironment, bodyToString } from "../utils";
-import { newPipeline, PageBlobClient, SharedKeyCredential } from "../../src";
-import { TokenCredential, delay } from "@azure/core-http";
+import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../utils";
+import {
+  newPipeline,
+  PageBlobClient,
+  SharedKeyCredential,
+  ContainerClient,
+  BlobClient
+} from "../../src";
+import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { record, delay } from "../utils/recorder";
 
 describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.getContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.getBlobClient(blobName);
-  let pageBlobClient = blobClient.getPageBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let pageBlobClient: PageBlobClient;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.getBlobClient(blobName);
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("startCopyIncremental", async () => {
@@ -37,7 +48,7 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.getPageBlobClient(getUniqueName("page"));
+    const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
 

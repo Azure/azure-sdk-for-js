@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure/core-http";
+import { HttpResponse, isNode } from "@azure/core-http";
 
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
@@ -225,24 +225,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.ShareGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ShareGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * Options to configure Share - Create Snapshot operation.
@@ -341,14 +341,18 @@ export class ShareClient extends StorageClient {
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
-      const shareName = credentialOrPipelineOrShareName;
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + shareName;
-      pipeline = newPipeline(sharedKeyCredential, options);
+      if (isNode) {
+        const shareName = credentialOrPipelineOrShareName;
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + shareName;
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for shareName parameter");
     }

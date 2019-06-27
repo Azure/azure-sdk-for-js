@@ -1,0 +1,127 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "last-modified": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9CBE04B799D\"",
+    "x-ms-request-id": "9f30aa47-301e-00a5-19b4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374/blob156150833567406209",
+   "query": {
+    "blockid": "MQ==",
+    "comp": "block"
+   },
+   "requestBody": "HelloWorld",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "content-md5": "aOEJ8PQMpyoV4FzCJ4b45g==",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-request-id": "9f30aa89-301e-00a5-4ab4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374/blob156150833567406209",
+   "query": {
+    "blockid": "Mg==",
+    "comp": "block"
+   },
+   "requestBody": "HelloWorld",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "content-md5": "aOEJ8PQMpyoV4FzCJ4b45g==",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-request-id": "9f30aabd-301e-00a5-76b4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374/blob156150833567406209",
+   "query": {
+    "comp": "blocklist"
+   },
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><BlockList><Latest>MQ==</Latest><Latest>Mg==</Latest></BlockList>",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "last-modified": "Wed, 26 Jun 2019 00:18:56 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "content-md5": "dFAuDrRd9NVDo3Ngdh/H9g==",
+    "etag": "\"0x8D6F9CBE096C89E\"",
+    "x-ms-request-id": "9f30aaec-301e-00a5-24b4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374/blob156150833567406209",
+   "query": {
+    "blocklisttype": "committed",
+    "comp": "blocklist"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><BlockList><CommittedBlocks><Block><Name>MQ==</Name><Size>10</Size></Block><Block><Name>Mg==</Name><Size>10</Size></Block></CommittedBlocks></BlockList>",
+   "responseHeaders": {
+    "date": "Wed, 26 Jun 2019 00:18:55 GMT",
+    "last-modified": "Wed, 26 Jun 2019 00:18:56 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9CBE096C89E\"",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "9f30ab3f-301e-00a5-6ab4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-blob-content-length": "20"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156150833552205374",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "9f30ab5e-301e-00a5-04b4-2b4188000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Wed, 26 Jun 2019 00:18:56 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156150833552205374",
+  "blob": "blob156150833567406209"
+ }
+}

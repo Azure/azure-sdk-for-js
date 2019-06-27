@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
@@ -137,9 +137,7 @@ export module ConnectionContextBase {
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
-        `The user-agent string cannot be more than ${
-          Constants.maxUserAgentLength
-        } characters in length.` +
+        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
           `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
       );
     }

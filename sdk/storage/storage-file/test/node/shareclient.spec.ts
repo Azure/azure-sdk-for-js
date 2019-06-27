@@ -1,25 +1,30 @@
 import * as assert from "assert";
 import { newPipeline, ShareClient, SharedKeyCredential, SignedIdentifier } from "../../src";
-import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "./../utils";
+import { getBSU, getConnectionStringFromEnvironment } from "./../utils";
+import { record } from "../utils/recorder";
 
 describe("ShareClient Node.js only", () => {
   const serviceClient = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareClient = serviceClient.getShareClient(shareName);
+  let shareName: string;
+  let shareClient: ShareClient;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("setAccessPolicy", async () => {
-    const yesterday = new Date();
-    const tomorrow = new Date();
+    const yesterday = recorder.newDate();
+    const tomorrow = recorder.newDate();
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
 

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-http";
+import { TokenCredential, isTokenCredential } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
@@ -20,6 +17,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
