@@ -1,0 +1,123 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A7C00061\"",
+    "x-ms-request-id": "37126d87-c01a-0038-67ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244/dir156150523433803535",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A7D802E6\"",
+    "x-ms-request-id": "37126d8b-c01a-0038-6aad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244/dir156150523433803535/file156150523449807318",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:14 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A7EFFC18\"",
+    "x-ms-request-id": "37126d8d-c01a-0038-6cad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244/dir156150523433803535/copiedfile156150523465908822",
+   "query": {},
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:17 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:17 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A9A12F1C\"",
+    "x-ms-request-id": "37126d8f-c01a-0038-6ead-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-copy-id": "cb949354-1a37-496a-a740-2cd1420884fa",
+    "x-ms-copy-status": "success",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244/dir156150523433803535/copiedfile156150523465908822",
+   "query": {
+    "comp": "copy",
+    "copyid": "cb949354-1a37-496a-a740-2cd1420884fa"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>NoPendingCopyOperation</Code><Message>There is currently no pending copy operation.\nRequestId:37126d99-c01a-0038-72ad-2b3bc8000000\nTime:2019-06-25T23:27:20.1019100Z</Message></Error>",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:19 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "NoPendingCopyOperation",
+    "content-type": "application/xml",
+    "x-ms-request-id": "37126d99-c01a-0038-72ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "236"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523418205244",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "37126d9c-c01a-0038-75ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Tue, 25 Jun 2019 23:27:19 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "share": "share156150523418205244",
+  "dir": "dir156150523433803535",
+  "file": "file156150523449807318",
+  "copiedfile": "copiedfile156150523465908822"
+ }
+}

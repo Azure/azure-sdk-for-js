@@ -5,7 +5,8 @@ import {
   HttpRequestBody,
   HttpResponse,
   TokenCredential,
-  isTokenCredential
+  isTokenCredential,
+  isNode
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -31,6 +32,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { LeaseClient } from "./LeaseClient";
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
@@ -204,24 +206,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ContainerGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.ContainerGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ContainerGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * Options to configure Container - Set Access Policy operation.
@@ -529,15 +531,19 @@ export class ContainerClient extends StorageClient {
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
     ) {
-      const containerName = credentialOrPipelineOrContainerName;
+      if (isNode) {
+        const containerName = credentialOrPipelineOrContainerName;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
-      pipeline = newPipeline(sharedKeyCredential, options);
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for containerName parameter");
     }

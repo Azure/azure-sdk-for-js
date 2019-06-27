@@ -9,7 +9,8 @@ import {
   HttpResponse,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential
+  isTokenCredential,
+  isNode
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
@@ -479,16 +480,20 @@ export class BlockBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      const containerName = credentialOrPipelineOrContainerName;
-      const blobName = blobNameOrOptions;
+      if (isNode) {
+        const containerName = credentialOrPipelineOrContainerName;
+        const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
-      pipeline = newPipeline(sharedKeyCredential, options);
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
@@ -779,7 +784,7 @@ export class BlockBlobClient extends BlobClient {
     if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
       throw new RangeError(
         `The buffer's size is too big or the BlockSize is too small;` +
-        `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
       );
     }
 
@@ -981,7 +986,7 @@ export class BlockBlobClient extends BlobClient {
     if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
       throw new RangeError(
         `The buffer's size is too big or the BlockSize is too small;` +
-        `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
       );
     }
 

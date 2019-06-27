@@ -1,23 +1,28 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { getBSU, getUniqueName } from "./utils";
-import { delay } from "@azure/core-http";
+import { getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
+import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("LeaseClient from Container", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.getContainerClient(containerName);
+  let containerName: string;
+  let containerClient: ContainerClient;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -37,8 +42,7 @@ describe("LeaseClient from Container", () => {
   it("acquireLease without specifying a lease id", async () => {
     const duration = 30;
     const leaseClient = containerClient.getLeaseClient();
-    const l = await leaseClient.acquireLease(duration);
-    console.log(l);
+    await leaseClient.acquireLease(duration);
 
     const result = await containerClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
@@ -135,25 +139,28 @@ describe("LeaseClient from Container", () => {
 
 describe("LeaseClient from Blob", () => {
   const blobServiceClient = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerClient = blobServiceClient.getContainerClient(containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobClient = containerClient.getBlobClient(blobName);
-  let blockBlobClient = blobClient.getBlockBlobClient();
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
+  let recorder: any;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await containerClient.delete();
+    recorder.stop();
   });
 
   it("acquireLease", async () => {

@@ -2,17 +2,17 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156044333851502132/dir156044333851604815/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27156044334127907848",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27156150527796304350",
    "query": {},
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Thu, 13 Jun 2019 09:28:45 GMT",
-    "last-modified": "Thu, 13 Jun 2019 09:28:46 GMT",
+    "date": "Tue, 25 Jun 2019 23:27:57 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:58 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6EFE188C6FF33\"",
-    "x-ms-request-id": "2bf96cb8-801a-0034-70ca-21d539000000",
+    "etag": "\"0x8D6F9C4C1D7E3CA\"",
+    "x-ms-request-id": "37126f78-c01a-0038-73ad-2b3bc8000000",
     "x-ms-version": "2018-03-28",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -20,19 +20,19 @@
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156044333851502132/dir156044333851604815/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27156044334127907848",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27156150527796304350",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Thu, 13 Jun 2019 09:28:45 GMT",
-    "last-modified": "Thu, 13 Jun 2019 09:28:46 GMT",
+    "date": "Tue, 25 Jun 2019 23:27:57 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:58 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6EFE188C6FF33\"",
+    "etag": "\"0x8D6F9C4C1D7E3CA\"",
     "x-ms-server-encrypted": "true",
     "content-type": "application/octet-stream",
-    "x-ms-request-id": "2bf96cbd-801a-0034-74ca-21d539000000",
+    "x-ms-request-id": "37126f7b-c01a-0038-75ad-2b3bc8000000",
     "x-ms-version": "2018-03-28",
     "x-ms-type": "File",
     "content-length": "10"
@@ -40,26 +40,26 @@
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156044333851502132/dir156044333851604815",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156150527513402942/dir156150527513408426",
    "query": {
     "comp": "list",
-    "prefix": "汉字. special ~!@#$%^&()_+`1234567890-={}[];','156044334127907848",
+    "prefix": "汉字. special ~!@#$%^&()_+`1234567890-={}[];','156150527796304350",
     "restype": "directory"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156044333851502132\" DirectoryPath=\"dir156044333851604815\"><Prefix>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','156044334127907848</Prefix><Entries><File><Name>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','156044334127907848</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156150527513402942\" DirectoryPath=\"dir156150527513408426\"><Prefix>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','156150527796304350</Prefix><Entries><File><Name>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','156150527796304350</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Thu, 13 Jun 2019 09:28:45 GMT",
+    "date": "Tue, 25 Jun 2019 23:27:58 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "2bf96cbf-801a-0034-76ca-21d539000000",
+    "x-ms-request-id": "37126f7d-c01a-0038-77ad-2b3bc8000000",
     "x-ms-version": "2018-03-28"
    }
   }
  ],
  "uniqueTestInfo": {
-  "汉字. special ~!@#$%^&()_+`1234567890-={}[];','": "汉字. special ~!@#$%^&()_+`1234567890-={}[];','156044334127907848"
+  "汉字. special ~!@#$%^&()_+`1234567890-={}[];','": "汉字. special ~!@#$%^&()_+`1234567890-={}[];','156150527796304350"
  }
 }

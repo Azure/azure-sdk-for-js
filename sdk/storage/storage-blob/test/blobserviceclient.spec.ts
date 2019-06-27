@@ -2,11 +2,21 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getUniqueName } from "./utils";
-import { delay } from "@azure/core-http";
+import { getAlternateBSU, getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+  });
+
+  afterEach(async function() {
+    recorder.stop();
+  });
+
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
     const result = (await blobServiceClient
@@ -32,7 +42,7 @@ describe("BlobServiceClient", () => {
   it("ListContainers with all parameters configured", async () => {
     const blobServiceClient = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
     const containerClient1 = blobServiceClient.getContainerClient(containerName1);
@@ -86,7 +96,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -117,7 +127,7 @@ describe("BlobServiceClient", () => {
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for ListContainers", async () => {
     const blobServiceClient = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
     const containerClient1 = blobServiceClient.getContainerClient(containerName1);
@@ -158,7 +168,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -194,7 +204,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -360,7 +370,7 @@ describe("BlobServiceClient", () => {
 
   it("createContainer and deleteContainer", async () => {
     const blobServiceClient = getBSU();
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const access = "container";
     const metadata = { key: "value" };
 

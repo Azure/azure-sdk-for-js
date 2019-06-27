@@ -40,7 +40,7 @@ describe("Highlevel Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });

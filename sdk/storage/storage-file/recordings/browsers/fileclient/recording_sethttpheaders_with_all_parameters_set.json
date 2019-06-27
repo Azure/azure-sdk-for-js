@@ -1,0 +1,128 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A6B95D96\"",
+    "x-ms-request-id": "37126d6c-c01a-0038-50ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974/dir156150523261701619",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A6D13886\"",
+    "x-ms-request-id": "37126d6f-c01a-0038-52ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974/dir156150523261701619/file156150523277303036",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A6E89554\"",
+    "x-ms-request-id": "37126d72-c01a-0038-54ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974/dir156150523261701619/file156150523277303036",
+   "query": {
+    "comp": "properties"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "last-modified": "Tue, 25 Jun 2019 23:27:13 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A700B599\"",
+    "x-ms-request-id": "37126d75-c01a-0038-57ad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974/dir156150523261701619/file156150523277303036",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 25 Jun 2019 23:27:12 GMT",
+    "content-encoding": "fileContentEncoding",
+    "content-md5": "AQIDBA==",
+    "x-ms-server-encrypted": "true",
+    "content-disposition": "fileContentDisposition",
+    "x-ms-type": "File",
+    "content-length": "11",
+    "last-modified": "Tue, 25 Jun 2019 23:27:13 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6F9C4A700B599\"",
+    "content-language": "fileContentLanguage",
+    "x-ms-request-id": "37126d78-c01a-0038-59ad-2b3bc8000000",
+    "cache-control": "fileCacheControl",
+    "x-ms-version": "2018-03-28",
+    "content-type": "fileContentType"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156150523246300974",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "37126d7a-c01a-0038-5bad-2b3bc8000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Tue, 25 Jun 2019 23:27:13 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "share": "share156150523246300974",
+  "dir": "dir156150523261701619",
+  "file": "file156150523277303036"
+ }
+}

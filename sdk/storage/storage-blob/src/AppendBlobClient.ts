@@ -5,7 +5,8 @@ import {
   HttpRequestBody,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential
+  isTokenCredential,
+  isNode
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
@@ -203,16 +204,20 @@ export class AppendBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      const containerName = credentialOrPipelineOrContainerName;
-      const blobName = blobNameOrOptions;
+      if (isNode) {
+        const containerName = credentialOrPipelineOrContainerName;
+        const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
-      pipeline = newPipeline(sharedKeyCredential, options);
+        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+        pipeline = newPipeline(sharedKeyCredential, options);
+      } else {
+        throw new Error("Connection string is only supported in Node.js environment");
+      }
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }

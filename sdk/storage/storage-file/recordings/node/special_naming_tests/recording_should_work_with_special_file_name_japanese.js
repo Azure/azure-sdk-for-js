@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"にっぽんごにほんご":"にっぽんごにほんご156044271293108989"}
+module.exports.testInfo = {"にっぽんごにほんご":"にっぽんごにほんご156150561723808585"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash156044269664801914/dir156044269664809734/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156044271293108989')
+  .put('/1share-with-dash156150560028600902/dir156150560028601268/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156150561723808585')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:18:17 GMT',
+  'Tue, 25 Jun 2019 23:33:37 GMT',
   'ETag',
-  '"0x8D6EFE0125C26D6"',
+  '"0x8D6F9C58C282E1C"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '3e3b2424-001a-006a-19c8-21263a000000',
+  'fd4a96d3-a01a-00c6-0aae-2b07ad000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 13 Jun 2019 09:18:17 GMT',
+  'Tue, 25 Jun 2019 23:33:37 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/1share-with-dash156044269664801914/dir156044269664809734/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156044271293108989')
+  .head('/1share-with-dash156150560028600902/dir156150560028601268/%E3%81%AB%E3%81%A3%E3%81%BD%E3%82%93%E3%81%94%E3%81%AB%E3%81%BB%E3%82%93%E3%81%94156150561723808585')
   .reply(200, "", [ 'Content-Length',
   '10',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Thu, 13 Jun 2019 09:18:17 GMT',
+  'Tue, 25 Jun 2019 23:33:37 GMT',
   'ETag',
-  '"0x8D6EFE0125C26D6"',
+  '"0x8D6F9C58C282E1C"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e62bc248-d01a-002c-09c8-21f8ac000000',
+  '9717b8cb-c01a-00d6-19ae-2b314b000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-type',
@@ -49,22 +49,22 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 13 Jun 2019 09:18:18 GMT',
+  'Tue, 25 Jun 2019 23:33:37 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/1share-with-dash156044269664801914/dir156044269664809734')
+  .get('/1share-with-dash156150560028600902/dir156150560028601268')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156044269664801914\" DirectoryPath=\"dir156044269664809734\"><Prefix>にっぽんごにほんご156044271293108989</Prefix><Entries><File><Name>にっぽんごにほんご156044271293108989</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156150560028600902\" DirectoryPath=\"dir156150560028601268\"><Prefix>にっぽんごにほんご156150561723808585</Prefix><Entries><File><Name>にっぽんごにほんご156150561723808585</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6837151c-d01a-00a4-18c8-214075000000',
+  'e9af33ea-401a-0088-7cae-2bc248000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -72,7 +72,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 13 Jun 2019 09:18:18 GMT',
+  'Tue, 25 Jun 2019 23:33:37 GMT',
   'Connection',
   'close' ]);
 

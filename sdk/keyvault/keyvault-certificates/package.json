@@ -65,11 +65,11 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.2.6",
+    "@azure/core-http": "^1.0.0-preview.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/identity": "^0.1.0",
+    "@azure/identity": "^1.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/node": "^8.0.0",
@@ -78,7 +78,7 @@
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^4.2.0",
+    "rollup-plugin-node-resolve": "^5.0.2",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"

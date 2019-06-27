@@ -1,21 +1,27 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { ShareClient } from "../src";
+import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
   const serviceClient = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareClient = serviceClient.getShareClient(shareName);
+  let shareName: string;
+  let shareClient: ShareClient;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await shareClient.delete();
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -45,7 +51,7 @@ describe("ShareClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const shareClient2 = serviceClient.getShareClient(getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
     const metadata = { key: "value" };
     await shareClient2.create({ metadata });
     const result = await shareClient2.getProperties();
@@ -89,7 +95,7 @@ describe("ShareClient", () => {
   });
 
   it("createDirectory and deleteDirectory", async () => {
-    const dirName = getUniqueName("directory");
+    const dirName = recorder.getUniqueName("directory");
     const metadata = { key: "value" };
 
     const { directoryClient } = await shareClient.createDirectory(dirName, { metadata });
@@ -108,7 +114,7 @@ describe("ShareClient", () => {
   });
 
   it("createFile and deleteFile under root directory", async () => {
-    const fileName = getUniqueName("file");
+    const fileName = recorder.getUniqueName("file");
     const metadata = { key: "value" };
     const { fileClient } = await shareClient.createFile(fileName, 256, { metadata });
     const result = await fileClient.getProperties();

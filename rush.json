@@ -327,6 +327,10 @@
       "projectFolder": "sdk/core/core-paging"
     },
     {
+      "packageName": "@azure/core-asynciterator-polyfill",
+      "projectFolder": "sdk/core/core-asynciterator-polyfill"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },

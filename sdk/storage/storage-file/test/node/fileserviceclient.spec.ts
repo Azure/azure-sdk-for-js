@@ -2,9 +2,20 @@ import * as assert from "assert";
 import { getBSU, getConnectionStringFromEnvironment } from "../utils";
 import * as dotenv from "dotenv";
 import { FileServiceClient, newPipeline, SharedKeyCredential } from "../../src";
+import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient Node.js only", () => {
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+  });
+
+  afterEach(async function() {
+    recorder.stop();
+  });
+
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
     const factories = (serviceClient as any).pipeline.factories;

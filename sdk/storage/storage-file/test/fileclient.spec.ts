@@ -32,7 +32,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });

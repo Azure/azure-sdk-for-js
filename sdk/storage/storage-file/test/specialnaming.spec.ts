@@ -42,7 +42,7 @@ describe("Special Naming Tests", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
