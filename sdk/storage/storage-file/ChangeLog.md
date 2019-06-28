@@ -3,24 +3,23 @@
 2019.07 Version 11.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
-  - ServiceURL, ShareURL, DirectoryURL and FileURL to ServiceClient to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
+  - ServiceURL, ShareURL, DirectoryURL and FileURL to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
 - [Breaking] Aborter parameters are now moved into option bags.
   - `abortSignal` attrubute(optional) in the option-bag of respective module has to be utitlized for the `Aborter.timeout(<milliseconds>)` functionality.
   - `Aborter.none` is the default value.
 - [Breaking] I- prefixes are removed from interface names.
-  - Example- `IDirectoryCreateOptions` is updated to `DirectoryCreateOptions`, the new names have to be used.
+  - Example- `IDirectoryCreateOptions` is updated to `DirectoryCreateOptions`, the new names must to be used.
 - [Breaking] The static methods to create client types are removed. The functionality is moved into new instance methods added to the parent clients.
 - [Breaking] The telemetry strings have been updated.
   - `Azure-Storage/${SDK_VERSION}` is updated to `azsdk-js-storageblob/${SDK_VERSION}`.
 - [Breaking] `withPipeline()` method is removed.
 - Async iterators with pagination support are added for listing methods
-  - `listFilesAndDirectories()` and
-  - `listShares()`
+  - `listFilesAndDirectories()` and `listShares()`
   - Please refer to the samples for async iterators in the `samples` folder.
 - [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
 - [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToAzureFile()` -> `FileClient.uploadFile()`
-  - `uploadStreamToAzureFile()` ->  `FileClient.uploadStream()`
+  - `uploadStreamToAzureFile()` -> `FileClient.uploadStream()`
   - `downloadAzureFileToBuffer()` -> `FileClient.downloadToBuffer()`
   - `uploadBrowserDataToAzureFile()` -> `FileClient.uploadBrowserData()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
@@ -36,7 +35,7 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `FileClient`.
 
-2019.01 Version 10.1.0
+  2019.01 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
@@ -49,6 +48,6 @@
 - Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
-2018.12 Version 10.0.0-preview
+  2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
