@@ -29,12 +29,6 @@ Some of the key features of Azure Core AMQP library are:
 
 ## Examples
 
-The examples below expect a connection string to a Azure Service Bus or Azure Event Hubs instance.
-The entity path refers to an Event Hub name in case of Azure Event Hubs and a queue or a topic name
-in case of Azure Service Bus.
-
-## Claims Based Authorization
-
 [Claims Based Authorization](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization)
 need to be done for every AMQP link that your application creates. The claims also has to be renewed periodically.
 For more details on CBS, please see the [CBS Specification](https://www.oasis-open.org/committees/download.php/62097/amqp-cbs-v1.0-wd05.doc).
@@ -43,10 +37,15 @@ In the below examples, we use the Shared Key details present in the connection s
 This token is then used to make a request on the \$cbs link to carry out Claims Based Authorization for a link to the given entity
 in Azure Service Bus or Azure Event Hubs.
 
+The examples below expect a connection string to a Azure Service Bus or Azure Event Hubs instance.
+The entity path refers to an Event Hub name in case of Azure Event Hubs and a queue or a topic name
+in case of Azure Service Bus.
+
 ## Create a sender link
 
-After you have run the sample code in the [Claims Based Authorization example](#claims-based-authorization),
-you can use the `ConnectionContext.connection` to create a sender link as shown below.
+In the below example, we first create a `ConnectionContext` which is used to carry out the claims
+based authorization. Then, we create a sender link using the `ConnectionContext.connection` to
+send a message.
 
 ```js
 async function main() {
@@ -62,11 +61,13 @@ async function main() {
       version: "0.0.0"
     }
   });
+
   // Carry out the Claims Based Authorization
   await connectionContext.cbsSession.init();
   const token = await connectionContext.tokenCredential.getToken(audience);
   await connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
 
+  // Create a sender
   const senderName = "your-sender-name";
   const senderOptions = {
     name: senderName,
@@ -87,8 +88,9 @@ async function main() {
       }
     }
   };
-
   const sender = await connectionContext.connection.createSender(senderOptions);
+
+  // Send a message
   const delivery = await sender.send({ body: "your-message-body" });
 
   await sender.close();
@@ -100,8 +102,9 @@ main().catch((err) => console.log(err));
 
 ## Create a receiver link
 
-After you have run the sample code in the [Claims Based Authorization example](#claims-based-authorization),
-you can use the `ConnectionContext.connection` to create a receiver link as shown below.
+In the below example, we first create a `ConnectionContext` which is used to carry out the claims
+based authorization. Then, we create a receiver link using the `ConnectionContext.connection` to
+receive messages for 30 seconds.
 
 ```js
 async function main() {
@@ -117,11 +120,13 @@ async function main() {
       version: "0.0.0"
     }
   });
+
   // Carry out the Claims Based Authorization
   await connectionContext.cbsSession.init();
   const token = await connectionContext.tokenCredential.getToken(audience);
   await connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
 
+  // Create a receiver
   const receiverName = "your-receiver-name";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
   const receiverAddress = `${connectionConfig.entityPath}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
@@ -154,13 +159,13 @@ async function main() {
       }
     }
   };
-
   const receiver = await connectionContext.connection.createReceiver(receiverOptions);
 
-  // sleeping for 2 mins to let the receiver receive messages and then closing it.
-  await new Promise((r) => setTimeout(r, 120000));
-  await receiver.close();
+  // sleeping for 30 seconds to let the receiver receive messages
+  await new Promise((r) => setTimeout(r, 30000));
 
+  // Close the receiver to stop receiving messages
+  await receiver.close();
   await connectionContext.connection.close();
 }
 
