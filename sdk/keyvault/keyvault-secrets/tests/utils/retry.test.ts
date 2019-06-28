@@ -14,7 +14,7 @@ describe("retry utility function", function() {
     const endingDate = new Date();
 
     const difference = endingDate.getTime() - startingDate.getTime();
-    assert.ok(difference - 200 < 30);
+    assert.ok(difference >= 200); // In CI this takes a lot longer than locally
   });
 
   it("returns the value if resolved on time", async () => {
