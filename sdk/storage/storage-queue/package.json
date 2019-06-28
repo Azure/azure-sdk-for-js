@@ -82,7 +82,6 @@
   "devDependencies": {
     "@azure/identity": "^1.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
-    "@azure/core-paging": "^1.0.0-preview.1",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "~7.0.0",
     "@types/mocha": "^5.2.5",
