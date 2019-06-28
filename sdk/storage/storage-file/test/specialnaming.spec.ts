@@ -169,7 +169,7 @@ describe("Special Naming Tests", () => {
     );
     const fileClient = new FileClient(
       // There are 2 special cases for a URL string:
-      // Escape "%" when creating XXXURL object with URL strings
+      // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(directoryClient.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
       (directoryClient as any).pipeline
@@ -216,7 +216,7 @@ describe("Special Naming Tests", () => {
     );
     const specialDirectoryClient = new DirectoryClient(
       // There are 2 special cases for a URL string:
-      // Escape "%" when creating XXXURL object with URL strings
+      // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(shareClient.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
       (shareClient as any).pipeline

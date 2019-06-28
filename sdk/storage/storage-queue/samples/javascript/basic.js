@@ -40,6 +40,7 @@ async function main() {
   const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use RawTokenCredential with OAuth token.  You can find more
@@ -61,7 +62,7 @@ async function main() {
       maxTries: 4
     }, // Retry options
     telemetry: {
-      value: "BasicSample V10.0.0"
+      value: "BasicSample/V11.0.0"
     } // Customized telemetry string
   });
 
@@ -77,14 +78,6 @@ async function main() {
   for await (const item of queueServiceClient.listQueues()) {
     console.log(`Queue ${i++}: ${item.name}`);
   }
-
-  // Create a new queue
-  const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
-  );
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
