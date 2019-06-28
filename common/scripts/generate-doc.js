@@ -36,11 +36,64 @@ function walk(dir, checks) {
   return checks;
 }
 
+function buildList(inputString) {
+  var inputList = inputString[1].split(",");
+  //console.log("exclusion list:" + exclusionList);
+  for (var i in inputList) {
+    var symbolArray = inputList[i].split("'");
+    console.log(symbolArray);
+    for (var j in symbolArray) {
+      if (
+        symbolArray[j] !== "" &&
+        symbolArray[j] !== "[" &&
+        symbolArray[j] !== "]"
+      ) {
+        inputList[i] = symbolArray[j];
+        console.log("item: " + inputList[i]);
+        break;
+      }
+    }
+  }
+  return inputList;
+}
+
+function isPackageInArray(package, inputArray) {
+  for (var i in inputArray) {
+    if (inputArray[i] == package) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const [
   nodePath /* Ex: /bin/node */,
   scriptPath /* /repo/common/scripts/generate-doc.js */,
-  docGen /* -dg */
+  docGen /* -dg */,
+  inOrOut /* exclude="['storage-blob','storage-file','storage-queue']" OR include="['storage-blob','storage-file','storage-queue']" */
 ] = process.argv;
+let exclusionList = [];
+let inclusionList = [];
+let onlyInclusionList = false;
+let generateIndexWithTemplate = true; //by default genrate index html from the template
+console.log("inOrOut= " + inOrOut);
+console.log("inorout exclude index = " + inOrOut.indexOf("exclude="));
+console.log("inorout include index = " + inOrOut.indexOf("include="));
+
+//No need of exclusion list if not publishing to docGen folder
+if (process.argv.length == 4 && inOrOut.indexOf("exclude=") != -1) {
+  excludeString = inOrOut.split("exclude=");
+  exclusionList = buildList(excludeString);
+  console.log("exclusionList:" + exclusionList);
+} else if (process.argv.length == 4 && inOrOut.indexOf("include=") != -1) {
+  includeString = inOrOut.split("include=");
+  inclusionList = buildList(includeString);
+  console.log("inclusion list:" + inclusionList);
+  onlyInclusionList = true;
+  generateIndexWithTemplate = false;
+}
+console.log("only inclusion flag=" + onlyInclusionList);
+
 let docOutputFolder = "--out ./dist/docs ./src";
 
 console.log("process.cwd = " + process.cwd());
@@ -81,30 +134,18 @@ for (const eachService of serviceFolders) {
     //Initializing package list for template index generation
     let indexPackageList = [];
     for (const eachPackage of packageList) {
-      let checks = {
-        isRush: false,
-        isPrivate: false,
-        srcPresent: false,
-        typedocPresent: false
-      };
-      console.log(
-        "checks before walk: checks.isRush = " +
-          checks.isRush +
-          " , checks.isPrivate = " +
-          checks.isPrivate +
-          ", checks.srcPresent = " +
-          checks.srcPresent +
-          ", typedocPresent = " +
-          checks.typedocPresent
-      );
-      eachPackagePath = path.join(eachServicePath, eachPackage);
-      pathToAssets = eachPackagePath + "/assets";
-      const packageStat = fs.statSync(eachPackagePath);
-      if (packageStat && packageStat.isDirectory()) {
-        checks = walk(eachPackagePath, checks);
-
+      if (
+        (onlyInclusionList && isPackageInArray(eachPackage, inclusionList)) ||
+        !onlyInclusionList
+      ) {
+        let checks = {
+          isRush: false,
+          isPrivate: false,
+          srcPresent: false,
+          typedocPresent: false
+        };
         console.log(
-          "checks after walk: checks.isRush = " +
+          "checks before walk: checks.isRush = " +
             checks.isRush +
             " , checks.isPrivate = " +
             checks.isPrivate +
@@ -113,115 +154,144 @@ for (const eachService of serviceFolders) {
             ", typedocPresent = " +
             checks.typedocPresent
         );
-        console.log("Path: " + eachPackagePath);
-        if (!checks.isPrivate) {
-          if (checks.srcPresent) {
-            if (!checks.isRush) {
+        eachPackagePath = path.join(eachServicePath, eachPackage);
+        pathToAssets = eachPackagePath + "/assets";
+        const packageStat = fs.statSync(eachPackagePath);
+        if (packageStat && packageStat.isDirectory()) {
+          checks = walk(eachPackagePath, checks);
+
+          console.log(
+            "checks after walk: checks.isRush = " +
+              checks.isRush +
+              " , checks.isPrivate = " +
+              checks.isPrivate +
+              ", checks.srcPresent = " +
+              checks.srcPresent +
+              ", typedocPresent = " +
+              checks.typedocPresent
+          );
+          console.log("Path: " + eachPackagePath);
+          if (!checks.isPrivate) {
+            if (checks.srcPresent) {
+              if (!checks.isRush) {
+                try {
+                  const result2 = childProcess.spawnSync("npm", ["install"], {
+                    stdio: "inherit",
+                    cwd: eachPackagePath,
+                    shell: true
+                  });
+                  console.log(
+                    'result2.output for "npm install":' + result2.output
+                  );
+                } catch (e) {
+                  console.error(`\n\n${e.toString()}\n\n`);
+                  process.exit(1);
+                }
+              }
+              if (docGen === "-dg") {
+                docOutputFolder =
+                  "--out ../../../docGen/" + eachPackage + " ./src";
+              }
+
               try {
-                const result2 = childProcess.spawnSync("npm", ["install"], {
-                  stdio: "inherit",
-                  cwd: eachPackagePath,
-                  shell: true
-                });
-                console.log(
-                  'result2.output for "npm install":' + result2.output
-                );
+                if (!isPackageInArray(eachPackage, exclusionList)) {
+                  if (checks.typedocPresent) {
+                    const result3 = childProcess.spawnSync(
+                      "typedoc",
+                      [docOutputFolder],
+                      {
+                        cwd: eachPackagePath,
+                        shell: true
+                      }
+                    );
+                    console.log(
+                      'result3.output for "typedoc ' +
+                        docOutputFolder +
+                        ' ":' +
+                        result3.output
+                    );
+                  } else {
+                    const result3 = childProcess.spawnSync(
+                      "typedoc",
+                      [
+                        "--excludePrivate",
+                        "--excludeNotExported",
+                        '--exclude "node_modules/**/*"',
+                        "--ignoreCompilerErrors",
+                        "--mode file",
+                        docOutputFolder
+                      ],
+                      {
+                        cwd: eachPackagePath,
+                        shell: true
+                      }
+                    );
+                    console.log(
+                      'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
+                        docOutputFolder +
+                        ' ":' +
+                        result3.output
+                    );
+                  }
+                } else {
+                  console.log(
+                    "... NOT RUNNING TYPEDOC on excluded package " + eachPackage
+                  );
+                }
               } catch (e) {
                 console.error(`\n\n${e.toString()}\n\n`);
                 process.exit(1);
               }
-            }
-            if (docGen === "-dg") {
-              docOutputFolder =
-                "--out ../../../docGen/" + eachPackage + " ./src";
-            }
-
-            try {
-              if (checks.typedocPresent) {
-                const result3 = childProcess.spawnSync(
-                  "typedoc",
-                  [docOutputFolder],
-                  {
-                    cwd: eachPackagePath,
-                    shell: true
-                  }
-                );
-                console.log(
-                  'result3.output for "typedoc ' +
-                    docOutputFolder +
-                    ' ":' +
-                    result3.output
-                );
-              } else {
-                const result3 = childProcess.spawnSync(
-                  "typedoc",
-                  [
-                    "--excludePrivate",
-                    "--excludeNotExported",
-                    '--exclude "node_modules/**/*"',
-                    "--ignoreCompilerErrors",
-                    "--mode file",
-                    docOutputFolder
-                  ],
-                  {
-                    cwd: eachPackagePath,
-                    shell: true
-                  }
-                );
-                console.log(
-                  'result3.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
-                    docOutputFolder +
-                    ' ":' +
-                    result3.output
-                );
+              if (generateIndexWithTemplate) {
+                //Adding package to packageList for the template index generation
+                indexPackageList.push(eachPackage);
               }
-            } catch (e) {
-              console.error(`\n\n${e.toString()}\n\n`);
-              process.exit(1);
+            } else {
+              console.log(
+                "...SKIPPING Since src folder could not be found....."
+              );
             }
-            //Adding package to packageList for the template index generation
-            indexPackageList.push(eachPackage);
           } else {
-            console.log("...SKIPPING Since src folder could not be found.....");
+            console.log("...SKIPPING Since package marked as private...");
           }
-        } else {
-          console.log("...SKIPPING Since package marked as private...");
         }
       }
-    }
+    } //end-for each-package
     //Adding service entry for the template index generation
     serviceList.push({ name: eachService, packageList: indexPackageList });
   }
 } // end-for ServiceFolders
-
-var renderedIndex = nunjucks.render("template.html", {
-  serviceList: serviceList
-});
-//console.log(serviceList);
-//console.log("rendered html:"); //For-debug
-//console.log(renderedIndex); //For-debug
-var dest = process.cwd() + "/docGen/index.html";
-fs.writeFile(dest, renderedIndex, function(err, result) {
-  if (err)
-    console.log(
-      "error in writing the generated html to docGen/index.html",
-      err
-    );
-  console.log("Generated html written to docGen/index.html");
-});
-console.log(serviceList[0].packageList[0]);
-console.log("serviceList length = " + serviceList.length);
-if (serviceList.length > 0) {
-  //copy from pathToAssets to docGen/assets
-  pathToAssets =
-    process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
-  var assetsDest = process.cwd() + "/docGen/assets/";
-  fs.copy(pathToAssets, assetsDest, err => {
+console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
+if (generateIndexWithTemplate) {
+  var renderedIndex = nunjucks.render("template.html", {
+    serviceList: serviceList
+  });
+  //console.log(serviceList); //For-debug
+  //console.log("rendered html:"); //For-debug
+  //console.log(renderedIndex); //For-debug
+  var dest = process.cwd() + "/docGen/index.html";
+  fs.writeFile(dest, renderedIndex, function(err, result) {
     if (err)
-      return console.error(
-        "error copying the assets folder to docGen/assets/",
+      console.log(
+        "error in writing the generated html to docGen/index.html",
         err
       );
-    console.log("assets folder copied to docGen!");
+    console.log("Generated html written to docGen/index.html");
   });
+  console.log(serviceList[0].packageList[0]);
+  console.log("serviceList length = " + serviceList.length);
+  if (serviceList.length > 0) {
+    //copy from pathToAssets to docGen/assets
+    pathToAssets =
+      process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
+    var assetsDest = process.cwd() + "/docGen/assets/";
+    fs.copy(pathToAssets, assetsDest, err => {
+      if (err)
+        return console.error(
+          "error copying the assets folder to docGen/assets/",
+          err
+        );
+      console.log("assets folder copied to docGen!");
+    });
+  }
 }
