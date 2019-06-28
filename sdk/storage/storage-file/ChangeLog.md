@@ -33,7 +33,9 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `FileClient`.
 
-  2019.01 Version 10.1.0
+For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+
+2019.01 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
@@ -46,6 +48,6 @@
 - Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
-  2018.12 Version 10.0.0-preview
+2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.

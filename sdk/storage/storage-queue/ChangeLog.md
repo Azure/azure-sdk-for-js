@@ -29,6 +29,8 @@
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
+For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+
 2019.1 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
