@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { FileServiceClient, SharedKeyCredential, newPipeline } = require("../.."); // Change to "@azure/storage-file" in your package
+const {
+  FileServiceClient,
+  SharedKeyCredential,
+  newPipeline,
+  HttpPipelineLogLevel
+} = require("../.."); // Change to "@azure/storage-file" in your package
 
 class ConsoleHttpPipelineLogger {
   constructor(minimumLogLevel) {

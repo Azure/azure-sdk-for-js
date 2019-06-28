@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { QueueServiceClient, newPipeline, SharedKeyCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
+const {
+  QueueServiceClient,
+  newPipeline,
+  SharedKeyCredential,
+  HttpPipelineLogLevel
+} = require("../.."); // Change to "@azure/storage-queue" in your package
 
 class ConsoleHttpPipelineLogger {
   constructor(minimumLogLevel) {
