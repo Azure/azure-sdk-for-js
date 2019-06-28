@@ -39,41 +39,9 @@ in case of Azure Service Bus.
 need to be done for every AMQP link that your application creates. The claims also has to be renewed periodically.
 For more details on CBS, please see the [CBS Specification](https://www.oasis-open.org/committees/download.php/62097/amqp-cbs-v1.0-wd05.doc).
 
-In the below example, we use the Shared Key details present in the connection string to create a SAS token.
+In the below examples, we use the Shared Key details present in the connection string to create a SAS token.
 This token is then used to make a request on the \$cbs link to carry out Claims Based Authorization for a link to the given entity
 in Azure Service Bus or Azure Event Hubs.
-
-```js
-async function authenticate() {
-  const connectionConfig = ConnectionConfig.create(
-    "your-connection-string-with-shared-key",
-    "entity-path"
-  );
-  const connectionContext = ConnectionContextBase.create({
-    config: connectionConfig,
-    connectionProperties: {
-      product: "product",
-      userAgent: "/user-agent",
-      version: "0.0.0"
-    }
-  });
-  const audience = `${connectionConfig.endpoint}${connectionConfig.entityPath}`;
-
-  // Initialize a $cbs link with the service
-  await connectionContext.cbsSession.init();
-
-  // Use the SharedKeyCredential on the ConnectionContext to get the SAS token
-  const token = await connectionContext.tokenCredential.getToken(audience);
-
-  // Use the SAS token to carry out the Claims Based Authorization
-  const result = await connectionContext.cbsSession.negotiateClaim(
-    audience,
-    token,
-    TokenType.CbsTokenTypeSas
-  );
-  console.log(`Result is: ${result}`);
-}
-```
 
 ## Create a sender link
 
@@ -94,8 +62,11 @@ async function main() {
       version: "0.0.0"
     }
   });
-  // autheticate using the authenticate method from the above example
-  await authenticate();
+  // Carry out the Claims Based Authorization
+  await connectionContext.cbsSession.init();
+  const token = await connectionContext.tokenCredential.getToken(audience);
+  await connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
+
   const senderName = "your-sender-name";
   const senderOptions = {
     name: senderName,
@@ -146,8 +117,11 @@ async function main() {
       version: "0.0.0"
     }
   });
-  // autheticate using the authenticate method from the above example
-  await authenticate();
+  // Carry out the Claims Based Authorization
+  await connectionContext.cbsSession.init();
+  const token = await connectionContext.tokenCredential.getToken(audience);
+  await connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
+
   const receiverName = "your-receiver-name";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
   const receiverAddress = `${connectionConfig.entityPath}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
