@@ -2,9 +2,9 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-import { QueueServiceClient } from "../../src"; // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient } = require("../.."); // Change to "@azure/storage-queue" in your package
 
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   // Enter your storage account name and shared key

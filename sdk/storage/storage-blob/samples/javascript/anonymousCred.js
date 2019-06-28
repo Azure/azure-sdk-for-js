@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, AnonymousCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient, AnonymousCredential } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key

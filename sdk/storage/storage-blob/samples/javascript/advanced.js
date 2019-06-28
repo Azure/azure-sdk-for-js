@@ -74,15 +74,10 @@ async function main() {
 
   // Parallel uploading a Readable stream with BlockBlobClient.uploadStream() in Node.js runtime
   // BlockBlobClient.uploadStream() is only available in Node.js
-  await blockBlobClient.uploadStream(
-    fs.createReadStream(localFilePath),
-    4 * 1024 * 1024,
-    20,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: (ev) => console.log(ev)
-    }
-  );
+  await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    progress: (ev) => console.log(ev)
+  });
   console.log("uploadStream success");
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadBrowserData()
@@ -100,17 +95,12 @@ async function main() {
   // downloadToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await blockBlobClient.downloadToBuffer(
-    buffer,
-    0,
-    undefined,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      blockSize: 4 * 1024 * 1024, // 4MB block size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
+  await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    blockSize: 4 * 1024 * 1024, // 4MB block size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
   console.log("downloadToBuffer success");
 
   // Delete container

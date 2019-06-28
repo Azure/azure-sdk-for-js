@@ -2,8 +2,8 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
-import { DefaultAzureCredential } from "@azure/identity";
+const { BlobServiceClient } = require("../.."); // Change to "@azure/storage-blob" in your package
+const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   // Enter your storage account name

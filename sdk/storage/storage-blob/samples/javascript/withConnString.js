@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Create Blob Service Client from Connection String

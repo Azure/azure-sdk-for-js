@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, AnonymousCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient, AnonymousCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
