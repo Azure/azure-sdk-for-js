@@ -44,22 +44,35 @@ This token is then used to make a request on the \$cbs link to carry out Claims 
 in Azure Service Bus or Azure Event Hubs.
 
 ```js
-const connectionConfig = ConnectionConfig.create(
-  "your-connection-string-with-shared-key",
-  "entity-path"
-);
-const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
-const audience = `${connectionConfig.endpoint}${connectionConfig.entityPath}`;
+async function authenticate() {
+  const connectionConfig = ConnectionConfig.create(
+    "your-connection-string-with-shared-key",
+    "entity-path"
+  );
+  const connectionContext = ConnectionContextBase.create({
+    config: connectionConfig,
+    connectionProperties: {
+      product: "product",
+      userAgent: "/user-agent",
+      version: "0.0.0"
+    }
+  });
+  const audience = `${connectionConfig.endpoint}${connectionConfig.entityPath}`;
 
-// Initialize a $cbs link with the service
-await connectionContext.cbsSession.init();
+  // Initialize a $cbs link with the service
+  await connectionContext.cbsSession.init();
 
-// Use the SharedKeyCredential on the ConnectionContext to get the SAS token
-const token = await connectionContext.tokenCredential.getToken(audience);
+  // Use the SharedKeyCredential on the ConnectionContext to get the SAS token
+  const token = await connectionContext.tokenCredential.getToken(audience);
 
-// Use the SAS token to carry out the Claims Based Authorization
-const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
-console.log(`Result is: ${result}`);
+  // Use the SAS token to carry out the Claims Based Authorization
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    token,
+    TokenType.CbsTokenTypeSas
+  );
+  console.log(`Result is: ${result}`);
+}
 ```
 
 ## Create a sender link
@@ -73,7 +86,16 @@ async function main() {
     "your-connection-string-with-shared-key",
     "entity-path"
   );
-  const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
+  const connectionContext = ConnectionContextBase.create({
+    config: connectionConfig,
+    connectionProperties: {
+      product: "product",
+      userAgent: "/user-agent",
+      version: "0.0.0"
+    }
+  });
+  // autheticate using the authenticate method from the above example
+  await authenticate();
   const senderName = "your-sender-name";
   const senderOptions = {
     name: senderName,
@@ -116,10 +138,19 @@ async function main() {
     "your-connection-string-with-shared-key",
     "entity-path"
   );
-  const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
+  const connectionContext = ConnectionContextBase.create({
+    config: connectionConfig,
+    connectionProperties: {
+      product: "product",
+      userAgent: "/user-agent",
+      version: "0.0.0"
+    }
+  });
+  // autheticate using the authenticate method from the above example
+  await authenticate();
   const receiverName = "your-receiver-name";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
-  const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
+  const receiverAddress = `${connectionConfig.entityPath}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
   const receiverOptions = {
     name: receiverName,
     source: {
@@ -135,6 +166,9 @@ async function main() {
         console.log("An error occurred for receiver '%s': %O.", receiverName, receiverError);
       }
     },
+    onMessage: (context: any) => {
+      console.log("Received message: %O", context.message);
+    },
     onSessionError: (context) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
@@ -148,12 +182,9 @@ async function main() {
   };
 
   const receiver = await connectionContext.connection.createReceiver(receiverOptions);
-  receiver.on(ReceiverEvents.message, (context) => {
-    console.log("Received message: %O", context.message);
-  });
 
   // sleeping for 2 mins to let the receiver receive messages and then closing it.
-  await delay(120000);
+  await new Promise((r) => setTimeout(r, 120000));
   await receiver.close();
 
   await connectionContext.connection.close();
