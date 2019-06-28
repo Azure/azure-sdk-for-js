@@ -1,3 +1,33 @@
+### 2019-06-28 5.0.0-preview.1
+
+Version 5.0.0-preview.1 is a preview of our efforts in creating a library that follows the
+[Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+for creating client libraries that are user friendly and idiomatic to the Javascript ecosystem. For more
+information, please visit https://aka.ms/azure-sdk-preview1-js
+
+Major breaking changes when you upgrade to this version are around:
+- Creating an instance of `EventHubClient`
+    - Static helper methods to create the `EventHubClient` are replaced with different constructor overloads
+    - If you previously used the `createFromTokenProvider` static helper to provide your own custom token provider,
+    you will now need to update the provider to follow the new `TokenCredential` interface instead.
+    - If you previously used the `@azure/ms-rest-nodeauth` library to use AAD, you will now need to use the new
+    `@azure/identity` library instead.
+- Sending an event to Event Hub
+    - You now have to use the `createProducer()` function on the `EventHubClient` to create an instance of a `EventHubProducer`
+    in order to send events to Event Hub. Each producer represents a dedicated AMQP sender link to Azure Event Hubs.
+- Receiving an event from Event Hub
+    - You now have to use the `createConsumer()` function on the `EventHubClient` to create an instance of a `EventHubConsumer`
+    in order to receive events from Event Hub. Each consumer represents a dedicated AMQP receiver link to Azure Event Hubs based
+    on the flavor of receive function being used i.e `receiveBatch()` that receives events in a batch vs `receive()` that provides
+    a streaming receiver.
+- Inspecting Event Hub
+    - The methods `getHubRuntimeInformation()` and `getPartitionInformation()` on the `EventHubClient` are renamed to 
+    `getProperties()` and `getPartitionProperties()` respectively. Please refer to the return types of these functions to ensure
+    you are using the right property names.
+
+The typedocs for the library is available for all [reference documentation](https://azure.github.io/azure-sdk-for-js/event-hubs/index.html).
+
+
 ### 2019-06-10 2.1.0
 
 - Added support for WebSockets. WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
