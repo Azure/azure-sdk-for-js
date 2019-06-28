@@ -34,7 +34,7 @@
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
 
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
-- `downloadToFile()` is added to FileClient.
+- `downloadToFile()` is added to `FileClient`.
 
 2019.01 Version 10.1.0
 
