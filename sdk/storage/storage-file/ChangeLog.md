@@ -23,11 +23,14 @@
 - Constructor overloads added into client types so they can be constructed from a url and a pipeline/credential and connection string.
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
-- HTTP proxy support is added (Node.js only)
+- HTTP proxy support is added (Node.js only).
+
+  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to FileClient.
 
-2018.01 Version 10.1.0
+2019.01 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
