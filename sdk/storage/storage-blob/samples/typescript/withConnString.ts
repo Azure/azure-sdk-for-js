@@ -7,6 +7,7 @@ import { BlobServiceClient } from "../../src"; // Change to "@azure/storage-blob
 async function main() {
   // Create Blob Service Client from Connection String
   const STORAGE_CONNECTION_STRING = "";
+  // Only available in Node.js runtime
   const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   let i = 1;
