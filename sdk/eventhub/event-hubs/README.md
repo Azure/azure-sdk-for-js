@@ -105,8 +105,7 @@ const producer = client.createProducer();
 await producer.send({ body: "my-event-body" });
 ```
 
-Many Event Hub operations take place within the scope of a specific partition. Because partitions are owned by the Event Hub, their names are assigned at the time of creation. To understand what partitions are available, You can use the [getPartitionIds](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getpartitionids)
-function to get the ids of all available partitions in your Event Hub instance.
+The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids should you wish to specify one for a producer.
 
 The `createProducer` method takes an optional parameter of type [EventHubProducerOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventhubproduceroptions.html) which you can use to specify the retry options and partition id for the send operation.
 
@@ -130,7 +129,7 @@ const consumer = client.createConsumer(
 );
 ```
 
-You can use the [getPartitionIds](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getpartitionids) function to get the ids of all available partitions in your Event Hub instance.
+The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids.
 
 The `createConsumer` method takes an optional parameter of type [EventHubConsumerOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventhubconsumeroptions.html) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
 
