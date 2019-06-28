@@ -1,5 +1,4 @@
 import { retry } from "./recorder";
-import { RetryOptions } from "./retry";
 import { KeysClient } from "../../src";
 
 export default class TestClient {
@@ -12,9 +11,14 @@ export default class TestClient {
   }
   public async purgeKey(keyName: string): Promise<void> {
     const that = this;
-    await retry(async () => that.client.purgeDeletedKey(keyName), {
-      isExpectedError: (e) => ["Key is currently being deleted"].includes(e.message)
-    } as RetryOptions);
+    await retry(async () => {
+      try {
+        await that.client.purgeDeletedKey(keyName);
+      } catch (e) {
+        if (["Key is currently being deleted."].includes(e.message)) throw e;
+        else return;
+      }
+    });
   }
   public async flushKey(keyName: string): Promise<void> {
     const that = this;

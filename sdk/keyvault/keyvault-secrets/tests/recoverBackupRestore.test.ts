@@ -11,7 +11,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import { EnvironmentCredential } from "@azure/identity";
 import TestClient from "./utils/testClient";
 
@@ -58,14 +57,14 @@ describe("Secret client - restore secrets and recover backups", () => {
     const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName), {} as RetryOptions);
+    const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(
       getDeletedResult.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
-    const getResult = await retry(async () => client.getSecret(secretName), {} as RetryOptions);
+    const getResult = await retry(async () => client.getSecret(secretName));
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -111,7 +110,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await testClient.flushSecret(secretName);
-    await retry(async () => client.restoreSecret(backup), {} as RetryOptions);
+    await retry(async () => client.restoreSecret(backup));
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);

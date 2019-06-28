@@ -11,7 +11,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import { EnvironmentCredential } from "@azure/identity";
 import TestClient from "./utils/testClient";
 
@@ -251,10 +250,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    const getResult = await retry(
-      async () => client.getDeletedSecret(secretName),
-      {} as RetryOptions
-    );
+    const getResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.purgeSecret(secretName);
   });

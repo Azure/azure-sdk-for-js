@@ -14,7 +14,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - create, read, update and delete operations", () => {
@@ -258,7 +257,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    const getResult = await retry(async () => client.getDeletedKey(keyName), {} as RetryOptions);
+    const getResult = await retry(async () => client.getDeletedKey(keyName));
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.purgeKey(keyName);
   });

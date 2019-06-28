@@ -12,7 +12,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import { EnvironmentCredential } from "@azure/identity";
 import TestClient from "./utils/testClient";
 
@@ -87,7 +86,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     // Waiting until the key is deleted
-    await retry(async () => client.getDeletedSecret(secretNames[0]), {} as RetryOptions);
+    await retry(async () => client.getDeletedSecret(secretNames[0]));
 
     let found = 0;
     for await (const secret of client.listDeletedSecrets()) {
@@ -177,7 +176,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     // Waiting until the key is deleted
-    await retry(async () => client.getDeletedSecret(secretNames[0]), {} as RetryOptions);
+    await retry(async () => client.getDeletedSecret(secretNames[0]));
 
     let found = 0;
     for await (const page of client.listDeletedSecrets().byPage()) {

@@ -14,7 +14,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - restore keys and recover backups", () => {
@@ -24,7 +23,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let client: KeysClient;
   let testClient: TestClient;
   let recorder: any;
- 
+
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
 
@@ -65,10 +64,10 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    const getDeletedResult = await retry(async () => client.getDeletedKey(keyName), {} as RetryOptions);
+    const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
     assert.equal(getDeletedResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.recoverDeletedKey(keyName);
-    const getResult = await retry(async () => client.getKey(keyName), {} as RetryOptions);
+    const getResult = await retry(async () => client.getKey(keyName));
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
   });
@@ -111,7 +110,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await testClient.flushKey(keyName);
-    await retry(async () => client.restoreKey(backup), {} as RetryOptions);
+    await retry(async () => client.restoreKey(backup));
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);

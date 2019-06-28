@@ -14,7 +14,6 @@ import {
   env,
   uniqueString
 } from "./utils/recorder";
-import { RetryOptions } from "./utils/retry";
 import TestClient from "./utils/testClient";
 
 describe("Keys client - list keys in various ways", () => {
@@ -172,7 +171,7 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     // Waiting until the key is deleted
-    await retry(async () => client.getDeletedKey(keyNames[0]), {} as RetryOptions);
+    await retry(async () => client.getDeletedKey(keyNames[0]));
 
     let found = 0;
     for await (const key of client.listDeletedKeys()) {
@@ -199,7 +198,7 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     // Waiting until the key is deleted
-    await retry(async () => client.getDeletedKey(keyNames[0]), {} as RetryOptions);
+    await retry(async () => client.getDeletedKey(keyNames[0]));
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {

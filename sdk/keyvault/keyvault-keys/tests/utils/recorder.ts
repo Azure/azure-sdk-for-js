@@ -3,7 +3,7 @@
 
 import fs from "fs-extra";
 import { delay as restDelay } from "@azure/ms-rest-js";
-import { retry as realRetry, RetryFunction, RetryOptions } from './retry'
+import { retry as realRetry } from "./retry";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -44,13 +44,13 @@ export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
 }
 
-export async function retry(
-  target: RetryFunction,
-  options: RetryOptions
-): Promise<any> {
-  return realRetry(target, isPlayingBack ? {
-		minTimeout: 0,
-	} as RetryOptions : options)
+export async function retry<T>(
+  target: () => Promise<T>,
+  delay: number = 10000,
+  timeout: number = Infinity,
+  increaseFactor: number
+): Promise<T> {
+  return realRetry(target, isPlayingBack ? 0 : delay, timeout, increaseFactor);
 }
 
 abstract class Recorder {
@@ -162,7 +162,11 @@ class NockRecorder extends Recorder {
 }
 
 export function uniqueString(): string {
-  return isPlayingBack ? "" : Math.random().toString().slice(2)
+  return isPlayingBack
+    ? ""
+    : Math.random()
+        .toString()
+        .slice(2);
 }
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
