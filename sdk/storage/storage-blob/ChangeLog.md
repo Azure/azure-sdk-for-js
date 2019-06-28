@@ -49,7 +49,7 @@
 - Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexcepted ending.
 - Fixed an issue that when body is string with special characters, `BlockBlobULR.upload` will fail to upload.
 
-  2018.11 10.2.0-preview
+2018.11 10.2.0-preview
 
 - [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 - [Breaking] For `setMetadata()` and `setHTTPHeaders()`, `metadata` and `blobHTTPHeaders` are moved from `options` into top level parameter list.
@@ -63,7 +63,7 @@
 - Fixed a bug that `timeout` parameter should use second as unit instead of millisecond.
 - Added stream retry when `BlobURL.download` response stream unexcepted ends.
 
-  2018.09 10.1.0-preview
+2018.09 10.1.0-preview
 
 - Fixed sharedkey authentication error when blob names have spaces.
 - Updated samples in readme and sample folder to fix undefined headers.
@@ -82,6 +82,6 @@
   - `String.prototype.includes`
 - [Breaking] `Aborter.None` is renamed to `Aborter.none` for JavaScript naming conventions.
 
-  2018.09 Version 10.0.0-preview
+2018.09 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
