@@ -23,6 +23,7 @@
   - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()` 
 	- `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadBrowserData()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
+- [Breaking] `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
 - [Breaking] Blob/Container member methods that manage leases are removed. A new type `LeaseClient` is added to manage leases.
 - Updated dependency `@azure/ms-rest-js` to `@azure/core-http`.
 - Constructor overloads added into client types so they can be constructed from a url and a pipeline/credential and connection string.
@@ -30,9 +31,7 @@
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
-
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
-
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 
