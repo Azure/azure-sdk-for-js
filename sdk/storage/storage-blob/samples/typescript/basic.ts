@@ -23,6 +23,7 @@ async function main() {
   // If those environment variables aren't found and your application is deployed
   // to an Azure VM or App Service instance, the managed service identity endpoint
   // will be used as a fallback authentication source.
+  // Only available in Node.js runtime
   // const defaultAzureCredential = new DefaultAzureCredential();
 
   // Use TokenCredential with OAuth token
