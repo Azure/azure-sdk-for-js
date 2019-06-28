@@ -948,7 +948,7 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
-  public async listBlobHierarchySegment(
+  private async listBlobHierarchySegment(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
@@ -1083,6 +1083,172 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the NextMarker value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The NextMarker value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<Models.ContainerListBlobHierarchySegmentResponse>}
+   * @memberof ContainerClient
+   */ private async *listHierarchySegments(
+    delimiter: string,
+    marker?: string,
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerListBlobHierarchySegmentResponse> {
+    let listBlobsHierarchySegmentResponse;
+    do {
+      listBlobsHierarchySegmentResponse = await this.listBlobHierarchySegment(
+        delimiter,
+        marker,
+        options
+      );
+      marker = listBlobsHierarchySegmentResponse.nextMarker;
+      yield await listBlobsHierarchySegmentResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for BlobPrefixes and BlobItems
+   *
+   * @private
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @returns {AsyncIterableIterator<{ kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem>}
+   * @memberof ContainerClient
+   */
+  private async *listItemsByHierarchy(
+    delimiter: string,
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<
+    { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem
+  > {
+    let marker: string | undefined;
+    for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
+      delimiter,
+      marker,
+      options
+    )) {
+      const segment = listBlobsHierarchySegmentResponse.segment;
+      if (segment.blobPrefixes) {
+        for (const prefix of segment.blobPrefixes) {
+          yield { kind: "prefix", ...prefix };
+        }
+      }
+      for (const blob of segment.blobItems) {
+        yield { kind: "blob", ...blob };
+      }
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the blobs by hierarchy.
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs by hierarchy in pages.
+   *
+   * @example
+   *   for await (const item of containerClient.listBlobsByHierarchy("/")) {
+   *     if (item.kind === "prefix") {
+   *       console.log(`\tBlobPrefix: ${item.name}`);
+   *     } else {
+   *       console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *     }
+   *   }
+   *
+   * @example
+   * // Generator syntax .next() and passing a prefix
+   * let iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
+   * let entity = await iter.next();
+   * while (!entity.done) {
+   *   let item = entity.value;
+   *   if (item.kind === "prefix") {
+   *     console.log(`\tBlobPrefix: ${item.name}`);
+   *   } else {
+   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *   }
+   *   entity = await iter.next();
+   * }
+   *
+   * @example
+   *   // byPage()
+   *   console.log("Listing blobs by hierarchy by page");
+   *   for await (const response of containerClient.listBlobsByHierarchy("/").byPage()) {
+   *     const segment = response.segment;
+   *     if (segment.blobPrefixes) {
+   *       for (const prefix of segment.blobPrefixes) {
+   *         console.log(`\tBlobPrefix: ${prefix.name}`);
+   *       }
+   *     }
+   *     for (const blob of response.segment.blobItems) {
+   *       console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     }
+   *   }
+   *
+   * @example
+   *   // 4. byPage() and passing a prefix and max page size
+   *   console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
+   *   let i = 1;
+   *   for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
+   *     console.log(`Page ${i++}`);
+   *     const segment = response.segment;
+   *     if (segment.blobPrefixes) {
+   *       for (const prefix of segment.blobPrefixes) {
+   *         console.log(`\tBlobPrefix: ${prefix.name}`);
+   *       }
+   *     }
+   *     for (const blob of response.segment.blobItems) {
+   *       console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     }
+   *   }
+   *
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
+   * @returns {(PagedAsyncIterableIterator<
+   *   { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem,
+   *     Models.ContainerListBlobHierarchySegmentResponse
+   *   >)}
+   * @memberof ContainerClient
+   */
+  public listBlobsByHierarchy(
+    delimiter: string,
+    options: ContainerListBlobsOptions = {}
+  ): PagedAsyncIterableIterator<
+    { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem,
+    Models.ContainerListBlobHierarchySegmentResponse
+  > {
+    // AsyncIterableIterator to iterate over blob prefixes and blobs
+    const iter = this.listItemsByHierarchy(delimiter, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listHierarchySegments(delimiter, settings.continuationToken, {
           maxresults: settings.maxPageSize,
           ...options
         });
