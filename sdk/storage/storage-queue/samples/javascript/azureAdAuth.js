@@ -2,17 +2,15 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-const {
-  QueueServiceClient,
-  newPipeline,
-} = require("../.."); // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient } from "../../src"; // Change to "@azure/storage-queue" in your package
 
-const { DefaultAzureCredential } = require("@azure/identity");
+import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   // Enter your storage account name and shared key
   const account = "";
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -25,36 +23,16 @@ async function main() {
   // will be used as a fallback authentication source.
   const defaultAzureCredential = new DefaultAzureCredential();
 
-  const pipeline = newPipeline(defaultAzureCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: {
-      maxTries: 4
-    }, // Retry options
-    telemetry: {
-      value: "BasicSample/V11.0.0"
-    } // Customized telemetry string
-  });
-
-  // List queues
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    defaultAzureCredential
   );
 
   console.log(`List queues`);
-  let marker;
-  do {
-    const listQueuesResponse = await queueServiceClient.listQueuesSegment(
-      marker
-    );
-
-    marker = listQueuesResponse.nextMarker;
-    for (const queue of listQueuesResponse.queueItems) {
-      console.log(`Queue: ${queue.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${item.name}`);
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
