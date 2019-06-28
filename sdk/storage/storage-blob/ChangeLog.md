@@ -33,6 +33,11 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 
+2019.01
+
+- Improved comments for `BlockBlobURL.upload()`.
+- Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
+
 2018.12 10.3.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
