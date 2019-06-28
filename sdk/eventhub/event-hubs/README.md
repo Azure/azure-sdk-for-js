@@ -66,18 +66,32 @@ const client = new EventHubClient("my-connection-string-with-entity-path");
 If you have defined a shared access policy directly on the Event Hub itself, then copying the connection string from that Event Hub will result in a connection string that contains the path.
 
 ```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const credential = new DefaultAzureCredential();
 const client = new EventHubClient("my-host-name", "my-event-hub", credential);
 ```
 
-- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the `@azure/identity` package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
+- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
 
 ### Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Event Hubs
 
+- [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub](#consume-events-from-an-event-hub)
 - [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
+
+### Inspect an Event Hub
+
+Many Event Hub operations take place within the scope of a specific partition.
+Because partitions are owned by the Event Hub, their names are assigned at the time of creation.
+To understand what partitions are available, you query the Event Hub using the client.
+
+```javascript
+const client = new EventHubCLient("connectionString", "eventHubName");
+const partitionIds = await client.getPartitionIds();
+```
 
 ### Publish events to an Event Hub
 
@@ -91,8 +105,7 @@ const producer = client.createProducer();
 await producer.send({ body: "my-event-body" });
 ```
 
-Many Event Hub operations take place within the scope of a specific partition. Because partitions are owned by the Event Hub, their names are assigned at the time of creation. To understand what partitions are available, You can use the [getPartitionIds](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getpartitionids)
-function to get the ids of all available partitions in your Event Hub instance.
+The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids should you wish to specify one for a producer.
 
 The `createProducer` method takes an optional parameter of type [EventHubProducerOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventhubproduceroptions.html) which you can use to specify the retry options and partition id for the send operation.
 
@@ -116,7 +129,7 @@ const consumer = client.createConsumer(
 );
 ```
 
-You can use the [getPartitionIds](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getpartitionids) function to get the ids of all available partitions in your Event Hub instance.
+The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids.
 
 The `createConsumer` method takes an optional parameter of type [EventHubConsumerOptions](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventhubconsumeroptions.html) which you can use to specify the ownerLevel, the level that this consumer is currently using for partition ownership. If another consumer is currently active for the same partition with no or lower level, then it will get disconnected. If another consumer is currently active with a higher level, then this consumer will fail to connect. You can also specify retryOptions for the receive operation on the consumer.
 
