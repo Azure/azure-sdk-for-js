@@ -2,11 +2,7 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-import {
-  QueueServiceClient,
-  newPipeline,
-  Models
-} from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, newPipeline } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -14,6 +10,7 @@ async function main() {
   // Enter your storage account name and shared key
   const account = "";
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -33,7 +30,7 @@ async function main() {
       maxTries: 4
     }, // Retry options
     telemetry: {
-      value: "BasicSample V10.0.0"
+      value: "BasicSample/V11.0.0"
     } // Customized telemetry string
   });
 
@@ -45,17 +42,10 @@ async function main() {
   );
 
   console.log(`List queues`);
-  let marker;
-  do {
-    const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await queueServiceClient.listQueuesSegment(
-      marker
-    );
-
-    marker = listQueuesResponse.nextMarker;
-    for (const queue of listQueuesResponse.queueItems!) {
-      console.log(`Queue: ${queue.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue ${i++}: ${item.name}`);
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

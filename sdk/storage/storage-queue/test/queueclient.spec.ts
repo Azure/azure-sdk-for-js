@@ -67,19 +67,19 @@ describe("QueueClient", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
     const metadata = { key: "value" };
-    await qURL.create({ metadata });
-    const result = await qURL.getProperties();
+    await qClient.create({ metadata });
+    const result = await qClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
   // create with invalid queue name
   it("create negative", async () => {
-    const qURL = queueServiceClient.getQueueClient("");
+    const qClient = queueServiceClient.getQueueClient("");
     let error;
     try {
-      await qURL.create();
+      await qClient.create();
     } catch (err) {
       error = err;
     }

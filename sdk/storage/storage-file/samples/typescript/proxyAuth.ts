@@ -24,7 +24,7 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = serviceClient.createShareClient(shareName);
+  const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 

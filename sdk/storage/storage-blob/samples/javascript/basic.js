@@ -16,6 +16,7 @@ async function main() {
   const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use RawTokenCredential with OAuth token.  You can find more

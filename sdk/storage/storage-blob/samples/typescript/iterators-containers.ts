@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -10,16 +10,13 @@ async function main() {
   const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential);
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   // 1. List Containers

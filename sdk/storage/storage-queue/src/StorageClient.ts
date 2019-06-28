@@ -22,6 +22,7 @@ export abstract class StorageClient {
    * Request policy pipeline.
    *
    * @internal
+   * @ignore
    * @type {Pipeline}
    * @memberof StorageClient
    */
