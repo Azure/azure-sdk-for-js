@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, SharedKeyCredential, newPipeline } = require("../.."); // Change to "@azure/storage-blob" in your package
+const {
+  BlobServiceClient,
+  SharedKeyCredential,
+  newPipeline,
+  HttpPipelineLogLevel
+} = require("../.."); // Change to "@azure/storage-blob" in your package
 
 class ConsoleHttpPipelineLogger {
   constructor(minimumLogLevel) {
