@@ -2,23 +2,21 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { newPipeline, FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file" in your package
+import { FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = "";
   const accountKey = "";
+
   // Use SharedKeyCredential with storage account and account key
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential);
-
   const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   // Create a share
