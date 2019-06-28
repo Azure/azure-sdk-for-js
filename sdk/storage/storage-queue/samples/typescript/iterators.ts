@@ -2,23 +2,21 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
   const account = "";
   const accountKey = "";
+
   // Use SharedKeyCredential with storage account and account key
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential);
-
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   console.log(`List queues`);

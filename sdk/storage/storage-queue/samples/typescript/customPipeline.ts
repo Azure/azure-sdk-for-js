@@ -1,8 +1,8 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { SharedKeyCredential, QueueServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -13,13 +13,22 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = newPipeline(sharedKeyCredential, {
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    retryOptions: {
+      maxTries: 4
+    }, // Retry options
+    telemetry: {
+      value: "BasicSample V10.0.0"
+    } // Customized telemetry string
+  });
+
   const queueServiceClient = new QueueServiceClient(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
-    {
-      // Proxy is supported in Node.js environment only, not in browsers
-      proxy: { url: "http://localhost:3128" }
-    }
+    pipeline
   );
 
   // Create a new queue
@@ -40,7 +49,7 @@ async function main() {
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
 main()
   .then(() => {
-    console.log("Successfully executed the sample.");
+    console.log("Successfully executed sample.");
   })
   .catch((err) => {
     console.log(err.message);

@@ -1,26 +1,14 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { SharedKeyCredential, QueueServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { QueueServiceClient } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
-
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
-    {
-      // Proxy is supported in Node.js environment only, not in browsers
-      proxy: { url: "http://localhost:3128" }
-    }
-  );
+  const STORAGE_CONNECTION_STRING = "";
+  // Only available in Node.js runtime
+  const queueServiceClient = QueueServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
@@ -40,7 +28,7 @@ async function main() {
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
 main()
   .then(() => {
-    console.log("Successfully executed the sample.");
+    console.log("Successfully executed sample.");
   })
   .catch((err) => {
     console.log(err.message);

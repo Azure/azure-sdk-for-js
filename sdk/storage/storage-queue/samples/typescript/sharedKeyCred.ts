@@ -1,8 +1,8 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { SharedKeyCredential, QueueServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { QueueServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -14,12 +14,9 @@ async function main() {
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   const queueServiceClient = new QueueServiceClient(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
-    {
-      // Proxy is supported in Node.js environment only, not in browsers
-      proxy: { url: "http://localhost:3128" }
-    }
+    sharedKeyCredential
   );
 
   // Create a new queue
@@ -40,7 +37,7 @@ async function main() {
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
 main()
   .then(() => {
-    console.log("Successfully executed the sample.");
+    console.log("Successfully executed sample.");
   })
   .catch((err) => {
     console.log(err.message);
