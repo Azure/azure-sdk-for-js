@@ -166,7 +166,7 @@ async function main() {
         console.log("An error occurred for receiver '%s': %O.", receiverName, receiverError);
       }
     },
-    onMessage: (context: any) => {
+    onMessage: (context) => {
       console.log("Received message: %O", context.message);
     },
     onSessionError: (context) => {
