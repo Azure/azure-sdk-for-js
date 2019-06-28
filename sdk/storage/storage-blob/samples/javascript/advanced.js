@@ -45,7 +45,7 @@ async function main() {
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+    telemetry: { value: "AdvancedSample V1.0.0" } // Customized telemetry string
   });
 
   const blobServiceClient = new BlobServiceClient(
@@ -85,7 +85,7 @@ async function main() {
   );
   console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with blockBlobClient.uploadBrowserData()
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadBrowserData()
   // Uncomment following code in browsers because BlockBlobClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
@@ -97,7 +97,7 @@ async function main() {
   */
 
   // Parallel downloading a block blob into Node.js buffer
-  // BlockBlobClient.downloadToBuffer() is only available in Node.js
+  // downloadToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
   await blockBlobClient.downloadToBuffer(
