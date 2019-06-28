@@ -2,21 +2,13 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
-
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential
-  );
+  const STORAGE_CONNECTION_STRING = "";
+  // Only available in Node.js runtime
+  const queueServiceClient = QueueServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;

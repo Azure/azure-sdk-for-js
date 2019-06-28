@@ -1,15 +1,19 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential, newPipeline, HttpPipelineLogLevel } from "../../src"; // Change to "@azure/storage-blob" in your package
+const {
+  FileServiceClient,
+  SharedKeyCredential,
+  newPipeline,
+  HttpPipelineLogLevel
+} = require("../.."); // Change to "@azure/storage-file" in your package
 
 class ConsoleHttpPipelineLogger {
-  minimumLogLevel: any;
-  constructor(minimumLogLevel: any) {
+  constructor(minimumLogLevel) {
     this.minimumLogLevel = minimumLogLevel;
   }
-  log(logLevel: number, message: any) {
+  log(logLevel, message) {
     const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
       case HttpPipelineLogLevel.ERROR:
@@ -37,37 +41,33 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "Sample V1.0.0" } // Customized telemetry string
+    telemetry: { value: "AdvancedSample V1.0.0" } // Customized telemetry string
   });
 
-  // List containers
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    pipeline
-  );
+  // List shares
+  const serviceClient = new FileServiceClient(`https://${account}.file.core.windows.net`, pipeline);
 
+  console.log(`List shares`);
   let i = 1;
-  for await (const container of blobServiceClient.listContainers()) {
-    console.log(`Container ${i++}: ${container.name}`);
+  for await (const share of serviceClient.listShares()) {
+    console.log(`Share ${i++}: ${share.name}`);
   }
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+  // Create a share
+  const shareName = `newshare${new Date().getTime()}`;
+  const shareClient = serviceClient.getShareClient(shareName);
+  await shareClient.create();
+  console.log(`Create share ${shareName} successfully`);
 
-  const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
-
-  // Delete container
-  await containerClient.delete();
-
-  console.log("deleted container");
+  // Delete share
+  await shareClient.delete();
+  console.log(`deleted share ${shareName}`);
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

@@ -18,15 +18,29 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // DefaultAzureCredential will first look for Azure Active Directory (AAD)
+  // client secret credentials in the following environment variables:
+  //
+  // - AZURE_TENANT_ID: The ID of your AAD tenant
+  // - AZURE_CLIENT_ID: The ID of your AAD app registration (client)
+  // - AZURE_CLIENT_SECRET: The client secret for your AAD app registration
+  //
+  // If those environment variables aren't found and your application is deployed
+  // to an Azure VM or App Service instance, the managed service identity endpoint
+  // will be used as a fallback authentication source.
+  // Only available in Node.js runtime
+  // const defaultAzureCredential = new DefaultAzureCredential();
+
   // Use RawTokenCredential with OAuth token.  You can find more
   // TokenCredential implementations in the @azure/identity library
   // to use client secrets, certificates, or managed identities for
   // authentication.
-  const tokenCredential = new RawTokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
+  // const tokenCredential = new RawTokenCredential("token");
+  // tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  //   const anonymousCredential = new AnonymousCredential();
+  // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {

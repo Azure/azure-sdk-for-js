@@ -2,7 +2,31 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, newPipeline, SharedKeyCredential, HttpPipelineLogLevel } from "../../src"; // Change to "@azure/storage-queue" in your package
+
+class ConsoleHttpPipelineLogger {
+  minimumLogLevel: any;
+  constructor(minimumLogLevel: any) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel: number, message: any) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        // tslint:disable-next-line:no-console
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        // tslint:disable-next-line:no-console
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        // tslint:disable-next-line:no-console
+        console.log(logMessage);
+        break;
+    }
+  }
+}
 
 async function main() {
   // Enter your storage account name and shared key
@@ -17,6 +41,7 @@ async function main() {
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: {
       maxTries: 4
     }, // Retry options

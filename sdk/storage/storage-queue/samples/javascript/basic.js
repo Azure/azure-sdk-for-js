@@ -2,37 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const {
-  QueueServiceClient,
-  newPipeline,
-  SharedKeyCredential,
-  AnonymousCredential,
-  HttpPipelineLogLevel,
-  RawTokenCredential
-} = require("../.."); // Change to "@azure/storage-queue" in your package
-
-class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
-        console.log(logMessage);
-        break;
-    }
-  }
-}
+const { QueueServiceClient, SharedKeyCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -43,34 +13,34 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // DefaultAzureCredential will first look for Azure Active Directory (AAD)
+  // client secret credentials in the following environment variables:
+  //
+  // - AZURE_TENANT_ID: The ID of your AAD tenant
+  // - AZURE_CLIENT_ID: The ID of your AAD app registration (client)
+  // - AZURE_CLIENT_SECRET: The client secret for your AAD app registration
+  //
+  // If those environment variables aren't found and your application is deployed
+  // to an Azure VM or App Service instance, the managed service identity endpoint
+  // will be used as a fallback authentication source.
+  // const defaultAzureCredential = new DefaultAzureCredential();
+
   // Use RawTokenCredential with OAuth token.  You can find more
   // TokenCredential implementations in the @azure/identity library
   // to use client secrets, certificates, or managed identities for
   // authentication.
-  const tokenCredential = new RawTokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
+  // const tokenCredential = new RawTokenCredential("token");
+  // tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    retryOptions: {
-      maxTries: 4
-    }, // Retry options
-    telemetry: {
-      value: "BasicSample/V11.0.0"
-    } // Customized telemetry string
-  });
+  // const anonymousCredential = new AnonymousCredential();
 
   // List queues
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   console.log(`List queues`);

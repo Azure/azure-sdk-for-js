@@ -9,6 +9,7 @@ async function main() {
   // Enter your storage account name
   const account = "";
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -23,7 +24,7 @@ async function main() {
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    defaultAzureCredential,
+    defaultAzureCredential
   );
 
   // Create a container

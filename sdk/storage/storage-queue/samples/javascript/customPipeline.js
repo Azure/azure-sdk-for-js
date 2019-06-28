@@ -1,15 +1,19 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential, newPipeline, HttpPipelineLogLevel } from "../../src"; // Change to "@azure/storage-blob" in your package
+const {
+  QueueServiceClient,
+  newPipeline,
+  SharedKeyCredential,
+  HttpPipelineLogLevel
+} = require("../.."); // Change to "@azure/storage-queue" in your package
 
 class ConsoleHttpPipelineLogger {
-  minimumLogLevel: any;
-  constructor(minimumLogLevel: any) {
+  constructor(minimumLogLevel) {
     this.minimumLogLevel = minimumLogLevel;
   }
-  log(logLevel: number, message: any) {
+  log(logLevel, message) {
     const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
       case HttpPipelineLogLevel.ERROR:
@@ -42,32 +46,33 @@ async function main() {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "Sample V1.0.0" } // Customized telemetry string
+    retryOptions: {
+      maxTries: 4
+    }, // Retry options
+    telemetry: {
+      value: "BasicSample V10.0.0"
+    } // Customized telemetry string
   });
 
-  // List containers
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
+  const queueServiceClient = new QueueServiceClient(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
+    `https://${account}.queue.core.windows.net`,
     pipeline
   );
 
-  let i = 1;
-  for await (const container of blobServiceClient.listContainers()) {
-    console.log(`Container ${i++}: ${container.name}`);
-  }
+  // Create a new queue
+  const queueName = `newqueue${new Date().getTime()}`;
+  const queueClient = queueServiceClient.getQueueClient(queueName);
+  const createQueueResponse = await queueClient.create();
+  console.log(
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+  );
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-
-  const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
-
-  // Delete container
-  await containerClient.delete();
-
-  console.log("deleted container");
+  // Delete the queue.
+  const deleteQueueResponse = await queueClient.delete();
+  console.log(
+    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+  );
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

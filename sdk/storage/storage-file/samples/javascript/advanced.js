@@ -45,17 +45,17 @@ async function main() {
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+    telemetry: { value: "AdvancedSample V1.0.0" } // Customized telemetry string
   });
 
-  const servieClient = new FileServiceClient(
+  const serviceClient = new FileServiceClient(
     `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = servieClient.getShareClient(shareName);
+  const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
@@ -75,22 +75,16 @@ async function main() {
   await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
 
   // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
   // FileClient.uploadStream() is only available in Node.js
-  await fileClient.uploadStream(
-    fs.createReadStream(localFilePath),
-    fileSize,
-    4 * 1024 * 1024,
-    20,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: ev => console.log(ev)
-    }
-  );
+  await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    progress: (ev) => console.log(ev)
+  });
   console.log("uploadStream success");
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with FileClient.uploadBrowserData()
@@ -107,17 +101,12 @@ async function main() {
   // Parallel downloading an Azure file into Node.js buffer
   // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await fileClient.downloadToBuffer(
-    buffer,
-    0,
-    undefined,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000),
-      rangeSize: 4 * 1024 * 1024, // 4MB range size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
+  await fileClient.downloadToBuffer(buffer, 0, undefined, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000),
+    rangeSize: 4 * 1024 * 1024, // 4MB range size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
   console.log("downloadToBuffer success");
 
   // Delete share
