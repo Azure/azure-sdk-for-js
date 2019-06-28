@@ -1,27 +1,28 @@
 ### 2019-06-28 5.0.0-preview.1
 
 Version 5.0.0-preview.1 is a preview of our efforts to create a client library that is user friendly and
-idiomatic to the Javascript ecosystem. We have followed the 
-[Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
-in this attempt. For more information, please visit https://aka.ms/azure-sdk-preview1-js
+idiomatic to the Javascript ecosystem. The reasons for most of the changes in this update can be found in the
+[Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+For more information, please visit https://aka.ms/azure-sdk-preview1-js
 
 #### Breaking changes
-- Creating an instance of `EventHubClient` is now done using construtor overloads instead of static helpers
+- Creating an instance of `EventHubClient` is now done using construtor overloads instead of static helpers.
     - If you previously used the `createFromTokenProvider` static helper to provide your own custom token provider,
     you will now need to update the provider to follow the new `TokenCredential` interface instead.
-    - If you previously used the `@azure/ms-rest-nodeauth` library to use AAD, you will now need to use the new
+    - If you previously used the `@azure/ms-rest-nodeauth` library to provide AAD credentials, you will now need to use the new
     `@azure/identity` library instead.
-- The send methods are moved from the `EventHubClient` class to the new `EventHubProducer` class
-    - Use the `createProducer()` function on the `EventHubClient` to create an instance of a `EventHubProducer`. 
+- The send methods are moved from the `EventHubClient` class to the new `EventHubProducer` class.
+    - Use the `createProducer()` function on the `EventHubClient` to create an instance of a `EventHubProducer`. A producer can be bound to a partition at the time of creation such that all events sent from it land in the given partition.
     - Each producer represents a dedicated AMQP sender link to Azure Event Hubs.
     - The `EventData` type used for the data being sent only supports a `body` for the content being sent and a
     `properties` bag to hold any custom metadata you want to send. The properties corresponding to a received event are
     removed from this type and a separate type `ReceivedEventData` is used for received events.
-- The receive methods are moved from the `EventHubClient` class to the new `EventHubConsumer` class
+- The receive methods are moved from the `EventHubClient` class to the new `EventHubConsumer` class.
     - Use the `createConsumer()` function on the `EventHubClient` to create an instance of a `EventHubConsumer`.
     - Each consumer represents a dedicated AMQP receiver link to Azure Event Hubs based
     on the flavor of receive function being used i.e `receiveBatch()` that receives events in a batch vs `receive()` that provides
     a streaming receiver.
+    - The static methods `fromStart()` and `fromEnd()` on `EventPosition` are renamed to `fromEarliest()` and `fromLatest()`.
 - Inspecting Event Hub
     - The methods `getHubRuntimeInformation()` and `getPartitionInformation()` on the `EventHubClient` are renamed to 
     `getProperties()` and `getPartitionProperties()` respectively. Please refer to the return types of these functions to ensure
