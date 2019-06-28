@@ -66,18 +66,32 @@ const client = new EventHubClient("my-connection-string-with-entity-path");
 If you have defined a shared access policy directly on the Event Hub itself, then copying the connection string from that Event Hub will result in a connection string that contains the path.
 
 ```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const credential = new DefaultAzureCredential();
 const client = new EventHubClient("my-host-name", "my-event-hub", credential);
 ```
 
-- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the `@azure/identity` package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
+- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
 
 ### Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Event Hubs
 
+- [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub](#consume-events-from-an-event-hub)
 - [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
+
+### Inspect an Event Hub
+
+Many Event Hub operations take place within the scope of a specific partition.
+Because partitions are owned by the Event Hub, their names are assigned at the time of creation.
+To understand what partitions are available, you query the Event Hub using the client.
+
+```javascript
+const client = new EventHubCLient("connectionString", "eventHubName");
+const partitionIds = await client.getPartitionIds();
+```
 
 ### Publish events to an Event Hub
 
