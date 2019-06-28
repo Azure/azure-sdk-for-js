@@ -1,7 +1,7 @@
 # Breaking Changes
 
 
-2019.07 Version 11.0.0-preview.1
+2019.07 Version 12.0.0-preview.1
 
 - Client types are renamed from *URL to *Client.
   BlobURL, BlockBlobURL, ContainerURL, ServiceURL, StorageURL to BlobClient, BlockBlobClient, ContainerClient, BlobServiceClient, StorageClient respectively.
