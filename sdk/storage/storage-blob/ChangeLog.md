@@ -33,6 +33,8 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 
+For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+
 2019.01
 
 - Improved comments for `BlockBlobURL.upload()`.
