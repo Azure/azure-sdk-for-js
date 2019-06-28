@@ -396,7 +396,7 @@ describe("ContainerClient", () => {
 
   it("Verify PagedAsyncIterableIterator for listBlobsByHierarchy", async () => {
     const blobClients = [];
-    const prefix = getUniqueName("prefix");
+    const prefix = recorder.getUniqueName("prefix");
     const metadata = {
       keya: "a",
       keyb: "c"
@@ -404,7 +404,7 @@ describe("ContainerClient", () => {
     for (let i = 0; i < 6; i++) {
       let name;
       if (i < 2) {
-        name = getUniqueName("blockblob");
+        name = recorder.getUniqueName("blockblob");
       } else {
         name = `${prefix}/${i}`;
       }
