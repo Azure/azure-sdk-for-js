@@ -14,7 +14,6 @@ async function main() {
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
     sharedKeyCredential
   );

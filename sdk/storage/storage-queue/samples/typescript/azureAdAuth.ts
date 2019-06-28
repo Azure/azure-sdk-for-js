@@ -2,7 +2,7 @@
  Setup: Enter your Azure Active Directory credentials as described in main()
 */
 
-import { QueueServiceClient, newPipeline } from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,22 +23,9 @@ async function main() {
   // will be used as a fallback authentication source.
   const defaultAzureCredential = new DefaultAzureCredential();
 
-  const pipeline = newPipeline(defaultAzureCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: {
-      maxTries: 4
-    }, // Retry options
-    telemetry: {
-      value: "BasicSample/V11.0.0"
-    } // Customized telemetry string
-  });
-
-  // List queues
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    defaultAzureCredential
   );
 
   console.log(`List queues`);
