@@ -8,45 +8,47 @@ like the ones for Azure Service Bus and Azure Event Hubs.
 
 ### Installation
 
-Installing this library using npm as follows
+Install this library using npm as follows:
 
 ```bash
 npm install @azure/core-amqp
 ```
 
 **Note**: [`rhea-promise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
-  in your application.
+in your application.
 
 ## Key concepts
 
-Some of the key features of Azure Core AMQP library are
+Some of the key features of Azure Core AMQP library are:
 
 - [Claims based Authorization](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization)
 - Request-Response link for [sending request and receiving response over AMQP](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#amqp-management)
-- A Data Transformer class with to encode given data to an AMQP message and decode a given AMQP message. Useful for sending and receiving messages that are not of type Buffer.
+- A Data Transformer class to encode given data to an AMQP message and decode a given AMQP message. Useful for sending and receiving messages that are not of type Buffer.
 - Error translation of AMQP error codes along with errors specific to Azure Service Bus and Azure Event Hubs.
-- RetryPolicy for retrying a given operation if a retryable error was encountered
+- RetryPolicy for retrying a given operation if a retryable error was encountered.
 
 ## Examples
 
 The examples below expect a connection string to a Azure Service Bus or Azure Event Hubs instance.
 The entity path refers to an Event Hub name in case of Azure Event Hubs and a queue or a topic name
-in case of Azure Service Bus
+in case of Azure Service Bus.
 
 ## Claims Based Authorization
 
 [Claims Based Authorization](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization)
 need to be done for every AMQP link that your application creates. The claims also has to be renewed periodically.
-For more on CBS, please see the [CBS Specification](https://www.oasis-open.org/committees/download.php/62097/amqp-cbs-v1.0-wd05.doc)
+For more details on CBS, please see the [CBS Specification](https://www.oasis-open.org/committees/download.php/62097/amqp-cbs-v1.0-wd05.doc).
 
 In the below example, we use the Shared Key details present in the connection string to create a SAS token.
-This token is then used to make a request on the $cbs link to carry out Claims Based Authorization for a link to the given entity
-in Azure Service Bus or Azure Event Hubs
-
+This token is then used to make a request on the \$cbs link to carry out Claims Based Authorization for a link to the given entity
+in Azure Service Bus or Azure Event Hubs.
 
 ```js
-const connectionConfig = ConnectionConfig.create("your-connection-string-with-shared-key", "entity-path");
-const connectionContext = ConnectionContextBase.create({ config: connectionConfig});
+const connectionConfig = ConnectionConfig.create(
+  "your-connection-string-with-shared-key",
+  "entity-path"
+);
+const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
 const audience = `${connectionConfig.endpoint}${connectionConfig.entityPath}`;
 
 // Initialize a $cbs link with the service
@@ -58,19 +60,20 @@ const token = await connectionContext.tokenCredential.getToken(audience);
 // Use the SAS token to carry out the Claims Based Authorization
 const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
 console.log(`Result is: ${result}`);
-
 ```
 
 ## Create a sender link
 
 After you have run the sample code in the [Claims Based Authorization example](#claims-based-authorization),
-you can use the `ConnectionContext.connection` to create a sender link as shown below
+you can use the `ConnectionContext.connection` to create a sender link as shown below.
 
 ```js
-
 async function main() {
-  const connectionConfig = ConnectionConfig.create("your-connection-string-with-shared-key", "entity-path");
-  const connectionContext = ConnectionContextBase.create({ config: connectionConfig});
+  const connectionConfig = ConnectionConfig.create(
+    "your-connection-string-with-shared-key",
+    "entity-path"
+  );
+  const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
   const senderName = "your-sender-name";
   const senderOptions = {
     name: senderName,
@@ -93,26 +96,27 @@ async function main() {
   };
 
   const sender = await connectionContext.connection.createSender(senderOptions);
-  const delivery = await sender.send({body: "your-message-body"});
+  const delivery = await sender.send({ body: "your-message-body" });
 
   await sender.close();
   await connectionContext.connection.close();
 }
 
 main().catch((err) => console.log(err));
-
 ```
 
 ## Create a receiver link
 
 After you have run the sample code in the [Claims Based Authorization example](#claims-based-authorization),
-you can use the `ConnectionContext.connection` to create a receiver link as shown below
+you can use the `ConnectionContext.connection` to create a receiver link as shown below.
 
 ```js
-
 async function main() {
-  const connectionConfig = ConnectionConfig.create("your-connection-string-with-shared-key", "entity-path");
-  const connectionContext = ConnectionContextBase.create({ config: connectionConfig});
+  const connectionConfig = ConnectionConfig.create(
+    "your-connection-string-with-shared-key",
+    "entity-path"
+  );
+  const connectionContext = ConnectionContextBase.create({ config: connectionConfig });
   const receiverName = "your-receiver-name";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
   const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
@@ -134,7 +138,11 @@ async function main() {
     onSessionError: (context) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-         console.log("An error occurred for session of receiver '%s': %O.", receiverName, sessionError);
+        console.log(
+          "An error occurred for session of receiver '%s': %O.",
+          receiverName,
+          sessionError
+        );
       }
     }
   };
@@ -143,7 +151,7 @@ async function main() {
   receiver.on(ReceiverEvents.message, (context) => {
     console.log("Received message: %O", context.message);
   });
-  
+
   // sleeping for 2 mins to let the receiver receive messages and then closing it.
   await delay(120000);
   await receiver.close();
@@ -152,14 +160,13 @@ async function main() {
 }
 
 main().catch((err) => console.log(err));
-
 ```
 
 ## Troubleshooting
 
 You can set the following environment variable to get the debug logs.
 
-- Getting debug logs from the Event Hub SDK
+- Getting debug logs from the Event Hub SDK.
 
 ```bash
 export DEBUG=azure:core-amqp*
