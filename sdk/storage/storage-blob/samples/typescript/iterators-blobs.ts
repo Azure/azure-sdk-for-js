@@ -108,6 +108,9 @@ async function main() {
   for (const blob of segment.blobItems) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
+
+  await containerClient.delete();
+  console.log("deleted container");
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

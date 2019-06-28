@@ -457,10 +457,10 @@ export class DirectoryClient extends StorageClient {
     let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.listSegments(marker, options)) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
-        yield { kind: "file", name: file.name, properties: file.properties };
+        yield { kind: "file", ...file };
       }
       for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
-        yield { kind: "directory", name: directory.name };
+        yield { kind: "directory", ...directory };
       }
     }
   }
