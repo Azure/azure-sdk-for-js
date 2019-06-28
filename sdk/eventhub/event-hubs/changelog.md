@@ -22,7 +22,7 @@ For more information, please visit https://aka.ms/azure-sdk-preview1-js
     - Each consumer represents a dedicated AMQP receiver link to Azure Event Hubs based
     on the flavor of receive function being used i.e `receiveBatch()` that receives events in a batch vs `receive()` that provides
     a streaming receiver.
-    - The static methods `fromStart()` and `fromEnd()` on `EventPosition` are renamed to `fromEarliest()` and `fromLatest()`.
+    - The static methods `EventPosition.fromStart()` and `EventPosition.fromEnd()` are renamed to `EventPosition.earliest()` and `EventPosition.latest()` respectively.
 - Inspecting Event Hub
     - The methods `getHubRuntimeInformation()` and `getPartitionInformation()` on the `EventHubClient` are renamed to 
     `getProperties()` and `getPartitionProperties()` respectively. Please refer to the return types of these functions to ensure
