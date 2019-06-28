@@ -401,14 +401,9 @@ describe("ContainerClient", () => {
       keya: "a",
       keyb: "c"
     };
+    const name = recorder.getUniqueName("blockblob");
     for (let i = 0; i < 6; i++) {
-      let name;
-      if (i < 2) {
-        name = recorder.getUniqueName("blockblob");
-      } else {
-        name = `${prefix}/${i}`;
-      }
-      const blobClient = containerClient.getBlobClient(name);
+      const blobClient = containerClient.getBlobClient(`${prefix}/${name}${i}`);
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
