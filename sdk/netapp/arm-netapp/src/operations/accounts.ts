@@ -270,6 +270,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccount
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
