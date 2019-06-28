@@ -13,6 +13,7 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
+  // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -23,7 +24,6 @@ async function main() {
   // If those environment variables aren't found and your application is deployed
   // to an Azure VM or App Service instance, the managed service identity endpoint
   // will be used as a fallback authentication source.
-  // Only available in Node.js runtime
   // const defaultAzureCredential = new DefaultAzureCredential();
 
   // Use TokenCredential with OAuth token
