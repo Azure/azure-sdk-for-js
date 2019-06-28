@@ -50,6 +50,7 @@ export {
  * Interface of proxy policy options.
  * @example
  *   // Use SharedKeyCredential with storage account and account key
+ *   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
  *   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
  *   const queueServiceClient = new QueueServiceClient(
  *     `https://${account}.queue.core.windows.net`,
