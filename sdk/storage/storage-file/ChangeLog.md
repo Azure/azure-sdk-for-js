@@ -18,10 +18,8 @@
   - Please refer to the samples for async iterators in the `samples` folder.
 - [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
 - [Breaking] High level convenience functions are moved into clients as their instance member function.
-  - `uploadFileToAzureFile()` -> `FileClient.uploadFile()`
-  - `uploadStreamToAzureFile()` -> `FileClient.uploadStream()`
-  - `downloadAzureFileToBuffer()` -> `FileClient.downloadToBuffer()`
-  - `uploadBrowserDataToAzureFile()` -> `FileClient.uploadBrowserData()`
+  - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
+  `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 - Updated dependency `@azure/ms-rest-js` to `@azure/core-http`.
 - Constructor overloads added into client types so they can be constructed from a url and a pipeline/credential and connection string.

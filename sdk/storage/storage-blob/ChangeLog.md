@@ -18,10 +18,8 @@
   - Please refer to the samples for async iterators in the `samples` folder.
 - [Breaking]  Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
 - [Breaking]  High level convenience functions are moved into clients as their instance member function.
-	- `uploadFileToBlockBlob()` -> `BlockBlobClient.uploadFile()` 
-	- `uploadStreamToBlockBlob()` -> `BlockBlobClient.uploadStream()`
-  - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()` 
-	- `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadBrowserData()`
+	- `uploadFileToBlockBlob()`, `uploadStreamToBlockBlob()` and `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and  `BlockBlobClient.uploadBrowserData()` respectively
+  - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 - [Breaking] `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
 - [Breaking] Blob/Container member methods that manage leases are removed. A new type `LeaseClient` is added to manage leases.

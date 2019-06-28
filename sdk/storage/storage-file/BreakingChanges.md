@@ -15,10 +15,8 @@
 - `withPipeline()` method is removed.
 - Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
 - High level convenience functions are moved into clients as their instance member function.
-  - `uploadFileToAzureFile()` -> `FileClient.uploadFile()`
-  - `uploadStreamToAzureFile()` -> `FileClient.uploadStream()`
-  - `downloadAzureFileToBuffer()` -> `FileClient.downloadToBuffer()`
-  - `uploadBrowserDataToAzureFile()` -> `FileClient.uploadBrowserData()`
+  - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
+  `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 
 2019.01 Version 10.1.0
