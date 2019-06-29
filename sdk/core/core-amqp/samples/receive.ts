@@ -1,23 +1,63 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+   This sample demonstrates how to receive messages/events from Service Bus/Event Hubs
+    by authenticating the receiver link using the shared key information in the connection string
+*/
+
 import {
   Receiver,
   ReceiverOptions,
-  EventContext,
   ReceiverEvents,
   delay,
-  types
+  types,
+  EventContext
 } from "rhea-promise";
-import { authenticate, connectionContext, connectionConfig, path } from "./cbsAuth";
+
+import {
+  ConnectionContextBase,
+  CbsResponse,
+  ConnectionConfig,
+  TokenType,
+  SharedKeyCredential
+} from "@azure/core-amqp";
+
+// Define connection string and related entity path here
+const connectionString = "";
+const path = "";
+
+const connectionConfig = ConnectionConfig.create(connectionString, path);
+const parameters = {
+  config: connectionConfig,
+  connectionProperties: {
+    product: "MSJSClient",
+    userAgent: "/js-core-amqp",
+    version: "0.1.0"
+  }
+};
+const connectionContext = ConnectionContextBase.create(parameters);
+
+async function authenticate(audience: string): Promise<CbsResponse> {
+  await connectionContext.cbsSession.init();
+  // We use the shared key information in the connection string to perform the authentication.
+  // If you want to use Azure Active Directory, then refer `cbsAuthUsingAad.ts` sample.
+  const sharedKeyCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedKeyCredential.getToken(audience);
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    tokenObject,
+    TokenType.CbsTokenTypeSas
+  );
+  console.log("Result is: %O", result);
+  return result;
+}
 
 async function main(): Promise<void> {
-  await authenticate(`${connectionConfig.endpoint}${path}`, false);
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`);
   const receiverName = "receiver-1";
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
-  const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
+  const receiverAddress = `${connectionConfig.entityPath}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
   const receiverOptions: ReceiverOptions = {
     name: receiverName,
     source: {
@@ -31,7 +71,7 @@ async function main(): Promise<void> {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         console.log(
-          ">>>>> [%s] An error occurred for session of receiver '%s': %O.",
+          "[%s] An error occurred for session of receiver '%s': %O.",
           connectionContext.connection.id,
           receiverName,
           sessionError
@@ -48,14 +88,14 @@ async function main(): Promise<void> {
     const receiverError = context.receiver && context.receiver.error;
     if (receiverError) {
       console.log(
-        ">>>>> [%s] An error occurred for receiver '%s': %O.",
+        "[%s] An error occurred for receiver '%s': %O.",
         connectionContext.connection.id,
         receiverName,
         receiverError
       );
     }
   });
-  // sleeping for 2 mins to let the receiver receive messages and then closing it.
+  // Waiting long enough before closing the receiver to receive messages/events
   await delay(120000);
   await receiver.close();
   await connectionContext.connection.close();

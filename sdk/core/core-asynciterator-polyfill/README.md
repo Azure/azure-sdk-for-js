@@ -1,19 +1,26 @@
 # Azure Async Iterator Polyfill client library for JS
 
-This library acts to polyfill for Symbol.asyncIterator
+This library provides a polyfill for [Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator)
+for platforms that do not have support for it by default.
 
 ## Getting started
 
-### Requirements
-- node.js version > 6.x
-- npm install -g typescript
-
 ### Installation
-- After cloning the repo, execute `rush install`
+
+If using this as part of another project in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo,
+then run `rush install` after cloning the repo.
+
+Otherwise, use npm to install this package in your application as follows
+
+```
+npm install @azure/core-asynciterator-polyfill
+```
 
 ## Key concepts
 
-This is a polyfill for Symbol.asyncIterator for platforms that do not have support for it by default.
+[Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) is not supported 
+in all platforms and therefore you might need a polyfill in order to get it working on such platforms. Importing the polyfill from
+this library lets you use the iterator in your applications.
 
 ## Examples
 
@@ -25,19 +32,14 @@ import "@azure/core-asynciterator-polyfill";
 
 ## Next steps
 
-### node.js
-- Set the subscriptionId and token
-- Run `node samples/node-sample.js`
-
-### In the browser
-- Set the subscriptionId and token and then run
-- Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
+Try out this package in your application if you are working on platforms that do not have support for
+[Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) and provide feedback!
 
 ## Troubleshooting
 
-To be added later.
+Log an issue at https://github.com/Azure/azure-sdk-for-js/issues
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

@@ -12,6 +12,7 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed } from "./util/error";
 import { EventPosition } from "./eventPosition";
+import "@azure/core-asynciterator-polyfill";
 
 /**
  * Options to pass when creating an iterator to iterate over events
