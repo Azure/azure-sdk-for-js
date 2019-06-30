@@ -49,12 +49,7 @@ async function main(): Promise<void> {
     ),
     redirectPolicy(),
 
-    challengeBasedAuthenticationPolicy(credential, "https://vault.azure.net/.default"),
-    /*
-    isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
-      : signingPolicy(credential)
-    */
+    challengeBasedAuthenticationPolicy(credential),
   ];
 
   let pipeline: Pipeline = {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
@@ -16,16 +16,16 @@ export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
  * @param credential The TokenCredential implementation that can supply the bearer token.
  * @param scopes The scopes for which the bearer token applies.
  */
-export function challengeBasedAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
+export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, scopes, Date.now());
+      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, Date.now());
     }
   };
 }
 
 export class AuthenticationChallenge {
-  constructor(public scopes: string[]) { }
+  constructor(public scopes: string[] | string) { }
 }
 
 /**
@@ -38,7 +38,6 @@ export class AuthenticationChallenge {
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   private cachedToken: AccessToken | undefined = undefined;
   private challenge: AuthenticationChallenge | undefined = undefined;
-  private headerValue = "";
 
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
@@ -52,10 +51,24 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
-    private scopes: string | string[],
+    //private scopes: string | string[],
     private refreshOn: number,
   ) {
     super(nextPolicy, options);
+  }
+
+  private parseWWWAuthenticate(www_authenticate: string): string {
+    let authenticateArray = www_authenticate.split(" ");
+    delete authenticateArray[0];
+    let commaSep = authenticateArray.join().split(",");
+    for (let item of commaSep) {
+      let kv = item.split("=");
+      if (kv[0].trim() == "resource") {
+        let resource = kv[1].trim().replace(/['"]+/g, '');
+        return resource;
+      }
+    }
+    return "";
   }
 
   /**
@@ -66,88 +79,68 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     webResource: WebResource
   ): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
-    /*
-    const token = await this.getToken({
-      abortSignal: webResource.abortSignal
-    });
-    webResource.headers.set(
-      Constants.HeaderConstants.AUTHORIZATION,
-      `Bearer ${token}`
-    );
-    */
 
-    console.log(webResource);
+    let originalBody = webResource.body;
 
     if (this.challenge == undefined) {
-      // Use a blank to start the challenge
-      let headers = webResource.headers;
-      webResource.headers = new HttpHeaders();
-      let backupBody = webResource.body;
       webResource.body = "";
-      let response = await this._nextPolicy.sendRequest(webResource);
+    } else {
+      await this.authenticateRequest(webResource);
+    }
 
-      if (response.status == 401) {
-        webResource.headers = headers;
+    // Use a blank to start the challenge
+    let headers = webResource.headers;
+    webResource.headers = new HttpHeaders();
+    webResource.body = "";
+    let response = await this._nextPolicy.sendRequest(webResource);
 
-        let www_authenticate = response.headers.get("WWW-Authenticate");
-        console.log(www_authenticate);
+    if (response.status == 401) {
+      webResource.body = originalBody;
+      webResource.headers = headers;
 
-        if (www_authenticate) {
-          let authenticateArray = www_authenticate.split(" ");
-          delete authenticateArray[0];
-          let commaSep = authenticateArray.join().split(",");
-          for (let item of commaSep) {
-            console.log("item: ", item);
-            let kv = item.split("=");
-            if (kv[0].trim() == "authorization") {
-              console.log("AUTHORIZATION: ", kv[1].trim());
-              this.headerValue = kv[1].trim();
-              webResource.headers.set("authorization", this.headerValue);
-            }
-            else if (kv[0].trim() == "resource") {
-              console.log("RESOURCE: ", kv[1].trim());
-              webResource.headers.set("resource", kv[1].trim());
-            }
+      let www_authenticate = response.headers.get("WWW-Authenticate");
 
-            /*
-            // Do something with www_authenticate
-            let challenge = "foo";
-            if (this.challenge != challenge) {
-              //this.challenge = challenge;
-              await this.authenticateRequest(webResource);
-            }
-            */
-          }
+      if (www_authenticate) {
+        let resource = this.parseWWWAuthenticate(www_authenticate);
+        let challenge = new AuthenticationChallenge(resource + "/.default")
+
+        if (this.challenge != challenge) {
+          console.log("CHALLENGE UNMATCHED");
+          this.challenge = challenge;
+
+          await this.authenticateRequest(webResource);
+        } else {
+          console.log("CHALLENGE MATCHED");
         }
       }
-      webResource.body = backupBody;
+      return this._nextPolicy.sendRequest(webResource);
+    } else {
+      return response;
     }
-    console.log(webResource);
-    return this._nextPolicy.sendRequest(webResource);
   }
 
   private async authenticateRequest(webResource: WebResource): Promise<void> {
-    if (Date.now() >= this.refreshOn) {
-      /*
-      let token: AccessToken?= await this.credential.getToken(this.challenge!.scopes, ???);
-      if (token) {
-        this.headerValue = "Bearer" + token.token;
-        this.refreshOn = token.expiresOnTimestamp - TokenRefreshBufferMs;
-      }
-      */
-    }
-    webResource.headers.set("authorization", this.headerValue);
-  }
-
-  private async getToken(options: GetTokenOptions): Promise<string | undefined> {
+    console.log("CACHED TOKEN: ", this.cachedToken);
     if (
       this.cachedToken &&
-      Date.now() + TokenRefreshBufferMs < this.cachedToken.expiresOnTimestamp
+      (Date.now() < this.refreshOn)
     ) {
-      return this.cachedToken.token;
+      console.log("USING CACHED TOKEN");
+      webResource.headers.set(
+        Constants.HeaderConstants.AUTHORIZATION,
+        `Bearer ${this.cachedToken.token}`
+      );
+    } else {
+      let token: AccessToken | null = await this.credential.getToken(this.challenge!.scopes);
+      if (token) {
+        this.cachedToken = token;
+        this.refreshOn = token.expiresOnTimestamp - TokenRefreshBufferMs;
+        console.log("REFRESHON: ", this.refreshOn - Date.now());
+        webResource.headers.set(
+          Constants.HeaderConstants.AUTHORIZATION,
+          `Bearer ${token.token}`
+        );
+      }
     }
-
-    this.cachedToken = (await this.credential.getToken(this.scopes, options)) || undefined;
-    return this.cachedToken ? this.cachedToken.token : undefined;
   }
 }
