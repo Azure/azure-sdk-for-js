@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { MessageHeader as AmqpMessageHeader } from "rhea-promise";
 import * as log from "./log";
@@ -70,9 +70,7 @@ export namespace MessageHeader {
    * @param {AmqpMessageHeader} props Amqp Message Header
    * @returns {MessageHeader} MessageHeader.
    */
-  export function fromAmqpMessageHeader(
-    props: AmqpMessageHeader
-  ): MessageHeader {
+  export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
     const msgHeader: MessageHeader = {};
     if (props.delivery_count != undefined) {
       msgHeader.deliveryCount = props.delivery_count;

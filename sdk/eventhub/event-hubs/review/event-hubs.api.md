@@ -45,7 +45,7 @@ export class EventHubClient {
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
     createProducer(options?: EventHubProducerOptions): EventHubProducer;
-    static defaultConsumerGroup: string;
+    static defaultConsumerGroupName: string;
     readonly eventHubName: string;
     getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;

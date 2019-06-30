@@ -1,0 +1,59 @@
+{
+  "name": "@azure/core-asynciterator-polyfill",
+  "author": {
+    "name": "Microsoft Corporation",
+    "email": "azsdkteam@microsoft.com",
+    "url": "https://github.com/Azure/azure-sdk-for-js"
+  },
+  "version": "1.0.0-preview.1",
+  "description": "Polyfill for IE/Node 8 for Symbol.asyncIterator",
+  "tags": [
+    "microsoft",
+    "clientruntime"
+  ],
+  "keywords": [
+    "microsoft",
+    "clientruntime"
+  ],
+  "main": "./dist-esm/index.js",
+  "files": [
+    "dist-esm/**/*.js",
+    "LICENSE",
+    "README.md",
+    "ThirdPartyNotices.txt"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-asynciterator-polyfill",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "tsc -p .",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "echo skipped",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o template-lintReport.html || exit 0",
+    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "sideEffects": true,
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {}
+}

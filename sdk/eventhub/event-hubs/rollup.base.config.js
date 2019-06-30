@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process");
+    baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process", "@azure/identity");
 
     baseConfig.onwarn = warning => {
       if (
@@ -65,6 +65,11 @@ export function nodeConfig(test = false) {
 
       console.error(`(!) ${warning.message}`);
     };
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -119,14 +124,17 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false,
         // Following packages are de-duped in order to get module resolution to work with npm + rollup
-        // This will be in place until we have a solution for issue 
+        // This will be in place until we have a solution for issue
         // https://github.com/Azure/azure-sdk-for-js/issues/3326
         dedupe: ["buffer", "events", "util", "process", "assert"]
       }),
 
       cjs({
+        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
+        // modules with built-in names must have a trailing slash.
+        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         namedExports: {
-          events: ["EventEmitter"]
+          "events/": ["EventEmitter"]
         }
       }),
 
@@ -148,6 +156,11 @@ export function browserConfig(test = false) {
     baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }

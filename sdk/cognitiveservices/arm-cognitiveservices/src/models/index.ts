@@ -81,6 +81,60 @@ export interface CognitiveServicesAccountUpdateParameters {
 }
 
 /**
+ * A rule governing the accessibility from a specific ip address or ip range.
+ */
+export interface IpRule {
+  /**
+   * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or
+   * '124.56.78.0/24' (all addresses that start with 124.56.78).
+   */
+  value: string;
+}
+
+/**
+ * A rule governing the accessibility from a specific virtual network.
+ */
+export interface VirtualNetworkRule {
+  /**
+   * Full resource id of a vnet subnet, such as
+   * '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+   */
+  id: string;
+  /**
+   * Gets the state of virtual network rule.
+   */
+  state?: string;
+  /**
+   * Ignore missing vnet service endpoint or not.
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/**
+ * A set of rules governing the network accessibility.
+ */
+export interface NetworkRuleSet {
+  /**
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not
+   * specified the default is 'AzureServices'. Possible values include: 'AzureServices', 'None'
+   */
+  bypass?: NetworkRuleBypassOptions;
+  /**
+   * The default action when no rule from ipRules and from virtualNetworkRules match. This is only
+   * used after the bypass property has been evaluated. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: NetworkRuleAction;
+  /**
+   * The list of IP address rules.
+   */
+  ipRules?: IpRule[];
+  /**
+   * The list of virtual network rules.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+/**
  * Cognitive Services Account is an Azure resource representing the provisioned account, its type,
  * location and SKU.
  */
@@ -126,6 +180,10 @@ export interface CognitiveServicesAccount extends BaseResource {
    * Optional subdomain name used for token-based authentication.
    */
   customSubDomainName?: string;
+  /**
+   * A collection of rules governing the accessibility from specific network locations.
+   */
+  networkAcls?: NetworkRuleSet;
   /**
    * The SKU of Cognitive Services account.
    */
@@ -388,6 +446,42 @@ export interface CheckSkuAvailabilityResultList {
 }
 
 /**
+ * Check Domain availability parameter.
+ */
+export interface CheckDomainAvailabilityParameter {
+  /**
+   * The subdomain name to use.
+   */
+  subdomainName: string;
+  /**
+   * The Type of the resource.
+   */
+  type: string;
+}
+
+/**
+ * Check Domain availability result.
+ */
+export interface CheckDomainAvailabilityResult {
+  /**
+   * Indicates the given SKU is available or not.
+   */
+  isSubdomainAvailable?: boolean;
+  /**
+   * Reason why the SKU is not available.
+   */
+  reason?: string;
+  /**
+   * The subdomain name to use.
+   */
+  subdomainName?: string;
+  /**
+   * The Type of the resource.
+   */
+  type?: string;
+}
+
+/**
  * An interface representing ResourceSkuRestrictionInfo.
  */
 export interface ResourceSkuRestrictionInfo {
@@ -557,6 +651,22 @@ export type SkuTier = 'Free' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
+
+/**
+ * Defines values for NetworkRuleBypassOptions.
+ * Possible values include: 'AzureServices', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
+
+/**
+ * Defines values for NetworkRuleAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for KeyName.
@@ -916,5 +1026,25 @@ export type CheckSkuAvailabilityListResponse = CheckSkuAvailabilityResultList & 
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckSkuAvailabilityResultList;
+    };
+};
+
+/**
+ * Contains response data for the checkDomainAvailability operation.
+ */
+export type CheckDomainAvailabilityResponse = CheckDomainAvailabilityResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckDomainAvailabilityResult;
     };
 };
