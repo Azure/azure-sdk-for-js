@@ -103,12 +103,9 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
         let challenge = new AuthenticationChallenge(resource + "/.default")
 
         if (this.challenge != challenge) {
-          console.log("CHALLENGE UNMATCHED");
           this.challenge = challenge;
 
           await this.authenticateRequest(webResource);
-        } else {
-          console.log("CHALLENGE MATCHED");
         }
       }
       return this._nextPolicy.sendRequest(webResource);
@@ -118,12 +115,10 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private async authenticateRequest(webResource: WebResource): Promise<void> {
-    console.log("CACHED TOKEN: ", this.cachedToken);
     if (
       this.cachedToken &&
       (Date.now() < this.refreshOn)
     ) {
-      console.log("USING CACHED TOKEN");
       webResource.headers.set(
         Constants.HeaderConstants.AUTHORIZATION,
         `Bearer ${this.cachedToken.token}`
@@ -133,7 +128,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       if (token) {
         this.cachedToken = token;
         this.refreshOn = token.expiresOnTimestamp - TokenRefreshBufferMs;
-        console.log("REFRESHON: ", this.refreshOn - Date.now());
         webResource.headers.set(
           Constants.HeaderConstants.AUTHORIZATION,
           `Bearer ${token.token}`
