@@ -3,47 +3,25 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
+import {
+  record,
+  setReplaceableVariables,
+  retry,
+  setReplacements,
+  env,
+  uniqueString
+} from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
+import TestClient from "./utils/testClient";
 
 describe("Secret client - restore secrets and recover backups", () => {
+  const secretValue = "SECRET_VALUE";
   let client: SecretsClient;
+  let testClient: TestClient;
   let recorder: any;
 
-  // NOTES:
-  // - To allow multiple integraton runs at the same time,
-  //   we might need to factor in more environment variables.
-  // - Another way to improve this is to add a specfic key per test.
-  // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const secretName = `recover${env.SECRET_NAME || "SecretName"}`;
-
-  // NOTES:
-  // - These functions are probably better moved to a common utility file.
-  //   However, to do that we'll have to create a class or closure to maintain
-  //   the instance of the KeyClient available.
-  async function purgeSecret(): Promise<void> {
-    await client.purgeDeletedSecret(secretName);
-    await delay(30000);
-  }
-  async function flushSecret(): Promise<void> {
-    await client.deleteSecret(secretName);
-    await delay(30000);
-    await purgeSecret();
-  }
-  async function maybeFlushSecret(): Promise<void> {
-    try {
-      await client.deleteSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-    try {
-      await client.purgeDeletedSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-  }
+  const secretPrefix = `recover${env.SECRET_NAME || "SecretName"}`;
+  let secretSuffix: string;
 
   before(async function() {
     setReplaceableVariables({
@@ -53,8 +31,11 @@ describe("Secret client - restore secrets and recover backups", () => {
       KEYVAULT_NAME: "keyvault_name"
     });
 
+    secretSuffix = uniqueString();
     setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording) =>
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
     ]);
 
     recorder = record(this); // eslint-disable-line no-invalid-this
@@ -63,8 +44,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     const url = `https://${vaultName}.vault.azure.net`;
     const credential = new EnvironmentCredential();
     client = new SecretsClient(url, credential);
-
-    await maybeFlushSecret();
+    testClient = new TestClient(client);
   });
 
   after(async function() {
@@ -73,24 +53,24 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   // The tests follow
 
-  it("can recover a deleted secret", async () => {
+  it("can recover a deleted secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(20000);
-    const getDeletedResult = await client.getDeletedSecret(secretName);
+    const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(
       getDeletedResult.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
-    await delay(20000);
-    const getResult = await client.getSecret(secretName);
+    const getResult = await retry(async () => client.getSecret(secretName));
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can recover a deleted secret (non existing)", async () => {
+  it("can recover a deleted secret (non existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let error;
     try {
       await client.recoverDeletedSecret(secretName);
@@ -101,7 +81,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can backup a secret", async () => {
+  it("can backup a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     const result = await client.backupSecret(secretName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupSecret()");
@@ -109,10 +90,11 @@ describe("Secret client - restore secrets and recover backups", () => {
       result.length > 4500,
       `Unexpected length (${result.length}) of buffer from backupSecret()`
     );
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can backup a secret (non existing)", async () => {
+  it("can backup a secret (non existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let error;
     try {
       await client.backupSecret(secretName);
@@ -123,21 +105,18 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can restore a secret", async () => {
+  it("can restore a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
-    await client.deleteSecret(secretName);
-    await delay(20000);
-    await client.purgeDeletedSecret(secretName);
-    await delay(20000);
-    await client.restoreSecret(backup);
-    await delay(20000);
+    await testClient.flushSecret(secretName);
+    await retry(async () => client.restoreSecret(backup));
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can restore a secret (Malformed Backup Bytes)", async () => {
+  it("can restore a secret (Malformed Backup Bytes)", async function() {
     const backup = Buffer.alloc(4728);
     let error;
     try {
