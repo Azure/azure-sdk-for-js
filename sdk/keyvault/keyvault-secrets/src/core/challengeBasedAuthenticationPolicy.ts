@@ -13,13 +13,12 @@ export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
 /**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
  *
- * @param credential The TokenCredential implementation that can supply the bearer token.
- * @param scopes The scopes for which the bearer token applies.
+ * @param credential The TokenCredential implementation that can supply the challenge token.
  */
 export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, Date.now());
+      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential);
     }
   };
 }
@@ -51,8 +50,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
-    //private scopes: string | string[],
-    private refreshOn: number,
+    private refreshOn: number = Date.now(),
   ) {
     super(nextPolicy, options);
   }
