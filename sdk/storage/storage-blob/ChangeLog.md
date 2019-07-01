@@ -32,13 +32,9 @@
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
+- Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
-
-2019.01
-
-- Improved comments for `BlockBlobURL.upload()`.
-- Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
 2018.12 10.3.0
 
