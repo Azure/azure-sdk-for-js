@@ -30,7 +30,7 @@
 - `SASQueryParameters` is not going to be exported in browser bundle, and exported in Node.js runtime.
 - IE11 needs `Array.prototype.includes` and `Object.keys` polyfills loaded.
 
-  2018.11 10.2.0-preview
+2018.11 10.2.0-preview
 
 - Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 - For `setMetadata()` and `setHTTPHeaders()`, `metadata` and `blobHTTPHeaders` are moved from `options` into top level parameter list.
