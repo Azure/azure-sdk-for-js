@@ -17,11 +17,11 @@ describe("ClientCertificateCredential", function () {
     );
 
     assert.strictEqual(
-      credential.certificateThumbprint,
+      (credential as any).certificateThumbprint,
       "47080F3BAA6BF8DF068531106FBCF2DC6E5F6919"
     );
 
-    assert.strictEqual(credential.certificateX5t, "RwgPO6pr+N8GhTEQb7zy3G5faRk=");
+    assert.strictEqual((credential as any).certificateX5t, "RwgPO6pr+N8GhTEQb7zy3G5faRk=");
   });
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
@@ -66,7 +66,7 @@ describe("ClientCertificateCredential", function () {
       const queryParams = qs.parse(authRequest.body);
       const jwtToken = jws.decode(queryParams.client_assertion);
 
-      assert.strictEqual(jwtToken.header.x5t, credential.certificateX5t);
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
       assert.strictEqual(jwtToken.payload.iss, clientId);
       assert.strictEqual(jwtToken.payload.sub, clientId);
       assert.strictEqual(
