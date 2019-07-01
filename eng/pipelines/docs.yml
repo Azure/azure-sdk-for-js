@@ -1,5 +1,5 @@
 #Pipeline variables:
-# $(additionalArgs) eg : -i "exc" --exc arm-advisor arm-apimanagement OR  -i "inc" --exc arm-advisor arm-apimanagement
+# $(additionalArgs) eg : -i "exc" --exc arm-advisor arm-apimanagement OR  -i "inc" --inc arm-advisor arm-apimanagement
 
 trigger:
   - master
