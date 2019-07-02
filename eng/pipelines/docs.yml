@@ -1,3 +1,6 @@
+#Pipeline variables:
+# $(additionalArgs) eg : -i "exc" --exc arm-advisor arm-apimanagement OR  -i "inc" --inc arm-advisor arm-apimanagement
+
 trigger:
   - master
 
@@ -38,9 +41,13 @@ jobs:
           npm install fs-extra
         displayName: "Install fs-extra"
 
+      - script: |
+          npm install yargs
+        displayName: "Install yargs"
+
       - powershell: |
           cd $(Build.SourcesDirectory)
-          node .\common\scripts\generate-doc.js -dg
+          node .\common\scripts\generate-doc.js --dgOp "dg" $(additionalArgs)
           Copy-Item -Path $(Build.SourcesDirectory)/docGen/* -Destination $(Build.ArtifactStagingDirectory) -Recurse -Force
         displayName: "Generate Typedoc Docs"
 
