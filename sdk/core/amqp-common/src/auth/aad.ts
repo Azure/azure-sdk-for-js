@@ -76,6 +76,7 @@ export class AadTokenProvider implements TokenProvider {
     const result = await self.credentials.getToken();
     let expiresOn = Date.now();
     if (result.expiresOn && result.expiresOn instanceof Date) {
+      // TODO: Fix issue where expiry time for MSI based credentials' tokens are returned in seconds and not milliseconds
       expiresOn = result.expiresOn.getTime();
     }
     const expiry =
