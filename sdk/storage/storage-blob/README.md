@@ -9,7 +9,6 @@ This project provides a client library in JavaScript that makes it easy to consu
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
 ## Key concepts
 
@@ -127,17 +126,17 @@ For example, you can create following CORS settings for debugging. But please cu
 Use the constructor to create a instance of `BlobServiceClient`.
 
 ```javascript
-  // Enter your storage account name and shared key
-  const account = "account";
-  const accountKey = "accountkey";
+// Enter your storage account name and shared key
+const account = "account";
+const accountKey = "accountkey";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
+// Use SharedKeyCredential with storage account and account key
+// SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  sharedKeyCredential
+);
 ```
 
 ### Create a new container
@@ -145,15 +144,12 @@ Use the constructor to create a instance of `BlobServiceClient`.
 Use `BlobServiceClient.getContainerClient()` to create a new container.
 
 ```javascript
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+// Create a container
+const containerName = `newcontainer${new Date().getTime()}`;
+const containerClient = blobServiceClient.getContainerClient(containerName);
 
-  const createContainerResponse = await containerClient.create();
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+const createContainerResponse = await containerClient.create();
+console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 ```
 
 ### List the containers
@@ -172,13 +168,13 @@ with the new `for-await-of` syntax:
 Alternatively without using `for-await-of`:
 
 ```javascript
-  i = 1;
-  iter = blobServiceClient.listContainers();
-  let containerItem = await iter.next();
-  while (!containerItem.done) {
-    console.log(`Container ${i++}: ${containerItem.value.name}`);
-    containerItem = await iter.next();
-  }
+i = 1;
+iter = blobServiceClient.listContainers();
+let containerItem = await iter.next();
+while (!containerItem.done) {
+  console.log(`Container ${i++}: ${containerItem.value.name}`);
+  containerItem = await iter.next();
+}
 ```
 
 In addition, pagination is supported for listing too via `byPage()`:
@@ -199,18 +195,12 @@ For a complete sample on iterating containers please see [samples/iterators-cont
 ### Create a blob by uploading data to
 
 ```javascript
-  const content = "hello";
-  const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.getBlobClient(blobName);
-  const blockBlobClient = blobClient.getBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+const content = "hello";
+const blobName = "newblob" + new Date().getTime();
+const blobClient = containerClient.getBlobClient(blobName);
+const blockBlobClient = blobClient.getBlockBlobClient();
+const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 ```
 
 ### List blobs inside a container
@@ -230,13 +220,13 @@ For a complete sample on iterating blobs please see [samples/iterators-blobs.ts]
 ### Download a blob and convert it to a string (Node.js)
 
 ```javascript
-  // Get blob content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-  const downloadBlockBlobResponse = await blobClient.download(0);
-  console.log(
-    "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
-  );
+// Get blob content from position 0 to the end
+// In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+const downloadBlockBlobResponse = await blobClient.download(0);
+console.log(
+  "Downloaded blob content",
+  await streamToString(downloadBlockBlobResponse.readableStreamBody)
+);
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
@@ -308,19 +298,19 @@ class ConsoleHttpPipelineLogger {
 When creating the `BlobServiceClient` instance, pass the logger in the options
 
 ```javascript
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential, {
-      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    }
-  );
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  sharedKeyCredential,
+  {
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);
 ```
 
 ## Next steps
 
 More code examples
 
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 - [Blob Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
 - [Blob Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
 

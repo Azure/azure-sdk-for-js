@@ -13,7 +13,6 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - @azure/storage-queue [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage/client?view=azure-node-preview)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
 ## Key concepts
 
@@ -161,11 +160,7 @@ The Azure Storage client libraries for JavaScript provides low-level and high-le
 ## Code Samples
 
 ```javascript
-const {
-  BlobServiceClient,
-  newPipeline,
-  SharedKeyCredential
-} = require("@azure/storage-blob");
+const { BlobServiceClient, newPipeline, SharedKeyCredential } = require("@azure/storage-blob");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -320,19 +315,19 @@ class ConsoleHttpPipelineLogger {
 When creating the `QueueServiceClient` instance, pass the logger in the options
 
 ```javascript
-  const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential, {
-      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    }
-  );
+const queueServiceClient = new QueueServiceClient(
+  `https://${account}.queue.core.windows.net`,
+  sharedKeyCredential,
+  {
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);
 ```
 
 ## Next steps
 
 More samples
 
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 - [Blob Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
 - [Blob Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
 - [File Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
