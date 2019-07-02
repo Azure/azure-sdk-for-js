@@ -25,8 +25,10 @@ export class AadTokenProvider implements TokenProvider {
     | MSITokenCredentials;
   /**
    * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it is
-   * good to renew the token. A constant set to 270 seconds (4.5 minutes). Adal has a set window
-   * of 5 minutes when it refreshes the token from its token cache.
+   * good to renew the token. The constant is set to 270 seconds (4.5 minutes).
+   * This is because ADAL (`adal-node`) will return token from cache if it is not within 5 minutes of token expiration.
+   * On renewing token within last 4.5 minutes of refresh token, ADAL will be forced to get new access token and will be valid for the next 1 hour.
+   * For more context, please see https://github.com/AzureAD/azure-activedirectory-library-for-nodejs/blob/81ff31dd612cae6cd69a9a7452171b7af792be9f/lib/cache-driver.js#L329
    */
   readonly tokenRenewalMarginInSeconds: number = 270;
   /**
@@ -71,6 +73,7 @@ export class AadTokenProvider implements TokenProvider {
     const result = await self.credentials.getToken();
     let expiresOn = Date.now();
     if (result.expiresOn && result.expiresOn instanceof Date) {
+      // TODO: Fix issue where expiry time for MSI based credentials' tokens are returned in seconds and not milliseconds
       expiresOn = result.expiresOn.getTime();
     }
     const expiry =
