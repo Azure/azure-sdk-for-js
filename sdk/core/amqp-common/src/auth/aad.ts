@@ -58,9 +58,6 @@ export class AadTokenProvider implements TokenProvider {
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."
       );
     }
-    if (credentials instanceof MSITokenCredentials) {
-      credentials.resource = Constants.aadEventHubsAudience;
-    }
     this.credentials = credentials;
   }
 
