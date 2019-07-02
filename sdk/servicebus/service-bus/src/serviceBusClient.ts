@@ -229,9 +229,8 @@ export class ServiceBusClient {
    *  - ApplicationTokenCredentials
    *  - UserTokenCredentials
    *  - DeviceTokenCredentials
-   *  - MSITokenCredentials 
-   * Token audience to use when creating the credentials is https://servicebus.azure.net/
-   * For MSI based credentials, this must be set on `resource` parameter to the `credentials` object
+   *  - MSITokenCredentials
+   * Token audience (or resource in case of MSI based credentials) to use when creating the credentials is https://servicebus.azure.net/
    * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
