@@ -74,7 +74,9 @@ export class SessionContainer {
   private validateOwnerID(ownerId: string) {
     // If ownerId contains exactly 8 bytes it represents a unique database+collection identifier. Otherwise it represents another resource
     // The first 4 bytes are the database. The last 4 bytes are the collection.
-    return atob(ownerId).length === 8;
+    // Cosmos rids potentially contain "-" which is an invalid character in the browser atob implementation
+    // See https://en.wikipedia.org/wiki/Base64#Filenames
+    return atob(ownerId.replace(/-/g, "/")).length === 8;
   }
 
   private getPartitionKeyRangeIdToTokenMap(collectionName: string): Map<string, VectorSessionToken> {

@@ -6,7 +6,7 @@ import { SessionContext } from "../../dist-esm/session/SessionContext";
 
 describe("SessionContainer", function() {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
-  const collectionId = "oWxIAN48yN0=";
+  const collectionRid = "-EdBAKsiRLM=";
 
   it("set/get/delete", function() {
     const sc = new SessionContainer();
@@ -15,7 +15,7 @@ describe("SessionContainer", function() {
 
     const nameBasedRequest: SessionContext = {
       isNameBased: true,
-      resourceId: null,
+      resourceId: collectionRid,
       resourceAddress: "/" + collectionLink + "/",
       resourceType: ResourceType.item,
       operationType: OperationType.Create
@@ -23,7 +23,7 @@ describe("SessionContainer", function() {
 
     const resHeadersNameBased: CosmosHeaders = {};
     resHeadersNameBased[Constants.HttpHeaders.OwnerFullName] = collectionLink;
-    resHeadersNameBased[Constants.HttpHeaders.OwnerId] = collectionId;
+    resHeadersNameBased[Constants.HttpHeaders.OwnerId] = collectionRid;
     resHeadersNameBased[Constants.HttpHeaders.SessionToken] = tokenString;
 
     // Add a token and get new token, should be equal
