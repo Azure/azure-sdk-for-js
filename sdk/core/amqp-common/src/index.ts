@@ -11,12 +11,10 @@ export { SasTokenProvider } from "./auth/sas";
 export { IotSasTokenProvider } from "./auth/iotSas";
 export * from "./index.node";
 
-export {
-  ConnectionConfig,
-  ConnectionConfigOptions,
-  EventHubConnectionConfig,
-  IotHubConnectionConfig
-} from "./connectionConfig";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
+export { EventHubConnectionConfig } from "./connectionConfig/eventhubConnectionConfig";
+export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfig";
+
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };
