@@ -19,8 +19,7 @@ import {
   DataTransformer,
   TokenProvider,
   AadTokenProvider,
-  SasTokenProvider,
-  Constants
+  SasTokenProvider
 } from "@azure/amqp-common";
 import { SubscriptionClient } from "./subscriptionClient";
 
@@ -230,7 +229,9 @@ export class ServiceBusClient {
    *  - ApplicationTokenCredentials
    *  - UserTokenCredentials
    *  - DeviceTokenCredentials
-   *  - MSITokenCredentials.
+   *  - MSITokenCredentials 
+   * Token audience to use when creating the credentials is https://servicebus.azure.net/
+   * For MSI based credentials, this must be set on `resource` parameter to the `credentials` object
    * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
