@@ -1,5 +1,9 @@
 ### 2019-5-6 1.0.0-preview.5
 
+- Includes bug fix for compatibility issue with using MSI credentials. [PR 4098](https://github.com/Azure/azure-sdk-for-js/pull/4098)
+
+### 2019-5-6 1.0.0-preview.5
+
 - Updated dependencies to include @types/async-lock to fix Typescript compile error "TS7016: Could not find a declaration file for module 'async-lock'". [PR 2703](https://github.com/Azure/azure-sdk-for-js/pull/2703)
 
 ### 2019-4-22 1.0.0-preview.3
