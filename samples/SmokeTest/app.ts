@@ -1,0 +1,4 @@
+export{}
+
+console.log("Hello");
+

@@ -60,5 +60,8 @@
   "engineStrict": true,
   "engines": {
     "node": ">=10.10.0"
+  },
+  "dependencies": {
+    "@azure/keyvault-secrets": "^4.0.0-preview.1"
   }
 }
