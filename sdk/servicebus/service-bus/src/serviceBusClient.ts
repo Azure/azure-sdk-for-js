@@ -19,7 +19,8 @@ import {
   DataTransformer,
   TokenProvider,
   AadTokenProvider,
-  SasTokenProvider
+  SasTokenProvider,
+  Constants
 } from "@azure/amqp-common";
 import { SubscriptionClient } from "./subscriptionClient";
 
@@ -244,6 +245,9 @@ export class ServiceBusClient {
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
     host = String(host);
+    if (credentials instanceof MSITokenCredentials && !credentials.resource) {
+      credentials.resource = Constants.aadServiceBusAudience;
+    }
     const tokenProvider = new AadTokenProvider(credentials);
     return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }
