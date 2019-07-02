@@ -1,5 +1,10 @@
 ### 2019-5-6 1.0.0-preview.5
 
+- Include bug fix where token audience was being set to work only with Event Hubs. The appropriate token audience now needs to be explicitly set on the credentials at time of creation. [PR 4098](https://github.com/Azure/azure-sdk-for-js/pull/4098)
+- Document usage of AAD tokens and known issue with token expiry usage on MSI based credentials with AAD authentication. [PR 4148](https://github.com/Azure/azure-sdk-for-js/pull/4148)
+
+### 2019-5-6 1.0.0-preview.5
+
 - Updated dependencies to include @types/async-lock to fix Typescript compile error "TS7016: Could not find a declaration file for module 'async-lock'". [PR 2703](https://github.com/Azure/azure-sdk-for-js/pull/2703)
 
 ### 2019-4-22 1.0.0-preview.3
