@@ -601,12 +601,9 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const maxRetries =
-      options.retryOptions && options.retryOptions.maxRetries && options.retryOptions.maxRetries > 0
-        ? options.retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
+    const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
-      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
+      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
         ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {

@@ -351,12 +351,9 @@ export class BatchingReceiver extends EventHubReceiver {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const maxRetries =
-      retryOptions && retryOptions.maxRetries && retryOptions.maxRetries > 0
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
+    const maxRetries = retryOptions && retryOptions.maxRetries;
     const delayInSeconds =
-      retryOptions && retryOptions.retryInterval && retryOptions.retryInterval > 0
+      retryOptions && retryOptions.retryInterval && retryOptions.retryInterval >= 0
         ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<ReceivedEventData[]> = {

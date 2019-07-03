@@ -28,7 +28,7 @@ import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "
  */
 export interface RetryOptions {
   /**
-   * The maximum number of times to attempt an operation.
+   * The maximum number of times an operation will be retried.
    */
   maxRetries?: number;
   /**

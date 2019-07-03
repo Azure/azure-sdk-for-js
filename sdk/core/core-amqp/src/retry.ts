@@ -111,20 +111,25 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * The retries will only happen if the an error occurred on the operation attempt and
- * is classified as retryable.
+ * By default an operation is attempted only once.
+ * Additional retry attempts on the operation take place when
+ * - the RetryConfig is configured to perform additional attempts
+ * - the additional attempts to execute given operation will only happen if
+ *   an error occurred during an attempt and is classified as retryable error
  *
  * The retries when made are done so linearly on the given operation for a specified number of times,
- * with a specified delay in between each retry. 
- * 
+ * with a specified delay in between each retry.
+ *
  * @param {RetryConfig<T>} config Parameters to configure retry operation.
  *
  * @return {Promise<T>} Promise<T>.
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (config.maxRetries == undefined) config.maxRetries = defaultMaxRetries;
-  if (config.delayInSeconds == undefined) {
+  if (config.maxRetries == undefined || config.maxRetries < 0) {
+    config.maxRetries = defaultMaxRetries;
+  }
+  if (config.delayInSeconds == undefined || config.delayInSeconds < 0) {
     config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
   }
   let lastError: MessagingError | undefined;

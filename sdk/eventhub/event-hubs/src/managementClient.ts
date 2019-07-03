@@ -297,7 +297,7 @@ export class ManagementClient extends LinkEntity {
         abortSignal: options.abortSignal,
         requestName: options.requestName,
         delayInSeconds:
-          options.retryOptions && options.retryOptions.retryInterval
+          options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
             ? options.retryOptions.retryInterval / 1000
             : undefined
       };

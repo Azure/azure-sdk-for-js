@@ -88,7 +88,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.receiverLink,
-        maxRetries: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       const result = await retry(config);
@@ -125,7 +125,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.senderLink,
-        maxRetries: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       const result = await retry(config);
@@ -163,7 +163,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.sendMessage,
-        maxRetries: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       await retry(config);
