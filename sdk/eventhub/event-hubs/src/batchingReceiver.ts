@@ -351,7 +351,7 @@ export class BatchingReceiver extends EventHubReceiver {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const times =
+    const maxRetries =
       retryOptions && retryOptions.maxRetries && retryOptions.maxRetries > 0
         ? retryOptions.maxRetries
         : Constants.defaultMaxRetries;
@@ -363,7 +363,7 @@ export class BatchingReceiver extends EventHubReceiver {
       operation: receiveEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      times: times,
+      maxRetries: maxRetries,
       connectionHost: this._context.config.host,
       delayInSeconds: delayInSeconds + jitterInSeconds
     };

@@ -477,7 +477,7 @@ export class EventHubReceiver extends LinkEntity {
           operation: () => this._init(options),
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultMaxRetriesForConnection,
+          maxRetries: Constants.defaultMaxRetriesForConnection,
           connectionHost: this._context.config.host,
           delayInSeconds: 15
         };
