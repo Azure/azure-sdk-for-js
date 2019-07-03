@@ -352,9 +352,9 @@ export class BatchingReceiver extends EventHubReceiver {
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
     const times =
-      retryOptions && retryOptions.retryCount && retryOptions.retryCount > 0
-        ? retryOptions.retryCount
-        : Constants.defaultRetryAttempts;
+      retryOptions && retryOptions.maxRetries && retryOptions.maxRetries > 0
+        ? retryOptions.maxRetries
+        : Constants.defaultMaxRetries;
     const delayInSeconds =
       retryOptions && retryOptions.retryInterval && retryOptions.retryInterval > 0
         ? retryOptions.retryInterval / 1000
