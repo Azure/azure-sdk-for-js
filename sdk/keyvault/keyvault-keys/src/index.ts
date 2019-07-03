@@ -191,7 +191,7 @@ export class KeysClient {
         userAgentInfo.push(telemetry.value);
       }
     }
-    const libInfo = `Azure-KeyVault-Keys/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (userAgentInfo.indexOf(libInfo) === -1) {
       userAgentInfo.push(libInfo);
     }
