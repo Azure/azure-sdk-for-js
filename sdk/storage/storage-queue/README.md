@@ -58,7 +58,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-queue
+npm install @azure/storage-queue@12.0.0-preview.1
 ```
 
 In your TypeScript or JavaScript file, import via following:

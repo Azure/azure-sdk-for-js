@@ -5,7 +5,7 @@
 Run the below in your samples folder to install the npm package for Azure Storage Queue library.
 
 ```bash
-npm install @azure/storage-queue
+npm install @azure/storage-queue@12.0.0-preview.1
 ```
 
 ## Get account credentials of your storage account
