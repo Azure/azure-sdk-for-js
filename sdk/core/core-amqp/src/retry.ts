@@ -127,14 +127,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
-  for (let i = 0; i < config.maxRetries; i++) {
-    const j = i + 1;
-    log.retry(
-      "[%s] Retry for '%s', attempt number: %d",
-      config.connectionId,
-      config.operationType,
-      j
-    );
+  const totalNumberOfAttempts = config.maxRetries + 1;
+  for (let i = 1; i <= totalNumberOfAttempts; i++) {
+    log.retry("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
     try {
       result = await config.operation();
       success = true;
@@ -142,7 +137,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         "[%s] Success for '%s', after attempt number: %d.",
         config.connectionId,
         config.operationType,
-        j
+        i
       );
       if (result && !isDelivery(result)) {
         log.retry(
@@ -170,7 +165,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         "[%s] Error occured for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
-        j,
+        i,
         err
       );
       if (lastError && lastError.retryable) {
