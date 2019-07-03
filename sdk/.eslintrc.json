@@ -30,7 +30,7 @@
     "no-unsafe-finally": "error",
     "no-unused-vars": "off",
     "no-unused-expressions": "error",
-    "no-useless-constructor": "error",
+    "no-useless-constructor": "off",
     "no-use-before-define": ["error", { "functions": false, "classes": false }],
     "no-var": "error",
     "one-var-declaration-per-line": "error",
@@ -51,6 +51,7 @@
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/member-ordering": [

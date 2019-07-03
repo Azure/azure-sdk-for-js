@@ -119,7 +119,6 @@
     "rollup-plugin-uglify": "^6.0.0",
     "sinon": "^7.1.0",
     "ts-node": "^7.0.1",
-    "tslint": "^5.15.0",
     "typescript": "^3.2.2",
     "ws": "^6.2.1"
   }
