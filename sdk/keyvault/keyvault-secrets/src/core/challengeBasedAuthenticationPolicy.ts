@@ -56,12 +56,22 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private parseWWWAuthenticate(www_authenticate: string): string {
+    // Parses an authentication message like:
+    // ```
+    // Bearer authorization="some_authorization", resource="https://some.url"
+    // ```
     let authenticateArray = www_authenticate.split(" ");
+
+    // Remove the "Bearer" piece
     delete authenticateArray[0];
+
+    // Split the KV comma-separated list
     let commaSep = authenticateArray.join().split(",");
     for (let item of commaSep) {
+      // Split the key/value pairs
       let kv = item.split("=");
       if (kv[0].trim() == "resource") {
+        // Remove the quotations around the string
         let resource = kv[1].trim().replace(/['"]+/g, '');
         return resource;
       }
@@ -80,16 +90,16 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     let originalBody = webResource.body;
 
+    let headers = webResource.headers;
     if (this.challenge == undefined) {
+      // Use a blank to start the challenge
+      webResource.headers = new HttpHeaders();
       webResource.body = "";
     } else {
+      // or use the cached token if we have one
       await this.authenticateRequest(webResource);
     }
 
-    // Use a blank to start the challenge
-    let headers = webResource.headers;
-    webResource.headers = new HttpHeaders();
-    webResource.body = "";
     let response = await this._nextPolicy.sendRequest(webResource);
 
     if (response.status == 401) {
