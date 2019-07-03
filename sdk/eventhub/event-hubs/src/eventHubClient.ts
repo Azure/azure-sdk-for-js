@@ -30,7 +30,7 @@ export interface RetryOptions {
   /**
    * The maximum number of times to attempt an operation.
    */
-  retryCount?: number;
+  maxRetries?: number;
   /**
    * Number of milliseconds to wait between attempts.
    */

@@ -293,7 +293,7 @@ export class ManagementClient extends LinkEntity {
       }
 
       const sendRequestOptions: SendRequestOptions = {
-        times: options.retryOptions && options.retryOptions.retryCount,
+        times: options.retryOptions && options.retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
         delayInSeconds:
