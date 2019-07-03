@@ -2,7 +2,7 @@
 
 - Include bug fix where token audience was being set to work only with Event Hubs. The appropriate token audience now needs to be explicitly set on the credentials at time of creation. [PR 4098](https://github.com/Azure/azure-sdk-for-js/pull/4098)
 - Document usage of AAD tokens and known issue with token expiry usage on MSI based credentials with AAD authentication. [PR 4148](https://github.com/Azure/azure-sdk-for-js/pull/4148)
-- Since browser doesn't differentiate between the various kinds of service communication errors that occur when using WebSockets, a utility has been added to identify and classify such errors. [PR 2936](https://github.com/Azure/azure-sdk-for-js/pull/2936)
+- Since browser doesn't differentiate between the various kinds of service communication errors that occur when using WebSockets, added `isBrowserWebsocketError` utiity to identify and classify such errors. [PR 2936](https://github.com/Azure/azure-sdk-for-js/pull/2936)
 
 ### 2019-5-6 1.0.0-preview.5
 
