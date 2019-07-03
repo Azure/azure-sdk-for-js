@@ -508,6 +508,11 @@ export class EventHubReceiver extends LinkEntity {
       if (this._abortSignal) {
         this._abortSignal.removeEventListener("abort", this._onAbort);
       }
+      log.receiver(
+        "[%s] Closing the Receiver for the entity '%s'.",
+        this._context.connectionId,
+        this._context.config.entityPath
+      );
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink, abortSignal);
