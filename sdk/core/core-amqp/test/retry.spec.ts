@@ -196,7 +196,7 @@ describe("retry function", function() {
       should.exist(err);
       should.equal(true, err instanceof MessagingError);
       err.message.should.equal("I would always like to fail, keep retrying.");
-      counter.should.equal(4);
+      counter.should.equal(5);
     }
   });
 
