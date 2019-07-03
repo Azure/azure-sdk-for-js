@@ -7,7 +7,7 @@ This project provides a client library in JavaScript that makes it easy to consu
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Source Code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
-- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
+- [API Reference documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
 
 ## Key concepts

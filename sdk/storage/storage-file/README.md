@@ -5,7 +5,7 @@ Azure Files offers fully managed file shares in the cloud that are accessible vi
 - [Source Code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
-- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-file/index?view=azure-node-preview)
+- [API Reference documentation](https://azure.github.io/azure-sdk-for-js/storage-file/index.html)
 - [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api)
 
 ## Key concepts
