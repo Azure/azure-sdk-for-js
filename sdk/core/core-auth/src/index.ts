@@ -8,4 +8,4 @@ export {
   isTokenCredential
 } from "./tokenCredential";
 
-export { AbortSignalLike } from './abortSignalLike';
+export { AbortSignalLike } from '@azure/abort-controller';

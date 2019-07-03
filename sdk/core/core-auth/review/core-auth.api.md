@@ -4,15 +4,9 @@
 
 ```ts
 
-// @public
-export interface AbortSignalLike {
-    // (undocumented)
-    readonly aborted: boolean;
-    // (undocumented)
-    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-    // (undocumented)
-    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
+import { AbortSignalLike } from '@azure/abort-controller';
+
+export { AbortSignalLike }
 
 // @public
 export interface AccessToken {
