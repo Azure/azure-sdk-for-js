@@ -8,6 +8,8 @@
   "types": "dist-esm/src/index.d.ts",
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
+    "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
+    "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist/index.js": "./browser/index.js"
   },
