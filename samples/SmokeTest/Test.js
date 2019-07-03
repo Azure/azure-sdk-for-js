@@ -129,6 +129,7 @@ describe('EVENT HUBS', function () {
         });
         it('Should send a batch of events', function () {
             return __awaiter(this, void 0, void 0, function () {
+                var closed;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, client.sendBatch([
@@ -138,6 +139,7 @@ describe('EVENT HUBS', function () {
                             ], partitionId[0])];
                         case 1:
                             _a.sent();
+                            closed = client.close();
                             return [2 /*return*/];
                     }
                 });
