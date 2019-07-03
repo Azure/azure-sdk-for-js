@@ -35,7 +35,7 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
+    "unit-test:browser": "karma start",
     "unit-test:node": "mocha test-dist/**/*.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
