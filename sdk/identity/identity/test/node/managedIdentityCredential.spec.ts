@@ -5,7 +5,7 @@ import qs from "qs";
 import assert from "assert";
 import { ManagedIdentityCredential } from "../../src";
 import { ImdsEndpoint, ImdsApiVersion, AppServiceMsiApiVersion } from "../../src/credentials/managedIdentityCredential";
-import { MockAuthHttpClient, MockAuthHttpClientOptions } from "./authTestUtils";
+import { MockAuthHttpClient, MockAuthHttpClientOptions } from "../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 
 interface AuthRequestDetails {

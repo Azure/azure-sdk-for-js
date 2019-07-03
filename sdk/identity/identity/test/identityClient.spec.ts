@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { assertRejects } from "../credentials/authTestUtils";
-import { MockAuthHttpClient } from "../credentials/authTestUtils";
-import { AuthenticationError } from "../../src/";
-import { ClientSecretCredential } from "../../src";
+import { assertRejects } from "./authTestUtils";
+import { MockAuthHttpClient } from "./authTestUtils";
+import { AuthenticationError } from "../src/";
+import { ClientSecretCredential } from "../src";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {

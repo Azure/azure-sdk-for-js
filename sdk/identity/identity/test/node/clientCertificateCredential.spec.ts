@@ -6,7 +6,7 @@ import jws from "jws";
 import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
-import { MockAuthHttpClient } from "./authTestUtils";
+import { MockAuthHttpClient } from "../authTestUtils";
 
 describe("ClientCertificateCredential", function () {
   it("loads a PEM-formatted certificate from a file", () => {
