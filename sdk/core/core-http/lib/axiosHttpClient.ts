@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { Transform, Readable } from "stream";
@@ -143,6 +143,15 @@ export class AxiosHttpClient implements HttpClient {
           config.httpAgent = agent.agent;
         }
       }
+      // This hack is still required with 0.19.0 version of axios since axios tries to merge the
+      // Content-Type header from it's config["<method name>"] where the method name is lower-case,
+      // into the request header. It could be possible that the Content-Type header is not present
+      // in the original request and this would create problems while creating the signature for
+      // storage data plane sdks.
+      axios.interceptors.request.use((config: AxiosRequestConfig) => ({
+        ...config,
+        method: (config.method as Method) && (config.method as Method).toUpperCase() as Method
+      }));
 
       res = await axios.request(config);
     } catch (err) {

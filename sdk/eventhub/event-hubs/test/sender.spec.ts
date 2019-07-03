@@ -7,8 +7,9 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventHubClient, EventData } from "../src";
+import { EventHubClient, EventData, EventHubProducer } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -16,7 +17,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
-  const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+  const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
   before("validate environment", function(): void {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -35,35 +36,65 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
   describe("Single message", function(): void {
     it("should be sent successfully.", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World"
-      };
-      const delivery = await client.send(data);
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer().send(data);
     });
+
     it("with partition key should be sent successfully.", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World with partition key",
-        partitionKey: "p1234"
-      };
-      const delivery = await client.send(data);
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer().send(data, { partitionKey: "1" });
     });
+
+    it("with partition key as a number should be sent successfully.", async function(): Promise<void> {
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer().send(data, { partitionKey: 1 as any });
+    });
+
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World"
-      };
-      const delivery = await client.send(data, "0");
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      const data: EventData = { body: "Hello World 1" };
+      await client.createProducer({ partitionId: "0" }).send(data);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const data: EventData = { body: "Sender single message Cancellation Test - timeout 0" };
+        const sender = client.createProducer();
+        // call send() once to create a connection
+        await sender.send(data);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await sender.send(data, { abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const abortController = new AbortController();
+      abortController.abort();
+
+      try {
+        const data: EventData = { body: "Sender single message Cancellation Test - immediate" };
+        await client.createProducer().send(data, { abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+      try {
+        const data: EventData = { body: "Sender paritition id and partition key" };
+        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
+      }
     });
   });
 
@@ -77,27 +108,18 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data);
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.createProducer().send(data);
     });
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData[] = [
         {
-          body: "Hello World 1",
-          partitionKey: "p1234"
+          body: "Hello World 1"
         },
         {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data);
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.createProducer().send(data, { partitionKey: 1 as any });
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -108,11 +130,86 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data, "0");
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.createProducer({ partitionId: "0" }).send(data);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender Cancellation Test - timeout 0"
+          }
+        ];
+        const sender = client.createProducer();
+        // call send() once to create a connection
+        await sender.send(data);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await sender.send(data, { abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const abortController = new AbortController();
+      abortController.abort();
+
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender Cancellation Test - immediate"
+          }
+        ];
+        await client.createProducer().send(data, { abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender paritition id and partition key"
+          }
+        ];
+        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal(
+          "Partition key is not supported when using producers that were created using a partition id."
+        );
+      }
+    });
+  });
+
+  describe("multiple producers", function(): void {
+    it("should be isolated on same partitionId", async function(): Promise<void> {
+      const producers: EventHubProducer[] = [];
+
+      // create multiple producers with the same partition id
+      for (let i = 0; i < 5; i++) {
+        producers.push(client.createProducer({ partitionId: "0" }));
+      }
+
+      // ensure all producers can send a message
+      for (const producer of producers) {
+        await producer.send({ body: "foo" });
+      }
+
+      do {
+        // close one of the producers and send messages with remaining senders
+        // also closes all of the senders by the end of the test!
+        await producers.pop()!.close();
+        for (const producer of producers) {
+          await producer.send({ body: "bar" });
+        }
+      } while (producers.length);
     });
   });
 
@@ -120,16 +217,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     it("should be sent successfully in parallel", async function(): Promise<void> {
       const promises = [];
       for (let i = 0; i < 5; i++) {
-        promises.push(client.send({ body: `Hello World ${i}` }));
+        promises.push(client.createProducer().send([{ body: `Hello World ${i}` }]));
       }
-      const result = await Promise.all(promises);
-      for (let i = 0; i < result.length; i++) {
-        const delivery = result[i];
-        // debug("delivery %d: %O", i, delivery);
-        delivery.format.should.equal(0);
-        delivery.settled.should.equal(true);
-        delivery.remote_settled.should.equal(true);
-      }
+      await Promise.all(promises);
     });
     it("should be sent successfully in parallel by multiple senders", async function(): Promise<void> {
       const senderCount = 3;
@@ -138,94 +228,73 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }, i));
+            promises.push(client.createProducer({ partitionId: "0" }).send([{ body: `Hello World ${i}` }]));
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }, i));
+            promises.push(client.createProducer({ partitionId: "1" }).send([{ body: `Hello World ${i}` }]));
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }));
+            promises.push(client.createProducer().send([{ body: `Hello World ${i}` }]));
           }
         }
-        const result = await Promise.all(promises);
-        for (let i = 0; i < result.length; i++) {
-          const delivery = result[i];
-          // debug("delivery %d: %O", i, delivery);
-          delivery.format.should.equal(0);
-          delivery.settled.should.equal(true);
-          delivery.remote_settled.should.equal(true);
-        }
+        await Promise.all(promises);
       } catch (err) {
         debug("An error occurred while running the test: ", err);
         throw err;
       }
     });
 
-    it("should fail when a message greater than 256 KB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
+    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
       void
     > {
       const data: EventData = {
-        body: Buffer.from("Z".repeat(300000))
+        body: Buffer.from("Z".repeat(1300000))
       };
       try {
-        debug("Sendina message of 300KB...");
-        await client.send(data, "0");
+        debug("Sending a message of 300KB...");
+        await client.createProducer({ partitionId: "0" }).send([data]);
+        throw new Error("Test failure");
       } catch (err) {
         debug(err);
         should.exist(err);
         should.equal(err.name, "MessageTooLargeError");
         err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
+          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
       }
-      const delivery = await client.send({ body: "Hello World EventHub!!" }, "0");
+      await client.createProducer({ partitionId: "0" }).send([{ body: "Hello World EventHub!!" }]);
       debug("Sent the message successfully on the same link..");
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
     });
   });
 
   describe("Negative scenarios", function(): void {
-    it("a message greater than 256 KB should fail.", async function(): Promise<void> {
+    it("a message greater than 1 MB should fail.", async function(): Promise<void> {
       const data: EventData = {
-        body: Buffer.from("Z".repeat(300000))
+        body: Buffer.from("Z".repeat(1300000))
       };
       try {
-        await client.send(data);
+        await client.createProducer().send([data]);
+        throw new Error("Test failure");
       } catch (err) {
         debug(err);
         should.exist(err);
         should.equal(err.name, "MessageTooLargeError");
         err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
+          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
-      }
-    });
-
-    it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World",
-        partitionKey: 1 as any
-      };
-      try {
-        await client.send(data, "0");
-      } catch (err) {
-        debug(err);
-        should.exist(err);
-        err.message.should.match(/.*'partitionKey' must be of type 'string'.*/gi);
       }
     });
 
     describe("on invalid partition ids like", function(): void {
       // tslint:disable-next-line: no-null-keyword
-      const invalidIds = ["XYZ", "-1", "1000", "-", null];
+      const invalidIds = ["XYZ", "-1", "1000", "-"];
       invalidIds.forEach(function(id: string | null): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.send({ body: "Hello world!" }, id as any);
+            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
             debug("sent the message.");
+            throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);
             should.exist(err);
@@ -241,8 +310,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an invalid EventHub address error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.send({ body: "Hello world!" }, id as any);
+            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
             debug("sent the message.");
+            throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received invalid EventHub address error for partition id "${id}" - `, err);
             should.exist(err);

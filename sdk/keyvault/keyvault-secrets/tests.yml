@@ -9,3 +9,5 @@ jobs:
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         KEYVAULT_NAME: $(js-keyvault-secrets-test-name)
+      # KeyVault tests do not support concurrent execution
+      MaxParallel: 1

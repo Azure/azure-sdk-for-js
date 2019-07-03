@@ -1,27 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Constants } from "@azure/amqp-common";
+import { Constants } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
-import { ReceiveOptions } from "./eventHubClient";
-import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+import { EventHubConsumerOptions } from "./eventHubClient";
+import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { EventPosition } from "./eventPosition";
 
 /**
- * Describes the receive handler object that is returned from the receive() method with handlers is
- * called. The ReceiveHandler is used to stop receiving more messages.
+ * Describes the receive handler object that is returned from the receive() method with handlers.
+ * The ReceiveHandler is used to stop receiving more messages.
  * @class ReceiveHandler
  */
 export class ReceiveHandler {
   /**
-   * @property {string} name The Receiver handler name.
-   * @readonly
-   */
-  readonly name: string;
-
-  /**
-   * @property {EventHubReceiver} _receiver  The underlying EventHubReceiver.
+   * @property _receiver  The underlying EventHubReceiver.
    * @private
    */
   private _receiver: EventHubReceiver;
@@ -29,25 +25,23 @@ export class ReceiveHandler {
   /**
    * Creates an instance of the ReceiveHandler.
    * @constructor
-   * @param {EventHubReceiver} receiver The underlying EventHubReceiver.
+   * @internal
+   * @param receiver The underlying EventHubReceiver.
    */
   constructor(receiver: EventHubReceiver) {
     this._receiver = receiver;
-    this.name = receiver ? receiver.name : "ReceiveHandler";
   }
 
   /**
-   * @property {string | number} [partitionId] The partitionId from which the handler is receiving
-   * events from.
+   * @property The partitionId from which the handler is receiving events.
    * @readonly
    */
-  get partitionId(): string | number | undefined {
+  get partitionId(): string | undefined {
     return this._receiver ? this._receiver.partitionId : undefined;
   }
 
   /**
-   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
-   * events from.
+   * @property The consumer group from which the handler is receiving events.
    * @readonly
    */
   get consumerGroup(): string | undefined {
@@ -55,41 +49,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property {string} [address] The address of the underlying receiver.
-   * @readonly
-   */
-  get address(): string | undefined {
-    return this._receiver ? this._receiver.address : undefined;
-  }
-
-  /**
-   * @property {number} [epoch] The epoch value of the underlying receiver, if present.
-   * @readonly
-   */
-  get epoch(): number | undefined {
-    return this._receiver ? this._receiver.epoch : undefined;
-  }
-
-  /**
-   * @property {string} [identifier] The identifier of the underlying receiver, if present.
-   * @readonly
-   */
-  get identifier(): string | undefined {
-    return this._receiver ? this._receiver.identifier : undefined;
-  }
-
-  /**
-   * @property {ReceiverRuntimeInfo} [runtimeInfo] The receiver runtime info. This property will only
-   * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
-   * `client.receive()` method.
-   * @readonly
-   */
-  get runtimeInfo(): ReceiverRuntimeInfo | undefined {
-    return this._receiver ? this._receiver.runtimeInfo : undefined;
-  }
-
-  /**
-   * @property {boolean} isReceiverOpen Indicates whether the receiver is connected/open.
+   * @property Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly
    */
@@ -99,7 +59,8 @@ export class ReceiveHandler {
 
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
     if (this._receiver) {
@@ -120,6 +81,7 @@ export class ReceiveHandler {
 /**
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
+ * @internal
  * @ignore
  * @class StreamingReceiver
  * @extends EventHubReceiver
@@ -130,34 +92,53 @@ export class StreamingReceiver extends EventHubReceiver {
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
-   * @param {EventHubClient} client          The EventHub client.
-   * @param {string} partitionId             Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]       Options for how you'd like to connect.
+   * @param client          The EventHub client.
+   * @param consumerGroup The consumer group from which the receiver should receive events from.
+   * @param partitionId             Partition ID from which to receive.
+   * @param eventPosition    The event position in the partition at
+   * @param [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
-    super(context, partitionId, options);
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
+    super(context, consumerGroup, partitionId, eventPosition, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
 
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    * @ignore
-   * @param {OnMessage} onMessage The message handler to receive event data objects.
-   * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   * @param onMessage The message handler to receive event data objects.
+   * @param onError The error handler to receive an error that occurs while receivin messages.
+   * @param abortSignal Signal to cancel current operation.
    */
-  receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
-    if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
-    }
-    if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
-    }
+  receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._onMessage = onMessage;
     this._onError = onError;
+    if (abortSignal) {
+      // exit early if operation already cancelled
+      if (abortSignal.aborted) {
+        this._onAbort();
+        return this.receiveHandler;
+      }
+
+      this._abortSignal = abortSignal;
+      this._abortSignal.addEventListener("abort", this._onAbort);
+    }
     if (!this.isOpen()) {
-      this._init().catch(err => {
-        this._onError!(err);
-      });
+      this._init()
+        .then(() => {
+          if (abortSignal && abortSignal.aborted) {
+            return this._onAbort();
+          }
+        })
+        .catch(err => {
+          this._onError!(err);
+        });
     } else {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
@@ -185,12 +166,20 @@ export class StreamingReceiver extends EventHubReceiver {
    * Creates a streaming receiver.
    * @static
    * @ignore
-   * @param {ConnectionContext} context    The connection context.
-   * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {ReceiveOptions} [options]     Receive options.
+   * @param context    The connection context.
+   * @param consumerGroup The consumer group from which the receiver should receive events from.
+   * @param partitionId  The partitionId to receive events from.
+   * @param eventPosition The event position in the partition at which to start receiving messages.
+   * @param [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): StreamingReceiver {
-    const sReceiver = new StreamingReceiver(context, partitionId, options);
+  static create(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ): StreamingReceiver {
+    const sReceiver = new StreamingReceiver(context, consumerGroup, partitionId, eventPosition, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }

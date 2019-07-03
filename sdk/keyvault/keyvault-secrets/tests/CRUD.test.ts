@@ -3,49 +3,25 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
+import {
+  record,
+  setReplaceableVariables,
+  retry,
+  setReplacements,
+  env,
+  uniqueString
+} from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
+import TestClient from "./utils/testClient";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
-  const version = "";
   let client: SecretsClient;
+  let testClient: TestClient;
   let recorder: any;
 
-  // NOTES:
-  // - To allow multiple integraton runs at the same time,
-  //   we might need to factor in more environment variables.
-  // - Another way to improve this is to add a specfic key per test.
-  // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const secretName = `CRUD${env.SECRET_NAME || "SecretName"}`;
-
-  // NOTES:
-  // - These functions are probably better moved to a common utility file.
-  //   However, to do that we'll have to create a class or closure to maintain
-  //   the instance of the KeyClient available.
-  async function purgeSecret(): Promise<void> {
-    await client.purgeDeletedSecret(secretName);
-    await delay(30000);
-  }
-  async function flushSecret(): Promise<void> {
-    await client.deleteSecret(secretName);
-    await delay(30000);
-    await purgeSecret();
-  }
-  async function maybeFlushSecret(): Promise<void> {
-    try {
-      await client.deleteSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-    try {
-      await client.purgeDeletedSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-  }
+  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  let secretSuffix: string;
 
   before(async function() {
     setReplaceableVariables({
@@ -55,8 +31,11 @@ describe("Secret client - create, read, update and delete operations", () => {
       KEYVAULT_NAME: "keyvault_name"
     });
 
+    secretSuffix = uniqueString();
     setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording) =>
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
     ]);
 
     recorder = record(this); // eslint-disable-line no-invalid-this
@@ -65,24 +44,24 @@ describe("Secret client - create, read, update and delete operations", () => {
     const url = `https://${vaultName}.vault.azure.net`;
     const credential = new EnvironmentCredential();
     client = new SecretsClient(url, credential);
-
-    await maybeFlushSecret();
+    testClient = new TestClient(client);
   });
 
-  after(async () => {
+  after(async function() {
     recorder.stop();
   });
 
   // The tests follow
 
-  it("can add a secret", async () => {
+  it("can add a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("cannot create a secret with an empty name", async () => {
+  it("cannot create a secret with an empty name", async function() {
     const secretName = "";
     let error;
     try {
@@ -98,15 +77,16 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can set a secret with Empty Value", async () => {
+  it("can set a secret with Empty Value", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretValue = "";
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("cannot create a secret with a null name", async () => {
+  it("cannot create a secret with a null name", async function() {
     const secretName = null;
     let error;
     try {
@@ -122,7 +102,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can set a secret with attributes", async () => {
+  it("can set a secret with attributes", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
     await client.setSecret(secretName, secretValue, { expires: expiryDate });
@@ -132,15 +113,16 @@ describe("Secret client - create, read, update and delete operations", () => {
       updated.expires.getDate(),
       "Expect attribute 'expires' to be defined."
     );
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can update a secret", async () => {
+  it("can update a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue);
-    await client.updateSecretAttributes(secretName, version, {
+    await client.updateSecretAttributes(secretName, "", {
       expires: expiryDate
     });
 
@@ -150,17 +132,18 @@ describe("Secret client - create, read, update and delete operations", () => {
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can update a disabled Secret", async () => {
+  it("can update a disabled Secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue, {
       enabled: false
     });
-    const updated = await client.updateSecretAttributes(secretName, version, {
+    const updated = await client.updateSecretAttributes(secretName, "", {
       expires: expiryDate
     });
     assert.equal(
@@ -168,18 +151,20 @@ describe("Secret client - create, read, update and delete operations", () => {
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can get a secret", async () => {
+  it("can get a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can't get a disabled Secret", async () => {
+  it("can't get a disabled Secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
@@ -198,20 +183,22 @@ describe("Secret client - create, read, update and delete operations", () => {
       "Operation get is not allowed on a disabled secret.",
       "Unexpected error after tryign to get a disabled secret"
     );
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can retrieve the latest version of a secret value", async () => {
+  it("can retrieve the latest version of a secret value", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
 
     const result = await client.getSecret(secretName);
 
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can get a secret (Non Existing)", async () => {
+  it("can get a secret (Non Existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let error;
     try {
       await client.getSecret(secretName);
@@ -226,7 +213,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can delete a secret", async () => {
+  it("can delete a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     await client.deleteSecret(secretName);
     try {
@@ -239,11 +227,11 @@ describe("Secret client - create, read, update and delete operations", () => {
         throw e;
       }
     }
-    await delay(30000);
-    await purgeSecret();
+    await testClient.purgeSecret(secretName);
   });
 
-  it("can delete a secret (Non Existing)", async () => {
+  it("can delete a secret (Non Existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let error;
     try {
       await client.deleteSecret(secretName);
@@ -258,16 +246,17 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can get a deleted secret", async () => {
+  it("can get a deleted secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(30000);
-    const getResult = await client.getDeletedSecret(secretName);
+    const getResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
-    await purgeSecret();
+    await testClient.purgeSecret(secretName);
   });
 
-  it("can get a deleted secret (Non Existing)", async () => {
+  it("can get a deleted secret (Non Existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let error;
     try {
       await client.deleteSecret(secretName);

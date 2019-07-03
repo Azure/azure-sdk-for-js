@@ -4,9 +4,25 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/event-hubs"
+      # Remove Browser tests from matrix since they are currently a no-op
+      Matrix:
+        Linux_Node10X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+        Windows_Node10X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+        Mac_Node10X:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
       EnvVars:
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        ENDPOINT: $(js-event-hubs-test-endpoint)
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
         EVENTHUB_NAME: $(js-event-hubs-test-name)
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+
       # Event Hubs tests do not support concurrent execution
       MaxParallel: 1

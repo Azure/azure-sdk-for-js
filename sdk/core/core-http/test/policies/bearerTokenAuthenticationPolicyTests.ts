@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
-import { TokenCredential, GetTokenOptions, AccessToken } from "../../lib/credentials/tokenCredential";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
 import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";

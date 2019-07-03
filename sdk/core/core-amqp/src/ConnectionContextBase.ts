@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-import { TokenCredential } from "@azure/core-http";
-import { ConnectionConfig } from "./connectionConfig";
+import { TokenCredential } from "@azure/core-auth";
+import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
 import * as Constants from "./util/constants";

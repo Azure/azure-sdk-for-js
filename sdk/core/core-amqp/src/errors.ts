@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
 import { isNode } from "../src/util/utils";
@@ -562,7 +562,14 @@ export function translate(err: AmqpError | Error): MessagingError {
 
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
-  if (err instanceof TypeError || err instanceof RangeError) {
+  if (
+    err instanceof TypeError ||
+    err instanceof RangeError ||
+    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+    // Must do a name check until AbortError is updated, and that doesn't break compatibility
+    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    (err as Error).name === "AbortError"
+  ) {
     error.retryable = false;
     return error;
   }

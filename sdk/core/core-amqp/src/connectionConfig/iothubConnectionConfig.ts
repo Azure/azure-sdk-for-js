@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
-import { ConnectionConfig, EventHubConnectionConfig } from ".";
-import {
-  parseConnectionString,
-  IotHubConnectionStringModel
-} from "../util/utils";
+import { ConnectionConfig } from "./connectionConfig";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { parseConnectionString, IotHubConnectionStringModel } from "../util/utils";
 
 /**
  * @interface IotHubConnectionConfig
@@ -53,23 +51,17 @@ export namespace IotHubConnectionConfig {
    * @param {string} connectionString - The event hub connection string
    * @param {string} [path]           - The name/path of the entity (hub name) to which the connection needs to happen
    */
-  export function create(
-    connectionString: string,
-    path?: string
-  ): IotHubConnectionConfig {
+  export function create(connectionString: string, path?: string): IotHubConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<IotHubConnectionStringModel>(
-      connectionString
-    );
+    const parsedCS = parseConnectionString<IotHubConnectionStringModel>(connectionString);
     if (!path) {
       path = "messages/events";
     }
     const result: IotHubConnectionConfig = {
       connectionString: connectionString,
       hostName: parsedCS.HostName,
-      host:
-        parsedCS && parsedCS.HostName ? parsedCS.HostName.split(".")[0] : "",
+      host: parsedCS && parsedCS.HostName ? parsedCS.HostName.split(".")[0] : "",
       entityPath: path,
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,

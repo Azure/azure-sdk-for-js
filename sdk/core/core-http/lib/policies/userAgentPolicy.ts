@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { HttpHeaders } from "../httpHeaders";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -37,7 +37,7 @@ export function getDefaultUserAgentValue(): string {
 
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory {
   const key: string = (!userAgentData || userAgentData.key == undefined) ? getDefaultUserAgentKey() : userAgentData.key;
-  const value: string = (!userAgentData || userAgentData.value == undefined) ?  getDefaultUserAgentValue() : userAgentData.value;
+  const value: string = (!userAgentData || userAgentData.value == undefined) ? getDefaultUserAgentValue() : userAgentData.value;
 
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {

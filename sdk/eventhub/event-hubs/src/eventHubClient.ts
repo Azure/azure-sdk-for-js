@@ -2,153 +2,261 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery, WebSocketImpl } from "rhea-promise";
+import { WebSocketImpl } from "rhea-promise";
 import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
-import {
-  MessagingError,
   DataTransformer,
-  TokenProvider,
+  TokenCredential,
   EventHubConnectionConfig,
-  AadTokenProvider
-} from "@azure/amqp-common";
-import { OnMessage, OnError } from "./eventHubReceiver";
-import { EventData } from "./eventData";
+  SharedKeyCredential,
+  ConnectionConfig,
+  isTokenCredential,
+  Constants
+} from "@azure/core-amqp";
+
 import { ConnectionContext } from "./connectionContext";
-import { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
+import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { EventPosition } from "./eventPosition";
-import { EventHubSender } from "./eventHubSender";
-import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
-import { BatchingReceiver } from "./batchingReceiver";
+
 import { IotHubClient } from "./iothub/iothubClient";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { EventHubProducer } from "./sender";
+import { EventHubConsumer } from "./receiver";
+import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
 
 /**
- * Describes the options that one can set while receiving messages.
- * @interface ReceiveOptions
+ * Retry policy options for operations on the EventHubClient.
  */
-export interface ReceiveOptions {
+export interface RetryOptions {
   /**
-   * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
+   * The maximum number of times to attempt an operation.
    */
-  name?: string;
+  retryCount?: number;
   /**
-   * @property {object} [eventPosition] The starting event position at which to start receiving messages.
-   * This is used to filter messages for the EventHub Receiver.
+   * Number of milliseconds to wait between attempts.
    */
-  eventPosition?: EventPosition;
-  /**
-   * @property {string} [consumerGroup] The consumer group to which the receiver wants to connect to.
-   * If not provided then it will be connected to "$default" consumer group.
-   */
-  consumerGroup?: string;
-  /**
-   * @property {number} [prefetchCount] The upper limit of events this receiver will actively receive
-   * regardless of whether a receive operation is pending. Defaults to 1000.
-   */
-  prefetchCount?: number;
-  /**
-   * @property {number} [epoch] The epoch value that this receiver is currently using for partition ownership.
-   */
-  epoch?: number;
-  /**
-   * @property {string} [identifier] The receiver identifier that uniqely identifies the receiver.
-   */
-  identifier?: string;
-  /**
-   * @property {boolean} [enableReceiverRuntimeMetric] A value indicating whether the runtime metric of a receiver is enabled.
-   */
-  enableReceiverRuntimeMetric?: boolean;
+  retryInterval?: number;
+  // /**
+  //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
+  //  * Not applicable, when `isExponential` is set to `false`.
+  //  */
+  // maxRetryInterval?: number;
+  // /**
+  //  * Boolean denoting if the `retryInterval` should be incremented exponentially between
+  //  * retries or kept the same.
+  //  */
+  // isExponential?: boolean;
 }
 
 /**
- * Describes the base client options.
- * @interface ClientOptionsBase
+ * The set of options to configure the behavior of an `EventHubProducer`.
+ * These can be specified when creating the producer via the `createProducer` method.
  */
-export interface ClientOptionsBase {
+export interface EventHubProducerOptions {
   /**
-   * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
+   * @property
+   * The identifier of the partition that the producer will be bound to.
+   * If a value is provided, all events sent using the producer will reach the same partition.
+   * If no value is provided, the service will determine the partition to which the event will be sent.
+   */
+  partitionId?: string;
+  /**
+   * @property
+   * The retry options used to govern retry attempts when an issue is encountered while sending events.
+   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * The set of options to configure the send operation on the `EventHubProducer`.
+ */
+export interface SendOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string | null;
+  /**
+   * @property
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The set of options to configure the behavior of an `EventHubConsumer`.
+ * These can be specified when creating the consumer using the `createConsumer` method.
+ */
+export interface EventHubConsumerOptions {
+  /**
+   * @property
+   * The owner level associated with an exclusive consumer.
+   *
+   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
+   * requested partition and the associated consumer group.
+   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
+   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
+   */
+  ownerLevel?: number;
+  /**
+   * @property
+   * The retry options used to govern retry attempts when an issue is encountered while receiving events.
+   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * Describes the options that can be provided while creating the EventHubClient.
+ * @interface ClientOptions
+ */
+export interface EventHubClientOptions {
+  /**
+   * @property
+   * The data transformer that will be used to encode and decode the sent and received messages respectively.
+   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features
+   * - `encode`:
+   *    - If event body is a Buffer, then the event is sent without any data transformation
+   *    - Else, JSON.stringfy() is run on the body, and then converted to Buffer before sending the event
+   *    - If JSON.stringify() fails at this point, the send operation fails too.
+   * - `decode`
+   *    - The body receivied via the AMQP protocol is always of type Buffer
+   *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
+   *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property {string} [userAgent] The user agent that needs to be appended to the built in
-   * user agent string.
+   * @property
+   * The user agent that will be appended to the built in user agent string that is passed as a
+   * connection property to the Event Hubs service.
    */
   userAgent?: string;
   /**
-   * @property The WebSocket constructor used to create an AMQP connection over a WebSocket.
-   * This option should be provided in the below scenarios
+   * @property
+   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
+   * This option should be provided in the below scenarios:
    * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
    * - Your application needs to be run behind a proxy server
    * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
    * instead of the built-in WebSocket in the browser.
    */
-   webSocket?: WebSocketImpl;
+  webSocket?: WebSocketImpl;
   /**
-   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   * @property
+   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
+   * the WebSocket.
    */
-   webSocketConstructorOptions?: any;
+  webSocketConstructorOptions?: any;
+  /**
+   * @property
+   * The retry options for all the operations on the client/producer/consumer.
+   * This can be overridden by the retry options set on the producer and consumer.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
- * Describes the options that can be provided while creating the EventHub Client.
- * @interface ClientOptions
- */
-export interface ClientOptions extends ClientOptionsBase {
-  /**
-   * @property {TokenProvider} [tokenProvider] - The token provider that provides the token for authentication.
-   * Default value: SasTokenProvider.
-   */
-  tokenProvider?: TokenProvider;
-}
-
-/**
- * @class EventHubClient
- * Describes the EventHub client.
+ * @class
+ * The client is the main point of interaction with Azure Event Hubs service.
+ * It offers connection to a specific Event Hub within the Event Hubs namespace along with
+ * operations for sending event data, receiving events, and inspecting the connected Event Hub.
  */
 export class EventHubClient {
   /**
-   * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
-   */
-  connectionId?: string;
-
-  /**
-   * @property {string} eventhubName The name of the Eventhub.
-   * @readonly
-   */
-  get eventhubName(): string {
-    return this._context.config.entityPath!;
-  }
-
-  /**
-   * @property {ConnectionContext} _context Describes the amqp connection context for the eventhub client.
-   * @private
+   * Describes the amqp connection context for the eventhub client.
    */
   private _context: ConnectionContext;
 
   /**
-   * Instantiates a client pointing to the Event Hub given by this configuration.
-   *
-   * @constructor
-   * @param {EventHubConnectionConfig} config - The connection configuration to create the EventHub Client.
-   * @param {ClientOptions} options - The optional parameters that can be provided to the EventHub
-   * Client constructor.
+   * The options passed by the user when creating the EventHubClient instance.
    */
-  constructor(config: EventHubConnectionConfig, options?: ClientOptions) {
-    if (!options) options = {};
-    this._context = ConnectionContext.create(config, options);
+  private _clientOptions: EventHubClientOptions;
+
+  /**
+   * @property
+   * @readonly
+   * The name of the Event Hub instance for which this client is created.
+   */
+  get eventHubName(): string {
+    return this._context.config.entityPath;
   }
 
   /**
-   * Closes the AMQP connection to the Event Hub for this client,
+   * @constructor
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
+   * @param options - A set of options to apply when configuring the client.
+   */
+  constructor(connectionString: string, options?: EventHubClientOptions);
+  /**
+   * @constructor
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
+   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
+   * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
+   * @param eventHubPath - The path of the specific Event Hub to connect the client to.
+   * @param options - A set of options to apply when configuring the client.
+   */
+  constructor(connectionString: string, eventHubPath: string, options?: EventHubClientOptions);
+  /**
+   * @constructor
+   * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   * @param eventHubPath - The path of the specific Event Hub to connect the client to.
+   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
+   * @param options -  A set of options to apply when configuring the client.
+   */
+  constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
+  constructor(
+    hostOrConnectionString: string,
+    eventHubPathOrOptions?: string | EventHubClientOptions,
+    credentialOrOptions?: TokenCredential | EventHubClientOptions,
+    options?: EventHubClientOptions
+  ) {
+    let connectionString;
+    let config;
+    let credential: TokenCredential | SharedKeyCredential;
+    hostOrConnectionString = String(hostOrConnectionString);
+
+    if (!isTokenCredential(credentialOrOptions)) {
+      connectionString = hostOrConnectionString;
+      if (typeof eventHubPathOrOptions !== "string") {
+        // connectionstring and/or options were passed to constructor
+        config = EventHubConnectionConfig.create(connectionString);
+        options = eventHubPathOrOptions;
+      } else {
+        // connectionstring, eventHubPath and/or options were passed to constructor
+        const eventHubPath = eventHubPathOrOptions;
+        config = EventHubConnectionConfig.create(connectionString, eventHubPath);
+        options = credentialOrOptions;
+      }
+      // Since connectionstring was passed, create a SharedKeyCredential
+      credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+    } else {
+      // host, eventHubPath, a TokenCredential and/or options were passed to constructor
+      const eventHubPath = eventHubPathOrOptions;
+      let host = hostOrConnectionString;
+      credential = credentialOrOptions;
+
+      if (!host.endsWith("/")) host += "/";
+      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+      config = EventHubConnectionConfig.create(connectionString);
+    }
+
+    ConnectionConfig.validate(config);
+
+    this._clientOptions = options || {};
+    this._context = ConnectionContext.create(config, credential, this._clientOptions);
+  }
+
+  /**
+   * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<void>} Promise<void>
+   * @returns Promise<void>
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -170,125 +278,80 @@ export class EventHubClient {
         log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
-      log.error(msg);
-      throw new Error(msg);
+      err = err instanceof Error ? err : JSON.stringify(err);
+      log.error(`An error occurred while closing the connection "${this._context.connectionId}":\n${err}`);
+      throw err;
     }
   }
 
   /**
-   * Sends the given message to the EventHub.
+   * Creates an Event Hub producer responsible for sending `EventData` to the Event Hub.
+   * If `partitionId` is specified in the `options`, all event data sent using the producer
+   * will be sent to the specified partition.
+   * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
    *
-   * @param {any} data                    Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
-   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
-   * fashion amongst the different partitions in the EventHub.
+   * Allowing automatic routing of partitions is recommended when:
+   *  - The sending of events needs to be highly available.
+   *  - The event data should be evenly distributed among all available partitions.
    *
-   * @returns {Promise<Delivery>} Promise<Delivery>
+   * @param options The set of options to apply when creating the producer where you can specify the id of the partition
+   * to which events need to be sent to, and retry options.
+   *
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @returns Promise<void>
    */
-  async send(data: EventData, partitionId?: string | number): Promise<Delivery> {
-    const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data);
+  createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    throwErrorIfConnectionClosed(this._context);
+    return new EventHubProducer(this._context, options);
   }
 
   /**
-   * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
-   * of the first message will be set as that of the envelope (batch message).
+   * Creates an Event Hub consumer responsible for reading `EventData` from a specific Event Hub partition,
+   * in the context of a specific consumer group.
    *
-   * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
-   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
-   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
-   * fashion amongst the different partitions in the EventHub.
+   * Multiple consumers are allowed on the same partition in a consumer group.
+   * If there is a need to have an exclusive consumer for a partition in a consumer group,
+   * then specify the `ownerLevel` in the `options`.
+   * Exclusive consumers were previously referred to as "Epoch Receivers".
    *
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * Designating a consumer as exclusive may be specified in the `options` via `ownerLevel`.
+   *
+   * @param consumerGroup The name of the consumer group this consumer is associated with. Events are read in the context of this group.
+   * @param partitionId The identifier of the Event Hub partition from which events will be received.
+   * @param eventPosition The position within the partition where the consumer should begin reading events.
+   * @param options The set of options to apply when creating the consumer where you can specify retry options and ownerLevel.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {TypeError} Thrown if a required parameter is missing.
    */
-  async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery> {
-    const sender = EventHubSender.create(this._context, partitionId);
-    return sender.sendBatch(datas);
+  createConsumer(
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ): EventHubConsumer {
+    throwErrorIfConnectionClosed(this._context);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
+    partitionId = String(partitionId);
+    return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
-   * the provided onMessage handler and error will be passed to the provided onError handler.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
-   * @param {OnError} onError                                  The error handler to receive an error that occurs
-   * while receiving messages.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
+   * Provides the Event Hub runtime information.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns A promise that resolves with EventHubProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  receive(
-    partitionId: string | number,
-    onMessage: OnMessage,
-    onError: OnError,
-    options?: ReceiveOptions
-  ): ReceiveHandler {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
-    this._context.receivers[sReceiver.name] = sReceiver;
-    return sReceiver.receive(onMessage, onError);
-  }
-
-  /**
-   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
-   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
-   */
-  async receiveBatch(
-    partitionId: string | number,
-    maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
-    options?: ReceiveOptions
-  ): Promise<EventData[]> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
-    this._context.receivers[bReceiver.name] = bReceiver;
-    let error: MessagingError | undefined;
-    let result: EventData[] = [];
+  async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
+    throwErrorIfConnectionClosed(this._context);
     try {
-      result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
-    } catch (err) {
-      error = err;
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._context.connectionId,
-        bReceiver.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-    }
-    try {
-      await bReceiver.close();
-    } catch (err) {
-      // do nothing about it.
-    }
-    if (error) {
-      throw error;
-    }
-    return result;
-  }
-
-  /**
-   * Provides the eventhub runtime information.
-   * @returns {Promise<EventHubRuntimeInformation>} A promise that resolves with EventHubRuntimeInformation.
-   */
-  async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    try {
-      return await this._context.managementSession!.getHubRuntimeInformation();
+      return await this._context.managementSession!.getHubRuntimeInformation({
+        retryOptions: this._clientOptions.retryOptions,
+        abortSignal
+      });
     } catch (err) {
       log.error("An error occurred while getting the hub runtime information: %O", err);
       throw err;
@@ -297,11 +360,16 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns A promise that resolves with an Array of strings.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(): Promise<Array<string>> {
+  async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
+    throwErrorIfConnectionClosed(this._context);
     try {
-      const runtimeInfo = await this.getHubRuntimeInformation();
+      const runtimeInfo = await this.getProperties(abortSignal);
       return runtimeInfo.partitionIds;
     } catch (err) {
       log.error("An error occurred while getting the partition ids: %O", err);
@@ -311,15 +379,22 @@ export class EventHubClient {
 
   /**
    * Provides information about the specified partition.
-   * @param {(string|number)} partitionId Partition ID for which partition information is required.
-   * @returns {Promise<EventHubPartitionRuntimeInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
+   * @param partitionId Partition ID for which partition information is required.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns A promise that resoloves with PartitionProperties.
+   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
+  async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+    throwErrorIfConnectionClosed(this._context);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    partitionId = String(partitionId);
     try {
-      return await this._context.managementSession!.getPartitionInformation(partitionId);
+      return await this._context.managementSession!.getPartitionProperties(partitionId, {
+        retryOptions: this._clientOptions.retryOptions,
+        abortSignal
+      });
     } catch (err) {
       log.error("An error occurred while getting the partition information: %O", err);
       throw err;
@@ -327,107 +402,26 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an EventHub Client from connection string.
-   * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {string} [path] - EventHub path of the form 'my-event-hub-name'
-   * @param {ClientOptions} [options] Options that can be provided during client creation.
-   * @returns {EventHubClient} - An instance of the eventhub client.
-   */
-  static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
-    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
-    const config = EventHubConnectionConfig.create(connectionString, path);
-
-    config.webSocket = options && options.webSocket;
-    config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
-
-    if (!config.entityPath) {
-      throw new Error(
-        `Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
-          `you must provide "path", while creating the client`
-      );
-    }
-    return new EventHubClient(config, options);
-  }
-
-  /**
-   * Creates an EventHub Client from connection string.
-   * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {ClientOptions} [options] Options that can be provided during client creation.
-   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   * Creates an EventHubClient from connection string.
+   * @param iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'.
+   * @param [options] Options that can be provided during client creation.
+   * @returns - Promise<EventHubClient>.
+   * @throws {Error} Thrown if the iothubConnectionString is not provided as a string.
    */
   static async createFromIotHubConnectionString(
     iothubConnectionString: string,
-    options?: ClientOptions
+    options?: EventHubClientOptions
   ): Promise<EventHubClient> {
     if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
-    return EventHubClient.createFromConnectionString(connectionString, undefined, options);
+    return new EventHubClient(connectionString, options);
   }
 
   /**
-   * Creates an EventHub Client from a generic token provider.
-   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
-   * <yournamespace>.servicebus.windows.net
-   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
-   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {ClientOptionsBase} options - The options that can be provided during client creation.
-   * @returns {EventHubClient} An instance of the Eventhub client.
+   * @property
+   * The name of the default consumer group in the Event Hubs service.
    */
-  static createFromTokenProvider(
-    host: string,
-    entityPath: string,
-    tokenProvider: TokenProvider,
-    options?: ClientOptionsBase
-  ): EventHubClient {
-    if (!host || (host && typeof host !== "string")) {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (!entityPath || (entityPath && typeof entityPath !== "string")) {
-      throw new Error("'entityPath' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
-      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
-    }
-    if (!host.endsWith("/")) host += "/";
-    const connectionString =
-      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` + `SharedAccessKey=defaultKeyValue`;
-    if (!options) options = {};
-    const clientOptions: ClientOptions = options;
-    clientOptions.tokenProvider = tokenProvider;
-    return EventHubClient.createFromConnectionString(connectionString, entityPath, clientOptions);
-  }
-
-  /**
-   * Creates an EventHub Client from AADTokenCredentials.
-   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
-   * <yournamespace>.servicebus.windows.net
-   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
-   * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the following:
-   * ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.
-   * @param {ClientOptionsBase} options - The options that can be provided during client creation.
-   * @returns {EventHubClient} An instance of the Eventhub client.
-   */
-  static createFromAadTokenCredentials(
-    host: string,
-    entityPath: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: ClientOptionsBase
-  ): EventHubClient {
-    if (!credentials || (credentials && typeof credentials !== "object")) {
-      throw new Error(
-        "'credentials' is a required parameter and must be an instance of " +
-          "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-          "MSITokenCredentials."
-      );
-    }
-    const tokenProvider = new AadTokenProvider(credentials);
-    return EventHubClient.createFromTokenProvider(host, entityPath, tokenProvider, options);
-  }
+  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }

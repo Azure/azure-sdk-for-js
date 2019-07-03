@@ -1,21 +1,24 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
+ This sample utilizes Service Bus/Event Hubs and demonstrates how to authenticate using SharedKeyCredential.
+*/
 
 import {
   ConnectionContextBase,
-  CreateConnectionContextBaseParameters,
   ConnectionConfig,
   CbsResponse,
   TokenType,
   SharedKeyCredential
-} from "../src";
-import * as dotenv from "dotenv";
-dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+} from "@azure/core-amqp";
 
-export const str = process.env.CONNECTION_STRING || "";
-export const path = process.env.ENTITY_PATH;
-export const connectionConfig = ConnectionConfig.create(str, path);
-const parameters: CreateConnectionContextBaseParameters = {
+// Define connection string and related entity path here
+const connectionString = "";
+const path = "";
+
+const connectionConfig = ConnectionConfig.create(connectionString, path);
+const parameters = {
   config: connectionConfig,
   connectionProperties: {
     product: "MSJSClient",
@@ -23,7 +26,7 @@ const parameters: CreateConnectionContextBaseParameters = {
     version: "0.1.0"
   }
 };
-export const connectionContext = ConnectionContextBase.create(parameters);
+const connectionContext = ConnectionContextBase.create(parameters);
 
 /**
  * audience The entity token audience in one of the following forms:
@@ -57,8 +60,8 @@ export async function authenticate(
   closeConnection: boolean
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
-  const tokenObject = sharedTokenCredential.getToken(audience);
+  const sharedKeyCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedKeyCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
     tokenObject,
@@ -72,6 +75,13 @@ export async function authenticate(
   return result;
 }
 
-// Audience is for an EventHub or ServiceBus sender.
-// You can uncomment the following line and just run this sample, if required.
-// authenticate(`${config.endpoint}${path}`).catch((err) => console.log(err));
+async function main(): Promise<void> {
+  await authenticate(`${connectionConfig.endpoint}${connectionConfig.entityPath}`, false);
+  /*
+ Add code here to create a sender or receiver link for which you have
+ just sent the authentication request
+*/
+  await connectionContext.connection.close();
+}
+
+main().catch((err) => console.log(err));

@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.8.10",
+  "version": "1.0.0-preview.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -43,6 +43,7 @@
   ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
+    "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
@@ -108,11 +109,12 @@
     ],
     "all": true
   },
-  "private": true,
   "dependencies": {
     "@types/tunnel": "^0.0.0",
+    "@azure/core-auth": "^1.0.0-preview.1",
     "axios": "^0.19.0",
     "form-data": "^2.3.2",
+    "process": "^0.11.10",
     "tough-cookie": "^2.4.3",
     "tslib": "^1.9.3",
     "tunnel": "0.0.6",
@@ -162,7 +164,7 @@
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^4.2.0",
+    "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-resolve": "0.0.1-predev.1",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-visualizer": "^1.0.0",

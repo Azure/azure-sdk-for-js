@@ -24,11 +24,14 @@
     },
     {
       "type": "node",
-      "request": "launch",
-      "name": "Example",
-      "program": "${workspaceFolder}/examples/cbsAuth.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
+            "request": "launch",
+            "name": "Example",
+            "program": "${file}",
+            "preLaunchTask": "npm: build:samples",
+            "outFiles": [
+                "${workspaceFolder}/dist-esm/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/.env" 
     }
   ]
 }

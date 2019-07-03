@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "../webResource";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -14,10 +14,7 @@ export interface TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null>;
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 /**
@@ -52,5 +49,5 @@ export interface AccessToken {
  * @param credential The assumed TokenCredential to be tested.
  */
 export function isTokenCredential(credential: any): credential is TokenCredential {
-  return "getToken" in credential;
+  return credential && typeof credential.getToken === "function";
 }

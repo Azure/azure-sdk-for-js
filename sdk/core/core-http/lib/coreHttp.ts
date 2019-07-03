@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 export { WebResource, HttpRequestBody, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase, TransferProgressEvent, AbortSignalLike } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
@@ -43,7 +43,7 @@ export {
 export { URLBuilder, URLQuery } from "./url";
 
 // Credentials
-export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "./credentials/tokenCredential";
+export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
 export { TokenCredentials } from "./credentials/tokenCredentials";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";
