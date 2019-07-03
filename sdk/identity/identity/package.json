@@ -8,6 +8,7 @@
   "types": "dist-esm/src/index.d.ts",
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
+    "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist/index.js": "./browser/index.js"
   },
   "scripts": {
