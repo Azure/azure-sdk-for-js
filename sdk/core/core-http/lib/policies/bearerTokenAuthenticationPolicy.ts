@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "../credentials/tokenCredential";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
