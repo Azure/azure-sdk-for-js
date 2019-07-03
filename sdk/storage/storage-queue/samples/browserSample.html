@@ -22,7 +22,7 @@ and replace code in the below script tag to try them out.
   );
 
   // Create a new queue
-  const queueName = `newqueue`;
+  const queueName = "newqueue";
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = queueClient.create();
   console.log(queueName);
