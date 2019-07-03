@@ -11,15 +11,24 @@ import { WebResource } from "../webResource";
 export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
 
 /**
+ * Describes an object that is used to cache an AccessToken
+ * that was returned from a TokenCredential.
+ */
+export interface AccessTokenCache {
+  accessToken?: AccessToken;
+}
+
+/**
  * Creates a new BearerTokenAuthenticationPolicy factory.
  *
  * @param credential The TokenCredential implementation that can supply the bearer token.
  * @param scopes The scopes for which the bearer token applies.
  */
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
+  const tokenCache: AccessTokenCache = {};
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes);
+      return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes, tokenCache);
     }
   };
 }
@@ -32,8 +41,6 @@ export function bearerTokenAuthenticationPolicy(credential: TokenCredential, sco
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-  private cachedToken: AccessToken | undefined = undefined;
-
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
@@ -41,12 +48,14 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    * @param options Options for this RequestPolicy.
    * @param credential The TokenCredential implementation that can supply the bearer token.
    * @param scopes The scopes for which the bearer token applies.
+   * @param tokenCache The cache for the most recent AccessToken returned from the TokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
     private scopes: string | string[],
+    private tokenCache: AccessTokenCache
   ) {
     super(nextPolicy, options);
   }
@@ -71,13 +80,13 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     if (
-      this.cachedToken &&
-      Date.now() + TokenRefreshBufferMs < this.cachedToken.expiresOnTimestamp
+      this.tokenCache.accessToken &&
+      Date.now() + TokenRefreshBufferMs < this.tokenCache.accessToken.expiresOnTimestamp
     ) {
-      return this.cachedToken.token;
+      return this.tokenCache.accessToken.token;
     }
 
-    this.cachedToken = (await this.credential.getToken(this.scopes, options)) || undefined;
-    return this.cachedToken ? this.cachedToken.token : undefined;
+    this.tokenCache.accessToken = (await this.credential.getToken(this.scopes, options)) || undefined;
+    return this.tokenCache.accessToken ? this.tokenCache.accessToken.token : undefined;
   }
 }

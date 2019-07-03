@@ -76,7 +76,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       mockPolicy,
       new RequestPolicyOptions(),
       credential,
-      scopes);
+      scopes,
+      {});
   }
 });
 
