@@ -59,13 +59,11 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/ms-rest-js"],
     output: {
       file: "browser/identity.js",
       format: "umd",
-      name: "ExampleClient",
-      sourcemap: true,
-      globals: { "@azure/ms-rest-js": "msRest" }
+      name: "Azure.Identity",
+      sourcemap: true
     },
     preserveSymlinks: false,
     plugins: [
