@@ -199,6 +199,8 @@ describe("DirectoryURL", () => {
   });
 
   it("listHandles should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
     const result = await dirURL.listHandlesSegment(Aborter.none, undefined);
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
@@ -212,20 +214,24 @@ describe("DirectoryURL", () => {
   });
 
   it("forceCloseHandlesSegment should work", async () => {
-    // TODO: Open or create a handle
-    
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
     let marker: string | undefined = "";
 
     do {
-      const response: DirectoryForceCloseHandlesResponse = await dirURL.forceCloseHandlesSegment(Aborter.none, marker, {
-        recursive: true
-      });
+      const response: DirectoryForceCloseHandlesResponse = await dirURL.forceCloseHandlesSegment(
+        Aborter.none,
+        marker,
+        {
+          recursive: true
+        }
+      );
       marker = response.marker;
-    } while (marker)
+    } while (marker);
   });
 
   it("forceCloseHandle should work", async () => {
-    // TODO: Open or create a handle
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
     const result = await dirURL.listHandlesSegment(Aborter.none, undefined);
     if (result.handleList !== undefined && result.handleList.length > 0) {
