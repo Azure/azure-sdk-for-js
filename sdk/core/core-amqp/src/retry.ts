@@ -4,7 +4,7 @@
 import { translate, MessagingError } from "./errors";
 import { delay, isNode } from "./util/utils";
 import * as log from "./log";
-import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
+import { defaultMaxRetries, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
 import { resolve } from "dns";
 
 /**
@@ -60,10 +60,10 @@ export interface RetryConfig<T> {
    */
   operationType: RetryOperationType;
   /**
-   * @property {number} [times] Number of times the operation needs to be retried in case
+   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
    * of error. Default: 3.
    */
-  times?: number;
+  maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
    * next attempt. Default: 15.
@@ -120,14 +120,14 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (config.times == undefined) config.times = defaultRetryAttempts;
+  if (config.maxRetries == undefined) config.maxRetries = defaultMaxRetries;
   if (config.delayInSeconds == undefined) {
     config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
   }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
-  for (let i = 0; i < config.times; i++) {
+  for (let i = 0; i < config.maxRetries; i++) {
     const j = i + 1;
     log.retry(
       "[%s] Retry for '%s', attempt number: %d",
