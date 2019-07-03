@@ -1,8 +1,24 @@
 {
   "editor.autoIndent": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
   "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true }
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.DS_Store": true
+  },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "typescript.disableAutomaticTypeAcquisition": true
+  "javascript.preferences.quoteStyle": "double",
+  "prettier.eslintIntegration": true,
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.preferences.quoteStyle": "double"
 }
