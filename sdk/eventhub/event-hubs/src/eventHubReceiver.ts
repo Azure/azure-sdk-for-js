@@ -504,14 +504,14 @@ export class EventHubReceiver extends LinkEntity {
    * @returns
    */
   async close(abortSignal?: AbortSignalLike): Promise<void> {
-    log.receiver(
-      "[%s] Closing the Receiver for the entity '%s'.",
-      this._context.connectionId,
-      this._context.config.entityPath
-    );
-    const receiverLink = this._receiver;
-    this._deleteFromCache();
-    await this._closeLink(receiverLink, abortSignal);
+    if (this._receiver) {
+      if (this._abortSignal) {
+        this._abortSignal.removeEventListener("abort", this._onAbort);
+      }
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink, abortSignal);
+    }
   }
 
   /**

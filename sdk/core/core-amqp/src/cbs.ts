@@ -223,19 +223,19 @@ export class CbsClient {
    * @return {Promise<void>}
    */
   async close(abortSignal?: AbortSignalLike): Promise<void> {
+    try {
       if (this._isCbsSenderReceiverLinkOpen()) {
-        try {
-          const cbsLink = this._cbsSenderReceiverLink;
-          this._cbsSenderReceiverLink = undefined;
-          await cbsLink!.close(abortSignal);
-          log.cbs("[%s] Successfully closed the cbs session.", this.connection.id)
-        } catch (err) {
-          const msg = `An error occurred while closing the cbs link: ${err.stack ||
-            JSON.stringify(err)}.`;
-          log.error("[%s] %s", this.connection.id, msg);
-          throw new Error(msg);
-        }
+        const cbsLink = this._cbsSenderReceiverLink;
+        this._cbsSenderReceiverLink = undefined;
+        await cbsLink!.close(abortSignal);
+        log.cbs("[%s] Successfully closed the cbs session.", this.connection.id);
       }
+    } catch (err) {
+      const msg = `An error occurred while closing the cbs link: ${err.stack ||
+        JSON.stringify(err)}.`;
+      log.error("[%s] %s", this.connection.id, msg);
+      throw new Error(msg);
+    }
   }
 
   /**

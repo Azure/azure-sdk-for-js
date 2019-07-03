@@ -304,14 +304,16 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   async close(abortSignal?: AbortSignalLike): Promise<void> {
-    log.sender(
-      "[%s] Closing the Sender for the entity '%s'.",
-      this._context.connectionId,
-      this._context.config.entityPath
-    );
-    const senderLink = this._sender;
-    this._deleteFromCache();
-    await this._closeLink(senderLink, abortSignal);
+    if (this._sender) {
+      log.sender(
+        "[%s] Closing the Sender for the entity '%s'.",
+        this._context.connectionId,
+        this._context.config.entityPath
+      );
+      const senderLink = this._sender;
+      this._deleteFromCache();
+      await this._closeLink(senderLink, abortSignal);
+    }
   }
 
   /**

@@ -205,18 +205,18 @@ export class ManagementClient extends LinkEntity {
    * @returns
    */
   async close(abortSignal?: AbortSignalLike): Promise<void> {
-    if (this._isMgmtRequestResponseLinkOpen()) {
-      try {
+    try {
+      if (this._isMgmtRequestResponseLinkOpen()) {
         const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         await mgmtLink!.close(abortSignal);
         log.mgmt("Successfully closed the management session.");
-      } catch (err) {
-        const msg = `An error occurred while closing the management session: ${err}`;
-        log.error(msg);
-        throw new Error(msg);
       }
+    } catch (err) {
+      const msg = `An error occurred while closing the management session: ${err}`;
+      log.error(msg);
+      throw new Error(msg);
     }
   }
 
