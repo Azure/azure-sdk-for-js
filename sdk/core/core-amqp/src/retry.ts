@@ -111,9 +111,12 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * It will attempt to linearly retry an operation specified number of times with a specified
- * delay in between each retry. The retries will only happen if the error is retryable.
+ * The retries will only happen if the an error occurred on the operation attempt and
+ * is classified as retryable.
  *
+ * The retries when made are done so linearly on the given operation for a specified number of times,
+ * with a specified delay in between each retry. 
+ * 
  * @param {RetryConfig<T>} config Parameters to configure retry operation.
  *
  * @return {Promise<T>} Promise<T>.
