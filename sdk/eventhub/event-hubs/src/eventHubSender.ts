@@ -303,17 +303,42 @@ export class EventHubSender extends LinkEntity {
    * @ignore
    * @returns Promise<void>
    */
-  async close(): Promise<void> {
-    if (this._sender) {
-      log.sender(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.connectionId,
-        this._context.config.entityPath
-      );
-      const senderLink = this._sender;
-      this._deleteFromCache();
-      await this._closeLink(senderLink);
-    }
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+        if (this._sender) {
+          const rejectOnAbort = () => {
+            const desc: string =
+              `[${this._context.connectionId}] The close operation on the Sender "${this.name}" with ` +
+              `address "${this.address}" has been cancelled by the user.`;
+            log.error(desc);
+            reject(new AbortError("The close operation has been cancelled by the user."));
+          };
+
+          const onAbort = () => {
+            abortSignal!.removeEventListener("abort", onAbort);
+            rejectOnAbort();
+          };
+
+          if (abortSignal) {
+            if (abortSignal.aborted) {
+              // operation has been cancelled, so exit quickly
+              return rejectOnAbort();
+            }
+            abortSignal.addEventListener("abort", onAbort);
+          }
+          log.sender(
+            "[%s] Closing the Sender for the entity '%s'.",
+            this._context.connectionId,
+            this._context.config.entityPath
+          );
+          const senderLink = this._sender;
+          this._deleteFromCache();
+          await this._closeLink(senderLink);
+          return resolve();
+        } else {
+          return resolve();
+        }
+    });
   }
 
   /**

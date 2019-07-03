@@ -59,13 +59,16 @@ export class ReceiveHandler {
 
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<void>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  async stop(): Promise<void> {
+  async stop(abortSignal?: AbortSignalLike): Promise<void> {
     if (this._receiver) {
       try {
-        await this._receiver.close();
+        await this._receiver.close(abortSignal);
       } catch (err) {
         log.error(
           "An error occurred while stopping the receiver '%s' with address '%s': %O",

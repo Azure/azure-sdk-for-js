@@ -18,6 +18,7 @@ import * as log from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 /**
  * Describes the CBS Response.
@@ -221,20 +222,47 @@ export class CbsClient {
    * returning a promise that will be resolved when disconnection is completed.
    * @return {Promise<void>}
    */
-  async close(): Promise<void> {
-    try {
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
       if (this._isCbsSenderReceiverLinkOpen()) {
-        const cbsLink = this._cbsSenderReceiverLink;
-        this._cbsSenderReceiverLink = undefined;
-        await cbsLink!.close();
-        log.cbs("[%s] Successfully closed the cbs session.", this.connection.id);
+        const rejectOnAbort = () => {
+          const desc: string =
+            `[${this.connection.id}] The close request on the cbs session` +
+            `has been cancelled by the user.`;
+          log.error(desc);
+          const error = new AbortError(`The close operation has been cancelled by the user.`);
+          reject(error);
+        };
+
+        const onAbort = () => {
+          abortSignal!.removeEventListener("abort", onAbort);
+          rejectOnAbort();
+        };
+
+        if (abortSignal) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (abortSignal.aborted) {
+            return rejectOnAbort();
+          }
+          abortSignal.addEventListener("abort", onAbort);
+        }
+        try {
+          const cbsLink = this._cbsSenderReceiverLink;
+          this._cbsSenderReceiverLink = undefined;
+          await cbsLink!.close();
+          log.cbs("[%s] Successfully closed the cbs session.", this.connection.id);
+          return resolve();
+        } catch (err) {
+          const msg = `An error occurred while closing the cbs link: ${err.stack ||
+            JSON.stringify(err)}.`;
+          log.error("[%s] %s", this.connection.id, msg);
+          return reject(new Error(msg));
+        }
+      } else {
+        return resolve();
       }
-    } catch (err) {
-      const msg = `An error occurred while closing the cbs link: ${err.stack ||
-        JSON.stringify(err)}.`;
-      log.error("[%s] %s", this.connection.id, msg);
-      throw new Error(msg);
-    }
+    });
   }
 
   /**

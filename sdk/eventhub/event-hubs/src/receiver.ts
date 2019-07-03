@@ -284,22 +284,24 @@ export class EventHubConsumer {
    * Once closed, the consumer cannot be used for any further operations.
    * Use the `createConsumer` function on the EventHubClient to instantiate
    * a new EventHubConsumer.
-   *
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  async close(): Promise<void> {
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
     try {
       if (this._context.connection && this._context.connection.isOpen()) {
         // Close the streaming receiver.
         if (this._streamingReceiver) {
-          await this._streamingReceiver.close();
+          await this._streamingReceiver.close(abortSignal);
           this._streamingReceiver = undefined;
         }
 
         // Close the batching receiver.
         if (this._batchingReceiver) {
-          await this._batchingReceiver.close();
+          await this._batchingReceiver.close(abortSignal);
           this._batchingReceiver = undefined;
         }
       }

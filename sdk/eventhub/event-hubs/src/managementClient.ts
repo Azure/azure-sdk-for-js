@@ -8,7 +8,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
 import { RetryOptions } from "./eventHubClient";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
@@ -204,20 +204,45 @@ export class ManagementClient extends LinkEntity {
    * @ignore
    * @returns
    */
-  async close(): Promise<void> {
-    try {
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
       if (this._isMgmtRequestResponseLinkOpen()) {
-        const mgmtLink = this._mgmtReqResLink;
-        this._mgmtReqResLink = undefined;
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        await mgmtLink!.close();
-        log.mgmt("Successfully closed the management session.");
+        const rejectOnAbort = () => {
+          const desc: string = `[${this._context.connectionId}] The close on the management session request has been cancelled by the user.`;
+          log.error(desc);
+          const error = new AbortError(`The close operation has been cancelled by the user.`);
+          reject(error);
+        };
+
+        const onAbort = () => {
+          abortSignal!.removeEventListener("abort", onAbort);
+          rejectOnAbort();
+        };
+
+        if (abortSignal) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (abortSignal.aborted) {
+            return rejectOnAbort();
+          }
+          abortSignal.addEventListener("abort", onAbort);
+        }
+        try {
+          const mgmtLink = this._mgmtReqResLink;
+          this._mgmtReqResLink = undefined;
+          clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+          await mgmtLink!.close();
+          log.mgmt("Successfully closed the management session.");
+          return resolve();
+        } catch (err) {
+          const msg = `An error occurred while closing the management session: ${err}`;
+          log.error(msg);
+          throw new Error(msg);
+        }
+      } else {
+        return resolve();
       }
-    } catch (err) {
-      const msg = `An error occurred while closing the management session: ${err}`;
-      log.error(msg);
-      throw new Error(msg);
-    }
+    });
   }
 
   private async _init(): Promise<void> {

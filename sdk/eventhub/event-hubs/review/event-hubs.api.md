@@ -41,7 +41,7 @@ export class EventHubClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubPath: string, options?: EventHubClientOptions);
     constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
-    close(): Promise<void>;
+    close(abortSignal?: AbortSignalLike): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
     createProducer(options?: EventHubProducerOptions): EventHubProducer;
@@ -67,7 +67,7 @@ export class EventHubConsumer {
     // 
     // @internal
     constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
-    close(): Promise<void>;
+    close(abortSignal?: AbortSignalLike): Promise<void>;
     readonly consumerGroup: string;
     getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
@@ -88,7 +88,7 @@ export interface EventHubConsumerOptions {
 export class EventHubProducer {
     // @internal
     constructor(context: ConnectionContext, options?: EventHubProducerOptions);
-    close(): Promise<void>;
+    close(abortSignal?: AbortSignalLike): Promise<void>;
     readonly isClosed: boolean;
     send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
     }
@@ -167,7 +167,7 @@ export class ReceiveHandler {
     readonly consumerGroup: string | undefined;
     readonly isReceiverOpen: boolean;
     readonly partitionId: string | undefined;
-    stop(): Promise<void>;
+    stop(abortSignal?: AbortSignalLike): Promise<void>;
 }
 
 // @public

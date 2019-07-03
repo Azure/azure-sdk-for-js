@@ -7,6 +7,7 @@ import { EventHubProducerOptions, SendOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * A producer responsible for sending `EventData` to a specific Event Hub.
@@ -84,14 +85,16 @@ export class EventHubProducer {
    * Closes the underlying AMQP sender link.
    * Once closed, the producer cannot be used for any further operations.
    * Use the `createProducer` function on the EventHubClient to instantiate a new EventHubProducer.
-   *
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  async close(): Promise<void> {
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
     try {
       if (this._context.connection && this._context.connection.isOpen() && this._eventHubSender) {
-        await this._eventHubSender.close();
+        await this._eventHubSender.close(abortSignal);
         this._eventHubSender = undefined;
       }
       this._isClosed = true;

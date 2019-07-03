@@ -255,24 +255,27 @@ export class EventHubClient {
   /**
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<void>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
-  async close(): Promise<void> {
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
     try {
       if (this._context.connection.isOpen()) {
         // Close all the senders.
         for (const senderName of Object.keys(this._context.senders)) {
-          await this._context.senders[senderName].close();
+          await this._context.senders[senderName].close(abortSignal);
         }
         // Close all the receivers.
         for (const receiverName of Object.keys(this._context.receivers)) {
-          await this._context.receivers[receiverName].close();
+          await this._context.receivers[receiverName].close(abortSignal);
         }
         // Close the cbs session;
-        await this._context.cbsSession.close();
+        await this._context.cbsSession.close(abortSignal);
         // Close the management session
-        await this._context.managementSession!.close();
+        await this._context.managementSession!.close(abortSignal);
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;
         log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
