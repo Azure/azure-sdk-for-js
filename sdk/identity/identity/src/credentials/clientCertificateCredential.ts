@@ -11,6 +11,15 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 
 const SelfSignedJwtLifetimeMins = 10;
 
+function timestampInSeconds(date: Date): number {
+  return Math.floor(date.getTime() / 1000);
+}
+
+function addMinutes(date: Date, minutes: number): Date {
+  date.setMinutes(date.getMinutes() + minutes);
+  return date;
+}
+
 /**
  * Enables authentication to Azure Active Directory using a PEM-encoded
  * certificate that is assigned to an App Registration.  More information
@@ -65,15 +74,6 @@ export class ClientCertificateCredential implements TokenCredential {
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
   }
 
-  private timestampInSeconds(date: Date): number {
-    return Math.floor(date.getTime() / 1000);
-  }
-
-  private addMinutes(date: Date, minutes: number): Date {
-    date.setMinutes(date.getMinutes() + minutes);
-    return date;
-  }
-
   /**
    * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
    * successful.  If authentication cannot be performed at this time, this method may
@@ -101,8 +101,8 @@ export class ClientCertificateCredential implements TokenCredential {
       sub: this.clientId,
       aud: audienceUrl,
       jti: tokenId,
-      nbf: this.timestampInSeconds(new Date()),
-      exp: this.timestampInSeconds(this.addMinutes(new Date(), SelfSignedJwtLifetimeMins))
+      nbf: timestampInSeconds(new Date()),
+      exp: timestampInSeconds(addMinutes(new Date(), SelfSignedJwtLifetimeMins))
     };
 
     const clientAssertion = jws.sign({
