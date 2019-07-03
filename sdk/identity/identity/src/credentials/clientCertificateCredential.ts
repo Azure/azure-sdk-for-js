@@ -65,6 +65,15 @@ export class ClientCertificateCredential implements TokenCredential {
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
   }
 
+  private timestampInSeconds(date: Date): number {
+    return Math.floor(date.getTime() / 1000);
+  }
+
+  private addMinutes(date: Date, minutes: number): Date {
+    date.setMinutes(date.getMinutes() + minutes);
+    return date;
+  }
+
   /**
    * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
    * successful.  If authentication cannot be performed at this time, this method may
@@ -123,14 +132,5 @@ export class ClientCertificateCredential implements TokenCredential {
     });
 
     return this.identityClient.sendTokenRequest(webResource);
-  }
-
-  private timestampInSeconds(date: Date): number {
-    return Math.floor(date.getTime() / 1000);
-  }
-
-  private addMinutes(date: Date, minutes: number): Date {
-    date.setMinutes(date.getMinutes() + minutes);
-    return date;
   }
 }

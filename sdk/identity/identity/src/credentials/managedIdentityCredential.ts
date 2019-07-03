@@ -35,42 +35,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.clientId = clientId;
   }
 
-  /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
-   *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
-   */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    let result: AccessToken | null = null;
-
-    // isEndpointAvailable can be true, false, or null,
-    // the latter indicating that we don't yet know whether
-    // the endpoint is available and need to check for it.
-    if (this.isEndpointUnavailable !== true) {
-      result =
-        await this.authenticateManagedIdentity(
-          scopes,
-          this.isEndpointUnavailable === null,
-          this.clientId,
-          options);
-
-      // If authenticateManagedIdentity returns null, it means no MSI
-      // endpoints are available.  In this case, don't try them in future
-      // requests.
-      this.isEndpointUnavailable = result === null;
-    }
-
-    return result;
-  }
-
   private mapScopesToResource(scopes: string | string[]): string {
     let scope = "";
     if (Array.isArray(scopes)) {
@@ -227,5 +191,41 @@ export class ManagedIdentityCredential implements TokenCredential {
     });
 
     return this.identityClient.sendTokenRequest(webResource, expiresInParser);
+  }
+
+  /**
+   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
+   *
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  public async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    let result: AccessToken | null = null;
+
+    // isEndpointAvailable can be true, false, or null,
+    // the latter indicating that we don't yet know whether
+    // the endpoint is available and need to check for it.
+    if (this.isEndpointUnavailable !== true) {
+      result =
+        await this.authenticateManagedIdentity(
+          scopes,
+          this.isEndpointUnavailable === null,
+          this.clientId,
+          options);
+
+      // If authenticateManagedIdentity returns null, it means no MSI
+      // endpoints are available.  In this case, don't try them in future
+      // requests.
+      this.isEndpointUnavailable = result === null;
+    }
+
+    return result;
   }
 }
