@@ -111,11 +111,9 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * By default an operation is attempted only once.
- * Additional attempts on the operation take place when
- * - the RetryConfig is configured to perform retries
- * - the additional attempts (retries) to execute given operation will only happen if
- *   an error occurred during an attempt and is classified as retryable error
+ * Additional attempts are made if the previous attempt failed with a `retryable` error.
+ * The number of additional attempts is governed by the `maxRetries` property provided
+ * on the `RetryConfig` argument.
  *
  * The retries when made are done so linearly on the given operation for a specified number of times,
  * with a specified delay in between each retry.
