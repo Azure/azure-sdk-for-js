@@ -173,7 +173,7 @@ export class SecretsClient {
         userAgentInfo.push(telemetry.value);
       }
     }
-    const libInfo = `Azure-KeyVault-Secrets/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
     if (userAgentInfo.indexOf(libInfo) === -1) {
       userAgentInfo.push(libInfo);
     }
