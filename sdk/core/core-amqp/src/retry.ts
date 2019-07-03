@@ -242,10 +242,18 @@ export async function linearRetry<T>(config: RetryConfig<T>): Promise<T> {
  */
 export async function exponentialRetry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (config.maxExponentialRetryDelayInMilliseconds == undefined)
+  if (
+    config.maxExponentialRetryDelayInMilliseconds == undefined ||
+    config.maxExponentialRetryDelayInMilliseconds < 0
+  ) {
     config.maxExponentialRetryDelayInMilliseconds = defaultMaxDelayForExponentialRetryInMilliseconds;
-  if (config.minExponentialRetryDelayInMilliseconds == undefined)
+  }
+  if (
+    config.minExponentialRetryDelayInMilliseconds == undefined ||
+    config.minExponentialRetryDelayInMilliseconds < 0
+  ) {
     config.minExponentialRetryDelayInMilliseconds = defaultMinDelayForExponentialRetryInMilliseconds;
+  }
 
   let lastError: MessagingError | undefined;
   let result: any;
