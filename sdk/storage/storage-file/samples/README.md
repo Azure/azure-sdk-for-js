@@ -5,7 +5,7 @@
 Run the below in your samples folder to install the npm package for Azure Storage File library.
 
 ```bash
-npm install @azure/storage-file
+npm install @azure/storage-file@12.0.0-preview.1
 ```
 
 ## Get account credentials of your storage account

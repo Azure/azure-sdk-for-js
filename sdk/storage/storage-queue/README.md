@@ -4,11 +4,7 @@ Azure Queue storage provides cloud messaging between application components. In 
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Queue Storage service.
 
-- [Source Code](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues)
-- [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
-- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-queue/index?view=azure-node-preview)
-- [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples) | [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
 
 ## Key concepts
 
@@ -62,7 +58,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-queue
+npm install @azure/storage-queue@12.0.0-preview.1
 ```
 
 In your TypeScript or JavaScript file, import via following:
@@ -114,20 +110,22 @@ For example, you can create following CORS settings for debugging. But please cu
 Use the constructor to create an instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
 
 ```javascript
-  // Enter your storage account name and shared key
-  const account = "<account>";
-  const accountKey = "<accountkey>";
+// Enter your storage account name and shared key
+const account = "<account>";
+const accountKey = "<accountkey>";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+// Use SharedKeyCredential with storage account and account key
+// SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential, {
-      retryOptions: { maxTries: 4 }, // Retry options
-      telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
-  });
+const queueServiceClient = new QueueServiceClient(
+  `https://${account}.queue.core.windows.net`,
+  sharedKeyCredential,
+  {
+    retryOptions: { maxTries: 4 }, // Retry options
+    telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
+  }
+);
 ```
 
 ### List queues in this account
@@ -147,30 +145,28 @@ with the new `for-await-of` syntax:
 Alternatively without `for-await-of`:
 
 ```javascript
-  let iter2 = await queueServiceClient.listQueues();
-  i = 1;
-  let item = await iter2.next();
-  while (!item.done) {
-    console.log(`Queue${i++}: ${item.value.name}`);
-    item = await iter2.next();
-  }
+let iter2 = await queueServiceClient.listQueues();
+i = 1;
+let item = await iter2.next();
+while (!item.done) {
+  console.log(`Queue${i++}: ${item.value.name}`);
+  item = await iter2.next();
+}
 ```
 
-For a complete sample on iterating queues please see [samples/iterators.ts](./samples/iterators.ts).
+For a complete sample on iterating queues please see [samples/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/iterators.ts).
 
 ### Create a new queue
 
 Use `QueueServiceClient.getQueueClient()` function to create a new queue.
 
 ```javascript
-  const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${
-      createQueueResponse.requestId
-    }`
-  );
+const queueName = `newqueue${new Date().getTime()}`;
+const queueClient = queueServiceClient.getQueueClient(queueName);
+const createQueueResponse = await queueClient.create();
+console.log(
+  `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+);
 ```
 
 ### Send a message to the queue
@@ -181,16 +177,12 @@ the enqueued message, include a `messageId`, and a `popReceipt` that can be used
 to update the message later.
 
 ```javascript
-  // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = queueClient.getMessagesClient();
-  const enqueueQueueResponse = await messagesClient.enqueue(
-    "Hello World!"
-  );
-  console.log(
-    `Enqueue message successfully, service assigned message Id: ${
-      enqueueQueueResponse.messageId
-    }, service assigned request Id: ${enqueueQueueResponse.requestId}`
-  );
+// Enqueue a message into the queue using the enqueue method.
+const messagesClient = queueClient.getMessagesClient();
+const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
+console.log(
+  `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+);
 ```
 
 ### Peek a message
@@ -199,58 +191,42 @@ to update the message later.
 doesn't prevent other code from accessing peeked messages.
 
 ```javascript
-  const peekQueueResponse = await messagesClient.peek();
-  console.log(
-    `The peeked message is: ${
-      peekQueueResponse.peekedMessageItems[0].messageText
-    }`
-  );
+const peekQueueResponse = await messagesClient.peek();
+console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
 ```
 
 ### Processing a message
 
 Messages are processed in two steps.
 
-  - First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
-  - When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+- First call `MessagesClient.dequeue()`. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.
+- When processing of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
 ```javascript
-  const dequeueResponse = await messagesClient.dequeue();
-  if (dequeueResponse.dequeuedMessageItems.length == 1) {
-    const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-    console.log(
-      `Processing & deleting message with content: ${
-        dequeueMessageItem.messageText
-      }`
-    );
-    const messageIdClient = messagesClient.getMessageIdClient(
-      dequeueMessageItem.messageId
-    );
-    const deleteMessageResponse = await messageIdClient.delete(
-      dequeueMessageItem.popReceipt
-    );
-    console.log(
-      `Delete message succesfully, service assigned request Id: ${
-        deleteMessageResponse.requestId
-      }`
-    );
-  }
+const dequeueResponse = await messagesClient.dequeue();
+if (dequeueResponse.dequeuedMessageItems.length == 1) {
+  const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
+  console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
+  const messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
+  const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
+  console.log(
+    `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+  );
+}
 ```
 
 ### Delete a queue
 
 ```javascript
-  const deleteQueueResponse = await queueClient.delete();
-  console.log(
-    `Delete queue successfully, service assigned request Id: ${
-      deleteQueueResponse.requestId
-    }`
-  );
+const deleteQueueResponse = await queueClient.delete();
+console.log(
+  `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+);
 ```
 
-A complete example of basic scenarios is at [samples/basic.js](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/basic.js).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/basic.ts).
 
 ## Troubleshooting
 
@@ -281,24 +257,25 @@ class ConsoleHttpPipelineLogger {
 When creating the `QueueServiceClient` instance, pass the logger in the options
 
 ```javascript
-  const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential, {
-      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    }
-  );
+const queueServiceClient = new QueueServiceClient(
+  `https://${account}.queue.core.windows.net`,
+  sharedKeyCredential,
+  {
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);
 ```
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account.  This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](./samples/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 
 More code samples
 
-- [Queue Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
-- [Queue Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test/)
+- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/test)
 
 ## Contributing
 
