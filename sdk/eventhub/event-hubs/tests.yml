@@ -6,22 +6,57 @@ jobs:
       PackageName: "@azure/event-hubs"
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
+        Linux_Node8X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-lin8)
+        Windows_Node8X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-win8)
+        Mac_Node8X:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-mac8)
         Linux_Node10X:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-lin10)
         Windows_Node10X:
           OSVmImage: "vs2017-win2016"
           TestType: "node"
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-win10)
         Mac_Node10X:
           OSVmImage: "macOS-10.13"
           TestType: "node"
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-mac10)
+        Linux_Node12X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-lin12)
+        Windows_Node12X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-win12)
+        Mac_Node12X:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-mac12)
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         ENDPOINT: $(js-event-hubs-test-endpoint)
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        EVENTHUB_NAME: $(js-event-hubs-test-name)
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
 
       # Event Hubs tests do not support concurrent execution
