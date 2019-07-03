@@ -2,7 +2,7 @@
 
 Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) protocol. Azure file shares can be mounted concurrently by cloud or on-premises deployments of Windows, Linux, and macOS. Additionally, Azure file shares can be cached on Windows Servers with Azure File Sync for fast access near where the data is being used.
 
-- [Source Code](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [Source Code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-file/index?view=azure-node-preview)
@@ -116,7 +116,6 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
-
 ## Examples
 
 ### Create the file service client
@@ -124,18 +123,18 @@ For example, you can create following CORS settings for debugging. But please cu
 Use the constructor to create a instance of `FileServiceClient`, passing in the credential.
 
 ```javascript
-  // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+// Enter your storage account name and shared key
+const account = "";
+const accountKey = "";
 
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-  const serviceClient = new FileServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS
-    `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
-  );
+// Use SharedKeyCredential with storage account and account key
+// SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+const serviceClient = new FileServiceClient(
+  // When using AnonymousCredential, following url should include a valid SAS
+  `https://${account}.file.core.windows.net`,
+  sharedKeyCredential
+);
 ```
 
 ### List shares in the account
@@ -155,41 +154,41 @@ with the new `for-await-of` syntax:
 Alternatively without `for-await-of`:
 
 ```javascript
-  let shareIter2 = await serviceClient.listShares();
-  i = 1;
-  let shareItem = await shareIter2.next();
-  while (!shareItem.done) {
-    console.log(`Share${i++}: ${shareItem.value.name}`);
-    shareItem = await shareIter2.next();
-  }
+let shareIter2 = await serviceClient.listShares();
+i = 1;
+let shareItem = await shareIter2.next();
+while (!shareItem.done) {
+  console.log(`Share${i++}: ${shareItem.value.name}`);
+  shareItem = await shareIter2.next();
+}
 ```
 
 ### Create a new share and a directory
 
 ```javascript
-  const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = serviceClient.getShareClient(shareName);
-  await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+const shareName = `newshare${new Date().getTime()}`;
+const shareClient = serviceClient.getShareClient(shareName);
+await shareClient.create();
+console.log(`Create share ${shareName} successfully`);
 
-  const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = shareClient.getDirectoryClient(directoryName);
-  await directoryClient.create();
-  console.log(`Create directory ${directoryName} successfully`);
+const directoryName = `newdirectory${new Date().getTime()}`;
+const directoryClient = shareClient.getDirectoryClient(directoryName);
+await directoryClient.create();
+console.log(`Create directory ${directoryName} successfully`);
 ```
 
 ### Create an azure file then upload to it
 
 ```javascript
-  const content = "Hello World!";
-  const fileName = "newfile" + new Date().getTime();
-  const fileClient = directoryClient.getFileClient(fileName);
-  await fileClient.create(content.length);
-  console.log(`Create file ${fileName} successfully`);
+const content = "Hello World!";
+const fileName = "newfile" + new Date().getTime();
+const fileClient = directoryClient.getFileClient(fileName);
+await fileClient.create(content.length);
+console.log(`Create file ${fileName} successfully`);
 
-  // Upload file range
-  await fileClient.uploadRange(content, 0, content.length);
-  console.log(`Upload file range "${content}" to ${fileName} successfully`);
+// Upload file range
+await fileClient.uploadRange(content, 0, content.length);
+console.log(`Upload file range "${content}" to ${fileName} successfully`);
 ```
 
 ### List files and directories under a directory
@@ -214,37 +213,36 @@ a iterm is a directory or a file.
 Alternatively without using `for-await-of`:
 
 ```javascript
-  let dirIter2 = await directoryClient.listFilesAndDirectories();
-  i = 1;
-  let item = await dirIter2.next();
-  while (!item.done) {
-    if (item.value.kind === "directory") {
-      console.log(`${i} - directory\t: ${item.value.name}`);
-    } else {
-      console.log(`${i} - file\t: ${item.value.name}`);
-    }
-    item = await dirIter2.next();
+let dirIter2 = await directoryClient.listFilesAndDirectories();
+i = 1;
+let item = await dirIter2.next();
+while (!item.done) {
+  if (item.value.kind === "directory") {
+    console.log(`${i} - directory\t: ${item.value.name}`);
+  } else {
+    console.log(`${i} - file\t: ${item.value.name}`);
   }
+  item = await dirIter2.next();
+}
 ```
-For a complete sample on iterating blobs please see [samples/iterators-files-and-directories.ts](./samples/iterators-files-and-directories.ts).
+
+For a complete sample on iterating blobs please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 
 ```javascript
-  // Get file content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
-  const downloadFileResponse = await fileClient.download(0);
-  console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody
-    )}`
-  );
+// Get file content from position 0 to the end
+// In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
+const downloadFileResponse = await fileClient.download(0);
+console.log(
+  `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
+);
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -280,7 +278,7 @@ export async function blobToString(blob: Blob): Promise<string> {
 }
 ```
 
-A complete example of basic scenarios is at [samples/basic.js](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples/basic.js).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/basic.ts).
 
 ## Troubleshooting
 
@@ -311,20 +309,21 @@ class ConsoleHttpPipelineLogger {
 When creating the `FileServiceClient` instance, pass the logger in the options
 
 ```javascript
-  const fileServiceClient = new FileServiceClient(
-    `https://${account}.file.core.windows.net`,
-    sharedKeyCredential, {
-      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
-    }
-  );
+const fileServiceClient = new FileServiceClient(
+  `https://${account}.file.core.windows.net`,
+  sharedKeyCredential,
+  {
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);
 ```
 
 ## Next steps
 
 More code samples
 
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/test)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/test)
 
 ## Contributing
 
