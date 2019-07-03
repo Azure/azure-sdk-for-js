@@ -264,12 +264,37 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Closes the sender, receiver link and the underlying session.
+   * @param {AbortSignalLike} abortSignal Cancels the close operation.
    * @returns {Promise<void>} Promise<void>
    */
-  async close(): Promise<void> {
-    await this.sender.close();
-    await this.receiver.close();
-    await this.session.close();
+  async close(abortSignal?: AbortSignalLike): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      const rejectOnAbort = () => {
+        const desc: string =
+          `[${this.connection.id}] The close request has been cancelled by the user.`;
+        log.error(desc);
+        const error = new AbortError(`The close operation has been cancelled by the user.`);
+        reject(error);
+      };
+
+      const onAbort = () => {
+        abortSignal!.removeEventListener("abort", onAbort);
+        rejectOnAbort();
+      };
+
+      if (abortSignal) {
+        // the aborter may have been triggered between request attempts
+        // so check if it was triggered and reject if needed.
+        if (abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+        abortSignal.addEventListener("abort", onAbort);
+      }
+      await this.sender.close();
+      await this.receiver.close();
+      await this.session.close();
+      return resolve();
+    });
   }
 
   /**

@@ -6,6 +6,7 @@ import { defaultLock, SharedKeyCredential, AccessToken, Constants, TokenType } f
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 /**
  * @ignore
@@ -219,35 +220,61 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
+   * @param {AbortSignalLike} abortSignal Cancels the _closeLink operation.
    * @ignore
    * @param [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
-      try {
-        // Closing the link and its underlying session if the link is open. This should also
-        // remove them from the internal map.
-        await link.close();
-        log.link(
-          "[%s] %s '%s' with address '%s' closed.",
-          this._context.connectionId,
-          this._type,
-          this.name,
-          this.address
-        );
-      } catch (err) {
-        log.error(
-          "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
-          this._context.connectionId,
-          this._type,
-          this.name,
-          this.address,
-          err
-        );
+  protected async _closeLink(link?: Sender | Receiver, abortSignal?: AbortSignalLike): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+      if (link) {
+        const rejectOnAbort = () => {
+          const desc: string =
+            `[${this._context.connectionId}] The close operation "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          log.error(desc);
+          reject(new AbortError("The close operation has been cancelled by the user."));
+        };
+
+        const onAbort = () => {
+          abortSignal!.removeEventListener("abort", onAbort);
+          rejectOnAbort();
+        };
+
+        if (abortSignal) {
+          if (abortSignal.aborted) {
+            // operation has been cancelled, so exit quickly
+            return rejectOnAbort();
+          }
+          abortSignal.addEventListener("abort", onAbort);
+        }
+        try {
+          // Closing the link and its underlying session if the link is open. This should also
+          // remove them from the internal map.
+          await link.close();
+          log.link(
+            "[%s] %s '%s' with address '%s' closed.",
+            this._context.connectionId,
+            this._type,
+            this.name,
+            this.address
+          );
+          return resolve();
+        } catch (err) {
+          log.error(
+            "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
+            this._context.connectionId,
+            this._type,
+            this.name,
+            this.address,
+            err
+          );
+        }
+      } else {
+        return resolve();
       }
-    }
+    });
   }
 
   /**
