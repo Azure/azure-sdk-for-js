@@ -4,7 +4,7 @@
   "description": "Smoke tests for track 2 SDKs of Key Vault Secrets, Event Hubs, Blob Storage, Identity and Cosmos DB",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --timeout 2000"
+    "test": "mocha --timeout 5000"
   },
   "author": "Jonathan Cardenas",
   "license": "ISC",

@@ -150,7 +150,7 @@ describe('EVENT HUBS', function () {
                 var myEvents, closed;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, client.receiveBatch(partitionId[0], 5000, 10)];
+                        case 0: return [4 /*yield*/, client.receiveBatch(partitionId[0], 10, 2)];
                         case 1:
                             myEvents = _a.sent();
                             closed = client.close();

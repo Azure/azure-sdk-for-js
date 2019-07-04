@@ -70,7 +70,7 @@ describe('EVENT HUBS', function() {
         });
 
         it('Should receive a batch of events', async function(){
-            const myEvents = await client.receiveBatch(partitionId[0],5000,10);
+            const myEvents = await client.receiveBatch(partitionId[0],10,2);
             var closed = client.close();
         });
     });

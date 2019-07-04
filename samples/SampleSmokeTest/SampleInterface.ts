@@ -4,5 +4,5 @@ export interface SampleInterface{
 
     Run():void;
 
-    //Muchos estanaban con  main, namas hay que checar eso
+    
 }
