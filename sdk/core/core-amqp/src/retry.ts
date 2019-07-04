@@ -7,8 +7,8 @@ import * as log from "./log";
 import {
   defaultRetryAttempts,
   defaultDelayBetweenRetriesInSeconds,
-  defaultMaxDelayForExponentialRetryInMilliseconds,
-  defaultMinDelayForExponentialRetryInMilliseconds
+  defaultMaxDelayForExponentialRetryInMs,
+  defaultMinDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
 
@@ -85,15 +85,15 @@ export interface RetryConfig<T> {
    */
   exponentialRetry?: boolean;
   /**
-   * @property {number} [maxExponentialRetryDelayInMilliseconds] Denotes the maximum delay between retries
+   * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
    * until which retry attempts will be made. Applicable only when performing exponential retry.
    */
-  maxExponentialRetryDelayInMilliseconds?: number;
+  maxExponentialRetryDelayInMs?: number;
   /**
-   * @property {number} [minExponentialRetryDelayInMilliseconds] Denotes the minimum delay to use between retries.
+   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay to use between retries.
    * Applicable only when performing exponential retry.
    */
-  minExponentialRetryDelayInMilliseconds?: number;
+  minExponentialRetryDelayInMs?: number;
 }
 
 /**
@@ -242,17 +242,11 @@ export async function linearRetry<T>(config: RetryConfig<T>): Promise<T> {
  */
 export async function exponentialRetry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (
-    config.maxExponentialRetryDelayInMilliseconds == undefined ||
-    config.maxExponentialRetryDelayInMilliseconds < 0
-  ) {
-    config.maxExponentialRetryDelayInMilliseconds = defaultMaxDelayForExponentialRetryInMilliseconds;
+  if (config.maxExponentialRetryDelayInMs == undefined || config.maxExponentialRetryDelayInMs < 0) {
+    config.maxExponentialRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
   }
-  if (
-    config.minExponentialRetryDelayInMilliseconds == undefined ||
-    config.minExponentialRetryDelayInMilliseconds < 0
-  ) {
-    config.minExponentialRetryDelayInMilliseconds = defaultMinDelayForExponentialRetryInMilliseconds;
+  if (config.minExponentialRetryDelayInMs == undefined || config.minExponentialRetryDelayInMs < 0) {
+    config.minExponentialRetryDelayInMs = defaultMinDelayForExponentialRetryInMs;
   }
 
   let lastError: MessagingError | undefined;
@@ -262,9 +256,7 @@ export async function exponentialRetry<T>(config: RetryConfig<T>): Promise<T> {
   // Based on specified max delay, the total number of attempts to be made can be determined as,
   // minExponentialRetryDelayInMilliseconds + 2^(retryAttempts) should be less than or equal to maxExponentialRetryDelayInMilliseconds
   const totalNumberOfAttempts = Math.floor(
-    Math.log2(
-      config.maxExponentialRetryDelayInMilliseconds - config.minExponentialRetryDelayInMilliseconds
-    )
+    Math.log2(config.maxExponentialRetryDelayInMs - config.minExponentialRetryDelayInMs)
   );
 
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
@@ -308,18 +300,18 @@ export async function exponentialRetry<T>(config: RetryConfig<T>): Promise<T> {
         err
       );
 
-      const targetDelayInMilliseconds = Math.min(
-        config.minExponentialRetryDelayInMilliseconds + Math.pow(2, i),
-        config.maxExponentialRetryDelayInMilliseconds
+      const targetDelayInMs = Math.min(
+        config.minExponentialRetryDelayInMs + Math.pow(2, i),
+        config.maxExponentialRetryDelayInMs
       );
       if (lastError && lastError.retryable) {
         log.error(
           "[%s] Sleeping for %d seconds for '%s'.",
           config.connectionId,
-          targetDelayInMilliseconds / 1000,
+          targetDelayInMs / 1000,
           config.operationType
         );
-        await delay(targetDelayInMilliseconds);
+        await delay(targetDelayInMs);
         continue;
       } else {
         break;
