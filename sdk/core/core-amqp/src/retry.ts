@@ -4,7 +4,11 @@
 import { translate, MessagingError } from "./errors";
 import { delay, isNode } from "./util/utils";
 import * as log from "./log";
-import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
+import {
+  defaultRetryAttempts,
+  defaultDelayBetweenRetriesInSeconds,
+  defaultOperationTimeoutInSeconds
+} from "./util/constants";
 import { resolve } from "dns";
 
 /**
@@ -59,6 +63,12 @@ export interface RetryConfig<T> {
    * Extremely useful in providing better debug logs.
    */
   operationType: RetryOperationType;
+  /**
+   * @property {number} operationTimeoutInMilliseconds Maximum time allowed for within which an operation is
+   * expected to be completed. If operation takes longer, it will be cancelled, considered as failed
+   * with a retryable error and will be retried again on based on supplied `RetryConfig`
+   */
+  operationTimeoutInMs: number;
   /**
    * @property {number} [times] Number of times the operation needs to be retried in case
    * of error. Default: 3.
@@ -124,6 +134,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.delayInSeconds == undefined) {
     config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
   }
+  if (config.operationTimeoutInMs == undefined) {
+    config.operationTimeoutInMs = defaultOperationTimeoutInSeconds * 1000;
+  }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
@@ -136,7 +149,19 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       j
     );
     try {
+      let isOperationDone = false;
+      setTimeout(() => {
+        if (!isOperationDone) {
+          const operationTimeOutErr = new MessagingError("Operation timeout exceeded.");
+          operationTimeOutErr.name = "OperationTimeoutError";
+          operationTimeOutErr.retryable = true;
+          throw operationTimeOutErr;
+        }
+      }, config.operationTimeoutInMs);
+
       result = await config.operation();
+
+      isOperationDone = true;
       success = true;
       log.retry(
         "[%s] Success for '%s', after attempt number: %d.",
