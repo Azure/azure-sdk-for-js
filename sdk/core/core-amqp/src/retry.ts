@@ -71,7 +71,8 @@ export interface RetryConfig<T> {
   maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Applicable only when performing linear retry. Default: 15.
+   * next attempt. Default: 15.
+   * When `exponentialRetry` is set to `true`, this is used to compute the exponentially increasing delays between retries.
    */
   delayInSeconds?: number;
   /**
@@ -81,7 +82,7 @@ export interface RetryConfig<T> {
   connectionHost?: string;
   /**
    * @property {boolean} [exponentialRetry] Flag to denote if we want to perform exponential retry and not
-   * the default, which is linear. Setting this to `true` disregards all linear retry related options.
+   * the default, which is linear.
    */
   exponentialRetry?: boolean;
   /**
