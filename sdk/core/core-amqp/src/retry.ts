@@ -136,6 +136,7 @@ async function executeOperation<T>(config: RetryConfig<T>) {
     result = await config.operation();
   } catch (err) {
     clearTimeout(waitTimer);
+    throw err;
   } finally {
     isOperationDone = true;
   }
