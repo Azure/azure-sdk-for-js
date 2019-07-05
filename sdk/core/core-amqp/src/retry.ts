@@ -61,7 +61,7 @@ export interface RetryConfig<T> {
   operationType: RetryOperationType;
   /**
    * @property {number} [maxRetries] Number of times the operation needs to be retried in case
-   * of error. Default: 3.
+   * of retryable error. Default: 3.
    */
   maxRetries?: number;
   /**
@@ -111,8 +111,8 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * Additional attempts are made if the previous attempt failed with a `retryable` error.
- * The number of additional attempts is governed by the `maxRetries` property provided
+ * Every operation is attempted at least once. Additional attempts are made if the previous attempt failed
+ * with a retryable error. The number of additional attempts is governed by the `maxRetries` property provided
  * on the `RetryConfig` argument.
  *
  * The retries when made are done so linearly on the given operation for a specified number of times,
