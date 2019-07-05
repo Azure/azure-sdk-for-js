@@ -88,7 +88,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.receiverLink,
-        times: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       const result = await retry(config);
@@ -125,7 +125,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.senderLink,
-        times: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       const result = await retry(config);
@@ -163,7 +163,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.sendMessage,
-        times: 3,
+        maxRetries: 2,
         delayInSeconds: 0.5
       };
       await retry(config);
@@ -188,7 +188,7 @@ describe("retry function", function() {
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.session,
-        times: 4,
+        maxRetries: 4,
         delayInSeconds: 0.5
       };
       await retry(config);
@@ -196,16 +196,16 @@ describe("retry function", function() {
       should.exist(err);
       should.equal(true, err instanceof MessagingError);
       err.message.should.equal("I would always like to fail, keep retrying.");
-      counter.should.equal(4);
+      counter.should.equal(5);
     }
   });
 
-  describe("with config.times set to Infinity", function() {
+  describe("with config.maxRetries set to Infinity", function() {
     it("should succeed if the operation succeeds.", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
-          times: Infinity,
+          maxRetries: Infinity,
           operation: async () => {
             debug("counter: %d", ++counter);
             await delay(200);
@@ -241,7 +241,7 @@ describe("retry function", function() {
           },
           connectionId: "connection-1",
           operationType: RetryOperationType.management,
-          times: Infinity
+          maxRetries: Infinity
         };
         await retry(config);
       } catch (err) {
@@ -273,7 +273,7 @@ describe("retry function", function() {
           },
           connectionId: "connection-1",
           operationType: RetryOperationType.receiverLink,
-          times: Infinity,
+          maxRetries: Infinity,
           delayInSeconds: 0.5
         };
         const result = await retry(config);
@@ -310,7 +310,7 @@ describe("retry function", function() {
           },
           connectionId: "connection-1",
           operationType: RetryOperationType.senderLink,
-          times: Infinity,
+          maxRetries: Infinity,
           delayInSeconds: 0.5
         };
         const result = await retry(config);
@@ -348,7 +348,7 @@ describe("retry function", function() {
           },
           connectionId: "connection-1",
           operationType: RetryOperationType.sendMessage,
-          times: Constants.defaultConnectionRetryAttempts,
+          maxRetries: Constants.defaultMaxRetriesForConnection,
           delayInSeconds: 0.0001
         };
         await retry(config);

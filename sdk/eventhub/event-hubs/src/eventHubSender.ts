@@ -280,7 +280,7 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            times: Constants.defaultConnectionRetryAttempts,
+            maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
             delayInSeconds: 15
           };
@@ -601,19 +601,16 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const times =
-      options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
-        ? options.retryOptions.retryCount
-        : Constants.defaultRetryAttempts;
+    const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
-      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
+      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
         ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      times: times,
+      maxRetries: maxRetries,
       delayInSeconds: delayInSeconds + jitterInSeconds
     };
     return retry<void>(config);
