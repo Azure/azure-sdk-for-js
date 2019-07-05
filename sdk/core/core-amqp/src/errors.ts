@@ -3,6 +3,7 @@
 
 import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
 import { isNode } from "../src/util/utils";
+import { OperationTimeoutError } from "rhea-promise";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -125,10 +126,6 @@ export enum ConditionErrorNameMapper {
    * Error is thrown when no new messages are received for the specified time.
    */
   "com.microsoft:message-wait-timeout" = "MessageWaitTimeout",
-  /**
-   * Error is thrown when timeout happens for the said operation.
-   */
-  "amqp:operation-timeout" = "OperationTimeoutError",
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -331,10 +328,6 @@ export enum ErrorNameConditionMapper {
    * Error is thrown when no new messages are received for the specified time.
    */
   MessageWaitTimeout = "com.microsoft:message-wait-timeout",
-  /**
-   * Error is thrown when timeout happens for the said operation.
-   */
-  OperationTimeoutError = "amqp:operation-timeout",
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -559,6 +552,19 @@ export function translate(err: AmqpError | Error): MessagingError {
   }
 
   let error: MessagingError = err as MessagingError;
+
+  // OperationTimeoutError is retryable as it indicates potential problem with unexpected delays
+  // and not an issue with the Messaging process
+  if (
+    err instanceof OperationTimeoutError ||
+    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+    // Must do a name check until OperationTimeoutError is updated, and that doesn't break compatibility
+    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    (err as Error).name === "OperationTimeoutError"
+  ) {
+    error.retryable = true;
+    return error;
+  }
 
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
