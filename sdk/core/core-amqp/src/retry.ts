@@ -163,7 +163,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.delayInSeconds == undefined || config.delayInSeconds < 0) {
     config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
   }
-  if (config.operationTimeoutInMs == undefined) {
+  if (config.operationTimeoutInMs == undefined || config.operationTimeoutInMs <= 0) {
     config.operationTimeoutInMs = defaultOperationTimeoutInSeconds * 1000;
   }
   let lastError: MessagingError | undefined;
