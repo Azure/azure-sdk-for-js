@@ -111,7 +111,7 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * Every operation is attempted atleast once. Additional attempts are made if the previous attempt failed
+ * Every operation is attempted at least once. Additional attempts are made if the previous attempt failed
  * with a retriable error. The number of additional attempts is governed by the `maxRetries` property provided
  * on the `RetryConfig` argument.
  *
