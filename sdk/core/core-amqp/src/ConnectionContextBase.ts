@@ -4,7 +4,7 @@
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 

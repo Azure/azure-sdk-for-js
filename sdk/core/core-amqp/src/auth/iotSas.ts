@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { SharedKeyCredential } from "./sas";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { Buffer } from "buffer";
 
 /**
