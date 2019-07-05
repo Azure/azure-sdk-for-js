@@ -121,18 +121,24 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 async function executeOperation<T>(config: RetryConfig<T>) {
+  let result: any;
   let isOperationDone = false;
-  setTimeout(() => {
-    if (!isOperationDone) {
-      const operationTimeOutErr = new MessagingError("Operation timeout exceeded.");
-      operationTimeOutErr.name = "OperationTimeoutError";
-      operationTimeOutErr.retryable = true;
-      throw operationTimeOutErr;
-    }
-  }, config.operationTimeoutInMs);
-
-  const result = await config.operation();
-  isOperationDone = true;
+  let waitTimer;
+  try {
+    waitTimer = setTimeout(() => {
+      if (!isOperationDone) {
+        const operationTimeOutErr = new MessagingError("Operation timeout exceeded.");
+        operationTimeOutErr.name = "OperationTimeoutError";
+        operationTimeOutErr.retryable = true;
+        throw operationTimeOutErr;
+      }
+    }, config.operationTimeoutInMs);
+    result = await config.operation();
+  } catch (err) {
+    clearTimeout(waitTimer);
+  } finally {
+    isOperationDone = true;
+  }
   return result;
 }
 
