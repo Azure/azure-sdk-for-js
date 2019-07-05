@@ -64,11 +64,11 @@ export interface RetryConfig<T> {
    */
   operationType: RetryOperationType;
   /**
-   * @property {number} operationTimeoutInMilliseconds Maximum time allowed for within which an operation is
+   * @property {number} operationTimeoutInMs Maximum time allowed for within which an operation is
    * expected to be completed. If operation takes longer, it will be cancelled, considered as failed
    * with a retryable error and will be retried again on based on supplied `RetryConfig`
    */
-  operationTimeoutInMs: number;
+  operationTimeoutInMs?: number;
   /**
    * @property {number} [times] Number of times the operation needs to be retried in case
    * of error. Default: 3.
