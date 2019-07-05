@@ -6,27 +6,6 @@ jobs:
       PackageName: "@azure/event-hubs"
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
-        Linux_Node8X:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: $(js-event-hubs-test-name-lin8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
-        Windows_Node8X:
-          OSVmImage: "vs2017-win2016"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: $(js-event-hubs-test-name-win8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
-        Mac_Node8X:
-          OSVmImage: "macOS-10.13"
-          TestType: "node"
-          NodeVersion: "8.x"
-          EVENTHUB_NAME: $(js-event-hubs-test-name-mac8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Linux_Node10X:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
@@ -67,6 +46,27 @@ jobs:
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-mac12)
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          ENDPOINT: $(js-event-hubs-test-endpoint)
+        Linux_Node8X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-lin8)
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          ENDPOINT: $(js-event-hubs-test-endpoint)
+        Windows_Node8X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-win8)
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          ENDPOINT: $(js-event-hubs-test-endpoint)
+        Mac_Node8X:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: $(js-event-hubs-test-name-mac8)
           EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
           ENDPOINT: $(js-event-hubs-test-endpoint)
       EnvVars:
