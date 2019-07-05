@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156058652615206052"}
+module.exports.testInfo = {"container":"container156231860852107242"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156058652615206052')
+  .put('/container156231860852107242')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Sat, 15 Jun 2019 08:15:25 GMT',
+  'Fri, 05 Jul 2019 09:20:09 GMT',
   'ETag',
-  '"0x8D6F1699ECE7D12"',
+  '"0x8D70129F9E4C029"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '047be959-101e-00df-5752-232bc5000000',
+  '97451699-c01e-00b9-7d12-33dd98000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'Date',
-  'Sat, 15 Jun 2019 08:15:25 GMT',
+  'Fri, 05 Jul 2019 09:20:08 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156058652615206052')
+  .get('/container156231860852107242')
   .query(true)
   .reply(200, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Sat, 15 Jun 2019 08:15:25 GMT',
+  'Fri, 05 Jul 2019 09:20:09 GMT',
   'ETag',
-  '"0x8D6F1699ECE7D12"',
+  '"0x8D70129F9E4C029"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '930eae91-501e-0050-5352-236599000000',
+  'f760faec-401e-0064-2112-338e36000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -51,24 +51,24 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Sat, 15 Jun 2019 08:15:26 GMT',
+  'Fri, 05 Jul 2019 09:20:09 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156058652615206052')
+  .delete('/container156231860852107242')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f3f6822a-b01e-00d9-4d52-23dcbd000000',
+  '131bd423-001e-0123-1b12-331708000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'Date',
-  'Sat, 15 Jun 2019 08:15:26 GMT',
+  'Fri, 05 Jul 2019 09:20:09 GMT',
   'Connection',
   'close' ]);
 

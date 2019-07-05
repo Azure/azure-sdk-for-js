@@ -88,6 +88,12 @@ export interface IBlobAbortCopyFromURLOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
+export interface IBlobSyncCopyFromURLOptions {
+  metadata?: IMetadata;
+  blobAccessConditions?: IBlobAccessConditions;
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+}
+
 export interface IBlobSetTierOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
@@ -552,7 +558,7 @@ export class BlobURL extends StorageURL {
   }
 
   /**
-   * Copies a blob to a destination within the storage account.
+   * Asynchronously copies a blob to a destination within the storage account.
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
    * Beginning with version 2015-02-21, the source for a Copy Blob operation can be
@@ -591,7 +597,7 @@ export class BlobURL extends StorageURL {
   }
 
   /**
-   * Aborts a pending Copy Blob operation, and leaves a destination blob with zero
+   * Aborts a pending asynchronously Copy Blob operation, and leaves a destination blob with zero
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
@@ -611,6 +617,40 @@ export class BlobURL extends StorageURL {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
+  }
+
+  /**
+   * The synchronous Copy From URL operation copies a blob or an internet resource to a new blob. It will not
+   * return a response until the copy is complete.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
+   * @param {IBlobSyncCopyFromURLOptions} [options={}]
+   * @returns {Promise<Models.BlobCopyFromURLResponse>}
+   * @memberof BlobURL
+   */
+  public async syncCopyFromURL(
+    aborter: Aborter,
+    copySource: string,
+    options: IBlobSyncCopyFromURLOptions = {}
+  ): Promise<Models.BlobCopyFromURLResponse> {
+    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+
+    return this.blobContext.copyFromURL(copySource, {
+      abortSignal: aborter,
+      metadata: options.metadata,
+      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      sourceModifiedAccessConditions: {
+        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+      }
+    })
   }
 
   /**

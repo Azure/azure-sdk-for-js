@@ -5,6 +5,7 @@ import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
 import { AppendBlob } from "./generated/src/operations";
+import { rangeToString } from "./IRange";
 import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
@@ -20,6 +21,12 @@ export interface IAppendBlobAppendBlockOptions {
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+}
+
+export interface IAppendBlobAppendBlockFromURLOptions {
+  accessConditions?: IAppendBlobAccessConditions;
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceContentMD5?: Uint8Array;
 }
 
 /**
@@ -153,7 +160,7 @@ export class AppendBlobURL extends BlobURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
-   * @param {number} contentLength
+   * @param {number} contentLength Length of body in bytes
    * @param {IAppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobURL
@@ -173,5 +180,49 @@ export class AppendBlobURL extends BlobURL {
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5
     });
+  }
+
+  /**
+   * The Append Block operation commits a new block of data to the end of an existing append blob
+   * where the contents are read from a source url.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} sourceURL 
+   *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
+   *                 be authenticated via Shared Key. However, if the source is a blob in another account, the source blob
+   *                 must either be public or must be authenticated via a shared access signature. If the source blob is
+   *                 public, no authentication is required to perform the operation.
+   * @param {number} sourceOffset Offset in source to be appended
+   * @param {number} count How many bytes to be appended as a block
+   * @param {IAppendBlobAppendBlockFromURLOptions} [options={}]
+   * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
+   * @memberof AppendBlobURL
+   */
+  public async appendBlockFromURL(
+    aborter: Aborter,
+    sourceURL: string,
+    sourceOffset: number,
+    count: number,
+    options: IAppendBlobAppendBlockFromURLOptions = {}
+  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+    options.accessConditions = options.accessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    
+    return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+      abortSignal: aborter,
+      sourceRange: rangeToString({offset: sourceOffset, count}),
+      sourceContentMD5: options.sourceContentMD5,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      sourceModifiedAccessConditions: {
+        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+      }
+    })
   }
 }

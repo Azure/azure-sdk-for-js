@@ -1,6 +1,6 @@
 # Changelog
 
-2019.06 10.4.0
+2019.07 10.4.0
 
 * Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 * Improved comments for `BlockBlobURL.upload()`.
@@ -12,6 +12,10 @@
 * Export `RetryPolicyType`.
 * `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 * Service SAS generation now supports snapshot access control from 2018-11-09 in `generateBlobSASQueryParameters()`.
+* Service SAS generation now supports snapshot access control from API version 2018-11-09 in `generateBlobSASQueryParameters()`.
+* A new API `PageBlobURL.uploadPagesFromURL()` allows pages in a page blob to be written using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for page blobs of any size.
+* A new API `AppendBlobURL.appendBlockFromURL()` allows blocks in an append block to be committed using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for append blobs of any size.
+* A new API `BlobURL.syncCopyFromURL()` allows block blob a to be copied synchronously using a URL as a source. This API has a maximum size of 256 MB and preserves metadata and block list.
 
 2018.12 10.3.0
 
