@@ -36,10 +36,10 @@ export interface SendRequestOptions {
    */
   timeoutInSeconds?: number;
   /**
-   * @property {number} [times] Number of times the operation needs to be retried in case
+   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
    * of error. Default: 3.
    */
-  times?: number;
+  maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
    * next attempt. Default: 15.
@@ -257,7 +257,7 @@ export class RequestResponseLink implements ReqResLink {
           ? RetryOperationType.cbsAuth
           : RetryOperationType.management,
       delayInSeconds: options.delayInSeconds,
-      times: options.times
+      maxRetries: options.maxRetries
     };
     return retry<AmqpMessage>(config);
   }
