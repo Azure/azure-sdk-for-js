@@ -7,7 +7,8 @@ import * as log from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenRetriesInSeconds,
-  defaultMaxDelayForExponentialRetryInMs
+  defaultMaxDelayForExponentialRetryInMs,
+  defaultMinDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
 
@@ -85,9 +86,14 @@ export interface RetryConfig<T> {
   exponentialRetry?: boolean;
   /**
    * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
-   * until which retry attempts will be made. Applicable only when performing exponential retry.
+   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
    */
   maxExponentialRetryDelayInMs?: number;
+  /**
+   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay between retries
+   * to use. Applicable only when performing exponential retry.
+   */
+  minExponentialRetryDelayInMs?: number;
 }
 
 /**
@@ -150,6 +156,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.maxExponentialRetryDelayInMs == undefined || config.maxExponentialRetryDelayInMs < 0) {
     config.maxExponentialRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
   }
+  if (config.minExponentialRetryDelayInMs == undefined || config.minExponentialRetryDelayInMs < 0) {
+    config.minExponentialRetryDelayInMs = defaultMinDelayForExponentialRetryInMs;
+  }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
@@ -194,12 +203,22 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      const targetDelayInMs = config.exponentialRetry
-        ? Math.min(
-            (Math.pow(2, i - 1) - 1) * config.delayInSeconds,
-            config.maxExponentialRetryDelayInMs
-          )
-        : config.delayInSeconds;
+      let targetDelayInMs: number;
+      if (config.exponentialRetry) {
+        let incrementDelta = Math.pow(2, i) - 1;
+        const boundedRandDelta =
+          config.delayInSeconds * 0.8 +
+          Math.floor(Math.random() * (config.delayInSeconds * 1.2 - config.delayInSeconds * 0.8));
+        incrementDelta *= boundedRandDelta;
+
+        targetDelayInMs = Math.min(
+          config.minExponentialRetryDelayInMs + incrementDelta,
+          config.delayInSeconds
+        );
+      } else {
+        targetDelayInMs = config.delayInSeconds;
+      }
+
       if (lastError && lastError.retryable) {
         log.error(
           "[%s] Sleeping for %d seconds for '%s'.",

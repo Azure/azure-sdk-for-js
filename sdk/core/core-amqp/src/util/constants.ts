@@ -78,6 +78,7 @@ export const defaultMaxRetriesForConnection = 150;
 export const defaultDelayBetweenOperationRetriesInSeconds = 5;
 export const defaultDelayBetweenRetriesInSeconds = 15;
 export const defaultMaxDelayForExponentialRetryInMs = 50000;
+export const defaultMinDelayForExponentialRetryInMs = 1;
 export const receiverSettleMode = "receiver-settle-mode";
 export const dispositionStatus = "disposition-status";
 export const fromSequenceNumber = "from-sequence-number";
