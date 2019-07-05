@@ -18,6 +18,7 @@ import {
   proxyPolicy,
   throttlingRetryPolicy,
   getDefaultProxySettings,
+  isNode,
   userAgentPolicy
 } from "@azure/core-http";
 
@@ -89,8 +90,13 @@ export class SecretsClient {
 
     const userAgentString: string = SecretsClient.getUserAgentString(pipelineOptions.telemetry);
 
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+    let requestPolicyFactories: RequestPolicyFactory[] = [];
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
+    requestPolicyFactories = requestPolicyFactories.concat([
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -106,7 +112,7 @@ export class SecretsClient {
       isTokenCredential(credential)
         ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
         : signingPolicy(credential)
-    ];
+    ]);
 
     return {
       httpClient: pipelineOptions.HTTPClient,
