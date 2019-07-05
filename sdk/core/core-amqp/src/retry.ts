@@ -7,8 +7,7 @@ import * as log from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenRetriesInSeconds,
-  defaultMaxDelayForExponentialRetryInMs,
-  defaultMinDelayForExponentialRetryInMs
+  defaultMaxDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
 
