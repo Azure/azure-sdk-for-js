@@ -10,7 +10,8 @@ import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { HttpHeaders, } from "../../lib/httpHeaders";
 import { WebResource } from "../../lib/webResource";
-import { BearerTokenAuthenticationPolicy, TokenRefreshBufferMs } from "../../lib/policies/bearerTokenAuthenticationPolicy";
+import { BearerTokenAuthenticationPolicy } from "../../lib/policies/bearerTokenAuthenticationPolicy";
+import { ExpiringAccessTokenCache, TokenRefreshBufferMs } from "../../lib/credentials/accessTokenCache";
 
 describe("BearerTokenAuthenticationPolicy", function () {
   const mockPolicy: RequestPolicy = {
@@ -77,7 +78,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       new RequestPolicyOptions(),
       credential,
       scopes,
-      {});
+      new ExpiringAccessTokenCache());
   }
 });
 

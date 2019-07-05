@@ -1,22 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { HttpHeaders, } from "../httpHeaders";
 import { WebResource } from "../webResource";
-
-export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
-
-/**
- * Describes an object that is used to cache an AccessToken
- * that was returned from a TokenCredential.
- */
-export interface AccessTokenCache {
-  accessToken?: AccessToken;
-}
+import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
 
 /**
  * Creates a new BearerTokenAuthenticationPolicy factory.
@@ -25,7 +16,7 @@ export interface AccessTokenCache {
  * @param scopes The scopes for which the bearer token applies.
  */
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
-  const tokenCache: AccessTokenCache = {};
+  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes, tokenCache);
@@ -79,14 +70,12 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
-    if (
-      this.tokenCache.accessToken &&
-      Date.now() + TokenRefreshBufferMs < this.tokenCache.accessToken.expiresOnTimestamp
-    ) {
-      return this.tokenCache.accessToken.token;
+    let accessToken = this.tokenCache.getCachedToken();
+    if (accessToken === undefined) {
+      accessToken = await this.credential.getToken(this.scopes, options) || undefined;
+      this.tokenCache.setCachedToken(accessToken);
     }
 
-    this.tokenCache.accessToken = (await this.credential.getToken(this.scopes, options)) || undefined;
-    return this.tokenCache.accessToken ? this.tokenCache.accessToken.token : undefined;
+    return accessToken ? accessToken.token : undefined;
   }
 }
