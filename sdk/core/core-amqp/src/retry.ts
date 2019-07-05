@@ -120,6 +120,22 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
   }
 }
 
+async function executeOperation<T>(config: RetryConfig<T>) {
+  let isOperationDone = false;
+  setTimeout(() => {
+    if (!isOperationDone) {
+      const operationTimeOutErr = new MessagingError("Operation timeout exceeded.");
+      operationTimeOutErr.name = "OperationTimeoutError";
+      operationTimeOutErr.retryable = true;
+      throw operationTimeOutErr;
+    }
+  }, config.operationTimeoutInMs);
+
+  const result = await config.operation();
+  isOperationDone = true;
+  return result;
+}
+
 /**
  * Additional attempts are made if the previous attempt failed with a `retryable` error.
  * The number of additional attempts is governed by the `maxRetries` property provided
@@ -150,19 +166,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
     log.retry("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
     try {
-      let isOperationDone = false;
-      setTimeout(() => {
-        if (!isOperationDone) {
-          const operationTimeOutErr = new MessagingError("Operation timeout exceeded.");
-          operationTimeOutErr.name = "OperationTimeoutError";
-          operationTimeOutErr.retryable = true;
-          throw operationTimeOutErr;
-        }
-      }, config.operationTimeoutInMs);
-
-      result = await config.operation();
-
-      isOperationDone = true;
+      result = await executeOperation(config);
       success = true;
       log.retry(
         "[%s] Success for '%s', after attempt number: %d.",
