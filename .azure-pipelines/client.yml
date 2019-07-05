@@ -164,7 +164,7 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js build $(rushFlags)
-        displayName: 'Build libraries"'
+        displayName: 'Build libraries'
 
       - script: |
           node common/scripts/install-run-rush.js build:test $(rushFlags)
