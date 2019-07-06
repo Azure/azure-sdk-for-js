@@ -16,8 +16,8 @@
 
 import { EventHubClient } from "@azure/event-hubs";
 import WebSocket from "ws";
-const url = require("url");
-const httpsProxyAgent = require("https-proxy-agent");
+import url from "url";
+import httpsProxyAgent, { HttpsProxyAgentOptions } from "https-proxy-agent";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -26,9 +26,15 @@ const eventHubName = "";
 // Create an instance of the `HttpsProxyAgent` class with the proxy server information like
 // proxy url, username and password
 // Skip this section if you are not behind a proxy server
-const urlParts = url.parse("http://localhost:3128");
-urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
-const proxyAgent = new httpsProxyAgent(urlParts);
+const { host = "", port = "" } = url.parse("http://localhost:3128");
+const options: HttpsProxyAgentOptions = {
+  host,
+  port: parseInt(port, 10),
+  auth: "username:password" // Skip this if proxy server does not need authentication.
+}
+
+// Create an instance of the `HttpsProxyAgent` class with the proxy server information
+const proxyAgent = new httpsProxyAgent(options);
 
 async function main(): Promise<void> {
   const client = new EventHubClient(connectionString, eventHubName, {

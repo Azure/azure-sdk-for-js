@@ -9,17 +9,21 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import WebSocket from "ws";
 import url from "url";
-import httpsProxyAgent from "https-proxy-agent";
+import httpsProxyAgent, { HttpsProxyAgentOptions } from "https-proxy-agent";
 
 // Define connection string for your Service Bus instance here
 const connectionString = "";
 
 // Get relevant proxy url, username and password needed to create an instance of httpsProxyAgent
-const urlParts = url.parse("http://localhost:3128");
-urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
+const { host = "", port = "" } = url.parse("http://localhost:3128");
+const options: HttpsProxyAgentOptions = {
+  host,
+  port: parseInt(port, 10),
+  auth: "username:password" // Skip this if proxy server does not need authentication.
+}
 
 // Create an instance of the `HttpsProxyAgent` class with the proxy server information
-const proxyAgent = new httpsProxyAgent(urlParts);
+const proxyAgent = new httpsProxyAgent(options);
 
 async function main(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {

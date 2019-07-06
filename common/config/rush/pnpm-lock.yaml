@@ -94,7 +94,7 @@ dependencies:
   glob: 7.1.4
   gulp: 4.0.2
   gulp-zip: 4.2.0
-  https-proxy-agent: 2.2.1
+  https-proxy-agent: 2.2.2
   inherits: 2.0.4
   is-buffer: 2.0.3
   jssha: 2.3.1
@@ -4896,7 +4896,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
-  /https-proxy-agent/2.2.1:
+  /https-proxy-agent/2.2.2:
     dependencies:
       agent-base: 4.3.0
       debug: 3.2.6
@@ -4904,7 +4904,7 @@ packages:
     engines:
       node: '>= 4.5.0'
     resolution:
-      integrity: sha512-HPCTS1LW51bcyMYbxUIOO4HEOlQ1/1qRaFWcyxvwaqUS9TY88aoEuHUY33kuAh1YhVVaDQhLZsnPd+XNARWZlQ==
+      integrity: sha512-c8Ndjc9Bkpfx/vCJueCPy0jlP4ccCCSNDp8xwCZzPjKJUm+B+u9WX2x98Qx4n1PiMNTWo3D7KK5ifNV/yJyRzg==
   /iconv-lite/0.2.11:
     dev: false
     engines:
@@ -7695,7 +7695,7 @@ packages:
     dependencies:
       debug: 4.1.1
       extract-zip: 1.6.7
-      https-proxy-agent: 2.2.1
+      https-proxy-agent: 2.2.2
       mime: 2.4.4
       progress: 2.0.3
       proxy-from-env: 1.0.0
@@ -10417,7 +10417,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-4x14SAFGZXqlVRY24PbG75WGfWxDdwRiiUxBwniFCaR69Cygcjb1HcxLTF39mXN1HMFGzMaO3+WJ+TnRzVZDZw==
+      integrity: sha512-XvPKDj7Zu3SaaXl7pb3N0uOCWtyCNai0jRKwbSc5N7B4EDAuFbu7UGloNqHPm6o1BvMiFjGETbwmuqZYPgd9TA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -10488,7 +10488,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-/J9I2HAPbgTFDqAupdWFPA7dp/4HkdLJc1EvXFmHOQYx/RaXjqucN0b8zcuGepdmZC1i0qrMgPWjbi7EhWxNJA==
+      integrity: sha512-OFubd62MlvvujGLbII4BnACTCiqHHUzhDrWCHJGWdF3BUrIbLLAf0r44osZ5wgrALmfcMZ7GSdeWt1ZHJmmA/A==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -10507,7 +10507,7 @@ packages:
     dev: false
     name: '@rush-temp/core-asynciterator-polyfill'
     resolution:
-      integrity: sha512-v2OkkGp4BscubKnr7qikdSqLJttDTy5skuwpX+KeQv9H5aMDtfGU4CKUmqdwGsI/+vnXlPU57ZBVJ0BtucQBng==
+      integrity: sha512-77lBXqEBN4nl+SLXGqkc369tAmmBFDGjNJeAJCf0L30gf5MuSb7Akz0PvAzNSvSvmuD4GxcimlVwxxBgV0TGYw==
       tarball: 'file:projects/core-asynciterator-polyfill.tgz'
     version: 0.0.0
   'file:projects/core-auth.tgz':
@@ -10546,7 +10546,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-cq3K0U9XrSRmaBbCgOb4s2vfPQGxNuWNzbi8sju2CR2dOxYfDOxoED5CZutfyr9rtPRjSJ0YqvkXcqrCQ8mwEg==
+      integrity: sha512-yiDuVWHCnqteeZjqNxdSyEQKcSaW1E2POC64o+sGy1yHBi9yfJ3QIcle/1UTNnx5f2JxMH+Ox5zec6fyO4cIkg==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -10631,7 +10631,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-LFCnXpufdTqIHE2S6dGpq1G+JZBwDgghmfKILYZw1vUJUqeltdqVbd3P6Qv3GG7pKYYztpidYEYOuQCsVnXrIA==
+      integrity: sha512-Owrr9aUxolbaIYeX2dQyTjOu4autZtjQresZfPdw+FT1ODPcDINJWLbHppu9fdGn2EgWaPMpF4R1ZVK/kHJfLw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10650,7 +10650,7 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-Cw6EIkpujQw6NoJ997kmGhTHYp+NyN1ANdUWlpisHR8eC8HUWhIenZ66XnwsUopIKDS7K+IFojGMi3nqukbSxg==
+      integrity: sha512-3cvTSZGmlAxyyfCsE4f3ag8t7H9eGHcJ4rpXjVcTmwzvajiutRU6ddOHLrRq0QpiPbuspuvGxRIMG+DHZlCVFQ==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -10694,7 +10694,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-f7IyBbSYkZZ+guO7QopSGUb/7d5QYQiotA3hWoIvC0iUo4XhGa+DqlnQ/yn5zx+p8ogWU8pvIixA8GQU4nMUfA==
+      integrity: sha512-5oqGeaFo8iGly53D7KKcG7hbMnG9tXZ+JwIkTh4Bofmq7fxOH8w2WosjDoNBaIwiFaMRpL3QkU1FoeuNcbDcog==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10727,7 +10727,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
-      https-proxy-agent: 2.2.1
+      https-proxy-agent: 2.2.2
       is-buffer: 2.0.3
       jssha: 2.3.1
       karma: 4.1.0
@@ -10769,7 +10769,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-Tsf4fSqJrxQXz4G7QIyJd3Y31GwECO9uyLtYpVJSpuoNL8t5KPNi3C2v0Hge0qr1izMDAzegIszn/GUYD0bmfg==
+      integrity: sha512-WMtkcvBVkfo3oF+Z0+FjcCV5vclo5+sPXbWJh6JGIg1Ra4N1XrUgTtYiCsQebzDk2vuguLnbZ7pww5W3sZ3AtA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10825,7 +10825,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-TX5+iYIxJazD53rfS4N/X8haYQUKKF0x4J4+mNOCAs2PKvzrciVR9HqPWIUtnfWkAT6UuL21emJKpnl6UmHcAQ==
+      integrity: sha512-13TJ2pOVsSqDkV9Vp6jobFMVoS5IsLuRSlZ6IajaqZ15XrtqQRAdhxERDAqq3rSNnb6x3vg7AP9OqGEy3N7y5Q==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10865,7 +10865,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-67UnNThZEl07ASqL+ITpArWym/Vzry7/bwjGtZ6Z4vaGHTnS4IcGfrNn61USyh2r+fIKMDzipA4Ld+GQBkQo/g==
+      integrity: sha512-jnWpAJ7lg5mOxqp40EHLoU5KbXAb+0HoCmEayQhJ7hKaeikYP3Pdrs5o9muCpMgxj5jWRwBl6BroZh3uCOTfSg==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10894,7 +10894,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-mBYPALUGpeQXoCQrVIRg3/AAh5wfeSIJTfqV00ucy3SEC+acN/7WC9gbu/Qd6fVjSOhEVj48MvI54x1FYkO5Rg==
+      integrity: sha512-xbHD4DMK/iKSbUxgUanZQPJNwUcI7kuP3shFdsQkkj5AMUGm4vceSEhFygFMSR6cIvLklXJ18yh43TSgXQPsrg==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10933,7 +10933,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-8bHVuOcxrqCoE0e7oOIUqyVXK+XKNEBJaFR8H+U+N9pid4feets2pT/0IckOc4PkYcrmMxpMpoJJcUxlD3a8og==
+      integrity: sha512-ghm72q7BJkdvHYa2oGtTAXmkRAq8dUZNKHW4edkVamfrdkipmXNRY+ubkLPfBJyE/h90GHdLWl/gDG+YpiIPiA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10974,7 +10974,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-So5rOz0pSn20Wd8SCEEIomykd4viPpwWGFDO4NNT6EZzOfx1YJ+iTFBm1d7U/vY/yWZkeo+vqNOTh/QJ23KuEw==
+      integrity: sha512-8didgi3zgSZUt9VU5935DxKtUZiAQGjTv1g1DaRPdczTygQugGwKkiFANb0oced4vdgaaT/McWnm7A+RxjkiQg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -11009,7 +11009,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
-      https-proxy-agent: 2.2.1
+      https-proxy-agent: 2.2.2
       is-buffer: 2.0.3
       karma: 4.1.0
       karma-chrome-launcher: 2.2.0
@@ -11052,7 +11052,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-npz1y2nxkp0Zd+Ib9RfNjUiW2pjnADmtx/GvO0PNnghoWa4v59FgVpurEppOfa3tpRpo9JN9TgQ3i6caKLeqpg==
+      integrity: sha512-8jmc4XyOxVaupim6JmP2pUdfQmmiHcEjCUWBrR3xUdtuPFQvsnWzyNi2lbk1LfZEgTcnygSlpZTLmYkdAQs8LA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11122,7 +11122,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-Xge/oNPTvK9QWY2lfIWmEMhLaACee30KwgJLjhwUNBhRBB6S3cg7lJflNO/eVOmhQ42dPq/hJRHJoENk5rjtrA==
+      integrity: sha512-UgIe5RKZRXsy9iibksf6oihckZwPXzwAK7NaeQEwsIPRqzHwHgf7mcdFUDJeZkWZ3q2+XtIBPExbekZI6pRf1g==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-datalake.tgz':
@@ -11147,7 +11147,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-datalake'
     resolution:
-      integrity: sha512-Kcd+0GTZn50m2RJjMQQCkIkUZkKwiWRkmapTBKGZxyXYe7jevU8L3dT6Wdykbk+jaa3gjhd7mG8OUecgXe0ZlQ==
+      integrity: sha512-vK8bqT/ekqAiju+IdR7WBbJoNpRKUKidA5a1OImncpEOp4/dDcoM47fqoX1gwl96wnQ7X09Ll6TqmcKnYk7oIg==
       tarball: 'file:projects/storage-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -11217,7 +11217,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-b6//yYerjSKpEE0yXOFRoaiRWSyX381zGKpYWu545tsgHDU6+AM8IOOyckI3Y8+u4jlbfVfdF74Nrrfqd19jmA==
+      integrity: sha512-zYuft8JDR6mKJXmH4etUkykOw4EimENEYIXKbRyELbYlkyi259n+47TQi1xLyNfODJCczUZwHp6JeG/E6rfJbw==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11286,7 +11286,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-oCSqF9VBshZFR+ZCkuoAHtbZwA97RM0cY+5YcqrSENyNcb41l65bzqupHkYZXFIl9st9enGadVtQhNIT6+pe/A==
+      integrity: sha512-7JHEw7k6rwNG8OB4R3XywPkV0MZ+TW5fnW1Mr1oJtq6/DSAeIsQckCkzAR1Lq64u0BAQc/9dG9kRhAWyOvLKRA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11327,7 +11327,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-eqA3sGy4TWvpvejaW9qHXnqOoyIaRCnemNTKf/ZDGknl/nBYj/8byzu8uOE4g0+L7WW4Z56jPdix3NjSSNUavg==
+      integrity: sha512-XARlGSN+et+vsZ5nBeY4DRhhEeg1qDRjSFRLl8um4fxDV5yH8HmzawpPiYNSbZscCP5yM7KRDOsFkpde2sXr3A==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11352,7 +11352,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-+7/S5QILzUUjTQx8iAqLnUHRABhgKs/lVmB5/+F0s9n2n+MZZ7hHhzW3B/efbVCXv6xt+7eFwVT4g0mmX5lGyw==
+      integrity: sha512-IIhgwGeM3S6e3snigbvVfVsSh+X7T8iOKRToJ9fkFRjpviiH3jpdpOm186AyYHuEfZzR/dQlxmdQxEoZUVH3qA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -11452,7 +11452,7 @@ specifiers:
   glob: ^7.1.2
   gulp: ^4.0.0
   gulp-zip: ^4.2.0
-  https-proxy-agent: ^2.2.1
+  https-proxy-agent: ^2.2.2
   inherits: ^2.0.3
   is-buffer: ^2.0.3
   jssha: ^2.3.1
