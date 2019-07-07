@@ -34,7 +34,11 @@ import {
   JsonWebKeyCurveName,
   KeyItem,
   DeletionRecoveryLevel,
-  KeyVaultClientGetKeysOptionalParams
+  KeyVaultClientGetKeysOptionalParams,
+  JsonWebKeyEncryptionAlgorithm,
+  KeyOperationResult,
+  KeyVerifyResult,
+  JsonWebKeySignatureAlgorithm,
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
@@ -70,16 +74,20 @@ export {
   ImportKeyOptions,
   JsonWebKey,
   JsonWebKeyCurveName,
+  JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
+  JsonWebKeySignatureAlgorithm,
   JsonWebKeyType,
   Key,
   KeyAttributes,
+  KeyOperationResult,
+  KeyVerifyResult,
   NewPipelineOptions,
   PageSettings,
   PagedAsyncIterableIterator,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  UpdateKeyOptions
+  UpdateKeyOptions,
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -622,6 +630,154 @@ export class KeysClient {
       options ? options.requestOptions : {}
     );
     return this.getKeyFromKeyBundle(response);
+  }
+
+  /**
+   * The ENCRYPT operation encrypts an arbitrary sequence of bytes using an encryption key that is
+   * stored in Azure Key Vault. Note that the ENCRYPT operation only supports a single block of data,
+   * the size of which is dependent on the target key and the encryption algorithm to be used. The
+   * ENCRYPT operation is only strictly necessary for symmetric keys stored in Azure Key Vault since
+   * protection with an asymmetric key can be performed using public portion of the key. This
+   * operation is supported for asymmetric keys as a convenience for callers that have a
+   * key-reference but do not have access to the public key material. This operation requires the
+   * keys/encrypt permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * const key = await client.createKey("myKey", "RSA");
+   * let encryptedResult = await client.encrypt("myKey", key.version, new Uint8Array(Buffer.from("mysecretpassword123")));
+   * ```
+   * @summary Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key
+   * vault.
+   * @param name The name of the key.
+   * @param version The version of the key.
+   * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
+   * 'RSA1_5'
+   * @param value
+   * @param [options] The optional parameters
+   * @returns Promise<KeyOperationResult>
+   */
+  public async encrypt(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult> {
+    const response = await this.client.encrypt(this.vaultBaseUrl, name, version, algorithm, value, options ? options.requestOptions : {});
+
+    return response;
+  }
+
+  /**
+    * The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key
+    * and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single
+    * block of data may be decrypted, the size of this block is dependent on the target key and the
+    * algorithm to be used. The DECRYPT operation applies to asymmetric and symmetric keys stored in
+    * Azure Key Vault since it uses the private portion of the key. This operation requires the
+    * keys/decrypt permission.
+    *
+    * Example usage:
+    * ```ts
+    * let client = new KeysClient(url, credentials);
+    * // Existing key in the variable 'key'
+    * // Encrypted buffer in 'encryptedBuffer'
+    * let decryptedResult = await client.decrypt("myKey", key.version, encryptedBuffer);
+    * ```
+    * @summary Decrypts a single block of encrypted data.
+    * @param name The name of the key.
+    * @param version The version of the key.
+    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
+    * 'RSA1_5'
+    * @param value
+    * @param [options] The optional parameters
+    * @returns Promise<KeyOperationResult>
+    */
+  public async decrypt(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult> {
+    const response = await this.client.decrypt(this.vaultBaseUrl, name, version, algorithm, value, options ? options.requestOptions : {});
+
+    return response;
+  }
+
+  /**
+   * The SIGN operation is applicable to asymmetric and symmetric keys stored in Azure Key Vault
+   * since this operation uses the private portion of the key. This operation requires the keys/sign
+   * permission.
+   * @summary Creates a signature from a digest using the specified key.
+   * @param name The name of the key.
+   * @param version The version of the key.
+   * @param algorithm The signing/verification algorithm identifier. For more information on possible
+   * algorithm types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384',
+   * 'PS512', 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
+   * @param value
+   * @param [options] The optional parameters
+   * @returns Promise<KeyOperationResult>
+   */
+  public async sign(name: string, version: string, algorithm: JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult> {
+    const response = await this.client.sign(this.vaultBaseUrl, name, version, algorithm, value, options ? options.requestOptions : {});
+
+    return response;
+  }
+
+  /**
+   * The VERIFY operation is applicable to symmetric keys stored in Azure Key Vault. VERIFY is not
+   * strictly necessary for asymmetric keys stored in Azure Key Vault since signature verification
+   * can be performed using the public portion of the key but this operation is supported as a
+   * convenience for callers that only have a key-reference and not the public portion of the key.
+   * This operation requires the keys/verify permission.
+   * @summary Verifies a signature using a specified key.
+   * @param name The name of the key.
+   * @param version The version of the key.
+   * @param algorithm The signing/verification algorithm. For more information on possible algorithm
+   * types, see JsonWebKeySignatureAlgorithm. Possible values include: 'PS256', 'PS384', 'PS512',
+   * 'RS256', 'RS384', 'RS512', 'RSNULL', 'ES256', 'ES384', 'ES512', 'ES256K'
+   * @param digest The digest used for signing.
+   * @param signature The signature to be verified.
+   * @param [options] The optional parameters
+   * @returns Promise<KeyVerifyResult>
+   */
+  public async verify(name: string, version: string, algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<KeyVerifyResult> {
+    const response = await this.client.verify(this.vaultBaseUrl, name, version, algorithm, digest, signature, options ? options.requestOptions : {});
+
+    return response;
+  }
+
+  /**
+   * The WRAP operation supports encryption of a symmetric key using a key encryption key that has
+   * previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for
+   * symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be
+   * performed using the public portion of the key. This operation is supported for asymmetric keys
+   * as a convenience for callers that have a key-reference but do not have access to the public key
+   * material. This operation requires the keys/wrapKey permission.
+   * @summary Wraps a symmetric key using a specified key.
+   * @param bame The name of the key.
+   * @param version The version of the key.
+   * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
+   * 'RSA1_5'
+   * @param value
+   * @param [options] The optional parameters
+   * @returns Promise<KeyOperationResult>
+   */
+  public async wrapKey(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult> {
+    const response = await this.client.wrapKey(this.vaultBaseUrl, name, version, algorithm, value, options ? options.requestOptions : {});
+
+    return response;
+  }
+
+  /**
+   * The UNWRAP operation supports decryption of a symmetric key using the target key encryption key.
+   * This operation is the reverse of the WRAP operation. The UNWRAP operation applies to asymmetric
+   * and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This
+   * operation requires the keys/unwrapKey permission.
+   * @summary Unwraps a symmetric key using the specified key that was initially used for wrapping
+   * that key.
+   * @param name The name of the key.
+   * @param version The version of the key.
+   * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
+   * 'RSA1_5'
+   * @param value
+   * @param [options] The optional parameters
+   * @returns Promise<KeyOperationResult>
+   */
+  public async unwrapKey(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult> {
+    const response = await this.client.unwrapKey(this.vaultBaseUrl, name, version, algorithm, value, options ? options.requestOptions : {});
+
+    return response;
   }
 
   private async *listKeyVersionsPage(
