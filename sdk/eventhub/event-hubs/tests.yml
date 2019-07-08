@@ -61,4 +61,4 @@ jobs:
         ENDPOINT: $(js-event-hubs-test-endpoint)
 
       # Event Hubs tests do not support concurrent execution
-      MaxParallel: 1
+      MaxParallel: 0
