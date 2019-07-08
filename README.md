@@ -1,70 +1,50 @@
-# Azure SDK for Javascript
+# Azure SDK for JavaScript
+
 
 | Component            | Build Status                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Management Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/138?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=138&branchName=master) |
 | Client Libraries     | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/45?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master)   |
 
-This project provides an isomorphic Javascript package with TypeScript definitions that makes it easy to consume and manage
-Microsoft Azure Services.
-It supports SDKs for:
+This repository contains official JavaScript libraries for Azure services. For documentation go to [Azure SDK for JavaScript documentation](https://aka.ms/js-docs).
 
-- ARM services (control plane) (packages with the naming convention of `@azure/arm-<servicename>`)
-- data plane of some Azure services (packages with the naming convention of `@azure/<servicename>`).
+You can find a complete list of all the packages for these libraries [here](https://github.com/Azure/azure-sdk-for-js/blob/master/packages.md).
 
-## Documentation
+## Getting started
 
-Documentation of the supported SDKs can be found here:
+For your convenience, each service has a separate set of libraries that you can choose to use instead of one, large Azure package. To get started with a specific library, see the **README.md** file located in the library's project folder. You can find service libraries in the `/sdk` directory.
 
-- https://docs.microsoft.com/en-us/javascript/azure - This website primarily provides SDK documentation for
+## Packages available
+Each service might have a number of libraries available from each of the following categories:
+* [Client - July 2019 Preview](#Client-July-2019-Preview)
+* [Client - Stable](#Client-Stable)
+* [Management](#Management)
 
-  - ARM based services (`@azure/arm-<serviceName>`)
-  - data plane SDKs like `@azure/batch`, `@azure/graph`, etc.
 
-## Authentication
+### Client: July 2019 Preview
+New wave of packages that we are currently releasing in **Preview** and are released under the `npm` release named `next`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. You can learn more about these libraries by reading guidelines that they follow [here](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
 
-- For Node.js-based authentication, look at [@azure/ms-rest-nodeauth](https://npmjs.com/package/@azure/ms-rest-nodeauth).
-- For browser-based authentication, look at [@azure/ms-rest-browserauth](https://npmjs.com/package/@azure/ms-rest-browserauth).
-  - The browser authentication storage is a little more complicated, so we encourage you to [read about how it works](https://github.com/Azure/ms-rest-browserauth/blob/master/README.md) before putting it in your application.
+The libraries released in July preview:
+- [@azure/storage-blob@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
+- [@azure/storage-queue@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
+- [@azure/storage-file@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [@azure/kevault-keys@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
+- [@azure/kevault-secrets@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
+- [@azure/event-hubs@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs)
 
-## Need Help?
+>NOTE: If you need to ensure your code is ready for production use one of the stable libraries.
 
-- [Read the docs](https://docs.microsoft.com/en-us/javascript/azure/?view=azure-node-latest)
-- [Open an issue in GitHub](https://github.com/Azure/azure-sdk-for-js/issues)
-- [Microsoft Azure Forums on MSDN and Stack Overflow](http://go.microsoft.com/fwlink/?LinkId=234489)
 
-## License
+### Client: Stable
+Last stable versions of packages that have been provided for usage with Azure and are production-ready. These libraries provide you with similar functionalities to the Preview ones as they allow you to use and consume existing resources and interact with them, for example: upload a blob.
 
-This project is licensed under MIT.
+### Management
+Libraries which enable you to provision specific resources. They are responsible for directly mirroring and consuming Azure service's REST endpoints. You can recognize these libraries by `mgmt` or `arm` in their package names.
 
-- "MIT" license is usually used for the client libraries generated using [Autorest.TypeScript](https://github.com/azure/autorest.typescript) that are targeting ARM (V2 version of Azure REST API). The license can be found in "LICENSE.MIT.txt" file in this repository.
+## Need help?
+* For detailed documentation visit our [Azure SDK for JavaScript documentation](https://aka.ms/js-docs)
+* File an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues)
+* Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
 
-## Contribute
-
-You found something you'd like to change? Great! Please submit a pull request and we'll do our best to work with you to get your code included into the project.
-
-1. Commit your changes (`git commit -am 'Add some feature'`)
-2. Push to the branch (`git push origin my-new-feature`)
-3. Create new Pull Request
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
-
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
-
-For additional information about contributing to this project, as well as a getting started guide for contributors, see the [contributing guidelines](CONTRIBUTING.md).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2FREADME.png)
-
-## Client Library Tested Operating Systems and Node Versions
-
-Currently, the tests for client libraries in this repository are running against:
-
-|             | Linux (Ubuntu 16.04) | MacOS 10.13 | Windows Server 2016 |
-| ----------- | -------------------- | ----------- | ------------------- |
-| **Node 8**  | x                    | x           | x                   |
-| **Node 10** | x                    | x           | x                   |
-| **Node 12** | x                    | x           | x                   |
+## Contributing
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
