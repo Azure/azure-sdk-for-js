@@ -54,9 +54,6 @@ jobs:
     timeoutInMinutes: 240
 
     steps:
-      - script: echo $(EVENTHUB_NAME)
-      - script: echo $(NodeVersion)
-      - script: echo $(EVENTHUB_CONNECTION_STRING)
       - script: |
       - template: ../steps/tests-common.yml
         parameters:
