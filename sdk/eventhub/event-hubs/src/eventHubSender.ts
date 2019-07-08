@@ -457,6 +457,15 @@ export class EventHubSender extends LinkEntity {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
+        let onRejected: Func<EventContext, void>;
+        let onReleased: Func<EventContext, void>;
+        let onModified: Func<EventContext, void>;
+        let onAccepted: Func<EventContext, void>;
+
+        const onAborted = () => {
+          rejectOnAbort();
+        };
+
         const rejectOnAbort = () => {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
@@ -465,121 +474,112 @@ export class EventHubSender extends LinkEntity {
           reject(new AbortError("The send operation has been cancelled by the user."));
         };
 
-        if (abortSignal && abortSignal.aborted) {
-          // operation has been cancelled, so exit quickly
-          return rejectOnAbort();
-        }
-
-        log.sender(
-          "[%s] Sender '%s', credit: %d available: %d",
-          this._context.connectionId,
-          this.name,
-          this._sender!.credit,
-          this._sender!.session.outgoing.available()
-        );
-        if (this._sender!.sendable()) {
-          log.sender(
-            "[%s] Sender '%s', sending message with id '%s'.",
-            this._context.connectionId,
-            this.name,
-            (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
-          );
-          let onRejected: Func<EventContext, void>;
-          let onReleased: Func<EventContext, void>;
-          let onModified: Func<EventContext, void>;
-          let onAccepted: Func<EventContext, void>;
-          let onAborted: () => void;
-
-          const removeListeners = (): void => {
-            // When `removeListeners` is called on timeout, the sender might be closed and cleared
-            // So, check if it exists, before removing listeners from it.
-            if (abortSignal) {
-              abortSignal.removeEventListener("abort", onAborted);
-            }
-            if (this._sender) {
-              this._sender.removeListener(SenderEvents.rejected, onRejected);
-              this._sender.removeListener(SenderEvents.accepted, onAccepted);
-              this._sender.removeListener(SenderEvents.released, onReleased);
-              this._sender.removeListener(SenderEvents.modified, onModified);
-            }
-          };
-
-          onAborted = () => {
-            removeListeners();
-            rejectOnAbort();
-          };
-          onAccepted = (context: EventContext) => {
-            // Since we will be adding listener for accepted and rejected event every time
-            // we send a message, we need to remove listener for both the events.
-            // This will ensure duplicate listeners are not added for the same event.
-            removeListeners();
-            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
-            resolve();
-          };
-          onRejected = (context: EventContext) => {
-            removeListeners();
-            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
-            const err = translate(context!.delivery!.remote_state!.error);
-            log.error(err);
-            reject(err);
-          };
-          onReleased = (context: EventContext) => {
-            removeListeners();
-            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
-            let err: Error;
-            if (context!.delivery!.remote_state!.error) {
-              err = translate(context!.delivery!.remote_state!.error);
-            } else {
-              err = new Error(
-                `[${this._context.connectionId}] Sender '${this.name}', ` +
-                  `received a release disposition.Hence we are rejecting the promise.`
-              );
-            }
-            log.error(err);
-            reject(err);
-          };
-          onModified = (context: EventContext) => {
-            removeListeners();
-            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
-            let err: Error;
-            if (context!.delivery!.remote_state!.error) {
-              err = translate(context!.delivery!.remote_state!.error);
-            } else {
-              err = new Error(
-                `[${this._context.connectionId}] Sender "${this.name}", ` +
-                  `received a modified disposition.Hence we are rejecting the promise.`
-              );
-            }
-            log.error(err);
-            reject(err);
-          };
-
-          if (abortSignal) {
-            abortSignal.addEventListener("abort", onAborted);
+        try {
+          if (abortSignal && abortSignal.aborted) {
+            // operation has been cancelled, so exit quickly
+            return rejectOnAbort();
           }
-          this._sender!.on(SenderEvents.accepted, onAccepted);
-          this._sender!.on(SenderEvents.rejected, onRejected);
-          this._sender!.on(SenderEvents.modified, onModified);
-          this._sender!.on(SenderEvents.released, onReleased);
-          const delivery = this._sender!.send(message, tag, 0x80013700);
+
           log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+            "[%s] Sender '%s', credit: %d available: %d",
             this._context.connectionId,
             this.name,
-            delivery.id,
-            delivery.tag.toString()
+            this._sender!.credit,
+            this._sender!.session.outgoing.available()
           );
-        } else {
-          // let us retry to send the message after some time.
-          const msg =
-            `[${this._context.connectionId}] Sender "${this.name}", ` +
-            `cannot send the message right now. Please try later.`;
-          log.error(msg);
-          const amqpError: AmqpError = {
-            condition: ErrorNameConditionMapper.SenderBusyError,
-            description: msg
-          };
-          reject(translate(amqpError));
+
+          if (this._sender!.sendable()) {
+            log.sender(
+              "[%s] Sender '%s', sending message with id '%s'.",
+              this._context.connectionId,
+              this.name,
+              (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
+            );
+
+            onAccepted = (context: EventContext) => {
+              // Since we will be adding listener for accepted and rejected event every time
+              // we send a message, we need to remove listener for both the events.
+              // This will ensure duplicate listeners are not added for the same event.
+              log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+              resolve();
+            };
+
+            onRejected = (context: EventContext) => {
+              log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+              const err = translate(context!.delivery!.remote_state!.error);
+              log.error(err);
+              reject(err);
+            };
+
+            onReleased = (context: EventContext) => {
+              log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+              let err: Error;
+              if (context!.delivery!.remote_state!.error) {
+                err = translate(context!.delivery!.remote_state!.error);
+              } else {
+                err = new Error(
+                  `[${this._context.connectionId}] Sender '${this.name}', ` +
+                    `received a release disposition.Hence we are rejecting the promise.`
+                );
+              }
+              log.error(err);
+              reject(err);
+            };
+
+            onModified = (context: EventContext) => {
+              log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+              let err: Error;
+              if (context!.delivery!.remote_state!.error) {
+                err = translate(context!.delivery!.remote_state!.error);
+              } else {
+                err = new Error(
+                  `[${this._context.connectionId}] Sender "${this.name}", ` +
+                    `received a modified disposition.Hence we are rejecting the promise.`
+                );
+              }
+              log.error(err);
+              reject(err);
+            };
+
+            if (abortSignal) {
+              abortSignal.addEventListener("abort", onAborted);
+            }
+            this._sender!.on(SenderEvents.accepted, onAccepted);
+            this._sender!.on(SenderEvents.rejected, onRejected);
+            this._sender!.on(SenderEvents.modified, onModified);
+            this._sender!.on(SenderEvents.released, onReleased);
+            const delivery = this._sender!.send(message, tag, 0x80013700);
+            log.sender(
+              "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+              this._context.connectionId,
+              this.name,
+              delivery.id,
+              delivery.tag.toString()
+            );
+          } else {
+            // let us retry to send the message after some time.
+            const msg =
+              `[${this._context.connectionId}] Sender "${this.name}", ` +
+              `cannot send the message right now. Please try later.`;
+            log.error(msg);
+            const amqpError: AmqpError = {
+              condition: ErrorNameConditionMapper.SenderBusyError,
+              description: msg
+            };
+            reject(translate(amqpError));
+          }
+        } finally {
+          if (abortSignal) {
+            abortSignal.removeEventListener("abort", onAborted);
+          }
+          // When `removeListeners` is called on timeout, the sender might be closed and cleared
+          // So, check if it exists, before removing listeners from it.
+          if (this._sender) {
+            this._sender.removeListener(SenderEvents.rejected, onRejected);
+            this._sender.removeListener(SenderEvents.accepted, onAccepted);
+            this._sender.removeListener(SenderEvents.released, onReleased);
+            this._sender.removeListener(SenderEvents.modified, onModified);
+          }
         }
       });
 
