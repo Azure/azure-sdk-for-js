@@ -1,9 +1,9 @@
 "use strict";
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "../lib/msRestAzure";
-const clientOptions: msRestAzure.AzureServiceClientOptions = {
-  filters: [new msRest.LogFilter()]
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "../lib/coreArm";
+const clientOptions: coreArm.AzureServiceClientOptions = {
+  filters: [new coreHttp.LogFilter()]
 };
 
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "00977cdb-163f-435f-9c32-39ec8ae61f4d";
@@ -20,9 +20,9 @@ const apiVersion = "2017-06-01";
 // 1.5 in the curl tab you will see the actual curl request that has the bearer token in it
 // 1.6 copy paste that token here. That token is valid for 1 hour
 const token = "token";
-const creds = new msRest.TokenCredentials(token);
-const client = new msRestAzure.AzureServiceClient(creds, clientOptions);
-const req: msRest.RequestPrepareOptions = {
+const creds = new coreHttp.TokenCredentials(token);
+const client = new coreArm.AzureServiceClient(creds, clientOptions);
+const req: coreHttp.RequestPrepareOptions = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Storage/storageAccounts/${accountName}?api-version=${apiVersion}`,
   method: "PUT",
   body: {
@@ -38,8 +38,8 @@ const req: msRest.RequestPrepareOptions = {
   }
 };
 
-async function execute(req: msRest.RequestPrepareOptions): Promise<msRest.HttpOperationResponse> {
-  let res: msRest.HttpOperationResponse;
+async function execute(req: coreHttp.RequestPrepareOptions): Promise<msRest.HttpOperationResponse> {
+  let res: coreHttp.HttpOperationResponse;
   try {
     res = await client.sendLongRunningRequest(req);
     console.dir(res);
@@ -50,7 +50,7 @@ async function execute(req: msRest.RequestPrepareOptions): Promise<msRest.HttpOp
   }
 }
 console.log("Hi There!!");
-// client.sendLongRunningRequest(req).then((res: msRest.HttpOperationResponse) => {
+// client.sendLongRunningRequest(req).then((res: coreHttp.HttpOperationResponse) => {
 //   console.log(res.body as string);
 // }).catch((err) => {
 //   console.dir(err);

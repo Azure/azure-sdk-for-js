@@ -6,4 +6,4 @@ export { BaseResource, BaseResourceMapper } from "./baseResource";
 export { CloudError, CloudErrorMapper } from "./cloudError";
 export { CognitiveServicesCredentials } from "./credentials/cognitiveServicesCredentials";
 export { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
-export { DEFAULT_LANGUAGE, LongRunningOperationStates, msRestAzureVersion } from "./util/constants";
+export { DEFAULT_LANGUAGE, LongRunningOperationStates, coreArmVersion } from "./util/constants";

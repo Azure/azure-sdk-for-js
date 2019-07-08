@@ -23,8 +23,8 @@ export type LongRunningOperationStates =
 export const DEFAULT_LANGUAGE = "en-us";
 
 /**
- * The ms-rest-azure version.
+ * The core-arm version.
  * @const
  * @type {string}
  */
-export const msRestAzureVersion = "1.3.7";
+export const coreArmVersion = "1.0.0-preview.1";

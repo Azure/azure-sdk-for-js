@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/ms-rest-js";
+import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/core-http";
 import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
 import * as msAssert from "./msAssert";
 import { LROPoller } from "../lib/lroPoller";
@@ -2523,7 +2523,7 @@ describe("AzureServiceClient", () => {
       delete expected.userAgent;
 
       assert.deepEqual(actual, expected);
-      assert(actualUserAgent!.match(/ms-rest-azure-js\/[\d\.]+ ms-rest-js\/[\d\w\.-]+ .+/));
+      assert(actualUserAgent!.match(/core-arm\/[\d\w\.-]+ core-http\/[\d\w\.-]+ .+/));
     }
 
     it("with undefined", () => {
@@ -2559,7 +2559,7 @@ describe("AzureServiceClient", () => {
       assert.equal(telemetry, "custom-ua");
     });
 
-    it ("adds user agent header that looks similar to \"ms-rest-azure-js/0.1.0 ms-rest-js/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
+    it ("adds user agent header that looks similar to \"core-arm/0.1.0 core-http/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
@@ -2567,8 +2567,8 @@ describe("AzureServiceClient", () => {
       const telemetry = request.headers.get("user-agent")!;
       const parts = telemetry.split(" ");
 
-      assert(parts[0].includes("ms-rest-azure-js/"));
-      assert(parts[1].includes("ms-rest-js/"));
+      assert(parts[0].includes("core-arm/"));
+      assert(parts[1].includes("core-http/"));
       assert(parts[2].includes("Node/"));
       assert(parts[3].includes("OS/"));
     });
