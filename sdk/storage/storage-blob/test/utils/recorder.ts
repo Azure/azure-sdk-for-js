@@ -37,7 +37,10 @@ if (!isBrowser()) {
   // - Example - console.log("hello"); -> console.log({ log: "hello" });
   const consoleLog = window.console.log;
   for (const method in window.console) {
-    if (typeof (window.console as any)[method] === "function") {
+    if (
+      window.console.hasOwnProperty(method) &&
+      typeof (window.console as any)[method] === "function"
+    ) {
       (window.console as any)[method] = function(obj: any) {
         try {
           if (!JSON.parse(obj).writeFile) {
