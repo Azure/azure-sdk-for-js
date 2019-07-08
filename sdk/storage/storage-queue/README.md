@@ -4,7 +4,7 @@ Azure Queue storage provides cloud messaging between application components. In 
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Queue Storage service.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples) | [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.1) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples) | [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
 
 ## Key concepts
 

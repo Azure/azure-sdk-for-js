@@ -4,7 +4,7 @@ Azure Blob storage is Microsoft's object storage solution for the cloud. Blob st
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples) | [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.1) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples) | [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
 
 ## Key concepts
 

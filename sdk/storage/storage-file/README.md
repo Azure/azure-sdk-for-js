@@ -4,7 +4,7 @@ Azure Files offers fully managed file shares in the cloud that are accessible vi
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure File Storage service.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-file) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-file/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples) | [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.1) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-file/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples) | [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api)
 
 ## Key concepts
 
