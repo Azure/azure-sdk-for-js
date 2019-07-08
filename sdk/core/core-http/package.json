@@ -110,8 +110,8 @@
     "all": true
   },
   "dependencies": {
-    "@types/tunnel": "^0.0.0",
     "@azure/core-auth": "^1.0.0-preview.1",
+    "@types/tunnel": "^0.0.0",
     "axios": "^0.19.0",
     "form-data": "^2.3.2",
     "process": "^0.11.10",
@@ -167,7 +167,7 @@
     "opn-cli": "^4.0.0",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
-    "rollup": "~1.13.1",
+    "rollup": "^1.16.3",
     "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^3.1.0",

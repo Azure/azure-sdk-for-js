@@ -100,7 +100,7 @@
     "nock": "^10.0.6",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
-    "rollup": "~1.13.1",
+    "rollup": "^1.16.3",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.0.2",
     "ts-mocha": "^6.0.0",
