@@ -1,17 +1,19 @@
 {
-  "name": "smoketest",
+  "name": "samplesmoketest",
   "version": "1.0.0",
-  "description": "Smoke tests for track 2 SDKs of Key Vault Secrets, Event Hubs, Blob Storage, Identity and Cosmos DB",
-  "main": "app.js",
+  "description": "",
+  "main": "EventHubsTest.js",
   "scripts": {
-    "test": "mocha --timeout 5000"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jonathan Cardenas",
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "@azure/amqp-common": "^1.0.0-preview.5",
+    "@azure/cosmos": "^2.1.7",
     "@azure/event-hubs": "^2.1.0",
-    "@azure/keyvault-secrets": "^4.0.0-preview.1",
-    "@types/mocha": "^5.2.7",
-    "mocha": "^6.1.4"
+    "@azure/keyvault-secrets": "^4.0.0-preview.2",
+    "@azure/storage-blob": "^12.0.0-preview.1",
+    "@types/node": "^12.0.12"
   }
 }
