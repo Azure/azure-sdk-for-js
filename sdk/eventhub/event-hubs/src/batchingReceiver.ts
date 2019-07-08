@@ -182,9 +182,12 @@ export class BatchingReceiver extends EventHubReceiver {
           cleanUpBeforeReturn(this._receiver || context.receiver!);
 
           const receiverError = context.receiver && context.receiver.error;
-          let error = new MessagingError("An error occuured while receiving messages.");
+          let error = new MessagingError("An error occurred while receiving messages.");
           if (receiverError) {
             error = translate(receiverError);
+            if (error.name === "OperationTimeoutError") {
+              error.retryable = false;
+            }
             log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
           }
           reject(error);
@@ -286,6 +289,9 @@ export class BatchingReceiver extends EventHubReceiver {
           let error = new MessagingError("An error occuured while receiving messages.");
           if (sessionError) {
             error = translate(sessionError);
+            if (error.name === "OperationTimeoutError") {
+              error.retryable = false;
+            }
             log.error(
               "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
               this._context.connectionId,

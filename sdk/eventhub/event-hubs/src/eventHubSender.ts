@@ -470,7 +470,6 @@ export class EventHubSender extends LinkEntity {
           return rejectOnAbort();
         }
 
-        let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
           this._context.connectionId,
@@ -492,7 +491,6 @@ export class EventHubSender extends LinkEntity {
           let onAborted: () => void;
 
           const removeListeners = (): void => {
-            clearTimeout(waitTimer);
             // When `removeListeners` is called on timeout, the sender might be closed and cleared
             // So, check if it exists, before removing listeners from it.
             if (abortSignal) {
@@ -556,20 +554,6 @@ export class EventHubSender extends LinkEntity {
             reject(err);
           };
 
-          const actionAfterTimeout = () => {
-            removeListeners();
-            const desc: string =
-              `[${this._context.connectionId}] Sender "${this.name}" with ` +
-              `address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`;
-            log.error(desc);
-            const e: AmqpError = {
-              condition: ErrorNameConditionMapper.ServiceUnavailableError,
-              description: desc
-            };
-            return reject(translate(e));
-          };
-
           if (abortSignal) {
             abortSignal.addEventListener("abort", onAborted);
           }
@@ -577,7 +561,6 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
           const delivery = this._sender!.send(message, tag, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
