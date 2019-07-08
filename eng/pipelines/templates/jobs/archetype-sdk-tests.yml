@@ -62,4 +62,3 @@ jobs:
           EnvVars: ${{ parameters.EnvVars }}
           OSName: $(OSName)
           TestResultsFiles: $(TestResultsFiles)
-
