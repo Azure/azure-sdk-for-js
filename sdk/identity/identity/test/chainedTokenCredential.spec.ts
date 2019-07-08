@@ -8,7 +8,7 @@ import {
   TokenCredential,
   AccessToken,
   AggregateAuthenticationError
-} from "../../src";
+} from "../src";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {

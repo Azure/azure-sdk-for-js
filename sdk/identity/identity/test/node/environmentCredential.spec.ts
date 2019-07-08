@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EnvironmentCredential } from "../../src";
-import { MockAuthHttpClient, assertClientCredentials } from "./authTestUtils";
+import { MockAuthHttpClient, assertClientCredentials } from "../authTestUtils";
 
 describe("EnvironmentCredential", function () {
   it("finds and uses client credential environment variables", async () => {
