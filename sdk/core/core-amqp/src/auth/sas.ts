@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
 import jssha from "jssha";

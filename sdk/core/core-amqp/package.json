@@ -26,9 +26,9 @@
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1",
-    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.1",
-    "@azure/core-http": "^1.0.0-preview.1",
+    "@azure/core-auth": "^1.0.0-preview.1",
     "@types/async-lock": "^1.1.0",
     "@types/is-buffer": "^2.0.0",
     "async-lock": "^1.1.3",
@@ -106,7 +106,7 @@
     "rhea": "^1.0.4",
     "rhea-promise": "^0.1.15",
     "rimraf": "^2.6.2",
-    "rollup": "~1.13.1",
+    "rollup": "^1.16.3",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-inject": "^2.2.0",
     "rollup-plugin-json": "^3.1.0",
@@ -119,7 +119,6 @@
     "rollup-plugin-uglify": "^6.0.0",
     "sinon": "^7.1.0",
     "ts-node": "^7.0.1",
-    "tslint": "^5.15.0",
     "typescript": "^3.2.2",
     "ws": "^6.2.1"
   }

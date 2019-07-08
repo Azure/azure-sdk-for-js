@@ -5,9 +5,11 @@ trigger:
   branches:
     include:
       - master
+      - feature/*
   paths:
     include:
       - sdk/template/
+      - feature/*
 
 pr:
   branches:

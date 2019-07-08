@@ -70,7 +70,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "rollup": "~1.13.1",
+    "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^5.0.2",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",

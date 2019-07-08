@@ -1,11 +1,11 @@
 {
   "mode": "file",
-  "out": "../../../docGen/keyvault-keys ./src",
+  "out": "../../../docGen/keyvault-keys",
   "excludeNotExported": true,
   "excludePrivate": true,
   "exclude": [
     "node_modules/**/*",
-    "src/core/*"
+    "src/core/**/*"
   ],
   "ignoreCompilerErrors": true
 }

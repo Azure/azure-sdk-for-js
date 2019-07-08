@@ -319,6 +319,10 @@
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/core-auth",
+      "projectFolder": "sdk/core/core-auth"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http"
     },
