@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientSecretCredential } from "../../src";
+import { ClientSecretCredential } from "../src";
 import { MockAuthHttpClient, assertClientCredentials } from "./authTestUtils";
 
 describe("ClientSecretCredential", function () {

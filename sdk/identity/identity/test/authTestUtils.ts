@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { IdentityClientOptions } from "../../src";
+import { IdentityClientOptions } from "../src";
 import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient, delay, RestError } from "@azure/core-http";
 
 export interface MockAuthResponse {

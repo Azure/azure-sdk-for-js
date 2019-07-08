@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { assertRejects } from "../credentials/authTestUtils";
-import { IdentityClient } from "../../src/client/identityClient";
-import { MockAuthHttpClient } from "../credentials/authTestUtils";
-import { AuthenticationError } from "../../src/";
+import { assertRejects } from "./authTestUtils";
+import { MockAuthHttpClient } from "./authTestUtils";
+import { AuthenticationError } from "../src/";
+import { ClientSecretCredential } from "../src";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
@@ -24,10 +24,10 @@ describe("IdentityClient", function () {
         bodyAsText: `{ "error": "test_error", "error_description": "This is a test error" }`
       }
     });
-    const client = new IdentityClient(mockHttp.identityClientOptions);
 
+    const credential = new ClientSecretCredential("tenant", "client", "secret", mockHttp.identityClientOptions);
     await assertRejects(
-      client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
+      credential.getToken("https://test/.default"),
       error => {
         assert.strictEqual(error.name, 'AuthenticationError')
         return true;
@@ -43,9 +43,9 @@ describe("IdentityClient", function () {
       }
     });
 
-    const client = new IdentityClient(mockHttp.identityClientOptions);
+    const credential = new ClientSecretCredential("tenant", "client", "secret", mockHttp.identityClientOptions);
     await assertRejects(
-      client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
+      credential.getToken("https://test/.default"),
       isExpectedError("unknown_error")
     );
   });
