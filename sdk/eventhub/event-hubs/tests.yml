@@ -59,6 +59,3 @@ jobs:
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
         ENDPOINT: $(js-event-hubs-test-endpoint)
-
-      # Event Hubs tests now support concurrent execution
-      MaxParallel: 0
