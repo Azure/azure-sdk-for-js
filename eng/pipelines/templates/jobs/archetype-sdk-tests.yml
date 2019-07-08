@@ -63,5 +63,8 @@ jobs:
           PackageName: ${{ parameters.PackageName }}
           TestType: $(TestType)
           EnvVars: ${{ parameters.EnvVars }}
+            ${{ insert }}: ${{ parameters.EnvVars }}
+            - EVENTHUB_NAME: $(EVENTHUB_NAME)
           OSName: $(OSName)
           TestResultsFiles: $(TestResultsFiles)
+

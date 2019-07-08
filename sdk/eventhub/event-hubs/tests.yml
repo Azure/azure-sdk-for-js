@@ -11,69 +11,54 @@ jobs:
           TestType: "node"
           NodeVersion: "10.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-lin10)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Windows_Node10X:
           OSVmImage: "vs2017-win2016"
           TestType: "node"
           NodeVersion: "10.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-win10)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Mac_Node10X:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "10.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-mac10)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Linux_Node12X:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-lin12)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Windows_Node12X:
           OSVmImage: "vs2017-win2016"
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-win12)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Mac_Node12X:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-mac12)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Linux_Node8X:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "8.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-lin8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Windows_Node8X:
           OSVmImage: "vs2017-win2016"
           TestType: "node"
           NodeVersion: "8.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-win8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
         Mac_Node8X:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "8.x"
           EVENTHUB_NAME: $(js-event-hubs-test-name-mac8)
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          ENDPOINT: $(js-event-hubs-test-endpoint)
+
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)        
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+        ENDPOINT: $(js-event-hubs-test-endpoint)
 
       # Event Hubs tests do not support concurrent execution
       MaxParallel: 1
