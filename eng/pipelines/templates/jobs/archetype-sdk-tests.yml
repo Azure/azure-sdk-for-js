@@ -57,14 +57,13 @@ jobs:
       - script: echo $(EVENTHUB_NAME)
       - script: echo $(NodeVersion)
       - script: echo $(EVENTHUB_CONNECTION_STRING)
+      - script: |
       - template: ../steps/tests-common.yml
         parameters:
           NodeVersion: $(NodeVersion)
           PackageName: ${{ parameters.PackageName }}
           TestType: $(TestType)
           EnvVars: ${{ parameters.EnvVars }}
-            ${{ insert }}: ${{ parameters.EnvVars }}
-            - EVENTHUB_NAME: $(EVENTHUB_NAME)
           OSName: $(OSName)
           TestResultsFiles: $(TestResultsFiles)
 
