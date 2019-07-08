@@ -72,7 +72,7 @@ export interface RetryConfig<T> {
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
    * next attempt. Default: 15.
-   * When `exponentialRetry` is set to `true`, this is used to compute the exponentially increasing delays between retries.
+   * When `isExponentialRetry` is set to `true`, this is used to compute the exponentially increasing delays between retries.
    */
   delayInSeconds?: number;
   /**
@@ -81,7 +81,7 @@ export interface RetryConfig<T> {
    */
   connectionHost?: string;
   /**
-   * @property {boolean} [exponentialRetry] Flag to denote if we want to perform exponential retry and not
+   * @property {boolean} [isExponentialRetry] Flag to denote if we want to perform exponential retry and not
    * the default, which is linear.
    */
   isExponentialRetry?: boolean;
@@ -139,7 +139,7 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  * The retries when made are done so linearly on the given operation for a specified number of times,
  * with a specified delay in between each retry.
  *
- * If `exponentialRetry` option is set, then the delay between retries is adjusted to increase
+ * If `isExponentialRetry` option is set, then the delay between retries is adjusted to increase
  * exponentially with each attempt using back-off factor of power 2.
  *
  * @param {RetryConfig<T>} config Parameters to configure retry operation
