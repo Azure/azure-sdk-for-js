@@ -568,6 +568,8 @@ export class EventHubSender extends LinkEntity {
             };
             reject(translate(amqpError));
           }
+        } catch (err) {
+          reject(translate(err));
         } finally {
           if (abortSignal) {
             abortSignal.removeEventListener("abort", onAborted);
