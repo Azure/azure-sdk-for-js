@@ -60,5 +60,5 @@ jobs:
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
         ENDPOINT: $(js-event-hubs-test-endpoint)
 
-      # Event Hubs tests do not support concurrent execution
+      # Event Hubs tests now support concurrent execution
       MaxParallel: 0
