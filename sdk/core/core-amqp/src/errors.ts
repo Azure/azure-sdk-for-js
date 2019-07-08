@@ -482,6 +482,7 @@ export const retryableErrors: string[] = [
   "ServerBusyError",
   "ServiceUnavailableError",
   "OperationCancelledError",
+  "OperationTimeoutError",
   "SenderBusyError",
   "MessagingError",
   "DetachForcedError",
