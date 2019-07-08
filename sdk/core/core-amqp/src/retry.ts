@@ -6,7 +6,7 @@ import { delay, isNode } from "./util/utils";
 import * as log from "./log";
 import {
   defaultMaxRetries,
-  defaultDelayBetweenRetriesInSeconds,
+  defaultDelayBetweenOperationRetriesInSeconds,
   defaultMaxDelayForExponentialRetryInMs,
   defaultMinDelayForExponentialRetryInMs
 } from "./util/constants";
@@ -77,14 +77,14 @@ export interface RetryConfig<T> {
   delayInSeconds?: number;
   /**
    * @property {string} connectionHost The host "<yournamespace>.servicebus.windows.net".
-   * Used to check network connectivity. Applicable only when performing linear retry.
+   * Used to check network connectivity.
    */
   connectionHost?: string;
   /**
    * @property {boolean} [exponentialRetry] Flag to denote if we want to perform exponential retry and not
    * the default, which is linear.
    */
-  exponentialRetry?: boolean;
+  isExponentialRetry?: boolean;
   /**
    * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
    * that the retry attempts will be capped at. Applicable only when performing exponential retry.
@@ -142,7 +142,7 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  * If `exponentialRetry` option is set, then the delay between retries is adjusted to increase
  * exponentially with each attempt using back-off factor of power 2.
  *
- * @param {RetryConfig<T>} config Parameters that define what type of retry will be performed
+ * @param {RetryConfig<T>} config Parameters to configure retry operation
  *
  * @return {Promise<T>} Promise<T>.
  */
@@ -152,7 +152,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
     config.maxRetries = defaultMaxRetries;
   }
   if (config.delayInSeconds == undefined || config.delayInSeconds < 0) {
-    config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
+    config.delayInSeconds = defaultDelayBetweenOperationRetriesInSeconds;
   }
   if (config.maxExponentialRetryDelayInMs == undefined || config.maxExponentialRetryDelayInMs < 0) {
     config.maxExponentialRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
@@ -204,8 +204,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      let targetDelayInMs: number;
-      if (config.exponentialRetry) {
+      let targetDelayInMs = config.delayInSeconds;
+      if (config.isExponentialRetry) {
         let incrementDelta = Math.pow(2, i) - 1;
         const boundedRandDelta =
           config.delayInSeconds * 0.8 +
@@ -214,10 +214,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
 
         targetDelayInMs = Math.min(
           config.minExponentialRetryDelayInMs + incrementDelta,
-          config.delayInSeconds
+          config.maxExponentialRetryDelayInMs
         );
-      } else {
-        targetDelayInMs = config.delayInSeconds;
       }
 
       if (lastError && lastError.retryable) {
