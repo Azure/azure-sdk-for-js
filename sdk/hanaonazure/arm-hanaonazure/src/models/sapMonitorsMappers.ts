@@ -8,18 +8,16 @@
 
 export {
   BaseResource,
-  CloudError,
   Disk,
   ErrorResponse,
   HanaInstance,
-  HanaInstancesListResult,
   HardwareProfile,
   IpAddress,
-  MonitoringDetails,
   NetworkProfile,
   OSProfile,
   Resource,
   SapMonitor,
+  SapMonitorListResult,
   StorageProfile,
   Tags
 } from "../models/mappers";
