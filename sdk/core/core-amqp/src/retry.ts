@@ -31,6 +31,15 @@ function isDelivery(obj: any): boolean {
 }
 
 /**
+ * Describes the RetryPolicy type
+ * @enum RetryPolicy
+ */
+export enum RetryPolicy {
+  ExponentialRetryPolicy,
+  LinearRetryPolicy
+}
+
+/**
  * Describes the retry operation type.
  * @enum RetryOperationType
  */
@@ -71,8 +80,9 @@ export interface RetryConfig<T> {
   maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Default: 15.
-   * When `isExponentialRetry` is set to `true`, this is used to compute the exponentially increasing delays between retries.
+   * next attempt. Default: 30.
+   * When `retryPolicy` option is set to `ExponentialRetryPolicy`, \
+   * this is used to compute the exponentially increasing delays between retries.
    */
   delayInSeconds?: number;
   /**
@@ -81,10 +91,9 @@ export interface RetryConfig<T> {
    */
   connectionHost?: string;
   /**
-   * @property {boolean} [isExponentialRetry] Flag to denote if we want to perform exponential retry and not
-   * the default, which is linear.
+   * @property {RetryPolicy} [retryPolicy] Denotes which retry policy to apply. Default is `LinearRetryPolicy`
    */
-  isExponentialRetry?: boolean;
+  retryPolicy?: RetryPolicy;
   /**
    * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
    * that the retry attempts will be capped at. Applicable only when performing exponential retry.
@@ -136,10 +145,10 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  * The number of additional attempts is governed by the `maxRetries` property provided
  * on the `RetryConfig` argument.
  *
- * The retries when made are done so linearly on the given operation for a specified number of times,
- * with a specified delay in between each retry.
+ * If `retryPolicy` option is set to `LinearRetryPolicy`, then the retries when made are done so linearly on the
+ * given operation for a specified number of times, with a specified delay in between each retry.
  *
- * If `isExponentialRetry` option is set, then the delay between retries is adjusted to increase
+ * If `retryPolicy` option is set to `ExponentialRetryPolicy`, then the delay between retries is adjusted to increase
  * exponentially with each attempt using back-off factor of power 2.
  *
  * @param {RetryConfig<T>} config Parameters to configure retry operation
@@ -205,7 +214,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err
       );
       let targetDelayInMs = config.delayInSeconds;
-      if (config.isExponentialRetry) {
+      if (config.retryPolicy === RetryPolicy.ExponentialRetryPolicy) {
         let incrementDelta = Math.pow(2, i) - 1;
         const boundedRandDelta =
           config.delayInSeconds * 0.8 +
