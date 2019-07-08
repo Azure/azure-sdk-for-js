@@ -54,7 +54,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/azure-storage-js.git"
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
     "Azure",
@@ -68,9 +68,9 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Azure/azure-storage-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-storage-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
