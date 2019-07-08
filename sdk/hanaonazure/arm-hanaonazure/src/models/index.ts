@@ -307,6 +307,42 @@ export interface MonitoringDetails {
 }
 
 /**
+ * SAP monitor info on Azure (ARM properties and SAP monitor properties)
+ */
+export interface SapMonitor extends Resource {
+  /**
+   * Specifies the SAP monitor unique ID.
+   */
+  hanaSubnet?: string;
+  /**
+   * Hostname of the HANA instance.
+   */
+  hanaHostname?: string;
+  /**
+   * Database name of the HANA instance.
+   */
+  hanaDbName?: string;
+  /**
+   * Database port of the HANA instance.
+   */
+  hanaDbSqlPort?: number;
+  /**
+   * Database username of the HANA instance.
+   */
+  hanaDbUsername?: string;
+  /**
+   * Database password of the HANA instance.
+   */
+  hanaDbPassword?: string;
+  /**
+   * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
+   * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: HanaProvisioningStatesEnum;
+}
+
+/**
  * An interface representing HanaManagementClientOptions.
  */
 export interface HanaManagementClientOptions extends AzureServiceClientOptions {
@@ -329,6 +365,18 @@ export interface OperationList extends Array<Operation> {
 export interface HanaInstancesListResult extends Array<HanaInstance> {
   /**
    * The URL to get the next set of HANA instances.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The response from the List SAP monitors operation.
+ * @extends Array<SapMonitor>
+ */
+export interface SapMonitorListResult extends Array<SapMonitor> {
+  /**
+   * The URL to get the next set of SAP monitors.
    */
   nextLink?: string;
 }
@@ -545,5 +593,125 @@ export type HanaInstancesListByResourceGroupNextResponse = HanaInstancesListResu
        * The response body as parsed JSON or XML
        */
       parsedBody: HanaInstancesListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SapMonitorsListResponse = SapMonitorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitorListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SapMonitorsGetResponse = SapMonitor & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitor;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type SapMonitorsCreateResponse = SapMonitor & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitor;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SapMonitorsUpdateResponse = SapMonitor & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitor;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type SapMonitorsBeginCreateResponse = SapMonitor & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitor;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SapMonitorsListNextResponse = SapMonitorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SapMonitorListResult;
     };
 };

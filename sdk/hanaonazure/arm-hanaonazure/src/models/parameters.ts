@@ -61,6 +61,16 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const sapMonitorName: msRest.OperationURLParameter = {
+  parameterPath: "sapMonitorName",
+  mapper: {
+    required: true,
+    serializedName: "sapMonitorName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
