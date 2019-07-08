@@ -54,7 +54,6 @@ jobs:
     timeoutInMinutes: 240
 
     steps:
-      - script: |
       - template: ../steps/tests-common.yml
         parameters:
           NodeVersion: $(NodeVersion)
