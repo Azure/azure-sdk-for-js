@@ -17,7 +17,8 @@
 import { EventHubClient } from "@azure/event-hubs";
 import WebSocket from "ws";
 import url from "url";
-import httpsProxyAgent, { HttpsProxyAgentOptions } from "https-proxy-agent";
+import { HttpsProxyAgentOptions } from "https-proxy-agent";
+const httpsProxyAgent = require("https-proxy-agent");
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
