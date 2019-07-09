@@ -8,13 +8,12 @@
 
 This repository contains official JavaScript libraries and TypeScript definitions for Azure services. For documentation go to [Azure SDK for JavaScript documentation](https://aka.ms/js-docs).
 
-You can find a complete list of all the packages for these libraries [here](https://github.com/Azure/azure-sdk-for-js/blob/master/packages.md).
+You can find a complete list of these libraries in [packages.md](https://github.com/Azure/azure-sdk-for-js/blob/master/packages.md).
 
 ## Getting started
 
 For your convenience, each service has a separate set of libraries that you can choose to use instead of one, large Azure package. To get started with a specific library, see the **README.md** file located in the library's project folder. You can find service libraries in the `/sdk` directory.
 
-## Packages available
 Each service might have a number of libraries available from each of the following categories:
 * [Client - July 2019 Preview](#Client-July-2019-Preview)
 * [Client - Stable](#Client-Stable)
