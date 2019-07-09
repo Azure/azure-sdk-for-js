@@ -20,5 +20,3 @@ jobs:
         CLEAN_NAMESPACE: "true"
         RESOURCE_GROUP: $(service-bus-test-resource-group)
         SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-      # Service Bus tests do not support concurrent execution
-      MaxParallel: 1
