@@ -22,7 +22,7 @@ Each service might have a number of libraries available from each of the followi
 
 
 ### Client: July 2019 Preview
-New wave of packages that we are currently releasing in **Preview** and are released under the `npm` release named `next`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. You can learn more about these libraries by reading guidelines that they follow [here](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+New wave of packages that we are currently releasing in **Preview** and are released under the `npm` release named `next`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html) that they follow.
 
 The libraries released in July preview:
 - [@azure/storage-blob@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
