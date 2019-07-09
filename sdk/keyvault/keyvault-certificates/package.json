@@ -88,7 +88,7 @@
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.0.2",
     "typescript": "^3.2.2",
-    "uglify-js": "^3.4.9",
+    "uglify-js": "^3.6.0",
     "url": "^0.11.0"
   }
 }

@@ -136,6 +136,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
+    "uglify-js": "^3.6.0",
     "ws": "^6.2.1"
   }
 }
