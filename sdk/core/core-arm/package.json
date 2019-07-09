@@ -1,0 +1,114 @@
+{
+  "name": "@azure/ms-rest-azure-js",
+  "author": {
+    "name": "Microsoft Corporation",
+    "email": "azsdkteam@microsoft.com",
+    "url": "https://github.com/Azure/ms-rest-azure-js"
+  },
+  "version": "1.3.8",
+  "description": "Isomorphic Azure client runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
+  "tags": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime"
+  ],
+  "keywords": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime"
+  ],
+  "main": "./dist/msRestAzure.js",
+  "module": "./es/lib/msRestAzure.js",
+  "types": "./es/lib/msRestAzure.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "es/lib/**/*.js",
+    "es/lib/**/*.js.map",
+    "es/lib/**/*.d.ts",
+    "es/lib/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@azure/ms-rest-js": "^1.8.10",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@ts-common/azure-js-dev-tools": "^0.6.0",
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.1",
+    "@types/node": "^10.9.4",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^14.1.1",
+    "opn-cli": "^4.0.0",
+    "rollup": "^0.67.3",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-visualizer": "^0.9.2",
+    "shx": "^0.3.2",
+    "ts-loader": "^5.3.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.7.0",
+    "typescript": "^3.1.1",
+    "uglify-js": "^3.4.9",
+    "yarn": "^1.6.0"
+  },
+  "homepage": "https://github.com/Azure/ms-rest-azure-js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Azure/ms-rest-azure-js.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/ms-rest-azure-js/issues"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "coverage/**/*",
+      "**/*.d.ts",
+      "**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "cobertura"
+    ],
+    "all": true
+  },
+  "scripts": {
+    "build": "run-p build:lib",
+    "build:lib": "run-s build:tsc build:rollup build:minify",
+    "build:tsc": "tsc -p tsconfig.es.json",
+    "build:rollup": "rollup -c rollup.config.js",
+    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/msRestAzure.js.map'\" -o ./dist/msRestAzure.min.js ./dist/msRestAzure.js",
+    "test": "run-p test:tslint test:unit",
+    "test:unit": "nyc mocha",
+    "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
+    "test:coverage": "npm run test && opn coverage/index.html",
+    "prepack": "npm install && npm run build",
+    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts",
+    "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts",
+    "check:foronlycalls": "ts-node ./.scripts/checkForOnlyCalls.ts",
+    "check:everything": "ts-node ./.scripts/checkEverything.ts"
+  },
+  "sideEffects": false
+}
