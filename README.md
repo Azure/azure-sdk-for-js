@@ -6,7 +6,7 @@
 | Management Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/138?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=138&branchName=master) |
 | Client Libraries     | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/45?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master)   |
 
-This repository contains official JavaScript libraries for Azure services. For documentation go to [Azure SDK for JavaScript documentation](https://aka.ms/js-docs).
+This repository contains official JavaScript libraries and TypeScript definitions for Azure services. For documentation go to [Azure SDK for JavaScript documentation](https://aka.ms/js-docs).
 
 You can find a complete list of all the packages for these libraries [here](https://github.com/Azure/azure-sdk-for-js/blob/master/packages.md).
 
