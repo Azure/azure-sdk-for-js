@@ -76,6 +76,8 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
+    "@trust/keyto": "0.3.7",
+    "base64url": "3.0.1",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "~7.0.0",

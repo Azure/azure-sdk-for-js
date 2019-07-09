@@ -95,7 +95,13 @@ export interface JsonWebKey {
 export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+// @public
 export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+
+// @public
+export type JsonWebKeySignatureAlgorithm = "PS256" | "PS384" | "PS512" | "RS256" | "RS384" | "RS512" | "RSNULL" | "ES256" | "ES384" | "ES512" | "ES256K";
 
 // @public
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
@@ -120,6 +126,12 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
 }
 
 // @public
+export interface KeyOperationResult {
+    readonly kid?: string;
+    readonly result?: Uint8Array;
+}
+
+// @public
 export class KeysClient {
     constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
@@ -127,7 +139,9 @@ export class KeysClient {
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
     protected readonly credential: ServiceClientCredentials | TokenCredential;
+    decrypt(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult>;
     deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
+    encrypt(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
@@ -139,8 +153,17 @@ export class KeysClient {
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
     restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
+    sign(name: string, version: string, algorithm: JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult>;
+    unwrapKey(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult>;
     updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
     readonly vaultBaseUrl: string;
+    verify(name: string, version: string, algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<KeyVerifyResult>;
+    wrapKey(name: string, version: string, algorithm: JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: RequestOptions): Promise<KeyOperationResult>;
+}
+
+// @public
+export interface KeyVerifyResult {
+    readonly value?: boolean;
 }
 
 // @public

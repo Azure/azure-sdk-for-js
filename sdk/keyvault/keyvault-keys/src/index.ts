@@ -646,7 +646,7 @@ export class KeysClient {
    * ```ts
    * let client = new KeysClient(url, credentials);
    * const key = await client.createKey("myKey", "RSA");
-   * let encryptedResult = await client.encrypt("myKey", key.version, new Uint8Array(Buffer.from("mysecretpassword123")));
+   * let encryptedResult = await client.encrypt("myKey", key.version, "RSA1_5", new Uint8Array(Buffer.from("mysecretpassword123")));
    * ```
    * @summary Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key
    * vault.
@@ -677,7 +677,7 @@ export class KeysClient {
     * let client = new KeysClient(url, credentials);
     * // Existing key in the variable 'key'
     * // Encrypted buffer in 'encryptedBuffer'
-    * let decryptedResult = await client.decrypt("myKey", key.version, encryptedBuffer);
+    * let decryptedResult = await client.decrypt("myKey", key.version, "RSA1_5", encryptedBuffer);
     * ```
     * @summary Decrypts a single block of encrypted data.
     * @param name The name of the key.
