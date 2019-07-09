@@ -155,7 +155,7 @@ dependencies:
   rollup-plugin-resolve: 0.0.1-predev.1
   rollup-plugin-shim: 1.0.0
   rollup-plugin-sourcemaps: 0.4.2
-  rollup-plugin-terser: 4.0.4
+  rollup-plugin-terser: 5.1.1
   rollup-plugin-uglify: 6.0.2
   rollup-plugin-visualizer: 1.1.1
   semaphore: 1.0.5
@@ -8306,29 +8306,31 @@ packages:
       rollup: '>=0.31.2'
     resolution:
       integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
-  /rollup-plugin-terser/4.0.4:
+  /rollup-plugin-terser/5.1.1:
     dependencies:
       '@babel/code-frame': 7.0.0
       jest-worker: 24.6.0
+      rollup-pluginutils: 2.8.1
       serialize-javascript: 1.7.0
-      terser: 3.17.0
+      terser: 4.1.2
     dev: false
     peerDependencies:
       rollup: '>=0.66.0 <2'
     resolution:
-      integrity: sha512-wPANT5XKVJJ8RDUN0+wIr7UPd0lIXBo4UdJ59VmlPCtlFsE20AM+14pe+tk7YunCsWEiuzkDBY3QIkSCjtrPXg==
-  /rollup-plugin-terser/4.0.4_rollup@1.16.6:
+      integrity: sha512-McIMCDEY8EU6Y839C09UopeRR56wXHGdvKKjlfiZG/GrP6wvZQ62u2ko/Xh1MNH2M9WDL+obAAHySljIZYCuPQ==
+  /rollup-plugin-terser/5.1.1_rollup@1.16.6:
     dependencies:
       '@babel/code-frame': 7.0.0
       jest-worker: 24.6.0
       rollup: 1.16.6
+      rollup-pluginutils: 2.8.1
       serialize-javascript: 1.7.0
-      terser: 3.17.0
+      terser: 4.1.2
     dev: false
     peerDependencies:
       rollup: '>=0.66.0 <2'
     resolution:
-      integrity: sha512-wPANT5XKVJJ8RDUN0+wIr7UPd0lIXBo4UdJ59VmlPCtlFsE20AM+14pe+tk7YunCsWEiuzkDBY3QIkSCjtrPXg==
+      integrity: sha512-McIMCDEY8EU6Y839C09UopeRR56wXHGdvKKjlfiZG/GrP6wvZQ62u2ko/Xh1MNH2M9WDL+obAAHySljIZYCuPQ==
   /rollup-plugin-uglify/6.0.2:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -9167,17 +9169,6 @@ packages:
       webpack: ^4.0.0
     resolution:
       integrity: sha512-W2YWmxPjjkUcOWa4pBEv4OP4er1aeQJlSo2UhtCFQCuRXEHjOFscO8VyWHj9JLlA0RzQb8Y2/Ta78XZvT54uGg==
-  /terser/3.17.0:
-    dependencies:
-      commander: 2.20.0
-      source-map: 0.6.1
-      source-map-support: 0.5.12
-    dev: false
-    engines:
-      node: '>=6.0.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-/FQzzPJmCpjAH9Xvk2paiWrFq+5M6aVOf+2KRbwhByISDX/EujxsK+BAvrhb6H+2rtrLCHK9N01wO014vrIwVQ==
   /terser/4.1.2:
     dependencies:
       commander: 2.20.0
@@ -9456,42 +9447,19 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-xPw9PgNPLG3iKRxmK7DWr+Ea/SzrvfHtjFt5LBl61gk2UBG/DB9kCXRjv+xyIU1rUtnayLeMUVJBcMX8Z17nDg==
-  /tslint-eslint-rules/5.4.0_tslint@5.18.0+typescript@3.5.2:
+  /tslint-eslint-rules/5.4.0_tslint@5.18.0+typescript@3.5.3:
     dependencies:
       doctrine: 0.7.2
       tslib: 1.9.0
-      tslint: 5.18.0_typescript@3.5.2
-      tsutils: 3.14.0_typescript@3.5.2
-      typescript: 3.5.2
+      tslint: 5.18.0_typescript@3.5.3
+      tsutils: 3.14.0_typescript@3.5.3
+      typescript: 3.5.3
     dev: false
     peerDependencies:
       tslint: ^5.0.0
       typescript: ^2.2.0 || ^3.0.0
     resolution:
       integrity: sha512-WlSXE+J2vY/VPgIcqQuijMQiel+UtmXS+4nvK4ZzlDiqBfXse8FAvkNnTcYhnQyOTW5KFM+uRRGXxYhFpuBc6w==
-  /tslint/5.18.0_typescript@3.5.2:
-    dependencies:
-      '@babel/code-frame': 7.0.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.0
-      diff: 3.5.0
-      glob: 7.1.4
-      js-yaml: 3.13.1
-      minimatch: 3.0.4
-      mkdirp: 0.5.1
-      resolve: 1.11.1
-      semver: 5.7.0
-      tslib: 1.10.0
-      tsutils: 2.29.0_typescript@3.5.2
-    dev: false
-    engines:
-      node: '>=4.8.0'
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
-    resolution:
-      integrity: sha512-Q3kXkuDEijQ37nXZZLKErssQVnwCV/+23gFEMROi8IlbaBG6tXqLPQJ5Wjcyt/yHPKBC+hD5SzuGaMora+ZS6w==
   /tslint/5.18.0_typescript@3.5.3:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -9516,14 +9484,6 @@ packages:
       typescript: '>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
     resolution:
       integrity: sha512-Q3kXkuDEijQ37nXZZLKErssQVnwCV/+23gFEMROi8IlbaBG6tXqLPQJ5Wjcyt/yHPKBC+hD5SzuGaMora+ZS6w==
-  /tsutils/2.29.0_typescript@3.5.2:
-    dependencies:
-      tslib: 1.10.0
-    dev: false
-    peerDependencies:
-      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
-    resolution:
-      integrity: sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==
   /tsutils/2.29.0_typescript@3.5.3:
     dependencies:
       tslib: 1.10.0
@@ -9536,17 +9496,6 @@ packages:
   /tsutils/3.14.0:
     dependencies:
       tslib: 1.10.0
-    dev: false
-    engines:
-      node: '>= 6'
-    peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev'
-    resolution:
-      integrity: sha512-SmzGbB0l+8I0QwsPgjooFRaRvHLBLNYM8SeQ0k6rtNDru5sCGeLJcZdwilNndN+GysuFjF5EIYgN8GfFG6UeUw==
-  /tsutils/3.14.0_typescript@3.5.2:
-    dependencies:
-      tslib: 1.10.0
-      typescript: 3.5.2
     dev: false
     engines:
       node: '>= 6'
@@ -9633,13 +9582,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
-  /typescript/3.5.2:
-    dev: false
-    engines:
-      node: '>=4.2.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-7KxJovlYhTX5RaRbUdkAXN1KUZ8PwWlTzQdHV6xNqvuFOs7+WBo10TQUqT19Q/Jz2hk5v9TQDIhyLhhJY4p5AA==
   /typescript/3.5.3:
     dev: false
     engines:
@@ -10520,7 +10462,7 @@ packages:
       stream-browserify: 2.0.2
       ts-node: 7.0.1
       tslib: 1.10.0
-      tslint: 5.18.0_typescript@3.5.2
+      tslint: 5.18.0_typescript@3.5.3
       typescript: 3.5.3
       url: 0.11.0
       util: 0.11.1
@@ -10656,8 +10598,8 @@ packages:
       ts-loader: 5.4.5_typescript@3.5.3
       ts-node: 7.0.1
       tslib: 1.10.0
-      tslint: 5.18.0_typescript@3.5.2
-      tslint-eslint-rules: 5.4.0_tslint@5.18.0+typescript@3.5.2
+      tslint: 5.18.0_typescript@3.5.3
+      tslint-eslint-rules: 5.4.0_tslint@5.18.0+typescript@3.5.3
       tunnel: 0.0.6
       typescript: 3.5.3
       uglify-js: 3.6.0
@@ -10802,7 +10744,7 @@ packages:
       ts-mocha: 6.0.0_mocha@5.2.0
       ts-node: 7.0.1
       tslib: 1.10.0
-      tslint: 5.18.0_typescript@3.5.2
+      tslint: 5.18.0_typescript@3.5.3
       typescript: 3.5.3
       uuid: 3.3.2
       ws: 6.2.1
@@ -10859,7 +10801,7 @@ packages:
       rollup-plugin-uglify: 6.0.2_rollup@1.16.6
       ts-node: 7.0.1
       tslib: 1.10.0
-      tslint: 5.18.0_typescript@3.5.2
+      tslint: 5.18.0_typescript@3.5.3
       typescript: 3.5.3
       uuid: 3.3.2
     dev: false
@@ -10907,7 +10849,7 @@ packages:
       rollup-plugin-node-resolve: 5.2.0_rollup@1.16.6
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.16.6
-      rollup-plugin-terser: 4.0.4_rollup@1.16.6
+      rollup-plugin-terser: 5.1.1_rollup@1.16.6
       rollup-plugin-uglify: 6.0.2_rollup@1.16.6
       rollup-plugin-visualizer: 1.1.1_rollup@1.16.6
       tslib: 1.10.0
@@ -10917,7 +10859,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-ZPVF+eGmpYAkiT5vIzdpGHCely8t8ZRAKbv66da28B3mO973m2LeLBXWzeA7+Dwq6Bh9lE7VqvWzK3UoxOSMvg==
+      integrity: sha512-5VGkBw5Iz7ES6fw8kW7Rgx13oiLvENzb/Oa2rIBNaNgieDKfOrONP4gPnGhkutGZQhdPiAKowiJKJ1roWaxePw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -11096,7 +11038,7 @@ packages:
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.16.6
-      rollup-plugin-terser: 4.0.4_rollup@1.16.6
+      rollup-plugin-terser: 5.1.1_rollup@1.16.6
       ts-node: 7.0.1
       tslib: 1.10.0
       typescript: 3.5.3
@@ -11104,7 +11046,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-0Qb3GbQwrRp0r/d2dZko7iV4CkIIbje1Ul5Nlo7KO3yTXfyXOg96LxDdion39YHfaSjr2Bq0yGHC5N/Tqq3Hsw==
+      integrity: sha512-fMPHl/88xOtoNGfxGmkJrzfKgcYUkMOGX4Pd3BDopMXG1K4BdBXOsoWj+Tk2V0z/nNxCUiLJ36hhEJbeAXPAcw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11565,7 +11507,7 @@ specifiers:
   rollup-plugin-resolve: 0.0.1-predev.1
   rollup-plugin-shim: ^1.0.0
   rollup-plugin-sourcemaps: ^0.4.2
-  rollup-plugin-terser: ^4.0.4
+  rollup-plugin-terser: ^5.1.1
   rollup-plugin-uglify: ^6.0.0
   rollup-plugin-visualizer: ^1.0.0
   semaphore: 1.0.5
