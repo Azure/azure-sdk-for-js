@@ -1,14 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "../credentials/tokenCredential";
+import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { HttpHeaders, } from "../httpHeaders";
 import { WebResource } from "../webResource";
-
-export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
+import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
 
 /**
  * Creates a new BearerTokenAuthenticationPolicy factory.
@@ -17,9 +16,10 @@ export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
  * @param scopes The scopes for which the bearer token applies.
  */
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
+  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes);
+      return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes, tokenCache);
     }
   };
 }
@@ -32,8 +32,6 @@ export function bearerTokenAuthenticationPolicy(credential: TokenCredential, sco
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-  private cachedToken: AccessToken | undefined = undefined;
-
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
@@ -41,12 +39,14 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    * @param options Options for this RequestPolicy.
    * @param credential The TokenCredential implementation that can supply the bearer token.
    * @param scopes The scopes for which the bearer token applies.
+   * @param tokenCache The cache for the most recent AccessToken returned from the TokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
     private scopes: string | string[],
+    private tokenCache: AccessTokenCache
   ) {
     super(nextPolicy, options);
   }
@@ -70,14 +70,12 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
-    if (
-      this.cachedToken &&
-      Date.now() + TokenRefreshBufferMs < this.cachedToken.expiresOnTimestamp
-    ) {
-      return this.cachedToken.token;
+    let accessToken = this.tokenCache.getCachedToken();
+    if (accessToken === undefined) {
+      accessToken = await this.credential.getToken(this.scopes, options) || undefined;
+      this.tokenCache.setCachedToken(accessToken);
     }
 
-    this.cachedToken = (await this.credential.getToken(this.scopes, options)) || undefined;
-    return this.cachedToken ? this.cachedToken.token : undefined;
+    return accessToken ? accessToken.token : undefined;
   }
 }

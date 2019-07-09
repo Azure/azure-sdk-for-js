@@ -3,14 +3,25 @@
 
 import uuid from "uuid/v4";
 import * as log from "./log";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "rhea-promise";
-import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
-import { EventData } from "./eventData";
-import { ReceiveOptions } from "./eventHubClient";
+import {
+  Receiver,
+  OnAmqpEvent,
+  EventContext,
+  ReceiverOptions as RheaReceiverOptions,
+  types,
+  AmqpError
+} from "rhea-promise";
+import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
+import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { EventPosition } from "./eventPosition";
+import { EventPosition, getEventPositionFilter } from "./eventPosition";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
+/**
+ * @ignore
+ */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
   onError: OnAmqpEvent;
@@ -22,55 +33,34 @@ interface CreateReceiverOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
  */
 export interface ReceiverRuntimeInfo {
   /**
-   * @property {string} partitionId The parition identifier.
+   * @property lastSequenceNumber The logical sequence number of the event.
    */
-  partitionId: string;
+  lastEnqueuedSequenceNumber?: number;
   /**
-   * @property {number} lastSequenceNumber The logical sequence number of the event.
-   */
-  lastSequenceNumber?: number;
-  /**
-   * @property {Date} lastEnqueuedTimeUtc The enqueued time of the last event.
+   * @property lastEnqueuedTimeUtc The enqueued time of the last event.
    */
   lastEnqueuedTimeUtc?: Date;
   /**
-   * @property {string} lastEnqueuedOffset The offset of the last enqueued event.
+   * @property lastEnqueuedOffset The offset of the last enqueued event.
    */
   lastEnqueuedOffset?: string;
   /**
-   * @property {Date} retrievalTime The enqueued time of the last event.
+   * @property retrievalTime The enqueued time of the last event.
    */
   retrievalTime?: Date;
 }
 
 /**
- * Describes the checkoint information.
- * @interface CheckpointData
- */
-export interface CheckpointData {
-  /**
-   * @property {Date} enqueuedTimeUtc The enqueued time of the event.
-   */
-  enqueuedTimeUtc: Date;
-  /**
-   * @property {string} offset The offset of the event to be checked in.
-   */
-  offset: string;
-  /**
-   * @property {string} sequenceNumber The sequence number of the event to be checked in.
-   */
-  sequenceNumber: number;
-}
-
-/**
  * Describes the message handler signature.
  */
-export type OnMessage = (eventData: EventData) => void;
+export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
@@ -80,134 +70,162 @@ export type OnError = (error: MessagingError | Error) => void;
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
+ * @internal
  * @ignore
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * @property {string} consumerGroup The EventHub consumer group from which the receiver will
+   * @property consumerGroup The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
    */
   consumerGroup: string;
   /**
-   * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info.
+   * @property runtimeInfo The receiver runtime info.
    */
   runtimeInfo: ReceiverRuntimeInfo;
   /**
-   * @property {number} [epoch] The Receiver epoch.
+   * @property [ownerLevel] The Receiver ownerLevel.
    */
-  epoch?: number;
+  ownerLevel?: number;
   /**
-   * @property {string} [identifier] The Receiver identifier
+   * @property eventPosition The event position in the partition at which to start receiving messages.
    */
-  identifier?: string;
+  eventPosition: EventPosition;
   /**
-   * @property {ReceiveOptions} [options] Optional properties that can be set while creating
-   * the EventHubReceiver.
+   * @property [options] Optional properties that can be set while creating
+   * the EventHubConsumer.
    */
-  options: ReceiveOptions;
+  options: EventHubConsumerOptions;
   /**
-   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
+   * @property [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
    */
   prefetchCount?: number = Constants.defaultPrefetchCount;
   /**
-   * @property {boolean} receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
+   * @property receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
    * is enabled. Default: false.
    */
   receiverRuntimeMetricEnabled: boolean = false;
   /**
-   * @property {Receiver} [_receiver] The AMQP receiver link.
+   * @property [_receiver] The AMQP receiver link.
    * @protected
    */
   protected _receiver?: Receiver;
   /**
-   * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+   * @property _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
    * @protected
    */
   protected _onMessage?: OnMessage;
   /**
-   * @property {OnError} _onError The error handler provided by the user that will be wrapped
+   * @property _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    * @protected
    */
   protected _onError?: OnError;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * @property onAbort The aborter handler that will be invoked when user will call Aborter.abort()
+   * to cancel the receive request.
+   * @protected
+   */
+  protected _onAbort: () => void;
+  /**
+   * @property _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    * @protected
    */
   protected _onAmqpMessage: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * @property _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    * @protected
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The message handler that will be set as the handler on the
+   * @property _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    * @protected
    */
   protected _onAmqpClose: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * @property _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    * @protected
    */
   protected _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * @property _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    * @protected
    */
   protected _onSessionClose: OnAmqpEvent;
   /**
-   * @property {CheckpointData} _checkpoint Describes metadata about the last message received.
-   * This is used as the offset to receive messages from incase of recovery.
+   * @property _checkpoint Describes sequenceNumber of the last message received.
+   * This is used as the sequenceNumber to receive messages from incase of recovery.
    */
-  protected _checkpoint: CheckpointData;
+  protected _checkpoint: number;
+  /**
+   * @property _aborter Describes Aborter instance that will be set by the user
+   * to cancel the request.
+   */
+  protected _abortSignal: AbortSignalLike | undefined;
+
+  /**
+   * @property Returns sequenceNumber of the last event received.
+   * @readonly
+   */
+  get checkpoint(): number {
+    return this._checkpoint;
+  }
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
-   * @param {EventHubClient} client                            The EventHub client.
-   * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]                         Receiver options.
+   * @param client                            The EventHub client.
+   * @param consumerGroup  The consumer group from which the receiver should receive events from.
+   * @param partitionId                               Partition ID from which to receive.
+   * @param eventPosition The position in the stream from where to start receiving events.
+   * @param [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
-    super(context, { partitionId: partitionId, name: options ? options.name : undefined });
+  constructor(
+    context: ConnectionContext,
+    consumerGroup: string,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventHubConsumerOptions
+  ) {
+    super(context, {
+      partitionId: partitionId,
+      name: context.config.getReceiverAddress(partitionId, consumerGroup)
+    });
     if (!options) options = {};
-    this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
+    this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
-    this.prefetchCount = options.prefetchCount != undefined ? options.prefetchCount : Constants.defaultPrefetchCount;
-    this.epoch = options.epoch;
-    this.identifier = options.identifier;
+    this.ownerLevel = options.ownerLevel;
+    this.eventPosition = eventPosition;
     this.options = options;
-    this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
-    this.runtimeInfo = {
-      partitionId: `${partitionId}`
-    };
-    this._checkpoint = {
-      enqueuedTimeUtc: new Date(),
-      offset: "0",
-      sequenceNumber: -1
-    };
+    this.receiverRuntimeMetricEnabled = false;
+    this.runtimeInfo = {};
+    this._checkpoint = -1;
     this._onAmqpMessage = (context: EventContext) => {
-      const evData = EventData.fromAmqpMessage(context.message!);
-      evData.body = this._context.dataTransformer.decode(context.message!.body);
-      this._checkpoint = {
-        enqueuedTimeUtc: evData.enqueuedTimeUtc!,
-        offset: evData.offset!,
-        sequenceNumber: evData.sequenceNumber!
+      const data: EventDataInternal = fromAmqpMessage(context.message!);
+      const receivedEventData: ReceivedEventData = {
+        body: this._context.dataTransformer.decode(context.message!.body),
+        properties: data.properties,
+        offset: data.offset!,
+        sequenceNumber: data.sequenceNumber!,
+        enqueuedTimeUtc: data.enqueuedTimeUtc!,
+        partitionKey: data.partitionKey!
       };
-      if (this.receiverRuntimeMetricEnabled && evData) {
-        this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
-        this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
-        this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
-        this.runtimeInfo.retrievalTime = evData.retrievalTime;
+      this._checkpoint = receivedEventData.sequenceNumber!;
+
+      if (this.receiverRuntimeMetricEnabled && data) {
+        this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
+        this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
+        this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+        this.runtimeInfo.retrievalTime = data.retrievalTime;
         log.receiver(
           "[%s] RuntimeInfo of Receiver '%s' is %O",
           this._context.connectionId,
@@ -215,7 +233,16 @@ export class EventHubReceiver extends LinkEntity {
           this.runtimeInfo
         );
       }
-      this._onMessage!(evData);
+      this._onMessage!(receivedEventData);
+    };
+
+    this._onAbort = async () => {
+      const desc: string =
+        `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
+        `address "${this.address}" has been cancelled by the user.`;
+      log.error(desc);
+      await this.close();
+      this._onError!(new AbortError("The receive operation has been cancelled by the user."));
     };
 
     this._onAmqpError = (context: EventContext) => {
@@ -292,7 +319,7 @@ export class EventHubReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(receiverError);
+          await this.onDetached(receiverError);
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -304,6 +331,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
@@ -338,7 +368,7 @@ export class EventHubReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(sessionError);
+          await this.onDetached(sessionError);
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
@@ -350,6 +380,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
@@ -365,10 +398,10 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Will reconnect the receiver link if necessary.
    * @ignore
-   * @param {AmqpError | Error} [receiverError] The receiver error if any.
-   * @returns {Promise<void>} Promise<void>.
+   * @param [receiverError] The receiver error if any.
+   * @returns Promise<void>.
    */
-  async detached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     try {
       const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
@@ -434,25 +467,29 @@ export class EventHubReceiver extends LinkEntity {
         };
         // reconnect the receiver link with sequenceNumber of the last received message as the offset
         // if messages were received by the receiver before it got disconnected.
-        if (this._checkpoint.sequenceNumber > -1) {
-          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
+        if (this._checkpoint > -1) {
+          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint);
         }
-        const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
+        const options: RheaReceiverOptions = this._createReceiverOptions(rcvrOptions);
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () => this._init(options),
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
+          maxRetries: Constants.defaultMaxRetriesForConnection,
           connectionHost: this._context.config.host,
           delayInSeconds: 15
         };
         await retry<void>(config);
+      } else {
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
+        }
       }
     } catch (err) {
       log.error(
-        "[%s] An error occurred while processing detached() of Receiver '%s' with address " + "'%s': %O",
+        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " + "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -464,10 +501,13 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Closes the underlying AMQP receiver.
    * @ignore
-   * @returns {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     if (this._receiver) {
+      if (this._abortSignal) {
+        this._abortSignal.removeEventListener("abort", this._onAbort);
+      }
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink);
@@ -477,7 +517,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
    * @ignore
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
@@ -500,9 +540,9 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    * @ignore
-   * @returns {Promise<void>}
+   * @returns
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: RheaReceiverOptions): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
@@ -577,9 +617,9 @@ export class EventHubReceiver extends LinkEntity {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    * @ignore
    */
-  protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
+  protected _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     if (options.newName) this.name = `${uuid()}`;
-    const rcvrOptions: ReceiverOptions = {
+    const rcvrOptions: RheaReceiverOptions = {
       name: this.name,
       autoaccept: true,
       source: {
@@ -592,21 +632,17 @@ export class EventHubReceiver extends LinkEntity {
       onSessionError: options.onSessionError || this._onSessionError,
       onSessionClose: options.onSessionClose || this._onSessionClose
     };
-    if (this.epoch !== undefined && this.epoch !== null) {
+    if (this.ownerLevel !== undefined && this.ownerLevel !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
-      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);
-    }
-    if (this.identifier) {
-      if (!rcvrOptions.properties) rcvrOptions.properties = {};
-      rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;
+      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.ownerLevel);
     }
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
-    const eventPosition = options.eventPosition || this.options.eventPosition;
+    const eventPosition = options.eventPosition || this.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
-      const filterClause = eventPosition.getExpression();
+      const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
           "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)

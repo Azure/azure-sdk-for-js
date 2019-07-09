@@ -97,7 +97,7 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
 // @public
 export class SecretsClient {
     constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
-    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
+    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array>;
     protected readonly credential: ServiceClientCredentials | TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;

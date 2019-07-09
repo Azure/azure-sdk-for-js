@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
+
 export const associatedLinkName = "associated-link-name";
 export const partitionKey = "x-opt-partition-key";
 export const sequenceNumber = "x-opt-sequence-number";
@@ -72,8 +73,8 @@ export const minDurationValue = -922337203685477;
 export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();
 export const aadTokenValidityMarginSeconds = 5;
 export const connectionReconnectDelay = 300;
-export const defaultRetryAttempts = 3;
-export const defaultConnectionRetryAttempts = 150;
+export const defaultMaxRetries = 3;
+export const defaultMaxRetriesForConnection = 150;
 export const defaultDelayBetweenOperationRetriesInSeconds = 5;
 export const defaultDelayBetweenRetriesInSeconds = 15;
 export const receiverSettleMode = "receiver-settle-mode";

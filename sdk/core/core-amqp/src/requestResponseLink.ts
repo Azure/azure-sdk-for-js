@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
@@ -26,20 +27,28 @@ import * as log from "./log";
  */
 export interface SendRequestOptions {
   /**
+   * @property {AbortSignalLike} [abortSignal] Cancels the operation.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
    * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
    * Default: `10 seconds`.
    */
   timeoutInSeconds?: number;
   /**
-   * @property {number} [times] Number of times the operation needs to be retried in case
+   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
    * of error. Default: 3.
    */
-  times?: number;
+  maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
    * next attempt. Default: 15.
    */
   delayInSeconds?: number;
+  /**
+   * @property {string} [requestName] Name of the request being performed.
+   */
+  requestName?: string;
 }
 
 /**
@@ -53,11 +62,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {Sender} sender The amqp sender link.
    * @param {Receiver} receiver The amqp receiver link.
    */
-  constructor(
-    public session: Session,
-    public sender: Sender,
-    public receiver: Receiver
-  ) {
+  constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
     this.session = session;
     this.sender = sender;
     this.receiver = receiver;
@@ -76,9 +81,7 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {boolean} boolean - `true` - `open`, `false` - `closed`.
    */
   isOpen(): boolean {
-    return (
-      this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen()
-    );
+    return this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen();
   }
 
   /**
@@ -91,10 +94,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(
-    request: AmqpMessage,
-    options?: SendRequestOptions
-  ): Promise<AmqpMessage> {
+  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
@@ -102,6 +102,7 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     let count: number = 0;
+    const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
     const sendRequestPromise = () =>
       new Promise<AmqpMessage>((resolve: any, reject: any) => {
@@ -122,25 +123,59 @@ export class RequestResponseLink implements ReqResLink {
           request.message_id = generate_uuid();
         }
 
+        const rejectOnAbort = () => {
+          const address = this.receiver.address || "address";
+          const requestName = options!.requestName;
+          const desc: string =
+            `[${this.connection.id}] The request "${requestName}" ` +
+            `to "${address}" has been cancelled by the user.`;
+          log.error(desc);
+          const error = new AbortError(
+            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
+          );
+
+          reject(error);
+        };
+
+        const onAbort = () => {
+          // remove the event listener as this will be registered next time someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          // safe to clear the timeout if it hasn't already occurred.
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          aborter!.removeEventListener("abort", onAbort);
+
+          rejectOnAbort();
+        };
+
+        if (aborter) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (aborter.aborted) {
+            return rejectOnAbort();
+          }
+          aborter.addEventListener("abort", onAbort);
+        }
+
         // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
         const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
           if (!props) props = {};
           return {
-            statusCode: (props[Constants.statusCode] ||
-              props.statusCode) as number,
+            statusCode: (props[Constants.statusCode] || props.statusCode) as number,
             statusDescription: (props[Constants.statusDescription] ||
               props.statusDescription) as string,
-            errorCondition: (props[Constants.errorCondition] ||
-              props.errorCondition) as string
+            errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
           };
         };
 
         const messageCallback = (context: EventContext) => {
-          // remove the event listener as this will be registered next time when someone makes a request.
+          // remove the event listeners as they will be registered next time when someone makes a request.
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          const info = getCodeDescriptionAndError(
-            context.message!.application_properties
-          );
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
+          const info = getCodeDescriptionAndError(context.message!.application_properties);
           const responseCorrelationId = context.message!.correlation_id;
           log.reqres(
             "[%s] %s response: ",
@@ -190,11 +225,12 @@ export class RequestResponseLink implements ReqResLink {
         const actionAfterTimeout = () => {
           timeOver = true;
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
           const address = this.receiver.address || "address";
           const desc: string =
-            `The request with message_id "${
-              request.message_id
-            }" to "${address}" ` +
+            `The request with message_id "${request.message_id}" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {
             condition: ConditionStatusMapper[408],
@@ -204,10 +240,7 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(
-          actionAfterTimeout,
-          options!.timeoutInSeconds! * 1000
-        );
+        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,
@@ -224,7 +257,7 @@ export class RequestResponseLink implements ReqResLink {
           ? RetryOperationType.cbsAuth
           : RetryOperationType.management,
       delayInSeconds: options.delayInSeconds,
-      times: options.times
+      maxRetries: options.maxRetries
     };
     return retry<AmqpMessage>(config);
   }

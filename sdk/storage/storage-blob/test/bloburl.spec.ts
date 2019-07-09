@@ -5,8 +5,8 @@ import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, sleep } from "./utils";
-import { record } from "./utils/recorder";
+import { bodyToString, getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -14,7 +14,7 @@ describe("BlobURL", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;
-  let blobName: string;;
+  let blobName: string;
   let blobURL: BlobURL;
   let blockBlobURL: BlockBlobURL;
   const content = "Hello World";
@@ -147,7 +147,7 @@ describe("BlobURL", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(20 * 1000);
+    await delay(20 * 1000);
 
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
@@ -197,7 +197,7 @@ describe("BlobURL", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     const result3 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
@@ -266,7 +266,7 @@ describe("BlobURL", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobURL.delete(Aborter.none);
@@ -299,7 +299,7 @@ describe("BlobURL", () => {
     const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobURL.abortCopyFromURL(Aborter.none, result.copyId!);

@@ -17,8 +17,8 @@ import {
 } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getQSU, sleep } from "../utils/index";
-import { record } from "../utils/recorder";
+import { getQSU } from "../utils/index";
+import { record, delay } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const serviceURL = getQSU();
@@ -317,7 +317,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
 
-    await sleep(2 * 1000);
+    await delay(2 * 1000);
 
     const messageIdURL = MessageIdURL.fromMessagesURL(
       messagesURL,

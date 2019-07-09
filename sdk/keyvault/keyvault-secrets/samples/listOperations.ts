@@ -21,7 +21,7 @@ async function main(): Promise<void> {
 
   // List the secrets we have, by page
   console.log("Listing secrets by page");
-  for await (let page of client.listSecrets().byPage({ maxPageSize: 2 })) {
+  for await (const page of client.listSecrets().byPage({ maxPageSize: 2 })) {
     for (const secretAttr of page) {
       const secret = await client.getSecret(secretAttr.name);
       console.log("secret: ", secret);
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
 
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
-  for await (let secretAttr of client.listSecrets()) {
+  for await (const secretAttr of client.listSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }
@@ -39,7 +39,7 @@ async function main(): Promise<void> {
   await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (let secretAttr of client.listSecretVersions(bankAccountSecretName)) {
+  for await (const secretAttr of client.listSecretVersions(bankAccountSecretName)) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret version: ", secret);
   }

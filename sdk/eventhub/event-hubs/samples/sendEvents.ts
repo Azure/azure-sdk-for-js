@@ -4,15 +4,17 @@
 
   This sample demonstrates how the send() function can be used to send events to Event Hubs.
 
-  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about
-  to learn about Event Hubs.
+  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
+
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 const listOfScientists = [
   { name: "Einstein", firstName: "Albert" },
@@ -28,22 +30,28 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+  const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-
-  for (let index = 0; index < listOfScientists.length; index++) {
-    const scientist = listOfScientists[index];
-    const eventData: EventData = {
-      body: `${scientist.firstName} ${scientist.name}`
-    };
+  const producer = client.createProducer({ partitionId: partitionIds[0] });
+  const events: EventData[] = [];
+  try {
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
-    // const eventData = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
-    console.log(`Sending event: ${eventData.body}`);
-    await client.send(eventData, partitionIds[0]);
-  }
+    // const events = [
+    //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
+    //   { body: { "message": "Hello World 2" } },
+    //   { body: { "message": "Hello World 3" } }
+    // ];
+    for (let index = 0; index < listOfScientists.length; index++) {
+      const scientist = listOfScientists[index];
+      events.push({ body: `${scientist.firstName} ${scientist.name}` });
+    }
+    console.log("Sending batch events...");
 
-  await client.close();
+    await producer.send(events);
+  } finally {
+    await client.close();
+  }
 }
 
 main().catch(err => {

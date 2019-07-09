@@ -19,7 +19,7 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 - Get all secrets.
 - Get all deleted secrets.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/keyvault/) | [Product documentation](https://azure.microsoft.com/en-us/services/keyvault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-services/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
 
@@ -136,30 +136,46 @@ The following sections provide code snippets that cover some of the common tasks
 
 Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
 
+### Create a secret
+`setSecret` creates a secret to be stored in the Azure Key Vault. If a secret with the same name already exists, then a new version of the secret is created.
 ```javascript
-// Create out first secret
 const secretName = "MySecretName";
 const result = await client.setSecret(secretName, "MySecretValue");
+```
 
-// Get the secret we just created
+### Get a secret
+`getSecret` retrieves a secret previously stored in the Key Vault.
+```javascript
 const getResult = await client.getSecret(secretName);
 console.log("getResult: ", getResult);
+```
 
-// List all the versions of the secret in the secret vault
+### List all versions of a secret
+`listSecretVersions` will list versions of the given secret.
+```javascript
 for await (let version of client.listSecretVersions(secretName)) {
   console.log("version: ", version);
 }
+```
 
-// We can also list all the secrets in our secret vault
+### List all secrets
+`listSecrets` will list all secrets in the Key Vault.
+```javascript
 for await (let listedSecret of client.listSecrets()) {
   console.log("secret: ", listedSecret);
 }
+```
 
-// Update the attributes of one of our secrets
+### Update the attributes of a secret
+`updateSecretAttributes` updates the attributes of a secret.
+```javascript 
 const result = getSecret(secretName);
-await client.updateSecretAttributes(secretName, result.version, { enabled: true });
+await client.updateSecretAttributes(secretName, result.version, { enabled: false });
+```
 
-// Delete the secret we just created
+### Delete a secret
+`deleteSecret` deletes a secret previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the deletes.
+```javascript
 await client.deleteSecret(secretName);
 ```
 
@@ -214,6 +230,11 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 directory for detailed examples on how to use this library.
+
+* [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/helloWorld.ts) - Create, read, update, and delete secrets
+* [listOperations.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/listOperations.ts) - List secrets all at once, list by page, and list versions of a secret.
+* [backupAndRestore.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/backupAndRestore.ts) - Backup a secret and restore it after it has been deleted.
+* [deleteAndRecover.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/deleteAndRecover.ts) - Deletes a secret and recovers it after. **Note:** this assumes [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is enabled for the key vault.
 
 ## Contributing
 

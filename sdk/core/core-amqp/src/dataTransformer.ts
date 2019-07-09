@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import { message } from "rhea-promise";
 import * as log from "./log";
@@ -42,10 +42,7 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    log.transformer(
-      "[encode] The given message body that needs to be encoded is: ",
-      body
-    );
+    log.transformer("[encode] The given message body that needs to be encoded is: ", body);
     if (isBuffer(body)) {
       result = message.data_section(body);
     } else {
@@ -80,10 +77,7 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      log.transformer(
-        "[decode] Received message body for decoding is: %O",
-        body
-      );
+      log.transformer("[decode] Received message body for decoding is: %O", body);
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;

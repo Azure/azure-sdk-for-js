@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import fs from "fs-extra";
-import queryString from "query-string";
-import { blobToString } from "./index.browser";
 import { delay as restDelay } from "@azure/ms-rest-js";
+import { retry as realRetry } from "./retry";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -10,7 +12,7 @@ export function isBrowser(): boolean {
 }
 
 export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+  return encodeURIComponent(str).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
 let nock: any;
@@ -38,8 +40,17 @@ export function setReplacements(maps: any): void {
   replacements = maps;
 }
 
-export function delay(milliseconds: number): Promise<void> {
+export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
+}
+
+export async function retry<T>(
+  target: () => Promise<T>,
+  delay: number = 10000,
+  timeout: number = Infinity,
+  increaseFactor: number
+): Promise<T> {
+  return realRetry(target, isPlayingBack ? 0 : delay, timeout, increaseFactor);
 }
 
 abstract class Recorder {
@@ -74,9 +85,7 @@ abstract class Recorder {
    * */
   protected filterSecrets(recording: string): string {
     let updatedRecording = recording;
-    let lastRecording = recording;
-    for (let k of Object.keys(replaceableVariables)) {
-      lastRecording = updatedRecording;
+    for (const k of Object.keys(replaceableVariables)) {
       const escaped = escapeRegExp(env[k]);
       updatedRecording = updatedRecording.replace(
         new RegExp(escaped, "g"),
@@ -152,6 +161,14 @@ class NockRecorder extends Recorder {
   }
 }
 
+export function uniqueString(): string {
+  return isPlayingBack
+    ? ""
+    : Math.random()
+        .toString()
+        .slice(2);
+}
+
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
 // A new request object is created
 //    let req = new XMLHttpRequest();
@@ -163,7 +180,7 @@ class NockRecorder extends Recorder {
 // Finally, the request is sent to the server
 //    req.send(data);
 
-export function record(testContext: any) {
+export function record(testContext: any): any {
   let recorder: Recorder;
   let testHierarchy: string;
   let testTitle: string;

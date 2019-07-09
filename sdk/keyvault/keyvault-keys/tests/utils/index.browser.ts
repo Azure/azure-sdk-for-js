@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 export async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();
   return new Promise<string>((resolve, reject) => {

@@ -9,6 +9,9 @@
   This sample uses 2 external libraries
   - The `ws` library to provide a WebSocket implementation to the Event Hubs library.
   - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
+
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
 import { EventHubClient } from "@azure/event-hubs";
@@ -18,7 +21,7 @@ const httpsProxyAgent = require("https-proxy-agent");
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 // Create an instance of the `HttpsProxyAgent` class with the proxy server information like
 // proxy url, username and password
@@ -28,13 +31,12 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName, {
+  const client = new EventHubClient(connectionString, eventHubName, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });
   /*
-   Refer to other samples, and place your code here
-   to send/receive events
+   Refer to other samples, and place your code here to send/receive events
   */
   await client.close();
 }

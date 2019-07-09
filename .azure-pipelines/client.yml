@@ -41,7 +41,9 @@ jobs:
 
       - task: CopyFiles@2
         inputs:
-          contents: 'sdk/**/**/*.tgz'
+          contents: |
+            sdk/**/**/*.tgz
+            sdk/**/**/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: 'Copy packages'
@@ -162,7 +164,7 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js build $(rushFlags)
-        displayName: 'Build libraries"'
+        displayName: 'Build libraries'
 
       - script: |
           node common/scripts/install-run-rush.js build:test $(rushFlags)

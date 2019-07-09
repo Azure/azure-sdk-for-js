@@ -1,50 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { expect } from "chai";
 import { SecretsClient } from "../src";
-import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
+import {
+  record,
+  setReplaceableVariables,
+  retry,
+  setReplacements,
+  env,
+  uniqueString
+} from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
-import "./utils/utils.common"; // This loads the asyncIterator polyfill
+import TestClient from "./utils/testClient";
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
-  const version = "";
   let client: SecretsClient;
+  let testClient: TestClient;
   let recorder: any;
 
-  // NOTES:
-  // - To allow multiple integraton runs at the same time,
-  //   we might need to factor in more environment variables.
-  // - Another way to improve this is to add a specfic key per test.
-  // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const secretName = `list${env.SECRET_NAME || "SecretName"}`;
-
-  // NOTES:
-  // - These functions are probably better moved to a common utility file.
-  //   However, to do that we'll have to create a class or closure to maintain
-  //   the instance of the KeyClient available.
-  async function purgeSecret() {
-    await client.purgeDeletedSecret(secretName);
-    await delay(30000);
-  }
-  async function flushSecret() {
-    await client.deleteSecret(secretName);
-    await delay(30000);
-    await purgeSecret();
-  }
-  async function maybeFlushSecret() {
-    try {
-      await client.deleteSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-    try {
-      await client.purgeDeletedSecret(secretName);
-      await delay(30000);
-    } catch (e) {
-      // It will fail if the key doesn't exist. This expected.
-    }
-  }
+  const secretPrefix = `list${env.SECRET_NAME || "SecretName"}`;
+  let secretSuffix: string;
 
   before(async function() {
     setReplaceableVariables({
@@ -54,29 +32,32 @@ describe("Secret client - list secrets in various ways", () => {
       KEYVAULT_NAME: "keyvault_name"
     });
 
+    secretSuffix = uniqueString();
     setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording) =>
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
     ]);
 
-    recorder = record(this);
+    recorder = record(this); // eslint-disable-line no-invalid-this
 
     const vaultName = env.KEYVAULT_NAME;
     const url = `https://${vaultName}.vault.azure.net`;
     const credential = new EnvironmentCredential();
     client = new SecretsClient(url, credential);
-
-    await maybeFlushSecret();
+    testClient = new TestClient(client);
   });
 
-  after(async () => {
+  after(async function() {
     recorder.stop();
   });
-
+ 
   // The tests follow
 
-  it("can list secrets", async () => {
+  it("can list secrets", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
 
@@ -89,24 +70,23 @@ describe("Secret client - list secrets in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
 
-    for (let name of secretNames) {
-      await client.deleteSecret(name);
-      await delay(20000);
-      await client.purgeDeletedSecret(name);
+    for (const name of secretNames) {
+      await testClient.flushSecret(name);
     }
-    await delay(20000);
   });
 
-  it("can list deleted secrets", async () => {
+  it("can list deleted secrets", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
     }
 
-    await delay(20000);
+    // Waiting until the key is deleted
+    await retry(async () => client.getDeletedSecret(secretNames[0]));
 
     let found = 0;
     for await (const secret of client.listDeletedSecrets()) {
@@ -117,51 +97,58 @@ describe("Secret client - list secrets in various ways", () => {
 
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
 
-    for (let name of secretNames) {
-      await client.purgeDeletedSecret(name);
+    for (const name of secretNames) {
+      await testClient.purgeSecret(name);
     }
-    await delay(20000);
   });
 
-  it("can retrieve all versions of a secret", async () => {
+  it("can retrieve all versions of a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
-    interface versionValuePair {
+    interface VersionValuePair {
       version: string;
       value: string;
     }
-    let versions: versionValuePair[] = [];
+    const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
       versions.push({ version: response.version!, value: response.value! });
     }
 
-    let results: versionValuePair[] = [];
+    const results: VersionValuePair[] = [];
     for await (const item of client.listSecretVersions(secretName)) {
       const version = item.version!;
       const secret = await client.getSecret(secretName, { version: version });
       results.push({ version: item.version!, value: secret.value! });
     }
 
-    const comp = (a: versionValuePair, b: versionValuePair) =>
+    const comp = (a: VersionValuePair, b: VersionValuePair): number =>
       (a.version + a.value).localeCompare(b.version + b.value);
     results.sort(comp);
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can list secret versions (non existing)", async () => {
+  it("can list secret versions (non existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let totalVersions = 0;
-    for await (let version of client.listSecretVersions(secretName)) {
+    for await (const version of client.listSecretVersions(secretName)) {
+      assert.equal(
+        version.name,
+        secretName,
+        "Unexpected key name in result from listKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets", async () => {
+  it("can list secrets", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
@@ -173,23 +160,24 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
-    for (let name of secretNames) {
-      await client.deleteSecret(name);
-      await delay(20000);
-      await client.purgeDeletedSecret(name);
+    for (const name of secretNames) {
+      await testClient.flushSecret(name);
     }
-    await delay(20000);
   });
 
-  it("can list deleted secrets", async () => {
+  it("can list deleted secrets", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.setSecret(name, "RSA");
     }
-    for (let name of secretNames) {
+    for (const name of secretNames) {
       await client.deleteSecret(name);
     }
-    await delay(20000);
+
+    // Waiting until the key is deleted
+    await retry(async () => client.getDeletedSecret(secretNames[0]));
+
     let found = 0;
     for await (const page of client.listDeletedSecrets().byPage()) {
       for (const secret of page) {
@@ -199,25 +187,25 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
-    for (let name of secretNames) {
-      await client.purgeDeletedSecret(name);
+    for (const name of secretNames) {
+      await testClient.purgeSecret(name);
     }
-    await delay(20000);
   });
 
-  it("can retrieve all versions of a secret", async () => {
+  it("can retrieve all versions of a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
-    interface versionValuePair {
+    interface VersionValuePair {
       version: string;
       value: string;
     }
-    let versions: versionValuePair[] = [];
+    const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
       versions.push({ version: response.version!, value: response.value! });
     }
 
-    let results: versionValuePair[] = [];
+    const results: VersionValuePair[] = [];
     for await (const page of client.listSecretVersions(secretName).byPage()) {
       for (const item of page) {
         const version = item.version!;
@@ -226,19 +214,25 @@ describe("Secret client - list secrets in various ways", () => {
       }
     }
 
-    const comp = (a: versionValuePair, b: versionValuePair) =>
+    const comp = (a: VersionValuePair, b: VersionValuePair): number =>
       (a.version + a.value).localeCompare(b.version + b.value);
     results.sort(comp);
     versions.sort(comp);
 
     expect(results).to.deep.equal(versions);
-    await flushSecret();
+    await testClient.flushSecret(secretName);
   });
 
-  it("can list secret versions (non existing)", async () => {
+  it("can list secret versions (non existing)", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
     let totalVersions = 0;
     for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const secret of page) {
+      for (const version of page) {
+        assert.equal(
+          version.name,
+          secretName,
+          "Unexpected key name in result from listKeyVersions()."
+        );
         totalVersions += 1;
       }
     }

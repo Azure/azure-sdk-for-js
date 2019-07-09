@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
   ServiceClientCredentials,
@@ -16,10 +17,12 @@ import {
   proxyPolicy,
   throttlingRetryPolicy,
   getDefaultProxySettings,
+  isNode,
   userAgentPolicy
 } from "@azure/core-http";
 
 import { getDefaultUserAgentValue } from "@azure/core-http";
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
@@ -105,8 +108,13 @@ export class KeysClient {
 
     const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
 
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+    let requestPolicyFactories: RequestPolicyFactory[] = [];
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
+    requestPolicyFactories = requestPolicyFactories.concat([
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -122,7 +130,7 @@ export class KeysClient {
       isTokenCredential(credential)
         ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
         : signingPolicy(credential)
-    ];
+    ]);
 
     return {
       httpClient: pipelineOptions.HTTPClient,
@@ -149,6 +157,17 @@ export class KeysClient {
 
   /**
    * Creates an instance of KeysClient.
+   *
+   * Example usage:
+   * ```ts
+   * import { KeysClient } from "@azure/keyvault-keys";
+   * import { EnvironmentCredential } from "@azure/identity";
+   *
+   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let credentials = new EnvironmentCredential();
+   *
+   * let client = new KeysClient(url, credentials);
+   * ```
    * @param {string} url the base url to the key vault.
    * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
@@ -171,14 +190,14 @@ export class KeysClient {
     this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
-  private static getUserAgentString(telemetry?: TelemetryOptions) {
+  private static getUserAgentString(telemetry?: TelemetryOptions): string {
     const userAgentInfo: string[] = [];
     if (telemetry) {
       if (userAgentInfo.indexOf(telemetry.value) === -1) {
         userAgentInfo.push(telemetry.value);
       }
     }
-    const libInfo = `Azure-KeyVault-Keys/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (userAgentInfo.indexOf(libInfo) === -1) {
       userAgentInfo.push(libInfo);
     }
@@ -195,6 +214,13 @@ export class KeysClient {
    * The create key operation can be used to create any key type in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * // Create an elliptic-curve key:
+   * let result = await client.createKey("MyKey", "EC");
+   * ```
    * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
@@ -207,12 +233,12 @@ export class KeysClient {
     options?: CreateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -240,6 +266,12 @@ export class KeysClient {
    * The create key operation can be used to create any key type in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let result = await client.createEcKey("MyKey", { curve: "P-256" });
+   * ```
    * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
@@ -248,12 +280,12 @@ export class KeysClient {
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -281,6 +313,12 @@ export class KeysClient {
    * The create key operation can be used to create any key type in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let result = await client.createRsaKey("MyKey", { keySize: 2048 });
+   * ```
    * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
@@ -289,12 +327,12 @@ export class KeysClient {
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -322,6 +360,13 @@ export class KeysClient {
    * The import key operation may be used to import any key type into an Azure Key Vault. If the
    * named key already exists, Azure Key Vault creates a new version of the key. This operation
    * requires the keys/import permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * // Key contents in myKeyContents
+   * let result = await client.importKey("MyKey", myKeyContents);
+   * ```
    * @summary Imports an externally created key, stores it, and returns key parameters and attributes
    * to the client.
    * @param name Name for the imported key.
@@ -330,12 +375,12 @@ export class KeysClient {
    */
   public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -361,6 +406,12 @@ export class KeysClient {
   /**
    * The DELETE operation applies to any key stored in Azure Key Vault. DELETE cannot be applied
    * to an individual version of a key. This operation requires the keys/delete permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let result = await client.deleteKey("MyKey");
+   * ```
    * @summary Deletes a key from a specified key vault.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param name The name of the key.
@@ -380,6 +431,14 @@ export class KeysClient {
    * The UPDATE operation changes specified attributes of an existing stored key. Attributes that
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
+   *
+   * Example usage:
+   * ```ts
+   * let keyName = "MyKey";
+   * let client = new KeysClient(url, credentials);
+   * let key = await client.getKey(keyName);
+   * let result = await client.updateKey(keyName, key.version, { enabled: false });
+   * ```
    * @summary Updates the attributes associated with a specified key in a given key vault.
    * @param name The name of the key.
    * @param keyVersion The version of the key.
@@ -392,12 +451,12 @@ export class KeysClient {
     options?: UpdateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = {
+      const unflattenedAttributes = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
       };
-      let unflattenedOptions = {
+      const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
         keyAttributes: unflattenedAttributes
@@ -423,6 +482,12 @@ export class KeysClient {
   /**
    * The GET operation is applicable to any key stored in Azure Key Vault. This operation requires
    * the keys/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let key = await client.getKey("MyKey");
+   * ```
    * @summary Get a specified key from a given key vault.
    * @param name The name of the key.
    * @param [options] The optional parameters
@@ -441,6 +506,12 @@ export class KeysClient {
   /**
    * The Get Deleted Key operation returns the specified deleted key along with its attributes.
    * This operation requires the keys/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let key = await client.getDeletedKey("MyDeletedKey");
+   * ```
    * @summary Gets the specified deleted key.
    * @param name The name of the key.
    * @param [options] The optional parameters
@@ -459,6 +530,14 @@ export class KeysClient {
    * The purge deleted key operation removes the key permanently, without the possibility of
    * recovery. This operation can only be enabled on a soft-delete enabled vault. This operation
    * requires the keys/purge permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * await client.deleteKey("MyKey");
+   * // ...
+   * await client.purgeDeletedKey("MyKey");
+   * ```
    * @summary Permanently deletes the specified key.
    * @param name The name of the key.
    * @param [options] The optional parameters
@@ -475,6 +554,14 @@ export class KeysClient {
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault. This operation requires the keys/recover permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * await client.deleteKey("MyKey");
+   * // ...
+   * await client.recoverDeletedKey("MyKey");
+   * ```
    * @summary Recovers the deleted key to the latest version.
    * @param name The name of the deleted key.
    * @param [options] The optional parameters
@@ -492,6 +579,12 @@ export class KeysClient {
   /**
    * Requests that a backup of the specified key be downloaded to the client. All versions of the
    * key will be downloaded. This operation requires the keys/backup permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let backupContents = await client.backupKey("MyKey");
+   * ```
    * @summary Backs up the specified key.
    * @param name The name of the key.
    * @param [options] The optional parameters
@@ -509,6 +602,14 @@ export class KeysClient {
   /**
    * Restores a backed up key, and all its versions, to a vault. This operation requires the
    * keys/restore permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * let backupContents = await client.backupKey("MyKey");
+   * // ...
+   * let key = await client.restoreKey(backupContents);
+   * ```
    * @summary Restores a backed up key to a vault.
    * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
@@ -529,11 +630,11 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getKeyVersions(
+      const currentSetResponse = await this.client.getKeyVersions(
         this.vaultBaseUrl,
         name,
         optionsComplete
@@ -542,7 +643,7 @@ export class KeysClient {
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeyVersionsNext(
+      const currentSetResponse = await this.client.getKeyVersionsNext(
         continuationState.continuationToken,
         options
       );
@@ -555,7 +656,7 @@ export class KeysClient {
     name: string,
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listKeyVersionsPage(name, f, options)) {
       for (const item of page) {
@@ -567,6 +668,15 @@ export class KeysClient {
   /**
    * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
    * in the response. This operation requires the keys/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * for await (const keyAttr of client.listKeyVersions("MyKey")) {
+   *   const key = await client.getKey(keyAttr.name);
+   *   console.log("key version: ", key);
+   * }
+   * ```
    * @param name Name of the key to fetch versions for
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
@@ -592,16 +702,16 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeysNext(
+      const currentSetResponse = await this.client.getKeysNext(
         continuationState.continuationToken,
         options
       );
@@ -611,7 +721,7 @@ export class KeysClient {
   }
 
   private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listKeysPage(f, options)) {
       for (const item of page) {
@@ -623,6 +733,15 @@ export class KeysClient {
   /**
    * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * for await (const keyAttr of client.listKeys()) {
+   *   const key = await client.getKey(keyAttr.name);
+   *   console.log("key: ", key);
+   * }
+   * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
@@ -647,16 +766,19 @@ export class KeysClient {
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
-      let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getDeletedKeys(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getDeletedKeysNext(
+      const currentSetResponse = await this.client.getDeletedKeysNext(
         continuationState.continuationToken,
         options
       );
@@ -668,7 +790,7 @@ export class KeysClient {
   private async *listDeletedKeysAll(
     options?: ListKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let f = {};
+    const f = {};
 
     for await (const page of this.listDeletedKeysPage(f, options)) {
       for (const item of page) {
@@ -680,6 +802,15 @@ export class KeysClient {
   /**
    * Iterates the deleted keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeysClient(url, credentials);
+   * for await (const keyAttr of client.listDeletedKeys()) {
+   *   const deletedKey = await client.getKey(keyAttr.name);
+   *   console.log("deleted key: ", deletedKey);
+   * }
+   * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
