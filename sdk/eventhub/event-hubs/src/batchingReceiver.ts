@@ -186,6 +186,9 @@ export class BatchingReceiver extends EventHubReceiver {
           if (receiverError) {
             error = translate(receiverError);
             if (error.name === "OperationTimeoutError") {
+              // Abort executing operation as receive operations are currently not intended to
+              // proceed with retries on Operation Timeout
+              error.name = "AbortError";
               error.retryable = false;
             }
             log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
@@ -290,6 +293,9 @@ export class BatchingReceiver extends EventHubReceiver {
           if (sessionError) {
             error = translate(sessionError);
             if (error.name === "OperationTimeoutError") {
+              // Abort executing operation as receive operations are currently not intended to
+              // proceed with retries on Operation Timeout
+              error.name = "AbortError";
               error.retryable = false;
             }
             log.error(
