@@ -1,6 +1,6 @@
 # 2019-07-09 1.0.3
 
-- Update `amqp-common` dependency version to 1.0.0-preview.6 which includes fix for bug where token audience for AAD based authentication would work only with Azure Event Hubs. The appropriate token audience now needs to be explicitly set on the credentials at time of creation. [PR 4146](https://github.com/Azure/azure-sdk-for-js/pull/4146)
+- Update `amqp-common` dependency version to 1.0.0-preview.6. This includes fix for the [bug 3971](https://github.com/Azure/azure-sdk-for-js/issues/3971) where the token audience in the credential created during [MSI based login](https://www.npmjs.com/package/@azure/ms-rest-nodeauth/v/2.0.2#msi-managed-service-identity-based-login-from-a-virtual-machine-created-in-azure) was being ignored. [PR 4146](https://github.com/Azure/azure-sdk-for-js/pull/4146)
 
 # 2019-05-21 1.0.2
 
