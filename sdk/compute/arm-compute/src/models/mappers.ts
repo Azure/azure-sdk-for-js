@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ComputeOperationValue: msRest.CompositeMapper = {
+export const ComputeOperationValue: coreHttp.CompositeMapper = {
   serializedName: "ComputeOperationValue",
   type: {
     name: "Composite",
@@ -64,7 +64,7 @@ export const ComputeOperationValue: msRest.CompositeMapper = {
   }
 };
 
-export const InstanceViewStatus: msRest.CompositeMapper = {
+export const InstanceViewStatus: coreHttp.CompositeMapper = {
   serializedName: "InstanceViewStatus",
   type: {
     name: "Composite",
@@ -109,7 +109,7 @@ export const InstanceViewStatus: msRest.CompositeMapper = {
   }
 };
 
-export const SubResource: msRest.CompositeMapper = {
+export const SubResource: coreHttp.CompositeMapper = {
   serializedName: "SubResource",
   type: {
     name: "Composite",
@@ -125,7 +125,7 @@ export const SubResource: msRest.CompositeMapper = {
   }
 };
 
-export const Sku: msRest.CompositeMapper = {
+export const Sku: coreHttp.CompositeMapper = {
   serializedName: "Sku",
   type: {
     name: "Composite",
@@ -153,7 +153,7 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
+export const Resource: coreHttp.CompositeMapper = {
   serializedName: "Resource",
   type: {
     name: "Composite",
@@ -202,7 +202,7 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
-export const AvailabilitySet: msRest.CompositeMapper = {
+export const AvailabilitySet: coreHttp.CompositeMapper = {
   serializedName: "AvailabilitySet",
   type: {
     name: "Composite",
@@ -257,7 +257,7 @@ export const AvailabilitySet: msRest.CompositeMapper = {
   }
 };
 
-export const UpdateResource: msRest.CompositeMapper = {
+export const UpdateResource: coreHttp.CompositeMapper = {
   serializedName: "UpdateResource",
   type: {
     name: "Composite",
@@ -278,7 +278,7 @@ export const UpdateResource: msRest.CompositeMapper = {
   }
 };
 
-export const AvailabilitySetUpdate: msRest.CompositeMapper = {
+export const AvailabilitySetUpdate: coreHttp.CompositeMapper = {
   serializedName: "AvailabilitySetUpdate",
   type: {
     name: "Composite",
@@ -333,7 +333,7 @@ export const AvailabilitySetUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineSize: msRest.CompositeMapper = {
+export const VirtualMachineSize: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineSize",
   type: {
     name: "Composite",
@@ -379,7 +379,7 @@ export const VirtualMachineSize: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtensionImage: msRest.CompositeMapper = {
+export const VirtualMachineExtensionImage: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtensionImage",
   type: {
     name: "Composite",
@@ -423,7 +423,7 @@ export const VirtualMachineExtensionImage: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineImageResource: msRest.CompositeMapper = {
+export const VirtualMachineImageResource: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineImageResource",
   type: {
     name: "Composite",
@@ -459,7 +459,7 @@ export const VirtualMachineImageResource: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtensionInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineExtensionInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtensionInstanceView",
   type: {
     name: "Composite",
@@ -511,7 +511,7 @@ export const VirtualMachineExtensionInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtension: msRest.CompositeMapper = {
+export const VirtualMachineExtension: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtension",
   type: {
     name: "Composite",
@@ -578,7 +578,7 @@ export const VirtualMachineExtension: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
+export const VirtualMachineExtensionUpdate: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtensionUpdate",
   type: {
     name: "Composite",
@@ -631,7 +631,7 @@ export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtensionsListResult: msRest.CompositeMapper = {
+export const VirtualMachineExtensionsListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtensionsListResult",
   type: {
     name: "Composite",
@@ -653,7 +653,7 @@ export const VirtualMachineExtensionsListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PurchasePlan: msRest.CompositeMapper = {
+export const PurchasePlan: coreHttp.CompositeMapper = {
   serializedName: "PurchasePlan",
   type: {
     name: "Composite",
@@ -684,7 +684,7 @@ export const PurchasePlan: msRest.CompositeMapper = {
   }
 };
 
-export const OSDiskImage: msRest.CompositeMapper = {
+export const OSDiskImage: coreHttp.CompositeMapper = {
   serializedName: "OSDiskImage",
   type: {
     name: "Composite",
@@ -705,7 +705,7 @@ export const OSDiskImage: msRest.CompositeMapper = {
   }
 };
 
-export const DataDiskImage: msRest.CompositeMapper = {
+export const DataDiskImage: coreHttp.CompositeMapper = {
   serializedName: "DataDiskImage",
   type: {
     name: "Composite",
@@ -722,7 +722,7 @@ export const DataDiskImage: msRest.CompositeMapper = {
   }
 };
 
-export const AutomaticOSUpgradeProperties: msRest.CompositeMapper = {
+export const AutomaticOSUpgradeProperties: coreHttp.CompositeMapper = {
   serializedName: "AutomaticOSUpgradeProperties",
   type: {
     name: "Composite",
@@ -739,7 +739,7 @@ export const AutomaticOSUpgradeProperties: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineImage: msRest.CompositeMapper = {
+export const VirtualMachineImage: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineImage",
   type: {
     name: "Composite",
@@ -783,7 +783,7 @@ export const VirtualMachineImage: msRest.CompositeMapper = {
   }
 };
 
-export const UsageName: msRest.CompositeMapper = {
+export const UsageName: coreHttp.CompositeMapper = {
   serializedName: "UsageName",
   type: {
     name: "Composite",
@@ -805,7 +805,7 @@ export const UsageName: msRest.CompositeMapper = {
   }
 };
 
-export const Usage: msRest.CompositeMapper = {
+export const Usage: coreHttp.CompositeMapper = {
   serializedName: "Usage",
   type: {
     name: "Composite",
@@ -846,7 +846,7 @@ export const Usage: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineReimageParameters: msRest.CompositeMapper = {
+export const VirtualMachineReimageParameters: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineReimageParameters",
   type: {
     name: "Composite",
@@ -862,7 +862,7 @@ export const VirtualMachineReimageParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineCaptureParameters: msRest.CompositeMapper = {
+export const VirtualMachineCaptureParameters: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineCaptureParameters",
   type: {
     name: "Composite",
@@ -893,7 +893,7 @@ export const VirtualMachineCaptureParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineCaptureResult: msRest.CompositeMapper = {
+export const VirtualMachineCaptureResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineCaptureResult",
   type: {
     name: "Composite",
@@ -937,7 +937,7 @@ export const VirtualMachineCaptureResult: msRest.CompositeMapper = {
   }
 };
 
-export const Plan: msRest.CompositeMapper = {
+export const Plan: coreHttp.CompositeMapper = {
   serializedName: "Plan",
   type: {
     name: "Composite",
@@ -971,7 +971,7 @@ export const Plan: msRest.CompositeMapper = {
   }
 };
 
-export const HardwareProfile: msRest.CompositeMapper = {
+export const HardwareProfile: coreHttp.CompositeMapper = {
   serializedName: "HardwareProfile",
   type: {
     name: "Composite",
@@ -987,7 +987,7 @@ export const HardwareProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ImageReference: msRest.CompositeMapper = {
+export const ImageReference: coreHttp.CompositeMapper = {
   serializedName: "ImageReference",
   type: {
     name: "Composite",
@@ -1022,7 +1022,7 @@ export const ImageReference: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretReference: msRest.CompositeMapper = {
+export const KeyVaultSecretReference: coreHttp.CompositeMapper = {
   serializedName: "KeyVaultSecretReference",
   type: {
     name: "Composite",
@@ -1047,7 +1047,7 @@ export const KeyVaultSecretReference: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyReference: msRest.CompositeMapper = {
+export const KeyVaultKeyReference: coreHttp.CompositeMapper = {
   serializedName: "KeyVaultKeyReference",
   type: {
     name: "Composite",
@@ -1072,7 +1072,7 @@ export const KeyVaultKeyReference: msRest.CompositeMapper = {
   }
 };
 
-export const DiskEncryptionSettings: msRest.CompositeMapper = {
+export const DiskEncryptionSettings: coreHttp.CompositeMapper = {
   serializedName: "DiskEncryptionSettings",
   type: {
     name: "Composite",
@@ -1102,7 +1102,7 @@ export const DiskEncryptionSettings: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHardDisk: msRest.CompositeMapper = {
+export const VirtualHardDisk: coreHttp.CompositeMapper = {
   serializedName: "VirtualHardDisk",
   type: {
     name: "Composite",
@@ -1118,7 +1118,7 @@ export const VirtualHardDisk: msRest.CompositeMapper = {
   }
 };
 
-export const DiffDiskSettings: msRest.CompositeMapper = {
+export const DiffDiskSettings: coreHttp.CompositeMapper = {
   serializedName: "DiffDiskSettings",
   type: {
     name: "Composite",
@@ -1134,7 +1134,7 @@ export const DiffDiskSettings: msRest.CompositeMapper = {
   }
 };
 
-export const ManagedDiskParameters: msRest.CompositeMapper = {
+export const ManagedDiskParameters: coreHttp.CompositeMapper = {
   serializedName: "ManagedDiskParameters",
   type: {
     name: "Composite",
@@ -1151,7 +1151,7 @@ export const ManagedDiskParameters: msRest.CompositeMapper = {
   }
 };
 
-export const OSDisk: msRest.CompositeMapper = {
+export const OSDisk: coreHttp.CompositeMapper = {
   serializedName: "OSDisk",
   type: {
     name: "Composite",
@@ -1242,7 +1242,7 @@ export const OSDisk: msRest.CompositeMapper = {
   }
 };
 
-export const DataDisk: msRest.CompositeMapper = {
+export const DataDisk: coreHttp.CompositeMapper = {
   serializedName: "DataDisk",
   type: {
     name: "Composite",
@@ -1316,7 +1316,7 @@ export const DataDisk: msRest.CompositeMapper = {
   }
 };
 
-export const StorageProfile: msRest.CompositeMapper = {
+export const StorageProfile: coreHttp.CompositeMapper = {
   serializedName: "StorageProfile",
   type: {
     name: "Composite",
@@ -1352,7 +1352,7 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const AdditionalCapabilities: msRest.CompositeMapper = {
+export const AdditionalCapabilities: coreHttp.CompositeMapper = {
   serializedName: "AdditionalCapabilities",
   type: {
     name: "Composite",
@@ -1368,7 +1368,7 @@ export const AdditionalCapabilities: msRest.CompositeMapper = {
   }
 };
 
-export const AdditionalUnattendContent: msRest.CompositeMapper = {
+export const AdditionalUnattendContent: coreHttp.CompositeMapper = {
   serializedName: "AdditionalUnattendContent",
   type: {
     name: "Composite",
@@ -1412,7 +1412,7 @@ export const AdditionalUnattendContent: msRest.CompositeMapper = {
   }
 };
 
-export const WinRMListener: msRest.CompositeMapper = {
+export const WinRMListener: coreHttp.CompositeMapper = {
   serializedName: "WinRMListener",
   type: {
     name: "Composite",
@@ -1438,7 +1438,7 @@ export const WinRMListener: msRest.CompositeMapper = {
   }
 };
 
-export const WinRMConfiguration: msRest.CompositeMapper = {
+export const WinRMConfiguration: coreHttp.CompositeMapper = {
   serializedName: "WinRMConfiguration",
   type: {
     name: "Composite",
@@ -1460,7 +1460,7 @@ export const WinRMConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const WindowsConfiguration: msRest.CompositeMapper = {
+export const WindowsConfiguration: coreHttp.CompositeMapper = {
   serializedName: "WindowsConfiguration",
   type: {
     name: "Composite",
@@ -1507,7 +1507,7 @@ export const WindowsConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const SshPublicKey: msRest.CompositeMapper = {
+export const SshPublicKey: coreHttp.CompositeMapper = {
   serializedName: "SshPublicKey",
   type: {
     name: "Composite",
@@ -1529,7 +1529,7 @@ export const SshPublicKey: msRest.CompositeMapper = {
   }
 };
 
-export const SshConfiguration: msRest.CompositeMapper = {
+export const SshConfiguration: coreHttp.CompositeMapper = {
   serializedName: "SshConfiguration",
   type: {
     name: "Composite",
@@ -1551,7 +1551,7 @@ export const SshConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const LinuxConfiguration: msRest.CompositeMapper = {
+export const LinuxConfiguration: coreHttp.CompositeMapper = {
   serializedName: "LinuxConfiguration",
   type: {
     name: "Composite",
@@ -1580,7 +1580,7 @@ export const LinuxConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VaultCertificate: msRest.CompositeMapper = {
+export const VaultCertificate: coreHttp.CompositeMapper = {
   serializedName: "VaultCertificate",
   type: {
     name: "Composite",
@@ -1602,7 +1602,7 @@ export const VaultCertificate: msRest.CompositeMapper = {
   }
 };
 
-export const VaultSecretGroup: msRest.CompositeMapper = {
+export const VaultSecretGroup: coreHttp.CompositeMapper = {
   serializedName: "VaultSecretGroup",
   type: {
     name: "Composite",
@@ -1631,7 +1631,7 @@ export const VaultSecretGroup: msRest.CompositeMapper = {
   }
 };
 
-export const OSProfile: msRest.CompositeMapper = {
+export const OSProfile: coreHttp.CompositeMapper = {
   serializedName: "OSProfile",
   type: {
     name: "Composite",
@@ -1697,7 +1697,7 @@ export const OSProfile: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceReference: msRest.CompositeMapper = {
+export const NetworkInterfaceReference: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceReference",
   type: {
     name: "Composite",
@@ -1714,7 +1714,7 @@ export const NetworkInterfaceReference: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkProfile: msRest.CompositeMapper = {
+export const NetworkProfile: coreHttp.CompositeMapper = {
   serializedName: "NetworkProfile",
   type: {
     name: "Composite",
@@ -1736,7 +1736,7 @@ export const NetworkProfile: msRest.CompositeMapper = {
   }
 };
 
-export const BootDiagnostics: msRest.CompositeMapper = {
+export const BootDiagnostics: coreHttp.CompositeMapper = {
   serializedName: "BootDiagnostics",
   type: {
     name: "Composite",
@@ -1758,7 +1758,7 @@ export const BootDiagnostics: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticsProfile: msRest.CompositeMapper = {
+export const DiagnosticsProfile: coreHttp.CompositeMapper = {
   serializedName: "DiagnosticsProfile",
   type: {
     name: "Composite",
@@ -1775,7 +1775,7 @@ export const DiagnosticsProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineExtensionHandlerInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineExtensionHandlerInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineExtensionHandlerInstanceView",
   type: {
     name: "Composite",
@@ -1804,7 +1804,7 @@ export const VirtualMachineExtensionHandlerInstanceView: msRest.CompositeMapper 
   }
 };
 
-export const VirtualMachineAgentInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineAgentInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineAgentInstanceView",
   type: {
     name: "Composite",
@@ -1844,7 +1844,7 @@ export const VirtualMachineAgentInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const DiskInstanceView: msRest.CompositeMapper = {
+export const DiskInstanceView: coreHttp.CompositeMapper = {
   serializedName: "DiskInstanceView",
   type: {
     name: "Composite",
@@ -1884,7 +1884,7 @@ export const DiskInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const BootDiagnosticsInstanceView: msRest.CompositeMapper = {
+export const BootDiagnosticsInstanceView: coreHttp.CompositeMapper = {
   serializedName: "BootDiagnosticsInstanceView",
   type: {
     name: "Composite",
@@ -1916,7 +1916,7 @@ export const BootDiagnosticsInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+export const VirtualMachineIdentityUserAssignedIdentitiesValue: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineIdentity_userAssignedIdentitiesValue",
   type: {
     name: "Composite",
@@ -1940,7 +1940,7 @@ export const VirtualMachineIdentityUserAssignedIdentitiesValue: msRest.Composite
   }
 };
 
-export const VirtualMachineIdentity: msRest.CompositeMapper = {
+export const VirtualMachineIdentity: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineIdentity",
   type: {
     name: "Composite",
@@ -1988,7 +1988,7 @@ export const VirtualMachineIdentity: msRest.CompositeMapper = {
   }
 };
 
-export const MaintenanceRedeployStatus: msRest.CompositeMapper = {
+export const MaintenanceRedeployStatus: coreHttp.CompositeMapper = {
   serializedName: "MaintenanceRedeployStatus",
   type: {
     name: "Composite",
@@ -2046,7 +2046,7 @@ export const MaintenanceRedeployStatus: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineInstanceView",
   type: {
     name: "Composite",
@@ -2149,7 +2149,7 @@ export const VirtualMachineInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachine: msRest.CompositeMapper = {
+export const VirtualMachine: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachine",
   type: {
     name: "Composite",
@@ -2275,7 +2275,7 @@ export const VirtualMachine: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineUpdate: msRest.CompositeMapper = {
+export const VirtualMachineUpdate: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineUpdate",
   type: {
     name: "Composite",
@@ -2388,7 +2388,7 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const AutomaticOSUpgradePolicy: msRest.CompositeMapper = {
+export const AutomaticOSUpgradePolicy: coreHttp.CompositeMapper = {
   serializedName: "AutomaticOSUpgradePolicy",
   type: {
     name: "Composite",
@@ -2410,7 +2410,7 @@ export const AutomaticOSUpgradePolicy: msRest.CompositeMapper = {
   }
 };
 
-export const RollingUpgradePolicy: msRest.CompositeMapper = {
+export const RollingUpgradePolicy: coreHttp.CompositeMapper = {
   serializedName: "RollingUpgradePolicy",
   type: {
     name: "Composite",
@@ -2456,7 +2456,7 @@ export const RollingUpgradePolicy: msRest.CompositeMapper = {
   }
 };
 
-export const UpgradePolicy: msRest.CompositeMapper = {
+export const UpgradePolicy: coreHttp.CompositeMapper = {
   serializedName: "UpgradePolicy",
   type: {
     name: "Composite",
@@ -2491,7 +2491,7 @@ export const UpgradePolicy: msRest.CompositeMapper = {
   }
 };
 
-export const ImageOSDisk: msRest.CompositeMapper = {
+export const ImageOSDisk: coreHttp.CompositeMapper = {
   serializedName: "ImageOSDisk",
   type: {
     name: "Composite",
@@ -2566,7 +2566,7 @@ export const ImageOSDisk: msRest.CompositeMapper = {
   }
 };
 
-export const ImageDataDisk: msRest.CompositeMapper = {
+export const ImageDataDisk: coreHttp.CompositeMapper = {
   serializedName: "ImageDataDisk",
   type: {
     name: "Composite",
@@ -2626,7 +2626,7 @@ export const ImageDataDisk: msRest.CompositeMapper = {
   }
 };
 
-export const ImageStorageProfile: msRest.CompositeMapper = {
+export const ImageStorageProfile: coreHttp.CompositeMapper = {
   serializedName: "ImageStorageProfile",
   type: {
     name: "Composite",
@@ -2661,7 +2661,7 @@ export const ImageStorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const Image: msRest.CompositeMapper = {
+export const Image: coreHttp.CompositeMapper = {
   serializedName: "Image",
   type: {
     name: "Composite",
@@ -2693,7 +2693,7 @@ export const Image: msRest.CompositeMapper = {
   }
 };
 
-export const ImageUpdate: msRest.CompositeMapper = {
+export const ImageUpdate: coreHttp.CompositeMapper = {
   serializedName: "ImageUpdate",
   type: {
     name: "Composite",
@@ -2725,7 +2725,7 @@ export const ImageUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetIdentity_userAssignedIdentitiesValue",
   type: {
     name: "Composite",
@@ -2749,7 +2749,7 @@ export const VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue: msRest.C
   }
 };
 
-export const VirtualMachineScaleSetIdentity: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetIdentity: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetIdentity",
   type: {
     name: "Composite",
@@ -2797,7 +2797,7 @@ export const VirtualMachineScaleSetIdentity: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetOSProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetOSProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetOSProfile",
   type: {
     name: "Composite",
@@ -2857,7 +2857,7 @@ export const VirtualMachineScaleSetOSProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateOSProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateOSProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateOSProfile",
   type: {
     name: "Composite",
@@ -2899,7 +2899,7 @@ export const VirtualMachineScaleSetUpdateOSProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetManagedDiskParameters: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetManagedDiskParameters: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetManagedDiskParameters",
   type: {
     name: "Composite",
@@ -2915,7 +2915,7 @@ export const VirtualMachineScaleSetManagedDiskParameters: msRest.CompositeMapper
   }
 };
 
-export const VirtualMachineScaleSetOSDisk: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetOSDisk: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetOSDisk",
   type: {
     name: "Composite",
@@ -3003,7 +3003,7 @@ export const VirtualMachineScaleSetOSDisk: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateOSDisk: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateOSDisk: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateOSDisk",
   type: {
     name: "Composite",
@@ -3061,7 +3061,7 @@ export const VirtualMachineScaleSetUpdateOSDisk: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetDataDisk: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetDataDisk: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetDataDisk",
   type: {
     name: "Composite",
@@ -3121,7 +3121,7 @@ export const VirtualMachineScaleSetDataDisk: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetStorageProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetStorageProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetStorageProfile",
   type: {
     name: "Composite",
@@ -3157,7 +3157,7 @@ export const VirtualMachineScaleSetStorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateStorageProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateStorageProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateStorageProfile",
   type: {
     name: "Composite",
@@ -3193,7 +3193,7 @@ export const VirtualMachineScaleSetUpdateStorageProfile: msRest.CompositeMapper 
   }
 };
 
-export const ApiEntityReference: msRest.CompositeMapper = {
+export const ApiEntityReference: coreHttp.CompositeMapper = {
   serializedName: "ApiEntityReference",
   type: {
     name: "Composite",
@@ -3209,7 +3209,7 @@ export const ApiEntityReference: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings",
   type: {
     name: "Composite",
@@ -3226,7 +3226,7 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: msRe
   }
 };
 
-export const VirtualMachineScaleSetIpTag: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetIpTag: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetIpTag",
   type: {
     name: "Composite",
@@ -3248,7 +3248,7 @@ export const VirtualMachineScaleSetIpTag: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetPublicIPAddressConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetPublicIPAddressConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetPublicIPAddressConfiguration",
   type: {
     name: "Composite",
@@ -3297,7 +3297,7 @@ export const VirtualMachineScaleSetPublicIPAddressConfiguration: msRest.Composit
   }
 };
 
-export const VirtualMachineScaleSetUpdatePublicIPAddressConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdatePublicIPAddressConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdatePublicIPAddressConfiguration",
   type: {
     name: "Composite",
@@ -3326,7 +3326,7 @@ export const VirtualMachineScaleSetUpdatePublicIPAddressConfiguration: msRest.Co
   }
 };
 
-export const VirtualMachineScaleSetIPConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetIPConfiguration",
   type: {
     name: "Composite",
@@ -3418,7 +3418,7 @@ export const VirtualMachineScaleSetIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateIPConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateIPConfiguration",
   type: {
     name: "Composite",
@@ -3509,7 +3509,7 @@ export const VirtualMachineScaleSetUpdateIPConfiguration: msRest.CompositeMapper
   }
 };
 
-export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetNetworkConfigurationDnsSettings",
   type: {
     name: "Composite",
@@ -3530,7 +3530,7 @@ export const VirtualMachineScaleSetNetworkConfigurationDnsSettings: msRest.Compo
   }
 };
 
-export const VirtualMachineScaleSetNetworkConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetNetworkConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetNetworkConfiguration",
   type: {
     name: "Composite",
@@ -3593,7 +3593,7 @@ export const VirtualMachineScaleSetNetworkConfiguration: msRest.CompositeMapper 
   }
 };
 
-export const VirtualMachineScaleSetUpdateNetworkConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateNetworkConfiguration",
   type: {
     name: "Composite",
@@ -3654,7 +3654,7 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: msRest.CompositeM
   }
 };
 
-export const VirtualMachineScaleSetNetworkProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetNetworkProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetNetworkProfile",
   type: {
     name: "Composite",
@@ -3683,7 +3683,7 @@ export const VirtualMachineScaleSetNetworkProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateNetworkProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateNetworkProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateNetworkProfile",
   type: {
     name: "Composite",
@@ -3705,7 +3705,7 @@ export const VirtualMachineScaleSetUpdateNetworkProfile: msRest.CompositeMapper 
   }
 };
 
-export const SubResourceReadOnly: msRest.CompositeMapper = {
+export const SubResourceReadOnly: coreHttp.CompositeMapper = {
   serializedName: "SubResourceReadOnly",
   type: {
     name: "Composite",
@@ -3722,7 +3722,7 @@ export const SubResourceReadOnly: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetExtension: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetExtension",
   type: {
     name: "Composite",
@@ -3799,7 +3799,7 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetExtensionProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetExtensionProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetExtensionProfile",
   type: {
     name: "Composite",
@@ -3821,7 +3821,7 @@ export const VirtualMachineScaleSetExtensionProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMProfile",
   type: {
     name: "Composite",
@@ -3891,7 +3891,7 @@ export const VirtualMachineScaleSetVMProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdateVMProfile: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdateVMProfile: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdateVMProfile",
   type: {
     name: "Composite",
@@ -3942,7 +3942,7 @@ export const VirtualMachineScaleSetUpdateVMProfile: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSet: msRest.CompositeMapper = {
+export const VirtualMachineScaleSet: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSet",
   type: {
     name: "Composite",
@@ -4043,7 +4043,7 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMReimageParameters: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMReimageParameters: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMReimageParameters",
   type: {
     name: "Composite",
@@ -4054,7 +4054,7 @@ export const VirtualMachineScaleSetVMReimageParameters: msRest.CompositeMapper =
   }
 };
 
-export const VirtualMachineScaleSetReimageParameters: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetReimageParameters: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetReimageParameters",
   type: {
     name: "Composite",
@@ -4076,7 +4076,7 @@ export const VirtualMachineScaleSetReimageParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetUpdate: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetUpdate: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetUpdate",
   type: {
     name: "Composite",
@@ -4134,7 +4134,7 @@ export const VirtualMachineScaleSetUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMInstanceIDs: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMInstanceIDs: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMInstanceIDs",
   type: {
     name: "Composite",
@@ -4155,7 +4155,7 @@ export const VirtualMachineScaleSetVMInstanceIDs: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMInstanceRequiredIDs: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMInstanceRequiredIDs: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMInstanceRequiredIDs",
   type: {
     name: "Composite",
@@ -4177,7 +4177,7 @@ export const VirtualMachineScaleSetVMInstanceRequiredIDs: msRest.CompositeMapper
   }
 };
 
-export const VirtualMachineStatusCodeCount: msRest.CompositeMapper = {
+export const VirtualMachineStatusCodeCount: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineStatusCodeCount",
   type: {
     name: "Composite",
@@ -4201,7 +4201,7 @@ export const VirtualMachineStatusCodeCount: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetInstanceViewStatusesSummary: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetInstanceViewStatusesSummary: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetInstanceViewStatusesSummary",
   type: {
     name: "Composite",
@@ -4224,7 +4224,7 @@ export const VirtualMachineScaleSetInstanceViewStatusesSummary: msRest.Composite
   }
 };
 
-export const VirtualMachineScaleSetVMExtensionsSummary: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMExtensionsSummary: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMExtensionsSummary",
   type: {
     name: "Composite",
@@ -4254,7 +4254,7 @@ export const VirtualMachineScaleSetVMExtensionsSummary: msRest.CompositeMapper =
   }
 };
 
-export const VirtualMachineScaleSetInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetInstanceView",
   type: {
     name: "Composite",
@@ -4297,7 +4297,7 @@ export const VirtualMachineScaleSetInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetSkuCapacity: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetSkuCapacity: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetSkuCapacity",
   type: {
     name: "Composite",
@@ -4339,7 +4339,7 @@ export const VirtualMachineScaleSetSkuCapacity: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetSku: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetSku: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetSku",
   type: {
     name: "Composite",
@@ -4372,7 +4372,7 @@ export const VirtualMachineScaleSetSku: msRest.CompositeMapper = {
   }
 };
 
-export const ApiErrorBase: msRest.CompositeMapper = {
+export const ApiErrorBase: coreHttp.CompositeMapper = {
   serializedName: "ApiErrorBase",
   type: {
     name: "Composite",
@@ -4400,7 +4400,7 @@ export const ApiErrorBase: msRest.CompositeMapper = {
   }
 };
 
-export const InnerError: msRest.CompositeMapper = {
+export const InnerError: coreHttp.CompositeMapper = {
   serializedName: "InnerError",
   type: {
     name: "Composite",
@@ -4422,7 +4422,7 @@ export const InnerError: msRest.CompositeMapper = {
   }
 };
 
-export const ApiError: msRest.CompositeMapper = {
+export const ApiError: coreHttp.CompositeMapper = {
   serializedName: "ApiError",
   type: {
     name: "Composite",
@@ -4469,7 +4469,7 @@ export const ApiError: msRest.CompositeMapper = {
   }
 };
 
-export const RollbackStatusInfo: msRest.CompositeMapper = {
+export const RollbackStatusInfo: coreHttp.CompositeMapper = {
   serializedName: "RollbackStatusInfo",
   type: {
     name: "Composite",
@@ -4501,7 +4501,7 @@ export const RollbackStatusInfo: msRest.CompositeMapper = {
   }
 };
 
-export const UpgradeOperationHistoryStatus: msRest.CompositeMapper = {
+export const UpgradeOperationHistoryStatus: coreHttp.CompositeMapper = {
   serializedName: "UpgradeOperationHistoryStatus",
   type: {
     name: "Composite",
@@ -4538,7 +4538,7 @@ export const UpgradeOperationHistoryStatus: msRest.CompositeMapper = {
   }
 };
 
-export const RollingUpgradeProgressInfo: msRest.CompositeMapper = {
+export const RollingUpgradeProgressInfo: coreHttp.CompositeMapper = {
   serializedName: "RollingUpgradeProgressInfo",
   type: {
     name: "Composite",
@@ -4576,7 +4576,7 @@ export const RollingUpgradeProgressInfo: msRest.CompositeMapper = {
   }
 };
 
-export const UpgradeOperationHistoricalStatusInfoProperties: msRest.CompositeMapper = {
+export const UpgradeOperationHistoricalStatusInfoProperties: coreHttp.CompositeMapper = {
   serializedName: "UpgradeOperationHistoricalStatusInfoProperties",
   type: {
     name: "Composite",
@@ -4638,7 +4638,7 @@ export const UpgradeOperationHistoricalStatusInfoProperties: msRest.CompositeMap
   }
 };
 
-export const UpgradeOperationHistoricalStatusInfo: msRest.CompositeMapper = {
+export const UpgradeOperationHistoricalStatusInfo: coreHttp.CompositeMapper = {
   serializedName: "UpgradeOperationHistoricalStatusInfo",
   type: {
     name: "Composite",
@@ -4670,7 +4670,7 @@ export const UpgradeOperationHistoricalStatusInfo: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineHealthStatus: msRest.CompositeMapper = {
+export const VirtualMachineHealthStatus: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineHealthStatus",
   type: {
     name: "Composite",
@@ -4688,7 +4688,7 @@ export const VirtualMachineHealthStatus: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMInstanceView: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMInstanceView: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMInstanceView",
   type: {
     name: "Composite",
@@ -4787,7 +4787,7 @@ export const VirtualMachineScaleSetVMInstanceView: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetVMNetworkProfileConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMNetworkProfileConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMNetworkProfileConfiguration",
   type: {
     name: "Composite",
@@ -4809,7 +4809,7 @@ export const VirtualMachineScaleSetVMNetworkProfileConfiguration: msRest.Composi
   }
 };
 
-export const VirtualMachineScaleSetVMProtectionPolicy: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMProtectionPolicy: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMProtectionPolicy",
   type: {
     name: "Composite",
@@ -4831,7 +4831,7 @@ export const VirtualMachineScaleSetVMProtectionPolicy: msRest.CompositeMapper = 
   }
 };
 
-export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVM: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVM",
   type: {
     name: "Composite",
@@ -4994,7 +4994,7 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
   }
 };
 
-export const RollingUpgradeRunningStatus: msRest.CompositeMapper = {
+export const RollingUpgradeRunningStatus: coreHttp.CompositeMapper = {
   serializedName: "RollingUpgradeRunningStatus",
   type: {
     name: "Composite",
@@ -5042,7 +5042,7 @@ export const RollingUpgradeRunningStatus: msRest.CompositeMapper = {
   }
 };
 
-export const RollingUpgradeStatusInfo: msRest.CompositeMapper = {
+export const RollingUpgradeStatusInfo: coreHttp.CompositeMapper = {
   serializedName: "RollingUpgradeStatusInfo",
   type: {
     name: "Composite",
@@ -5085,7 +5085,7 @@ export const RollingUpgradeStatusInfo: msRest.CompositeMapper = {
   }
 };
 
-export const RecoveryWalkResponse: msRest.CompositeMapper = {
+export const RecoveryWalkResponse: coreHttp.CompositeMapper = {
   serializedName: "RecoveryWalkResponse",
   type: {
     name: "Composite",
@@ -5109,7 +5109,7 @@ export const RecoveryWalkResponse: msRest.CompositeMapper = {
   }
 };
 
-export const LogAnalyticsInputBase: msRest.CompositeMapper = {
+export const LogAnalyticsInputBase: coreHttp.CompositeMapper = {
   serializedName: "LogAnalyticsInputBase",
   type: {
     name: "Composite",
@@ -5158,7 +5158,7 @@ export const LogAnalyticsInputBase: msRest.CompositeMapper = {
   }
 };
 
-export const RequestRateByIntervalInput: msRest.CompositeMapper = {
+export const RequestRateByIntervalInput: coreHttp.CompositeMapper = {
   serializedName: "RequestRateByIntervalInput",
   type: {
     name: "Composite",
@@ -5182,7 +5182,7 @@ export const RequestRateByIntervalInput: msRest.CompositeMapper = {
   }
 };
 
-export const ThrottledRequestsInput: msRest.CompositeMapper = {
+export const ThrottledRequestsInput: coreHttp.CompositeMapper = {
   serializedName: "ThrottledRequestsInput",
   type: {
     name: "Composite",
@@ -5193,7 +5193,7 @@ export const ThrottledRequestsInput: msRest.CompositeMapper = {
   }
 };
 
-export const LogAnalyticsOutput: msRest.CompositeMapper = {
+export const LogAnalyticsOutput: coreHttp.CompositeMapper = {
   serializedName: "LogAnalyticsOutput",
   type: {
     name: "Composite",
@@ -5210,7 +5210,7 @@ export const LogAnalyticsOutput: msRest.CompositeMapper = {
   }
 };
 
-export const LogAnalyticsOperationResult: msRest.CompositeMapper = {
+export const LogAnalyticsOperationResult: coreHttp.CompositeMapper = {
   serializedName: "LogAnalyticsOperationResult",
   type: {
     name: "Composite",
@@ -5228,7 +5228,7 @@ export const LogAnalyticsOperationResult: msRest.CompositeMapper = {
   }
 };
 
-export const VMScaleSetConvertToSinglePlacementGroupInput: msRest.CompositeMapper = {
+export const VMScaleSetConvertToSinglePlacementGroupInput: coreHttp.CompositeMapper = {
   serializedName: "VMScaleSetConvertToSinglePlacementGroupInput",
   type: {
     name: "Composite",
@@ -5244,7 +5244,7 @@ export const VMScaleSetConvertToSinglePlacementGroupInput: msRest.CompositeMappe
   }
 };
 
-export const RunCommandInputParameter: msRest.CompositeMapper = {
+export const RunCommandInputParameter: coreHttp.CompositeMapper = {
   serializedName: "RunCommandInputParameter",
   type: {
     name: "Composite",
@@ -5268,7 +5268,7 @@ export const RunCommandInputParameter: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandInput: msRest.CompositeMapper = {
+export const RunCommandInput: coreHttp.CompositeMapper = {
   serializedName: "RunCommandInput",
   type: {
     name: "Composite",
@@ -5308,7 +5308,7 @@ export const RunCommandInput: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandParameterDefinition: msRest.CompositeMapper = {
+export const RunCommandParameterDefinition: coreHttp.CompositeMapper = {
   serializedName: "RunCommandParameterDefinition",
   type: {
     name: "Composite",
@@ -5345,7 +5345,7 @@ export const RunCommandParameterDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandDocumentBase: msRest.CompositeMapper = {
+export const RunCommandDocumentBase: coreHttp.CompositeMapper = {
   serializedName: "RunCommandDocumentBase",
   type: {
     name: "Composite",
@@ -5394,7 +5394,7 @@ export const RunCommandDocumentBase: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandDocument: msRest.CompositeMapper = {
+export const RunCommandDocument: coreHttp.CompositeMapper = {
   serializedName: "RunCommandDocument",
   type: {
     name: "Composite",
@@ -5429,7 +5429,7 @@ export const RunCommandDocument: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandResult: msRest.CompositeMapper = {
+export const RunCommandResult: coreHttp.CompositeMapper = {
   serializedName: "RunCommandResult",
   type: {
     name: "Composite",
@@ -5451,7 +5451,7 @@ export const RunCommandResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuCapacity: msRest.CompositeMapper = {
+export const ResourceSkuCapacity: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuCapacity",
   type: {
     name: "Composite",
@@ -5494,7 +5494,7 @@ export const ResourceSkuCapacity: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuCosts: msRest.CompositeMapper = {
+export const ResourceSkuCosts: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuCosts",
   type: {
     name: "Composite",
@@ -5525,7 +5525,7 @@ export const ResourceSkuCosts: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuCapabilities: msRest.CompositeMapper = {
+export const ResourceSkuCapabilities: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuCapabilities",
   type: {
     name: "Composite",
@@ -5549,7 +5549,7 @@ export const ResourceSkuCapabilities: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuRestrictionInfo: msRest.CompositeMapper = {
+export const ResourceSkuRestrictionInfo: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuRestrictionInfo",
   type: {
     name: "Composite",
@@ -5583,7 +5583,7 @@ export const ResourceSkuRestrictionInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuRestrictions: msRest.CompositeMapper = {
+export const ResourceSkuRestrictions: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuRestrictions",
   type: {
     name: "Composite",
@@ -5635,7 +5635,7 @@ export const ResourceSkuRestrictions: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuLocationInfo: msRest.CompositeMapper = {
+export const ResourceSkuLocationInfo: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuLocationInfo",
   type: {
     name: "Composite",
@@ -5664,7 +5664,7 @@ export const ResourceSkuLocationInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSku: msRest.CompositeMapper = {
+export const ResourceSku: coreHttp.CompositeMapper = {
   serializedName: "ResourceSku",
   type: {
     name: "Composite",
@@ -5800,7 +5800,7 @@ export const ResourceSku: msRest.CompositeMapper = {
   }
 };
 
-export const DiskSku: msRest.CompositeMapper = {
+export const DiskSku: coreHttp.CompositeMapper = {
   serializedName: "DiskSku",
   type: {
     name: "Composite",
@@ -5824,7 +5824,7 @@ export const DiskSku: msRest.CompositeMapper = {
   }
 };
 
-export const ImageDiskReference: msRest.CompositeMapper = {
+export const ImageDiskReference: coreHttp.CompositeMapper = {
   serializedName: "ImageDiskReference",
   type: {
     name: "Composite",
@@ -5847,7 +5847,7 @@ export const ImageDiskReference: msRest.CompositeMapper = {
   }
 };
 
-export const CreationData: msRest.CompositeMapper = {
+export const CreationData: coreHttp.CompositeMapper = {
   serializedName: "CreationData",
   type: {
     name: "Composite",
@@ -5889,7 +5889,7 @@ export const CreationData: msRest.CompositeMapper = {
   }
 };
 
-export const SourceVault: msRest.CompositeMapper = {
+export const SourceVault: coreHttp.CompositeMapper = {
   serializedName: "SourceVault",
   type: {
     name: "Composite",
@@ -5905,7 +5905,7 @@ export const SourceVault: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultAndSecretReference: msRest.CompositeMapper = {
+export const KeyVaultAndSecretReference: coreHttp.CompositeMapper = {
   serializedName: "KeyVaultAndSecretReference",
   type: {
     name: "Composite",
@@ -5930,7 +5930,7 @@ export const KeyVaultAndSecretReference: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultAndKeyReference: msRest.CompositeMapper = {
+export const KeyVaultAndKeyReference: coreHttp.CompositeMapper = {
   serializedName: "KeyVaultAndKeyReference",
   type: {
     name: "Composite",
@@ -5955,7 +5955,7 @@ export const KeyVaultAndKeyReference: msRest.CompositeMapper = {
   }
 };
 
-export const EncryptionSettingsElement: msRest.CompositeMapper = {
+export const EncryptionSettingsElement: coreHttp.CompositeMapper = {
   serializedName: "EncryptionSettingsElement",
   type: {
     name: "Composite",
@@ -5979,7 +5979,7 @@ export const EncryptionSettingsElement: msRest.CompositeMapper = {
   }
 };
 
-export const EncryptionSettingsCollection: msRest.CompositeMapper = {
+export const EncryptionSettingsCollection: coreHttp.CompositeMapper = {
   serializedName: "EncryptionSettingsCollection",
   type: {
     name: "Composite",
@@ -6008,7 +6008,7 @@ export const EncryptionSettingsCollection: msRest.CompositeMapper = {
   }
 };
 
-export const Disk: msRest.CompositeMapper = {
+export const Disk: coreHttp.CompositeMapper = {
   serializedName: "Disk",
   type: {
     name: "Composite",
@@ -6114,7 +6114,7 @@ export const Disk: msRest.CompositeMapper = {
   }
 };
 
-export const DiskUpdate: msRest.CompositeMapper = {
+export const DiskUpdate: coreHttp.CompositeMapper = {
   serializedName: "DiskUpdate",
   type: {
     name: "Composite",
@@ -6177,7 +6177,7 @@ export const DiskUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const SnapshotSku: msRest.CompositeMapper = {
+export const SnapshotSku: coreHttp.CompositeMapper = {
   serializedName: "SnapshotSku",
   type: {
     name: "Composite",
@@ -6201,7 +6201,7 @@ export const SnapshotSku: msRest.CompositeMapper = {
   }
 };
 
-export const GrantAccessData: msRest.CompositeMapper = {
+export const GrantAccessData: coreHttp.CompositeMapper = {
   serializedName: "GrantAccessData",
   type: {
     name: "Composite",
@@ -6225,7 +6225,7 @@ export const GrantAccessData: msRest.CompositeMapper = {
   }
 };
 
-export const AccessUri: msRest.CompositeMapper = {
+export const AccessUri: coreHttp.CompositeMapper = {
   serializedName: "AccessUri",
   type: {
     name: "Composite",
@@ -6242,7 +6242,7 @@ export const AccessUri: msRest.CompositeMapper = {
   }
 };
 
-export const Snapshot: msRest.CompositeMapper = {
+export const Snapshot: coreHttp.CompositeMapper = {
   serializedName: "Snapshot",
   type: {
     name: "Composite",
@@ -6318,7 +6318,7 @@ export const Snapshot: msRest.CompositeMapper = {
   }
 };
 
-export const SnapshotUpdate: msRest.CompositeMapper = {
+export const SnapshotUpdate: coreHttp.CompositeMapper = {
   serializedName: "SnapshotUpdate",
   type: {
     name: "Composite",
@@ -6369,7 +6369,7 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryIdentifier: msRest.CompositeMapper = {
+export const GalleryIdentifier: coreHttp.CompositeMapper = {
   serializedName: "GalleryIdentifier",
   type: {
     name: "Composite",
@@ -6386,7 +6386,7 @@ export const GalleryIdentifier: msRest.CompositeMapper = {
   }
 };
 
-export const Gallery: msRest.CompositeMapper = {
+export const Gallery: coreHttp.CompositeMapper = {
   serializedName: "Gallery",
   type: {
     name: "Composite",
@@ -6417,7 +6417,7 @@ export const Gallery: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageIdentifier: msRest.CompositeMapper = {
+export const GalleryImageIdentifier: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageIdentifier",
   type: {
     name: "Composite",
@@ -6448,7 +6448,7 @@ export const GalleryImageIdentifier: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceRange: msRest.CompositeMapper = {
+export const ResourceRange: coreHttp.CompositeMapper = {
   serializedName: "ResourceRange",
   type: {
     name: "Composite",
@@ -6470,7 +6470,7 @@ export const ResourceRange: msRest.CompositeMapper = {
   }
 };
 
-export const RecommendedMachineConfiguration: msRest.CompositeMapper = {
+export const RecommendedMachineConfiguration: coreHttp.CompositeMapper = {
   serializedName: "RecommendedMachineConfiguration",
   type: {
     name: "Composite",
@@ -6494,7 +6494,7 @@ export const RecommendedMachineConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const Disallowed: msRest.CompositeMapper = {
+export const Disallowed: coreHttp.CompositeMapper = {
   serializedName: "Disallowed",
   type: {
     name: "Composite",
@@ -6515,7 +6515,7 @@ export const Disallowed: msRest.CompositeMapper = {
   }
 };
 
-export const ImagePurchasePlan: msRest.CompositeMapper = {
+export const ImagePurchasePlan: coreHttp.CompositeMapper = {
   serializedName: "ImagePurchasePlan",
   type: {
     name: "Composite",
@@ -6543,7 +6543,7 @@ export const ImagePurchasePlan: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImage: msRest.CompositeMapper = {
+export const GalleryImage: coreHttp.CompositeMapper = {
   serializedName: "GalleryImage",
   type: {
     name: "Composite",
@@ -6642,7 +6642,7 @@ export const GalleryImage: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryArtifactPublishingProfileBase: msRest.CompositeMapper = {
+export const GalleryArtifactPublishingProfileBase: coreHttp.CompositeMapper = {
   serializedName: "GalleryArtifactPublishingProfileBase",
   type: {
     name: "Composite",
@@ -6672,7 +6672,7 @@ export const GalleryArtifactPublishingProfileBase: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageVersionPublishingProfile: msRest.CompositeMapper = {
+export const GalleryImageVersionPublishingProfile: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageVersionPublishingProfile",
   type: {
     name: "Composite",
@@ -6714,7 +6714,7 @@ export const GalleryImageVersionPublishingProfile: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryDiskImage: msRest.CompositeMapper = {
+export const GalleryDiskImage: coreHttp.CompositeMapper = {
   serializedName: "GalleryDiskImage",
   type: {
     name: "Composite",
@@ -6743,7 +6743,7 @@ export const GalleryDiskImage: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryOSDiskImage: msRest.CompositeMapper = {
+export const GalleryOSDiskImage: coreHttp.CompositeMapper = {
   serializedName: "GalleryOSDiskImage",
   type: {
     name: "Composite",
@@ -6754,7 +6754,7 @@ export const GalleryOSDiskImage: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryDataDiskImage: msRest.CompositeMapper = {
+export const GalleryDataDiskImage: coreHttp.CompositeMapper = {
   serializedName: "GalleryDataDiskImage",
   type: {
     name: "Composite",
@@ -6772,7 +6772,7 @@ export const GalleryDataDiskImage: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageVersionStorageProfile: msRest.CompositeMapper = {
+export const GalleryImageVersionStorageProfile: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageVersionStorageProfile",
   type: {
     name: "Composite",
@@ -6803,7 +6803,7 @@ export const GalleryImageVersionStorageProfile: msRest.CompositeMapper = {
   }
 };
 
-export const RegionalReplicationStatus: msRest.CompositeMapper = {
+export const RegionalReplicationStatus: coreHttp.CompositeMapper = {
   serializedName: "RegionalReplicationStatus",
   type: {
     name: "Composite",
@@ -6841,7 +6841,7 @@ export const RegionalReplicationStatus: msRest.CompositeMapper = {
   }
 };
 
-export const ReplicationStatus: msRest.CompositeMapper = {
+export const ReplicationStatus: coreHttp.CompositeMapper = {
   serializedName: "ReplicationStatus",
   type: {
     name: "Composite",
@@ -6871,7 +6871,7 @@ export const ReplicationStatus: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageVersion: msRest.CompositeMapper = {
+export const GalleryImageVersion: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageVersion",
   type: {
     name: "Composite",
@@ -6913,7 +6913,7 @@ export const GalleryImageVersion: msRest.CompositeMapper = {
   }
 };
 
-export const TargetRegion: msRest.CompositeMapper = {
+export const TargetRegion: coreHttp.CompositeMapper = {
   serializedName: "TargetRegion",
   type: {
     name: "Composite",
@@ -6942,7 +6942,7 @@ export const TargetRegion: msRest.CompositeMapper = {
   }
 };
 
-export const ManagedArtifact: msRest.CompositeMapper = {
+export const ManagedArtifact: coreHttp.CompositeMapper = {
   serializedName: "ManagedArtifact",
   type: {
     name: "Composite",
@@ -6959,7 +6959,7 @@ export const ManagedArtifact: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryArtifactSource: msRest.CompositeMapper = {
+export const GalleryArtifactSource: coreHttp.CompositeMapper = {
   serializedName: "GalleryArtifactSource",
   type: {
     name: "Composite",
@@ -6977,7 +6977,7 @@ export const GalleryArtifactSource: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceCustomProfile: msRest.CompositeMapper = {
+export const ContainerServiceCustomProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceCustomProfile",
   type: {
     name: "Composite",
@@ -6994,7 +6994,7 @@ export const ContainerServiceCustomProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceServicePrincipalProfile: msRest.CompositeMapper = {
+export const ContainerServiceServicePrincipalProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceServicePrincipalProfile",
   type: {
     name: "Composite",
@@ -7018,7 +7018,7 @@ export const ContainerServiceServicePrincipalProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceOrchestratorProfile: msRest.CompositeMapper = {
+export const ContainerServiceOrchestratorProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceOrchestratorProfile",
   type: {
     name: "Composite",
@@ -7041,7 +7041,7 @@ export const ContainerServiceOrchestratorProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceMasterProfile: msRest.CompositeMapper = {
+export const ContainerServiceMasterProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceMasterProfile",
   type: {
     name: "Composite",
@@ -7072,7 +7072,7 @@ export const ContainerServiceMasterProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceAgentPoolProfile: msRest.CompositeMapper = {
+export const ContainerServiceAgentPoolProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceAgentPoolProfile",
   type: {
     name: "Composite",
@@ -7122,7 +7122,7 @@ export const ContainerServiceAgentPoolProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceWindowsProfile: msRest.CompositeMapper = {
+export const ContainerServiceWindowsProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceWindowsProfile",
   type: {
     name: "Composite",
@@ -7152,7 +7152,7 @@ export const ContainerServiceWindowsProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceSshPublicKey: msRest.CompositeMapper = {
+export const ContainerServiceSshPublicKey: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceSshPublicKey",
   type: {
     name: "Composite",
@@ -7169,7 +7169,7 @@ export const ContainerServiceSshPublicKey: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceSshConfiguration: msRest.CompositeMapper = {
+export const ContainerServiceSshConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceSshConfiguration",
   type: {
     name: "Composite",
@@ -7192,7 +7192,7 @@ export const ContainerServiceSshConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceLinuxProfile: msRest.CompositeMapper = {
+export const ContainerServiceLinuxProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceLinuxProfile",
   type: {
     name: "Composite",
@@ -7220,7 +7220,7 @@ export const ContainerServiceLinuxProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceVMDiagnostics: msRest.CompositeMapper = {
+export const ContainerServiceVMDiagnostics: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceVMDiagnostics",
   type: {
     name: "Composite",
@@ -7244,7 +7244,7 @@ export const ContainerServiceVMDiagnostics: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceDiagnosticsProfile: msRest.CompositeMapper = {
+export const ContainerServiceDiagnosticsProfile: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceDiagnosticsProfile",
   type: {
     name: "Composite",
@@ -7262,7 +7262,7 @@ export const ContainerServiceDiagnosticsProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerService: msRest.CompositeMapper = {
+export const ContainerService: coreHttp.CompositeMapper = {
   serializedName: "ContainerService",
   type: {
     name: "Composite",
@@ -7344,7 +7344,7 @@ export const ContainerService: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeOperationListResult: msRest.CompositeMapper = {
+export const ComputeOperationListResult: coreHttp.CompositeMapper = {
   serializedName: "ComputeOperationListResult",
   type: {
     name: "Composite",
@@ -7367,7 +7367,7 @@ export const ComputeOperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AvailabilitySetListResult: msRest.CompositeMapper = {
+export const AvailabilitySetListResult: coreHttp.CompositeMapper = {
   serializedName: "AvailabilitySetListResult",
   type: {
     name: "Composite",
@@ -7396,7 +7396,7 @@ export const AvailabilitySetListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineSizeListResult: msRest.CompositeMapper = {
+export const VirtualMachineSizeListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineSizeListResult",
   type: {
     name: "Composite",
@@ -7418,7 +7418,7 @@ export const VirtualMachineSizeListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListUsagesResult: msRest.CompositeMapper = {
+export const ListUsagesResult: coreHttp.CompositeMapper = {
   serializedName: "ListUsagesResult",
   type: {
     name: "Composite",
@@ -7447,7 +7447,7 @@ export const ListUsagesResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineListResult: msRest.CompositeMapper = {
+export const VirtualMachineListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineListResult",
   type: {
     name: "Composite",
@@ -7476,7 +7476,7 @@ export const VirtualMachineListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ImageListResult: msRest.CompositeMapper = {
+export const ImageListResult: coreHttp.CompositeMapper = {
   serializedName: "ImageListResult",
   type: {
     name: "Composite",
@@ -7505,7 +7505,7 @@ export const ImageListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetListResult: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetListResult",
   type: {
     name: "Composite",
@@ -7534,7 +7534,7 @@ export const VirtualMachineScaleSetListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetListWithLinkResult: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetListWithLinkResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetListWithLinkResult",
   type: {
     name: "Composite",
@@ -7563,7 +7563,7 @@ export const VirtualMachineScaleSetListWithLinkResult: msRest.CompositeMapper = 
   }
 };
 
-export const VirtualMachineScaleSetListSkusResult: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetListSkusResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetListSkusResult",
   type: {
     name: "Composite",
@@ -7592,7 +7592,7 @@ export const VirtualMachineScaleSetListSkusResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineScaleSetListOSUpgradeHistory: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetListOSUpgradeHistory: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetListOSUpgradeHistory",
   type: {
     name: "Composite",
@@ -7621,7 +7621,7 @@ export const VirtualMachineScaleSetListOSUpgradeHistory: msRest.CompositeMapper 
   }
 };
 
-export const VirtualMachineScaleSetExtensionListResult: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetExtensionListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetExtensionListResult",
   type: {
     name: "Composite",
@@ -7650,7 +7650,7 @@ export const VirtualMachineScaleSetExtensionListResult: msRest.CompositeMapper =
   }
 };
 
-export const VirtualMachineScaleSetVMListResult: msRest.CompositeMapper = {
+export const VirtualMachineScaleSetVMListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVMListResult",
   type: {
     name: "Composite",
@@ -7679,7 +7679,7 @@ export const VirtualMachineScaleSetVMListResult: msRest.CompositeMapper = {
   }
 };
 
-export const RunCommandListResult: msRest.CompositeMapper = {
+export const RunCommandListResult: coreHttp.CompositeMapper = {
   serializedName: "RunCommandListResult",
   type: {
     name: "Composite",
@@ -7708,7 +7708,7 @@ export const RunCommandListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkusResult: msRest.CompositeMapper = {
+export const ResourceSkusResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkusResult",
   type: {
     name: "Composite",
@@ -7737,7 +7737,7 @@ export const ResourceSkusResult: msRest.CompositeMapper = {
   }
 };
 
-export const DiskList: msRest.CompositeMapper = {
+export const DiskList: coreHttp.CompositeMapper = {
   serializedName: "DiskList",
   type: {
     name: "Composite",
@@ -7766,7 +7766,7 @@ export const DiskList: msRest.CompositeMapper = {
   }
 };
 
-export const SnapshotList: msRest.CompositeMapper = {
+export const SnapshotList: coreHttp.CompositeMapper = {
   serializedName: "SnapshotList",
   type: {
     name: "Composite",
@@ -7795,7 +7795,7 @@ export const SnapshotList: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryList: msRest.CompositeMapper = {
+export const GalleryList: coreHttp.CompositeMapper = {
   serializedName: "GalleryList",
   type: {
     name: "Composite",
@@ -7824,7 +7824,7 @@ export const GalleryList: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageList: msRest.CompositeMapper = {
+export const GalleryImageList: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageList",
   type: {
     name: "Composite",
@@ -7853,7 +7853,7 @@ export const GalleryImageList: msRest.CompositeMapper = {
   }
 };
 
-export const GalleryImageVersionList: msRest.CompositeMapper = {
+export const GalleryImageVersionList: coreHttp.CompositeMapper = {
   serializedName: "GalleryImageVersionList",
   type: {
     name: "Composite",
@@ -7882,7 +7882,7 @@ export const GalleryImageVersionList: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerServiceListResult: msRest.CompositeMapper = {
+export const ContainerServiceListResult: coreHttp.CompositeMapper = {
   serializedName: "ContainerServiceListResult",
   type: {
     name: "Composite",

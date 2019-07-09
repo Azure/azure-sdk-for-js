@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineScaleSetsMappers";
 import * as Parameters from "../models/parameters";
@@ -35,7 +35,7 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSet, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSet, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,vmScaleSetName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetsCreateOrUpdateResponse>;
   }
@@ -48,7 +48,7 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsUpdateResponse>
    */
-  update(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSetUpdate, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsUpdateResponse> {
+  update(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSetUpdate, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsUpdateResponse> {
     return this.beginUpdate(resourceGroupName,vmScaleSetName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetsUpdateResponse>;
   }
@@ -58,9 +58,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -72,21 +72,21 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsGetResponse>
    */
-  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetResponse>;
+  get(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSet>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSet>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSet>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSet>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,9 +104,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deallocate(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsDeallocateOptionalParams): Promise<msRest.RestResponse> {
+  deallocate(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsDeallocateOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginDeallocate(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -117,9 +117,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteInstances(resourceGroupName,vmScaleSetName,vmInstanceIDs,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -131,21 +131,21 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse>
    */
-  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse>;
+  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param callback The callback
    */
-  getInstanceView(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): void;
+  getInstanceView(resourceGroupName: string, vmScaleSetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): void;
-  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse> {
+  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): void;
+  getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetInstanceView>): Promise<Models.VirtualMachineScaleSetsGetInstanceViewResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,19 +162,19 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,17 +191,17 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -218,21 +218,21 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListSkusResponse>
    */
-  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListSkusResponse>;
+  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListSkusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param callback The callback
    */
-  listSkus(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
+  listSkus(resourceGroupName: string, vmScaleSetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
-  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusResponse> {
+  listSkus(resourceGroupName: string, vmScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
+  listSkus(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -250,21 +250,21 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse>
    */
-  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse>;
+  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param callback The callback
    */
-  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
+  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
-  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse> {
+  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
+  getOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -282,9 +282,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  powerOff(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsPowerOffOptionalParams): Promise<msRest.RestResponse> {
+  powerOff(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsPowerOffOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginPowerOff(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -294,9 +294,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  restart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsRestartOptionalParams): Promise<msRest.RestResponse> {
+  restart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsRestartOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginRestart(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -306,9 +306,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  start(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsStartOptionalParams): Promise<msRest.RestResponse> {
+  start(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsStartOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginStart(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -318,9 +318,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  redeploy(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsRedeployOptionalParams): Promise<msRest.RestResponse> {
+  redeploy(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsRedeployOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginRedeploy(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -333,9 +333,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  performMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<msRest.RestResponse> {
+  performMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginPerformMaintenance(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -346,9 +346,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  updateInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  updateInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginUpdateInstances(resourceGroupName,vmScaleSetName,vmInstanceIDs,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -360,9 +360,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  reimage(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsReimageOptionalParams): Promise<msRest.RestResponse> {
+  reimage(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsReimageOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginReimage(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -373,9 +373,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  reimageAll(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsReimageAllOptionalParams): Promise<msRest.RestResponse> {
+  reimageAll(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsReimageAllOptionalParams): Promise<coreHttp.RestResponse> {
     return this.beginReimageAll(resourceGroupName,vmScaleSetName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -391,7 +391,7 @@ export class VirtualMachineScaleSets {
    * @returns
    * Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse>
    */
-  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse>;
+  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -399,7 +399,7 @@ export class VirtualMachineScaleSets {
    * requested
    * @param callback The callback
    */
-  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, callback: msRest.ServiceCallback<Models.RecoveryWalkResponse>): void;
+  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, callback: coreHttp.ServiceCallback<Models.RecoveryWalkResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -408,8 +408,8 @@ export class VirtualMachineScaleSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryWalkResponse>): void;
-  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryWalkResponse>, callback?: msRest.ServiceCallback<Models.RecoveryWalkResponse>): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse> {
+  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RecoveryWalkResponse>): void;
+  forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RecoveryWalkResponse>, callback?: coreHttp.ServiceCallback<Models.RecoveryWalkResponse>): Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -427,9 +427,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set to create or update.
    * @param parameters The scale set object.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSet, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSet, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -447,9 +447,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set to create or update.
    * @param parameters The scale set object.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSetUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VirtualMachineScaleSetUpdate, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -466,9 +466,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -486,9 +486,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeallocate(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginDeallocateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeallocate(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginDeallocateOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -505,9 +505,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -526,9 +526,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginPowerOff(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginPowerOffOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginPowerOff(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginPowerOffOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -544,9 +544,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginRestart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginRestartOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginRestart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginRestartOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -562,9 +562,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginStartOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginStart(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginStartOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -580,9 +580,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginRedeploy(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginRedeployOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginRedeploy(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginRedeployOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -601,9 +601,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -620,9 +620,9 @@ export class VirtualMachineScaleSets {
    * @param vmScaleSetName The name of the VM scale set.
    * @param vmInstanceIDs A list of virtual machine instance IDs from the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: Models.VirtualMachineScaleSetVMInstanceRequiredIDs, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -641,9 +641,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginReimage(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginReimageOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginReimage(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginReimageOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -660,9 +660,9 @@ export class VirtualMachineScaleSets {
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginReimageAll(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginReimageAllOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginReimageAll(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsBeginReimageAllOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -679,19 +679,19 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListResult>): Promise<Models.VirtualMachineScaleSetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -709,19 +709,19 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListWithLinkResult>): Promise<Models.VirtualMachineScaleSetsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -738,19 +738,19 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsListSkusNextResponse>
    */
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse>;
+  listSkusNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
+  listSkusNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse> {
+  listSkusNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): void;
+  listSkusNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListSkusResult>): Promise<Models.VirtualMachineScaleSetsListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -766,19 +766,19 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse>
    */
-  getOSUpgradeHistoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse>;
+  getOSUpgradeHistoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getOSUpgradeHistoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
+  getOSUpgradeHistoryNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOSUpgradeHistoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
-  getOSUpgradeHistoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse> {
+  getOSUpgradeHistoryNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): void;
+  getOSUpgradeHistoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetListOSUpgradeHistory>): Promise<Models.VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -790,8 +790,8 @@ export class VirtualMachineScaleSets {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   urlParameters: [
@@ -816,7 +816,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getInstanceViewOperationSpec: msRest.OperationSpec = {
+const getInstanceViewOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView",
   urlParameters: [
@@ -841,7 +841,7 @@ const getInstanceViewOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets",
   urlParameters: [
@@ -865,7 +865,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachineScaleSets",
   urlParameters: [
@@ -888,7 +888,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listSkusOperationSpec: msRest.OperationSpec = {
+const listSkusOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/skus",
   urlParameters: [
@@ -913,7 +913,7 @@ const listSkusOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOSUpgradeHistoryOperationSpec: msRest.OperationSpec = {
+const getOSUpgradeHistoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory",
   urlParameters: [
@@ -938,7 +938,7 @@ const getOSUpgradeHistoryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec: msRest.OperationSpec = {
+const forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",
   urlParameters: [
@@ -964,7 +964,7 @@ const forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec: msRest.Op
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   urlParameters: [
@@ -999,7 +999,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   urlParameters: [
@@ -1031,7 +1031,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   urlParameters: [
@@ -1056,7 +1056,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeallocateOperationSpec: msRest.OperationSpec = {
+const beginDeallocateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate",
   urlParameters: [
@@ -1087,7 +1087,7 @@ const beginDeallocateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteInstancesOperationSpec: msRest.OperationSpec = {
+const beginDeleteInstancesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete",
   urlParameters: [
@@ -1118,7 +1118,7 @@ const beginDeleteInstancesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginPowerOffOperationSpec: msRest.OperationSpec = {
+const beginPowerOffOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff",
   urlParameters: [
@@ -1150,7 +1150,7 @@ const beginPowerOffOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginRestartOperationSpec: msRest.OperationSpec = {
+const beginRestartOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart",
   urlParameters: [
@@ -1181,7 +1181,7 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStartOperationSpec: msRest.OperationSpec = {
+const beginStartOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start",
   urlParameters: [
@@ -1212,7 +1212,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginRedeployOperationSpec: msRest.OperationSpec = {
+const beginRedeployOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy",
   urlParameters: [
@@ -1243,7 +1243,7 @@ const beginRedeployOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginPerformMaintenanceOperationSpec: msRest.OperationSpec = {
+const beginPerformMaintenanceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance",
   urlParameters: [
@@ -1274,7 +1274,7 @@ const beginPerformMaintenanceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateInstancesOperationSpec: msRest.OperationSpec = {
+const beginUpdateInstancesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade",
   urlParameters: [
@@ -1305,7 +1305,7 @@ const beginUpdateInstancesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginReimageOperationSpec: msRest.OperationSpec = {
+const beginReimageOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage",
   urlParameters: [
@@ -1336,7 +1336,7 @@ const beginReimageOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginReimageAllOperationSpec: msRest.OperationSpec = {
+const beginReimageAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall",
   urlParameters: [
@@ -1367,7 +1367,7 @@ const beginReimageAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -1388,7 +1388,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -1409,7 +1409,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listSkusNextOperationSpec: msRest.OperationSpec = {
+const listSkusNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -1430,7 +1430,7 @@ const listSkusNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOSUpgradeHistoryNextOperationSpec: msRest.OperationSpec = {
+const getOSUpgradeHistoryNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

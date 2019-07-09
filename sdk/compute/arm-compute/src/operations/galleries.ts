@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/galleriesMappers";
 import * as Parameters from "../models/parameters";
@@ -36,7 +36,7 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, galleryName: string, gallery: Models.Gallery, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, galleryName: string, gallery: Models.Gallery, options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,galleryName,gallery,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleriesCreateOrUpdateResponse>;
   }
@@ -48,21 +48,21 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesGetResponse>
    */
-  get(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesGetResponse>;
+  get(resourceGroupName: string, galleryName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery.
    * @param callback The callback
    */
-  get(resourceGroupName: string, galleryName: string, callback: msRest.ServiceCallback<Models.Gallery>): void;
+  get(resourceGroupName: string, galleryName: string, callback: coreHttp.ServiceCallback<Models.Gallery>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, galleryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Gallery>): void;
-  get(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Gallery>, callback?: msRest.ServiceCallback<Models.Gallery>): Promise<Models.GalleriesGetResponse> {
+  get(resourceGroupName: string, galleryName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Gallery>): void;
+  get(resourceGroupName: string, galleryName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Gallery>, callback?: coreHttp.ServiceCallback<Models.Gallery>): Promise<Models.GalleriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,9 +78,9 @@ export class Galleries {
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery to be deleted.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, galleryName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,galleryName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -91,19 +91,19 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.GalleryList>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GalleryList>, callback?: coreHttp.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,17 +118,17 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.GalleriesListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.GalleryList>): void;
+  list(callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GalleryList>, callback?: coreHttp.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -144,9 +144,9 @@ export class Galleries {
    * and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
    * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Models.Gallery, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Models.Gallery, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,9 +163,9 @@ export class Galleries {
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery to be deleted.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, galleryName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -182,19 +182,19 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GalleryList>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GalleryList>, callback?: coreHttp.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -210,19 +210,19 @@ export class Galleries {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleriesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GalleriesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GalleryList>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryList>, callback?: msRest.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GalleryList>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GalleryList>, callback?: coreHttp.ServiceCallback<Models.GalleryList>): Promise<Models.GalleriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -234,8 +234,8 @@ export class Galleries {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
   urlParameters: [
@@ -260,7 +260,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries",
   urlParameters: [
@@ -284,7 +284,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries",
   urlParameters: [
@@ -307,7 +307,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
   urlParameters: [
@@ -345,7 +345,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
   urlParameters: [
@@ -370,7 +370,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -391,7 +391,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -9,14 +9,14 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/arm-compute";
 const packageVersion = "10.0.0";
 
-export class ComputeManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class ComputeManagementClientContext extends coreArm.AzureServiceClient {
+  credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
   subscriptionId: string;
 
   /**
@@ -26,7 +26,7 @@ export class ComputeManagementClientContext extends msRestAzure.AzureServiceClie
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
+  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -38,7 +38,7 @@ export class ComputeManagementClientContext extends msRestAzure.AzureServiceClie
       options = {};
     }
     if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

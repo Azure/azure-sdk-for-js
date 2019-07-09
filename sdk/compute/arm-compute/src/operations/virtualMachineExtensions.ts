@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineExtensionsMappers";
 import * as Parameters from "../models/parameters";
@@ -37,7 +37,7 @@ export class VirtualMachineExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineExtensionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineExtensionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineExtensionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,vmName,vmExtensionName,extensionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineExtensionsCreateOrUpdateResponse>;
   }
@@ -52,7 +52,7 @@ export class VirtualMachineExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineExtensionsUpdateResponse>
    */
-  update(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineExtensionsUpdateResponse> {
+  update(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineExtensionsUpdateResponse> {
     return this.beginUpdate(resourceGroupName,vmName,vmExtensionName,extensionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineExtensionsUpdateResponse>;
   }
@@ -63,9 +63,9 @@ export class VirtualMachineExtensions {
    * @param vmName The name of the virtual machine where the extension should be deleted.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,vmName,vmExtensionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -85,7 +85,7 @@ export class VirtualMachineExtensions {
    * @param vmExtensionName The name of the virtual machine extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmName: string, vmExtensionName: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtension>): void;
+  get(resourceGroupName: string, vmName: string, vmExtensionName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtension>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine containing the extension.
@@ -93,8 +93,8 @@ export class VirtualMachineExtensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options: Models.VirtualMachineExtensionsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtension>): void;
-  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: Models.VirtualMachineExtensionsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtension>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtension>): Promise<Models.VirtualMachineExtensionsGetResponse> {
+  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options: Models.VirtualMachineExtensionsGetOptionalParams, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtension>): void;
+  get(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: Models.VirtualMachineExtensionsGetOptionalParams | coreHttp.ServiceCallback<Models.VirtualMachineExtension>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineExtension>): Promise<Models.VirtualMachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,15 +119,15 @@ export class VirtualMachineExtensions {
    * @param vmName The name of the virtual machine containing the extension.
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmName: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
+  list(resourceGroupName: string, vmName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine containing the extension.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmName: string, options: Models.VirtualMachineExtensionsListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
-  list(resourceGroupName: string, vmName: string, options?: Models.VirtualMachineExtensionsListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): Promise<Models.VirtualMachineExtensionsListResponse> {
+  list(resourceGroupName: string, vmName: string, options: Models.VirtualMachineExtensionsListOptionalParams, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
+  list(resourceGroupName: string, vmName: string, options?: Models.VirtualMachineExtensionsListOptionalParams | coreHttp.ServiceCallback<Models.VirtualMachineExtensionsListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineExtensionsListResult>): Promise<Models.VirtualMachineExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,9 +146,9 @@ export class VirtualMachineExtensions {
    * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -169,9 +169,9 @@ export class VirtualMachineExtensions {
    * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, vmName: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -190,9 +190,9 @@ export class VirtualMachineExtensions {
    * @param vmName The name of the virtual machine where the extension should be deleted.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, vmName: string, vmExtensionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -206,8 +206,8 @@ export class VirtualMachineExtensions {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   urlParameters: [
@@ -234,7 +234,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
   urlParameters: [
@@ -260,7 +260,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   urlParameters: [
@@ -296,7 +296,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   urlParameters: [
@@ -329,7 +329,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   urlParameters: [

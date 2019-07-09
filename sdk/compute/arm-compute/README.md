@@ -26,8 +26,8 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ComputeManagementClient, ComputeManagementModels, ComputeManagementMappers } from "@azure/arm-compute";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
@@ -61,8 +61,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-compute sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
+    <script src="node_modules/@azure/core-arm/dist/coreArm.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-compute/dist/arm-compute.js"></script>
     <script type="text/javascript">
@@ -94,6 +94,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/compute/arm-compute/README.png)

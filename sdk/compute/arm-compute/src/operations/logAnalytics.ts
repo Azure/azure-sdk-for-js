@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/logAnalyticsMappers";
 import * as Parameters from "../models/parameters";
@@ -35,7 +35,7 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse>
    */
-  exportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse> {
+  exportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse> {
     return this.beginExportRequestRateByInterval(parameters,location,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse>;
   }
@@ -48,7 +48,7 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogAnalyticsExportThrottledRequestsResponse>
    */
-  exportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.LogAnalyticsExportThrottledRequestsResponse> {
+  exportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LogAnalyticsExportThrottledRequestsResponse> {
     return this.beginExportThrottledRequests(parameters,location,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LogAnalyticsExportThrottledRequestsResponse>;
   }
@@ -59,9 +59,9 @@ export class LogAnalytics {
    * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginExportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -78,9 +78,9 @@ export class LogAnalytics {
    * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginExportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -93,8 +93,8 @@ export class LogAnalytics {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const beginExportRequestRateByIntervalOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const beginExportRequestRateByIntervalOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
   urlParameters: [
@@ -126,7 +126,7 @@ const beginExportRequestRateByIntervalOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginExportThrottledRequestsOperationSpec: msRest.OperationSpec = {
+const beginExportThrottledRequestsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
   urlParameters: [

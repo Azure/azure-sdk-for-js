@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion0: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -32,7 +32,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion1: msRest.OperationQueryParameter = {
+export const apiVersion1: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -44,7 +44,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion2: msRest.OperationQueryParameter = {
+export const apiVersion2: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -56,7 +56,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion3: msRest.OperationQueryParameter = {
+export const apiVersion3: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -68,7 +68,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const availabilitySetName: msRest.OperationURLParameter = {
+export const availabilitySetName: coreHttp.OperationURLParameter = {
   parameterPath: "availabilitySetName",
   mapper: {
     required: true,
@@ -78,7 +78,7 @@ export const availabilitySetName: msRest.OperationURLParameter = {
     }
   }
 };
-export const commandId: msRest.OperationURLParameter = {
+export const commandId: coreHttp.OperationURLParameter = {
   parameterPath: "commandId",
   mapper: {
     required: true,
@@ -88,7 +88,7 @@ export const commandId: msRest.OperationURLParameter = {
     }
   }
 };
-export const containerServiceName: msRest.OperationURLParameter = {
+export const containerServiceName: coreHttp.OperationURLParameter = {
   parameterPath: "containerServiceName",
   mapper: {
     required: true,
@@ -98,7 +98,7 @@ export const containerServiceName: msRest.OperationURLParameter = {
     }
   }
 };
-export const diskName: msRest.OperationURLParameter = {
+export const diskName: coreHttp.OperationURLParameter = {
   parameterPath: "diskName",
   mapper: {
     required: true,
@@ -108,7 +108,7 @@ export const diskName: msRest.OperationURLParameter = {
     }
   }
 };
-export const expand0: msRest.OperationQueryParameter = {
+export const expand0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "expand"
@@ -120,7 +120,7 @@ export const expand0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand1: msRest.OperationQueryParameter = {
+export const expand1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "expand"
@@ -135,7 +135,7 @@ export const expand1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter: msRest.OperationQueryParameter = {
+export const filter: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -147,7 +147,7 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const galleryImageName: msRest.OperationURLParameter = {
+export const galleryImageName: coreHttp.OperationURLParameter = {
   parameterPath: "galleryImageName",
   mapper: {
     required: true,
@@ -157,7 +157,7 @@ export const galleryImageName: msRest.OperationURLParameter = {
     }
   }
 };
-export const galleryImageVersionName: msRest.OperationURLParameter = {
+export const galleryImageVersionName: coreHttp.OperationURLParameter = {
   parameterPath: "galleryImageVersionName",
   mapper: {
     required: true,
@@ -167,7 +167,7 @@ export const galleryImageVersionName: msRest.OperationURLParameter = {
     }
   }
 };
-export const galleryName: msRest.OperationURLParameter = {
+export const galleryName: coreHttp.OperationURLParameter = {
   parameterPath: "galleryName",
   mapper: {
     required: true,
@@ -177,7 +177,7 @@ export const galleryName: msRest.OperationURLParameter = {
     }
   }
 };
-export const imageName: msRest.OperationURLParameter = {
+export const imageName: coreHttp.OperationURLParameter = {
   parameterPath: "imageName",
   mapper: {
     required: true,
@@ -187,7 +187,7 @@ export const imageName: msRest.OperationURLParameter = {
     }
   }
 };
-export const instanceId: msRest.OperationURLParameter = {
+export const instanceId: coreHttp.OperationURLParameter = {
   parameterPath: "instanceId",
   mapper: {
     required: true,
@@ -197,7 +197,7 @@ export const instanceId: msRest.OperationURLParameter = {
     }
   }
 };
-export const location0: msRest.OperationURLParameter = {
+export const location0: coreHttp.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     required: true,
@@ -207,7 +207,7 @@ export const location0: msRest.OperationURLParameter = {
     }
   }
 };
-export const location1: msRest.OperationURLParameter = {
+export const location1: coreHttp.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     required: true,
@@ -220,7 +220,7 @@ export const location1: msRest.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -231,7 +231,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const offer: msRest.OperationURLParameter = {
+export const offer: coreHttp.OperationURLParameter = {
   parameterPath: "offer",
   mapper: {
     required: true,
@@ -241,7 +241,7 @@ export const offer: msRest.OperationURLParameter = {
     }
   }
 };
-export const orderby: msRest.OperationQueryParameter = {
+export const orderby: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "orderby"
@@ -253,7 +253,7 @@ export const orderby: msRest.OperationQueryParameter = {
     }
   }
 };
-export const platformUpdateDomain: msRest.OperationQueryParameter = {
+export const platformUpdateDomain: coreHttp.OperationQueryParameter = {
   parameterPath: "platformUpdateDomain",
   mapper: {
     required: true,
@@ -263,7 +263,7 @@ export const platformUpdateDomain: msRest.OperationQueryParameter = {
     }
   }
 };
-export const publisherName: msRest.OperationURLParameter = {
+export const publisherName: coreHttp.OperationURLParameter = {
   parameterPath: "publisherName",
   mapper: {
     required: true,
@@ -273,7 +273,7 @@ export const publisherName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName: coreHttp.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -283,7 +283,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const select: msRest.OperationQueryParameter = {
+export const select: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "select"
@@ -295,7 +295,7 @@ export const select: msRest.OperationQueryParameter = {
     }
   }
 };
-export const skipShutdown: msRest.OperationQueryParameter = {
+export const skipShutdown: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "skipShutdown"
@@ -308,7 +308,7 @@ export const skipShutdown: msRest.OperationQueryParameter = {
     }
   }
 };
-export const skus: msRest.OperationURLParameter = {
+export const skus: coreHttp.OperationURLParameter = {
   parameterPath: "skus",
   mapper: {
     required: true,
@@ -318,7 +318,7 @@ export const skus: msRest.OperationURLParameter = {
     }
   }
 };
-export const snapshotName: msRest.OperationURLParameter = {
+export const snapshotName: coreHttp.OperationURLParameter = {
   parameterPath: "snapshotName",
   mapper: {
     required: true,
@@ -328,7 +328,7 @@ export const snapshotName: msRest.OperationURLParameter = {
     }
   }
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
@@ -338,7 +338,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const top: msRest.OperationQueryParameter = {
+export const top: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "top"
@@ -350,7 +350,7 @@ export const top: msRest.OperationQueryParameter = {
     }
   }
 };
-export const type: msRest.OperationURLParameter = {
+export const type: coreHttp.OperationURLParameter = {
   parameterPath: "type",
   mapper: {
     required: true,
@@ -360,7 +360,7 @@ export const type: msRest.OperationURLParameter = {
     }
   }
 };
-export const version: msRest.OperationURLParameter = {
+export const version: coreHttp.OperationURLParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
@@ -370,7 +370,7 @@ export const version: msRest.OperationURLParameter = {
     }
   }
 };
-export const virtualMachineScaleSetName: msRest.OperationURLParameter = {
+export const virtualMachineScaleSetName: coreHttp.OperationURLParameter = {
   parameterPath: "virtualMachineScaleSetName",
   mapper: {
     required: true,
@@ -380,7 +380,7 @@ export const virtualMachineScaleSetName: msRest.OperationURLParameter = {
     }
   }
 };
-export const vmExtensionName: msRest.OperationURLParameter = {
+export const vmExtensionName: coreHttp.OperationURLParameter = {
   parameterPath: "vmExtensionName",
   mapper: {
     required: true,
@@ -390,7 +390,7 @@ export const vmExtensionName: msRest.OperationURLParameter = {
     }
   }
 };
-export const vmName: msRest.OperationURLParameter = {
+export const vmName: coreHttp.OperationURLParameter = {
   parameterPath: "vmName",
   mapper: {
     required: true,
@@ -400,7 +400,7 @@ export const vmName: msRest.OperationURLParameter = {
     }
   }
 };
-export const vmScaleSetName: msRest.OperationURLParameter = {
+export const vmScaleSetName: coreHttp.OperationURLParameter = {
   parameterPath: "vmScaleSetName",
   mapper: {
     required: true,
@@ -410,7 +410,7 @@ export const vmScaleSetName: msRest.OperationURLParameter = {
     }
   }
 };
-export const vmssExtensionName: msRest.OperationURLParameter = {
+export const vmssExtensionName: coreHttp.OperationURLParameter = {
   parameterPath: "vmssExtensionName",
   mapper: {
     required: true,
