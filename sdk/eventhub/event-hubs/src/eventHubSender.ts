@@ -474,6 +474,51 @@ export class EventHubSender extends LinkEntity {
           reject(new AbortError("The send operation has been cancelled by the user."));
         };
 
+        onAccepted = (context: EventContext) => {
+          // Since we will be adding listener for accepted and rejected event every time
+          // we send a message, we need to remove listener for both the events.
+          // This will ensure duplicate listeners are not added for the same event.
+          log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+          resolve();
+        };
+
+        onRejected = (context: EventContext) => {
+          log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+          const err = translate(context!.delivery!.remote_state!.error);
+          log.error(err);
+          reject(err);
+        };
+
+        onReleased = (context: EventContext) => {
+          log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+          let err: Error;
+          if (context!.delivery!.remote_state!.error) {
+            err = translate(context!.delivery!.remote_state!.error);
+          } else {
+            err = new Error(
+              `[${this._context.connectionId}] Sender '${this.name}', ` +
+                `received a release disposition.Hence we are rejecting the promise.`
+            );
+          }
+          log.error(err);
+          reject(err);
+        };
+
+        onModified = (context: EventContext) => {
+          log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+          let err: Error;
+          if (context!.delivery!.remote_state!.error) {
+            err = translate(context!.delivery!.remote_state!.error);
+          } else {
+            err = new Error(
+              `[${this._context.connectionId}] Sender "${this.name}", ` +
+                `received a modified disposition.Hence we are rejecting the promise.`
+            );
+          }
+          log.error(err);
+          reject(err);
+        };
+
         try {
           if (abortSignal && abortSignal.aborted) {
             // operation has been cancelled, so exit quickly
@@ -495,51 +540,6 @@ export class EventHubSender extends LinkEntity {
               this.name,
               (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
             );
-
-            onAccepted = (context: EventContext) => {
-              // Since we will be adding listener for accepted and rejected event every time
-              // we send a message, we need to remove listener for both the events.
-              // This will ensure duplicate listeners are not added for the same event.
-              log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
-              resolve();
-            };
-
-            onRejected = (context: EventContext) => {
-              log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
-              const err = translate(context!.delivery!.remote_state!.error);
-              log.error(err);
-              reject(err);
-            };
-
-            onReleased = (context: EventContext) => {
-              log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
-              let err: Error;
-              if (context!.delivery!.remote_state!.error) {
-                err = translate(context!.delivery!.remote_state!.error);
-              } else {
-                err = new Error(
-                  `[${this._context.connectionId}] Sender '${this.name}', ` +
-                    `received a release disposition.Hence we are rejecting the promise.`
-                );
-              }
-              log.error(err);
-              reject(err);
-            };
-
-            onModified = (context: EventContext) => {
-              log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
-              let err: Error;
-              if (context!.delivery!.remote_state!.error) {
-                err = translate(context!.delivery!.remote_state!.error);
-              } else {
-                err = new Error(
-                  `[${this._context.connectionId}] Sender "${this.name}", ` +
-                    `received a modified disposition.Hence we are rejecting the promise.`
-                );
-              }
-              log.error(err);
-              reject(err);
-            };
 
             if (abortSignal) {
               abortSignal.addEventListener("abort", onAborted);
