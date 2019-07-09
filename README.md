@@ -48,3 +48,5 @@ Libraries which enable you to provision specific resources. They are responsible
 
 ## Contributing
 For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2FREADME.png)
