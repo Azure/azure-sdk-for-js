@@ -21,6 +21,8 @@ Use the client library for Azure KeyVault Keys in your Node.js application to
 - Get the versions of a key.
 - As well as obtaining the attributes of a key.
 
+**Please Note:** This is a preview version of the KeyVault Keys library and does not yet have the full capability of the Keys API. Currently missing are methods related to crypto capabilities: encrypt, decrypt, sign, verify, wrap, and unwrap. These are expected to be added in the next release.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 
 ## Getting started
