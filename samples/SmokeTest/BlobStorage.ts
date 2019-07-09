@@ -1,16 +1,19 @@
 import { SharedKeyCredential, BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 export class BlobStorage{
-    service = "Storage - Blobs";
-    description = 
-                "1) Upload Blob\n"+
-                "2) Delete Blob (Clean up the resource)\n";
 
-    private containerName : ContainerClient;
-    private blobName : string;
+    private static containerName : ContainerClient;
+    private static blobName : string;
 
-    constructor(){
-        //Setup the credentials and names for the container and blob.
+    static async Run(){
+        console.log();
+        console.log("------------------------");
+        console.log("Storage - Blobs");
+        console.log("------------------------");
+        console.log("1) Upload Blob");
+        console.log("2) Delete Blob (Clean up the resource)");
+        console.log();
+
         const account = process.env["STORAGE_ACCOUNT_NAME"];
         const accountKey = process.env["STORAGE_ACCOUNT_KEY"];
         const containerName = "mycontainer";
@@ -20,14 +23,11 @@ export class BlobStorage{
         const serviceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net`,credential);
         this.containerName = serviceClient.getContainerClient(containerName);
 
-    }
-
-    async Run(){
         await this.UploadBlob();
         await this.CleanUp();
     }
 
-    private async UploadBlob(){
+    private static async UploadBlob(){
         //This will upload a new blob in an existing container.
         //If the container does not exist, it will create a new one.
         //If the blob already exists in the container, this will override it.
@@ -42,7 +42,7 @@ export class BlobStorage{
         console.log("\tdone");
     }
 
-    private async CleanUp(){
+    private static async CleanUp(){
         console.log("Deleting container and blobs (Cleaning up the resource)...");
         const blobClient = this.containerName.getBlobClient(this.blobName);
         blobClient.delete();

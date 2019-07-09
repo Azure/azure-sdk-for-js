@@ -1,23 +1,24 @@
 import { EventHubClient } from "@azure/event-hubs";
 
 export class EventHubs{
-    service = "Event Hubs";
-    description = 
-                "1) Get partitions ID\n"+
-                "2) Send a batch of 3 events\n"+
-                "3) Get a batch of events\n";
 
-    private client : EventHubClient;
-    private partitionId : string[];
+    private static client : EventHubClient;
+    private static partitionId : string[];
 
-    constructor(){
+    static async Run(){
+        console.log();
+        console.log("------------------------");
+        console.log("Event Hubs");
+        console.log("------------------------");
+        console.log("1) Get partitions ID");
+        console.log("2) Send a batch of 3 events");
+        console.log("3) Get a batch of events");
+        console.log();
+
         let eventHubName = "myeventhub";
         let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"];
-        
         this.client = EventHubClient.createFromConnectionString(connectionString,eventHubName);
-    }
 
-    async Run(){
         try{
             await this.getPartitionsIds();
             await this.sendBatchOfEvents();
@@ -32,17 +33,16 @@ export class EventHubs{
         await this.client.close();
     }
 
-    private async getPartitionsIds(){
+    private static async getPartitionsIds(){
         console.log("getting partitions id");
         
         //In this sample, all the events are gonna be send and received from the first partition of the Event Hub.
         //This can be changed since it is not necessary to specify the partitionID when calling a method of the SDK.
         this.partitionId = await this.client.getPartitionIds();
         console.log("\tdone");
-        
     }
 
-    private async sendBatchOfEvents(){
+    private static async sendBatchOfEvents(){
         console.log("sending a batch");
         await this.client.sendBatch(
             [
@@ -54,13 +54,11 @@ export class EventHubs{
             console.log("\tdone");
     }
 
-    private async receiveBatchOfEvents(){
+    private static async receiveBatchOfEvents(){
         console.log("receiving a batch");
         //This will get a batch of events, but not necesarily the same ones sended before.
         //This will get a batch of events from the EvenHub, depending on the configuration of how many days the event hub will keep the events.
         const myEvents = await this.client.receiveBatch(this.partitionId[0],3);
         console.log("\tdone");
-        
     }
-
 }

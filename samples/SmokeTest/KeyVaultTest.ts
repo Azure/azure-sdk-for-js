@@ -2,40 +2,45 @@ import { EnvironmentCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
 
 export class KeyVaultSecrets{
-    service = "Key Vault - Secrets\nIdentity - Credential";
-    description = 
-                "1) Set a secret\n"+
-                "2) Get that secret\n"+
-                "3) Delete that secret (Clean up the resource)\n";
-
-    private client : SecretsClient;
-    private secretName : string;
-    private secretValue : string;
-
-    constructor(){
+    private static client : SecretsClient;
+    private static secretName : string;
+    private static secretValue : string;
+    
+    static async Run() {
+        console.log();
+        console.log("------------------------");
+        console.log("Key Vault - Secrets\nIdentity - Credential");
+        console.log("------------------------");
+        console.log("1) Set a secret");
+        console.log("2) Get that secret");
+        console.log("3) Delete that secret (Clean up the resource)");
+        console.log();
+        
+        // EnvironmentCredential expects the following three environment variables:
+        // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+        // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+        // * AZURE_CLIENT_SECRET: The client secret for the registered application
         const credential = new EnvironmentCredential();
         const url = process.env["AZURE_PROJECT_URL"];
+
+        this.client = new SecretsClient(url,credential);
 
         this.secretName = "MySecretName";
         this.secretValue = "MySecretValue";
 
-        this.client = new SecretsClient(url,credential);
-    }
-    
-    async Run() {
         await this.setSecret();
         await this.getSecret();
         await this.deleteSecret();
     }
 
-    private async setSecret(){
+    private static async setSecret(){
         console.log("\tSetting a secret...");
         const result = await this.client.setSecret(this.secretName, this.secretValue);
         console.log("\t\tSecret = (" + result.name +","+ result.value + ")");
         console.log("\t\tdone");
     }
 
-    private async getSecret(){
+    private static async getSecret(){
         console.log("\tGetting that secret...");
         const result = await this.client.getSecret(this.secretName);
 
@@ -46,7 +51,7 @@ export class KeyVaultSecrets{
         console.log("\t\tdone");
     }
 
-    private async deleteSecret(){
+    private static async deleteSecret(){
         console.log("\tDeleting that secret...");
         await this.client.deleteSecret(this.secretName);
         console.log("\t\tdone");

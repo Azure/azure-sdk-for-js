@@ -1,52 +1,53 @@
 import {CosmosClient} from "@azure/cosmos";
 
-export class CosmosDB {
-    service = "Cosmos DB";
-    description = 
-                "1) Create a database\n"+
-                "2) Create a collection\n"+
-                "3) Create documents (items) in the collection\n"+
-                "4) Delete the database (Clean up the resource)\n";
+export class CosmosDB {  
    
-    private dataBaseName = "jsSolarSystem";
-    private collectionName = "PlanetsCollection";
+    private static dataBaseName = "jsSolarSystem";
+    private static collectionName = "PlanetsCollection";
+    private static client;
+    private static db;
+    private static container;
 
-    private client;
-    private db;
-    private container;
+    static async Run(){
+        console.log();
+        console.log("------------------------");
+        console.log("Cosmos DB");
+        console.log("------------------------");
+        console.log("1) Create a database");
+        console.log("2) Create a collection");
+        console.log("3) Create documents (items) in the collection");
+        console.log("4) Delete the database (Clean up the resource)");
+        console.log();
 
-    constructor(){
-        //THIS CLASS EXPECTS TO FIND THE FOLLOWING ENVIRONMENT VARIABLES
         const endpoint = process.env["COSMOS_END_POINT"];
         const masterKey = process.env["COSMOS_KEY"]; 
-        
         this.client = new CosmosClient({ endpoint, auth: { masterKey } });
-    }
 
-    async Run(){
         await this.CreateDatabase();
         await this.CreateCollection();
         await this.CreateDocuments();
         await this.DeleteDatabase();
     }
 
-    private async CreateDatabase(){
+    private static async CreateDatabase(){
         console.log(`Creating "${this.dataBaseName}" database...`)
         const { database: db } = await this.client.databases.create({id: this.dataBaseName});
         this.db = db;
         console.log("\tdone");
     }
 
-    private async CreateCollection(){
+    private static async CreateCollection(){
         console.log(`Creating "${this.collectionName}" collection...`);
         const { container } = await this.db.containers.create({id: this.collectionName});
         this.container = container;
         console.log("\tdone");
     }
 
-    private async CreateDocuments(){
+    private static async CreateDocuments(){
         console.log("Creating documents (items)...");
         
+        //In order to identify the object, cosmos will expect an 'id' peroperty in any object.
+        //If there is not an 'id' property, cosmos will asign a random id string to it.
         let planetEarth =
         {
             "id" : "Earth",
@@ -83,7 +84,7 @@ export class CosmosDB {
         console.log(`\t${planetMars.id} done`);
     }
 
-    private async DeleteDatabase(){
+    private static async DeleteDatabase(){
         console.log("Deleting database...");
         await this.db.delete();
         console.log("\tdone");
