@@ -1,3 +1,7 @@
+# 2019-07-09 1.0.3
+
+- Update `amqp-common` dependency version to 1.0.0-preview.6 which includes fix for bug where token audience for AAD based authentication would work only with Azure Event Hubs. The appropriate token audience now needs to be explicitly set on the credentials at time of creation. [PR 4146](https://github.com/Azure/azure-sdk-for-js/pull/4146)
+
 # 2019-05-21 1.0.2
 
 - Added missing package.json file to the npm package to fix issues bundling with webpack and other bundlers.
