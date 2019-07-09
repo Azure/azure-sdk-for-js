@@ -57,22 +57,26 @@ describe("Aggregate Query", function() {
   };
 
   const validateToArray = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
-    const { resources: results } = await queryIterator.fetchAll();
+    const { resources: results, requestCharge } = await queryIterator.fetchAll();
+    assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
     assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+    return requestCharge;
   };
 
   const validateExecuteNextAndHasMoreResults = async function(
     queryIterator: QueryIterator<any>,
     options: any,
-    expectedResults: any[]
+    expectedResults: any[],
+    fetchAllRequestCharge: number
   ) {
     const pageSize = options["maxItemCount"];
     const listOfResultPages: any[] = [];
     let totalFetchedResults: any[] = [];
+    let totalExecuteNextRequestCharge = 0;
 
     while (totalFetchedResults.length <= expectedResults.length) {
-      const { resources: results } = await queryIterator.fetchNext();
+      const { resources: results, requestCharge } = await queryIterator.fetchNext();
       listOfResultPages.push(results);
 
       if (results === undefined || totalFetchedResults.length === expectedResults.length) {
@@ -80,6 +84,7 @@ describe("Aggregate Query", function() {
       }
 
       totalFetchedResults = totalFetchedResults.concat(results);
+      totalExecuteNextRequestCharge += requestCharge;
 
       if (totalFetchedResults.length < expectedResults.length) {
         // there are more results
@@ -96,6 +101,14 @@ describe("Aggregate Query", function() {
     // no more results
     validateResult(totalFetchedResults, expectedResults);
     assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+
+    assert(totalExecuteNextRequestCharge > 0);
+    const percentDifference =
+      Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) / totalExecuteNextRequestCharge;
+    assert(
+      percentDifference <= 0.01,
+      "difference between fetchAll request charge and executeNext request charge should be less than 1%"
+    );
   };
 
   const ValidateAsyncIterator = async function(queryIterator: QueryIterator<any>, expectedResults: any[]) {
@@ -118,9 +131,9 @@ describe("Aggregate Query", function() {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
     const queryIterator = container.items.query(query, options);
-    await validateToArray(queryIterator, expectedResults);
+    const fetchAllRequestCharge = await validateToArray(queryIterator, expectedResults);
     queryIterator.reset();
-    await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults);
+    await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults, fetchAllRequestCharge);
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
   };

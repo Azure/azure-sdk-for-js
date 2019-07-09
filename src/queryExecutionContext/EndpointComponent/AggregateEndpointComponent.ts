@@ -1,7 +1,7 @@
 import { Response } from "../../request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
 import { ExecutionContext } from "../ExecutionContext";
-import { getInitialHeader } from "../headerUtils";
+import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { CosmosHeaders } from "../index";
 
 /** @hidden */
@@ -11,6 +11,7 @@ export class AggregateEndpointComponent implements ExecutionContext {
   private aggregateValuesIndex: number;
   private localAggregators: any[];
   private started: boolean;
+  private respHeaders: CosmosHeaders;
 
   /**
    * Represents an endpoint in handling aggregate queries.
@@ -22,6 +23,7 @@ export class AggregateEndpointComponent implements ExecutionContext {
     // TODO: any
     this.executionContext = executionContext;
     this.localAggregators = [];
+    this.respHeaders = getInitialHeader();
     aggregateOperators.forEach((aggregateOperator: string) => {
       switch (aggregateOperator) {
         case "Average":
@@ -83,11 +85,22 @@ export class AggregateEndpointComponent implements ExecutionContext {
     const { result: item, headers } = await this.executionContext.nextItem();
     if (item === undefined) {
       // no more results
-      return { result: this.toArrayTempResources, headers };
+      return { result: this.toArrayTempResources, headers: this.getAndResetActiveResponseHeaders() };
     }
 
     this.toArrayTempResources = this.toArrayTempResources.concat(item);
+    this.mergeWithActiveResponseHeaders(headers);
     return this._getQueryResults();
+  }
+
+  private mergeWithActiveResponseHeaders(headers: CosmosHeaders) {
+    mergeHeaders(this.respHeaders, headers);
+  }
+
+  private getAndResetActiveResponseHeaders() {
+    const ret = this.respHeaders;
+    this.respHeaders = getInitialHeader();
+    return ret;
   }
 
   /**
@@ -106,7 +119,6 @@ export class AggregateEndpointComponent implements ExecutionContext {
       this.aggregateValuesIndex < this.aggregateValues.length
         ? this.aggregateValues[++this.aggregateValuesIndex]
         : undefined;
-
     return { result: resource, headers: resHeaders };
   }
 
