@@ -332,7 +332,7 @@ describe("ServiceClient", function () {
     assert.strictEqual(response._response.status, 200);
     const userAgentHeaderValue: string | undefined = response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name");
     assert(userAgentHeaderValue);
-    assert(userAgentHeaderValue!.startsWith("ms-rest-js/"));
+    assert(userAgentHeaderValue!.startsWith("core-http/"));
     assert(userAgentHeaderValue!.endsWith("/blah blah"));
   });
 
