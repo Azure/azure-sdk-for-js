@@ -20,7 +20,7 @@ dotenv.config();
 
 [RetryPolicy.ExponentialRetryPolicy, RetryPolicy.LinearRetryPolicy].forEach(
   () =>
-    function(retryPolicy) {
+    function(retryPolicy: RetryPolicy): void {
       describe(`retry function for ${retryPolicy}`, function() {
         it("should succeed if the operation succeeds.", async function() {
           let counter = 0;
