@@ -41,7 +41,7 @@
     "@types/gulp": "^4.0.0",
     "@types/js-yaml": "^3.11.2",
     "@types/minimist": "^1.2.0",
-    "@types/node": "^10.14.12",
+    "@types/node": "^10.10.0",
     "@types/nodegit": "^0.22.5",
     "@types/yargs": "^11.0.0",
     "colors": "^1.3.2",
@@ -60,9 +60,5 @@
   "engineStrict": true,
   "engines": {
     "node": ">=10.10.0"
-  },
-  "dependencies": {
-    "@azure/event-hubs": "^2.1.0",
-    "@azure/keyvault-secrets": "^4.0.0-preview.1"
   }
 }
