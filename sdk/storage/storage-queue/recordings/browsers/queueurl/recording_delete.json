@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709934906625",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156266541247604274",
    "query": {
     "timeout": "30"
    },
@@ -10,16 +10,16 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee40b-c003-005e-22b0-208992000000",
+    "x-ms-request-id": "54b73822-d003-008f-323a-3670ca000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:39 GMT",
+    "date": "Tue, 09 Jul 2019 09:40:08 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709934906625",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156266541247604274",
    "query": {
     "timeout": "30"
    },
@@ -27,15 +27,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee478-c003-005e-09b0-208992000000",
+    "x-ms-request-id": "54b73847-d003-008f-4e3a-3670ca000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:39 GMT",
+    "date": "Tue, 09 Jul 2019 09:40:08 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue156029709934906625"
+  "queue": "queue156266541247604274"
  }
 }

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709889501926",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156266541192709059",
    "query": {
     "timeout": "30"
    },
@@ -10,10 +10,10 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee2bb-c003-005e-6cb0-208992000000",
+    "x-ms-request-id": "54b737b2-d003-008f-543a-3670ca000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:38 GMT",
+    "date": "Tue, 09 Jul 2019 09:40:08 GMT",
     "content-length": "0"
    }
   },
@@ -25,20 +25,20 @@
    },
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidResourceName</Code><Message>The specifed resource name contains invalid characters.\nRequestId:833ee33a-c003-005e-5eb0-208992000000\nTime:2019-06-11T23:51:39.1444989Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidResourceName</Code><Message>The specifed resource name contains invalid characters.\nRequestId:54b737de-d003-008f-753a-3670ca000000\nTime:2019-07-09T09:40:09.0334740Z</Message></Error>",
    "responseHeaders": {
-    "date": "Tue, 11 Jun 2019 23:51:38 GMT",
+    "date": "Tue, 09 Jul 2019 09:40:08 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidResourceName",
     "content-type": "application/xml",
-    "x-ms-request-id": "833ee33a-c003-005e-5eb0-208992000000",
+    "x-ms-request-id": "54b737de-d003-008f-753a-3670ca000000",
     "x-ms-version": "2018-03-28",
     "content-length": "243"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709889501926",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156266541192709059",
    "query": {
     "timeout": "30"
    },
@@ -46,15 +46,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee3a6-c003-005e-44b0-208992000000",
+    "x-ms-request-id": "54b73808-d003-008f-193a-3670ca000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:38 GMT",
+    "date": "Tue, 09 Jul 2019 09:40:08 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue156029709889501926"
+  "queue": "queue156266541192709059"
  }
 }
