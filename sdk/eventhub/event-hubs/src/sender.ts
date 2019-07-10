@@ -52,7 +52,9 @@ export class EventHubProducer {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =
-      this._senderOptions.partitionId != undefined ? String(this._senderOptions.partitionId) : undefined;
+      this._senderOptions.partitionId != undefined
+        ? String(this._senderOptions.partitionId)
+        : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
   }
 
