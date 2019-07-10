@@ -246,7 +246,7 @@ export class RetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code && err.code.toUpperCase().includes(retriableError))
+          (err.code && err.code.toString().toUpperCase().includes(retriableError))
         ) {
           this.logf(
             HttpPipelineLogLevel.INFO,
