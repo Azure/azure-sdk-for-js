@@ -49,7 +49,7 @@ export class EventHubConsumer {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
-  private readonly _connectionContext: ConnectionContext;
+  private readonly _context: ConnectionContext;
   /**
    * @property The consumer group from which the receiver should receive events from.
    */
@@ -83,7 +83,7 @@ export class EventHubConsumer {
           const name = baseConsumer && baseConsumer.name;
           const address = baseConsumer && baseConsumer.address;
           const desc: string =
-            `[${this._connectionContext.connectionId}] The request operation on the Receiver "${name}" with ` +
+            `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
             `address "${address}" has been cancelled by the user.`;
           log.error(desc);
         };
@@ -116,7 +116,7 @@ export class EventHubConsumer {
         const prefetchCount = Math.max(maxMessageCount - receivedEvents.length, 0);
         log.batching(
           "[%s] Receiver '%s', setting the prefetch count to %d.",
-          this._connectionContext.connectionId,
+          this._context.connectionId,
           this._baseConsumer && this._baseConsumer.name,
           prefetchCount
         );
@@ -141,7 +141,7 @@ export class EventHubConsumer {
             if (receivedEvents.length === maxMessageCount) {
               log.batching(
                 "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
-                this._connectionContext.connectionId,
+                this._context.connectionId,
                 this._baseConsumer && this._baseConsumer.name,
                 receivedEvents.length,
                 maxWaitTimeInSeconds
@@ -161,7 +161,7 @@ export class EventHubConsumer {
           }
           log.batching(
             msg,
-            this._connectionContext.connectionId,
+            this._context.connectionId,
             maxWaitTimeInSeconds,
             this._baseConsumer && this._baseConsumer.name
           );
@@ -171,7 +171,7 @@ export class EventHubConsumer {
           timer = setTimeout(() => {
             log.batching(
               "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
-              this._connectionContext.connectionId,
+              this._context.connectionId,
               this._baseConsumer && this._baseConsumer.name,
               receivedEvents.length,
               maxWaitTimeInSeconds
@@ -217,8 +217,8 @@ export class EventHubConsumer {
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
 
     const config: RetryConfig<ReceivedEventData[]> = {
-      connectionHost: this._connectionContext.config.host,
-      connectionId: this._connectionContext.connectionId,
+      connectionHost: this._context.config.host,
+      connectionId: this._context.connectionId,
       delayInSeconds: delayInSeconds + jitterInSeconds,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
@@ -229,21 +229,21 @@ export class EventHubConsumer {
 
   private throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages) {
-      const errorMessage = `The EventHubConsumer for "${this._connectionContext.config.entityPath}" is already receiving messages.`;
+      const errorMessage = `The EventHubConsumer for "${this._context.config.entityPath}" is already receiving messages.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._connectionContext.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
 
   private throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._connectionContext);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
       const errorMessage =
-        `The EventHubConsumer for "${this._connectionContext.config.entityPath}" has been closed and can no longer be used. ` +
+        `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._connectionContext.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -263,7 +263,7 @@ export class EventHubConsumer {
    * @readonly
    */
   get isClosed(): boolean {
-    return this._isClosed || this._connectionContext.wasConnectionCloseCalled;
+    return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
   /**
@@ -306,18 +306,18 @@ export class EventHubConsumer {
    * @ignore
    */
   constructor(
-    connectionContext: ConnectionContext,
+    context: ConnectionContext,
     consumerGroup: string,
     partitionId: string,
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ) {
-    this._connectionContext = connectionContext;
+    this._context = context;
     this._consumerGroup = consumerGroup;
     this._consumerOptions = options || {};
     this._partitionId = partitionId;
     this._baseConsumer = new EventHubReceiver(
-      connectionContext,
+      context,
       consumerGroup,
       partitionId,
       eventPosition,
@@ -336,7 +336,7 @@ export class EventHubConsumer {
    */
   async close(): Promise<void> {
     try {
-      if (this._connectionContext.connection && this._connectionContext.connection.isOpen()) {
+      if (this._context.connection && this._context.connection.isOpen()) {
         if (this._baseConsumer) {
           await this._baseConsumer.close();
           this._baseConsumer = void 0;
@@ -477,7 +477,7 @@ export class EventHubConsumer {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._connectionContext.connectionId,
+        this._context.connectionId,
         this._baseConsumer && this._baseConsumer.name,
         maxMessageCount,
         maxWaitTimeInSeconds,
