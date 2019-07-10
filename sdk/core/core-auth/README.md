@@ -1,4 +1,4 @@
-## Azure Core Authentiation
+## Azure Core Authentication
 
 This library provides core interfaces and helper methods for authenticating with Azure Active Directory.  As a "core" library, it shouldn't need to be added as a dependency to any user code, only other Azure SDK libraries.
 
