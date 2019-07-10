@@ -191,7 +191,7 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of body, also how many bytes to be uploaded
+   * @param {number} count Content length of body, also number of bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
@@ -225,7 +225,7 @@ export class PageBlobURL extends BlobURL {
    * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
    * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
    * @param {number} destOffset Offset of destination page blob
-   * @param {number} count How many bytes to be uploaded from source page blob
+   * @param {number} count Number of bytes to be uploaded from source page blob
    * @param {IPageBlobUploadPagesFromURLOptions} [options={}]
    * @returns {Promise<Models.PageBlobUploadPagesFromURLResponse>}
    * @memberof PageBlobURL

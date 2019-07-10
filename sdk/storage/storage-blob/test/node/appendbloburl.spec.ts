@@ -45,7 +45,7 @@ describe("AppendBlobURL", () => {
     await blobURL.upload(Aborter.none, content, content.length);
 
     // Get a SAS for blobURL
-    const expiryTime = new Date();
+    const expiryTime = recorder.newDate();
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {

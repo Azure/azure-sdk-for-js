@@ -195,7 +195,7 @@ export class AppendBlobURL extends BlobURL {
    *                 must either be public or must be authenticated via a shared access signature. If the source blob is
    *                 public, no authentication is required to perform the operation.
    * @param {number} sourceOffset Offset in source to be appended
-   * @param {number} count How many bytes to be appended as a block
+   * @param {number} count Number of bytes to be appended as a block
    * @param {IAppendBlobAppendBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
    * @memberof AppendBlobURL

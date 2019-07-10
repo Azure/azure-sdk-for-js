@@ -42,7 +42,7 @@ describe("BlobURL", () => {
     const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = new Date();
+    const expiryTime = recorder.newDate();
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters({
       expiryTime,
