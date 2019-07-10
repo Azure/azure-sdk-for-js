@@ -1,7 +1,6 @@
 import { KeysClient, JsonWebKeyEncryptionAlgorithm } from "../src";
 import { EnvironmentCredential } from "@azure/identity";
 import * as crypto from 'crypto';
-import base64url from "base64url";
 
 async function main(): Promise<void> {
   // EnvironmentCredential expects the following three environment variables:
@@ -19,27 +18,37 @@ async function main(): Promise<void> {
   const signatureValue = "MySignature";
 
   const key = await client.getKey(keyName);
-  console.log("key: ", key);
+  //console.log("key: ", key);
 
   let keyPEM = keyto.from(key.keyMaterial!, "jwk").toString('pem', 'public_pkcs1');
-  console.log("PEM: ", keyPEM);
+  //console.log("PEM: ", keyPEM);
 
-  let hash = crypto.createHash("sha256");
-  hash.update(signatureValue);
-  let signature = hash.digest();
-  console.log("digest: ", signature);
+  // SIGN/VERIFY ORACLE
+  // let hash = crypto.createHash("sha256");
+  // hash.update(signatureValue);
+  // let signature = hash.digest();
+  // console.log("digest: ", signature);
 
-  const signResult = await client.sign(keyName, key.version!, "RS256", signature);
-  console.log("sign result: ", signResult);
+  // const signResult = await client.sign(keyName, key.version!, "RS256", signature);
+  // console.log("sign result: ", signResult);
 
-  const verifyResult = await client.verify(keyName, key.version!, "RS256", signature, signResult.result!);
-  console.log("verify result: ", verifyResult);
+  // const verifyResult = await client.verify(keyName, key.version!, "RS256", signature, signResult.result!);
+  // console.log("verify result: ", verifyResult);
 
-  const verifier = crypto.createVerify("sha256");
-  verifier.update(signatureValue);
-  verifier.end();
+  // const verifier = crypto.createVerify("sha256");
+  // verifier.update(signatureValue);
+  // verifier.end();
 
-  console.log(verifier.verify(keyPEM, Buffer.from(signResult.result!)));
+  // console.log(verifier.verify(keyPEM, Buffer.from(signResult.result!)));
+
+  // ENCRYPT/DECRYPT ORACLE
+  let toEncryptBuffer = Buffer.from("mysecretpassword123");
+
+  const encrypted = crypto.publicEncrypt(keyPEM, toEncryptBuffer);
+  console.log("from node: ", encrypted);
+
+  const decryptResult = await client.decrypt(keyName, key.version, "RSA-OAEP", new Uint8Array(encrypted));
+  console.log(decryptResult.result!.toString());
 
   //let hash2 = crypto.createHash("sha256").update(Buffer.from(key.keyMaterial!.n)).digest("hex").slice(0, 32);
 
