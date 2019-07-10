@@ -6,6 +6,7 @@
 * Fixed a bug that `Aborter` cannot work during retry interval.
 * Fixed a bug that Aborter throws timeout error even though it succeeds of `BlockBlobUrl.download()`.
 * Export `RetryPolicyType`.
+* Aborter doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 
 2018.12 10.3.0
 

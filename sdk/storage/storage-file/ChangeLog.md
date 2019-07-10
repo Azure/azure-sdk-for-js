@@ -3,6 +3,7 @@
 * Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 * Fixed a bug that `Aborter` cannot work during retry interval.
 * Fixed a bug that Aborter throws timeout error even though it succeeds of `FileURL.download()`.
+* Aborter doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 * Export `RetryPolicyType`.
 
 2018.01 Version 10.1.0

@@ -2,6 +2,7 @@
 
 * Fixed a bug that `Aborter` cannot work during retry interval.
 * Export `RetryPolicyType`.
+* Aborter doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 
 2019.1 Version 10.1.0
 
