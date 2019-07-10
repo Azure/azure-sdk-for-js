@@ -1,13 +1,14 @@
-import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { bodyToString, getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
-import * as dotenv from "dotenv";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("FileURL", () => {
@@ -260,6 +261,16 @@ describe("FileURL", () => {
     await fileURL.uploadRange(Aborter.none, content, 0, content.length);
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+
+    const aborter = Aborter.none;
+    const result = await fileURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
   });
 
   it("download all parameters set", async () => {
