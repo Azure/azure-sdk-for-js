@@ -13,7 +13,8 @@ import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./eventHubClient";
 import { EventDataInternal, fromAmqpMessage, ReceivedEventData } from "./eventData";
-import { translate, RetryConfig, Constants, RetryOperationType, retry, MessagingError } from "@azure/core-amqp";
+import { translate, RetryConfig, Constants, RetryOperationType, retry, MessagingError, delay } from "@azure/core-amqp";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
@@ -56,13 +57,15 @@ interface CreateReceiverOptions {
 export class BaseConsumer extends LinkEntity {
   public consumerGroup: string;
   public eventPosition: EventPosition;
-  public isReceivingMessages: boolean;
   public ownerLevel?: number;
-  public prefetchCount?: number;
-  public receiverRuntimeMetricEnabled: boolean;
+  public prefetchCount: number = 0;
+  public receiverRuntimeMetricEnabled: boolean = false;
   public runtimeInfo: ReceiverRuntimeInfo;
   private _amqpReceiver?: Receiver;
-  private _checkpoint: number;
+  private _checkpoint: number = -1;
+  private internalQueue: ReceivedEventData[] = [];
+  private _isDrainingQueue: boolean = false;
+  private _isReceivingMessages: boolean = false;
   private _userDefinedOnMessage?: OnMessage;
   private _userDefinedOnError?: OnError;
 
@@ -72,6 +75,10 @@ export class BaseConsumer extends LinkEntity {
 
   public get bufferedEventCount(): number {
     return this.internalQueue.length;
+  }
+
+  public get isReceivingMessages(): boolean {
+    return this._isReceivingMessages;
   }
 
   public getBufferedEvents(count?: number): ReceivedEventData[] {
@@ -91,8 +98,6 @@ export class BaseConsumer extends LinkEntity {
     }
   }
 
-  private internalQueue: ReceivedEventData[];
-
   constructor(
     context: ConnectionContext,
     consumerGroup: string,
@@ -100,31 +105,16 @@ export class BaseConsumer extends LinkEntity {
     eventPosition: EventPosition,
     options: EventHubConsumerOptions = {}
   ) {
-    const address = context.config.getReceiverAddress(partitionId, consumerGroup);
     super(context, {
       partitionId,
-      name: address
+      name: context.config.getReceiverAddress(partitionId, consumerGroup)
     });
-    this.address = address;
+    this.address = context.config.getReceiverAddress(partitionId, consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, consumerGroup);
-    this._checkpoint = -1;
     this.consumerGroup = consumerGroup;
     this.eventPosition = eventPosition;
-    this.isReceivingMessages = false;
-    this.internalQueue = [];
     this.ownerLevel = options.ownerLevel;
-    this.prefetchCount = 0;
-    this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
-  }
-
-  public clearErrorHandler() {
-    this._userDefinedOnError = void 0;
-  }
-
-  public clearMessageHandler() {
-    this._userDefinedOnMessage = void 0;
-    this.isReceivingMessages = false;
   }
 
   public async close(): Promise<void> {
@@ -132,8 +122,7 @@ export class BaseConsumer extends LinkEntity {
       return;
     }
 
-    this.clearErrorHandler();
-    this.clearMessageHandler();
+    this.clearHandlers();
     // store amqpReceiver in local variable since deleteFromCache removes it.
     const receiverLink = this._amqpReceiver;
     this.deleteFromCache();
@@ -194,13 +183,14 @@ export class BaseConsumer extends LinkEntity {
 
       // create RHEA receiver options
       // todo
+      const initOptions = this.createAmqpReceiverOptions(receiverOptions);
 
       // attempt to create the link
       const linkCreationConfig: RetryConfig<void> = {
         connectionId: this._context.connectionId,
         connectionHost: this._context.config.host,
         delayInSeconds: 15,
-        operation: () => this.initialize(),
+        operation: () => this.initialize(initOptions),
         operationType: RetryOperationType.receiverLink,
         times: Constants.defaultConnectionRetryAttempts
       };
@@ -211,23 +201,64 @@ export class BaseConsumer extends LinkEntity {
     }
   }
 
-  public registerErrorHandler(onError: OnError) {
-    if (typeof onError !== "function") {
-      // throw error
-    }
-    this._userDefinedOnError = onError;
-  }
-
-  public registerMessageHandler(onMessage: OnMessage) {
+  public registerHandlers(onMessage: OnMessage, onError?: OnError, abortSignal?: AbortSignalLike) {
     if (typeof onMessage !== "function") {
       // throw error
     }
+    if (onError && typeof onError !== "function") {
+      // throw error
+    }
+
+    this._userDefinedOnError = onError;
     this._userDefinedOnMessage = onMessage;
 
-    // add at least 1 credit
-    this.addCredit(this.prefetchCount || 1);
+    // indicate that messages are being received.
+    this._isReceivingMessages = true;
 
-    this.isReceivingMessages = true;
+    this.drainAndAddCredits(onMessage, abortSignal);
+  }
+
+  public clearHandlers(): void {
+    this._userDefinedOnError = undefined;
+    this._userDefinedOnMessage = undefined;
+    this._isReceivingMessages = false;
+  }
+
+  private async drainAndAddCredits(onMessage: OnMessage, abortSignal?: AbortSignalLike) {
+    await delay(0);
+    this._isDrainingQueue = true;
+    while (this.internalQueue.length) {
+      if (!this.isReceivingMessages) {
+        this._isDrainingQueue = false;
+        return;
+      }
+
+      if (abortSignal && abortSignal.aborted) {
+        this._isDrainingQueue = false;
+        return;
+      }
+
+      if (this._userDefinedOnMessage !== onMessage) {
+        this._isDrainingQueue = false;
+        return;
+      }
+      const eventData = this.internalQueue.splice(0, 1)[0];
+      onMessage(eventData);
+      // allow the event loop to process any blocking code outside
+      // this code path before sending the next event.
+      await delay(0);
+    }
+    this._isDrainingQueue = false;
+
+    if (this.isReceivingMessages) {
+      // register the onMessage handler to stop
+      // sending events to the queue.
+
+      if (this.isOpen()) {
+        // add credits to start receiving events from the service.
+        this.addCredit(this.prefetchCount || 1);
+      }
+    }
   }
 
   private createAmqpReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
@@ -287,13 +318,17 @@ export class BaseConsumer extends LinkEntity {
         this.isConnecting = true;
         await this._negotiateClaim();
         if (!options) {
-          options = this.createAmqpReceiverOptions({
+          const receiverOptions: CreateReceiverOptions = {
             onClose: (context: EventContext) => this.onAmqpClose(context),
             onError: (context: EventContext) => this.onAmqpError(context),
             onMessage: (context: EventContext) => this.onAmqpMessage(context),
             onSessionClose: (context: EventContext) => this.onAmqpSessionClose(context),
             onSessionError: (context: EventContext) => this.onAmqpSessionError(context)
-          });
+          };
+          if (this.checkpoint > -1) {
+            receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.checkpoint);
+          }
+          options = this.createAmqpReceiverOptions(receiverOptions);
         }
 
         // log error
@@ -311,11 +346,24 @@ export class BaseConsumer extends LinkEntity {
       } else {
         // log error
       }
-    } catch (err) {}
+    } catch (err) {
+      this.isConnecting = false;
+      err = translate(err);
+      throw err;
+    }
+  }
+
+  public async abort(): Promise<void> {
+    if (typeof this._userDefinedOnError === "function") {
+      const error = new AbortError("The receive operation has been cancelled by the user.");
+      this._userDefinedOnError(error);
+    }
+    this.clearHandlers();
+    await this.close();
   }
 
   private hasActiveListeners(): boolean {
-    return typeof this._userDefinedOnMessage === "function" || typeof this._userDefinedOnError === "function";
+    return typeof this._userDefinedOnMessage === "function";
   }
 
   private onAmqpMessage(context: EventContext) {
@@ -349,11 +397,11 @@ export class BaseConsumer extends LinkEntity {
     }
 
     // automatically add credit if there is a listener
-    if (this.hasActiveListeners()) {
+    if (this.hasActiveListeners() && !this._isDrainingQueue) {
       this.addCredit(this.prefetchCount || 1);
     }
 
-    if (this._userDefinedOnMessage) {
+    if (this._userDefinedOnMessage && !this._isDrainingQueue) {
       this._userDefinedOnMessage(receivedEventData);
     } else {
       this.internalQueue.push(receivedEventData);

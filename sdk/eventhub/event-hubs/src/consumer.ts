@@ -1,9 +1,9 @@
 import { BaseConsumer, OnMessage, OnError } from "./baseReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { EventPosition } from "./eventPosition";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { ReceiveHandler } from "./receiveHandler";
-import { delay, RetryConfig, randomNumberFromInterval, Constants, RetryOperationType, retry } from "@azure/core-amqp";
+import { RetryConfig, randomNumberFromInterval, Constants, RetryOperationType, retry } from "@azure/core-amqp";
 import { ReceivedEventData } from "./eventData";
 import { EventHubConsumerOptions } from "./eventHubClient";
 import { throwErrorIfConnectionClosed } from "./util/error";
@@ -32,7 +32,7 @@ export class Consumer {
   private _partitionId: string;
 
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._connectionContext.wasConnectionCloseCalled;
   }
 
   public get ownerLevel(): number | undefined {
@@ -43,7 +43,7 @@ export class Consumer {
     if (this._baseConsumer && this._baseConsumer.isReceivingMessages) {
       return true;
     }
-    // todo: handle batching case
+
     return false;
   }
 
@@ -66,7 +66,7 @@ export class Consumer {
     this._consumerGroup = consumerGroup;
     this._consumerOptions = options || {};
     this._partitionId = partitionId;
-    this._baseConsumer = new BaseConsumer(connectionContext, consumerGroup, partitionId, eventPosition);
+    this._baseConsumer = new BaseConsumer(connectionContext, consumerGroup, partitionId, eventPosition, options);
   }
 
   public async *getEventIterator(options: EventIteratorOptions = {}): AsyncIterableIterator<ReceivedEventData> {
@@ -98,21 +98,31 @@ export class Consumer {
   }
 
   public async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds: number = 60, abortSignal?: AbortSignalLike) {
-    // check if I am closed
-    // check if I am already receiving messages
     this.throwIfReceiverOrConnectionClosed();
     this.throwIfAlreadyReceiving();
 
-    // todo: handle abort signal
-    // use buffered events first
-    const receivedEvents = this.getBufferedEvents(maxMessageCount);
-
-    if (receivedEvents.length === maxMessageCount) {
-      return receivedEvents;
+    if (!this._baseConsumer) {
+      // what do?
+      console.log("what!");
+      return [];
     }
+
+    const receivedEvents: ReceivedEventData[] = [];
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
       return new Promise(async (resolve, reject) => {
+        const onAbort = () => {
+          clearTimeout(timer);
+          this._baseConsumer && this._baseConsumer.abort();
+        };
+
+        // operation has been cancelled, so exit immediately
+        if (abortSignal) {
+          if (abortSignal.aborted) {
+            return reject(new AbortError("The receive operation has been cancelled by the user."));
+          }
+        }
+
         if (!this._baseConsumer) {
           return resolve(receivedEvents);
         }
@@ -120,30 +130,48 @@ export class Consumer {
 
         const cleanUpBeforeReturn = () => {
           if (this._baseConsumer) {
-            this._baseConsumer.clearErrorHandler();
-            this._baseConsumer.clearMessageHandler();
+            this._baseConsumer.clearHandlers();
           }
-          // todo: clear abort signal
+          if (abortSignal) {
+            abortSignal.removeEventListener("abort", onAbort);
+          }
           clearTimeout(timer);
         };
 
-        this._baseConsumer.registerMessageHandler(eventData => {
+        this._baseConsumer.registerHandlers(eventData => {
           receivedEvents.push(eventData);
 
           if (receivedEvents.length === maxMessageCount) {
             cleanUpBeforeReturn();
             resolve(receivedEvents);
           }
-        });
+        }, reject);
 
-        const timer = setTimeout(() => {
-          cleanUpBeforeReturn();
-          resolve(receivedEvents);
-        }, maxWaitTimeInSeconds * 1000);
+        let timer: any;
+        const addTimeout = () => {
+          timer = setTimeout(() => {
+            cleanUpBeforeReturn();
+            resolve(receivedEvents);
+          }, maxWaitTimeInSeconds * 1000);
+        };
 
-        this._baseConsumer.registerErrorHandler(reject);
         if (!this._baseConsumer.isOpen()) {
-          await this._baseConsumer.initialize();
+          try {
+            await this._baseConsumer.initialize();
+            if (abortSignal && abortSignal.aborted) {
+              return this._baseConsumer.abort();
+            }
+            addTimeout();
+          } catch (err) {
+            cleanUpBeforeReturn();
+            return reject(err);
+          }
+        } else {
+          addTimeout();
+        }
+
+        if (abortSignal) {
+          abortSignal.addEventListener("abort", onAbort);
         }
       });
     };
@@ -171,58 +199,52 @@ export class Consumer {
   }
 
   public receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike) {
-    // todo: handle abort signal?
+    this.throwIfReceiverOrConnectionClosed();
+    this.throwIfAlreadyReceiving();
 
     if (!this._baseConsumer) {
       throw new Error("TODO"); // TODO
     }
 
-    this.drainBufferedEvents(onMessage, abortSignal)
-      .then((): any => {
-        if (!this._baseConsumer) {
-          return;
-        }
+    if (typeof onMessage !== "function") {
+      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
+    }
+    if (typeof onError !== "function") {
+      throw new TypeError("The parameter 'onError' must be of type 'function'.");
+    }
 
-        this._baseConsumer.registerErrorHandler(onError);
-        this._baseConsumer.registerMessageHandler(onMessage);
-        if (!this._baseConsumer.isOpen()) {
-          return this._baseConsumer.initialize();
-        }
-      })
-      .then(() => {
-        // todo: check abortSignal status
-        if (abortSignal && abortSignal.aborted) {
-        }
-      })
-      .catch(err => {
-        onError(err);
+    // return immediately if the abortSignal is already aborted.
+    if (abortSignal) {
+      if (abortSignal.aborted) {
+        onError(new AbortError("The receive operation has been cancelled by the user."));
+        return new ReceiveHandler(this._baseConsumer);
+      }
+
+      abortSignal.addEventListener("abort", () => {
+        this._baseConsumer && this._baseConsumer.abort();
       });
+    }
 
-    //todo: allow cancellation of draining the buffer
+    // TODO: PREFETCH COUNT
+    // set the prefetch count to something high
+    this._baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
+    this._baseConsumer.registerHandlers(onMessage, onError);
+    if (!this._baseConsumer.isOpen()) {
+      this._baseConsumer
+        .initialize()
+        .then((): any => {
+          if (abortSignal && abortSignal.aborted) {
+            if (this._baseConsumer) {
+              return this._baseConsumer.close();
+            }
+          }
+        })
+        .catch(err => {
+          onError(err);
+        });
+    }
+
     return new ReceiveHandler(this._baseConsumer);
-  }
-
-  private async drainBufferedEvents(onMessage: OnMessage, abortSignal?: AbortSignalLike, incrementalCount: number = 1) {
-    while (this._baseConsumer && this._baseConsumer.bufferedEventCount) {
-      // allow synchronous logic to complete so user can do things like stop receiving messages.
-      await delay(0);
-      if (!this._baseConsumer || (abortSignal && abortSignal.aborted)) {
-        return;
-      }
-      const events = this._baseConsumer.getBufferedEvents(incrementalCount);
-      if (events.length) {
-        onMessage(events[0]);
-      }
-    }
-  }
-
-  private getBufferedEvents(maxCount: number): ReceivedEventData[] {
-    if (!this._baseConsumer || !this._baseConsumer.bufferedEventCount) {
-      return [];
-    }
-
-    const bufferCount = this._baseConsumer.bufferedEventCount;
-    return this._baseConsumer.getBufferedEvents(Math.min(bufferCount, maxCount));
   }
 
   private throwIfAlreadyReceiving(): void {

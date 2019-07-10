@@ -20,8 +20,8 @@ import { EventPosition } from "./eventPosition";
 import { IotHubClient } from "./iothub/iothubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
-import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
+import { Consumer } from "./consumer";
 
 /**
  * Retry policy options for operations on the EventHubClient.
@@ -328,13 +328,13 @@ export class EventHubClient {
     partitionId: string,
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
-  ): EventHubConsumer {
+  ): Consumer {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
     partitionId = String(partitionId);
-    return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
+    return new Consumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
 
   /**

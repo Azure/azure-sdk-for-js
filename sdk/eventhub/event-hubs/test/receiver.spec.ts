@@ -17,8 +17,7 @@ import {
   EventHubConsumer,
   delay
 } from "../src";
-import { BatchingReceiver } from "../src/batchingReceiver";
-import { ReceiveHandler } from "../src/streamingReceiver";
+import { ReceiveHandler } from "../src/receiveHandler";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
@@ -29,7 +28,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
-  let breceiver: BatchingReceiver;
   let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
@@ -46,13 +44,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
   after("close the connection", async function(): Promise<void> {
     await client.close();
-  });
-
-  afterEach("close the sender link", async function(): Promise<void> {
-    if (breceiver) {
-      await breceiver.close();
-      debug("After each - Batching Receiver closed.");
-    }
   });
 
   afterEach("close the receiver link", async function(): Promise<void> {
@@ -103,7 +94,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       const partitionInfo = await client.getPartitionProperties(partitionId);
       debug("Creating a receiver with last enqueued sequence number");
-      const receiver = client.createConsumer(
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
@@ -175,20 +166,19 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createProducer({ partitionId: partitionId }).send([ed2]);
       debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
       );
       debug("We should receive the last 2 messages.");
-      const data = await breceiver.receive(10, 30);
+      const data = await receiver.receiveBatch(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to receive the two expected messages");
       data[0].properties!.stamp.should.equal(uid, "First message has unexpected uid");
       data[1].properties!.stamp.should.equal(uid2, "Second message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
 
@@ -236,18 +226,17 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
       debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       );
-      const data = await breceiver.receive(10, 20);
+      const data = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to receive the expected single message");
       data[0].properties!.stamp.should.equal(uid, "Received message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
 
@@ -275,20 +264,19 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createProducer({ partitionId: partitionId }).send([ed2]);
       debug(`Sent message 2 with stamp: ${uid}.`);
       debug(`Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       );
       debug("We should receive the last 2 messages.");
-      const data = await breceiver.receive(10, 30);
+      const data = await receiver.receiveBatch(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to received two expected messages");
       data[0].properties!.stamp.should.equal(uid, "Message 1 has unexpected uid");
       data[1].properties!.stamp.should.equal(uid2, "Message 2 has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
   });
@@ -956,7 +944,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             done(should.equal(error.name, "MessagingEntityNotFoundError"));
           }, 3000);
         };
-        const receiver = client.createConsumer("some-random-name", "0", EventPosition.earliest());
+        receiver = client.createConsumer("some-random-name", "0", EventPosition.earliest());
         receiver.receive(onMessage, onError);
         debug(">>>>>>>> attached the error handler on the receiver...");
       } catch (err) {
