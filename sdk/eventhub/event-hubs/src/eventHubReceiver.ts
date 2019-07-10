@@ -456,7 +456,13 @@ export class EventHubReceiver extends LinkEntity {
 
   isOpen(): boolean {
     const result: boolean = Boolean(this._amqpReceiver && this._amqpReceiver.isOpen());
-    // log error
+    log.error(
+      "[%s] Receiver '%s' with address '%s' is open? -> %s",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      result
+    );
     return result;
   }
 
@@ -476,20 +482,51 @@ export class EventHubReceiver extends LinkEntity {
         const error = translate(amqpError);
         if (error.retryable) {
           shouldReopen = true;
-          // log error
+          log.error(
+            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
+              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
+              "the receiver link.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         } else {
-          // log error
+          log.error(
+            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
+              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+              "the receiver link.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         }
       } else if (!wasCloseInitiated) {
         // there wasn't an error, and the client didn't initialize the close; recreate the link
         shouldReopen = true;
-        // log error
+        log.error(
+          "[%s] close() method of Receiver '%s' with address '%s' was not called. " +
+            "There was no accompanying error as well. This is a candidate for re-establishing " +
+            "the receiver link.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
       } else {
-        // log error
+        const state: any = {
+          wasCloseInitiated: wasCloseInitiated,
+          receiverError: amqpError,
+          _receiver: this._amqpReceiver
+        };
+        log.error(
+          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
+          this._context.connectionId,
+          this.name,
+          this.address,
+          state
+        );
       }
 
       if (!shouldReopen) {
-        // clean up abort signal listener
         return;
       }
 
@@ -507,7 +544,6 @@ export class EventHubReceiver extends LinkEntity {
       }
 
       // create RHEA receiver options
-      // todo
       const initOptions = this.createAmqpReceiverOptions(receiverOptions);
 
       // attempt to create the link
@@ -522,7 +558,14 @@ export class EventHubReceiver extends LinkEntity {
 
       await retry(linkCreationConfig);
     } catch (err) {
-      // log error
+      log.error(
+        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
+          "'%s': %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        err
+      );
     }
   }
 
