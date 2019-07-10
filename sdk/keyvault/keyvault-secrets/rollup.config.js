@@ -50,7 +50,8 @@ function browserConfig(test = false) {
       name: "Azure.Keyvault.Secrets",
       sourcemap: true,
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
+        "@azure/core-http": "Azure.Core.HTTP",
+        "@azure/core-arm": "Azure.Core.ARM"
       },
       banner: banner
     },
