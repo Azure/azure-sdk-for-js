@@ -4,6 +4,7 @@
 * Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 * Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 * Fixed a bug that `Aborter` cannot work during retry interval.
+* Export `RetryPolicyType`.
 
 2018.12 10.3.0
 

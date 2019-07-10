@@ -1,6 +1,7 @@
 # Changelog
 
 * Fixed a bug that `Aborter` cannot work during retry interval.
+* Export `RetryPolicyType`.
 
 2019.1 Version 10.1.0
 
