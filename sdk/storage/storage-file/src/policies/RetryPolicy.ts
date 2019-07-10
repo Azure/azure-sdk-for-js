@@ -1,18 +1,18 @@
 import {
+  AbortSignalLike,
   BaseRequestPolicy,
-  delay,
   HttpOperationResponse,
   HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource
+  WebResource,
 } from "@azure/ms-rest-js";
 
 import { IRetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
-import { setURLParameter } from "../utils/utils.common";
+import { delay, setURLParameter } from "../utils/utils.common";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -54,6 +54,8 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   retryPolicyType: RetryPolicyType.EXPONENTIAL,
   tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
+
+const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -184,7 +186,7 @@ export class RetryPolicy extends BaseRequestPolicy {
       }
     }
 
-    await this.delay(isPrimaryRetry, attempt);
+    await this.delay(isPrimaryRetry, attempt, request.abortSignal);
     return await this.attemptSendRequest(request, secondaryHas404, ++attempt);
   }
 
@@ -285,10 +287,11 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @private
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
+   * @param {AbortSignalLike} [abortSignal]
    * @returns
    * @memberof RetryPolicy
    */
-  private async delay(isPrimaryRetry: boolean, attempt: number) {
+  private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {
@@ -308,6 +311,6 @@ export class RetryPolicy extends BaseRequestPolicy {
     }
 
     this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Delay for ${delayTimeInMs}ms`);
-    return delay(delayTimeInMs);
+    return delay(delayTimeInMs, abortSignal, RETRY_ABORT_ERROR);
   }
 }

@@ -1,4 +1,4 @@
-import { isNode, URLBuilder } from "@azure/ms-rest-js";
+import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -228,6 +228,39 @@ export function base64encode(content: string): string {
  */
 export function base64decode(encodedString: string): string {
   return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @export
+ * @param {number} timeInMs
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
+ */
+export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+  return new Promise((resolve, reject) => {
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 /**

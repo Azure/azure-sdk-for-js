@@ -1,5 +1,7 @@
 # Changelog
 
+* Fixed a bug that `Aborter` cannot work during retry interval.
+
 2019.1 Version 10.1.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.

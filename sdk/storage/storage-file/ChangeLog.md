@@ -1,6 +1,7 @@
 # Changelog
 
 * Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
+* Fixed a bug that `Aborter` cannot work during retry interval.
 
 2018.01 Version 10.1.0
 

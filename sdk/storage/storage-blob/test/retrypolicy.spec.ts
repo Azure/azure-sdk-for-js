@@ -1,5 +1,6 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
@@ -8,7 +9,7 @@ import { Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
@@ -52,6 +53,35 @@ describe("RetryPolicy", () => {
 
     const result = await containerURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter < 2) {
+        injectCounter++;
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
+      }
+    });
+
+    const factories = containerURL.pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectContainerURL = containerURL.withPipeline(pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+
+    let hasError = false;
+    try {
+      await injectContainerURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+    } catch (err) {
+      hasError = true;
+    }
+    assert.ok(hasError);
   });
 
   it("Retry Policy should failed when requests always fail with 500", async () => {

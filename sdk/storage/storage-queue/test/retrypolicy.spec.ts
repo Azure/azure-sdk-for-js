@@ -1,14 +1,15 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
-import { QueueURL } from "../src/QueueURL";
 import { Pipeline } from "../src/Pipeline";
+import { QueueURL } from "../src/QueueURL";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
@@ -41,17 +42,46 @@ describe("RetryPolicy", () => {
     const factories = queueURL.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueURL = queueURL.withPipeline(pipeline);
+    const injectQueueURL = queueURL.withPipeline(pipeline);
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb"
     };
-    await injectqueueURL.setMetadata(Aborter.none, metadata);
+    await injectQueueURL.setMetadata(Aborter.none, metadata);
 
     const result = await queueURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter < 2) {
+        injectCounter++;
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
+      }
+    });
+
+    const factories = queueURL.pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectQueueURL = queueURL.withPipeline(pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+
+    let hasError = false;
+    try {
+      await injectQueueURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+    } catch (err) {
+      hasError = true;
+    }
+    assert.ok(hasError);
   });
 
   it("Retry policy should failed when requests always fail with 500", async () => {
