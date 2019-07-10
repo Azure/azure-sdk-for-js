@@ -5,11 +5,7 @@ import { PassThrough } from "stream";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../src";
 import { Aborter } from "../../src/Aborter";
-import {
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
-} from "../../src/highlevel.node";
+import { downloadBlobToBuffer, uploadFileToBlockBlob, uploadStreamToBlockBlob } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
 import { record } from "../utils/recorder";
@@ -246,6 +242,19 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
+    await blockBlobURL.upload(Aborter.none, "aaaabbbb", 8);
+
+    const buf = Buffer.alloc(4);
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 4, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+
+    assert.deepStrictEqual(buf.toString(), "bbbb");
   });
 
   it("downloadBlobToBuffer should abort", async () => {

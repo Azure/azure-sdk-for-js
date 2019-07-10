@@ -1,16 +1,12 @@
-import * as fs from "fs";
 import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
+import * as fs from "fs";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { BlobHTTPHeaders } from "./generated/lib/models";
-import {
-  BlobUploadCommonResponse,
-  IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions
-} from "./highlevel.common";
+import { BlobUploadCommonResponse, IDownloadFromBlobOptions, IUploadToBlockBlobOptions } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -18,7 +14,7 @@ import {
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 import { streamToBuffer } from "./utils/utils.node";
@@ -186,8 +182,8 @@ async function uploadResetableStreamToBlockBlob(
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {BlobURL} blobURL A BlobURL object
- * @param {number} offset From which position of the block blob to download
- * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+ * @param {number} offset From which position of the block blob to download, in bytes
+ * @param {number} [count] How much data in bytes to be downloaded. Will download to the end when passing undefined
  * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
  * @returns {Promise<void>}
  */
@@ -242,8 +238,8 @@ export async function downloadBlobToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.blockSize) {
     batch.addOperation(async () => {
-      const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
-      const response = await blobURL.download(aborter, off, chunkEnd - off + 1, {
+      const chunkEnd = off + options.blockSize! <= offset + count! ? off + options.blockSize! : offset + count!; // Exclusive chunk end position
+      const response = await blobURL.download(aborter, off, chunkEnd - off, {
         blobAccessConditions: options.blobAccessConditions,
         maxRetryRequests: options.maxRetryRequestsPerBlock
       });

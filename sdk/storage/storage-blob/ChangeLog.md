@@ -2,6 +2,7 @@
 
 * Improved comments for `BlockBlobURL.upload()`.
 * Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
+* Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 
 2018.12 10.3.0
 

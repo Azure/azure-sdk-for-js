@@ -1,5 +1,7 @@
 # Changelog
 
+* Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
+
 2018.01 Version 10.1.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
