@@ -13,7 +13,7 @@ import * as coreHttp from "@azure/core-http";
 import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/arm-compute";
-const packageVersion = "10.0.0";
+const packageVersion = "11.0.0-preview.1";
 
 export class ComputeManagementClientContext extends coreArm.AzureServiceClient {
   credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;

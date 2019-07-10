@@ -2,7 +2,7 @@
   "name": "@azure/arm-compute",
   "author": "Microsoft Corporation",
   "description": "ComputeManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "10.0.0",
+  "version": "11.0.0-preview.1",
   "dependencies": {
     "@azure/core-arm": "^1.0.0-preview.1",
     "@azure/core-http": "^1.0.0-preview.1",
