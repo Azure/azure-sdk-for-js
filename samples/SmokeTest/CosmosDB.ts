@@ -21,25 +21,25 @@ export class CosmosDB {
 
         const endpoint = process.env["COSMOS_ENDPOINT"];
         const masterKey = process.env["COSMOS_KEY"]; 
-        this.client = new CosmosClient({ endpoint, auth: { masterKey } });
+        CosmosDB.client = new CosmosClient({ endpoint, auth: { masterKey } });
 
-        await this.CreateDatabase();
-        await this.CreateCollection();
-        await this.CreateDocuments();
-        await this.DeleteDatabase();
+        await CosmosDB.CreateDatabase();
+        await CosmosDB.CreateCollection();
+        await CosmosDB.CreateDocuments();
+        await CosmosDB.DeleteDatabase();
     }
 
     private static async CreateDatabase(){
-        console.log(`Creating "${this.dataBaseName}" database...`)
-        const { database: db } = await this.client.databases.create({id: this.dataBaseName});
-        this.db = db;
+        console.log(`Creating "${CosmosDB.dataBaseName}" database...`)
+        const { database: db } = await CosmosDB.client.databases.create({id: CosmosDB.dataBaseName});
+        CosmosDB.db = db;
         console.log("\tdone");
     }
 
     private static async CreateCollection(){
-        console.log(`Creating "${this.collectionName}" collection...`);
-        const { container } = await this.db.containers.create({id: this.collectionName});
-        this.container = container;
+        console.log(`Creating "${CosmosDB.collectionName}" collection...`);
+        const { container } = await CosmosDB.db.containers.create({id: CosmosDB.collectionName});
+        CosmosDB.container = container;
         console.log("\tdone");
     }
 
@@ -77,16 +77,16 @@ export class CosmosDB {
             ]
         };
 
-        let { body } = await this.container.items.create(planetEarth);
+        let { body } = await CosmosDB.container.items.create(planetEarth);
         console.log(`\t${planetEarth.id} done`);
 
-        let { body2 } = await this.container.items.create(planetMars);
+        let { body2 } = await CosmosDB.container.items.create(planetMars);
         console.log(`\t${planetMars.id} done`);
     }
 
     private static async DeleteDatabase(){
         console.log("Deleting database...");
-        await this.db.delete();
+        await CosmosDB.db.delete();
         console.log("\tdone");
     }
 }

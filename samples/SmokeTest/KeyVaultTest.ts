@@ -23,28 +23,28 @@ export class KeyVaultSecrets{
         const credential = new EnvironmentCredential();
         const url = process.env["AZURE_PROJECT_URL"];
 
-        this.client = new SecretsClient(url,credential);
+        KeyVaultSecrets.client = new SecretsClient(url,credential);
 
-        this.secretName = "MySecretName";
-        this.secretValue = "MySecretValue";
+        KeyVaultSecrets.secretName = "MySecretName";
+        KeyVaultSecrets.secretValue = "MySecretValue";
 
-        await this.setSecret();
-        await this.getSecret();
-        await this.deleteSecret();
+        await KeyVaultSecrets.setSecret();
+        await KeyVaultSecrets.getSecret();
+        await KeyVaultSecrets.deleteSecret();
     }
 
     private static async setSecret(){
         console.log("\tSetting a secret...");
-        const result = await this.client.setSecret(this.secretName, this.secretValue);
+        const result = await KeyVaultSecrets.client.setSecret(KeyVaultSecrets.secretName, KeyVaultSecrets.secretValue);
         console.log("\t\tSecret = (" + result.name +","+ result.value + ")");
         console.log("\t\tdone");
     }
 
     private static async getSecret(){
         console.log("\tGetting that secret...");
-        const result = await this.client.getSecret(this.secretName);
+        const result = await KeyVaultSecrets.client.getSecret(KeyVaultSecrets.secretName);
 
-        if((result.name !== this.secretName)||(result.value !== this.secretValue)){
+        if((result.name !== KeyVaultSecrets.secretName)||(result.value !== KeyVaultSecrets.secretValue)){
             throw "Error, a secret was obtained but is not the one that was setted before";
         }
 
@@ -53,7 +53,7 @@ export class KeyVaultSecrets{
 
     private static async deleteSecret(){
         console.log("\tDeleting that secret...");
-        await this.client.deleteSecret(this.secretName);
+        await KeyVaultSecrets.client.deleteSecret(KeyVaultSecrets.secretName);
         console.log("\t\tdone");
     }
 

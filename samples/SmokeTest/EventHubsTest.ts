@@ -17,20 +17,20 @@ export class EventHubs{
 
         let eventHubName = "myeventhub";
         let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"];
-        this.client = EventHubClient.createFromConnectionString(connectionString,eventHubName);
+        EventHubs.client = EventHubClient.createFromConnectionString(connectionString,eventHubName);
 
         try{
-            await this.getPartitionsIds();
-            await this.sendBatchOfEvents();
-            await this.receiveBatchOfEvents();
+            await EventHubs.getPartitionsIds();
+            await EventHubs.sendBatchOfEvents();
+            await EventHubs.receiveBatchOfEvents();
         }
         catch (ex){
             //If something goes wrong, the client must be closed in order for the app to end.
-            await this.client.close();
+            await EventHubs.client.close();
             throw ex;
         }
         //At the end the client should be closed.
-        await this.client.close();
+        await EventHubs.client.close();
     }
 
     private static async getPartitionsIds(){
@@ -38,18 +38,18 @@ export class EventHubs{
         
         //In this sample, all the events are gonna be send and received from the first partition of the Event Hub.
         //This can be changed since it is not necessary to specify the partitionID when calling a method of the SDK.
-        this.partitionId = await this.client.getPartitionIds();
+        EventHubs.partitionId = await EventHubs.client.getPartitionIds();
         console.log("\tdone");
     }
 
     private static async sendBatchOfEvents(){
         console.log("sending a batch");
-        await this.client.sendBatch(
+        await EventHubs.client.sendBatch(
             [
                 { body: "JS Event Test 1" },
                 { body: "JS Event Test 2" },
                 { body: "JS Event Test 3" }
-            ], this.partitionId[0]
+            ], EventHubs.partitionId[0]
             );
             console.log("\tdone");
     }
@@ -58,7 +58,7 @@ export class EventHubs{
         console.log("receiving a batch");
         //This will get a batch of events, but not necesarily the same ones sended before.
         //This will get a batch of events from the EvenHub, depending on the configuration of how many days the event hub will keep the events.
-        const myEvents = await this.client.receiveBatch(this.partitionId[0],3);
+        const myEvents = await EventHubs.client.receiveBatch(EventHubs.partitionId[0],3);
         console.log("\tdone");
     }
 }

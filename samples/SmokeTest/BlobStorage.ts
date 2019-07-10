@@ -2,7 +2,7 @@ import { SharedKeyCredential, BlobServiceClient, ContainerClient } from "@azure/
 
 export class BlobStorage{
 
-    private static containerName : ContainerClient;
+    private static ContainerClient : ContainerClient;
     private static blobName : string;
 
     static async Run(){
@@ -17,14 +17,14 @@ export class BlobStorage{
         const account = process.env["STORAGE_ACCOUNT_NAME"];
         const accountKey = process.env["STORAGE_ACCOUNT_KEY"];
         const containerName = "mycontainer";
-        this.blobName = "JSNewBlob";
+        BlobStorage.blobName = "JSNewBlob";
 
         const credential = new SharedKeyCredential(account, accountKey);
         const serviceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net`,credential);
-        this.containerName = serviceClient.getContainerClient(containerName);
+        BlobStorage.ContainerClient = serviceClient.getContainerClient(containerName);
 
-        await this.UploadBlob();
-        await this.CleanUp();
+        await BlobStorage.UploadBlob();
+        await BlobStorage.CleanUp();
     }
 
     private static async UploadBlob(){
@@ -35,7 +35,7 @@ export class BlobStorage{
         const content = "This is the content for the sample blob";
         const blobName = "JSNewBlob";
 
-        const blobClient = this.containerName.getBlobClient(blobName);
+        const blobClient = BlobStorage.ContainerClient.getBlobClient(blobName);
         const blockBlobClient = blobClient.getBlockBlobClient();
 
         const response = await blockBlobClient.upload(content, content.length);
@@ -44,7 +44,7 @@ export class BlobStorage{
 
     private static async CleanUp(){
         console.log("Deleting container and blobs (Cleaning up the resource)...");
-        const blobClient = this.containerName.getBlobClient(this.blobName);
+        const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
         blobClient.delete();
         console.log("\tdone");
     }
