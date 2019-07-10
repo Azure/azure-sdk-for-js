@@ -18,7 +18,7 @@ export {
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
-export { Consumer as EventHubConsumer, EventIteratorOptions } from "./consumer";
+export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export {
   MessagingError,
   DataTransformer,

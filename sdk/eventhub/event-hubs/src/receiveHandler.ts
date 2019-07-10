@@ -1,6 +1,5 @@
 import * as log from "./log";
-import { BaseConsumer } from "./baseReceiver";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { EventHubReceiver } from "./eventHubReceiver";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
@@ -12,7 +11,7 @@ export class ReceiveHandler {
    * @property _receiver  The underlying EventHubReceiver.
    * @private
    */
-  private _consumer: BaseConsumer;
+  private _receiver: EventHubReceiver;
 
   /**
    * Creates an instance of the ReceiveHandler.
@@ -20,8 +19,8 @@ export class ReceiveHandler {
    * @internal
    * @param receiver The underlying EventHubReceiver.
    */
-  constructor(consumer: BaseConsumer, abortSignal?: AbortSignalLike) {
-    this._consumer = consumer;
+  constructor(receiver: EventHubReceiver) {
+    this._receiver = receiver;
   }
 
   /**
@@ -29,7 +28,7 @@ export class ReceiveHandler {
    * @readonly
    */
   get partitionId(): string | undefined {
-    return this._consumer ? this._consumer.partitionId : undefined;
+    return this._receiver ? this._receiver.partitionId : undefined;
   }
 
   /**
@@ -37,7 +36,7 @@ export class ReceiveHandler {
    * @readonly
    */
   get consumerGroup(): string | undefined {
-    return this._consumer ? this._consumer.consumerGroup : undefined;
+    return this._receiver ? this._receiver.consumerGroup : undefined;
   }
 
   /**
@@ -46,7 +45,7 @@ export class ReceiveHandler {
    * @readonly
    */
   get isReceiverOpen(): boolean {
-    return this._consumer ? this._consumer.isOpen() : false;
+    return this._receiver ? this._receiver.isOpen() : false;
   }
 
   /**
@@ -55,15 +54,15 @@ export class ReceiveHandler {
    * @throws {Error} Thrown if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
-    if (this._consumer) {
+    if (this._receiver) {
       try {
-        this._consumer.clearHandlers();
-        await this._consumer.close();
+        this._receiver.clearHandlers();
+        await this._receiver.close();
       } catch (err) {
         log.error(
           "An error occurred while stopping the receiver '%s' with address '%s': %O",
-          this._consumer.name,
-          this._consumer.address,
+          this._receiver.name,
+          this._receiver.address,
           err
         );
       }
