@@ -132,23 +132,27 @@ export class EventHubConsumer {
           clearTimeout(timer);
         };
 
-        this._baseConsumer.registerHandlers((eventData) => {
-          receivedEvents.push(eventData);
+        this._baseConsumer.registerHandlers(
+          (eventData) => {
+            receivedEvents.push(eventData);
 
-          // resolve the operation's promise after the requested
-          // number of events are received.
-          if (receivedEvents.length === maxMessageCount) {
-            log.batching(
-              "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
-              this._connectionContext.connectionId,
-              this._baseConsumer && this._baseConsumer.name,
-              receivedEvents.length,
-              maxWaitTimeInSeconds
-            );
-            cleanUpBeforeReturn();
-            resolve(receivedEvents);
-          }
-        }, reject);
+            // resolve the operation's promise after the requested
+            // number of events are received.
+            if (receivedEvents.length === maxMessageCount) {
+              log.batching(
+                "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
+                this._connectionContext.connectionId,
+                this._baseConsumer && this._baseConsumer.name,
+                receivedEvents.length,
+                maxWaitTimeInSeconds
+              );
+              cleanUpBeforeReturn();
+              resolve(receivedEvents);
+            }
+          },
+          reject,
+          abortSignal
+        );
 
         const addTimeout = (reuse: boolean = false): void => {
           let msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
@@ -420,21 +424,24 @@ export class EventHubConsumer {
     }
 
     this._baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
-    this._baseConsumer.registerHandlers(onMessage, onError);
     if (!this._baseConsumer.isOpen()) {
       this._baseConsumer
         .initialize()
         .then((): any => {
+          if (!this._baseConsumer) {
+            return;
+          }
+          this._baseConsumer.registerHandlers(onMessage, onError, abortSignal);
           if (abortSignal && abortSignal.aborted) {
-            if (this._baseConsumer) {
-              return this._baseConsumer.close();
-            }
+            return this._baseConsumer.abort();
           }
           return;
         })
         .catch((err) => {
           onError(err);
         });
+    } else {
+      this._baseConsumer.registerHandlers(onMessage, onError, abortSignal);
     }
 
     return new ReceiveHandler(this._baseConsumer);
