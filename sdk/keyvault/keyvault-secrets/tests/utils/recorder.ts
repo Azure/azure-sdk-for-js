@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "fs-extra";
-import { delay as restDelay } from "@azure/ms-rest-js";
+import { delay as restDelay } from "@azure/core-http";
 import { retry as realRetry } from "./retry";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
