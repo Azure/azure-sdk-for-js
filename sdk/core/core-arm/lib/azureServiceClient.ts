@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
+import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
 import { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
 import { LROPollState } from "./lroPollStrategy";
 import * as Constants from "./util/constants";
@@ -27,8 +27,8 @@ export interface AzureServiceClientOptions extends ServiceClientOptions {
  * Initializes a new instance of the AzureServiceClient class.
  * @constructor
  *
- * @param {msRest.ServiceClientCredentilas} credentials - ApplicationTokenCredentials or
- * UserTokenCredentials object used for authentication.
+ * @param {ServiceClientCredentials | TokenCredential} credentials - ApplicationTokenCredentials,
+ * UserTokenCredentials, or TokenCredential object used for authentication.
  * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
  */
 export class AzureServiceClient extends ServiceClient {
@@ -38,7 +38,7 @@ export class AzureServiceClient extends ServiceClient {
    */
   public longRunningOperationRetryTimeout?: number;
 
-  constructor(credentials: ServiceClientCredentials, options?: AzureServiceClientOptions) {
+  constructor(credentials: ServiceClientCredentials | TokenCredential, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
 
     // For convenience, if the credentials have an associated AzureEnvironment,
@@ -72,9 +72,9 @@ export class AzureServiceClient extends ServiceClient {
 
   /**
    * Provides a mechanism to make a request that will poll and provide the final result.
-   * @param {msRest.RequestPrepareOptions|msRest.WebResource} request - The request object
+   * @param {RequestPrepareOptions | WebResource} request - The request object
    * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
-   * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
+   * @returns {Promise<HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
   sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     return this.beginLongRunningRequest(request, options)
@@ -86,7 +86,7 @@ export class AzureServiceClient extends ServiceClient {
    * Send the initial request of a LRO (long running operation) and get back an
    * HttpLongRunningOperationResponse that provides methods for polling the LRO and checking if the
    * LRO is finished.
-   * @param {msRest.RequestPrepareOptions|msRest.WebResource} request - The request object
+   * @param {RequestPrepareOptions | WebResource} request - The request object
    * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<LROPoller>} The HttpLongRunningOperationResponse
    * that provides methods for interacting with the LRO.
