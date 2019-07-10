@@ -19,7 +19,7 @@ export class CosmosDB {
         console.log("4) Delete the database (Clean up the resource)");
         console.log();
 
-        const endpoint = process.env["COSMOS_END_POINT"];
+        const endpoint = process.env["COSMOS_ENDPOINT"];
         const masterKey = process.env["COSMOS_KEY"]; 
         this.client = new CosmosClient({ endpoint, auth: { masterKey } });
 
