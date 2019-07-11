@@ -1,10 +1,50 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { getUniqueName, isBrowser } from "../utils";
-import { blobToString } from "./index.browser";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
+
+/**
+ * String.prototype.padStart()
+ *
+ * @export
+ * @param {string} currentString
+ * @param {number} targetLength
+ * @param {string} [padString=" "]
+ * @returns {string}
+ */
+export function padStart(
+  currentString: string,
+  targetLength: number,
+  padString: string = " "
+): string {
+  if (String.prototype.padStart) {
+    return currentString.padStart(targetLength, padString);
+  }
+
+  padString = padString || " ";
+  if (currentString.length > targetLength) {
+    return currentString;
+  } else {
+    targetLength = targetLength - currentString.length;
+    if (targetLength > padString.length) {
+      padString += padString.repeat(targetLength / padString.length);
+    }
+    return padString.slice(0, targetLength) + currentString;
+  }
+}
+
+function getUniqueName(prefix: string): string {
+  return `${prefix}${new Date().getTime()}${padStart(
+    Math.floor(Math.random() * 10000).toString(),
+    5,
+    "00000"
+  )}`;
+}
+
+function isBrowser(): boolean {
+  return typeof window !== "undefined";
+}
 
 let nock: any;
 if (!isBrowser()) {
@@ -102,6 +142,17 @@ function restDelay<T>(t: number, value?: T): Promise<T> {
  */
 export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
+}
+
+async function blobToString(blob: Blob): Promise<string> {
+  const fileReader = new FileReader();
+  return new Promise<string>((resolve, reject) => {
+    fileReader.onloadend = (ev: any) => {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsText(blob);
+  });
 }
 
 /**
