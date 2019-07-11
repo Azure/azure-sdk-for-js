@@ -129,6 +129,7 @@ dependencies:
   mocha-multi: 1.1.0_mocha@5.2.0
   mocha-multi-reporters: 1.1.7
   moment: 2.24.0
+  msal: 1.0.2
   nise: 1.5.0
   nock: 10.0.6
   npm-run-all: 4.1.5
@@ -5224,6 +5225,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-o6vicYryQaKykE+EpiWXDzia4yo=
+  /js-base64/2.5.1:
+    dev: false
+    resolution:
+      integrity: sha512-M7kLczedRMYX4L8Mdh4MzyAMM9O5osx+4FcOQuTvr3A9F2D9S5JXheN0ewNbrvK2UatkTRhL5ejGmGSjNMiZuw==
   /js-tokens/3.0.2:
     dev: false
     resolution:
@@ -6290,6 +6295,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+  /msal/1.0.2:
+    dependencies:
+      js-base64: 2.5.1
+      tslib: 1.10.0
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-jWbuqLg0jFWj/Wy9A9LbJahuDguQI1KI4y06HOG7OFKHWdXJ8DJCgbwlCSoq2nUM0cbGfhsYX6MRDxJ7R3ZrAg==
   /mute-stdout/1.0.1:
     dev: false
     engines:
@@ -10208,6 +10222,7 @@ packages:
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
       mocha-multi: 1.1.0_mocha@5.2.0
+      msal: 1.0.2
       prettier: 1.18.2
       puppeteer: 1.19.0
       qs: 6.7.0
@@ -10228,7 +10243,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-G25flY7lWUBTWAEi0x7iwThTVeuRnSge58tKZQ9RYyrqARi5XxFXcmY5gCd8TpoOZT9snc0yE4huaTA7YDsvMA==
+      integrity: sha512-pnDGq1rSzKP0e0cpYJxX7QbSKZZMuIv0xkbuZPAIVrPJ2yOx4+/o4JPdoUmqnfvncEV7UTPxFPLgcoRnmhZeYw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10327,7 +10342,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-6KdME0JitnkaljwGxcLdk/uYv1+mndfahRShJhfjh4BIASk2az7u/lyrCr1k1pcdKRzHPuPFzKk7zEpY531pAg==
+      integrity: sha512-qtZvp4vZGbVq4gjrbN2fZTpAdf/zY6bs+jnHVIGg6jiRDKFKWxF0eIZp/zua51Ik7SBUrxzsr6+mCB1eWp5sCg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10897,6 +10912,7 @@ specifiers:
   mocha-multi: ^1.0.1
   mocha-multi-reporters: ^1.1.7
   moment: ^2.24.0
+  msal: ~1.0.2
   nise: ^1.4.10
   nock: ^10.0.6
   npm-run-all: ^4.1.5
