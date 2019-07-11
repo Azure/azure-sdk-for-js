@@ -439,7 +439,6 @@ export class EventHubSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
-      console.log(encodedBatchMessage.byteLength);
       log.sender(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,

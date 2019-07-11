@@ -17,7 +17,7 @@ export class EventDataBatch {
   /**
    * @property Array of event data objects.
    */
-   events: EventData[] = [];
+  events: EventData[] = [];
   /**
    * @property A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
@@ -35,7 +35,11 @@ export class EventDataBatch {
   /**
    * @property Current size of the batch in bytes.
    */
-   currentSize: number;
+  currentSize: number;
+  /**
+   * @property Array of amqp message objects.
+   */
+  private messages: AmqpMessage[] = [];
 
   /**
    * @constructor
@@ -55,42 +59,40 @@ export class EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   public tryAdd(eventData: EventData): boolean {
-   const size = this.getEventSizeForBatch(eventData);
-    if (this.currentSize + size > this.maxSize) {
+    const size = this.getTotalEventBatchSize(eventData);
+    if (size > this.maxSize) {
       return false;
     }
     this.events.push(eventData);
-    this.currentSize += size;
+    this.currentSize = size;
     return true;
   }
 
-  private getEventSizeForBatch(events: EventData): number {
-    const messages: AmqpMessage[] = [];
+  private getTotalEventBatchSize(event: EventData): number {
     // Convert EventData to AmqpMessage.
-      const amqpMessage = toAmqpMessage(events, this.partitionKey!);
-      amqpMessage.body = this._context.dataTransformer.encode(events.body);
-      messages[0] = amqpMessage;
+    const amqpMessage = toAmqpMessage(event, this.partitionKey!);
+    amqpMessage.body = this._context.dataTransformer.encode(event.body);
+    this.messages[this.events.length] = amqpMessage;
     // Encode every amqp message and then convert every encoded message to amqp data section
     const batchMessage: AmqpMessage = {
-      body: message.data_sections(messages.map(message.encode))
+      body: message.data_sections(this.messages.map(message.encode))
     };
-    
-    if(this.events.length === 0){
+
     // Set message_annotations, application_properties and properties of the first message as
     // that of the envelope (batch message).
-    if (messages[0].message_annotations) {
-      batchMessage.message_annotations = messages[0].message_annotations;
+    if (this.messages[0].message_annotations) {
+      batchMessage.message_annotations = this.messages[0].message_annotations;
     }
-    if (messages[0].application_properties) {
-      batchMessage.application_properties = messages[0].application_properties;
+    if (this.messages[0].application_properties) {
+      batchMessage.application_properties = this.messages[0].application_properties;
     }
     for (const prop of messageProperties) {
-      if ((messages[0] as any)[prop]) {
-        (batchMessage as any)[prop] = (messages[0] as any)[prop];
+      if ((this.messages[0] as any)[prop]) {
+        (batchMessage as any)[prop] = (this.messages[0] as any)[prop];
       }
     }
-  }
+
     const encodedBatchMessage = message.encode(batchMessage);
     return encodedBatchMessage.byteLength;
-}
+  }
 }
