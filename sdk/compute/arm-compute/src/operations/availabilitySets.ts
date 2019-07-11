@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/availabilitySetsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Create Availability Set operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
+  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
@@ -49,8 +49,8 @@ export class AvailabilitySets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
+  createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySet, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySet>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,14 +70,14 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsUpdateResponse>
    */
-  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsUpdateResponse>;
+  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Update Availability Set operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
+  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
@@ -85,8 +85,8 @@ export class AvailabilitySets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsUpdateResponse> {
+  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
+  update(resourceGroupName: string, availabilitySetName: string, parameters: Models.AvailabilitySetUpdate, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySet>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,23 +103,23 @@ export class AvailabilitySets {
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, availabilitySetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, availabilitySetName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, availabilitySetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,21 +137,21 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsGetResponse>
    */
-  get(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsGetResponse>;
+  get(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param callback The callback
    */
-  get(resourceGroupName: string, availabilitySetName: string, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
+  get(resourceGroupName: string, availabilitySetName: string, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySet>): void;
-  get(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySet>, callback?: msRest.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsGetResponse> {
+  get(resourceGroupName: string, availabilitySetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySet>): void;
+  get(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySet>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySet>): Promise<Models.AvailabilitySetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,17 +167,17 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListBySubscriptionResponse>;
+  listBySubscription(options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listBySubscription(callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
+  listBySubscription(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listBySubscription(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySetListResult>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -192,19 +192,19 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySetListResult>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -222,21 +222,21 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListAvailableSizesResponse>
    */
-  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListAvailableSizesResponse>;
+  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsListAvailableSizesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param callback The callback
    */
-  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
+  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param availabilitySetName The name of the availability set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
-  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.AvailabilitySetsListAvailableSizesResponse> {
+  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
+  listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.AvailabilitySetsListAvailableSizesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,19 +253,19 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySetListResult>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -281,19 +281,19 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailabilitySetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailabilitySetListResult>, callback?: coreHttp.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -305,8 +305,8 @@ export class AvailabilitySets {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   urlParameters: [
@@ -338,7 +338,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   urlParameters: [
@@ -370,7 +370,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   urlParameters: [
@@ -394,7 +394,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   urlParameters: [
@@ -419,7 +419,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
   urlParameters: [
@@ -442,7 +442,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
   urlParameters: [
@@ -466,7 +466,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAvailableSizesOperationSpec: msRest.OperationSpec = {
+const listAvailableSizesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
   urlParameters: [
@@ -491,7 +491,7 @@ const listAvailableSizesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -512,7 +512,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

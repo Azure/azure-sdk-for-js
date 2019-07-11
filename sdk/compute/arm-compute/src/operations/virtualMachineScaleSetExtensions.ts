@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineScaleSetExtensionsMappers";
 import * as Parameters from "../models/parameters";
@@ -37,7 +37,7 @@ export class VirtualMachineScaleSetExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: Models.VirtualMachineScaleSetExtension, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: Models.VirtualMachineScaleSetExtension, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,vmScaleSetName,vmssExtensionName,extensionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>;
   }
@@ -48,9 +48,9 @@ export class VirtualMachineScaleSetExtensions {
    * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,vmScaleSetName,vmssExtensionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -70,7 +70,7 @@ export class VirtualMachineScaleSetExtensions {
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtension>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set containing the extension.
@@ -78,8 +78,8 @@ export class VirtualMachineScaleSetExtensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options: Models.VirtualMachineScaleSetExtensionsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: Models.VirtualMachineScaleSetExtensionsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtension>): Promise<Models.VirtualMachineScaleSetExtensionsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options: Models.VirtualMachineScaleSetExtensionsGetOptionalParams, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtension>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: Models.VirtualMachineScaleSetExtensionsGetOptionalParams | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtension>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtension>): Promise<Models.VirtualMachineScaleSetExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,21 +98,21 @@ export class VirtualMachineScaleSetExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetExtensionsListResponse>
    */
-  list(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsListResponse>;
+  list(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set containing the extension.
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
+  list(resourceGroupName: string, vmScaleSetName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set containing the extension.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
-  list(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListResponse> {
+  list(resourceGroupName: string, vmScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
+  list(resourceGroupName: string, vmScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,9 +131,9 @@ export class VirtualMachineScaleSetExtensions {
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: Models.VirtualMachineScaleSetExtension, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, extensionParameters: Models.VirtualMachineScaleSetExtension, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -152,9 +152,9 @@ export class VirtualMachineScaleSetExtensions {
    * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, vmScaleSetName: string, vmssExtensionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -172,19 +172,19 @@ export class VirtualMachineScaleSetExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineScaleSetExtensionListResult>): Promise<Models.VirtualMachineScaleSetExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -196,8 +196,8 @@ export class VirtualMachineScaleSetExtensions {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}",
   urlParameters: [
@@ -224,7 +224,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions",
   urlParameters: [
@@ -249,7 +249,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}",
   urlParameters: [
@@ -285,7 +285,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}",
   urlParameters: [
@@ -311,7 +311,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

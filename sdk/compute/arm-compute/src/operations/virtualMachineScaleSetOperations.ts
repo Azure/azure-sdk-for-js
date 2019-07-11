@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineScaleSetOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,16 +32,16 @@ export class VirtualMachineScaleSetOperations {
    * @param vmScaleSetName The name of the virtual machine scale set to create or update.
    * @param parameters The input object for ConvertToSinglePlacementGroup API.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the virtual machine scale set to create or update.
    * @param parameters The input object for ConvertToSinglePlacementGroup API.
    * @param callback The callback
    */
-  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, callback: msRest.ServiceCallback<void>): void;
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the virtual machine scale set to create or update.
@@ -49,8 +49,8 @@ export class VirtualMachineScaleSetOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,8 +64,8 @@ export class VirtualMachineScaleSetOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const convertToSinglePlacementGroupOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const convertToSinglePlacementGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup",
   urlParameters: [

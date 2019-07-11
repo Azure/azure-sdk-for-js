@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineExtensionImagesMappers";
 import * as Parameters from "../models/parameters";
@@ -35,7 +35,7 @@ export class VirtualMachineExtensionImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineExtensionImagesGetResponse>
    */
-  get(location: string, publisherName: string, type: string, version: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineExtensionImagesGetResponse>;
+  get(location: string, publisherName: string, type: string, version: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineExtensionImagesGetResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName
@@ -43,7 +43,7 @@ export class VirtualMachineExtensionImages {
    * @param version
    * @param callback The callback
    */
-  get(location: string, publisherName: string, type: string, version: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): void;
+  get(location: string, publisherName: string, type: string, version: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage>): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName
@@ -52,8 +52,8 @@ export class VirtualMachineExtensionImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(location: string, publisherName: string, type: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): void;
-  get(location: string, publisherName: string, type: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineExtensionImage>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage>): Promise<Models.VirtualMachineExtensionImagesGetResponse> {
+  get(location: string, publisherName: string, type: string, version: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage>): void;
+  get(location: string, publisherName: string, type: string, version: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage>): Promise<Models.VirtualMachineExtensionImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -73,21 +73,21 @@ export class VirtualMachineExtensionImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineExtensionImagesListTypesResponse>
    */
-  listTypes(location: string, publisherName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineExtensionImagesListTypesResponse>;
+  listTypes(location: string, publisherName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineExtensionImagesListTypesResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName
    * @param callback The callback
    */
-  listTypes(location: string, publisherName: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
+  listTypes(location: string, publisherName: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName
    * @param options The optional parameters
    * @param callback The callback
    */
-  listTypes(location: string, publisherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
-  listTypes(location: string, publisherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListTypesResponse> {
+  listTypes(location: string, publisherName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
+  listTypes(location: string, publisherName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListTypesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -113,7 +113,7 @@ export class VirtualMachineExtensionImages {
    * @param type
    * @param callback The callback
    */
-  listVersions(location: string, publisherName: string, type: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
+  listVersions(location: string, publisherName: string, type: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName
@@ -121,8 +121,8 @@ export class VirtualMachineExtensionImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVersions(location: string, publisherName: string, type: string, options: Models.VirtualMachineExtensionImagesListVersionsOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
-  listVersions(location: string, publisherName: string, type: string, options?: Models.VirtualMachineExtensionImagesListVersionsOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListVersionsResponse> {
+  listVersions(location: string, publisherName: string, type: string, options: Models.VirtualMachineExtensionImagesListVersionsOptionalParams, callback: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): void;
+  listVersions(location: string, publisherName: string, type: string, options?: Models.VirtualMachineExtensionImagesListVersionsOptionalParams | coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineExtensionImage[]>): Promise<Models.VirtualMachineExtensionImagesListVersionsResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -136,8 +136,8 @@ export class VirtualMachineExtensionImages {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions/{version}",
   urlParameters: [
@@ -164,7 +164,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listTypesOperationSpec: msRest.OperationSpec = {
+const listTypesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
   urlParameters: [
@@ -200,7 +200,7 @@ const listTypesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listVersionsOperationSpec: msRest.OperationSpec = {
+const listVersionsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types/{type}/versions",
   urlParameters: [
