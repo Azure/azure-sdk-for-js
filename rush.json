@@ -387,6 +387,10 @@
       "projectFolder": "sdk/template/template"
     },
     {
+      "packageName": "@azure/test-utils-recorder",
+      "projectFolder": "sdk/test-utils/recorder"
+    },
+    {
       "packageName": "testhub",
       "projectFolder": "sdk/eventhub/testhub"
     }
