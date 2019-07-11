@@ -48,11 +48,16 @@ export class IotHubClient {
     const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
     let result: string = "";
     if (!options) options = {};
-    const tokenProvider = new IotSharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+    const tokenProvider = new IotSharedKeyCredential(
+      config.sharedAccessKeyName,
+      config.sharedAccessKey
+    );
     options.managementSessionAddress = `/messages/events/$management`;
     const context = ConnectionContext.create(config, tokenProvider, options);
     try {
-      log.iotClient("Getting the hub runtime info from the iothub connection string to get the redirect error.");
+      log.iotClient(
+        "Getting the hub runtime info from the iothub connection string to get the redirect error."
+      );
       await context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
       const error = translate(err);
@@ -88,7 +93,10 @@ export class IotHubClient {
         await context.managementSession!.close();
         log.iotClient("IotHub management client closed.");
         await context.connection.close();
-        log.iotClient("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
+        log.iotClient(
+          "Closed the amqp connection '%s' on the iothub client.",
+          context.connectionId
+        );
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${context.connectionId}": ${err.stack}`;
@@ -113,7 +121,9 @@ export class IotHubClient {
     if (parsedResult == undefined || (parsedResult && parsedResult[1] == undefined)) {
       const msg =
         `Cannot parse the EventHub name from the given address: ${address} in the error: ` +
-        `${error.stack}\n${JSON.stringify(error.info)}.\nThe parsed result is: ${JSON.stringify(parsedResult)}.`;
+        `${error.stack}\n${JSON.stringify(error.info)}.\nThe parsed result is: ${JSON.stringify(
+          parsedResult
+        )}.`;
       throw new Error(msg);
     }
 
@@ -130,7 +140,7 @@ export class IotHubClient {
     parts.set("SharedAccessKey", config.sharedAccessKey);
     parts.set("EntityPath", config.entityPath);
     return Array.from(parts)
-      .map(part => `${part[0]}=${part[1]}`)
+      .map((part) => `${part[0]}=${part[1]}`)
       .join(";");
   }
 }

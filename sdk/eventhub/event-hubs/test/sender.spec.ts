@@ -45,7 +45,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await client.createProducer().send(data, { partitionKey: "1" });
     });
 
-    it("with partition key as a number should be sent successfully.", async function(): Promise<void> {
+    it("with partition key as a number should be sent successfully.", async function(): Promise<
+      void
+    > {
       const data: EventData = { body: "Hello World 1" };
       await client.createProducer().send(data, { partitionKey: 1 as any });
     });
@@ -71,7 +73,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
       const abortController = new AbortController();
       abortController.abort();
 
@@ -85,7 +89,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<
+      void
+    > {
       try {
         const data: EventData = { body: "Sender paritition id and partition key" };
         await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
@@ -153,7 +159,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
       const abortController = new AbortController();
       abortController.abort();
 
@@ -171,7 +179,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should throw when partitionId and partitionKey are provided", async function(): Promise<void> {
+    it("should throw when partitionId and partitionKey are provided", async function(): Promise<
+      void
+    > {
       try {
         const data: EventData[] = [
           {
@@ -255,17 +265,23 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
       await Promise.all(promises);
     });
-    it("should be sent successfully in parallel by multiple senders", async function(): Promise<void> {
+    it("should be sent successfully in parallel by multiple senders", async function(): Promise<
+      void
+    > {
       const senderCount = 3;
       try {
         const promises = [];
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.createProducer({ partitionId: "0" }).send([{ body: `Hello World ${i}` }]));
+            promises.push(
+              client.createProducer({ partitionId: "0" }).send([{ body: `Hello World ${i}` }])
+            );
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.createProducer({ partitionId: "1" }).send([{ body: `Hello World ${i}` }]));
+            promises.push(
+              client.createProducer({ partitionId: "1" }).send([{ body: `Hello World ${i}` }])
+            );
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
             promises.push(client.createProducer().send([{ body: `Hello World ${i}` }]));
@@ -326,7 +342,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
+            await client
+              .createProducer({ partitionId: id as any })
+              .send([{ body: "Hello world!" }]);
             debug("sent the message.");
             throw new Error("Test failure");
           } catch (err) {
@@ -344,13 +362,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an invalid EventHub address error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.createProducer({ partitionId: id as any }).send([{ body: "Hello world!" }]);
+            await client
+              .createProducer({ partitionId: id as any })
+              .send([{ body: "Hello world!" }]);
             debug("sent the message.");
             throw new Error("Test failure");
           } catch (err) {
             debug(`>>>> Received invalid EventHub address error for partition id "${id}" - `, err);
             should.exist(err);
-            err.message.should.match(/.*Invalid EventHub address. It must be either of the following.*/gi);
+            err.message.should.match(
+              /.*Invalid EventHub address. It must be either of the following.*/gi
+            );
           }
         });
       });

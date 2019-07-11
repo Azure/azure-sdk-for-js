@@ -319,6 +319,10 @@
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/core-arm",
+      "projectFolder": "sdk/core/core-arm"
+    },
+    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth"
     },
@@ -369,10 +373,6 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob"
-    },
-    {
-      "packageName": "@azure/storage-datalake",
-      "projectFolder": "sdk/storage/storage-datalake"
     },
     {
       "packageName": "@azure/storage-file",

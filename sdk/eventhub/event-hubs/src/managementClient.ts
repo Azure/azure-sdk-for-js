@@ -2,8 +2,21 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { RequestResponseLink, defaultLock, translate, Constants, SendRequestOptions } from "@azure/core-amqp";
-import { Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions } from "rhea-promise";
+import {
+  RequestResponseLink,
+  defaultLock,
+  translate,
+  Constants,
+  SendRequestOptions
+} from "@azure/core-amqp";
+import {
+  Message,
+  EventContext,
+  SenderEvents,
+  ReceiverEvents,
+  SenderOptions,
+  ReceiverOptions
+} from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
@@ -103,7 +116,8 @@ export class ManagementClient extends LinkEntity {
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
     super(context, {
       address: options && options.address ? options.address : Constants.management,
-      audience: options && options.audience ? options.audience : context.config.getManagementAudience()
+      audience:
+        options && options.audience ? options.audience : context.config.getManagementAudience()
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
@@ -232,7 +246,8 @@ export class ManagementClient extends LinkEntity {
             const id = context.connection.options.id;
             const ehError = translate(context.session!.error!);
             log.error(
-              "[%s] An error occurred on the session for request/response links for " + "$management: %O",
+              "[%s] An error occurred on the session for request/response links for " +
+                "$management: %O",
               id,
               ehError
             );
@@ -246,7 +261,11 @@ export class ManagementClient extends LinkEntity {
           sropt,
           rxopt
         );
-        this._mgmtReqResLink = await RequestResponseLink.create(this._context.connection, sropt, rxopt);
+        this._mgmtReqResLink = await RequestResponseLink.create(
+          this._context.connection,
+          sropt,
+          rxopt
+        );
         this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
@@ -267,7 +286,11 @@ export class ManagementClient extends LinkEntity {
       }
     } catch (err) {
       err = translate(err);
-      log.error("[%s] An error occured while establishing the $management links: %O", this._context.connectionId, err);
+      log.error(
+        "[%s] An error occured while establishing the $management links: %O",
+        this._context.connectionId,
+        err
+      );
       throw err;
     }
   }
@@ -280,10 +303,18 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; timeout?: number; abortSignal?: AbortSignalLike; requestName?: string }
+    options?: {
+      retryOptions?: RetryOptions;
+      timeout?: number;
+      abortSignal?: AbortSignalLike;
+      requestName?: string;
+    }
   ): Promise<any> {
     try {
-      log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.connectionId
+      );
       await defaultLock.acquire(this.managementLock, () => {
         return this._init();
       });
@@ -297,7 +328,9 @@ export class ManagementClient extends LinkEntity {
         abortSignal: options.abortSignal,
         requestName: options.requestName,
         delayInSeconds:
-          options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
+          options.retryOptions &&
+          options.retryOptions.retryInterval &&
+          options.retryOptions.retryInterval >= 0
             ? options.retryOptions.retryInterval / 1000
             : undefined
       };

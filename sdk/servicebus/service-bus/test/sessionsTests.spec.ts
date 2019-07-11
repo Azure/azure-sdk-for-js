@@ -87,12 +87,12 @@ describe("SessionReceiver with invalid sessionId", function(): void {
       sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveMessages(1, 10);
-    should.equal(msgs.length, 0, "Unexpected number of messages");
+    should.equal(msgs.length, 0, "Unexpected number of messages received");
 
     await receiver.close();
     receiver = receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     msgs = await receiver.receiveMessages(1);
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
@@ -433,7 +433,7 @@ describe("Session State", function(): void {
     });
     let msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
@@ -451,7 +451,7 @@ describe("Session State", function(): void {
     );
     msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
@@ -516,7 +516,7 @@ describe("Peek session", function(): void {
     // At this point AMQP receiver link has not been established.
     // peek() will not establish the link if sessionId was provided
     const peekedMsgs = await receiver.peek(1);
-    should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked");
     should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       peekedMsgs[0].messageId,
@@ -530,7 +530,7 @@ describe("Peek session", function(): void {
     );
 
     const msgs = await receiver.receiveMessages(1);
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
