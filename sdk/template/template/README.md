@@ -27,5 +27,7 @@ The overall build pipeline looks like the following:
 
 Tests follow a similar pipeline, however output folders have the `test-` prefix.
 
+## Developer Contributing Guide
+For details on developer inner-loop workflow and contributing guide see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/template/template/README.png)
