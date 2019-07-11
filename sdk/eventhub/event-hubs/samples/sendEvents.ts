@@ -10,7 +10,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, EventData } from "@azure/event-hubs";
+import { EventHubClient } from "../src";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -33,7 +33,7 @@ async function main(): Promise<void> {
   const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   const producer = client.createProducer({ partitionId: partitionIds[0] });
-  const events: EventData[] = [];
+  const eventDatabatch = await producer.createBatch();
   try {
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
@@ -44,11 +44,11 @@ async function main(): Promise<void> {
     // ];
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      events.push({ body: `${scientist.firstName} ${scientist.name}` });
+      eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
     }
     console.log("Sending batch events...");
 
-    await producer.send(events);
+    await producer.send(eventDatabatch);
   } finally {
     await client.close();
   }
