@@ -24,6 +24,16 @@ jobs:
     parameters:
       ServiceDirectory: cosmosdb
 
-  - template: ../../eng/pipelines/templates/jobs/node6-test-sdk-client.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackagePath: "sdk/cosmosdb/cosmos/"
+      Toolchain: npm
+      Matrix:
+        Windows:
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "6.x"
+      PreIntegrationSteps: cosmos-integration-public
+      EnvVars:
+        ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
+        MOCHA_TIMEOUT: 100000
+        NODE_TLS_REJECT_UNAUTHORIZED: 0

@@ -1,0 +1,24 @@
+parameters:
+  PreIntegrationSteps: ""
+  EnvVars: []
+
+steps:
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
+
+  - script: |
+      node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+    displayName: "Build libraries"
+
+  - script: |
+      node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
+    displayName: "Build test assets"
+
+  - ${{if ne(parameters.PreIntegrationSteps, '')}}:
+    - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
+
+  - script: |
+      node common/scripts/install-run-rush.js integration-test --verbose $(GeneratedPackageTargets)
+    displayName: "Integration test libraries"
+    env: ${{parameters.EnvVars}}
