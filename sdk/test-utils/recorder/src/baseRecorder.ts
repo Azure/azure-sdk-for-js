@@ -27,26 +27,9 @@ if (isPlayingBack) {
   };AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
 }
 
-/**
- * Possible reasons for skipping a test:
- * * Abort: browser testing unexpectedly finishes when a request is aborted during playback (unknown reason; probably related to the way nise handles it)
- * * Character: there are characters in the message that are not supported in browser logging or in ECMAScript
- * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
- * * Size: the generated recording file is too big and would considerably increase the size of the package
- * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
- * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
- */
 const skip = [
   // Abort
-  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
-  // Character
-  "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
+  "browsers/aborter/recording_should_abort_after_aborter_timeout.json"
 ];
 
 export abstract class Recorder {
