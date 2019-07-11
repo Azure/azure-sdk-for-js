@@ -36,7 +36,7 @@ export interface RetryOptions {
    */
   retryInterval?: number;
   /**
- * Number of milliseconds to wait for each operation attempt to get completed within.
+ * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
  */
   operationTimeoutInMs?: number;
   // /**
