@@ -1,3 +1,6 @@
+/**
+ * @returns {Promise<string>}
+ */
 export async function blobToString(blob: Blob): Promise<string> {
   const fileReader = new FileReader();
   return new Promise<string>((resolve, reject) => {
@@ -34,6 +37,9 @@ function padStart(currentString: string, targetLength: number, padString: string
   }
 }
 
+/**
+ * @returns {string}
+ */
 export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${padStart(
     Math.floor(Math.random() * 10000).toString(),
@@ -42,6 +48,9 @@ export function getUniqueName(prefix: string): string {
   )}`;
 }
 
+/**
+ * @returns {boolean}
+ */
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
