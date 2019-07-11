@@ -7,7 +7,7 @@ import { Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, Rec
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions } from "./eventHubClient";
+import { RetryOptions, getRetryOperationTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -292,18 +292,11 @@ export class ManagementClient extends LinkEntity {
         options = {};
       }
 
-      const operationTimeoutInMs =
-        options.retryOptions == undefined ||
-          options.retryOptions.operationTimeoutInMs == undefined ||
-          options.retryOptions.operationTimeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
-          ? Constants.defaultOperationTimeoutInSeconds * 1000
-          : options.retryOptions.operationTimeoutInMs;
-
       const sendRequestOptions: SendRequestOptions = {
         maxRetries: options.retryOptions && options.retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
-        timeoutInSeconds: operationTimeoutInMs / 1000,
+        timeoutInSeconds: getRetryOperationTimeoutInMs(options.retryOptions) / 1000,
         delayInSeconds:
           options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
             ? options.retryOptions.retryInterval / 1000

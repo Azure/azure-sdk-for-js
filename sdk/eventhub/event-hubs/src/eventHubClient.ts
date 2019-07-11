@@ -51,6 +51,17 @@ export interface RetryOptions {
   // isExponential?: boolean;
 }
 
+export function getRetryOperationTimeoutInMs(retryOptions: RetryOptions | undefined): number {
+  const operationTimeoutInMs =
+    retryOptions == undefined ||
+      typeof retryOptions.operationTimeoutInMs !== "number" ||
+      !isFinite(retryOptions.operationTimeoutInMs) ||
+      retryOptions.operationTimeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+      ? Constants.defaultOperationTimeoutInSeconds * 1000
+      : retryOptions.operationTimeoutInMs;
+  return operationTimeoutInMs;
+}
+
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
  * These can be specified when creating the producer via the `createProducer` method.
