@@ -47,10 +47,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   afterEach("close the receiver link", async function(): Promise<void> {
-    if (receiver) {
+    if (receiver && !receiver.isClosed) {
       await receiver.close();
       debug("After each - Receiver closed.");
     }
+    receiver = undefined;
   });
 
   describe("with partitionId 0 as number", function(): void {
