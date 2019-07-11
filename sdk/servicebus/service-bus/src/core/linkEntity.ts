@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock } from "@azure/core-amqp";
+import { defaultLock, TokenType } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
@@ -135,7 +135,7 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject);
+      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, TokenType.CbsTokenTypeSas);
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
