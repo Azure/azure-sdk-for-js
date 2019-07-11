@@ -1,12 +1,8 @@
 # Contributing
-
 For details on developer inner-loop workflow and contributing guide see the [contributing guide](../../../CONTRIBUTING.md)
 
 ## Contributing Code
 To contribute code you need to issue a Pull Request against the develop branch. 
-
-
-
 
 ## Building the library
 - Install typescript, ts-node globally (optional, but very useful)
@@ -26,7 +22,6 @@ npm run build
 ```
 
 ## Run/Debug tests
-
 If you want to run or debug tests in this project, please see our [Test README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/testhub/README.md).
 
 ## AMQP Dependencies ##
