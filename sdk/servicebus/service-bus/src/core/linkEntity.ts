@@ -155,9 +155,8 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.namespace.tokenCredential.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.namespace.tokenCredential
-      .tokenRenewalMarginInSeconds;
+    const tokenValidTimeInSeconds = 3600;
+    const tokenRenewalMarginInSeconds = 900;
     const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
