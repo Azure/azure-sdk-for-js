@@ -26,6 +26,7 @@ dependencies:
   '@rush-temp/storage-file': 'file:projects/storage-file.tgz'
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
+  '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
   '@types/async-lock': 1.1.1
   '@types/chai': 4.1.7
@@ -8033,17 +8034,6 @@ packages:
       rollup: '>=0.66.0 <2'
     resolution:
       integrity: sha512-qwz2Tryspn5QGtPUowq5oumKSxANKdrnfz7C0jm4lKxvRDsNe/hSGsB9FntUul7UeC4TsZEWKErVgE1qWSO0gw==
-  /rollup-plugin-uglify/6.0.2_rollup@1.16.6:
-    dependencies:
-      '@babel/code-frame': 7.0.0
-      jest-worker: 24.6.0
-      serialize-javascript: 1.7.0
-      uglify-js: 3.6.0
-    dev: false
-    peerDependencies:
-      rollup: '>=0.66.0 <2'
-    resolution:
-      integrity: sha512-qwz2Tryspn5QGtPUowq5oumKSxANKdrnfz7C0jm4lKxvRDsNe/hSGsB9FntUul7UeC4TsZEWKErVgE1qWSO0gw==
   /rollup-plugin-uglify/6.0.2_rollup@1.16.7:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -10510,7 +10500,7 @@ packages:
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.16.7
       rollup-plugin-terser: 5.1.1_rollup@1.16.7
-      rollup-plugin-uglify: 6.0.2_rollup@1.16.6
+      rollup-plugin-uglify: 6.0.2_rollup@1.16.7
       rollup-plugin-visualizer: 2.4.4_rollup@1.16.7
       tslib: 1.10.0
       typescript: 3.5.3
@@ -10962,6 +10952,23 @@ packages:
       integrity: sha512-p4x160RdYLlW5VjMpev7fMKCtQoXJ8VFTzHASa7PWeYp41D7G9L7uWUO6PRYysglX5Vm9WuZZpsDmfg+ccVKmQ==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
+  'file:projects/test-utils-recorder.tgz':
+    dependencies:
+      '@types/dotenv': 6.1.1
+      '@types/fs-extra': 7.0.0
+      '@types/nise': 1.4.0
+      '@types/query-string': 6.2.0
+      dotenv: 7.0.0
+      fs-extra: 8.0.1
+      nise: 1.5.0
+      query-string: 5.1.1
+      tslib: 1.10.0
+    dev: false
+    name: '@rush-temp/test-utils-recorder'
+    resolution:
+      integrity: sha512-hhOZDPUk6HF1+6LPd7bViOhniso6akqVufw/VjbE1jWb3X58GxQXr4dh2gARHJANqiVTaYwCJaZBmLbt6COJLA==
+      tarball: 'file:projects/test-utils-recorder.tgz'
+    version: 0.0.0
   'file:projects/testhub.tgz':
     dependencies:
       '@azure/event-hubs': 1.0.8
@@ -11016,6 +11023,7 @@ specifiers:
   '@rush-temp/storage-file': 'file:./projects/storage-file.tgz'
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
+  '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
   '@types/async-lock': ^1.1.0
   '@types/chai': ^4.1.6
