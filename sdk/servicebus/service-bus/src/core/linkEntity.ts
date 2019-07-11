@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock } from "@azure/amqp-common";
+import { defaultLock } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
