@@ -38,7 +38,7 @@ export interface RetryOptions {
   /**
  * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
  */
-  operationTimeoutInMs?: number;
+  timeoutInMs?: number;
   // /**
   //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
   //  * Not applicable, when `isExponential` is set to `false`.
@@ -51,15 +51,15 @@ export interface RetryOptions {
   // isExponential?: boolean;
 }
 
-export function getRetryOperationTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const operationTimeoutInMs =
+export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
+  const timeoutInMs =
     retryOptions == undefined ||
-      typeof retryOptions.operationTimeoutInMs !== "number" ||
-      !isFinite(retryOptions.operationTimeoutInMs) ||
-      retryOptions.operationTimeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+      typeof retryOptions.timeoutInMs !== "number" ||
+      !isFinite(retryOptions.timeoutInMs) ||
+      retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
       ? Constants.defaultOperationTimeoutInSeconds * 1000
-      : retryOptions.operationTimeoutInMs;
-  return operationTimeoutInMs;
+      : retryOptions.timeoutInMs;
+  return timeoutInMs;
 }
 
 /**
