@@ -2,49 +2,8 @@ import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
 import * as dotenv from "dotenv";
+import { getUniqueName, isBrowser, blobToString, restDelay } from "./utils";
 dotenv.config({ path: "../.env" });
-
-/**
- * String.prototype.padStart()
- *
- * @export
- * @param {string} currentString
- * @param {number} targetLength
- * @param {string} [padString=" "]
- * @returns {string}
- */
-export function padStart(
-  currentString: string,
-  targetLength: number,
-  padString: string = " "
-): string {
-  if (String.prototype.padStart) {
-    return currentString.padStart(targetLength, padString);
-  }
-
-  padString = padString || " ";
-  if (currentString.length > targetLength) {
-    return currentString;
-  } else {
-    targetLength = targetLength - currentString.length;
-    if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
-    }
-    return padString.slice(0, targetLength) + currentString;
-  }
-}
-
-function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
-    Math.floor(Math.random() * 10000).toString(),
-    5,
-    "00000"
-  )}`;
-}
-
-function isBrowser(): boolean {
-  return typeof window !== "undefined";
-}
 
 let nock: any;
 if (!isBrowser()) {
@@ -122,16 +81,6 @@ if (isPlayingBack) {
 }
 
 /**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} t The number of milliseconds to be delayed.
- * @param {T} value The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} Resolved promise
- */
-function restDelay<T>(t: number, value?: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
-
-/**
  * Usage - `await delay(<milliseconds>)`
  * This `delay` has no effect if the `TEST_MODE` is `"playback"`.
  * If the `TEST_MODE` is not `"playback"`, `delay` is a wrapper for setTimeout that resolves a promise after t milliseconds.
@@ -142,17 +91,6 @@ function restDelay<T>(t: number, value?: T): Promise<T> {
  */
 export function delay(milliseconds: number): Promise<void> | null {
   return isPlayingBack ? null : restDelay(milliseconds);
-}
-
-async function blobToString(blob: Blob): Promise<string> {
-  const fileReader = new FileReader();
-  return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsText(blob);
-  });
 }
 
 /**
