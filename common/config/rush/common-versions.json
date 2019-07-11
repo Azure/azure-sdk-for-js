@@ -34,8 +34,8 @@
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
      */
-    "rhea-promise": [
-      "^0.1.15"
-    ]
+     // "typescript": [
+    //   "~2.4.0"
+    // ]
   }
 }

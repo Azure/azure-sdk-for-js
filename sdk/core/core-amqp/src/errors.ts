@@ -3,7 +3,6 @@
 
 import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
 import { isNode } from "../src/util/utils";
-import { OperationTimeoutError } from "rhea-promise";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
