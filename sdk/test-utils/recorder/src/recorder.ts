@@ -1,9 +1,7 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import * as dotenv from "dotenv";
 import { getUniqueName, isBrowser, blobToString, restDelay } from "./utils";
-dotenv.config({ path: "../.env" });
 
 let nock: any;
 if (!isBrowser()) {

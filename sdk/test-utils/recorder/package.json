@@ -55,11 +55,9 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "~7.0.0",
     "@types/nise": "^1.4.0",
     "@types/query-string": "6.2.0",
-    "dotenv": "^7.0.0",
     "fs-extra": "~8.0.1",
     "nise": "^1.4.10",
     "query-string": "^5.0.0",
