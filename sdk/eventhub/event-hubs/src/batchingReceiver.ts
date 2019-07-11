@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, Receiver as RheaReceiver } from "rhea-promise";
+import {
+  ReceiverEvents,
+  EventContext,
+  OnAmqpEvent,
+  SessionEvents,
+  Receiver as RheaReceiver
+} from "rhea-promise";
 import {
   translate,
   Func,
@@ -185,7 +191,12 @@ export class BatchingReceiver extends EventHubReceiver {
           let error = new MessagingError("An error occuured while receiving messages.");
           if (receiverError) {
             error = translate(receiverError);
-            log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
+            log.error(
+              "[%s] Receiver '%s' received an error:\n%O",
+              this._context.connectionId,
+              this.name,
+              error
+            );
           }
           reject(error);
         };
@@ -311,7 +322,11 @@ export class BatchingReceiver extends EventHubReceiver {
         };
 
         if (!this.isOpen()) {
-          log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
+          log.batching(
+            "[%s] Receiver '%s', setting the prefetch count to 0.",
+            this._context.connectionId,
+            this.name
+          );
           this.prefetchCount = 0;
           const rcvrOptions = this._createReceiverOptions({
             onMessage: onReceiveMessage,
@@ -384,7 +399,13 @@ export class BatchingReceiver extends EventHubReceiver {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): BatchingReceiver {
-    const bReceiver = new BatchingReceiver(context, consumerGroup, partitionId, eventPosition, options);
+    const bReceiver = new BatchingReceiver(
+      context,
+      consumerGroup,
+      partitionId,
+      eventPosition,
+      options
+    );
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
