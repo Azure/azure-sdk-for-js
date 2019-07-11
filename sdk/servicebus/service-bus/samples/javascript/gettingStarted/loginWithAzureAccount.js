@@ -13,28 +13,28 @@
     Here, assign "owner" role to your account.
 */
 
-const { ServiceBusClient } = require("@azure/service-bus");
-const { loginWithUsernamePassword } = require("@azure/ms-rest-nodeauth");
+// const { ServiceBusClient } = require("@azure/service-bus");
+// const { loginWithUsernamePassword } = require("@azure/ms-rest-nodeauth");
 
-// Define Service Bus Endpoint here and related entity names here
-const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
+// // Define Service Bus Endpoint here and related entity names here
+// const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
 
-const username = "";
-const password = "";
+// const username = "";
+// const password = "";
 
-async function main() {
-  const tokenCreds = await loginWithUsernamePassword(username, password, {
-    tokenAudience: "https://servicebus.azure.net/"
-  });
+// async function main() {
+//   const tokenCreds = await loginWithUsernamePassword(username, password, {
+//     tokenAudience: "https://servicebus.azure.net/"
+//   });
 
-  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-  /*
-   Refer to other samples, and place your code here
-   to create queue clients, and to send/receive messages
-  */
-  await sbClient.close();
-}
+//   const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+//   /*
+//    Refer to other samples, and place your code here
+//    to create queue clients, and to send/receive messages
+//   */
+//   await sbClient.close();
+// }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+// main().catch((err) => {
+//   console.log("Error occurred: ", err);
+// });

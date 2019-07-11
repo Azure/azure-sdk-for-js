@@ -10,25 +10,25 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 */
 
-const { ServiceBusClient } = require("@azure/service-bus");
-const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
+// const { ServiceBusClient } = require("@azure/service-bus");
+// const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
-// Define Service Bus Endpoint here
-const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
+// // Define Service Bus Endpoint here
+// const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
 
-async function main() {
-  const tokenCreds = await interactiveLogin({
-    tokenAudience: "https://servicebus.azure.net/"
-  });
+// async function main() {
+//   const tokenCreds = await interactiveLogin({
+//     tokenAudience: "https://servicebus.azure.net/"
+//   });
 
-  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-  /*
-   Refer to other samples, and place your code here
-   to create queue clients, and send/receive messages
-  */
-  await sbClient.close();
-}
+//   const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+//   /*
+//    Refer to other samples, and place your code here
+//    to create queue clients, and send/receive messages
+//   */
+//   await sbClient.close();
+// }
 
-main().catch((err) => {
-  console.log("Error occurred: ", err);
-});
+// main().catch((err) => {
+//   console.log("Error occurred: ", err);
+// });
