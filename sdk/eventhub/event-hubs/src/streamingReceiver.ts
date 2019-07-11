@@ -136,7 +136,7 @@ export class StreamingReceiver extends EventHubReceiver {
             return this._onAbort();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this._onError!(err);
         });
     } else {
@@ -154,7 +154,8 @@ export class StreamingReceiver extends EventHubReceiver {
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming(
-        "[%s] Receiver '%s', set the prefetch count to 1000 and " + "providing a credit of the same amount.",
+        "[%s] Receiver '%s', set the prefetch count to 1000 and " +
+          "providing a credit of the same amount.",
         this._context.connectionId,
         this.name
       );
@@ -179,7 +180,13 @@ export class StreamingReceiver extends EventHubReceiver {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): StreamingReceiver {
-    const sReceiver = new StreamingReceiver(context, consumerGroup, partitionId, eventPosition, options);
+    const sReceiver = new StreamingReceiver(
+      context,
+      consumerGroup,
+      partitionId,
+      eventPosition,
+      options
+    );
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }

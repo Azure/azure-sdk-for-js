@@ -188,7 +188,9 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
       : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
   } else if (eventPosition.enqueuedTime != undefined) {
     const time =
-      eventPosition.enqueuedTime instanceof Date ? eventPosition.enqueuedTime.getTime() : eventPosition.enqueuedTime;
+      eventPosition.enqueuedTime instanceof Date
+        ? eventPosition.enqueuedTime.getTime()
+        : eventPosition.enqueuedTime;
     result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
   }
 
