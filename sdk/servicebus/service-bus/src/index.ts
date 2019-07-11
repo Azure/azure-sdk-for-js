@@ -6,7 +6,6 @@
 
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
-  TokenInfo,
   TokenType,
   TokenCredential,
   DataTransformer,

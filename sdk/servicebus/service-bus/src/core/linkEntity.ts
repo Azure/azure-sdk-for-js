@@ -134,6 +134,9 @@ export class LinkEntity {
       this.name,
       this.address
     );
+    if (!tokenObject) {
+      throw new Error("Token cannot be null");
+    }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
       return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, TokenType.CbsTokenTypeSas);
     });
