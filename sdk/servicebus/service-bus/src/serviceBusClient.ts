@@ -3,13 +3,6 @@
 
 import * as log from "./log";
 
-import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
-
 import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
@@ -17,10 +10,9 @@ import { TopicClient } from "./topicClient";
 import {
   ConnectionConfig,
   DataTransformer,
-  TokenProvider,
-  AadTokenProvider,
-  SasTokenProvider
-} from "@azure/amqp-common";
+  TokenCredential,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
 
 /**
@@ -70,19 +62,18 @@ export class ServiceBusClient {
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration needed to connect to the
    * Service Bus Namespace.
-   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
-   * authentication.
+   * @param {TokenCredential} [credential] - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param {ServiceBusClientOptions} - Options to control ways to interact with the Service Bus
    * Namespace.
    */
   private constructor(
     config: ConnectionConfig,
-    tokenProvider: TokenProvider,
+    credential: SharedKeyCredential | TokenCredential,
     options?: ServiceBusClientOptions
   ) {
     if (!options) options = {};
     this.name = config.endpoint;
-    this._context = ConnectionContext.create(config, tokenProvider, options);
+    this._context = ConnectionContext.create(config, credential, options);
   }
 
   /**
@@ -176,13 +167,12 @@ export class ServiceBusClient {
     config.webSocketEndpointPath = "$servicebus/websocket";
     config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
 
+    // Since connectionstring was passed, create a SharedKeyCredential
+    const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+
     ConnectionConfig.validate(config);
-    const tokenProvider = new SasTokenProvider(
-      config.endpoint,
-      config.sharedAccessKeyName,
-      config.sharedAccessKey
-    );
-    return new ServiceBusClient(config, tokenProvider, options);
+
+    return new ServiceBusClient(config, credential, options);
   }
 
   //   /**

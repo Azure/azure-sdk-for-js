@@ -118,7 +118,7 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
       return this._context.namespace.cbsSession.init();
     });
-    const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
+    const tokenObject = await this._context.namespace.tokenCredential.getToken(this.audience);
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.namespace.connectionId,
@@ -155,8 +155,8 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.namespace.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.namespace.tokenProvider
+    const tokenValidTimeInSeconds = this._context.namespace.tokenCredential.tokenValidTimeInSeconds;
+    const tokenRenewalMarginInSeconds = this._context.namespace.tokenCredential
       .tokenRenewalMarginInSeconds;
     const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
     this._tokenRenewalTimer = setTimeout(async () => {

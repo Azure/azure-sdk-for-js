@@ -70,21 +70,21 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
 
-  it("Missing tokenProvider in createFromTokenProvider", function(): void {
-    let caughtError: Error | undefined;
-    try {
-      sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
-  });
+  // it("Missing tokenProvider in createFromTokenProvider", function(): void {
+  //   let caughtError: Error | undefined;
+  //   try {
+  //     sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
+  //   } catch (error) {
+  //     caughtError = error;
+  //   }
+  //   should.equal(caughtError && caughtError.name, "TypeError");
+  //   should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
+  // });
 
-  it("Coerces input to string for host in createFromTokenProvider", function(): void {
-    sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
-    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-  });
+  // it("Coerces input to string for host in createFromTokenProvider", function(): void {
+  //   sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
+  //   should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+  // });
 });
 
 describe("Errors with non existing Namespace #RunInBrowser", function(): void {
