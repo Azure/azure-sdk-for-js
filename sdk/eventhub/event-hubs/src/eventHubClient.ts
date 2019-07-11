@@ -36,8 +36,9 @@ export interface RetryOptions {
    */
   retryInterval?: number;
   /**
- * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
- */
+   * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
+   * A minimum value of 60 seconds will be used if a value not greater than this is provided.
+   */
   timeoutInMs?: number;
   // /**
   //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
