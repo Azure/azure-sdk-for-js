@@ -10,7 +10,6 @@ async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new EnvironmentCredential();
   const keyto = require('@trust/keyto')
-  const jwk_to_pem = require("jwk-to-pem");
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
   const url = `https://${vaultName}.vault.azure.net`;
