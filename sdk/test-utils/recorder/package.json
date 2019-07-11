@@ -1,0 +1,68 @@
+{
+  "name": "@azure/test-utils-recorder",
+  "version": "1.0.0",
+  "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "./typings/src/index.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:samples": "cd samples && tsc -p .",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o template-lintReport.html || exit 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "mocha test-dist/**/*.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "browser/*.js*",
+    "dist/",
+    "dist-esm/src/",
+    "src/",
+    "typings/src"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "recording",
+    "playback"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "engine": {
+    "node": ">=6.0.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@types/dotenv": "^6.1.0",
+    "@types/fs-extra": "~7.0.0",
+    "@types/nise": "^1.4.0",
+    "@types/query-string": "6.2.0",
+    "dotenv": "^7.0.0",
+    "fs-extra": "~8.0.1",
+    "nise": "^1.4.10",
+    "query-string": "^5.0.0",
+    "tslib": "^1.9.3"
+  }
+}
