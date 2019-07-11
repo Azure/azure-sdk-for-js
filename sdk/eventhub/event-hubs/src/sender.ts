@@ -107,6 +107,7 @@ export class EventHubProducer {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+
     if (eventData instanceof EventDataBatch) {
       throwTypeErrorIfParameterMissing(this._context.connectionId, "events", eventData.events);
       // throw an error if partition key is different than the one provided in the options.
@@ -121,7 +122,6 @@ export class EventHubProducer {
         );
         throw error;
       }
-
       eventData = eventData.events;
     } else if (!Array.isArray(eventData)) {
       eventData = [eventData];

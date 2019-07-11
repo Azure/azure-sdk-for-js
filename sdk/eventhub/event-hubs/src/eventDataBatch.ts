@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
@@ -6,7 +9,8 @@ import { messageProperties, message } from "rhea-promise";
 /**
  * A helper class for creating a batch of events; taking into account the max size limit, so that the `EventDataBatch`
  * can be passed to the Send method of the `Sender` to send the batch messages.
- * an `EventHubProducer`.
+ *
+ * Use the `tryAdd` function on the EventDataBatch to add events in a batch.
  * @class
  */
 export class EventDataBatch {
@@ -68,6 +72,11 @@ export class EventDataBatch {
     return true;
   }
 
+  /**
+   * Provides total batch size.
+   * @param eventData  An individual event data object.
+   * @returns number
+   */
   private getTotalEventBatchSize(event: EventData): number {
     // Convert EventData to AmqpMessage.
     const amqpMessage = toAmqpMessage(event, this.partitionKey!);
