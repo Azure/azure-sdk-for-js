@@ -9,74 +9,7 @@ import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventPosition } from "./eventPosition";
-
-/**
- * Describes the receive handler object that is returned from the receive() method with handlers.
- * The ReceiveHandler is used to stop receiving more messages.
- * @class ReceiveHandler
- */
-export class ReceiveHandler {
-  /**
-   * @property _receiver  The underlying EventHubReceiver.
-   * @private
-   */
-  private _receiver: EventHubReceiver;
-
-  /**
-   * Creates an instance of the ReceiveHandler.
-   * @constructor
-   * @internal
-   * @param receiver The underlying EventHubReceiver.
-   */
-  constructor(receiver: EventHubReceiver) {
-    this._receiver = receiver;
-  }
-
-  /**
-   * @property The partitionId from which the handler is receiving events.
-   * @readonly
-   */
-  get partitionId(): string | undefined {
-    return this._receiver ? this._receiver.partitionId : undefined;
-  }
-
-  /**
-   * @property The consumer group from which the handler is receiving events.
-   * @readonly
-   */
-  get consumerGroup(): string | undefined {
-    return this._receiver ? this._receiver.consumerGroup : undefined;
-  }
-
-  /**
-   * @property Indicates whether the receiver is connected/open.
-   * `true` - is open; `false` otherwise.
-   * @readonly
-   */
-  get isReceiverOpen(): boolean {
-    return this._receiver ? this._receiver.isOpen() : false;
-  }
-
-  /**
-   * Stops the underlying EventHubReceiver from receiving more messages.
-   * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
-   */
-  async stop(): Promise<void> {
-    if (this._receiver) {
-      try {
-        await this._receiver.close();
-      } catch (err) {
-        log.error(
-          "An error occurred while stopping the receiver '%s' with address '%s': %O",
-          this._receiver.name,
-          this._receiver.address,
-          err
-        );
-      }
-    }
-  }
-}
+import { ReceiveHandler } from "./receiveHandler";
 
 /**
  * Describes the streaming receiver where the user can receive the message
@@ -145,7 +78,7 @@ export class StreamingReceiver extends EventHubReceiver {
       // these handlers will be automatically removed.
       log.streaming(
         "[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
-          "Hence reusing it and attaching message and error handlers.",
+        "Hence reusing it and attaching message and error handlers.",
         this._context.connectionId,
         this.name
       );
@@ -155,7 +88,7 @@ export class StreamingReceiver extends EventHubReceiver {
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming(
         "[%s] Receiver '%s', set the prefetch count to 1000 and " +
-          "providing a credit of the same amount.",
+        "providing a credit of the same amount.",
         this._context.connectionId,
         this.name
       );
