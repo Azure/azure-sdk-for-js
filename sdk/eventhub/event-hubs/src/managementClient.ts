@@ -20,7 +20,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions } from "./eventHubClient";
+import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -303,12 +303,7 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: {
-      retryOptions?: RetryOptions;
-      timeout?: number;
-      abortSignal?: AbortSignalLike;
-      requestName?: string;
-    }
+    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
   ): Promise<any> {
     try {
       log.mgmt(
@@ -327,6 +322,7 @@ export class ManagementClient extends LinkEntity {
         maxRetries: options.retryOptions && options.retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
+        timeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions) / 1000,
         delayInSeconds:
           options.retryOptions &&
           options.retryOptions.retryInterval &&
