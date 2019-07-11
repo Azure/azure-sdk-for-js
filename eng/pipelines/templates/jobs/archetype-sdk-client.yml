@@ -12,14 +12,7 @@ jobs:
         displayName: 'Tag scheduled builds'
         condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
-      - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
+      - template: ../steps/common.yml
 
       - template: ../steps/select-packages.yml
         parameters:
@@ -38,14 +31,7 @@ jobs:
       vmImage: "ubuntu-16.04"
 
     steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
-      - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
+      - template: ../steps/common.yml
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -88,15 +74,12 @@ jobs:
       vmImage: "ubuntu-16.04"
 
     steps:
+      - template: ../steps/common.yml
+
       - task: UsePythonVersion@0
         displayName: "Use Python 3.6"
         inputs:
           versionSpec: "3.6"
-
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
 
       - script: |
           pip install setuptools wheel
@@ -167,10 +150,7 @@ jobs:
       GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
+      - template: ../steps/common.yml
 
       - script: |
           node common/scripts/install-run-rush.js install
