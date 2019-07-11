@@ -20,6 +20,17 @@
     },
     {
       "commandKind": "bulk",
+      "name": "build",
+      "summary": "Build all projects that haven't been built, or have changed since they were last built",
+      "description": "This command is similar to \"rush rebuild\", except that \"rush build\" performs...",
+      "safeForSimultaneousRushProcesses": false,
+      "enableParallelism": true,
+      "ignoreDependencyOrder": false,
+      "ignoreMissingScript": false,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "build:test",
       "summary": "Build the test targets only in projects",
       "enableParallelism": true
@@ -115,7 +126,8 @@
       "name": "unit-test",
       "summary": "Execute unit tests defined in projects",
       "description": "Execute tests which don't need to connect to any external service.",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
 
     // Optional Scripts
