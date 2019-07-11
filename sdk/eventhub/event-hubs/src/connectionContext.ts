@@ -130,7 +130,8 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError = context.connection && context.connection.error ? context.connection.error : undefined;
+      const connectionError =
+        context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
         log.error(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
@@ -185,7 +186,7 @@ export namespace ConnectionContext {
               sender.name,
               sender.address
             );
-            sender.onDetached(connectionError || contextError).catch(err => {
+            sender.onDetached(connectionError || contextError).catch((err) => {
               log.error(
                 "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
@@ -214,7 +215,7 @@ export namespace ConnectionContext {
               receiver.name,
               receiver.address
             );
-            receiver.onDetached(connectionError || contextError).catch(err => {
+            receiver.onDetached(connectionError || contextError).catch((err) => {
               log.error(
                 "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
