@@ -89,8 +89,11 @@ export class EventHubProducer {
     // @internal
     constructor(context: ConnectionContext, options?: EventHubProducerOptions);
     close(): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "BatchOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "EventDataBatch" needs to be exported by the entry point index.d.ts
+    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly isClosed: boolean;
-    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
+    send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
     }
 
 // @public

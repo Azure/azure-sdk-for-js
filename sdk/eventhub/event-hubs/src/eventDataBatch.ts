@@ -8,7 +8,7 @@ import { messageProperties, message } from "rhea-promise";
 
 /**
  * A helper class for creating a batch of events; taking into account the max size limit, so that the `EventDataBatch`
- * can be passed to the Send method of the `Sender` to send the batch messages.
+ * can be passed to the Send method of the `Sender` to send the `EventData` objects as a batch messages.
  *
  * Use the `tryAdd` function on the EventDataBatch to add events in a batch.
  * @class
