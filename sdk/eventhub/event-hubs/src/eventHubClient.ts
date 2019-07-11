@@ -35,6 +35,10 @@ export interface RetryOptions {
    * Number of milliseconds to wait between attempts.
    */
   retryInterval?: number;
+  /**
+ * Number of milliseconds to wait for each operation attempt to get completed within.
+ */
+  operationTimeoutInMs?: number;
   // /**
   //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
   //  * Not applicable, when `isExponential` is set to `false`.

@@ -280,7 +280,7 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; timeout?: number; abortSignal?: AbortSignalLike; requestName?: string }
+    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
   ): Promise<any> {
     try {
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
@@ -296,6 +296,12 @@ export class ManagementClient extends LinkEntity {
         maxRetries: options.retryOptions && options.retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
+        timeoutInSeconds:
+          options.retryOptions == undefined ||
+          options.retryOptions.operationTimeoutInMs == undefined ||
+          options.retryOptions.operationTimeoutInMs < 0
+            ? Constants.defaultOperationTimeoutInSeconds
+            : options.retryOptions.operationTimeoutInMs / 1000,
         delayInSeconds:
           options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
             ? options.retryOptions.retryInterval / 1000
