@@ -57,5 +57,9 @@ npm run build
 
 If you want to run or debug tests in this project, please see our [Test README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/test/README.md).
 
+## Developer Contributing Guide
+
+For details on developer inner-loop workflow and contributing guide see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
+
 ## AMQP Dependencies ##
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.

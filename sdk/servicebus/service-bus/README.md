@@ -239,4 +239,8 @@ Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tr
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
+## Contributing
+
+For details on contributing to this library, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/CONTRIBUTING.md).
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/servicebus/service-bus/README.png)
