@@ -3,10 +3,11 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, BatchOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { EventDataBatch } from "./eventDataBatch";
 
 /**
  * A producer responsible for sending `EventData` to a specific Event Hub.
@@ -52,8 +53,36 @@ export class EventHubProducer {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =
-      this._senderOptions.partitionId != undefined ? String(this._senderOptions.partitionId) : undefined;
+      this._senderOptions.partitionId != undefined
+        ? String(this._senderOptions.partitionId)
+        : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
+  }
+
+  /**
+   * Creates a batch where event data objects can be added for later `Send` call
+   * @param options  Options to define partition key and max message size.
+   * @returns Promise<EventDataBatch>
+   */
+  async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+    try {
+      if (!options) {
+        options = {};
+      }
+      let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
+      if (options.maxMessageSize && options.maxMessageSize > 0) {
+        maxMessageSize = options.maxMessageSize;
+      }
+      return new EventDataBatch(this._context, maxMessageSize, options.partitionKey!);
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while creating the sender  %s: %O",
+        this._context.connectionId,
+        this._context.config.entityPath,
+        err
+      );
+      throw err;
+    }
   }
 
   /**
@@ -69,12 +98,32 @@ export class EventHubProducer {
    * @throws {TypeError} Thrown if a required parameter is missing.
    * @throws {Error} Thrown if the underlying connection or sender has been closed.
    * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
+   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
    * Create a new producer using the EventHubClient createProducer method.
    */
-  async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
+  async send(
+    eventData: EventData | EventData[] | EventDataBatch,
+    options?: SendOptions
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
-    if (!Array.isArray(eventData)) {
+    if (eventData instanceof EventDataBatch) {
+      throwTypeErrorIfParameterMissing(this._context.connectionId, "events", eventData.events);
+      // throw an error if partition key is different than the one provided in the options.
+      if (options && options.partitionKey !== eventData.partitionKey) {
+        const error = new Error(
+          "Partition key is different than the one provided in the send options."
+        );
+        log.error(
+          "[%s] Partition key is different than the one provided in the send options. %O",
+          this._context.connectionId,
+          error
+        );
+        throw error;
+      }
+
+      eventData = eventData.events;
+    } else if (!Array.isArray(eventData)) {
       eventData = [eventData];
     }
     return this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });

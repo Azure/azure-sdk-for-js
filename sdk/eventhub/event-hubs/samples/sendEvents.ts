@@ -10,30 +10,30 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, EventData } from "@azure/event-hubs";
+import { EventHubClient } from "../src";
 
 // Define connection string and related Event Hubs entity name here
-const connectionString = "";
-const eventHubName = "";
+const connectionString = "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
+const eventHubName = "test";
 
-const listOfScientists = [
-  { name: "Einstein", firstName: "Albert" },
-  { name: "Heisenberg", firstName: "Werner" },
-  { name: "Curie", firstName: "Marie" },
-  { name: "Hawking", firstName: "Steven" },
-  { name: "Newton", firstName: "Isaac" },
-  { name: "Bohr", firstName: "Niels" },
-  { name: "Faraday", firstName: "Michael" },
-  { name: "Galilei", firstName: "Galileo" },
-  { name: "Kepler", firstName: "Johannes" },
-  { name: "Kopernikus", firstName: "Nikolaus" }
-];
+// const listOfScientists = [
+//   { name: "Einstein", firstName: "Albert" },
+//   { name: "Heisenberg", firstName: "Werner" },
+//   { name: "Curie", firstName: "Marie" },
+//   { name: "Hawking", firstName: "Steven" },
+//   { name: "Newton", firstName: "Isaac" },
+//   { name: "Bohr", firstName: "Niels" },
+//   { name: "Faraday", firstName: "Michael" },
+//   { name: "Galilei", firstName: "Galileo" },
+//   { name: "Kepler", firstName: "Johannes" },
+//   { name: "Kopernikus", firstName: "Nikolaus" }
+// ];
 
 async function main(): Promise<void> {
   const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   const producer = client.createProducer({ partitionId: partitionIds[0] });
-  const events: EventData[] = [];
+  const eventDataBatch = await producer.createBatch();
   try {
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
@@ -42,13 +42,12 @@ async function main(): Promise<void> {
     //   { body: { "message": "Hello World 2" } },
     //   { body: { "message": "Hello World 3" } }
     // ];
-    for (let index = 0; index < listOfScientists.length; index++) {
-      const scientist = listOfScientists[index];
-      events.push({ body: `${scientist.firstName} ${scientist.name}` });
+    for (let index = 1; index < 3; index++) {
+      eventDataBatch.tryAdd({ body: `Hello world ${index}` });
     }
     console.log("Sending batch events...");
-
-    await producer.send(events);
+    console.log(eventDataBatch.currentSize);
+    await producer.send(eventDataBatch);
   } finally {
     await client.close();
   }

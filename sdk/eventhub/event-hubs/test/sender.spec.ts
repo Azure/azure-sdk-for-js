@@ -188,6 +188,40 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
   });
 
+  describe("Create batch", function(): void {
+    it.only("should be sent successfully", async function(): Promise<void> {
+      const producer = client.createProducer({ partitionId: "0" });
+      const totalMessages = 2;
+      const eventDataBatch = await producer.createBatch();
+      for (let i = 0; i < totalMessages; i++) {
+       const messageStatus = eventDataBatch.tryAdd({ body: `${Buffer.from("Z".repeat(650000))}` });
+       if(!messageStatus){
+         break;
+       }
+      }
+      console.log(`${eventDataBatch.events.length} messages sent in total.`);
+      should.equal(eventDataBatch.events.length !== totalMessages, true, "Client was not able to send any messages");
+      console.log("sending..");
+      await producer.send(eventDataBatch);
+    });
+    it("with partition key should be sent successfully.", async function(): Promise<void> {
+      const producer = client.createProducer({ partitionId: "0" });
+      const eventDataBatch = await producer.createBatch({ partitionKey: 1 as any });
+      for (let i = 0; i < 5; i++) {
+        eventDataBatch.tryAdd({ body: `Hello World ${i}` });
+      }
+      await producer.send(eventDataBatch);
+    });
+    it("with max message size should be sent successfully.", async function(): Promise<void> {
+      const producer = client.createProducer({ partitionId: "0" });
+      const eventDataBatch = await producer.createBatch({ maxMessageSize: 4096 });
+      for (let i = 0; i < 5; i++) {
+        eventDataBatch.tryAdd({ body: `Hello World ${i}` });
+      }
+      await producer.send(eventDataBatch);
+    });
+    });
+
   describe("multiple producers", function(): void {
     it("should be isolated on same partitionId", async function(): Promise<void> {
       const producers: EventHubProducer[] = [];

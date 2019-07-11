@@ -87,6 +87,24 @@ export interface SendOptions {
 }
 
 /**
+ * The set of options to configure the createBatch operation on the `Sender`.
+ */
+export interface BatchOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string | null;
+  /**
+   * @property
+   * The maximum size allowed for the batch.
+   */
+  maxMessageSize?: number | null;
+}
+
+/**
  * The set of options to configure the behavior of an `EventHubConsumer`.
  * These can be specified when creating the consumer using the `createConsumer` method.
  */
@@ -209,7 +227,12 @@ export class EventHubClient {
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options -  A set of options to apply when configuring the client.
    */
-  constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
+  constructor(
+    host: string,
+    eventHubPath: string,
+    credential: TokenCredential,
+    options?: EventHubClientOptions
+  );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
@@ -279,7 +302,9 @@ export class EventHubClient {
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(`An error occurred while closing the connection "${this._context.connectionId}":\n${err}`);
+      log.error(
+        `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
+      );
       throw err;
     }
   }
@@ -386,7 +411,10 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+  async getPartitionProperties(
+    partitionId: string,
+    abortSignal?: AbortSignalLike
+  ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
@@ -412,10 +440,15 @@ export class EventHubClient {
     iothubConnectionString: string,
     options?: EventHubClientOptions
   ): Promise<EventHubClient> {
-    if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
+    if (
+      !iothubConnectionString ||
+      (iothubConnectionString && typeof iothubConnectionString !== "string")
+    ) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
+    const connectionString = await new IotHubClient(
+      iothubConnectionString
+    ).getEventHubConnectionString();
     return new EventHubClient(connectionString, options);
   }
 
