@@ -1,6 +1,6 @@
 # Contributing
 
-For details on developer inner-loop workflow and contributing guide see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
+For details on developer inner-loop workflow and contributing guide see the [contributing guide](../../../CONTRIBUTING.md)
 
 ## Contributing Code
 To contribute code you need to issue a Pull Request against the develop branch. 
