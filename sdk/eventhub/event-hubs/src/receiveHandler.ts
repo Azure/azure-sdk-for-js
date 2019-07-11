@@ -59,6 +59,7 @@ export class ReceiveHandler {
   async stop(): Promise<void> {
     if (this._receiver) {
       try {
+        this._receiver.clearHandlers();
         await this._receiver.close();
       } catch (err) {
         log.error(
