@@ -48,6 +48,7 @@ dependencies:
   '@types/node': 8.10.50
   '@types/priorityqueuejs': 1.0.1
   '@types/qs': 6.5.3
+  '@types/query-string': 6.2.0
   '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
   '@types/sinon': 5.0.7
@@ -124,7 +125,7 @@ dependencies:
   mocha-multi: 1.1.0
   mocha-multi-reporters: 1.1.7
   moment: 2.24.0
-  ms-rest: 2.5.2
+  ms-rest: 2.5.3
   ms-rest-azure: 2.6.0
   nise: 1.5.0
   nock: 10.0.6
@@ -138,7 +139,7 @@ dependencies:
   promise: 8.0.3
   puppeteer: 1.18.1
   qs: 6.7.0
-  query-string: 6.8.1
+  query-string: 5.1.1
   requirejs: 2.3.6
   rhea: 1.0.8
   rhea-promise: 0.1.15
@@ -652,6 +653,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
+  /@types/query-string/6.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-dnYqKg7eZ+t7ZhCuBtwLxjqON8yXr27hiu3zXfPqxfJSbWUZNwwISE0BJUxghlcKsk4lZSp7bdFSJBJVNWBfmA==
   /@types/range-parser/1.2.3:
     dev: false
     resolution:
@@ -6397,13 +6402,13 @@ packages:
       adal-node: 0.1.28
       async: 2.6.0
       moment: 2.24.0
-      ms-rest: 2.5.2
+      ms-rest: 2.5.3
       request: 2.88.0
       uuid: 3.3.2
     dev: false
     resolution:
       integrity: sha512-J6386a9krZ4VtU7CRt+Ypgo9RGf8+d3gjMBkH7zbkM4zzkhbbMOYiPRaZ+bHZcfihkKLlktTgA6rjshTjF329A==
-  /ms-rest/2.5.2:
+  /ms-rest/2.5.3:
     dependencies:
       duplexer: 0.1.1
       is-buffer: 1.1.6
@@ -6415,7 +6420,7 @@ packages:
       uuid: 3.3.2
     dev: false
     resolution:
-      integrity: sha512-ZyaAu0IX/TwgjwLbWHRmnzhsoE4IimGVhVW96gI5pHtSjqpnt6woPK/SzMjJTGeF4k1m1p5A5N/vKshyVUGC2Q==
+      integrity: sha512-p0CnzrTzEkS8UTEwgCqT2O5YVK9E8KGBBlJVm3hFtMZvf0dmncKYXWFPyUa4PAsfBL7h4jfu39tOIFTu6exntg==
   /ms/2.0.0:
     dev: false
     resolution:
@@ -7408,16 +7413,16 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
-  /query-string/6.8.1:
+  /query-string/5.1.1:
     dependencies:
       decode-uri-component: 0.2.0
-      split-on-first: 1.1.0
-      strict-uri-encode: 2.0.0
+      object-assign: 4.1.1
+      strict-uri-encode: 1.1.0
     dev: false
     engines:
-      node: '>=6'
+      node: '>=0.10.0'
     resolution:
-      integrity: sha512-g6y0Lbq10a5pPQpjlFuojfMfV1Pd2Jw9h75ypiYPPia3Gcq2rgkKiIwbkS6JxH7c5f5u/B/sB+d13PU+g1eu4Q==
+      integrity: sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
   /querystring-es3/0.2.1:
     dev: false
     engines:
@@ -8513,12 +8518,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-7j8LYJLeY/Yb6ACbQ7F76qy5jHkp0U6jgBfJsk97bwWlVUnUWsAgpyaCvo17h0/RQGnQ036tVDomiwoI4pDkQA==
-  /split-on-first/1.1.0:
-    dev: false
-    engines:
-      node: '>=6'
-    resolution:
-      integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
   /split-string/3.1.0:
     dependencies:
       extend-shallow: 3.0.2
@@ -8628,12 +8627,12 @@ packages:
       node: '>=6.0'
     resolution:
       integrity: sha512-iGVaMcyF5PcUY0cPbW3xFQUXnr9O4RZXNBBjhuLZgrjLO4XCLLGfx4T2sGqygSeylUjwgWRsnNbT9aV0Zb8AYw==
-  /strict-uri-encode/2.0.0:
+  /strict-uri-encode/1.1.0:
     dev: false
     engines:
-      node: '>=4'
+      node: '>=0.10.0'
     resolution:
-      integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=
+      integrity: sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
   /string-width/1.0.2:
     dependencies:
       code-point-at: 1.1.0
@@ -10720,6 +10719,7 @@ packages:
       '@types/nise': 1.4.0
       '@types/nock': 10.0.3
       '@types/node': 8.10.50
+      '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 1.11.0_8d1711d609953acbf65aedec42f2b5c5
       '@typescript-eslint/parser': 1.11.0_eslint@5.16.0+typescript@3.5.3
       assert: 1.5.0
@@ -10758,7 +10758,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.18.1
-      query-string: 6.8.1
+      query-string: 5.1.1
       rimraf: 2.6.3
       rollup: 1.16.7
       rollup-plugin-commonjs: 10.0.1_rollup@1.16.7
@@ -10777,7 +10777,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-FWF0lybU1bBKGD4N1ttleRCkCMnGE0mgZwApgHWOTubHF/zzmBOY9OgVhgS7Bk6J+8vcaIUp/jfwAKEmJ0OIgA==
+      integrity: sha512-GN9dJLmBjN9/yKq4HFq2nJ9sTh+F7bFEhsbZXOreWSYotiyVBo9HbqxjCj9GHlWcyYcQ3JtXt2CEggqmZgV/JA==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -10790,6 +10790,7 @@ packages:
       '@types/nise': 1.4.0
       '@types/nock': 10.0.3
       '@types/node': 8.10.50
+      '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 1.11.0_8d1711d609953acbf65aedec42f2b5c5
       '@typescript-eslint/parser': 1.11.0_eslint@5.16.0+typescript@3.5.3
       assert: 1.5.0
@@ -10828,7 +10829,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.18.1
-      query-string: 6.8.1
+      query-string: 5.1.1
       rimraf: 2.6.3
       rollup: 1.16.7
       rollup-plugin-commonjs: 10.0.1_rollup@1.16.7
@@ -10847,7 +10848,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-jVoPzB0EQPblf83PxurtdUXk4DBwoih8HRUSsi3FgVyP0ONWbbgW/yaZYEeMSxwXTNmrzNW4paKXLf/FgOdiJA==
+      integrity: sha512-IRqfOeXpG7XSL5GrT4zL3mvy2ZzCeCICSmo3Tj6V6h9eEHHnWwqcfd7FZR1sYVvAn+nN4NhFph3ptdrSW1hSmg==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10860,6 +10861,7 @@ packages:
       '@types/nise': 1.4.0
       '@types/nock': 10.0.3
       '@types/node': 8.10.50
+      '@types/query-string': 6.2.0
       '@typescript-eslint/eslint-plugin': 1.11.0_8d1711d609953acbf65aedec42f2b5c5
       '@typescript-eslint/parser': 1.11.0_eslint@5.16.0+typescript@3.5.3
       assert: 1.5.0
@@ -10897,7 +10899,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.18.1
-      query-string: 6.8.1
+      query-string: 5.1.1
       rimraf: 2.6.3
       rollup: 1.16.7
       rollup-plugin-commonjs: 10.0.1_rollup@1.16.7
@@ -10916,7 +10918,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-zgZeae63buyC+CgrzepqiRIz3HoDzWLT95FZ36cnoxg70L/MNxZ3lA0Hh4f7LudMDiSaVWw0WiMOci4cnu0ZAg==
+      integrity: sha512-mWuY5OZImZ9GGy7h2otuIgonajJJHiVfWXPqWB5mD/YArcWtFLqw8ozB3ZaRZrE7FQ6C9xR3jpeHwO3jA9jhlw==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10971,7 +10973,7 @@ packages:
       debug: 3.2.6
       is-buffer: 2.0.3
       jssha: 2.3.1
-      ms-rest: 2.5.2
+      ms-rest: 2.5.3
       ms-rest-azure: 2.6.0
       rhea: 1.0.8
       rimraf: 2.6.3
@@ -11036,6 +11038,7 @@ specifiers:
   '@types/node': ^8.0.0
   '@types/priorityqueuejs': ^1.0.1
   '@types/qs': ~6.5.3
+  '@types/query-string': 6.2.0
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
@@ -11126,7 +11129,7 @@ specifiers:
   promise: ^8.0.3
   puppeteer: ^1.11.0
   qs: 6.7.0
-  query-string: ^6.5.0
+  query-string: ^5.0.0
   requirejs: ^2.3.5
   rhea: ^1.0.4
   rhea-promise: ^0.1.15
