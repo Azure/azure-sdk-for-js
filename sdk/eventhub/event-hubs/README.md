@@ -252,6 +252,6 @@ directory for detailed examples on how to use this library to send and receive e
 
 ## Contributing
 
-For details on contributing to this library, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/CONTRIBUTING.md).
+For details on contributing to this library, see the [contributing section](./CONTRIBUTING.md).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/event-hubs/README.png)
