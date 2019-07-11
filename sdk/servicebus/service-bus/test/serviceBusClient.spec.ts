@@ -32,12 +32,10 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
-import { getEnvVars } from "./utils/envVarUtils";
 // import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
