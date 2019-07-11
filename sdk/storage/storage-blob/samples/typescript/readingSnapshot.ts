@@ -1,6 +1,6 @@
 /* 
   If you use BlobClient.download() to download an append blob which is being actively appended, 
-  you may geta 412 HTTP error, just like this issue: https://github.com/Azure/azure-storage-js/issues/51
+  you may get a 412 HTTP error, just like this issue: https://github.com/Azure/azure-storage-js/issues/51
 
   Recommend solution is to snapshot the append blob, and read from the snapshot blob.
 
