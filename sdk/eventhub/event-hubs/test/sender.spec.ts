@@ -236,6 +236,20 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await producer.send(eventDataBatch);
     });
 
+    it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
+    void
+  > {
+    try {
+      const producer = client.createProducer({ partitionId: "0" });
+      await producer.createBatch({ maxMessageSize: 2046528 });
+      throw new Error("Test Failure");
+    } catch (err) {
+      err.message.should.equal(
+        "Max message size is greater than maximum message size on the AMQP sender link."
+      );
+    }
+  });
+
     it("should throw when Partition key is different than the one provided in the send options", async function(): Promise<
       void
     > {

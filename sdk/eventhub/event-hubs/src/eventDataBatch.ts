@@ -29,10 +29,6 @@ export class EventDataBatch {
    */
   partitionKey?: string | undefined;
   /**
-   * @property The maximum size limit for the batch.
-   */
-  private readonly maxSizeLimit: number = 4 * 1024 * 1024;
-  /**
    * @property The maximum size allowed for the batch.
    */
   private readonly maxSize: number;
@@ -52,7 +48,7 @@ export class EventDataBatch {
    */
   constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey: string) {
     this._context = context;
-    this.maxSize = Math.min(maxSizeInBytes, this.maxSizeLimit);
+    this.maxSize = maxSizeInBytes;
     this.partitionKey = partitionKey;
     this.currentSize = 0;
   }

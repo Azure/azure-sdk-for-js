@@ -65,24 +65,25 @@ export class EventHubProducer {
    * @returns Promise<EventDataBatch>
    */
   async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
-    try {
-      if (!options) {
-        options = {};
-      }
-      let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
-      if (options.maxMessageSize && options.maxMessageSize > 0) {
-        maxMessageSize = options.maxMessageSize;
-      }
-      return new EventDataBatch(this._context, maxMessageSize, options.partitionKey!);
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while creating the sender  %s: %O",
-        this._context.connectionId,
-        this._context.config.entityPath,
-        err
-      );
-      throw err;
+    if (!options) {
+      options = {};
     }
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
+    if (options.maxMessageSize) {
+      if (options.maxMessageSize > maxMessageSize) {
+        const error = new Error(
+          "Max message size is greater than maximum message size on the AMQP sender link."
+        );
+        log.error(
+          "[%s] Max message size is greater than maximum message size on the AMQP sender link. %O",
+          this._context.connectionId,
+          error
+        );
+        throw error;
+      }
+      maxMessageSize = options.maxMessageSize;
+    }
+    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey!);
   }
 
   /**
