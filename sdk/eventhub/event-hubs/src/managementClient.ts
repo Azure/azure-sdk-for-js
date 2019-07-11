@@ -292,16 +292,18 @@ export class ManagementClient extends LinkEntity {
         options = {};
       }
 
+      const operationTimeoutInMs =
+        options.retryOptions == undefined ||
+          options.retryOptions.operationTimeoutInMs == undefined ||
+          options.retryOptions.operationTimeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+          ? Constants.defaultOperationTimeoutInSeconds * 1000
+          : options.retryOptions.operationTimeoutInMs;
+
       const sendRequestOptions: SendRequestOptions = {
         maxRetries: options.retryOptions && options.retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
-        timeoutInSeconds:
-          options.retryOptions == undefined ||
-          options.retryOptions.operationTimeoutInMs == undefined ||
-          options.retryOptions.operationTimeoutInMs < 0
-            ? Constants.defaultOperationTimeoutInSeconds
-            : options.retryOptions.operationTimeoutInMs / 1000,
+        timeoutInSeconds: operationTimeoutInMs / 1000,
         delayInSeconds:
           options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval >= 0
             ? options.retryOptions.retryInterval / 1000

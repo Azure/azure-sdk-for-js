@@ -454,6 +454,13 @@ export class EventHubSender extends LinkEntity {
       options = {};
     }
 
+    const operationTimeoutInMs =
+      options.retryOptions == undefined ||
+        options.retryOptions.operationTimeoutInMs == undefined ||
+        options.retryOptions.operationTimeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+        ? Constants.defaultOperationTimeoutInSeconds * 1000
+        : options.retryOptions.operationTimeoutInMs;
+
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
@@ -577,15 +584,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            options == undefined ||
-              options.retryOptions == undefined ||
-              options.retryOptions.operationTimeoutInMs == undefined ||
-              options.retryOptions.operationTimeoutInMs < 0
-              ? Constants.defaultOperationTimeoutInSeconds * 1000
-              : options.retryOptions.operationTimeoutInMs
-          );
+          waitTimer = setTimeout(actionAfterTimeout, operationTimeoutInMs);
           const delivery = this._sender!.send(message, tag, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
