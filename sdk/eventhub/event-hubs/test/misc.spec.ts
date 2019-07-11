@@ -38,7 +38,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     await client.close();
   });
 
-  it("should be able to send and receive a large message correctly", async function(): Promise<void> {
+  it("should be able to send and receive a large message correctly", async function(): Promise<
+    void
+  > {
     const bodysize = 220 * 1024;
     const partitionId = hubInfo.partitionIds[0];
     const msgString = "A".repeat(220 * 1024);
@@ -68,7 +70,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<void> {
+  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<
+    void
+  > {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = {
       id: "123-456-789",
@@ -105,7 +109,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive an array as a message correctly", async function(): Promise<void> {
+  it("should be able to send and receive an array as a message correctly", async function(): Promise<
+    void
+  > {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = [
       {
@@ -166,7 +172,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive batched messages correctly ", async function(): Promise<void> {
+  it("should be able to send and receive batched messages correctly ", async function(): Promise<
+    void
+  > {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
@@ -201,7 +209,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     }
   });
 
-  it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<void> {
+  it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<
+    void
+  > {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
@@ -254,7 +264,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     }
   });
 
-  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<void> {
+  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<
+    void
+  > {
     const msgToSendCount = 50;
     const partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
@@ -271,7 +283,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
       const sender = client.createProducer();
-      await sender.send([{ body: "Hello EventHub " + i }], { partitionKey: partitionKey.toString() });
+      await sender.send([{ body: "Hello EventHub " + i }], {
+        partitionKey: partitionKey.toString()
+      });
     }
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};

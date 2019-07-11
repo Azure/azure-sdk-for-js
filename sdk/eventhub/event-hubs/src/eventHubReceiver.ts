@@ -11,7 +11,14 @@ import {
   types,
   AmqpError
 } from "rhea-promise";
-import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
+import {
+  translate,
+  Constants,
+  MessagingError,
+  retry,
+  RetryOperationType,
+  RetryConfig
+} from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
@@ -250,7 +257,12 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const ehError = translate(receiverError);
-        log.error("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);
+        log.error(
+          "[%s] An error occurred for Receiver '%s': %O.",
+          this._context.connectionId,
+          this.name,
+          ehError
+        );
         if (!ehError.retryable) {
           if (receiver && !receiver.isItselfClosed()) {
             log.error(
@@ -268,7 +280,8 @@ export class EventHubReceiver extends LinkEntity {
           }
         } else {
           log.error(
-            "[%s] Since received error is retryable, we will NOT notify the user's " + "error handler.",
+            "[%s] Since received error is retryable, we will NOT notify the user's " +
+              "error handler.",
             this._context.connectionId
           );
         }
@@ -302,7 +315,8 @@ export class EventHubReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       if (receiverError) {
         log.error(
-          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
+            "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -350,7 +364,8 @@ export class EventHubReceiver extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error(
-          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
+            "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -489,7 +504,8 @@ export class EventHubReceiver extends LinkEntity {
       }
     } catch (err) {
       log.error(
-        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " + "'%s': %O",
+        "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
+          "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -534,7 +550,11 @@ export class EventHubReceiver extends LinkEntity {
   protected _deleteFromCache(): void {
     this._receiver = undefined;
     delete this._context.receivers[this.name];
-    log.error("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);
+    log.error(
+      "[%s] Deleted the receiver '%s' from the client cache.",
+      this._context.connectionId,
+      this.name
+    );
   }
 
   /**
@@ -578,7 +598,10 @@ export class EventHubReceiver extends LinkEntity {
           this.name,
           this.address
         );
-        log.receiver("Promise to create the receiver resolved. Created receiver with name: ", this.name);
+        log.receiver(
+          "Promise to create the receiver resolved. Created receiver with name: ",
+          this.name
+        );
         log.receiver(
           "[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId,

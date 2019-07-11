@@ -113,7 +113,11 @@ export class EventHubConsumer {
     if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
       return true;
     }
-    if (this._batchingReceiver && this._batchingReceiver.isOpen() && this._batchingReceiver.isReceivingMessages) {
+    if (
+      this._batchingReceiver &&
+      this._batchingReceiver.isOpen() &&
+      this._batchingReceiver.isReceivingMessages
+    ) {
       return true;
     }
     return false;
@@ -187,7 +191,9 @@ export class EventHubConsumer {
    *
    * @param [options] A set of options to apply to an event iterator.
    */
-  async *getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
+  async *getEventIterator(
+    options?: EventIteratorOptions
+  ): AsyncIterableIterator<ReceivedEventData> {
     if (!options) {
       options = {};
     }
@@ -195,7 +201,11 @@ export class EventHubConsumer {
     const maxMessageCount = 1;
     const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     while (true) {
-      const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.abortSignal);
+      const currentBatch = await this.receiveBatch(
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        options.abortSignal
+      );
       if (!currentBatch || !currentBatch.length) {
         continue;
       }

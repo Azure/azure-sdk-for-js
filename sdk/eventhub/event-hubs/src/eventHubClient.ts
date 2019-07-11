@@ -36,7 +36,7 @@ export interface RetryOptions {
    */
   retryInterval?: number;
   /**
- * Number of milliseconds to wait for each operation attempt to get completed within.
+ * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
  */
   operationTimeoutInMs?: number;
   // /**
@@ -224,7 +224,12 @@ export class EventHubClient {
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options -  A set of options to apply when configuring the client.
    */
-  constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
+  constructor(
+    host: string,
+    eventHubPath: string,
+    credential: TokenCredential,
+    options?: EventHubClientOptions
+  );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
@@ -294,7 +299,9 @@ export class EventHubClient {
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(`An error occurred while closing the connection "${this._context.connectionId}":\n${err}`);
+      log.error(
+        `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
+      );
       throw err;
     }
   }
@@ -401,7 +408,10 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+  async getPartitionProperties(
+    partitionId: string,
+    abortSignal?: AbortSignalLike
+  ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
@@ -427,10 +437,15 @@ export class EventHubClient {
     iothubConnectionString: string,
     options?: EventHubClientOptions
   ): Promise<EventHubClient> {
-    if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
+    if (
+      !iothubConnectionString ||
+      (iothubConnectionString && typeof iothubConnectionString !== "string")
+    ) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
+    const connectionString = await new IotHubClient(
+      iothubConnectionString
+    ).getEventHubConnectionString();
     return new EventHubClient(connectionString, options);
   }
 
