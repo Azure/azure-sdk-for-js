@@ -19,9 +19,9 @@ export class EventDataBatch {
    */
   private _context: ConnectionContext;
   /**
-   * @property Array of event data objects.
+   * @property Total length of events.
    */
-  private _events: EventData[] = [];
+  private _eventsLength: number;
   /**
    * @property A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
@@ -55,9 +55,10 @@ export class EventDataBatch {
     this._maxSizeInBytes = maxSizeInBytes;
     this._partitionKey = partitionKey;
     this._size = 0;
+    this._eventsLength = 0;
   }
 
-   /**
+  /**
    * @property A value that is hashed to produce a partition assignment.
    * @readonly
    */
@@ -73,14 +74,6 @@ export class EventDataBatch {
     return this._size;
   }
 
-   /**
-   * @property Array of event data objects.
-   * @readonly
-   */
-  get events(): EventData[] {
-    return this._events;
-  }
-
   /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * @param eventData  An individual event data object.
@@ -91,7 +84,7 @@ export class EventDataBatch {
     if (currentSize > this._maxSizeInBytes) {
       return false;
     }
-    this._events.push(eventData);
+    this._eventsLength++;
     this._size = currentSize;
     return true;
   }
@@ -107,7 +100,7 @@ export class EventDataBatch {
     amqpMessage.body = this._context.dataTransformer.encode(event.body);
 
     // Encode every amqp message and then convert every encoded message to amqp data section
-    this._encodedMessages[this._events.length] = message.encode(amqpMessage);
+    this._encodedMessages[this._eventsLength] = message.encode(amqpMessage);
 
     const batchMessage: AmqpMessage = {
       body: message.data_sections(this._encodedMessages)
@@ -123,7 +116,7 @@ export class EventDataBatch {
     if (encodedBatchMessage.length < this._maxSizeInBytes) {
       this.batchMessage = encodedBatchMessage;
     } else {
-      this._encodedMessages = [];
+      this._encodedMessages.pop();
     }
     return encodedBatchMessage.length;
   }
