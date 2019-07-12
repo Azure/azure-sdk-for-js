@@ -44,7 +44,7 @@ async function main(): Promise<void> {
     const scientist = listOfScientists[0];
     producer.send({ body: `${scientist.firstName} ${scientist.name}` });
 
-    console.log("Sending batch events...");
+    console.log("Sending multiple events...");
     const events: EventData[] = [];
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
