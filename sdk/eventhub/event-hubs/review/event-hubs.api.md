@@ -24,8 +24,8 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface BatchOptions {
-    maxMessageSize?: number | null;
-    partitionKey?: string | null;
+    maxMessageSize?: number;
+    partitionKey?: string;
 }
 
 export { DataTransformer }
@@ -47,10 +47,10 @@ export class EventDataBatch {
     // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
     // 
     // @internal
-    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey: string);
-    currentSize: number;
-    events: EventData[];
-    partitionKey?: string | undefined;
+    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
+    encodedBatchMessage: Buffer | undefined;
+    partitionKey?: string;
+    size: number;
     tryAdd(eventData: EventData): boolean;
 }
 
