@@ -180,32 +180,31 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = 3600;
-    const tokenRenewalMarginInSeconds = 900;
-    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
+    if (!this._tokenTimeout) {
+      return;
+    }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
         log.error(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           this._type,
           this.name,
           this.address,
           err
         );
       }
-    }, nextRenewalTimeout);
+    }, this._tokenTimeout);
     log.link(
       "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this._type,
       this.name,
       this.address,
-      nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString()
+      this._tokenTimeout / 1000,
+      new Date(Date.now() + this._tokenTimeout).toString()
     );
   }
 
