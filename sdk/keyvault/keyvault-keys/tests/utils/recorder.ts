@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import nise from "nise";
 import { delay as restDelay } from "@azure/ms-rest-js";
 import { retry as realRetry } from "./retry";
+import { isNode as coreIsNode } from "@azure/core-http";
 import queryString from "query-string";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
@@ -12,6 +13,8 @@ dotenv.config({ path: "../../.env" });
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
+
+export const isNode = coreIsNode;
 
 export function escapeRegExp(str: string): string {
   return encodeURIComponent(str).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
