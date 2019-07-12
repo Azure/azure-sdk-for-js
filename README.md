@@ -4,7 +4,7 @@
 | Component            | Build Status                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Management Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/138?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=138&branchName=master) |
-| Client Libraries     | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/45?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master)   |
+| Client Libraries     | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/614?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=614&branchName=master) |
 
 This repository contains official JavaScript libraries and TypeScript definitions for Azure services. For documentation go to [Azure SDK for JavaScript documentation](https://aka.ms/js-docs).
 
