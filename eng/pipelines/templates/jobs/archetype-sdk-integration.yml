@@ -42,14 +42,6 @@ jobs:
             ${{ if eq(matrixEntry.value.TestType, 'node') }}:
               TestResultsFiles: "**/test-results.xml"
 
-            # OSName:
-            ${{ if startsWith(matrixEntry.value.OSVmImage, 'ubuntu') }}:
-              OSName: "Linux"
-            ${{ if or(startsWith(matrixEntry.value.OSVmImage, 'vs'), startsWith(matrixEntry.value.OSVmImage, 'windows')) }}:
-              OSName: "Windows"
-            ${{ if startsWith(matrixEntry.value.OSVmImage, 'macOS') }}:
-              OSName: "MacOS"
-
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
 

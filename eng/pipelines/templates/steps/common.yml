@@ -5,10 +5,10 @@ steps:
     displayName: "Download verify_agent_os.py"
 
   - task: PythonScript@0
-    displayName: "Verify agent OS"
+    displayName: "Verify agent OS" # This also sets the friendly name in variable 'OSName'
     inputs:
       scriptPath: "$(Build.BinariesDirectory)/verify_agent_os.py"
-      arguments: $(OSName)
+      arguments: $(OSVmImage)
 
   - task: NodeTool@0
     inputs:
