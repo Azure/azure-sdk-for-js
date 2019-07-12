@@ -99,7 +99,7 @@ When you submit a pull request, a CLA-bot will automatically determine whether y
 decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot.
 You will only need to do this once across all repos using our CLA.
 
-For details on developer inner-loop workflow and contributing guide see the [contributing guide](../../../CONTRIBUTING.md)
+If you'd like to contribute to this library, please read the the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project has adopted the Microsoft Open Source Code of Conduct.
 For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional
