@@ -24,7 +24,7 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface BatchOptions {
-    maxMessageSize?: number;
+    maxMessageSizeInBytes?: number;
     partitionKey?: string;
 }
 
@@ -49,8 +49,9 @@ export class EventDataBatch {
     // @internal
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     batchMessage: Buffer | undefined;
-    partitionKey?: string;
-    size: number;
+    readonly events: EventData[];
+    readonly partitionKey: string | undefined;
+    readonly size: number | undefined;
     tryAdd(eventData: EventData): boolean;
 }
 
