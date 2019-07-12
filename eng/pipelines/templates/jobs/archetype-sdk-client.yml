@@ -1,5 +1,5 @@
 jobs:
-  - job: Prepare
+  - job: "Build"
     variables:
       - template: ../variables/globals.yml
 
@@ -17,21 +17,6 @@ jobs:
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - job: "Build"
-    variables:
-      - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
-
-    dependsOn:
-      - Prepare
-
-    pool:
-      vmImage: "$(OSVmImage)"
-
-    steps:
-      - template: ../steps/common.yml
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -62,13 +47,8 @@ jobs:
 
   - job: "Analyze"
 
-    dependsOn:
-      - Prepare
-
     variables:
       - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -76,10 +56,9 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      - task: UsePythonVersion@0
-        displayName: "Use Python 3.6"
-        inputs:
-          versionSpec: "3.6"
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           pip install setuptools wheel
@@ -100,9 +79,6 @@ jobs:
         displayName: "Component Detection"
 
   - job: "UnitTest"
-
-    dependsOn:
-      - Prepare
 
     strategy:
       matrix:
@@ -139,11 +115,13 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     steps:
       - template: ../steps/common.yml
+
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           node common/scripts/install-run-rush.js install

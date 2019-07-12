@@ -4,6 +4,11 @@ steps:
     workingDirectory: "$(Build.BinariesDirectory)"
     displayName: "Download verify_agent_os.py"
 
+  - task: UsePythonVersion@0
+    displayName: "Use Python 3.6"
+    inputs:
+      versionSpec: "3.6"
+
   - task: PythonScript@0
     displayName: "Verify agent OS" # This also sets the friendly name in variable 'OSName'
     inputs:
@@ -13,8 +18,8 @@ steps:
   - task: NodeTool@0
     inputs:
       versionSpec: "$(NodeVersion)"
-    displayName: "Install Node.js $(NodeVersion)"
+    displayName: "Use NodeJS $(NodeVersion)"
 
   - script: |
       npm install -g npm@6.9.0
-    displayName: "Install npm version 6.9.0"
+    displayName: "Install npm 6.9.0"
