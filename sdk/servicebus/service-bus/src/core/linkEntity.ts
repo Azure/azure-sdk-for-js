@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock, TokenType } from "@azure/core-amqp";
+import { defaultLock, TokenType, AccessToken, Constants, SharedKeyCredential } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
@@ -82,6 +82,11 @@ export class LinkEntity {
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
+   * @property _tokenTimeout Indicates token timeout
+   * @protected
+   */
+  protected _tokenTimeout?: number;
+  /**
    * Creates a new ClientEntity instance.
    * @constructor
    * @param {ClientEntityContext} context The connection context.
@@ -118,7 +123,24 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
       return this._context.namespace.cbsSession.init();
     });
-    const tokenObject = await this._context.namespace.tokenCredential.getToken(this.audience);
+
+    let tokenObject: AccessToken;
+    let tokenType: TokenType;
+    if (this._context.namespace.tokenCredential instanceof SharedKeyCredential) {
+      tokenObject = this._context.namespace.tokenCredential.getToken(this.audience);
+      tokenType = TokenType.CbsTokenTypeSas;
+      // renew sas token in every 45 minutess
+      this._tokenTimeout = (3600 - 900) * 1000;
+    } else {
+      const aadToken = await this._context.namespace.tokenCredential.getToken(Constants.aadServiceBusScope);
+      if (!aadToken) {
+        throw new Error(`Failed to get token from the provided "TokenCredential" object`);
+      }
+      tokenObject = aadToken;
+      tokenType = TokenType.CbsTokenTypeJwt;
+      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
+    }
+    
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.namespace.connectionId,
@@ -138,7 +160,7 @@ export class LinkEntity {
       throw new Error("Token cannot be null");
     }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, TokenType.CbsTokenTypeSas);
+      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
