@@ -38,11 +38,11 @@ jobs:
               TestResultsFiles: "**/test-results.xml"
 
             # OSName:
-            ${{ if eq(matrixEntry.value.OSVmImage, 'ubuntu-16.04') }}:
+            ${{ if startsWith(matrixEntry.value.OSVmImage, 'ubuntu') }}:
               OSName: "Linux"
-            ${{ if eq(matrixEntry.value.OSVmImage, 'vs2017-win2016') }}:
+            ${{ if or(startsWith(matrixEntry.value.OSVmImage, 'vs'), startsWith(matrixEntry.value.OSVmImage, 'windows')) }}:
               OSName: "Windows"
-            ${{ if eq(matrixEntry.value.OSVmImage, 'macOS-10.13') }}:
+            ${{ if startsWith(matrixEntry.value.OSVmImage, 'macOS') }}:
               OSName: "MacOS"
 
             # Remaining entries from the matrix object
