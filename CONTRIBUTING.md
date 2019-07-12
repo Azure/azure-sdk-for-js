@@ -1,18 +1,41 @@
-# How to contribute to the Azure SDK for Javascript
+# Contributing
 
-You found something you'd like to change? Great! Please submit a pull request and we'll do our best to work with you to get your code included into the project.
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
-1. Commit your changes (`git commit -am 'Add some feature'`)
-2. Push to the branch (`git push origin my-new-feature`)
-3. Create new Pull Request
+When you submit a pull request, a CLA bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+# How to contribute to the Azure SDK for Javascript
 
-If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
+There are many ways that you can contribute to the Azure Event Hubs client project:
+
+- Submit a bug
+- Submit a code fix for a bug
+- Submit additions or modifications to the documentation
+- Submit a feature request
+
+All code submissions will be reviewed and tested by the team, and those that meet a high bar for both quality and design/roadmap appropriateness will be merged into the source. Be sure to follow the existing file/folder structure when adding new boards or sensors.
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
+
+## Things to keep in mind when contributing
+
+Some guidance for when you make a contribution:
+
+- Add/update unit tests and code as required by your change
+- Make sure you run all the unit tests on the affected platform(s)/languages. If the change is in common code, generally running on one platform would be acceptable.
+- Run end-to-end tests or simple sample code to make sure the lib works in an end-to-end scenario.
+
+## Big contributions
+
+If your contribution is significantly big it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
 
 ## Project orchestration
 
@@ -33,6 +56,7 @@ can continue to contribute to the project using the standard `npm` workflow, ado
 Want to get started hacking on the code? Super! Follow these instructions to get up and running.
 
 First, make sure you have the prerequisites installed and available on your `$PATH`:
+
 - Git
 - Node 8.x or higher
 - Rush 5.7.3 or higher (install / update globally via `npm install -g @microsoft/rush`)
@@ -44,14 +68,16 @@ Next, get the code:
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 4. Install and link all dependencies (`rush update`)
 
-
 ### Making the switch
+
 If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
 
 ### Warnings for VSCode users
+
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
 
 The current version of VSCode for Windows has a bug that may cause a "file locked" error when you run any Rush command that modifies your node_modules directory:
+
 ```
 ERROR: Error: Error: EPERM: operation not permitted, mkdir 'C:\XXXXX\node_modules'
 Often this is caused by a file lock from a process such as your text editor, command prompt, or "gulp serve"
@@ -60,6 +86,7 @@ Often this is caused by a file lock from a process such as your text editor, com
 This bug is fixed in the Insiders build of VSCode (1.34), and will be included in the next release. Until then, you can resolve this by running the "Typescript: Restart TS server" command from the Command Palette to release the lock on the files.
 
 ### Warnings for Windows users
+
 Git for Windows has a bug where repository files may be unintentionally removed by `git clean -df` when a directory is locally linked. Because Rush creates local links between packages, you may encounter this. It's highly recommended to use the `rush reset-workspace` command to get your working directory back to a clean state instead. If you prefer to run `git clean -df` manually, you must first run `rush unlink` so that the operation can be performed safely.
 
 ## Inner loop developer workflow with Rush
@@ -104,6 +131,7 @@ By default, Rush only displays things written to `STDERR`. If you want to see th
 Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
 
 All projects have at least the following scripts:
+
 - `audit`: Run `npm audit` on the project (with some workarounds for Rush)
 - `build`: Build the project's production artifacts (Node and browser bundles)
 - `build:test`: Build the project's test artifacts only
@@ -124,6 +152,7 @@ All projects have at least the following scripts:
 - `unit-test`: Execute all unit tests
 
 Projects may optionally have the following scripts:
+
 - `extract-api`: Run API Extractor to show API issues and generate API reports
 
 ### Getting back to a clean state
@@ -137,7 +166,7 @@ If you want to get back to a completely clean state, you can instead run `rush r
 Generally speaking, the following commands are roughly equivalent:
 
 | NPM command                          | Rush command                         | Rush command effect                                              |
-|------------------------------------- | ------------------------------------ | ---------------------------------------------------------------- |
+| ------------------------------------ | ------------------------------------ | ---------------------------------------------------------------- |
 | `npm install`                        | `rush update`                        | Install dependencies for all projects in the Rush workspace      |
 | `npm install --save[-dev] <package>` | `rush add -p <package> [--dev]`      | Add or update a dependency in the current project                |
 | `npm build`                          | `rush [re]build`                     | Build all projects in the Rush workspace                         |
@@ -155,11 +184,11 @@ Generally speaking, the following commands are roughly equivalent:
 
 To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/repo-structure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
-Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append ` 2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
+Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
 In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `audit`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that performs steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 
-Because Rush uses PNPM to download and manage dependencies, it's ***especially*** important to make sure that none of your package scripts are calling `npm install` when your library is built via the Rush toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
+Because Rush uses PNPM to download and manage dependencies, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the Rush toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
 
 ### Issues with Rollup
 
@@ -178,6 +207,7 @@ equal is not exported by ..\..\..\common\temp\node_modules\.registry.npmjs.org\a
 ```
 
 This is due to an open issue with one of Rollup's plugins (if you want the details, refer to this [GitHub issue](https://github.com/rollup/rollup-plugin-node-resolve/issues/94)). To work around the issue, locate the Rollup configuration object for your browser bundle and modify the configuration for the nodeResolve plugin to match the following:
+
 ```
 nodeResolve({
   mainFields: ['module', 'browser'],
