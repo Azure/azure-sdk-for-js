@@ -21,8 +21,8 @@
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "mocha --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- dist-test/index.node.js",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
     "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o template-lintReport.html || exit 0",
@@ -31,8 +31,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha test-dist/**/*.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
