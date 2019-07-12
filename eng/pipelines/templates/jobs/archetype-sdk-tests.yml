@@ -3,27 +3,27 @@ parameters:
   EnvVars: []
   MaxParallel: 0
   Matrix:
-    Linux_Node10X:
+    Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
-    Windows_Node10X:
+    Windows_Node10:
       OSVmImage: "vs2017-win2016"
       TestType: "node"
-    Mac_Node10X:
+    macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "node"
-    Browser_Linux_Node10X:
+    Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
-    Browser_Windows_Node10X:
+    Browser_Windows_Node10:
       OSVmImage: "vs2017-win2016"
       TestType: "browser"
-    Browser_Mac_Node10X:
+    Browser_macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "browser"
 
 jobs:
-  - job: "Test"
+  - job: "IntegrationTest"
     variables:
       - template: ../variables/globals.yml
     strategy:

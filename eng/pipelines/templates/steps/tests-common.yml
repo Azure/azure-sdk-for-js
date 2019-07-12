@@ -43,7 +43,7 @@ steps:
 
   - task: PublishTestResults@2
     inputs:
-      testRunTitle: "${{ parameters.OSName }} - ${{ parameters.TestType }} - Tests [Node ${{ parameters.NodeVersion }}]"
+      testRunTitle: "${{ parameters.OSName }} - ${{ parameters.TestType }} - Integration Tests [Node ${{ parameters.NodeVersion }}]"
       testResultsFiles: ${{ parameters.TestResultsFiles }}
     condition: succeededOrFailed()
     displayName: "Publish Test Results: ${{ parameters.OSName }} - ${{ parameters.TestType }} - Tests [Node ${{ parameters.NodeVersion }}]"

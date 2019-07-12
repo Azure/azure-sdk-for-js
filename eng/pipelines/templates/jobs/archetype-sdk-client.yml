@@ -99,7 +99,7 @@ jobs:
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
 
-  - job: "Test"
+  - job: "UnitTest"
 
     dependsOn:
       - Prepare
@@ -169,13 +169,13 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) Node $(NodeVersion)"
+          testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
         condition: succeededOrFailed()
-        displayName: "Publish test results"
+        displayName: "Publish NodeJS unit test results"
 
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: "$(OSName) Browser $(NodeVersion)"
+          testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
         condition: succeededOrFailed()
-        displayName: "Publish test results"
+        displayName: "Publish browser unit test results"
