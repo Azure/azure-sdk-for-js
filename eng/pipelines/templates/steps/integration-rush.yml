@@ -1,5 +1,7 @@
 parameters:
+  PackageName: ""
   PreIntegrationSteps: ""
+  TestType: ""
   EnvVars: []
 
 steps:
@@ -8,17 +10,17 @@ steps:
     displayName: "Install dependencies"
 
   - script: |
-      node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+      node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
     displayName: "Build libraries"
 
   - script: |
-      node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
+      node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
     displayName: "Build test assets"
 
   - ${{if ne(parameters.PreIntegrationSteps, '')}}:
     - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
   - script: |
-      node common/scripts/install-run-rush.js integration-test --verbose $(GeneratedPackageTargets)
+      node common/scripts/install-run-rush.js integration-test:${{parameters.TestType}} -t "${{parameters.PackageName}}" --verbose
     displayName: "Integration test libraries"
     env: ${{parameters.EnvVars}}

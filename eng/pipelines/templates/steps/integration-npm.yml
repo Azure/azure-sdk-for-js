@@ -1,6 +1,7 @@
 parameters:
   PackagePath: ""
   PreIntegrationSteps: ""
+  TestType: ""
   EnvVars: []
 
 steps:
@@ -23,7 +24,7 @@ steps:
     - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
   - script: |
-      npm run integration-test
+      npm run integration-test:${{parameters.TestType}}
     displayName: "Integration test libraries"
     workingDirectory: "${{parameters.PackagePath}}"
     env: ${{parameters.EnvVars}}

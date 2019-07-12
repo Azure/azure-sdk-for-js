@@ -29,9 +29,10 @@ jobs:
       PackagePath: "sdk/cosmosdb/cosmos/"
       Toolchain: npm
       Matrix:
-        Windows:
+        Windows_Node6:
           OSVmImage: "vs2017-win2016"
           NodeVersion: "6.x"
+          TestType: "node"
       PreIntegrationSteps: cosmos-integration-public
       EnvVars:
         ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
