@@ -198,6 +198,9 @@ await client.getPartitionInformation("partitionId");
 
 ## Troubleshooting
 
+### AMQP Dependencies
+The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+
 ### Enable logs
 
 You can set the following environment variable to get the debug logs when using this library.
@@ -252,6 +255,6 @@ directory for detailed examples on how to use this library to send and receive e
 
 ## Contributing
 
-For details on contributing to this library, see the [contributing section](./CONTRIBUTING.md).
+If you'd like to contribute to this library, please read the the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/event-hubs/README.png)
