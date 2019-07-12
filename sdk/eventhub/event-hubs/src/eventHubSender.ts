@@ -30,6 +30,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 
 /**
  * @ignore
@@ -464,12 +465,9 @@ export class EventHubSender extends LinkEntity {
   private _trySendBatch(
     message: AmqpMessage | Buffer,
     tag: any,
-    options?: SendOptions & EventHubProducerOptions,
+    options: SendOptions & EventHubProducerOptions = {},
     format?: number
   ): Promise<void> {
-    if (!options) {
-      options = {};
-    }
 
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
@@ -610,10 +608,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            Constants.defaultOperationTimeoutInSeconds * 1000
-          );
+          waitTimer = setTimeout(actionAfterTimeout, getRetryAttemptTimeoutInMs(options.retryOptions));
           const delivery = this._sender!.send(message, tag, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",

@@ -126,10 +126,6 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:message-wait-timeout" = "MessageWaitTimeout",
   /**
-   * Error is thrown when timeout happens for the said operation.
-   */
-  "amqp:operation-timeout" = "OperationTimeoutError",
-  /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
   "com.microsoft:argument-out-of-range" = "ArgumentOutOfRangeError",
@@ -332,10 +328,6 @@ export enum ErrorNameConditionMapper {
    */
   MessageWaitTimeout = "com.microsoft:message-wait-timeout",
   /**
-   * Error is thrown when timeout happens for the said operation.
-   */
-  OperationTimeoutError = "amqp:operation-timeout",
-  /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
   ArgumentOutOfRangeError = "com.microsoft:argument-out-of-range",
@@ -489,6 +481,7 @@ export const retryableErrors: string[] = [
   "ServerBusyError",
   "ServiceUnavailableError",
   "OperationCancelledError",
+  "OperationTimeoutError",
   "SenderBusyError",
   "MessagingError",
   "DetachForcedError",
@@ -559,6 +552,18 @@ export function translate(err: AmqpError | Error): MessagingError {
   }
 
   let error: MessagingError = err as MessagingError;
+
+  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
+  // Since reasons for such failures can be transient, this is treated as a retryable error.
+  if (
+    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+    // Must do a name check until OperationTimeoutError is updated, and that doesn't break compatibility
+    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    (err as Error).name === "OperationTimeoutError"
+  ) {
+    error.retryable = true;
+    return error;
+  }
 
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
