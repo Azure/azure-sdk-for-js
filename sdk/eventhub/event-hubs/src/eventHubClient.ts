@@ -101,7 +101,7 @@ export interface BatchOptions {
    * @property
    * The maximum size allowed for the batch.
    */
-  maxMessageSize?: number;
+  maxMessageSizeInBytes?: number;
 }
 
 /**

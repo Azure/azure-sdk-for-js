@@ -206,10 +206,14 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       for (let i = 1; i <= totalMessages; i++) {
         const isAdded = eventDataBatch.tryAdd({ body: `${Buffer.from("Z".repeat(650000))}` });
         if (!isAdded) {
-          console.log("Unable to add all events to the batch");
+          debug(`Unable to add ${i} event to the batch`);
           break;
         }
       }
+      should.equal(
+        eventDataBatch.events.length !== totalMessages,
+        true,
+        "Unable to add all events to the batch")
       await producer.send(eventDataBatch);
       await producer.close();
     });
@@ -226,7 +230,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
       const producer = client.createProducer({ partitionId: "0" });
-      const eventDataBatch = await producer.createBatch({ maxMessageSize: 4096 });
+      const eventDataBatch = await producer.createBatch({ maxMessageSizeInBytes: 4096 });
       for (let i = 0; i < 5; i++) {
         eventDataBatch.tryAdd({ body: `Hello World ${i}` });
       }
@@ -239,7 +243,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   > {
     try {
       const producer = client.createProducer({ partitionId: "0" });
-      await producer.createBatch({ maxMessageSize: 2046528 });
+      await producer.createBatch({ maxMessageSizeInBytes: 2046528 });
       throw new Error("Test Failure");
     } catch (err) {
       // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)

@@ -27,7 +27,7 @@ export class EventDataBatch {
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
-  partitionKey?: string;
+  private _partitionKey?: string;
   /**
    * @property The maximum size allowed for the batch.
    */
@@ -35,7 +35,7 @@ export class EventDataBatch {
   /**
    * @property Current size of the batch in bytes.
    */
-  size: number;
+  private _size: number;
   /**
    * @property Encoded amqp messages.
    */
@@ -53,8 +53,32 @@ export class EventDataBatch {
   constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this.partitionKey = partitionKey;
-    this.size = 0;
+    this._partitionKey = partitionKey;
+    this._size = 0;
+  }
+
+   /**
+   * @property A value that is hashed to produce a partition assignment.
+   * @readonly
+   */
+  get partitionKey(): string | undefined {
+    return this._partitionKey;
+  }
+
+  /**
+   * @property Size of a batch of events.
+   * @readonly
+   */
+  get size(): number | undefined {
+    return this._size;
+  }
+
+   /**
+   * @property Array of event data objects.
+   * @readonly
+   */
+  get events(): EventData[] {
+    return this._events;
   }
 
   /**
@@ -68,7 +92,7 @@ export class EventDataBatch {
       return false;
     }
     this._events.push(eventData);
-    this.size = currentSize;
+    this._size = currentSize;
     return true;
   }
 
@@ -78,21 +102,19 @@ export class EventDataBatch {
    * @returns number
    */
   private getEventBatchSize(event: EventData): number {
-    let messages: AmqpMessage;
     // Convert EventData to AmqpMessage.
-    const amqpMessage = toAmqpMessage(event, this.partitionKey);
+    const amqpMessage = toAmqpMessage(event, this._partitionKey);
     amqpMessage.body = this._context.dataTransformer.encode(event.body);
-    messages = amqpMessage;
 
     // Encode every amqp message and then convert every encoded message to amqp data section
-    this._encodedMessages[this._events.length] = message.encode(messages);
+    this._encodedMessages[this._events.length] = message.encode(amqpMessage);
 
-    let batchMessage: AmqpMessage = {
+    const batchMessage: AmqpMessage = {
       body: message.data_sections(this._encodedMessages)
     };
 
-    if (messages.message_annotations) {
-      batchMessage.message_annotations = messages.message_annotations;
+    if (amqpMessage.message_annotations) {
+      batchMessage.message_annotations = amqpMessage.message_annotations;
     }
 
     const encodedBatchMessage = message.encode(batchMessage);
@@ -100,6 +122,8 @@ export class EventDataBatch {
     // this.encodedBatchMessage will be used for final send operation
     if (encodedBatchMessage.length < this._maxSizeInBytes) {
       this.batchMessage = encodedBatchMessage;
+    } else {
+      this._encodedMessages = [];
     }
     return encodedBatchMessage.length;
   }

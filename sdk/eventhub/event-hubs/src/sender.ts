@@ -71,17 +71,17 @@ export class EventHubProducer {
       options = {};
     }
     let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
-    if (options.maxMessageSize) {
-      if (options.maxMessageSize > maxMessageSize) {
+    if (options.maxMessageSizeInBytes) {
+      if (options.maxMessageSizeInBytes > maxMessageSize) {
         const error = new Error(
-          `Max message size (${options.maxMessageSize} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+          `Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
         log.error(
-          `[${this._context.connectionId}] Max message size (${options.maxMessageSize} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+          `[${this._context.connectionId}] Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
         );
         throw error;
       }
-      maxMessageSize = options.maxMessageSize;
+      maxMessageSize = options.maxMessageSizeInBytes;
     }
     return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
   }
