@@ -56,7 +56,7 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 const clientId = process.env["CLIENT_ID"] || "";
 const clientSecret = process.env["CLIENT_SECRET"] || "";
 const tenantId = process.env["TENANT_ID"] || "";
-const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
 
 const url = `https://${vaultName}.vault.azure.net`;
 const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
@@ -64,7 +64,7 @@ const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
   clientSecret,
   tenantId,
   {
-    tokenAudience: 'https://vault.azure.net'
+    tokenAudience: "https://vault.azure.net"
   }
 );
 
@@ -75,7 +75,6 @@ const client = new SecretsClient(url, credential);
 
 > Soon.
 
- 
 ## Examples
 
 The following sections provide code snippets that cover some of the
@@ -142,6 +141,7 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
 ### Logging to a file
 
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
     node your-test-script.js > out.log 2>debug.log
@@ -151,10 +151,11 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
     node your-test-script.js >out.log 2>&1
     ```
   - Logging statements from your test script and the sdk go to the same file `out.log`.
+
     ```bash
       node your-test-script.js &> out.log
     ```
-    
+
 ## Next steps
 
 Please take a look at the
@@ -171,7 +172,7 @@ When you submit a pull request, a CLA-bot will automatically determine whether y
 a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
 
-If you'd like to contribute to this library, please read the the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
