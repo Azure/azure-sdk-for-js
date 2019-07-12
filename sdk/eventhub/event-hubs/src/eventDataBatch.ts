@@ -43,7 +43,7 @@ export class EventDataBatch {
   /**
    * @property Encoded batch message.
    */
-  encodedBatchMessage: Buffer | undefined;
+  batchMessage: Buffer | undefined;
 
   /**
    * @constructor
@@ -99,7 +99,7 @@ export class EventDataBatch {
 
     // this.encodedBatchMessage will be used for final send operation
     if (encodedBatchMessage.length < this._maxSizeInBytes) {
-      this.encodedBatchMessage = encodedBatchMessage;
+      this.batchMessage = encodedBatchMessage;
     }
     return encodedBatchMessage.length;
   }

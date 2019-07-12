@@ -48,7 +48,7 @@ export class EventDataBatch {
     // 
     // @internal
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
-    encodedBatchMessage: Buffer | undefined;
+    batchMessage: Buffer | undefined;
     partitionKey?: string;
     size: number;
     tryAdd(eventData: EventData): boolean;

@@ -32,8 +32,6 @@ async function main(): Promise<void> {
   const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   const producer = client.createProducer({ partitionId: partitionIds[0] });
-  const eventDatabatch = await producer.createBatch();
-  const events: EventData[] = [];
   try {
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
@@ -46,23 +44,25 @@ async function main(): Promise<void> {
     const scientist = listOfScientists[0];
     producer.send({ body: `${scientist.firstName} ${scientist.name}` });
 
-    console.log("Creating and sending batch events...");
-    for (let index = 0; index < listOfScientists.length; index++) {
-      const scientist = listOfScientists[index];
-      const isAdded = eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
-      if (!isAdded) {
-        console.log(`Unable to add event #{index} to the batch`);
-        break;
-      }
-    }
-    await producer.send(eventDatabatch);
-
     console.log("Sending batch events...");
+    const events: EventData[] = [];
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
       events.push({ body: `${scientist.firstName} ${scientist.name}` });
     }
     await producer.send(events);
+
+    console.log("Creating and sending batch events...");
+    const eventDatabatch = await producer.createBatch();
+    for (let index = 0; index < listOfScientists.length; index++) {
+      const scientist = listOfScientists[index];
+      const isAdded = eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
+      if (!isAdded) {
+        console.log(`Unable to add event ${index} to the batch`);
+        break;
+      }
+    }
+    await producer.send(eventDatabatch);
 
     await producer.close();
   } finally {
