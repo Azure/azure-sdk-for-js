@@ -18,30 +18,30 @@
        tab. Here, assign "owner" role to the registered application.
 */
 
-// import { ServiceBusClient } from "@azure/service-bus";
-// import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
+import { ServiceBusClient } from "@azure/service-bus";
+import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 
-// // Define Service Bus Endpoint here and related entity names here
-// const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
+// Define Service Bus Endpoint here and related entity names here
+const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
 
-// // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
-// const clientId = "";
-// const clientSecret = "";
-// const tenantId = "";
+// Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
+const clientId = "";
+const clientSecret = "";
+const tenantId = "";
 
-// async function main(): Promise<void> {
-//   const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
-//     tokenAudience: "https://servicebus.azure.net/"
-//   });
+async function main(): Promise<void> {
+  const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
+    tokenAudience: "https://servicebus.azure.net/"
+  });
 
-//   const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-//   /*
-//    Refer to other samples, and place your code here
-//    to create queue clients, and send/receive messages
-//   */
-//   await sbClient.close();
-// }
+  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  /*
+   Refer to other samples, and place your code here
+   to create queue clients, and send/receive messages
+  */
+  await sbClient.close();
+}
 
-// main().catch((err) => {
-//   console.log("Error occurred: ", err);
-// });
+main().catch((err) => {
+  console.log("Error occurred: ", err);
+});
