@@ -12,7 +12,7 @@ const input = "dist-esm/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "fs", "fs-extra"];
+  const externalNodeBuiltins = ["fs-extra"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -41,9 +41,6 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    // mark assert as external
-    baseConfig.external.push("assert", "fs");
-
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
@@ -58,13 +55,12 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/ms-rest-js", "fs-extra"],
+    external: ["fs-extra"],
     output: {
       file: "browser/azure-test-utils-recorder.js",
       format: "umd",
-      name: "ExampleClient",
-      sourcemap: true,
-      globals: { "@azure/ms-rest-js": "msRest" }
+      name: "TestUtilsRecorder",
+      sourcemap: true
     },
     preserveSymlinks: false,
     plugins: [
@@ -82,12 +78,6 @@ export function browserConfig(test = false, production = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
-      cjs({
-        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
-        // modules with built-in names must have a trailing slash.
-        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-        namedExports: { "events/": ["EventEmitter"] }
-      }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
   };
@@ -97,8 +87,6 @@ export function browserConfig(test = false, production = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
