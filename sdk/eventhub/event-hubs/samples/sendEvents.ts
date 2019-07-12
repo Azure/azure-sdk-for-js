@@ -62,7 +62,7 @@ async function main(): Promise<void> {
       const scientist = listOfScientists[index];
       events.push({ body: `${scientist.firstName} ${scientist.name}` });
     }
-    await producer.send(eventDatabatch);
+    await producer.send(events);
 
     await producer.close();
   } finally {
