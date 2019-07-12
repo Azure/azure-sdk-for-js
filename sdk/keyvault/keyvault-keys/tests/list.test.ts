@@ -41,8 +41,8 @@ describe("Keys client - list keys in various ways", () => {
 
     keySuffix = uniqueString();
     setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording) =>
+      (recording: any): any => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ]);
 
@@ -61,7 +61,7 @@ describe("Keys client - list keys in various ways", () => {
   // The tests follow
 
   it("can get the versions of a key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
     for await (const version of client.listKeyVersions(keyName)) {
@@ -73,7 +73,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("can get the versions of a key (paged)", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
     for await (const page of client.listKeyVersions(keyName).byPage()) {
@@ -91,7 +91,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list 0 versions of a non-existing key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
     for await (const version of client.listKeyVersions(keyName)) {
       assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
@@ -101,7 +101,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list 0 versions of a non-existing key (paged)", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
     for await (const page of client.listKeyVersions(keyName).byPage()) {
       for (const version of page) {
@@ -117,7 +117,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("can get several inserted keys", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -138,7 +138,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("can get several inserted keys (paged)", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -161,7 +161,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list deleted keys", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -188,7 +188,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list deleted keys (paged)", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");

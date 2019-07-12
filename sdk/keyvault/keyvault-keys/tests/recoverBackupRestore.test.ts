@@ -41,8 +41,8 @@ describe("Keys client - restore keys and recover backups", () => {
 
     keySuffix = uniqueString();
     setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording) =>
+      (recording: any): any => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ]);
 
@@ -61,7 +61,7 @@ describe("Keys client - restore keys and recover backups", () => {
   // The tests follow
 
   it("can recover a deleted key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
     const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
@@ -73,7 +73,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("fails if one tries to recover a non-existing deleted key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
       await client.recoverDeletedKey(keyName);
@@ -85,16 +85,16 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can generate a backup of a key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
-    assert.ok(result.length > 8300, "Unexpected length of buffer from backupKey()");
+    assert.ok(result!.length > 8300, "Unexpected length of buffer from backupKey()");
     await testClient.flushKey(keyName);
   });
 
   it("fails to generate a backup of a non-existing key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
       await client.backupKey(keyName);
@@ -106,11 +106,11 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can restore a key with a given backup", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await testClient.flushKey(keyName);
-    await retry(async () => client.restoreKey(backup));
+    await retry(async () => client.restoreKey(backup as Uint8Array));
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
@@ -120,7 +120,7 @@ describe("Keys client - restore keys and recover backups", () => {
     const backup = Buffer.alloc(8693);
     let error;
     try {
-      await client.restoreKey(backup);
+      await client.restoreKey(backup as Uint8Array);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

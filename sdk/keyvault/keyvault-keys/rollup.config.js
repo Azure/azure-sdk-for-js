@@ -1,80 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import cjs from "rollup-plugin-commonjs";
-
-/**
- * @type {import('rollup').RollupFileOptions}
- */
-
-const pkg = require("./package.json");
-const version = pkg.version;
-const banner = [
-  "/*!",
-  " * Copyright (c) Microsoft and contributors. All rights reserved.",
-  " * Licensed under the MIT License. See License.txt in the project root for",
-  " * license information.",
-  " * ",
-  ` * Azure KeyVault Keys SDK for JavaScript - ${version}`,
-  " */"
-].join("\n");
-
-const depNames = Object.keys(pkg.dependencies);
-const input = "dist-esm/index.js";
-
-function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["url"];
-  const baseConfig = {
-    input: input,
-    external: depNames.concat(externalNodeBuiltins),
-    output: {
-      file: "dist/index.js",
-      format: "cjs",
-      name: "Azure.Keyvault.Keys",
-      sourcemap: true,
-      banner: banner
-    },
-    plugins: [nodeResolve({ preferBuiltins: true }), cjs()]
-  };
-
-  return baseConfig;
-}
-
-function browserConfig(test = false) {
-  const baseConfig = {
-    input: input,
-    output: {
-      file: "browser/index.js",
-      format: "umd",
-      name: "Azure.Keyvault.Keys",
-      sourcemap: true,
-      globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
-      },
-      banner: banner
-    },
-    plugins: [
-      nodeResolve({
-        preferBuiltins: false,
-        browser: true,
-        module: true
-      }),
-      cjs()
-    ]
-  };
-
-  return baseConfig;
-}
+import * as base from "./rollup.base.config";
 
 const inputs = [];
 
 if (!process.env.ONLY_BROWSER) {
-  inputs.push(nodeConfig());
+  inputs.push(base.nodeConfig());
 }
 
+// Disable this until we are ready to run rollup for the browser.
 if (!process.env.ONLY_NODE) {
-  inputs.push(browserConfig());
+  inputs.push(base.browserConfig());
+  inputs.push(base.browserConfig(false, true));
 }
 
 export default inputs;

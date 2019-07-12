@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es6" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
+    "target": "es5" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
     "module": "es6" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
-    "lib": [] /* lib dependencies are triple-slash directives in lib/index.ts */,
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
     "sourceMap": true /* Generates corresponding '.map' file. */,
@@ -34,6 +34,6 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "types/**", "./samples/**/*.ts", "./test/perf/azure-sb-package/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./tests/**/*.ts"]
 }
