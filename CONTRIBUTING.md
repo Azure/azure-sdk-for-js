@@ -25,10 +25,6 @@ All code submissions will be reviewed and tested by the team, and those that mee
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
 
-## Big contributions
-
-If your contribution is significantly big it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
-
 ## Things to keep in mind when contributing
 
 Some guidance for when you make a contribution:
@@ -36,6 +32,10 @@ Some guidance for when you make a contribution:
 - Add/update unit tests and code as required by your change
 - Make sure you run all the unit tests on the affected platform(s)/languages. If the change is in common code, generally running on one platform would be acceptable.
 - Run end-to-end tests or simple sample code to make sure the lib works in an end-to-end scenario.
+
+## Big contributions
+
+If your contribution is significantly big it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
 
 ## Project orchestration
 
