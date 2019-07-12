@@ -204,27 +204,24 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       const totalMessages = 3;
       const eventDataBatch = await producer.createBatch();
       for (let i = 1; i <= totalMessages; i++) {
-        const messageStatus = eventDataBatch.tryAdd({ body: `${Buffer.from("Z".repeat(650000))}` });
-        if (!messageStatus) {
+        const isAdded = eventDataBatch.tryAdd({ body: `${Buffer.from("Z".repeat(650000))}` });
+        if (!isAdded) {
+          console.log("Unable to add all events to the batch");
           break;
         }
       }
-      debug(`${eventDataBatch.events.length} messages sent in total.`);
-      should.equal(
-        eventDataBatch.events.length !== totalMessages,
-        true,
-        "Client was not able to send any messages"
-      );
       await producer.send(eventDataBatch);
+      await producer.close();
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
-      const producer = client.createProducer({ partitionId: "0" });
-      const eventDataBatch = await producer.createBatch({ partitionKey: 1 as any });
+      const producer = client.createProducer();
+      const eventDataBatch = await producer.createBatch({ partitionKey: "1" });
       for (let i = 0; i < 5; i++) {
         eventDataBatch.tryAdd({ body: `Hello World ${i}` });
       }
       await producer.send(eventDataBatch);
+      await producer.close();
     });
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
@@ -234,6 +231,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         eventDataBatch.tryAdd({ body: `Hello World ${i}` });
       }
       await producer.send(eventDataBatch);
+      await producer.close();
     });
 
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
@@ -244,17 +242,18 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await producer.createBatch({ maxMessageSize: 2046528 });
       throw new Error("Test Failure");
     } catch (err) {
-      err.message.should.equal(
-        "Max message size is greater than maximum message size on the AMQP sender link."
+      // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)
+      err.message.should.match(
+        /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
       );
     }
   });
 
-    it("should throw when Partition key is different than the one provided in the send options", async function(): Promise<
+    it("should throw when Partition key is provided in the send options", async function(): Promise<
       void
     > {
       try {
-        const producer = client.createProducer({ partitionId: "0" });
+        const producer = client.createProducer();
         const eventDataBatch = await producer.createBatch({ partitionKey: "1" });
         for (let i = 0; i < 5; i++) {
           eventDataBatch.tryAdd({ body: `Hello World ${i}` });
@@ -263,7 +262,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         throw new Error("Test Failure");
       } catch (err) {
         err.message.should.equal(
-          "Partition key is different than the one provided in the send options."
+          "Partition key is not supported when using createBatch()."
         );
       }
     });

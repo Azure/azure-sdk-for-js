@@ -96,12 +96,12 @@ export interface BatchOptions {
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
-  partitionKey?: string | null;
+  partitionKey?: string;
   /**
    * @property
    * The maximum size allowed for the batch.
    */
-  maxMessageSize?: number | null;
+  maxMessageSize?: number;
 }
 
 /**

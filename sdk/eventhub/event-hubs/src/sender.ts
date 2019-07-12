@@ -60,11 +60,13 @@ export class EventHubProducer {
   }
 
   /**
-   * Creates a batch where event data objects can be added for later `Send` call
+   * Creates an instance of EventDataBatch to which one can add events until the maximum supported size is reached.
+   * The batch can be passed to the send method of the EventHubProducer to be sent to Azure Event Hubs
    * @param options  Options to define partition key and max message size.
    * @returns Promise<EventDataBatch>
    */
   async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+    this._throwIfSenderOrConnectionClosed();
     if (!options) {
       options = {};
     }
@@ -72,18 +74,16 @@ export class EventHubProducer {
     if (options.maxMessageSize) {
       if (options.maxMessageSize > maxMessageSize) {
         const error = new Error(
-          "Max message size is greater than maximum message size on the AMQP sender link."
+          `Max message size (${options.maxMessageSize} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
         log.error(
-          "[%s] Max message size is greater than maximum message size on the AMQP sender link. %O",
-          this._context.connectionId,
-          error
+          `[${this._context.connectionId}] Max message size (${options.maxMessageSize} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
         );
         throw error;
       }
       maxMessageSize = options.maxMessageSize;
     }
-    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey!);
+    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
   }
 
   /**
@@ -108,23 +108,7 @@ export class EventHubProducer {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
-
-    if (eventData instanceof EventDataBatch) {
-      throwTypeErrorIfParameterMissing(this._context.connectionId, "events", eventData.events);
-      // throw an error if partition key is different than the one provided in the options.
-      if (options && options.partitionKey !== eventData.partitionKey) {
-        const error = new Error(
-          "Partition key is different than the one provided in the send options."
-        );
-        log.error(
-          "[%s] Partition key is different than the one provided in the send options. %O",
-          this._context.connectionId,
-          error
-        );
-        throw error;
-      }
-      eventData = eventData.events;
-    } else if (!Array.isArray(eventData)) {
+    if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
       eventData = [eventData];
     }
     return this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });

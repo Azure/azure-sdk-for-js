@@ -9,7 +9,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient } from "@azure/event-hubs";
+import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -33,6 +33,7 @@ async function main(): Promise<void> {
   const partitionIds = await client.getPartitionIds();
   const producer = client.createProducer({ partitionId: partitionIds[0] });
   const eventDatabatch = await producer.createBatch();
+  const events: EventData[] = [];
   try {
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
@@ -41,18 +42,34 @@ async function main(): Promise<void> {
     //   { body: { "message": "Hello World 2" } },
     //   { body: { "message": "Hello World 3" } }
     // ];
+    console.log("Sending single event...");
+    const scientist = listOfScientists[0];
+    producer.send({ body: `${scientist.firstName} ${scientist.name}` });
+
+    console.log("Creating and sending batch events...");
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
+      const isAdded = eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
+      if (!isAdded) {
+        console.log("Unable to add all events to the batch");
+        break;
+      }
     }
-    console.log("Sending batch events...");
-
     await producer.send(eventDatabatch);
+
+    console.log("Sending batch events...");
+    for (let index = 0; index < listOfScientists.length; index++) {
+      const scientist = listOfScientists[index];
+      events.push({ body: `${scientist.firstName} ${scientist.name}` });
+    }
+    await producer.send(eventDatabatch);
+
+    await producer.close();
   } finally {
     await client.close();
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
