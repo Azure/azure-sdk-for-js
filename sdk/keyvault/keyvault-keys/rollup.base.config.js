@@ -8,6 +8,7 @@ import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import json from 'rollup-plugin-json';
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -41,13 +42,14 @@ export function nodeConfig(test = false) {
       banner: banner
     },
     plugins: [
+      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
         values: {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
+          "if (isNode)": ";isNode; if (true)"
         }
       }),
       nodeResolve({ preferBuiltins: true }),
@@ -63,7 +65,6 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    // mark assert as external
     baseConfig.external.push("assert", "fs", "path");
 
     baseConfig.context = "null";
@@ -91,6 +92,7 @@ export function browserConfig(test = false) {
     },
     preserveSymlinks: false,
     plugins: [
+      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
@@ -98,7 +100,7 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
+          "if (isNode)": ";isNode; if (false)"
         }
       }),
       // os is not used by the browser bundle, so just shim it
@@ -129,8 +131,7 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
-
+    baseConfig.external = ["assert", "fs-extra", "path"];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
