@@ -4,18 +4,18 @@
 
 ```ts
 
-import { AmqpMessage } from '@azure/core-amqp';
+import { AmqpMessage } from '@azure/amqp-common';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { DataTransformer } from '@azure/core-amqp';
-import { delay } from '@azure/core-amqp';
+import { DataTransformer } from '@azure/amqp-common';
+import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import Long from 'long';
-import { MessagingError } from '@azure/core-amqp';
+import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
-import { TokenInfo } from '@azure/core-amqp';
-import { TokenProvider } from '@azure/core-amqp';
-import { TokenType } from '@azure/core-amqp';
+import { TokenInfo } from '@azure/amqp-common';
+import { TokenProvider } from '@azure/amqp-common';
+import { TokenType } from '@azure/amqp-common';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
