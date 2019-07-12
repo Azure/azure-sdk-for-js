@@ -189,6 +189,9 @@ You can use this receiver in one of 3 ways to receive messages
 
 ## Troubleshooting
 
+## AMQP Dependencies ##
+The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+
 ### Enable logs
 
 You can set the following environment variable to get the debug logs when using this library.
@@ -238,5 +241,9 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
+
+## Contributing
+
+If you'd like to contribute to this library, please read the the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/servicebus/service-bus/README.png)
