@@ -138,7 +138,9 @@ jobs:
       vmImage: "$(OSVmImage)"
 
     variables:
-      GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
+      - template: ../variables/globals.yml
+      - name: GeneratedPackageTargets
+        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     steps:
       - template: ../steps/common.yml

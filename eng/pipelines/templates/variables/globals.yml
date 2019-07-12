@@ -1,4 +1,5 @@
 variables:
   NodeVersion: "10.x"
   OSVmImage: "ubuntu-16.04"
+  Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true
