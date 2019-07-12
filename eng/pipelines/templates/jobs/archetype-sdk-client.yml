@@ -172,3 +172,10 @@ jobs:
           testRunTitle: "$(OSName) Node $(NodeVersion)"
         condition: succeededOrFailed()
         displayName: "Publish test results"
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: "$(OSName) Browser $(NodeVersion)"
+        condition: succeededOrFailed()
+        displayName: "Publish test results"
