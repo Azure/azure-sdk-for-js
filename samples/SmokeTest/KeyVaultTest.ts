@@ -21,7 +21,7 @@ export class KeyVaultSecrets{
         // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
         // * AZURE_CLIENT_SECRET: The client secret for the registered application
         const credential = new EnvironmentCredential();
-        const url = process.env["AZURE_PROJECT_URL"];
+        const url = process.env["AZURE_PROJECT_URL"] || "<YourProjectURL>";
 
         KeyVaultSecrets.client = new SecretsClient(url,credential);
 

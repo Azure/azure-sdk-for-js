@@ -1,12 +1,12 @@
-import {CosmosClient} from "@azure/cosmos";
+import {CosmosClient, Database, Container} from "@azure/cosmos";
 
 export class CosmosDB {  
    
     private static dataBaseName = "jsSolarSystem";
     private static collectionName = "PlanetsCollection";
-    private static client;
-    private static db;
-    private static container;
+    private static client : CosmosClient;
+    private static db : Database;
+    private static container : Container;
 
     static async Run(){
         console.log();
@@ -19,10 +19,17 @@ export class CosmosDB {
         console.log("4) Delete the database (Clean up the resource)");
         console.log();
 
-        const endpoint = process.env["COSMOS_ENDPOINT"];
-        const masterKey = process.env["COSMOS_KEY"]; 
+        const endpoint = process.env["COSMOS_ENDPOINT"] || "<YourEndpoint>";
+        const masterKey = process.env["COSMOS_KEY"] || "<YourKey>"; 
         CosmosDB.client = new CosmosClient({ endpoint, auth: { masterKey } });
 
+        //Ensure that the resource is clean
+        try{
+            await CosmosDB.DeleteDatabase();
+        }
+        catch
+        {   }
+        
         await CosmosDB.CreateDatabase();
         await CosmosDB.CreateCollection();
         await CosmosDB.CreateDocuments();
@@ -77,10 +84,10 @@ export class CosmosDB {
             ]
         };
 
-        let { body } = await CosmosDB.container.items.create(planetEarth);
+        await CosmosDB.container.items.create(planetEarth);
         console.log(`\t${planetEarth.id} done`);
 
-        let { body2 } = await CosmosDB.container.items.create(planetMars);
+        await CosmosDB.container.items.create(planetMars);
         console.log(`\t${planetMars.id} done`);
     }
 

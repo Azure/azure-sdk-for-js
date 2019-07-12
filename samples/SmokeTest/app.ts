@@ -7,7 +7,6 @@ function welcomeMessage(){
     console.log("=============================================");
     console.log("Smoke Test Samples for SDK Track 2 libraries");
     console.log("=============================================");
-    console.log();
 }
 
 async function main(){

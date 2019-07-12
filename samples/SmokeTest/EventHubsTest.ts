@@ -1,4 +1,4 @@
-import { EventHubClient } from "@azure/event-hubs";
+import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 export class EventHubs{
 
@@ -16,21 +16,18 @@ export class EventHubs{
         console.log();
 
         let eventHubName = "myeventhub";
-        let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"];
-        EventHubs.client = EventHubClient.createFromConnectionString(connectionString,eventHubName);
+        let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"] || "<YourConnectionString>";
+
+        EventHubs.client = new EventHubClient(connectionString, eventHubName);
 
         try{
             await EventHubs.getPartitionsIds();
-            await EventHubs.sendBatchOfEvents();
-            await EventHubs.receiveBatchOfEvents();
+            await EventHubs.SendAndReceiveEvents();
         }
-        catch (ex){
-            //If something goes wrong, the client must be closed in order for the app to end.
+        finally{
+            //At the end the client must be closed.
             await EventHubs.client.close();
-            throw ex;
         }
-        //At the end the client should be closed.
-        await EventHubs.client.close();
     }
 
     private static async getPartitionsIds(){
@@ -42,23 +39,26 @@ export class EventHubs{
         console.log("\tdone");
     }
 
-    private static async sendBatchOfEvents(){
-        console.log("sending a batch");
-        await EventHubs.client.sendBatch(
-            [
-                { body: "JS Event Test 1" },
-                { body: "JS Event Test 2" },
-                { body: "JS Event Test 3" }
-            ], EventHubs.partitionId[0]
-            );
-            console.log("\tdone");
-    }
+    private static async SendAndReceiveEvents(){
+        console.log("creating consumer...");
+        
+        const consumer = EventHubs.client.createConsumer(
+            EventHubClient.defaultConsumerGroupName,
+            EventHubs.partitionId[0],
+            EventPosition.fromEnqueuedTime(new Date())
+        )
 
-    private static async receiveBatchOfEvents(){
-        console.log("receiving a batch");
-        //This will get a batch of events, but not necesarily the same ones sended before.
-        //This will get a batch of events from the EvenHub, depending on the configuration of how many days the event hub will keep the events.
-        const myEvents = await EventHubs.client.receiveBatch(EventHubs.partitionId[0],3);
+        console.log("sending events...");
+        const producerOptions = {
+            partitionId : EventHubs.partitionId[0]
+        }
+        const producer = EventHubs.client.createProducer(producerOptions);
+        await producer.send({ body: "JS Event Test 1" });
+        await producer.send({ body: "JS Event Test 2" });
+        await producer.send({ body: "JS Event Test 3" });
+
+        console.log("receiving events...");
+        await consumer.receiveBatch(3, 5);
         console.log("\tdone");
     }
 }

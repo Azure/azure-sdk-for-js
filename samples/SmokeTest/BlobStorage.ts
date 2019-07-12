@@ -14,8 +14,8 @@ export class BlobStorage{
         console.log("2) Delete Blob (Clean up the resource)");
         console.log();
 
-        const account = process.env["STORAGE_ACCOUNT_NAME"];
-        const accountKey = process.env["STORAGE_ACCOUNT_KEY"];
+        const account = process.env["STORAGE_ACCOUNT_NAME"]     || "<YourStorageAccountNAME>";
+        const accountKey = process.env["STORAGE_ACCOUNT_KEY"]   || "<YourStorageAccountKEY>";
         const containerName = "mycontainer";
         BlobStorage.blobName = "JSNewBlob";
 
@@ -38,7 +38,7 @@ export class BlobStorage{
         const blobClient = BlobStorage.ContainerClient.getBlobClient(blobName);
         const blockBlobClient = blobClient.getBlockBlobClient();
 
-        const response = await blockBlobClient.upload(content, content.length);
+        await blockBlobClient.upload(content, content.length);
         console.log("\tdone");
     }
 
