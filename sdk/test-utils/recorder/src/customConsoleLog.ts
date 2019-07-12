@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 // Converting content corresponding to all the console statements
 // into (JSON.stringify)-ed content in record mode for browser tests.
 //

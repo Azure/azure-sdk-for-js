@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import { isBrowser } from "./utils";
 const env = isBrowser() ? (window as any).__env__ : process.env;
 const isPlayingBack = env.TEST_MODE === "playback";
