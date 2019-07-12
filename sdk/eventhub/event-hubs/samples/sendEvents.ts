@@ -52,7 +52,7 @@ async function main(): Promise<void> {
     }
     await producer.send(events);
 
-    console.log("Creating and sending batch events...");
+    console.log("Creating and sending a batch of events...");
     const eventDatabatch = await producer.createBatch();
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
