@@ -51,7 +51,7 @@ async function main(): Promise<void> {
       const scientist = listOfScientists[index];
       const isAdded = eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
       if (!isAdded) {
-        console.log("Unable to add all events to the batch");
+        console.log(`Unable to add event #{index} to the batch`);
         break;
       }
     }
