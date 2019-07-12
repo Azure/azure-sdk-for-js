@@ -5,6 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
+  "sdk-type": "client",
   "version": "1.0.0-preview.1",
   "description": "Isomorphic Azure client runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
