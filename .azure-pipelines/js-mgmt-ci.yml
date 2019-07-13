@@ -53,3 +53,21 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: $(Build.SourcesDirectory)/drop
+
+ - job: 'Analyze'
+
+    pool:
+      vmImage: 'Ubuntu 16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+      - task: Npm@1
+        displayName: 'npm audit'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'npm audit'
