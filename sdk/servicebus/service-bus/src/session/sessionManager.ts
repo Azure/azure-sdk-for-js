@@ -81,7 +81,7 @@ export class SessionManager {
       options = {};
     }
     const connectionId = this._context.namespace.connectionId;
-    const noActiveSessionBackOffInSeconds: number = 10;
+    const noActiveSessionBackOffInSeconds = 10;
     while (!this._isCancelRequested) {
       try {
         await this._maxConcurrentSessionsSemaphore.acquire();
@@ -178,7 +178,7 @@ export class SessionManager {
         // the Promise is rejected. The "microsoft.timeout" error occurs when timeout happens on
         // the server side and ServiceBus sends a detach frame due to which the Promise is rejected.
         if (
-          err.name === ConditionErrorNameMapper["amqp:operation-timeout"] ||
+          err.name === "OperationTimeoutError" ||
           err.name === ConditionErrorNameMapper["com.microsoft:timeout"] ||
           err.name === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
         ) {
