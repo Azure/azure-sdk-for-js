@@ -33,7 +33,8 @@
       "commandKind": "bulk",
       "name": "build:test",
       "summary": "Build the test targets only in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
@@ -57,20 +58,23 @@
       "commandKind": "bulk",
       "name": "integration-test:browser",
       "summary": "Execute browser integration tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "integration-test:node",
       "summary": "Execute Node integration tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "integration-test",
       "summary": "Execute integration tests defined in projects",
       "description": "Execute tests which require an actual service instance (live Azure, emulator, etc). Integration tests typically require service endpoints to be specified via environment variables in order to run.",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
@@ -113,13 +117,15 @@
       "commandKind": "bulk",
       "name": "unit-test:browser",
       "summary": "Execute browser unit tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "unit-test:node",
       "summary": "Execute Node unit tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
