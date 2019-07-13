@@ -81,7 +81,7 @@ export class SessionManager {
       options = {};
     }
     const connectionId = this._context.namespace.connectionId;
-    const noActiveSessionBackOffInSeconds = 10;
+    const noActiveSessionBackOffInSeconds: number = 10;
     while (!this._isCancelRequested) {
       try {
         await this._maxConcurrentSessionsSemaphore.acquire();

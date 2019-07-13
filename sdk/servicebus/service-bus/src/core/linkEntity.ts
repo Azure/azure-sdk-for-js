@@ -189,7 +189,7 @@ export class LinkEntity {
       } catch (err) {
         log.error(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId,
+          this._context.namespace.connectionId,
           this._type,
           this.name,
           this.address,
@@ -199,7 +199,7 @@ export class LinkEntity {
     }, this._tokenTimeout);
     log.link(
       "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.connectionId,
+      this._context.namespace.connectionId,
       this._type,
       this.name,
       this.address,
