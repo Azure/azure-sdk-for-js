@@ -43,7 +43,7 @@ export class EventDataBatch {
   /**
    * @property Encoded batch message.
    */
-  batchMessage: Buffer | undefined;
+  private _batchMessage: Buffer | undefined;
 
   /**
    * @constructor
@@ -72,6 +72,14 @@ export class EventDataBatch {
    */
   get size(): number | undefined {
     return this._size;
+  }
+
+   /**
+   * @property Encoded batch message.
+   * @readonly
+   */
+  get batchMessage(): Buffer | undefined {
+    return this._batchMessage;
   }
 
   /**
@@ -114,7 +122,7 @@ export class EventDataBatch {
 
     // this.encodedBatchMessage will be used for final send operation
     if (encodedBatchMessage.length < this._maxSizeInBytes) {
-      this.batchMessage = encodedBatchMessage;
+      this._batchMessage = encodedBatchMessage;
     } else {
       this._encodedMessages.pop();
     }

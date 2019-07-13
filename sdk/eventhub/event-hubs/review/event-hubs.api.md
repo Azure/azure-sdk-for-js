@@ -48,8 +48,7 @@ export class EventDataBatch {
     // 
     // @internal
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
-    batchMessage: Buffer | undefined;
-    readonly events: EventData[];
+    readonly batchMessage: Buffer | undefined;
     readonly partitionKey: string | undefined;
     readonly size: number | undefined;
     tryAdd(eventData: EventData): boolean;
