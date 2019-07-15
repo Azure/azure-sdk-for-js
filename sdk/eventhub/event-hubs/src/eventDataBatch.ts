@@ -8,7 +8,7 @@ import { message } from "rhea-promise";
 
 /**
  * A class representing a batch of events which can be passed to the `send` method of a `EventConsumer` instance.
- * This batch is ensured to be under the maximum size limited supported by Azure Event Hubs service.
+ * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
  *
  * Use the `tryAdd` function on the EventDataBatch to add events in a batch.
  * @class
