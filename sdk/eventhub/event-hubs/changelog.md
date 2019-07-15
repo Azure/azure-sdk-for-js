@@ -1,6 +1,6 @@
 ### 2019-07-15 2.1.1
 
-- Added event handler `error` and `protocolError` on the connection object that will just log the error and take care of the unhandled exception.
+- Added event handlers for `error` and `protocolError` events on the connection object to avoid the case of unhandled exceptions. This is related to the [bug 4136](https://github.com/Azure/azure-sdk-for-js/issues/4136)
 
 ### 2019-06-10 2.1.0
 
