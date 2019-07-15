@@ -627,7 +627,7 @@ export class EventHubSender extends LinkEntity {
         const rejectOnSendError = (err: Error) => {
           err = translate(err);
           log.error(
-            "[%s] An error occurred while sending %s",
+            "[%s] An error occurred while performing send on %s",
             this._context.connectionId,
             this.name,
             err
