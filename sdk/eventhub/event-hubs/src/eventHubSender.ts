@@ -402,7 +402,7 @@ export class EventHubSender extends LinkEntity {
 
       if (events instanceof EventDataBatch && options && options.partitionKey) {
         // throw an error if partition key is different than the one provided in the options.
-        const error = new Error("Partition key is not supported when using createBatch().");
+        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
         log.error(
           "[%s] Partition key is not supported when using createBatch(). %O",
           this._context.connectionId,
