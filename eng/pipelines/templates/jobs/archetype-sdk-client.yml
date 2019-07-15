@@ -9,7 +9,7 @@ jobs:
     steps:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
-        displayName: 'Tag scheduled builds'
+        displayName: "Tag scheduled builds"
         condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
       - template: ../steps/common.yml
@@ -19,15 +19,16 @@ jobs:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+        displayName: "Pack libraries"
+
+      - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
       - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
-      - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
-        displayName: "Pack libraries"
 
       - task: CopyFiles@2
         inputs:
