@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser } from "./utils";
-import { NiseRecorder, NockRecorder, Recorder } from "./baseRecorder";
-
-const env = isBrowser() ? (window as any).__env__ : process.env;
-const isRecording = env.TEST_MODE === "record";
-const isPlayingBack = env.TEST_MODE === "playback";
+import { getUniqueName, isBrowser, env } from "./utils";
+import { NiseRecorder, NockRecorder, Recorder, setEnviromentOnLoad } from "./baseRecorder";
 
 export function record(testContext: any) {
   let recorder: Recorder;
@@ -20,6 +16,11 @@ export function record(testContext: any) {
     testHierarchy = testContext.test.parent.fullTitle();
     testTitle = testContext.test.title;
   }
+
+  const isRecording = env.TEST_MODE === "record";
+  const isPlayingBack = env.TEST_MODE === "playback";
+
+  setEnviromentOnLoad();
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);

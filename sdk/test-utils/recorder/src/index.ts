@@ -3,3 +3,5 @@
 
 export { record } from "./recorder";
 export { delay } from "./delay";
+export { env } from "./utils";
+export { setReplaceableVariables, setReplacements } from "./baseRecorder";

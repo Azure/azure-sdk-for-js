@@ -4,30 +4,48 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { isBrowser, blobToString } from "./utils";
+import { isBrowser, blobToString, escapeRegExp, env } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
-const env = isBrowser() ? (window as any).__env__ : process.env;
+let nock: any;
+
 const isRecording = env.TEST_MODE === "record";
 const isPlayingBack = env.TEST_MODE === "playback";
 
-let nock: any;
-if (!isBrowser() && (isRecording || isPlayingBack)) {
-  nock = require("nock");
+let replaceableVariables: { [x: string]: string } = {};
+export function setReplaceableVariables(a: { [x: string]: string }): void {
+  replaceableVariables = a;
+  if (isPlayingBack) {
+    // Providing dummy values to avoid the error
+    Object.keys(a).map((k) => {
+      env[k] = a[k];
+    });
+  }
 }
 
-if (isBrowser() && isRecording) {
-  customConsoleLog();
+let replacements: any[] = [];
+export function setReplacements(maps: any): void {
+  replacements = maps;
 }
 
-if (isPlayingBack) {
-  // Providing dummy values to avoid the error
-  env.ACCOUNT_NAME = "fakestorageaccount";
-  env.ACCOUNT_KEY = "aaaaa";
-  env.ACCOUNT_SAS = "aaaaa";
-  env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${
-    env.ACCOUNT_NAME
-  };AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
+export function setEnviromentOnLoad() {
+  if (!isBrowser() && (isRecording || isPlayingBack)) {
+    nock = require("nock");
+  }
+
+  if (isBrowser() && isRecording) {
+    customConsoleLog();
+  }
+
+  if (isPlayingBack) {
+    // Providing dummy values to avoid the error
+    env.ACCOUNT_NAME = "fakestorageaccount";
+    env.ACCOUNT_KEY = "aaaaa";
+    env.ACCOUNT_SAS = "aaaaa";
+    env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${
+      env.ACCOUNT_NAME
+    };AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
+  }
 }
 
 const skip = [
@@ -66,10 +84,20 @@ export abstract class Recorder {
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
    * */
   protected filterSecrets(recording: string): string {
-    let updatedRecording = recording.replace(
-      new RegExp(env.ACCOUNT_NAME, "g"),
-      "fakestorageaccount"
-    );
+    let updatedRecording = recording;
+    for (const k of Object.keys(replaceableVariables)) {
+      const escaped = escapeRegExp(env[k]);
+      updatedRecording = updatedRecording.replace(
+        new RegExp(escaped, "g"),
+        replaceableVariables[k]
+      );
+    }
+    for (const map of replacements) {
+      updatedRecording = map(updatedRecording);
+    }
+
+    // Handling storage environment variables separately
+    updatedRecording = recording.replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount");
     if (env.ACCOUNT_KEY) {
       updatedRecording = updatedRecording.replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa");
     }
