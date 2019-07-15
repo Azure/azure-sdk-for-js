@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const FeatureProperties: msRest.CompositeMapper = {
+export const FeatureProperties: coreHttp.CompositeMapper = {
   serializedName: "FeatureProperties",
   type: {
     name: "Composite",
@@ -28,7 +28,7 @@ export const FeatureProperties: msRest.CompositeMapper = {
   }
 };
 
-export const FeatureResult: msRest.CompositeMapper = {
+export const FeatureResult: coreHttp.CompositeMapper = {
   serializedName: "FeatureResult",
   type: {
     name: "Composite",
@@ -63,7 +63,7 @@ export const FeatureResult: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
+export const OperationDisplay: coreHttp.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -91,7 +91,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
+export const Operation: coreHttp.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -114,7 +114,7 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const OperationListResult: msRest.CompositeMapper = {
+export const OperationListResult: coreHttp.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -142,7 +142,7 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const FeatureOperationsListResult: msRest.CompositeMapper = {
+export const FeatureOperationsListResult: coreHttp.CompositeMapper = {
   serializedName: "FeatureOperationsListResult",
   type: {
     name: "Composite",
