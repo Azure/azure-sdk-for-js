@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/appliancesMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesGetResponse>
    */
-  get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesGetResponse>;
+  get(resourceGroupName: string, applianceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceName The name of the appliance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applianceName: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  get(resourceGroupName: string, applianceName: string, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceName The name of the appliance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applianceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetResponse> {
+  get(resourceGroupName: string, applianceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
+  get(resourceGroupName: string, applianceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Appliance>, callback?: coreHttp.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,9 +64,9 @@ export class Appliances {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceName The name of the appliance.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, applianceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,applianceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -79,7 +79,7 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,applianceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppliancesCreateOrUpdateResponse>;
   }
@@ -98,15 +98,15 @@ export class Appliances {
    * @param applianceName The name of the appliance.
    * @param callback The callback
    */
-  update(resourceGroupName: string, applianceName: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  update(resourceGroupName: string, applianceName: string, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceName The name of the appliance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, applianceName: string, options: Models.AppliancesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateResponse> {
+  update(resourceGroupName: string, applianceName: string, options: Models.AppliancesUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
+  update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams | coreHttp.ServiceCallback<Models.Appliance>, callback?: coreHttp.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,19 +123,19 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApplianceListResult>, callback?: coreHttp.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,17 +150,17 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionResponse>;
+  listBySubscription(options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  listBySubscription(callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionResponse> {
+  listBySubscription(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
+  listBySubscription(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApplianceListResult>, callback?: coreHttp.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -177,14 +177,14 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesGetByIdResponse>
    */
-  getById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesGetByIdResponse>;
+  getById(applianceId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesGetByIdResponse>;
   /**
    * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
    * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
    * @param callback The callback
    */
-  getById(applianceId: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  getById(applianceId: string, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
   /**
    * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
    * appliance resource type. Use the format,
@@ -192,8 +192,8 @@ export class Appliances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(applianceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  getById(applianceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetByIdResponse> {
+  getById(applianceId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
+  getById(applianceId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Appliance>, callback?: coreHttp.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         applianceId,
@@ -209,9 +209,9 @@ export class Appliances {
    * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteById(applianceId: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteById(applianceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -225,7 +225,7 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesCreateOrUpdateByIdResponse>
    */
-  createOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateByIdResponse> {
+  createOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateByIdResponse> {
     return this.beginCreateOrUpdateById(applianceId,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppliancesCreateOrUpdateByIdResponse>;
   }
@@ -246,7 +246,7 @@ export class Appliances {
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
    * @param callback The callback
    */
-  updateById(applianceId: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  updateById(applianceId: string, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
   /**
    * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
    * appliance resource type. Use the format,
@@ -254,8 +254,8 @@ export class Appliances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateById(applianceId: string, options: Models.AppliancesUpdateByIdOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateByIdResponse> {
+  updateById(applianceId: string, options: Models.AppliancesUpdateByIdOptionalParams, callback: coreHttp.ServiceCallback<Models.Appliance>): void;
+  updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams | coreHttp.ServiceCallback<Models.Appliance>, callback?: coreHttp.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateByIdResponse> {
     return this.client.sendOperationRequest(
       {
         applianceId,
@@ -270,9 +270,9 @@ export class Appliances {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceName The name of the appliance.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, applianceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -289,9 +289,9 @@ export class Appliances {
    * @param applianceName The name of the appliance.
    * @param parameters Parameters supplied to the create or update an appliance.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -309,9 +309,9 @@ export class Appliances {
    * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteById(applianceId: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         applianceId,
@@ -328,9 +328,9 @@ export class Appliances {
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
    * @param parameters Parameters supplied to the create or update an appliance.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         applianceId,
@@ -347,19 +347,19 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApplianceListResult>, callback?: coreHttp.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -375,19 +375,19 @@ export class Appliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppliancesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApplianceListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApplianceListResult>, callback?: coreHttp.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -399,8 +399,8 @@ export class Appliances {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances/{applianceName}",
   urlParameters: [
@@ -426,7 +426,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances/{applianceName}",
   urlParameters: [
@@ -458,7 +458,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances",
   urlParameters: [
@@ -482,7 +482,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Solutions/appliances",
   urlParameters: [
@@ -505,7 +505,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getByIdOperationSpec: msRest.OperationSpec = {
+const getByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{applianceId}",
   urlParameters: [
@@ -529,7 +529,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateByIdOperationSpec: msRest.OperationSpec = {
+const updateByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{applianceId}",
   urlParameters: [
@@ -559,7 +559,7 @@ const updateByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances/{applianceName}",
   urlParameters: [
@@ -583,7 +583,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/appliances/{applianceName}",
   urlParameters: [
@@ -618,7 +618,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
+const beginDeleteByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{applianceId}",
   urlParameters: [
@@ -640,7 +640,7 @@ const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateByIdOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{applianceId}",
   urlParameters: [
@@ -673,7 +673,7 @@ const beginCreateOrUpdateByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -694,7 +694,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

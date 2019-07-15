@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -364,7 +364,7 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
-export interface AppliancesUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface AppliancesUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters supplied to update an existing appliance.
    */
@@ -374,7 +374,7 @@ export interface AppliancesUpdateOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface AppliancesUpdateByIdOptionalParams extends msRest.RequestOptionsBase {
+export interface AppliancesUpdateByIdOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters supplied to update an existing appliance.
    */
@@ -465,7 +465,7 @@ export type ListOperationsResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -485,7 +485,7 @@ export type ListOperationsNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -505,7 +505,7 @@ export type AppliancesGetResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -525,7 +525,7 @@ export type AppliancesCreateOrUpdateResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -545,7 +545,7 @@ export type AppliancesUpdateResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -565,7 +565,7 @@ export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -585,7 +585,7 @@ export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -605,7 +605,7 @@ export type AppliancesGetByIdResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -625,7 +625,7 @@ export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -645,7 +645,7 @@ export type AppliancesUpdateByIdResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -665,7 +665,7 @@ export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -685,7 +685,7 @@ export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -705,7 +705,7 @@ export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -725,7 +725,7 @@ export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -745,7 +745,7 @@ export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -765,7 +765,7 @@ export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -785,7 +785,7 @@ export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -805,7 +805,7 @@ export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -825,7 +825,7 @@ export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -845,7 +845,7 @@ export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinitio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -865,7 +865,7 @@ export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefin
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -885,7 +885,7 @@ export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefin
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
