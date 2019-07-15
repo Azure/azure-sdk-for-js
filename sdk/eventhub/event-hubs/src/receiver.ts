@@ -10,7 +10,8 @@ import {
   RetryConfig,
   Constants,
   RetryOperationType,
-  retry
+  retry,
+  MessagingError
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -180,6 +181,15 @@ export class EventHubConsumer {
       });
     }
 
+    const wrappedOnError = (error: Error) => {
+      // ignore retryable errors
+      if ((error as MessagingError).retryable) {
+        return;
+      }
+
+      onError(error);
+    };
+
     baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
     if (!baseConsumer.isOpen()) {
       baseConsumer
@@ -188,17 +198,17 @@ export class EventHubConsumer {
           if (!this._baseConsumer) {
             return;
           }
-          this._baseConsumer.registerHandlers(onMessage, onError, abortSignal);
           if (abortSignal && abortSignal.aborted) {
+            onError(new AbortError("The receive operation has been cancelled by the user."));
             return this._baseConsumer.abort();
           }
-          return;
+          return this._baseConsumer.registerHandlers(onMessage, wrappedOnError, abortSignal);
         })
         .catch((err) => {
           onError(err);
         });
     } else {
-      baseConsumer.registerHandlers(onMessage, onError, abortSignal);
+      baseConsumer.registerHandlers(onMessage, wrappedOnError, abortSignal);
     }
 
     return new ReceiveHandler(baseConsumer);
@@ -290,15 +300,16 @@ export class EventHubConsumer {
           }
         }
 
-        const onAbort = (): void => {
-          clearTimeout(timer);
-          rejectOnAbort();
-        };
-
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
           return await rejectOnAbort();
         }
+
+
+        const onAbort = (): void => {
+          clearTimeout(timer);
+          rejectOnAbort();
+        };
 
         // updates the prefetch count so that the baseConsumer adds
         // the correct number of credits to receive the same number of events.
@@ -347,11 +358,8 @@ export class EventHubConsumer {
           abortSignal
         );
 
-        const addTimeout = (reuse: boolean = false): void => {
+        const addTimeout = (): void => {
           let msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
-          if (reuse) {
-            msg += " Receiver link already present, hence reusing it.";
-          }
           log.batching(
             msg,
             this._context.connectionId,
@@ -389,7 +397,7 @@ export class EventHubConsumer {
             return reject(err);
           }
         } else {
-          addTimeout(true);
+          addTimeout();
         }
 
         if (abortSignal) {
