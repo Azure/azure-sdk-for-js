@@ -37,7 +37,7 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -47,15 +47,15 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
     this.apiVersion = '1.6';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = options.baseUri || this.baseUri || "https://graph.windows.net";
+    this.baseUri = options.baseUri || this.baseUri || "https://graph.microsoft.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.tenantID = tenantID;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
