@@ -87,7 +87,7 @@ export interface SendOptions {
 }
 
 /**
- * The set of options to configure the createBatch operation on the `Sender`.
+ * The set of options to configure the createBatch operation on the `EventProducer`.
  */
 export interface BatchOptions {
   /**
