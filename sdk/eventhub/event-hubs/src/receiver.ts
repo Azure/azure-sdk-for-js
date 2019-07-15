@@ -157,14 +157,7 @@ export class EventHubConsumer {
   receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-
-    // _throwIfReceiverOrConnectionClosed _should_ cover this case already, but throw an error if something unexpected happened.
-    if (!this._baseConsumer) {
-      const errorMessage =
-        `The EventHubConsumer for "${this._context.config.entityPath}" can no longer be used. ` +
-        `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
-      throw new Error(errorMessage);
-    }
+    const baseConsumer = this._baseConsumer!;
 
     if (typeof onMessage !== "function") {
       throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
@@ -177,7 +170,7 @@ export class EventHubConsumer {
     if (abortSignal) {
       if (abortSignal.aborted) {
         onError(new AbortError("The receive operation has been cancelled by the user."));
-        return new ReceiveHandler(this._baseConsumer);
+        return new ReceiveHandler(baseConsumer);
       }
 
       abortSignal.addEventListener("abort", () => {
@@ -187,9 +180,9 @@ export class EventHubConsumer {
       });
     }
 
-    this._baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
-    if (!this._baseConsumer.isOpen()) {
-      this._baseConsumer
+    baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
+    if (!baseConsumer.isOpen()) {
+      baseConsumer
         .initialize()
         .then((): any => {
           if (!this._baseConsumer) {
@@ -205,10 +198,10 @@ export class EventHubConsumer {
           onError(err);
         });
     } else {
-      this._baseConsumer.registerHandlers(onMessage, onError, abortSignal);
+      baseConsumer.registerHandlers(onMessage, onError, abortSignal);
     }
 
-    return new ReceiveHandler(this._baseConsumer);
+    return new ReceiveHandler(baseConsumer);
   }
 
   /**
@@ -464,7 +457,7 @@ export class EventHubConsumer {
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context);
-    if (this.isClosed) {
+    if (!this._baseConsumer || this.isClosed) {
       const errorMessage =
         `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
