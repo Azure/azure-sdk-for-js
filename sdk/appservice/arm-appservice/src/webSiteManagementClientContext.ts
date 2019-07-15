@@ -13,12 +13,11 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-appservice";
-const packageVersion = "5.7.0";
+const packageVersion = "5.8.0";
 
 export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
@@ -45,7 +44,6 @@ export class WebSiteManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
-    this.apiVersion = '2018-02-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
