@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -26,7 +26,7 @@ class ManagementLinkClient extends ManagementLinkClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagementLinkClientOptions) {
+  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, subscriptionId: string, options?: Models.ManagementLinkClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.resourceLinks = new operations.ResourceLinks(this);

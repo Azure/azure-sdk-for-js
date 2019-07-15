@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -104,7 +104,7 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
-export interface ResourceLinksListAtSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface ResourceLinksListAtSubscriptionOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the list resource links operation. The supported filter for list
    * resource links is targetId. For example, $filter=targetId eq {value}
@@ -115,7 +115,7 @@ export interface ResourceLinksListAtSubscriptionOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface ResourceLinksListAtSourceScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface ResourceLinksListAtSourceScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply when getting resource links. To get links only at the specified scope (not
    * below the scope), use Filter.atScope().
@@ -171,7 +171,7 @@ export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -191,7 +191,7 @@ export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -211,7 +211,7 @@ export type ResourceLinksCreateOrUpdateResponse = ResourceLink & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -231,7 +231,7 @@ export type ResourceLinksGetResponse = ResourceLink & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -251,7 +251,7 @@ export type ResourceLinksListAtSubscriptionResponse = ResourceLinkResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -271,7 +271,7 @@ export type ResourceLinksListAtSourceScopeResponse = ResourceLinkResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -291,7 +291,7 @@ export type ResourceLinksListAtSubscriptionNextResponse = ResourceLinkResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -311,7 +311,7 @@ export type ResourceLinksListAtSourceScopeNextResponse = ResourceLinkResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */

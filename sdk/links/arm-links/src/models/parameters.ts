@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,7 +30,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter: msRest.OperationQueryParameter = {
+export const filter: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -42,7 +42,7 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const linkId: msRest.OperationURLParameter = {
+export const linkId: coreHttp.OperationURLParameter = {
   parameterPath: "linkId",
   mapper: {
     required: true,
@@ -53,7 +53,7 @@ export const linkId: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -64,7 +64,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const scope: msRest.OperationURLParameter = {
+export const scope: coreHttp.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
@@ -75,7 +75,7 @@ export const scope: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,

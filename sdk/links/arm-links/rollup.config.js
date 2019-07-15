@@ -8,8 +8,8 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 const config = {
   input: "./esm/managementLinkClient.js",
   external: [
-    "@azure/ms-rest-js",
-    "@azure/ms-rest-azure-js"
+    "@azure/core-http",
+    "@azure/core-arm"
   ],
   output: {
     file: "./dist/arm-links.js",
@@ -17,8 +17,8 @@ const config = {
     name: "Azure.ArmLinks",
     sourcemap: true,
     globals: {
-      "@azure/ms-rest-js": "msRest",
-      "@azure/ms-rest-azure-js": "msRestAzure"
+      "@azure/core-http": "coreHttp",
+      "@azure/core-arm": "coreArm"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.

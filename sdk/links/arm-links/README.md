@@ -26,8 +26,8 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ManagementLinkClient, ManagementLinkModels, ManagementLinkMappers } from "@azure/arm-links";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
@@ -61,8 +61,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-links sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
+    <script src="node_modules/@azure/core-arm/dist/coreArm.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-links/dist/arm-links.js"></script>
     <script type="text/javascript">
