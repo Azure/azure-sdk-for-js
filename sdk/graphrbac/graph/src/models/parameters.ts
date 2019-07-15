@@ -24,7 +24,7 @@ export const apiVersion: msRest.OperationURLParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    serializedName: "api-version",
+    serializedName: "apiVersion",
     type: {
       name: "String"
     }
