@@ -218,39 +218,35 @@ export namespace ConnectionContext {
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError = context.connection && context.connection.error ? context.connection.error : undefined;
-      if (connectionError) {
+      if (context.connection && context.connection.error) {
         log.error(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
-          connectionError
+          context.connection && context.connection.error
         );
       }
-      const contextError = context.error;
-      if (contextError) {
+      if (context.error) {
         log.error(
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
-          contextError
+          context.error
         );
       }
     };
 
     const error: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError = context.connection && context.connection.error ? context.connection.error : undefined;
-      if (connectionError) {
+      if (context.connection && context.connection.error) {
         log.error(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
-          connectionError
+          context.connection && context.connection.error
         );
       }
-      const contextError = context.error;
-      if (contextError) {
+      if (context.error) {
         log.error(
           "[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id,
-          contextError
+          context.error
         );
       }
     };
