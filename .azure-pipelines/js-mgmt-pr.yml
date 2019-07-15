@@ -1,23 +1,23 @@
 pr:
   branches:
     include:
-    - '*'
+      - '*'
   paths:
     exclude:
-    - sdk/core/
-    - sdk/cosmosdb/cosmos/
-    - sdk/eventhub/
-    - sdk/identity/
-    - sdk/keyvault/keyvault-certificates/
-    - sdk/keyvault/keyvault-keys/
-    - sdk/keyvault/keyvault-secrets/
-    - sdk/keyvault/keyvault/
-    - sdk/servicebus/service-bus/
-    - sdk/storage/storage-blob/
-    - sdk/storage/storage-datalake/
-    - sdk/storage/storage-file/
-    - sdk/storage/storage-queue/
-    - sdk/template/template/
+      - sdk/core/
+      - sdk/cosmosdb/cosmos/
+      - sdk/eventhub/
+      - sdk/identity/
+      - sdk/keyvault/keyvault-certificates/
+      - sdk/keyvault/keyvault-keys/
+      - sdk/keyvault/keyvault-secrets/
+      - sdk/keyvault/keyvault/
+      - sdk/servicebus/service-bus/
+      - sdk/storage/storage-blob/
+      - sdk/storage/storage-datalake/
+      - sdk/storage/storage-file/
+      - sdk/storage/storage-queue/
+      - sdk/template/template/
 
 variables:
   NodeVersion: '10.x'
@@ -59,6 +59,14 @@ jobs:
         displayName: 'npm install'
         inputs:
           verbose: false
+
+      - task: Npm@1
+        displayName: 'npm audit'
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'audit'
 
       - task: Npm@1
         displayName: 'npm run check:everything'
