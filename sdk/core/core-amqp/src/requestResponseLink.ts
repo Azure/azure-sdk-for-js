@@ -240,7 +240,9 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+        if (options && options.timeoutInSeconds && options!.timeoutInSeconds > 0) {
+          waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+        }
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,

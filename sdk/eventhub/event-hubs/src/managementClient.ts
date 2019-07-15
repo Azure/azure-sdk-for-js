@@ -7,8 +7,13 @@ import {
   defaultLock,
   translate,
   Constants,
-  SendRequestOptions
+  retry,
+  RetryConfig,
+  RetryOperationType,
+  SendRequestOptions,
+  randomNumberFromInterval
 } from "@azure/core-amqp";
+
 import {
   Message,
   EventContext,
@@ -305,37 +310,63 @@ export class ManagementClient extends LinkEntity {
     request: Message,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
   ): Promise<any> {
-    try {
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+    if (!options) options = {};
+
+    const sendOperationPromise = () =>
+      new Promise<void>((resolve, reject) => {
+        const rejectOnSendError = (err: Error) => {
+          err = translate(err);
+          log.error("An error occurred while making the request to $management endpoint: %O", err);
+          reject(err);
+        };
+
+        log.mgmt(
+          "[%s] Acquiring lock to get the management req res link.",
+          this._context.connectionId
+        );
+
+        defaultLock
+          .acquire(this.managementLock, () => {
+            return this._init();
+          })
+          .then(() => {
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: options!.abortSignal,
+              requestName: options!.requestName,
+
+              // Following config values ensure "retry" is disabled
+              // i.e., operation is attempted just once and timers on it within the utility are not created
+              maxRetries: 0,
+              timeoutInSeconds: -1,
+              delayInSeconds: 0
+            };
+            this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)
+              .then(resolve())
+              .catch((err: Error) => {
+                rejectOnSendError(err);
+              });
+          })
+          .catch((err: Error) => {
+            rejectOnSendError(err);
+          });
       });
 
-      if (!options) {
-        options = {};
-      }
-
-      const sendRequestOptions: SendRequestOptions = {
-        maxRetries: options.retryOptions && options.retryOptions.maxRetries,
-        abortSignal: options.abortSignal,
-        requestName: options.requestName,
-        timeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions) / 1000,
-        delayInSeconds:
-          options.retryOptions &&
-          options.retryOptions.retryInterval &&
-          options.retryOptions.retryInterval >= 0
-            ? options.retryOptions.retryInterval / 1000
-            : undefined
-      };
-      return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
-    } catch (err) {
-      err = translate(err);
-      log.error("An error occurred while making the request to $management endpoint: %O", err);
-      throw err;
-    }
+    const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
+    const delayInSeconds =
+      options.retryOptions &&
+      options.retryOptions.retryInterval &&
+      options.retryOptions.retryInterval >= 0
+        ? options.retryOptions.retryInterval / 1000
+        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+    const config: RetryConfig<void> = {
+      operation: sendOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.sendMessage,
+      maxRetries: maxRetries,
+      delayInSeconds: delayInSeconds + jitterInSeconds
+    };
+    return retry<void>(config).body;
   }
 
   private _isMgmtRequestResponseLinkOpen(): boolean {
