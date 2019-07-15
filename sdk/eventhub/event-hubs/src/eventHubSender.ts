@@ -369,16 +369,7 @@ export class EventHubSender extends LinkEntity {
         );
         throw error;
       }
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
+
       log.sender(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
@@ -631,6 +622,44 @@ export class EventHubSender extends LinkEntity {
         }
       });
 
+    const sendOperationPromise = () =>
+      new Promise<void>((resolve, reject) => {
+        const rejectOnSendError = (err: Error) => {
+          err = translate(err);
+          log.error(
+            "[%s] An error occurred while sending %s",
+            this._context.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
+        };
+
+        if (!this.isOpen()) {
+          log.sender(
+            "Acquiring lock %s for initializing the session, sender and " +
+              "possibly the connection.",
+            this.senderLock
+          );
+          defaultLock
+            .acquire(this.senderLock, () => {
+              return this._init();
+            })
+            .then(() => {
+              sendEventPromise()
+                .then(() => {
+                  resolve();
+                })
+                .catch((err: Error) => {
+                  rejectOnSendError(err);
+                });
+            })
+            .catch((err: Error) => {
+              rejectOnSendError(err);
+            });
+        }
+      });
+
     const jitterInSeconds = randomNumberFromInterval(1, 4);
     const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
@@ -640,7 +669,7 @@ export class EventHubSender extends LinkEntity {
         ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
-      operation: sendEventPromise,
+      operation: sendOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       maxRetries: maxRetries,
