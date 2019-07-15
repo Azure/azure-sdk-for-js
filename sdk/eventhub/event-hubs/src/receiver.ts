@@ -110,11 +110,7 @@ export class EventHubConsumer {
    * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
    */
   get isReceivingMessages(): boolean {
-    if (this._baseConsumer && this._baseConsumer.isReceivingMessages) {
-      return true;
-    }
-
-    return false;
+    return Boolean(this._baseConsumer && this._baseConsumer.isReceivingMessages);
   }
 
   /**
