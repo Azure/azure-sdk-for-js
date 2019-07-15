@@ -108,6 +108,13 @@ export class EventHubProducer {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+    if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
+      const error = new TypeError(
+        `No events to send, use tryAdd() function on the EventDataBatch to add events in a batch.`
+      );
+      log.error(`[${this._context.connectionId}] %O`, error);
+      throw error;
+    }
     if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
       eventData = [eventData];
     }
