@@ -15,7 +15,7 @@ import {
 } from "@azure/core-amqp";
 
 import {
-  Message,
+  Message as AmqpMessage,
   EventContext,
   SenderEvents,
   ReceiverEvents,
@@ -341,7 +341,9 @@ export class ManagementClient extends LinkEntity {
               delayInSeconds: 0
             };
             this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)
-              .then(resolve())
+              .then((message: AmqpMessage) => {
+                resolve(message);
+              })
               .catch((err: Error) => {
                 rejectOnSendError(err);
               });
