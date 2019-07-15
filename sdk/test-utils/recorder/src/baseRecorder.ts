@@ -6,8 +6,7 @@ import nise from "nise";
 import queryString from "query-string";
 import { isBrowser, blobToString, escapeRegExp, env } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
-
-let nock: any;
+import nock from "nock";
 
 const isRecording = env.TEST_MODE === "record";
 const isPlayingBack = env.TEST_MODE === "playback";
@@ -29,10 +28,6 @@ export function setReplacements(maps: any): void {
 }
 
 export function setEnviromentOnLoad() {
-  if (!isBrowser() && (isRecording || isPlayingBack)) {
-    nock = require("nock");
-  }
-
   if (isBrowser() && isRecording) {
     customConsoleLog();
   }
@@ -165,7 +160,7 @@ export class NockRecorder extends Recorder {
 
     for (const fixture of fixtures) {
       // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-      const updatedFixture = fixture.replace(/\.query\(.*\)/, ".query(true)");
+      const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
       file.write(this.filterSecrets(updatedFixture) + "\n");
     }
 
