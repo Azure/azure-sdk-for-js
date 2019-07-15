@@ -3,12 +3,11 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./eventHubClient";
+import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
 import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
   RetryConfig,
-  randomNumberFromInterval,
   Constants,
   RetryOperationType,
   retry
@@ -64,6 +63,7 @@ export class EventHubConsumer {
 
   private _partitionId: string;
   private _receiverOptions: EventHubConsumerOptions;
+  private _retryOptions: Required<RetryOptions>;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -133,6 +133,7 @@ export class EventHubConsumer {
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
+    this._retryOptions = this._initRetryOptions(this._receiverOptions.retryOptions);
     this._baseConsumer = new EventHubReceiver(
       context,
       consumerGroup,
@@ -307,6 +308,17 @@ export class EventHubConsumer {
     }
   }
 
+  private _initRetryOptions(retryOptions: RetryOptions = {}): Required<RetryOptions> {
+    const maxRetries = typeof retryOptions.maxRetries === "number" ? retryOptions.maxRetries : Constants.defaultMaxRetries;
+    const retryInterval = typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0 ?
+      retryOptions.retryInterval / 1000 : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+
+    return {
+      maxRetries,
+      retryInterval
+    };
+  }
+
   private async _receiveBatch(
     maxMessageCount: number,
     maxWaitTimeInSeconds: number,
@@ -451,24 +463,14 @@ export class EventHubConsumer {
       });
     };
 
-    const retryOptions = this._receiverOptions.retryOptions;
-    const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const maxRetries =
-      retryOptions && retryOptions.maxRetries && retryOptions.maxRetries > 0
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
-    const delayInSeconds =
-      retryOptions && retryOptions.retryInterval && retryOptions.retryInterval > 0
-        ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
+    const retryOptions = this._retryOptions;
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInSeconds: delayInSeconds + jitterInSeconds,
+      delayInSeconds: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries
+      maxRetries: retryOptions.maxRetries + 1 // include base attempt
     };
     return retry<ReceivedEventData[]>(config);
   }
