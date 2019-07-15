@@ -585,9 +585,9 @@ export class EventHubSender extends LinkEntity {
               `address "${this.address}", was not able to send the message right now, due ` +
               `to operation timeout.`;
             log.error(desc);
-            const e: AmqpError = {
-              condition: ErrorNameConditionMapper.ServiceUnavailableError,
-              description: desc
+            const e: Error = {
+              name: "OperationTimeoutError",
+              message: desc
             };
             return reject(translate(e));
           };
