@@ -33,7 +33,7 @@ export function setEnviromentOnLoad() {
   }
 
   if (isPlayingBack) {
-    // Providing dummy values to avoid the error
+    // Providing dummy values to avoid the error [ENVs for storage packages]
     env.ACCOUNT_NAME = "fakestorageaccount";
     env.ACCOUNT_KEY = "aaaaa";
     env.ACCOUNT_SAS = "aaaaa";
