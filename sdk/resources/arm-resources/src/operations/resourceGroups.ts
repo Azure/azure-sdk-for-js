@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -33,19 +33,19 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsCheckExistenceResponse>
    */
-  checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCheckExistenceResponse>;
+  checkExistence(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsCheckExistenceResponse>;
   /**
    * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, callback: coreHttp.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourceGroupsCheckExistenceResponse> {
+  checkExistence(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<boolean>, callback?: coreHttp.ServiceCallback<boolean>): Promise<Models.ResourceGroupsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +64,7 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to create or update. Can include
    * alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
@@ -72,7 +72,7 @@ export class ResourceGroups {
    * @param parameters Parameters supplied to the create or update a resource group.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group to create or update. Can include
    * alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
@@ -81,8 +81,8 @@ export class ResourceGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceGroup>, callback?: coreHttp.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,9 +99,9 @@ export class ResourceGroups {
    * @summary Deletes a resource group.
    * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -112,19 +112,19 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsGetResponse>
    */
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsGetResponse>;
+  get(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param callback The callback
    */
-  get(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  get(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsGetResponse> {
+  get(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
+  get(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceGroup>, callback?: coreHttp.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,21 +144,21 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsUpdateResponse>;
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
    * @param parameters Parameters supplied to update a resource group.
    * @param callback The callback
    */
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
    * @param parameters Parameters supplied to update a resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroup>, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsUpdateResponse> {
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceGroup>): void;
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceGroup>, callback?: coreHttp.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,21 +176,21 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsExportTemplateResponse>
    */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse>;
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to export as a template.
    * @param parameters Parameters for exporting the template.
    * @param callback The callback
    */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, callback: coreHttp.ServiceCallback<Models.ResourceGroupExportResult>): void;
   /**
    * @param resourceGroupName The name of the resource group to export as a template.
    * @param parameters Parameters for exporting the template.
    * @param options The optional parameters
    * @param callback The callback
    */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroupExportResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceGroupExportResult>): void;
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceGroupExportResult>, callback?: coreHttp.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -210,13 +210,13 @@ export class ResourceGroups {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ResourceGroupsListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
-  list(options?: Models.ResourceGroupsListOptionalParams | msRest.ServiceCallback<Models.ResourceGroupListResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListResponse> {
+  list(options: Models.ResourceGroupsListOptionalParams, callback: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): void;
+  list(options?: Models.ResourceGroupsListOptionalParams | coreHttp.ServiceCallback<Models.ResourceGroupListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -231,9 +231,9 @@ export class ResourceGroups {
    * @summary Deletes a resource group.
    * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -249,19 +249,19 @@ export class ResourceGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroupListResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceGroupListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -273,8 +273,8 @@ export class ResourceGroups {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const checkExistenceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const checkExistenceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   urlParameters: [
@@ -297,7 +297,7 @@ const checkExistenceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   urlParameters: [
@@ -331,7 +331,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   urlParameters: [
@@ -355,7 +355,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   urlParameters: [
@@ -386,7 +386,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const exportTemplateOperationSpec: msRest.OperationSpec = {
+const exportTemplateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
   urlParameters: [
@@ -417,7 +417,7 @@ const exportTemplateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups",
   urlParameters: [
@@ -442,7 +442,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   urlParameters: [
@@ -465,7 +465,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

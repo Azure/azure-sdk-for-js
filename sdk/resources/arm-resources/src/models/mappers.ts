@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const DeploymentExtendedFilter: msRest.CompositeMapper = {
+export const DeploymentExtendedFilter: coreHttp.CompositeMapper = {
   serializedName: "DeploymentExtendedFilter",
   type: {
     name: "Composite",
@@ -28,7 +28,7 @@ export const DeploymentExtendedFilter: msRest.CompositeMapper = {
   }
 };
 
-export const GenericResourceFilter: msRest.CompositeMapper = {
+export const GenericResourceFilter: coreHttp.CompositeMapper = {
   serializedName: "GenericResourceFilter",
   type: {
     name: "Composite",
@@ -56,7 +56,7 @@ export const GenericResourceFilter: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupFilter: msRest.CompositeMapper = {
+export const ResourceGroupFilter: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroupFilter",
   type: {
     name: "Composite",
@@ -78,7 +78,7 @@ export const ResourceGroupFilter: msRest.CompositeMapper = {
   }
 };
 
-export const TemplateLink: msRest.CompositeMapper = {
+export const TemplateLink: coreHttp.CompositeMapper = {
   serializedName: "TemplateLink",
   type: {
     name: "Composite",
@@ -101,7 +101,7 @@ export const TemplateLink: msRest.CompositeMapper = {
   }
 };
 
-export const ParametersLink: msRest.CompositeMapper = {
+export const ParametersLink: coreHttp.CompositeMapper = {
   serializedName: "ParametersLink",
   type: {
     name: "Composite",
@@ -124,7 +124,7 @@ export const ParametersLink: msRest.CompositeMapper = {
   }
 };
 
-export const DebugSetting: msRest.CompositeMapper = {
+export const DebugSetting: coreHttp.CompositeMapper = {
   serializedName: "DebugSetting",
   type: {
     name: "Composite",
@@ -140,7 +140,7 @@ export const DebugSetting: msRest.CompositeMapper = {
   }
 };
 
-export const OnErrorDeployment: msRest.CompositeMapper = {
+export const OnErrorDeployment: coreHttp.CompositeMapper = {
   serializedName: "OnErrorDeployment",
   type: {
     name: "Composite",
@@ -166,7 +166,7 @@ export const OnErrorDeployment: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentProperties: msRest.CompositeMapper = {
+export const DeploymentProperties: coreHttp.CompositeMapper = {
   serializedName: "DeploymentProperties",
   type: {
     name: "Composite",
@@ -227,7 +227,7 @@ export const DeploymentProperties: msRest.CompositeMapper = {
   }
 };
 
-export const Deployment: msRest.CompositeMapper = {
+export const Deployment: coreHttp.CompositeMapper = {
   serializedName: "Deployment",
   type: {
     name: "Composite",
@@ -251,7 +251,7 @@ export const Deployment: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentExportResult: msRest.CompositeMapper = {
+export const DeploymentExportResult: coreHttp.CompositeMapper = {
   serializedName: "DeploymentExportResult",
   type: {
     name: "Composite",
@@ -267,7 +267,7 @@ export const DeploymentExportResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceManagementErrorWithDetails: msRest.CompositeMapper = {
+export const ResourceManagementErrorWithDetails: coreHttp.CompositeMapper = {
   serializedName: "ResourceManagementErrorWithDetails",
   type: {
     name: "Composite",
@@ -311,7 +311,7 @@ export const ResourceManagementErrorWithDetails: msRest.CompositeMapper = {
   }
 };
 
-export const AliasPathType: msRest.CompositeMapper = {
+export const AliasPathType: coreHttp.CompositeMapper = {
   serializedName: "AliasPathType",
   type: {
     name: "Composite",
@@ -338,7 +338,7 @@ export const AliasPathType: msRest.CompositeMapper = {
   }
 };
 
-export const AliasType: msRest.CompositeMapper = {
+export const AliasType: coreHttp.CompositeMapper = {
   serializedName: "AliasType",
   type: {
     name: "Composite",
@@ -366,7 +366,7 @@ export const AliasType: msRest.CompositeMapper = {
   }
 };
 
-export const ProviderResourceType: msRest.CompositeMapper = {
+export const ProviderResourceType: coreHttp.CompositeMapper = {
   serializedName: "ProviderResourceType",
   type: {
     name: "Composite",
@@ -433,7 +433,7 @@ export const ProviderResourceType: msRest.CompositeMapper = {
   }
 };
 
-export const Provider: msRest.CompositeMapper = {
+export const Provider: coreHttp.CompositeMapper = {
   serializedName: "Provider",
   type: {
     name: "Composite",
@@ -483,7 +483,7 @@ export const Provider: msRest.CompositeMapper = {
   }
 };
 
-export const BasicDependency: msRest.CompositeMapper = {
+export const BasicDependency: coreHttp.CompositeMapper = {
   serializedName: "BasicDependency",
   type: {
     name: "Composite",
@@ -511,7 +511,7 @@ export const BasicDependency: msRest.CompositeMapper = {
   }
 };
 
-export const Dependency: msRest.CompositeMapper = {
+export const Dependency: coreHttp.CompositeMapper = {
   serializedName: "Dependency",
   type: {
     name: "Composite",
@@ -551,7 +551,7 @@ export const Dependency: msRest.CompositeMapper = {
   }
 };
 
-export const OnErrorDeploymentExtended: msRest.CompositeMapper = {
+export const OnErrorDeploymentExtended: coreHttp.CompositeMapper = {
   serializedName: "OnErrorDeploymentExtended",
   type: {
     name: "Composite",
@@ -584,7 +584,7 @@ export const OnErrorDeploymentExtended: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
+export const DeploymentPropertiesExtended: coreHttp.CompositeMapper = {
   serializedName: "DeploymentPropertiesExtended",
   type: {
     name: "Composite",
@@ -702,7 +702,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentValidateResult: msRest.CompositeMapper = {
+export const DeploymentValidateResult: coreHttp.CompositeMapper = {
   serializedName: "DeploymentValidateResult",
   type: {
     name: "Composite",
@@ -726,7 +726,7 @@ export const DeploymentValidateResult: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentExtended: msRest.CompositeMapper = {
+export const DeploymentExtended: coreHttp.CompositeMapper = {
   serializedName: "DeploymentExtended",
   type: {
     name: "Composite",
@@ -770,7 +770,7 @@ export const DeploymentExtended: msRest.CompositeMapper = {
   }
 };
 
-export const Plan: msRest.CompositeMapper = {
+export const Plan: coreHttp.CompositeMapper = {
   serializedName: "Plan",
   type: {
     name: "Composite",
@@ -810,7 +810,7 @@ export const Plan: msRest.CompositeMapper = {
   }
 };
 
-export const Sku: msRest.CompositeMapper = {
+export const Sku: coreHttp.CompositeMapper = {
   serializedName: "Sku",
   type: {
     name: "Composite",
@@ -856,7 +856,7 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+export const IdentityUserAssignedIdentitiesValue: coreHttp.CompositeMapper = {
   serializedName: "Identity_userAssignedIdentitiesValue",
   type: {
     name: "Composite",
@@ -880,7 +880,7 @@ export const IdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
   }
 };
 
-export const Identity: msRest.CompositeMapper = {
+export const Identity: coreHttp.CompositeMapper = {
   serializedName: "Identity",
   type: {
     name: "Composite",
@@ -928,7 +928,7 @@ export const Identity: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
+export const Resource: coreHttp.CompositeMapper = {
   serializedName: "Resource",
   type: {
     name: "Composite",
@@ -976,7 +976,7 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
-export const GenericResource: msRest.CompositeMapper = {
+export const GenericResource: coreHttp.CompositeMapper = {
   serializedName: "GenericResource",
   type: {
     name: "Composite",
@@ -1029,7 +1029,7 @@ export const GenericResource: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupProperties: msRest.CompositeMapper = {
+export const ResourceGroupProperties: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroupProperties",
   type: {
     name: "Composite",
@@ -1046,7 +1046,7 @@ export const ResourceGroupProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroup: msRest.CompositeMapper = {
+export const ResourceGroup: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroup",
   type: {
     name: "Composite",
@@ -1108,7 +1108,7 @@ export const ResourceGroup: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupPatchable: msRest.CompositeMapper = {
+export const ResourceGroupPatchable: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroupPatchable",
   type: {
     name: "Composite",
@@ -1148,7 +1148,7 @@ export const ResourceGroupPatchable: msRest.CompositeMapper = {
   }
 };
 
-export const ResourcesMoveInfo: msRest.CompositeMapper = {
+export const ResourcesMoveInfo: coreHttp.CompositeMapper = {
   serializedName: "ResourcesMoveInfo",
   type: {
     name: "Composite",
@@ -1175,7 +1175,7 @@ export const ResourcesMoveInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ExportTemplateRequest: msRest.CompositeMapper = {
+export const ExportTemplateRequest: coreHttp.CompositeMapper = {
   serializedName: "ExportTemplateRequest",
   type: {
     name: "Composite",
@@ -1202,7 +1202,7 @@ export const ExportTemplateRequest: msRest.CompositeMapper = {
   }
 };
 
-export const TagCount: msRest.CompositeMapper = {
+export const TagCount: coreHttp.CompositeMapper = {
   serializedName: "TagCount",
   type: {
     name: "Composite",
@@ -1224,7 +1224,7 @@ export const TagCount: msRest.CompositeMapper = {
   }
 };
 
-export const TagValue: msRest.CompositeMapper = {
+export const TagValue: coreHttp.CompositeMapper = {
   serializedName: "TagValue",
   type: {
     name: "Composite",
@@ -1254,7 +1254,7 @@ export const TagValue: msRest.CompositeMapper = {
   }
 };
 
-export const TagDetails: msRest.CompositeMapper = {
+export const TagDetails: coreHttp.CompositeMapper = {
   serializedName: "TagDetails",
   type: {
     name: "Composite",
@@ -1296,7 +1296,7 @@ export const TagDetails: msRest.CompositeMapper = {
   }
 };
 
-export const TargetResource: msRest.CompositeMapper = {
+export const TargetResource: coreHttp.CompositeMapper = {
   serializedName: "TargetResource",
   type: {
     name: "Composite",
@@ -1324,7 +1324,7 @@ export const TargetResource: msRest.CompositeMapper = {
   }
 };
 
-export const HttpMessage: msRest.CompositeMapper = {
+export const HttpMessage: coreHttp.CompositeMapper = {
   serializedName: "HttpMessage",
   type: {
     name: "Composite",
@@ -1340,7 +1340,7 @@ export const HttpMessage: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentOperationProperties: msRest.CompositeMapper = {
+export const DeploymentOperationProperties: coreHttp.CompositeMapper = {
   serializedName: "DeploymentOperationProperties",
   type: {
     name: "Composite",
@@ -1416,7 +1416,7 @@ export const DeploymentOperationProperties: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentOperation: msRest.CompositeMapper = {
+export const DeploymentOperation: coreHttp.CompositeMapper = {
   serializedName: "DeploymentOperation",
   type: {
     name: "Composite",
@@ -1447,7 +1447,7 @@ export const DeploymentOperation: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceProviderOperationDisplayProperties: msRest.CompositeMapper = {
+export const ResourceProviderOperationDisplayProperties: coreHttp.CompositeMapper = {
   serializedName: "ResourceProviderOperationDisplayProperties",
   type: {
     name: "Composite",
@@ -1487,7 +1487,7 @@ export const ResourceProviderOperationDisplayProperties: msRest.CompositeMapper 
   }
 };
 
-export const SubResource: msRest.CompositeMapper = {
+export const SubResource: coreHttp.CompositeMapper = {
   serializedName: "SubResource",
   type: {
     name: "Composite",
@@ -1503,7 +1503,7 @@ export const SubResource: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupExportResult: msRest.CompositeMapper = {
+export const ResourceGroupExportResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroupExportResult",
   type: {
     name: "Composite",
@@ -1526,7 +1526,7 @@ export const ResourceGroupExportResult: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
+export const OperationDisplay: coreHttp.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -1560,7 +1560,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
+export const Operation: coreHttp.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -1583,7 +1583,7 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const OperationListResult: msRest.CompositeMapper = {
+export const OperationListResult: coreHttp.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -1611,7 +1611,7 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentListResult: msRest.CompositeMapper = {
+export const DeploymentListResult: coreHttp.CompositeMapper = {
   serializedName: "DeploymentListResult",
   type: {
     name: "Composite",
@@ -1640,7 +1640,7 @@ export const DeploymentListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ProviderListResult: msRest.CompositeMapper = {
+export const ProviderListResult: coreHttp.CompositeMapper = {
   serializedName: "ProviderListResult",
   type: {
     name: "Composite",
@@ -1669,7 +1669,7 @@ export const ProviderListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceListResult: msRest.CompositeMapper = {
+export const ResourceListResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceListResult",
   type: {
     name: "Composite",
@@ -1698,7 +1698,7 @@ export const ResourceListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupListResult: msRest.CompositeMapper = {
+export const ResourceGroupListResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceGroupListResult",
   type: {
     name: "Composite",
@@ -1727,7 +1727,7 @@ export const ResourceGroupListResult: msRest.CompositeMapper = {
   }
 };
 
-export const TagsListResult: msRest.CompositeMapper = {
+export const TagsListResult: coreHttp.CompositeMapper = {
   serializedName: "TagsListResult",
   type: {
     name: "Composite",
@@ -1756,7 +1756,7 @@ export const TagsListResult: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentOperationsListResult: msRest.CompositeMapper = {
+export const DeploymentOperationsListResult: coreHttp.CompositeMapper = {
   serializedName: "DeploymentOperationsListResult",
   type: {
     name: "Composite",

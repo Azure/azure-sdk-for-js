@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/resourcesMappers";
 import * as Parameters from "../models/parameters";
@@ -38,14 +38,14 @@ export class Resources {
    * @param resourceGroupName The resource group with the resources to get.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
   /**
    * @param resourceGroupName The resource group with the resources to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.ResourcesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ResourcesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: Models.ResourcesListByResourceGroupOptionalParams, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: Models.ResourcesListByResourceGroupOptionalParams | coreHttp.ServiceCallback<Models.ResourceListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,9 +64,9 @@ export class Resources {
    * @param sourceResourceGroupName The name of the resource group containing the resources to move.
    * @param parameters Parameters for moving resources.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  moveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  moveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginMoveResources(sourceResourceGroupName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -83,9 +83,9 @@ export class Resources {
    * validate for move.
    * @param parameters Parameters for moving resources.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  validateMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  validateMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginValidateMoveResources(sourceResourceGroupName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -99,13 +99,13 @@ export class Resources {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ResourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  list(options?: Models.ResourcesListOptionalParams | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListResponse> {
+  list(options: Models.ResourcesListOptionalParams, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
+  list(options?: Models.ResourcesListOptionalParams | coreHttp.ServiceCallback<Models.ResourceListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -126,7 +126,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCheckExistenceResponse>
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceResponse>;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to check. The
    * name is case insensitive.
@@ -137,7 +137,7 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: coreHttp.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to check. The
    * name is case insensitive.
@@ -149,8 +149,8 @@ export class Resources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<boolean>, callback?: coreHttp.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,9 +175,9 @@ export class Resources {
    * @param resourceName The name of the resource to delete.
    * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -195,7 +195,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesCreateOrUpdateResponse>;
   }
@@ -213,7 +213,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateResponse> {
+  update(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesUpdateResponse> {
     return this.beginUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesUpdateResponse>;
   }
@@ -230,7 +230,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesGetResponse>
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetResponse>;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to get. The name
    * is case insensitive.
@@ -241,7 +241,7 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: coreHttp.ServiceCallback<Models.GenericResource>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to get. The name
    * is case insensitive.
@@ -253,8 +253,8 @@ export class Resources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GenericResource>): void;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GenericResource>, callback?: coreHttp.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCheckExistenceByIdResponse>
    */
-  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceByIdResponse>;
+  checkExistenceById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceByIdResponse>;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
@@ -286,7 +286,7 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  checkExistenceById(resourceId: string, apiVersion: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceById(resourceId: string, apiVersion: string, callback: coreHttp.ServiceCallback<boolean>): void;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
@@ -295,8 +295,8 @@ export class Resources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistenceById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
+  checkExistenceById(resourceId: string, apiVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<boolean>): void;
+  checkExistenceById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<boolean>, callback?: coreHttp.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -314,9 +314,9 @@ export class Resources {
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
    * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteById(resourceId,apiVersion,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -331,7 +331,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCreateOrUpdateByIdResponse>
    */
-  createOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateByIdResponse> {
+  createOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateByIdResponse> {
     return this.beginCreateOrUpdateById(resourceId,apiVersion,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesCreateOrUpdateByIdResponse>;
   }
@@ -346,7 +346,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesUpdateByIdResponse>
    */
-  updateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateByIdResponse> {
+  updateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesUpdateByIdResponse> {
     return this.beginUpdateById(resourceId,apiVersion,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesUpdateByIdResponse>;
   }
@@ -360,7 +360,7 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesGetByIdResponse>
    */
-  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetByIdResponse>;
+  getById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesGetByIdResponse>;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
@@ -368,7 +368,7 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  getById(resourceId: string, apiVersion: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  getById(resourceId: string, apiVersion: string, callback: coreHttp.ServiceCallback<Models.GenericResource>): void;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
@@ -377,8 +377,8 @@ export class Resources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
+  getById(resourceId: string, apiVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GenericResource>): void;
+  getById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GenericResource>, callback?: coreHttp.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -398,9 +398,9 @@ export class Resources {
    * @param sourceResourceGroupName The name of the resource group containing the resources to move.
    * @param parameters Parameters for moving resources.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         sourceResourceGroupName,
@@ -423,9 +423,9 @@ export class Resources {
    * validate for move.
    * @param parameters Parameters for moving resources.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginValidateMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginValidateMoveResources(sourceResourceGroupName: string, parameters: Models.ResourcesMoveInfo, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         sourceResourceGroupName,
@@ -446,9 +446,9 @@ export class Resources {
    * @param resourceName The name of the resource to delete.
    * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -474,9 +474,9 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for creating or updating the resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -503,9 +503,9 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for updating the resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -528,9 +528,9 @@ export class Resources {
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
    * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteById(resourceId: string, apiVersion: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
@@ -549,9 +549,9 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param parameters Create or update resource parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
@@ -571,9 +571,9 @@ export class Resources {
    * @param apiVersion The API version to use for the operation.
    * @param parameters Update resource parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
@@ -591,19 +591,19 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -619,19 +619,19 @@ export class Resources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListResult>, callback?: msRest.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceListResult>): Promise<Models.ResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -643,8 +643,8 @@ export class Resources {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources",
   urlParameters: [
@@ -671,7 +671,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resources",
   urlParameters: [
@@ -697,7 +697,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkExistenceOperationSpec: msRest.OperationSpec = {
+const checkExistenceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}",
   urlParameters: [
@@ -724,7 +724,7 @@ const checkExistenceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}",
   urlParameters: [
@@ -752,7 +752,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkExistenceByIdOperationSpec: msRest.OperationSpec = {
+const checkExistenceByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{resourceId}",
   urlParameters: [
@@ -774,7 +774,7 @@ const checkExistenceByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getByIdOperationSpec: msRest.OperationSpec = {
+const getByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}",
   urlParameters: [
@@ -797,7 +797,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginMoveResourcesOperationSpec: msRest.OperationSpec = {
+const beginMoveResourcesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources",
   urlParameters: [
@@ -827,7 +827,7 @@ const beginMoveResourcesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginValidateMoveResourcesOperationSpec: msRest.OperationSpec = {
+const beginValidateMoveResourcesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources",
   urlParameters: [
@@ -858,7 +858,7 @@ const beginValidateMoveResourcesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}",
   urlParameters: [
@@ -886,7 +886,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}",
   urlParameters: [
@@ -925,7 +925,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}",
   urlParameters: [
@@ -961,7 +961,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
+const beginDeleteByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{resourceId}",
   urlParameters: [
@@ -984,7 +984,7 @@ const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateByIdOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{resourceId}",
   urlParameters: [
@@ -1018,7 +1018,7 @@ const beginCreateOrUpdateByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateByIdOperationSpec: msRest.OperationSpec = {
+const beginUpdateByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{resourceId}",
   urlParameters: [
@@ -1049,7 +1049,7 @@ const beginUpdateByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -1070,7 +1070,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/providersMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersUnregisterResponse>
    */
-  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersUnregisterResponse>;
+  unregister(resourceProviderNamespace: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ProvidersUnregisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to unregister.
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  unregister(resourceProviderNamespace: string, callback: coreHttp.ServiceCallback<Models.Provider>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to unregister.
    * @param options The optional parameters
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersUnregisterResponse> {
+  unregister(resourceProviderNamespace: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Provider>): void;
+  unregister(resourceProviderNamespace: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Provider>, callback?: coreHttp.ServiceCallback<Models.Provider>): Promise<Models.ProvidersUnregisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -60,19 +60,19 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersRegisterResponse>
    */
-  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersRegisterResponse>;
+  register(resourceProviderNamespace: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ProvidersRegisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  register(resourceProviderNamespace: string, callback: coreHttp.ServiceCallback<Models.Provider>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param options The optional parameters
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersRegisterResponse> {
+  register(resourceProviderNamespace: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Provider>): void;
+  register(resourceProviderNamespace: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Provider>, callback?: coreHttp.ServiceCallback<Models.Provider>): Promise<Models.ProvidersRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -91,13 +91,13 @@ export class Providers {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ProviderListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ProvidersListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  list(options?: Models.ProvidersListOptionalParams | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListResponse> {
+  list(options: Models.ProvidersListOptionalParams, callback: coreHttp.ServiceCallback<Models.ProviderListResult>): void;
+  list(options?: Models.ProvidersListOptionalParams | coreHttp.ServiceCallback<Models.ProviderListResult>, callback?: coreHttp.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -117,14 +117,14 @@ export class Providers {
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  get(resourceProviderNamespace: string, callback: coreHttp.ServiceCallback<Models.Provider>): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, options: Models.ProvidersGetOptionalParams, callback: msRest.ServiceCallback<Models.Provider>): void;
-  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetResponse> {
+  get(resourceProviderNamespace: string, options: Models.ProvidersGetOptionalParams, callback: coreHttp.ServiceCallback<Models.Provider>): void;
+  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams | coreHttp.ServiceCallback<Models.Provider>, callback?: coreHttp.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -140,19 +140,19 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ProvidersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ProviderListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ProviderListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ProviderListResult>, callback?: coreHttp.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -164,8 +164,8 @@ export class Providers {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const unregisterOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const unregisterOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
   urlParameters: [
@@ -189,7 +189,7 @@ const unregisterOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const registerOperationSpec: msRest.OperationSpec = {
+const registerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
   urlParameters: [
@@ -213,7 +213,7 @@ const registerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers",
   urlParameters: [
@@ -238,7 +238,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
   urlParameters: [
@@ -263,7 +263,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

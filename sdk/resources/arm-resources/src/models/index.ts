@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -969,7 +969,7 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
-export interface DeploymentsListAtManagementGroupScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentsListAtManagementGroupScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
    * '{state}'.
@@ -984,7 +984,7 @@ export interface DeploymentsListAtManagementGroupScopeOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface DeploymentsListAtSubscriptionScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentsListAtSubscriptionScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
    * '{state}'.
@@ -999,7 +999,7 @@ export interface DeploymentsListAtSubscriptionScopeOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface DeploymentsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentsListByResourceGroupOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
    * '{state}'.
@@ -1014,7 +1014,7 @@ export interface DeploymentsListByResourceGroupOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface ProvidersListOptionalParams extends msRest.RequestOptionsBase {
+export interface ProvidersListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The number of results to return. If null is passed returns all deployments.
    */
@@ -1030,7 +1030,7 @@ export interface ProvidersListOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ProvidersGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ProvidersGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The $expand query parameter. For example, to include property aliases in response, use
    * $expand=resourceTypes/aliases.
@@ -1041,7 +1041,7 @@ export interface ProvidersGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ResourcesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface ResourcesListByResourceGroupOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.<br><br>The properties you can use for eq (equals) or ne
    * (not equals) are: location, resourceType, name, resourceGroup, identity, identity/principalId,
@@ -1072,7 +1072,7 @@ export interface ResourcesListByResourceGroupOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface ResourcesListOptionalParams extends msRest.RequestOptionsBase {
+export interface ResourcesListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.<br><br>The properties you can use for eq (equals) or ne
    * (not equals) are: location, resourceType, name, resourceGroup, identity, identity/principalId,
@@ -1103,7 +1103,7 @@ export interface ResourcesListOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ResourceGroupsListOptionalParams extends msRest.RequestOptionsBase {
+export interface ResourceGroupsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.<br><br>You can filter by tag names and values. For
    * example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq
@@ -1119,7 +1119,7 @@ export interface ResourceGroupsListOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The number of results to return.
    */
@@ -1129,7 +1129,7 @@ export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The number of results to return.
    */
@@ -1139,7 +1139,7 @@ export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface DeploymentOperationsListOptionalParams extends msRest.RequestOptionsBase {
+export interface DeploymentOperationsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The number of results to return.
    */
@@ -1276,7 +1276,7 @@ export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1296,7 +1296,7 @@ export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1321,7 +1321,7 @@ export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1341,7 +1341,7 @@ export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponse = Deployment
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1361,7 +1361,7 @@ export type DeploymentsGetAtManagementGroupScopeResponse = DeploymentExtended & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1381,7 +1381,7 @@ export type DeploymentsValidateAtManagementGroupScopeResponse = DeploymentValida
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1401,7 +1401,7 @@ export type DeploymentsExportTemplateAtManagementGroupScopeResponse = Deployment
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1421,7 +1421,7 @@ export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1446,7 +1446,7 @@ export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1466,7 +1466,7 @@ export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponse = DeploymentExt
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1486,7 +1486,7 @@ export type DeploymentsGetAtSubscriptionScopeResponse = DeploymentExtended & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1506,7 +1506,7 @@ export type DeploymentsValidateAtSubscriptionScopeResponse = DeploymentValidateR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1526,7 +1526,7 @@ export type DeploymentsExportTemplateAtSubscriptionScopeResponse = DeploymentExp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1546,7 +1546,7 @@ export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1571,7 +1571,7 @@ export type DeploymentsCheckExistenceResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1591,7 +1591,7 @@ export type DeploymentsCreateOrUpdateResponse = DeploymentExtended & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1611,7 +1611,7 @@ export type DeploymentsGetResponse = DeploymentExtended & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1631,7 +1631,7 @@ export type DeploymentsValidateResponse = DeploymentValidateResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1651,7 +1651,7 @@ export type DeploymentsExportTemplateResponse = DeploymentExportResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1671,7 +1671,7 @@ export type DeploymentsListByResourceGroupResponse = DeploymentListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1691,7 +1691,7 @@ export type DeploymentsBeginCreateOrUpdateAtManagementGroupScopeResponse = Deplo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1711,7 +1711,7 @@ export type DeploymentsBeginCreateOrUpdateAtSubscriptionScopeResponse = Deployme
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1731,7 +1731,7 @@ export type DeploymentsBeginCreateOrUpdateResponse = DeploymentExtended & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1751,7 +1751,7 @@ export type DeploymentsListAtManagementGroupScopeNextResponse = DeploymentListRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1771,7 +1771,7 @@ export type DeploymentsListAtSubscriptionScopeNextResponse = DeploymentListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1791,7 +1791,7 @@ export type DeploymentsListByResourceGroupNextResponse = DeploymentListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1811,7 +1811,7 @@ export type ProvidersUnregisterResponse = Provider & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1831,7 +1831,7 @@ export type ProvidersRegisterResponse = Provider & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1851,7 +1851,7 @@ export type ProvidersListResponse = ProviderListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1871,7 +1871,7 @@ export type ProvidersGetResponse = Provider & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1891,7 +1891,7 @@ export type ProvidersListNextResponse = ProviderListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1911,7 +1911,7 @@ export type ResourcesListByResourceGroupResponse = ResourceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1931,7 +1931,7 @@ export type ResourcesListResponse = ResourceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1956,7 +1956,7 @@ export type ResourcesCheckExistenceResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1976,7 +1976,7 @@ export type ResourcesCreateOrUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1996,7 +1996,7 @@ export type ResourcesUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2016,7 +2016,7 @@ export type ResourcesGetResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2041,7 +2041,7 @@ export type ResourcesCheckExistenceByIdResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2061,7 +2061,7 @@ export type ResourcesCreateOrUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2081,7 +2081,7 @@ export type ResourcesUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2101,7 +2101,7 @@ export type ResourcesGetByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2121,7 +2121,7 @@ export type ResourcesBeginCreateOrUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2141,7 +2141,7 @@ export type ResourcesBeginUpdateResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2161,7 +2161,7 @@ export type ResourcesBeginCreateOrUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2181,7 +2181,7 @@ export type ResourcesBeginUpdateByIdResponse = GenericResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2201,7 +2201,7 @@ export type ResourcesListByResourceGroupNextResponse = ResourceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2221,7 +2221,7 @@ export type ResourcesListNextResponse = ResourceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2246,7 +2246,7 @@ export type ResourceGroupsCheckExistenceResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2266,7 +2266,7 @@ export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2286,7 +2286,7 @@ export type ResourceGroupsGetResponse = ResourceGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2306,7 +2306,7 @@ export type ResourceGroupsUpdateResponse = ResourceGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2326,7 +2326,7 @@ export type ResourceGroupsExportTemplateResponse = ResourceGroupExportResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2346,7 +2346,7 @@ export type ResourceGroupsListResponse = ResourceGroupListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2366,7 +2366,7 @@ export type ResourceGroupsListNextResponse = ResourceGroupListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2386,7 +2386,7 @@ export type TagsCreateOrUpdateValueResponse = TagValue & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2406,7 +2406,7 @@ export type TagsCreateOrUpdateResponse = TagDetails & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2426,7 +2426,7 @@ export type TagsListResponse = TagsListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2446,7 +2446,7 @@ export type TagsListNextResponse = TagsListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2466,7 +2466,7 @@ export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2486,7 +2486,7 @@ export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentO
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2506,7 +2506,7 @@ export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOpera
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2526,7 +2526,7 @@ export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOper
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2546,7 +2546,7 @@ export type DeploymentOperationsGetResponse = DeploymentOperation & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2566,7 +2566,7 @@ export type DeploymentOperationsListResponse = DeploymentOperationsListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2586,7 +2586,7 @@ export type DeploymentOperationsListAtManagementGroupScopeNextResponse = Deploym
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2606,7 +2606,7 @@ export type DeploymentOperationsListAtSubscriptionScopeNextResponse = Deployment
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -2626,7 +2626,7 @@ export type DeploymentOperationsListNextResponse = DeploymentOperationsListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */

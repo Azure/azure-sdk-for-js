@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/tagsMappers";
 import * as Parameters from "../models/parameters";
@@ -31,23 +31,23 @@ export class Tags {
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to delete.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteValue(tagName: string, tagValue: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to delete.
    * @param callback The callback
    */
-  deleteValue(tagName: string, tagValue: string, callback: msRest.ServiceCallback<void>): void;
+  deleteValue(tagName: string, tagValue: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteValue(tagName: string, tagValue: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteValue(tagName: string, tagValue: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -65,21 +65,21 @@ export class Tags {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateValueResponse>
    */
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
+  createOrUpdateValue(tagName: string, tagValue: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param callback The callback
    */
-  createOrUpdateValue(tagName: string, tagValue: string, callback: msRest.ServiceCallback<Models.TagValue>): void;
+  createOrUpdateValue(tagName: string, tagValue: string, callback: coreHttp.ServiceCallback<Models.TagValue>): void;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagValue>): void;
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
+  createOrUpdateValue(tagName: string, tagValue: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TagValue>): void;
+  createOrUpdateValue(tagName: string, tagValue: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TagValue>, callback?: coreHttp.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -99,19 +99,19 @@ export class Tags {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateResponse>
    */
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
+  createOrUpdate(tagName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
   /**
    * @param tagName The name of the tag to create.
    * @param callback The callback
    */
-  createOrUpdate(tagName: string, callback: msRest.ServiceCallback<Models.TagDetails>): void;
+  createOrUpdate(tagName: string, callback: coreHttp.ServiceCallback<Models.TagDetails>): void;
   /**
    * @param tagName The name of the tag to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDetails>): void;
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
+  createOrUpdate(tagName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TagDetails>): void;
+  createOrUpdate(tagName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TagDetails>, callback?: coreHttp.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -126,21 +126,21 @@ export class Tags {
    * @summary Deletes a tag from the subscription.
    * @param tagName The name of the tag.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(tagName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param tagName The name of the tag.
    * @param callback The callback
    */
-  deleteMethod(tagName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(tagName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param tagName The name of the tag.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(tagName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(tagName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -155,17 +155,17 @@ export class Tags {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.TagsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.TagsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.TagsListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.TagsListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TagsListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TagsListResult>, callback?: coreHttp.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -180,19 +180,19 @@ export class Tags {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.TagsListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TagsListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TagsListResult>, callback?: coreHttp.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -204,8 +204,8 @@ export class Tags {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const deleteValueOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const deleteValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
   urlParameters: [
@@ -229,7 +229,7 @@ const deleteValueOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateValueOperationSpec: msRest.OperationSpec = {
+const createOrUpdateValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
   urlParameters: [
@@ -257,7 +257,7 @@ const createOrUpdateValueOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}",
   urlParameters: [
@@ -284,7 +284,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}",
   urlParameters: [
@@ -307,7 +307,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/tagNames",
   urlParameters: [
@@ -330,7 +330,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
