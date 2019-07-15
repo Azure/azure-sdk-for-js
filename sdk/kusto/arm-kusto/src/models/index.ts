@@ -511,6 +511,16 @@ export interface DatabaseCheckNameRequest {
 }
 
 /**
+ * The result returned from a data connections check name availability request.
+ */
+export interface DataConnectionCheckNameRequest {
+  /**
+   * Data Connection name.
+   */
+  name: string;
+}
+
+/**
  * The result returned from a check name availability request.
  */
 export interface CheckNameResult {
@@ -527,6 +537,11 @@ export interface CheckNameResult {
    * that are violated.
    */
   message?: string;
+  /**
+   * Message providing the reason why the given name is invalid. Possible values include:
+   * 'Invalid', 'AlreadyExists'
+   */
+  reason?: Reason;
 }
 
 /**
@@ -709,6 +724,14 @@ export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 
  * @enum {string}
  */
 export type DatabasePrincipalType = 'App' | 'Group' | 'User';
+
+/**
+ * Defines values for Reason.
+ * Possible values include: 'Invalid', 'AlreadyExists'
+ * @readonly
+ * @enum {string}
+ */
+export type Reason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Contains response data for the get operation.
@@ -1147,6 +1170,26 @@ export type DataConnectionsDataConnectionValidationMethodResponse = DataConnecti
        * The response body as parsed JSON or XML
        */
       parsedBody: DataConnectionValidationListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameResult;
     };
 };
 

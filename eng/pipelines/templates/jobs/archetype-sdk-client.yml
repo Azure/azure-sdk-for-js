@@ -1,10 +1,10 @@
 jobs:
-  - job: Prepare
+  - job: "Build"
     variables:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: "ubuntu-16.04"
+      vmImage: "$(OSVmImage)"
 
     steps:
       - script: |
@@ -12,40 +12,11 @@ jobs:
         displayName: 'Tag scheduled builds'
         condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
-      - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
+      - template: ../steps/common.yml
 
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - job: "Build"
-    variables:
-      - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
-
-    dependsOn:
-      - Prepare
-
-    pool:
-      vmImage: "ubuntu-16.04"
-
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
-      - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -76,27 +47,18 @@ jobs:
 
   - job: "Analyze"
 
-    dependsOn:
-      - Prepare
-
     variables:
       - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     pool:
-      vmImage: "ubuntu-16.04"
+      vmImage: "$(OSVmImage)"
 
     steps:
-      - task: UsePythonVersion@0
-        displayName: "Use Python 3.6"
-        inputs:
-          versionSpec: "3.6"
+      - template: ../steps/common.yml
 
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           pip install setuptools wheel
@@ -116,47 +78,35 @@ jobs:
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
 
-  - job: "Test"
-
-    dependsOn:
-      - Prepare
+  - job: "UnitTest"
 
     strategy:
       matrix:
         Linux_Node8:
-          OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "8.x"
         Linux_Node10:
-          OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
         Linux_Node12:
-          OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "12.x"
         macOS_Node8:
-          OSName: "macOS"
           OSVmImage: "macOS-10.13"
           NodeVersion: "8.x"
         macOS_Node10:
-          OSName: "macOS"
           OSVmImage: "macOS-10.13"
           NodeVersion: "10.x"
         macOS_Node12:
-          OSName: "macOS"
           OSVmImage: "macOS-10.13"
           NodeVersion: "12.x"
         Windows_Node8:
-          OSName: "Windows"
           OSVmImage: "vs2017-win2016"
           NodeVersion: "8.x"
         Windows_Node10:
-          OSName: "Windows"
           OSVmImage: "vs2017-win2016"
           NodeVersion: "10.x"
         Windows_Node12:
-          OSName: "Windows"
           OSVmImage: "vs2017-win2016"
           NodeVersion: "12.x"
 
@@ -164,13 +114,14 @@ jobs:
       vmImage: "$(OSVmImage)"
 
     variables:
-      GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
+      - template: ../variables/globals.yml
 
     steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
+      - template: ../steps/common.yml
+
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -189,6 +140,13 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) Node $(NodeVersion)"
+          testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
         condition: succeededOrFailed()
-        displayName: "Publish test results"
+        displayName: "Publish NodeJS unit test results"
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+        condition: succeededOrFailed()
+        displayName: "Publish browser unit test results"
