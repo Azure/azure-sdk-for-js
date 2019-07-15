@@ -1,3 +1,7 @@
+### 2019-07-15 2.1.1
+
+- Added event handler `error` and `protocolError` on the connection object that will just log the error and take care of the unhandled exception.
+
 ### 2019-06-10 2.1.0
 
 - Added support for WebSockets. WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
