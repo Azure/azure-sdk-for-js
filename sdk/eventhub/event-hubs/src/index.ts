@@ -13,12 +13,14 @@ export {
   EventHubConsumerOptions,
   EventHubProducerOptions,
   RetryOptions,
-  SendOptions
+  SendOptions,
+  BatchOptions
 } from "./eventHubClient";
 export { EventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
+export { EventDataBatch } from "./eventDataBatch"
 export {
   MessagingError,
   DataTransformer,

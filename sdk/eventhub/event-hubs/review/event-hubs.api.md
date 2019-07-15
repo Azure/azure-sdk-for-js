@@ -22,6 +22,12 @@ import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
+// @public
+export interface BatchOptions {
+    maxMessageSizeInBytes?: number;
+    partitionKey?: string;
+}
+
 export { DataTransformer }
 
 export { DefaultDataTransformer }
@@ -34,6 +40,18 @@ export interface EventData {
     properties?: {
         [key: string]: any;
     };
+}
+
+// @public
+export class EventDataBatch {
+    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
+    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
+    readonly batchMessage: Buffer | undefined;
+    readonly partitionKey: string | undefined;
+    readonly size: number | undefined;
+    tryAdd(eventData: EventData): boolean;
 }
 
 // @public
@@ -63,8 +81,6 @@ export interface EventHubClientOptions {
 
 // @public
 export class EventHubConsumer {
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
-    // 
     // @internal
     constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
     close(): Promise<void>;
@@ -89,8 +105,9 @@ export class EventHubProducer {
     // @internal
     constructor(context: ConnectionContext, options?: EventHubProducerOptions);
     close(): Promise<void>;
+    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly isClosed: boolean;
-    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
+    send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
     }
 
 // @public
