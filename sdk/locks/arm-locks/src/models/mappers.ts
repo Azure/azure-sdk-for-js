@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ManagementLockOwner: msRest.CompositeMapper = {
+export const ManagementLockOwner: coreHttp.CompositeMapper = {
   serializedName: "ManagementLockOwner",
   type: {
     name: "Composite",
@@ -28,7 +28,7 @@ export const ManagementLockOwner: msRest.CompositeMapper = {
   }
 };
 
-export const ManagementLockObject: msRest.CompositeMapper = {
+export const ManagementLockObject: coreHttp.CompositeMapper = {
   serializedName: "ManagementLockObject",
   type: {
     name: "Composite",
@@ -84,7 +84,7 @@ export const ManagementLockObject: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
+export const OperationDisplay: coreHttp.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -112,7 +112,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
+export const Operation: coreHttp.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -135,7 +135,7 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const OperationListResult: msRest.CompositeMapper = {
+export const OperationListResult: coreHttp.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -163,7 +163,7 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ManagementLockListResult: msRest.CompositeMapper = {
+export const ManagementLockListResult: coreHttp.CompositeMapper = {
   serializedName: "ManagementLockListResult",
   type: {
     name: "Composite",

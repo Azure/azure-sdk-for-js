@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -92,7 +92,7 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -102,7 +102,7 @@ export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtResourceLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtResourceLevelOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -112,7 +112,7 @@ export interface ManagementLocksListAtResourceLevelOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -122,7 +122,7 @@ export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListByScopeOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListByScopeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -176,7 +176,7 @@ export type AuthorizationOperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -196,7 +196,7 @@ export type AuthorizationOperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -216,7 +216,7 @@ export type ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse = Manageme
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -236,7 +236,7 @@ export type ManagementLocksGetAtResourceGroupLevelResponse = ManagementLockObjec
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -256,7 +256,7 @@ export type ManagementLocksCreateOrUpdateByScopeResponse = ManagementLockObject 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -276,7 +276,7 @@ export type ManagementLocksGetByScopeResponse = ManagementLockObject & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -296,7 +296,7 @@ export type ManagementLocksCreateOrUpdateAtResourceLevelResponse = ManagementLoc
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -316,7 +316,7 @@ export type ManagementLocksGetAtResourceLevelResponse = ManagementLockObject & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -336,7 +336,7 @@ export type ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse = Managemen
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -356,7 +356,7 @@ export type ManagementLocksGetAtSubscriptionLevelResponse = ManagementLockObject
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -376,7 +376,7 @@ export type ManagementLocksListAtResourceGroupLevelResponse = ManagementLockList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -396,7 +396,7 @@ export type ManagementLocksListAtResourceLevelResponse = ManagementLockListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -416,7 +416,7 @@ export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -436,7 +436,7 @@ export type ManagementLocksListByScopeResponse = ManagementLockListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -456,7 +456,7 @@ export type ManagementLocksListAtResourceGroupLevelNextResponse = ManagementLock
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -476,7 +476,7 @@ export type ManagementLocksListAtResourceLevelNextResponse = ManagementLockListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -496,7 +496,7 @@ export type ManagementLocksListAtSubscriptionLevelNextResponse = ManagementLockL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -516,7 +516,7 @@ export type ManagementLocksListByScopeNextResponse = ManagementLockListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
