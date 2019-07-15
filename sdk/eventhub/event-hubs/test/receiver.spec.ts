@@ -607,7 +607,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should not support calling receiveBatch after a cancellation", async function(): Promise<void> {
+    it("should not support calling receiveBatch after a cancellation", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -636,7 +638,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           await receiver.receiveBatch(1, 60);
           throw new Error(`Test failure`);
         } catch (err) {
-          err.message.should.match(/The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi);
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
         }
       }
     });
@@ -864,7 +868,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           }
           throw new Error(`Test failure`);
         } catch (err) {
-          err.message.should.match(/The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi)
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
         }
       }
     });
