@@ -89,11 +89,8 @@ export class Objects {
 const serializer = new msRest.Serializer(Mappers);
 const getObjectsByObjectIdsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/getObjectsByObjectIds",
+  path: "{apiVersion}/getObjectsByObjectIds",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -119,12 +116,9 @@ const getObjectsByObjectIdsOperationSpec: msRest.OperationSpec = {
 
 const getObjectsByObjectIdsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [

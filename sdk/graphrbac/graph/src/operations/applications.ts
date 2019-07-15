@@ -199,7 +199,7 @@ export class Applications {
    * Add an owner to an application.
    * @param applicationObjectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -207,14 +207,14 @@ export class Applications {
   /**
    * @param applicationObjectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
   addOwner(applicationObjectId: string, parameters: Models.AddOwnerParameters, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param applicationObjectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -444,11 +444,8 @@ export class Applications {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/applications",
+  path: "{apiVersion}/applications",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -474,13 +471,12 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/applications",
+  path: "{apiVersion}/applications",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -498,12 +494,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/applications/{applicationObjectId}",
+  path: "{apiVersion}/applications/{applicationObjectId}",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -520,12 +513,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/applications/{applicationObjectId}",
+  path: "{apiVersion}/applications/{applicationObjectId}",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -544,12 +534,9 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/applications/{applicationObjectId}",
+  path: "{apiVersion}/applications/{applicationObjectId}",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -573,12 +560,9 @@ const patchOperationSpec: msRest.OperationSpec = {
 
 const listOwnersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/applications/{applicationObjectId}/owners",
+  path: "{apiVersion}/applications/{applicationObjectId}/owners",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -597,12 +581,9 @@ const listOwnersOperationSpec: msRest.OperationSpec = {
 
 const addOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/applications/{applicationObjectId}/$links/owners",
+  path: "{apiVersion}/applications/{applicationObjectId}/$links/owners",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -626,13 +607,10 @@ const addOwnerOperationSpec: msRest.OperationSpec = {
 
 const removeOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/applications/{applicationObjectId}/$links/owners/{ownerObjectId}",
+  path: "{apiVersion}/applications/{applicationObjectId}/$links/owners/{ownerObjectId}",
   urlParameters: [
     Parameters.applicationObjectId,
     Parameters.ownerObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -649,12 +627,9 @@ const removeOwnerOperationSpec: msRest.OperationSpec = {
 
 const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/applications/{applicationObjectId}/keyCredentials",
+  path: "{apiVersion}/applications/{applicationObjectId}/keyCredentials",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -673,12 +648,9 @@ const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
 
 const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/applications/{applicationObjectId}/keyCredentials",
+  path: "{apiVersion}/applications/{applicationObjectId}/keyCredentials",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -704,12 +676,9 @@ const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/applications/{applicationObjectId}/passwordCredentials",
+  path: "{apiVersion}/applications/{applicationObjectId}/passwordCredentials",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -728,12 +697,9 @@ const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
 
 const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/applications/{applicationObjectId}/passwordCredentials",
+  path: "{apiVersion}/applications/{applicationObjectId}/passwordCredentials",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -759,12 +725,9 @@ const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -783,7 +746,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
 
 const listOwnersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://graph.windows.net",
+  baseUrl: "https://graph.microsoft.com",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink

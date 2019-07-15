@@ -455,7 +455,7 @@ export interface Application {
 export interface AddOwnerParameters {
   /**
    * @member {string} url A owner object URL, such as
-   * "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
+   * "https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
    * where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and
    * "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the owner (user,
    * application, servicePrincipal, group) to be added.
@@ -503,7 +503,7 @@ export interface PasswordCredentialsUpdateParameters {
 export interface GroupAddMemberParameters {
   /**
    * @member {string} url A member object URL, such as
-   * "https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
+   * "https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd",
    * where "0b1f9851-1bf0-433f-aec3-cb9272f093dc" is the tenantId and
    * "f260bbc4-c254-447b-94cf-293b5ec434dd" is the objectId of the member
    * (user, application, servicePrincipal, group) to be added.

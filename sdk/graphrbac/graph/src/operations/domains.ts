@@ -83,13 +83,12 @@ export class Domains {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/domains",
+  path: "{apiVersion}/domains",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -107,12 +106,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/domains/{domainName}",
+  path: "{apiVersion}/domains/{domainName}",
   urlParameters: [
     Parameters.domainName,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [

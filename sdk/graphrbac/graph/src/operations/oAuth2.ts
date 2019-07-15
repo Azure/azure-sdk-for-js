@@ -79,13 +79,12 @@ export class OAuth2 {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/oauth2PermissionGrants",
+  path: "{apiVersion}/oauth2PermissionGrants",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -103,11 +102,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const grantOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/oauth2PermissionGrants",
+  path: "{apiVersion}/oauth2PermissionGrants",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [

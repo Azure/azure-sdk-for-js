@@ -107,11 +107,8 @@ export class SignedInUser {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/me",
+  path: "{apiVersion}/me",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -130,11 +127,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOwnedObjectsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/me/ownedObjects",
+  path: "{apiVersion}/me/ownedObjects",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -153,10 +147,10 @@ const listOwnedObjectsOperationSpec: msRest.OperationSpec = {
 
 const listOwnedObjectsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
     Parameters.apiVersion

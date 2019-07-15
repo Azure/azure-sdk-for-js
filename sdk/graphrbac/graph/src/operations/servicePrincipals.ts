@@ -378,11 +378,8 @@ export class ServicePrincipals {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/servicePrincipals",
+  path: "{apiVersion}/servicePrincipals",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -408,13 +405,12 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/servicePrincipals",
+  path: "{apiVersion}/servicePrincipals",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -432,12 +428,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/servicePrincipals/{objectId}",
+  path: "{apiVersion}/servicePrincipals/{objectId}",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -461,12 +454,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/servicePrincipals/{objectId}",
+  path: "{apiVersion}/servicePrincipals/{objectId}",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -483,12 +473,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/servicePrincipals/{objectId}",
+  path: "{apiVersion}/servicePrincipals/{objectId}",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -507,12 +494,9 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOwnersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/servicePrincipals/{objectId}/owners",
+  path: "{apiVersion}/servicePrincipals/{objectId}/owners",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -531,12 +515,9 @@ const listOwnersOperationSpec: msRest.OperationSpec = {
 
 const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/servicePrincipals/{objectId}/keyCredentials",
+  path: "{apiVersion}/servicePrincipals/{objectId}/keyCredentials",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -555,12 +536,9 @@ const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
 
 const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/servicePrincipals/{objectId}/keyCredentials",
+  path: "{apiVersion}/servicePrincipals/{objectId}/keyCredentials",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -586,12 +564,9 @@ const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/servicePrincipals/{objectId}/passwordCredentials",
+  path: "{apiVersion}/servicePrincipals/{objectId}/passwordCredentials",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -610,12 +585,9 @@ const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
 
 const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/servicePrincipals/{objectId}/passwordCredentials",
+  path: "{apiVersion}/servicePrincipals/{objectId}/passwordCredentials",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -641,12 +613,9 @@ const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -665,7 +634,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
 
 const listOwnersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://graph.windows.net",
+  baseUrl: "https://graph.microsoft.com",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink

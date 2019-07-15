@@ -139,12 +139,9 @@ export class DeletedApplications {
 const serializer = new msRest.Serializer(Mappers);
 const restoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/deletedApplications/{objectId}/restore",
+  path: "{apiVersion}/deletedApplications/{objectId}/restore",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -163,13 +160,12 @@ const restoreOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/deletedApplications",
+  path: "{apiVersion}/deletedApplications",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -187,12 +183,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const hardDeleteOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/deletedApplications/{applicationObjectId}",
+  path: "{apiVersion}/deletedApplications/{applicationObjectId}",
   urlParameters: [
     Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -209,12 +202,9 @@ const hardDeleteOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [

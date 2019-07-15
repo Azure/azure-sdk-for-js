@@ -91,7 +91,7 @@ export class Groups {
    * Add a member to a group.
    * @param groupObjectId The object ID of the group to which to add the member.
    * @param parameters The URL of the member object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -99,14 +99,14 @@ export class Groups {
   /**
    * @param groupObjectId The object ID of the group to which to add the member.
    * @param parameters The URL of the member object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
   addMember(groupObjectId: string, parameters: Models.GroupAddMemberParameters, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param groupObjectId The object ID of the group to which to add the member.
    * @param parameters The URL of the member object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -323,7 +323,7 @@ export class Groups {
    * Add an owner to a group.
    * @param objectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -331,14 +331,14 @@ export class Groups {
   /**
    * @param objectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
   addOwner(objectId: string, parameters: Models.AddOwnerParameters, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param objectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
-   * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
+   * https://graph.microsoft.com/v1.0/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -476,11 +476,8 @@ export class Groups {
 const serializer = new msRest.Serializer(Mappers);
 const isMemberOfOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/isMemberOf",
+  path: "{apiVersion}/isMemberOf",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -506,13 +503,10 @@ const isMemberOfOperationSpec: msRest.OperationSpec = {
 
 const removeMemberOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/groups/{groupObjectId}/$links/members/{memberObjectId}",
+  path: "{apiVersion}/groups/{groupObjectId}/$links/members/{memberObjectId}",
   urlParameters: [
     Parameters.groupObjectId,
     Parameters.memberObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -529,12 +523,9 @@ const removeMemberOperationSpec: msRest.OperationSpec = {
 
 const addMemberOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/groups/{groupObjectId}/$links/members",
+  path: "{apiVersion}/groups/{groupObjectId}/$links/members",
   urlParameters: [
     Parameters.groupObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -558,11 +549,8 @@ const addMemberOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/groups",
+  path: "{apiVersion}/groups",
   urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -588,13 +576,12 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/groups",
+  path: "{apiVersion}/groups",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -612,12 +599,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getGroupMembersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/groups/{objectId}/members",
+  path: "{apiVersion}/groups/{objectId}/members",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -636,12 +620,9 @@ const getGroupMembersOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/groups/{objectId}",
+  path: "{apiVersion}/groups/{objectId}",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -660,12 +641,9 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/groups/{objectId}",
+  path: "{apiVersion}/groups/{objectId}",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -682,12 +660,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getMemberGroupsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/groups/{objectId}/getMemberGroups",
+  path: "{apiVersion}/groups/{objectId}/getMemberGroups",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -713,12 +688,9 @@ const getMemberGroupsOperationSpec: msRest.OperationSpec = {
 
 const listOwnersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/groups/{objectId}/owners",
+  path: "{apiVersion}/groups/{objectId}/owners",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -737,12 +709,9 @@ const listOwnersOperationSpec: msRest.OperationSpec = {
 
 const addOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/groups/{objectId}/$links/owners",
+  path: "{apiVersion}/groups/{objectId}/$links/owners",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -766,13 +735,10 @@ const addOwnerOperationSpec: msRest.OperationSpec = {
 
 const removeOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/groups/{objectId}/$links/owners/{ownerObjectId}",
+  path: "{apiVersion}/groups/{objectId}/$links/owners/{ownerObjectId}",
   urlParameters: [
     Parameters.objectId,
     Parameters.ownerObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -789,12 +755,9 @@ const removeOwnerOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -813,12 +776,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
 
 const getGroupMembersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -837,7 +797,7 @@ const getGroupMembersNextOperationSpec: msRest.OperationSpec = {
 
 const listOwnersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://graph.windows.net",
+  baseUrl: "https://graph.microsoft.com",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
