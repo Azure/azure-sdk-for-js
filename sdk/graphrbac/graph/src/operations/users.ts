@@ -231,9 +231,9 @@ export class Users {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/users",
+  path: "{apiVersion}/users",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -261,13 +261,12 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/users",
+  path: "{apiVersion}/users",
   urlParameters: [
-    Parameters.tenantID
+    Parameters.apiVersion
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -285,12 +284,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/users/{upnOrObjectId}",
+  path: "{apiVersion}/users/{upnOrObjectId}",
   urlParameters: [
     Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -309,12 +305,9 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "{tenantID}/users/{upnOrObjectId}",
+  path: "{apiVersion}/users/{upnOrObjectId}",
   urlParameters: [
     Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -338,12 +331,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{tenantID}/users/{upnOrObjectId}",
+  path: "{apiVersion}/users/{upnOrObjectId}",
   urlParameters: [
     Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -360,12 +350,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getMemberGroupsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{tenantID}/users/{objectId}/getMemberGroups",
+  path: "{apiVersion}/users/{objectId}/getMemberGroups",
   urlParameters: [
     Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -391,12 +378,9 @@ const getMemberGroupsOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{tenantID}/{nextLink}",
+  path: "{apiVersion}/{nextLink}",
   urlParameters: [
     Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
