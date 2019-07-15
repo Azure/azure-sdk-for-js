@@ -212,7 +212,8 @@ export class EventHubReceiver extends LinkEntity {
 
     // automatically add credit if there is a listener
     if (this._onMessage && !this._usingInternalQueue) {
-      this._addCredit(Math.max(this.prefetchCount - this._existingCredits(), 0));
+      const existingCredits = this._receiver ? this._receiver.credit : 0;
+      this._addCredit(Math.max(this.prefetchCount - existingCredits, 0));
       this._onMessage(receivedEventData);
     } else {
       this.internalQueue.push(receivedEventData);
@@ -616,13 +617,6 @@ export class EventHubReceiver extends LinkEntity {
         this._addCredit(this.prefetchCount || 1);
       }
     }
-  }
-
-  private _existingCredits(): number {
-    if (this._receiver) {
-      return this._receiver.credit;
-    }
-    return 0;
   }
 
   /**
