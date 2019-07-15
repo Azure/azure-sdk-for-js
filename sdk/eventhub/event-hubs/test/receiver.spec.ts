@@ -607,7 +607,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support calling receiveBatch after a cancellation", async function(): Promise<void> {
+    it("should not support calling receiveBatch after a cancellation", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -632,8 +632,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
-        const events = await receiver.receiveBatch(1, 60);
-        events.length.should.equal(1);
+        try {
+          await receiver.receiveBatch(1, 60);
+          throw new Error(`Test failure`);
+        } catch (err) {
+          err.message.should.match(/The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi);
+        }
       }
     });
   });
@@ -824,7 +828,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support creating a new iterator after a cancellation", async function(): Promise<
+    it("should not support creating a new iterator after a cancellation", async function(): Promise<
       void
     > {
       const partitionId = partitionIds[0];
@@ -853,16 +857,15 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
-        const events = [];
 
         const eventIterator2 = receiver.getEventIterator();
-        for await (const event of eventIterator2) {
-          events.push(event);
-          break;
+        try {
+          for await (const _ of eventIterator2) {
+          }
+          throw new Error(`Test failure`);
+        } catch (err) {
+          err.message.should.match(/The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi)
         }
-
-        events.length.should.equal(1);
-        events[0].should.haveOwnProperty("body");
       }
     });
   });
