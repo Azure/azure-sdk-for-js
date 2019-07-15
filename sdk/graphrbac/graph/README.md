@@ -32,8 +32,8 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new GraphRbacManagementClient(creds, subscriptionId);
+msRestNodeAuth.interactiveLogin({ tokenAudience: 'https://graph.microsoft.com' }).then((creds) => {
+  const client = new GraphRbacManagementClient(creds, tenantId);
   client.signedInUser.get().then((result) => {
     console.log("The result is:");
     console.log(result);
