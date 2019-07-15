@@ -265,67 +265,6 @@ export class EventHubConsumer {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    try {
-      return await this._receiveBatch(maxMessageCount, maxWaitTimeInSeconds, abortSignal);
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._context.connectionId,
-        this._baseConsumer && this._baseConsumer.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-      throw err;
-    }
-  }
-
-  /**
-   * Closes the underlying AMQP receiver link.
-   * Once closed, the consumer cannot be used for any further operations.
-   * Use the `createConsumer` function on the EventHubClient to instantiate
-   * a new EventHubConsumer.
-   *
-   * @returns
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
-   */
-  async close(): Promise<void> {
-    try {
-      if (this._context.connection && this._context.connection.isOpen()) {
-        if (this._baseConsumer) {
-          await this._baseConsumer.close();
-          this._baseConsumer = void 0;
-        }
-      }
-    } catch (err) {
-      throw err;
-    } finally {
-      this._isClosed = true;
-    }
-  }
-
-  private _initRetryOptions(retryOptions: RetryOptions = {}): Required<RetryOptions> {
-    const maxRetries = typeof retryOptions.maxRetries === "number" ? retryOptions.maxRetries : Constants.defaultMaxRetries;
-    const retryInterval = typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0 ?
-      retryOptions.retryInterval / 1000 : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
-    return {
-      maxRetries,
-      retryInterval
-    };
-  }
-
-  private async _receiveBatch(
-    maxMessageCount: number,
-    maxWaitTimeInSeconds: number,
-    abortSignal?: AbortSignalLike
-  ): Promise<ReceivedEventData[]> {
-    // this shouldn't be able to happen since we
-    // already checked if the receiver was closed.
-    if (!this._baseConsumer) {
-      return [];
-    }
-
     // store events across multiple retries
     const receivedEvents: ReceivedEventData[] = [];
 
@@ -470,6 +409,42 @@ export class EventHubConsumer {
     };
     return retry<ReceivedEventData[]>(config);
   }
+
+  /**
+   * Closes the underlying AMQP receiver link.
+   * Once closed, the consumer cannot be used for any further operations.
+   * Use the `createConsumer` function on the EventHubClient to instantiate
+   * a new EventHubConsumer.
+   *
+   * @returns
+   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   */
+  async close(): Promise<void> {
+    try {
+      if (this._context.connection && this._context.connection.isOpen()) {
+        if (this._baseConsumer) {
+          await this._baseConsumer.close();
+          this._baseConsumer = void 0;
+        }
+      }
+    } catch (err) {
+      throw err;
+    } finally {
+      this._isClosed = true;
+    }
+  }
+
+  private _initRetryOptions(retryOptions: RetryOptions = {}): Required<RetryOptions> {
+    const maxRetries = typeof retryOptions.maxRetries === "number" ? retryOptions.maxRetries : Constants.defaultMaxRetries;
+    const retryInterval = typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0 ?
+      retryOptions.retryInterval / 1000 : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+
+    return {
+      maxRetries,
+      retryInterval
+    };
+  }
+
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages) {
