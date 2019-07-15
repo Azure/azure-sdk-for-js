@@ -59,7 +59,7 @@ export class EventDataBatch {
   }
 
   /**
-   * @property A value that is hashed to produce a partition assignment.
+   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to produce a partition assignment when the consumer is created without a `partitionId`
    * @readonly
    */
   get partitionKey(): string | undefined {
