@@ -66,6 +66,11 @@ jobs:
         displayName: 'Install Node.js $(NodeVersion)'
 
       - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Npm@1
         displayName: 'npm audit'
         inputs:
           command: custom
