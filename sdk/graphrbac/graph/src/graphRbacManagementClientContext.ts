@@ -44,7 +44,7 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
 
     super(credentials, options);
 
-    this.apiVersion = '1.6';
+    this.apiVersion = options.apiVersion || 'v1.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://graph.microsoft.com";
