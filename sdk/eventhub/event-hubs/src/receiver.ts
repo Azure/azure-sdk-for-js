@@ -64,7 +64,7 @@ export class EventHubConsumer {
 
   private _partitionId: string;
   private _receiverOptions: EventHubConsumerOptions;
-  private _retryOptions: Required<RetryOptions>;
+  private _retryOptions: Required<Pick<RetryOptions, "maxRetries"|"retryInterval">>;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -442,7 +442,7 @@ export class EventHubConsumer {
     }
   }
 
-  private _initRetryOptions(retryOptions: RetryOptions = {}): Required<RetryOptions> {
+  private _initRetryOptions(retryOptions: RetryOptions = {}): Required<Pick<RetryOptions, "maxRetries"|"retryInterval">> {
     const maxRetries = typeof retryOptions.maxRetries === "number" ? retryOptions.maxRetries : Constants.defaultMaxRetries;
     const retryInterval = typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0 ?
       retryOptions.retryInterval / 1000 : Constants.defaultDelayBetweenOperationRetriesInSeconds;

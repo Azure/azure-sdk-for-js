@@ -49,7 +49,7 @@ export class EventDataBatch {
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     readonly batchMessage: Buffer | undefined;
     readonly partitionKey: string | undefined;
-    readonly size: number | undefined;
+    readonly size: number;
     tryAdd(eventData: EventData): boolean;
 }
 
