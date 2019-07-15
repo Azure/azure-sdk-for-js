@@ -270,6 +270,13 @@ export class EventHubConsumer {
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
       return new Promise(async (resolve, reject) => {
+        // if this consumer was closed, _baseConsumer might be undefined.
+        // resolve the operation's promise with the events collected thus far in case
+        // the promise hasn't already been resolved.
+        if (!this._baseConsumer) {
+          return resolve(receivedEvents);
+        }
+
         let timer: any;
         const logOnAbort = (): void => {
           const baseConsumer = this._baseConsumer;
@@ -281,32 +288,32 @@ export class EventHubConsumer {
           log.error(desc);
         };
 
-        const onAbort = (): void => {
-          clearTimeout(timer);
+        const rejectOnAbort = async (): Promise<void> => {
           logOnAbort();
-          if (this._baseConsumer) {
-            this._baseConsumer.abort();
-          } else {
+          try {
+            await this.close();
+          } finally {
             return reject(new AbortError("The receive operation has been cancelled by the user."));
           }
+        }
+
+        const onAbort = (): void => {
+          clearTimeout(timer);
+          rejectOnAbort();
         };
 
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
-          logOnAbort();
-          return reject(new AbortError("The receive operation has been cancelled by the user."));
-        }
-
-        // if this consumer was closed, _baseConsumer might be undefined.
-        // resolve the operation's promise with the events collected thus far in case
-        // the promise hasn't already been resolved.
-        if (!this._baseConsumer) {
-          return resolve(receivedEvents);
+          return await rejectOnAbort();
         }
 
         // updates the prefetch count so that the baseConsumer adds
         // the correct number of credits to receive the same number of events.
         const prefetchCount = Math.max(maxMessageCount - receivedEvents.length, 0);
+        if (prefetchCount === 0) {
+          return resolve(receivedEvents);
+        }
+
         log.batching(
           "[%s] Receiver '%s', setting the prefetch count to %d.",
           this._context.connectionId,
@@ -381,7 +388,7 @@ export class EventHubConsumer {
             // the operation may have been cancelled while the connection
             // was being initialized. In this case, call abort.
             if (abortSignal && abortSignal.aborted) {
-              return this._baseConsumer.abort();
+              return await rejectOnAbort();
             }
             addTimeout();
           } catch (err) {
