@@ -63,7 +63,7 @@ glob(filter, (err, files) => {
 
     // Can't use regular logging here because the pattern for Azure Pipelines requires ##vso to be the first chars.
     console.log(
-      `##vso[task.setvariable variable=GeneratedPackageTargets;isOutput=true;]${packageTargets}`
+      `##vso[task.setvariable variable=GeneratedPackageTargets]${packageTargets}`
     );
 
     log(
