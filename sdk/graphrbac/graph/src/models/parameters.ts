@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationURLParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -119,16 +119,6 @@ export const ownerObjectId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ownerObjectId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const tenantID: msRest.OperationURLParameter = {
-  parameterPath: "tenantID",
-  mapper: {
-    required: true,
-    serializedName: "tenantID",
     type: {
       name: "String"
     }
