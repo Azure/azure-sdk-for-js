@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
+import { AbortError } from "@azure/abort-controller";
 import {
   defaultLock,
   translate,
@@ -9,17 +10,19 @@ import {
   retry,
   RetryConfig,
   RetryOperationType,
-  SendRequestOptions,
-  randomNumberFromInterval
+  randomNumberFromInterval,
+  ConditionStatusMapper,
+  AmqpError
 } from "@azure/core-amqp";
 import { RequestResponseLink } from "./requestResponseLink";
 import {
-  Message,
+  Message as AmqpMessage,
   EventContext,
   SenderEvents,
   ReceiverEvents,
   SenderOptions,
-  ReceiverOptions
+  ReceiverOptions,
+  generate_uuid
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -311,8 +314,25 @@ export class ManagementClient extends LinkEntity {
   ): Promise<any> {
     if (!options) options = {};
 
+    let count: number = 0;
+
     const sendOperationPromise = () =>
       new Promise<void>((resolve, reject) => {
+        let waitTimer: any;
+        let timeOver: boolean = false;
+
+        if (!options) options = {};
+        const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+
+        count++;
+        if (count !== 1) {
+          // Generate a new message_id every time after the first attempt
+          request.message_id = generate_uuid();
+        } else if (!request.message_id) {
+          // Set the message_id in the first attempt only if it is not set
+          request.message_id = generate_uuid();
+        }
+
         const rejectOnSendError = (err: Error) => {
           err = translate(err);
           log.error("An error occurred while making the request to $management endpoint: %O", err);
@@ -324,26 +344,149 @@ export class ManagementClient extends LinkEntity {
           this._context.connectionId
         );
 
+        const actionAfterTimeout = () => {
+          timeOver = true;
+          this._mgmtReqResLink!.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
+          const address = this._mgmtReqResLink!.receiver.address || "address";
+          const desc: string =
+            `The request with message_id "${request.message_id}" to "${address}" ` +
+            `endpoint timed out. Please try again later.`;
+          const e: AmqpError = {
+            condition: ConditionStatusMapper[408],
+            description: desc
+          };
+          return reject(translate(e));
+        };
+
+        const rejectOnAbort = () => {
+          const address = this._mgmtReqResLink!.receiver.address || "address";
+          const requestName = options!.requestName;
+          const desc: string =
+            `[${this._context.connectionId}] The request "${requestName}" ` +
+            `to "${address}" has been cancelled by the user.`;
+          log.error(desc);
+          const error = new AbortError(
+            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
+          );
+
+          reject(error);
+        };
+
+        const onAbort = () => {
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+
+          // remove the event listener as this will be registered next time someone makes a request.
+          this._mgmtReqResLink!.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          // safe to clear the timeout if it hasn't already occurred.
+
+          aborter!.removeEventListener("abort", onAbort);
+
+          rejectOnAbort();
+        };
+
+        type NormalizedInfo = {
+          statusCode: number;
+          statusDescription: string;
+          errorCondition: string;
+        };
+
+        // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
+        const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
+          if (!props) props = {};
+          return {
+            statusCode: (props[Constants.statusCode] || props.statusCode) as number,
+            statusDescription: (props[Constants.statusDescription] ||
+              props.statusDescription) as string,
+            errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
+          };
+        };
+
+        const messageCallback = (context: EventContext) => {
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          // remove the event listeners as they will be registered next time when someone makes a request.
+          this._mgmtReqResLink!.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
+          const info = getCodeDescriptionAndError(context.message!.application_properties);
+          const responseCorrelationId = context.message!.correlation_id;
+          log.mgmt(
+            "[%s] %s response: ",
+            this._context.connectionId,
+            request.to || "$management",
+            context.message
+          );
+          if (info.statusCode > 199 && info.statusCode < 300) {
+            if (
+              request.message_id === responseCorrelationId ||
+              request.correlation_id === responseCorrelationId
+            ) {
+              log.mgmt(
+                "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
+                this._context.connectionId,
+                request.message_id,
+                responseCorrelationId
+              );
+              return resolve(context.message);
+            } else {
+              log.error(
+                "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
+                  "Hence dropping this response and waiting for the next one.",
+                this._context.connectionId,
+                request.message_id,
+                responseCorrelationId
+              );
+            }
+          } else {
+            const condition =
+              info.errorCondition ||
+              ConditionStatusMapper[info.statusCode] ||
+              "amqp:internal-error";
+            const e: AmqpError = {
+              condition: condition,
+              description: info.statusDescription
+            };
+            const error = translate(e);
+            log.error(error);
+            return reject(error);
+          }
+        };
+
+        waitTimer = setTimeout(
+          actionAfterTimeout,
+          getRetryAttemptTimeoutInMs(options!.retryOptions)
+        );
+
         defaultLock
           .acquire(this.managementLock, () => {
             return this._init();
           })
           .then(() => {
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: options!.abortSignal,
-              requestName: options!.requestName,
+            if (aborter) {
+              // the aborter may have been triggered between request attempts
+              // so check if it was triggered and reject if needed.
+              if (aborter.aborted) {
+                return rejectOnAbort();
+              }
+              aborter.addEventListener("abort", onAbort);
+            }
 
-              // Following config values ensure "retry" is disabled
-              // i.e., operation is attempted just once and timers on it within the utility are not created
-              maxRetries: 0,
-              timeoutInSeconds: -1,
-              delayInSeconds: 0
-            };
-            this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)
-              .then(resolve())
-              .catch((err: Error) => {
-                rejectOnSendError(err);
-              });
+            this._mgmtReqResLink!.receiver.on(ReceiverEvents.message, messageCallback);
+
+            log.mgmt(
+              "[%s] %s request sent: %O",
+              this._context.connectionId,
+              request.to || "$managment",
+              request
+            );
+            this._mgmtReqResLink!.sender.send(request);
           })
           .catch((err: Error) => {
             rejectOnSendError(err);
@@ -354,8 +497,8 @@ export class ManagementClient extends LinkEntity {
     const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
       options.retryOptions &&
-        options.retryOptions.retryInterval &&
-        options.retryOptions.retryInterval >= 0
+      options.retryOptions.retryInterval &&
+      options.retryOptions.retryInterval >= 0
         ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
@@ -365,7 +508,7 @@ export class ManagementClient extends LinkEntity {
       maxRetries: maxRetries,
       delayInSeconds: delayInSeconds + jitterInSeconds
     };
-    return retry<void>(config).body;
+    return retry<AmqpMessage>(config).body;
   }
 
   private _isMgmtRequestResponseLinkOpen(): boolean {
