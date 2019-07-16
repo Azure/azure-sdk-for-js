@@ -131,11 +131,24 @@ export class EventHubReceiver extends LinkEntity {
    * @private
    */
   private _onError?: OnError;
-
+  /**
+   * @property _checkpoint The sequence number of the most recently received AMQP message.
+   * @private
+   */
   private _checkpoint: number = -1;
-
-  private internalQueue: ReceivedEventData[] = [];
+  /**
+   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally.
+   * @private
+   */
+  private _internalQueue: ReceivedEventData[] = [];
+  /**
+   * @property _usingInternalQueue Indicates that events in the internal queue are being processed.
+   * @private
+   */
   private _usingInternalQueue: boolean = false;
+  /**
+   * @property _isReceivingMessages Indicates if messages are being received from this receiver.
+   */
   private _isReceivingMessages: boolean = false;
 
   /**
@@ -146,6 +159,10 @@ export class EventHubReceiver extends LinkEntity {
     return this._checkpoint;
   }
 
+  /**
+   * @property Indicates if messages are being received from this receiver.
+   * @readonly
+   */
   get isReceivingMessages(): boolean {
     return this._isReceivingMessages;
   }
@@ -213,10 +230,12 @@ export class EventHubReceiver extends LinkEntity {
     // automatically add credit if there is a listener
     if (this._onMessage && !this._usingInternalQueue) {
       const existingCredits = this._receiver ? this._receiver.credit : 0;
-      this._addCredit(Math.max(this.prefetchCount - existingCredits, 0));
+      if (this.prefetchCount) {
+        this._addCredit(Math.max(this.prefetchCount - existingCredits, 1));
+      }
       this._onMessage(receivedEventData);
     } else {
-      this.internalQueue.push(receivedEventData);
+      this._internalQueue.push(receivedEventData);
     }
   }
 
@@ -242,14 +261,14 @@ export class EventHubReceiver extends LinkEntity {
     if (!amqpReceiver.isItselfClosed() && this._onError) {
       log.error(
         "[%s] Since the user did not close the receiver " +
-        "we let the user know about it by calling the user's error handler.",
+          "we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
     } else {
       log.error(
         "[%s] The receiver was closed by the user." +
-        "Hence not notifying the user's error handler.",
+          "Hence not notifying the user's error handler.",
         this._context.connectionId
       );
     }
@@ -276,7 +295,7 @@ export class EventHubReceiver extends LinkEntity {
     if (!amqpReceiver.isSessionItselfClosed() && this._onError) {
       log.error(
         "[%s] Since the user did not close the receiver and the session error is not " +
-        "retryable, we let the user know about it by calling the user's error handler.",
+          "retryable, we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
@@ -285,24 +304,11 @@ export class EventHubReceiver extends LinkEntity {
 
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
     const amqpReceiver = this._receiver || context.receiver;
-    const sessionError = context.session && context.session.error;
-
-    if (sessionError) {
-      log.error(
-        "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        sessionError
-      );
-    }
-
     if (!amqpReceiver || amqpReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-        "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -310,11 +316,23 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
+    const sessionError = context.session && context.session.error;
+    if (sessionError) {
+      log.error(
+        "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        sessionError
+      );
+    }
+
     if (!this.isConnecting) {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-        "_onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+          "_onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -324,8 +342,8 @@ export class EventHubReceiver extends LinkEntity {
     } else {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-        "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-        "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -338,8 +356,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!amqpReceiver || amqpReceiver.isItselfClosed()) {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-        "() handler.",
+          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+          "() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -351,7 +369,7 @@ export class EventHubReceiver extends LinkEntity {
     if (amqpError) {
       log.error(
         "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-        "The associated error is: %O",
+          "The associated error is: %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -362,8 +380,8 @@ export class EventHubReceiver extends LinkEntity {
     if (!this.isConnecting) {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-        "detached from the _onAmqpClose() handler.",
+          "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+          "detached from the _onAmqpClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -372,8 +390,8 @@ export class EventHubReceiver extends LinkEntity {
     } else {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-        "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-        "Hence not calling detached from the _onAmqpClose() handler.",
+          "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+          "Hence not calling detached from the _onAmqpClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
@@ -416,8 +434,8 @@ export class EventHubReceiver extends LinkEntity {
           shouldReopen = true;
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-            "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
-            "the receiver link.",
+              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
+              "the receiver link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -425,8 +443,8 @@ export class EventHubReceiver extends LinkEntity {
         } else {
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-            "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the receiver link.",
+              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+              "the receiver link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -437,8 +455,8 @@ export class EventHubReceiver extends LinkEntity {
         shouldReopen = true;
         log.error(
           "[%s] close() method of Receiver '%s' with address '%s' was not called. " +
-          "There was no accompanying error as well. This is a candidate for re-establishing " +
-          "the receiver link.",
+            "There was no accompanying error as well. This is a candidate for re-establishing " +
+            "the receiver link.",
           this._context.connectionId,
           this.name,
           this.address
@@ -492,7 +510,7 @@ export class EventHubReceiver extends LinkEntity {
     } catch (err) {
       log.error(
         "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
-        "'%s': %O",
+          "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -509,6 +527,7 @@ export class EventHubReceiver extends LinkEntity {
     this._onError = undefined;
     this._onMessage = undefined;
     this._isReceivingMessages = false;
+    this.prefetchCount = 0;
   }
 
   /**
@@ -552,14 +571,65 @@ export class EventHubReceiver extends LinkEntity {
    * @param abortSignal
    * @ignore
    */
-  registerHandlers(onMessage: OnMessage, onError?: OnError, abortSignal?: AbortSignalLike): void {
+  registerHandlers(
+    onMessage: OnMessage,
+    onError: OnError,
+    maximumCreditCount: number,
+    isStreaming: boolean = false,
+    abortSignal?: AbortSignalLike
+  ): void {
     this._onError = onError;
     this._onMessage = onMessage;
 
     // indicate that messages are being received.
     this._isReceivingMessages = true;
 
-    this._drainAndAddCredits(onMessage, abortSignal);
+    this._useInternalQueue(onMessage, abortSignal)
+      .then(async (processedEventCount) => {
+        if (this._onMessage !== onMessage) {
+          // the original handler has been removed, so no further action required.
+          return;
+        }
+
+        // check if more messages are required
+        if (!isStreaming && maximumCreditCount - processedEventCount <= 0) {
+          return;
+        }
+
+        // ensure we creat an amqpReceiver with no credit window
+        this.prefetchCount = 0;
+        if (!this.isOpen()) {
+          try {
+            await this.initialize();
+            if (abortSignal && abortSignal.aborted) {
+              this.abort();
+              await this.close();
+            }
+          } catch (err) {
+            return this._onError === onError && onError(err);
+          }
+        } else {
+          log.receiver(
+            "[%s] Receiver link already present, hence reusing it.",
+            this._context.connectionId
+          );
+        }
+        // add credits
+        const existingCredits = this._receiver ? this._receiver.credit : 0;
+        const minimumDefaultCount = isStreaming ? 1 : 0;
+        const creditsToAdd = Math.max(
+          maximumCreditCount - (existingCredits + processedEventCount),
+          minimumDefaultCount
+        );
+        this.prefetchCount = isStreaming ? maximumCreditCount : 0;
+        this._addCredit(creditsToAdd);
+      })
+      .catch((err) => {
+        // something really unexpected happened, so attempt to call user's error handler
+        if (this._onError === onError) {
+          onError(err);
+        }
+      });
   }
 
   private _addCredit(credit: number): void {
@@ -578,45 +648,39 @@ export class EventHubReceiver extends LinkEntity {
     );
   }
 
-  private async _drainAndAddCredits(
+  private async _useInternalQueue(
     onMessage: OnMessage,
     abortSignal?: AbortSignalLike
-  ): Promise<void> {
-    // add explanation
+  ): Promise<number> {
+    let processedMessages = 0;
+    // allow the event loop to process any blocking code outside
+    // this code path before sending any events.
     await delay(0);
     this._usingInternalQueue = true;
-    while (this.internalQueue.length) {
+    while (this._internalQueue.length) {
       if (!this._onMessage) {
-        this._usingInternalQueue = false;
-        return;
+        break;
       }
 
       if (abortSignal && abortSignal.aborted) {
-        this._usingInternalQueue = false;
-        return;
+        break;
       }
 
+      // These will not be equal if clearHandlers and registerHandlers were called
+      // in the same tick of the event loop. If onMessage isn't the currently active
+      // handler, it should stop getting messages from the queue.
       if (this._onMessage !== onMessage) {
-        this._usingInternalQueue = false;
-        return;
+        break;
       }
-      const eventData = this.internalQueue.splice(0, 1)[0];
+      const eventData = this._internalQueue.splice(0, 1)[0];
+      processedMessages++;
       onMessage(eventData);
       // allow the event loop to process any blocking code outside
       // this code path before sending the next event.
       await delay(0);
     }
     this._usingInternalQueue = false;
-
-    if (this._onMessage) {
-      // register the onMessage handler to stop
-      // sending events to the queue.
-
-      if (this.isOpen()) {
-        // add credits to start receiving events from the service.
-        this._addCredit(this.prefetchCount || 1);
-      }
-    }
+    return processedMessages;
   }
 
   /**
@@ -629,7 +693,7 @@ export class EventHubReceiver extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
           "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-          "establishing itself. Hence let's try to connect.",
+            "establishing itself. Hence let's try to connect.",
           this._context.connectionId,
           this.name,
           this.address
@@ -686,7 +750,7 @@ export class EventHubReceiver extends LinkEntity {
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-          "-> %s. Hence not reconnecting.",
+            "-> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,

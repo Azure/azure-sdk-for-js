@@ -61,9 +61,18 @@ export class EventHubConsumer {
    * @property Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-
+  /**
+   * @property The identifier of the Event Hub partition that this consumer is associated with.
+   * Events will be read only from this partition.
+   */
   private _partitionId: string;
+  /**
+   * @property The set of options to configure the behavior of an EventHubConsumer.
+   */
   private _receiverOptions: EventHubConsumerOptions;
+  /**
+   * @property The set of retry options to configure the receiveBatch operation.
+   */
   private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">>;
 
   /**
@@ -171,6 +180,8 @@ export class EventHubConsumer {
     if (abortSignal) {
       if (abortSignal.aborted) {
         onError(new AbortError("The receive operation has been cancelled by the user."));
+        // close this receiver when user triggers a cancellation.
+        this.close().catch(() => {}); // no-op close error handler
         return new ReceiveHandler(baseConsumer);
       }
 
@@ -187,29 +198,20 @@ export class EventHubConsumer {
         return;
       }
 
+      if (error.name === "AbortError") {
+        // close this receiver when user triggers a cancellation.
+        this.close().catch(() => {}); // no-op close error handler
+      }
       onError(error);
     };
 
-    baseConsumer.prefetchCount = Constants.defaultPrefetchCount;
-    if (!baseConsumer.isOpen()) {
-      baseConsumer
-        .initialize()
-        .then((): any => {
-          if (!this._baseConsumer) {
-            return;
-          }
-          if (abortSignal && abortSignal.aborted) {
-            onError(new AbortError("The receive operation has been cancelled by the user."));
-            return this._baseConsumer.abort();
-          }
-          return this._baseConsumer.registerHandlers(onMessage, wrappedOnError, abortSignal);
-        })
-        .catch((err) => {
-          onError(err);
-        });
-    } else {
-      baseConsumer.registerHandlers(onMessage, wrappedOnError, abortSignal);
-    }
+    baseConsumer.registerHandlers(
+      onMessage,
+      wrappedOnError,
+      Constants.defaultPrefetchCount,
+      true,
+      abortSignal
+    );
 
     return new ReceiveHandler(baseConsumer);
   }
@@ -323,7 +325,6 @@ export class EventHubConsumer {
           this._baseConsumer && this._baseConsumer.name,
           prefetchCount
         );
-        this._baseConsumer.prefetchCount = prefetchCount;
 
         const cleanUpBeforeReturn = (): void => {
           if (this._baseConsumer) {
@@ -353,7 +354,16 @@ export class EventHubConsumer {
               resolve(receivedEvents);
             }
           },
-          reject,
+          (err) => {
+            cleanUpBeforeReturn();
+            if (err.name === "AbortError") {
+              rejectOnAbort();
+            } else {
+              reject(err);
+            }
+          },
+          maxMessageCount - receivedEvents.length,
+          false,
           abortSignal
         );
 
@@ -381,25 +391,8 @@ export class EventHubConsumer {
           }, maxWaitTimeInSeconds * 1000);
         };
 
-        if (!this._baseConsumer.isOpen()) {
-          try {
-            // initializing the baseConsumer will also add credits.
-            await this._baseConsumer.initialize();
-            // the operation may have been cancelled while the connection
-            // was being initialized. In this case, call abort.
-            if (abortSignal && abortSignal.aborted) {
-              return await rejectOnAbort();
-            }
-            addTimeout();
-          } catch (err) {
-            cleanUpBeforeReturn();
-            return reject(err);
-          }
-        } else {
-          addTimeout();
-        }
-
-        if (abortSignal) {
+        addTimeout();
+        if (abortSignal && !abortSignal.aborted) {
           abortSignal.addEventListener("abort", onAbort);
         }
       });

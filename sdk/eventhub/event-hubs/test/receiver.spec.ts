@@ -436,7 +436,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support creating a new handler after cancellation", async function(): Promise<void> {
+    it("should not support creating a new handler after cancellation", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -483,22 +485,28 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         err.message.should.equal("The receive operation has been cancelled by the user.");
 
         const events: ReceivedEventData[] = [];
-        await new Promise((resolve, reject) => {
-          let shouldStop = false;
+        try {
+          await new Promise((resolve, reject) => {
+            let shouldStop = false;
 
-          const handler = receiver!.receive((event) => {
-            if (!shouldStop) {
-              events.push(event);
-              shouldStop = true;
-              handler
-                .stop()
-                .then(() => resolve(events))
-                .catch(reject);
-            }
-          }, reject);
-        });
+            const handler = receiver!.receive((event) => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            }, reject);
+          });
+        } catch (err) {
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
+        }
 
-        events.length.should.equal(1);
+        events.length.should.equal(0);
       }
     });
   });
