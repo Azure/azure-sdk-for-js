@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { name, version } from "../../package.json";
-
 export const minLeaseDurationInSeconds = 15;
 export const maxLeaseDurationInSeconds = 60;
 export const defaultLeaseDurationInSeconds = 30;
@@ -19,6 +17,6 @@ export const leaseIdMismatchWithLeaseOperation = "leaseidmismatchwithleaseoperat
 export const leaseIdMismatchWithBlobOperation = "leaseidmismatchwithbloboperation";
 export const defaultConsumerGroup = "$default";
 export const packageInfo = {
-  name: name,
-  version: version
+  name: "@azure/event-processor-host",
+  version: "2.0.0"
 };
