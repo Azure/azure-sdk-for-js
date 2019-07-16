@@ -344,7 +344,14 @@
     },
     {
       "packageName": "@azure/event-hubs",
-      "projectFolder": "sdk/eventhub/event-hubs"
+      "projectFolder": "sdk/eventhub/event-hubs",
+      "cyclicDependencyProjects": [
+        "@azure/abort-controller",
+        "@azure/core-asynciterator-polyfill",
+        "@azure/core-http",
+        "@azure/core-paging",
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/event-processor-host",
