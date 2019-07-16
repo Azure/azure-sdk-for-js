@@ -20,9 +20,11 @@ module.exports = function(config) {
     ],
 
     files: [
+      // polyfill service supporting IE11 missing features
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
-      "recordings/browsers/**/*.json"
+      // "recordings/browsers/**/*.json"
     ],
 
     exclude: [],
@@ -30,10 +32,10 @@ module.exports = function(config) {
     preprocessors: {
       "**/*.js": ["env"],
       "dist-test/index.browser.js": ["coverage"],
-      "recordings/browsers/**/*.json": ["json"]
+      // "recordings/browsers/**/*.json": ["json"]
     },
 
-    envPreprocessor: ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "AZURE_TENANT_ID"],
+    envPreprocessor: ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "AZURE_TENANT_ID", "KEYVAULT_NAME", "TEST_MODE"],
 
     reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
 

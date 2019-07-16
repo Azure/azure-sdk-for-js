@@ -92,7 +92,6 @@ export function browserConfig(test = false) {
     },
     preserveSymlinks: false,
     plugins: [
-      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
@@ -122,7 +121,8 @@ export function browserConfig(test = false) {
           // https://github.com/rollup/rollup-plugin-commonjs/issues/394
           "assert/": ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
         }
-      })
+      }),
+      json(),
     ] 
   };
 
@@ -131,7 +131,7 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
-    baseConfig.external = ["assert", "fs-extra", "path"];
+    baseConfig.external = ["fs-extra", "path"];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
