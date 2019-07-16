@@ -403,9 +403,7 @@ export class EventHubSender extends LinkEntity {
 
       if (events instanceof EventDataBatch && options && options.partitionKey) {
         // throw an error if partition key is different than the one provided in the options.
-        const error = new Error(
-          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
-        );
+        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
         log.error(
           "[%s] Partition key is not supported when using createBatch(). %O",
           this._context.connectionId,
@@ -542,8 +540,7 @@ export class EventHubSender extends LinkEntity {
           log.sender(
             "[%s] Sender '%s', sending message with id '%s'.",
             this._context.connectionId,
-            this.name,
-            (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
+            this.name
           );
           let onRejected: Func<EventContext, void>;
           let onReleased: Func<EventContext, void>;
@@ -606,7 +603,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender '${this.name}', ` +
-                `received a release disposition.Hence we are rejecting the promise.`
+                 `received a release disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
@@ -625,7 +622,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender "${this.name}", ` +
-                `received a modified disposition.Hence we are rejecting the promise.`
+                 `received a modified disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
@@ -654,9 +651,9 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
           waitTimer = setTimeout(actionAfterTimeout, getRetryAttemptTimeoutInMs(options.retryOptions));
-          const delivery = this._sender!.send(message, 0x80013700);
+          const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+            "[%s] Sender '%s', sent message with delivery id: %d",
             this._context.connectionId,
             this.name,
             delivery.id
