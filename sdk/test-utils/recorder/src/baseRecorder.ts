@@ -7,9 +7,15 @@ import queryString from "query-string";
 import { isBrowser, blobToString, escapeRegExp, env } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 import nock from "nock";
+import path from "path";
 
-const isRecording = env.TEST_MODE === "record";
-const isPlayingBack = env.TEST_MODE === "playback";
+let isRecording: boolean;
+let isPlayingBack: boolean;
+
+function envTestMode() {
+  isRecording = env.TEST_MODE === "record";
+  isPlayingBack = env.TEST_MODE === "playback";
+}
 
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
@@ -28,6 +34,7 @@ export function setReplacements(maps: any): void {
 }
 
 export function setEnviromentOnLoad() {
+  envTestMode();
   if (isBrowser() && isRecording) {
     customConsoleLog();
   }
@@ -110,7 +117,7 @@ export abstract class Recorder {
   }
 
   public abstract record(): void;
-  public abstract playback(): void;
+  public abstract playback(filePath: string): void;
   public abstract stop(): void;
 }
 
@@ -125,8 +132,17 @@ export class NockRecorder extends Recorder {
     });
   }
 
-  public playback(): void {
-    this.uniqueTestInfo = require("../recordings/" + this.filepath).testInfo;
+  public playback(filePath: string): void {
+    const searchTerm = "\\";
+    this.uniqueTestInfo = require(path.resolve(
+      filePath
+        .substring(0, filePath.lastIndexOf(searchTerm))
+        .substring(
+          0,
+          filePath.substring(0, filePath.lastIndexOf(searchTerm)).lastIndexOf(searchTerm) + 1
+        ),
+      "./recordings/" + this.filepath
+    )).testInfo;
   }
 
   public stop(): void {

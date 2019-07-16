@@ -36,7 +36,7 @@ export function record(testContext: any) {
   if (isRecording) {
     recorder.record();
   } else if (isPlayingBack) {
-    recorder.playback();
+    recorder.playback(testContext.currentTest.file);
   }
 
   return {

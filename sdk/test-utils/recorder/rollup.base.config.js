@@ -55,7 +55,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["fs-extra", "nock"],
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "browser/azure-test-utils-recorder.js",
       format: "umd",
