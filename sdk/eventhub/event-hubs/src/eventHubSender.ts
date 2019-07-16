@@ -501,7 +501,7 @@ export class EventHubSender extends LinkEntity {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
 
     const sendOperationPromise = () =>
-      new Promise<void>((resolve, reject) => {
+      new Promise<void>(async (resolve, reject) => {
         let waitTimer: any;
 
         let onRejected: Func<EventContext, void>;
@@ -590,17 +590,6 @@ export class EventHubSender extends LinkEntity {
           }
         };
 
-        const rejectOnSendError = (err: Error) => {
-          err = translate(err);
-          log.error(
-            "[%s] An error occurred while performing send on %s",
-            this._context.connectionId,
-            this.name,
-            err
-          );
-          reject(err);
-        };
-
         const actionAfterTimeout = () => {
           removeListeners();
           const desc: string =
@@ -678,23 +667,13 @@ export class EventHubSender extends LinkEntity {
               "possibly the connection.",
             this.senderLock
           );
-          defaultLock
-            .acquire(this.senderLock, () => {
-              return this._init();
-            })
-            .then(() => {
-              sendEventPromise()
-                .then(() => {
-                  resolve();
-                })
-                .catch((err: Error) => {
-                  rejectOnSendError(err);
-                });
-            })
-            .catch((err: Error) => {
-              rejectOnSendError(err);
-            });
+
+          await defaultLock.acquire(this.senderLock, () => {
+            return this._init();
+          });
         }
+
+        await sendEventPromise();
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
