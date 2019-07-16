@@ -74,7 +74,9 @@ export class RequestResponseLink implements ReqResLink {
   }
 
   /**
-   *
+   * Sends the given request message and returns the received response. If the operation is not
+   * completed in the provided timeout in seconds `default: 60`, then `OperationTimeoutError` is thrown.
+   * 
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
@@ -212,9 +214,9 @@ export class RequestResponseLink implements ReqResLink {
           const desc: string =
             `The request with message_id "${request.message_id}" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
-          const e: AmqpError = {
-            condition: ConditionStatusMapper[408],
-            description: desc
+          const e: Error = {
+            name: "OperationTimeoutError",
+            message: desc
           };
           return reject(translate(e));
         };
