@@ -59,7 +59,7 @@ export function browserConfig(test = false, production = false) {
     output: {
       file: "browser/azure-test-utils-recorder.js",
       format: "umd",
-      name: "TestUtilsRecorder",
+      name: "testUtilsRecorder",
       sourcemap: true
     },
     preserveSymlinks: false,
