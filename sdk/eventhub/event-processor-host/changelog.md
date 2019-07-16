@@ -2,7 +2,7 @@
 - Minimum dependency on `@azure/event-hubs: "^2.1.1"`.
 
 #### Breaking Changes
-- If you have been using the `createFromAadTokenCredentials` function to create an instance of the 
+- If you have been using the `createFromAadTokenCredentials` function or the `createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager` function to create an instance of the 
 `EventProcessorHost`, you will now need to use the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) 
 library instead of [ms-rest-azure](https://www.npmjs.com/package/ms-rest-azure) library to create 
 the credentials that are needed by the `createFromAadTokenCredentials` function.
