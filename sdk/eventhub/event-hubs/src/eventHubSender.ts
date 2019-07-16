@@ -403,7 +403,9 @@ export class EventHubSender extends LinkEntity {
 
       if (events instanceof EventDataBatch && options && options.partitionKey) {
         // throw an error if partition key is different than the one provided in the options.
-        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
+        const error = new Error(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
         log.error(
           "[%s] Partition key is not supported when using createBatch(). %O",
           this._context.connectionId,
@@ -508,7 +510,6 @@ export class EventHubSender extends LinkEntity {
     message: AmqpMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
-
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
@@ -647,7 +648,10 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, getRetryAttemptTimeoutInMs(options.retryOptions));
+          waitTimer = setTimeout(
+            actionAfterTimeout,
+            getRetryAttemptTimeoutInMs(options.retryOptions)
+          );
           const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d",
