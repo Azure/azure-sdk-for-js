@@ -4,6 +4,9 @@
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
+  "browser": {
+    "dist/index.js": "./browser/azure-test-utils-recorder.js"
+  },
   "types": "./typings/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
