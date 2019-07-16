@@ -3,10 +3,11 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions, BatchOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { EventDataBatch } from "./eventDataBatch";
 
 /**
  * A producer responsible for sending `EventData` to a specific Event Hub.
@@ -59,6 +60,33 @@ export class EventHubProducer {
   }
 
   /**
+   * Creates an instance of EventDataBatch to which one can add events until the maximum supported size is reached.
+   * The batch can be passed to the send method of the EventHubProducer to be sent to Azure Event Hubs
+   * @param options  Options to define partition key and max message size.
+   * @returns Promise<EventDataBatch>
+   */
+  async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
+    this._throwIfSenderOrConnectionClosed();
+    if (!options) {
+      options = {};
+    }
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
+    if (options.maxMessageSizeInBytes) {
+      if (options.maxMessageSizeInBytes > maxMessageSize) {
+        const error = new Error(
+          `Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+        );
+        log.error(
+          `[${this._context.connectionId}] Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+        );
+        throw error;
+      }
+      maxMessageSize = options.maxMessageSizeInBytes;
+    }
+    return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
+  }
+
+  /**
    * Send a single or an array of events to the associated Event Hub.
    *
    * @param eventData  An individual event data or array of event data objects to send.
@@ -71,12 +99,22 @@ export class EventHubProducer {
    * @throws {TypeError} Thrown if a required parameter is missing.
    * @throws {Error} Thrown if the underlying connection or sender has been closed.
    * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
+   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
    * Create a new producer using the EventHubClient createProducer method.
    */
-  async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
+  async send(
+    eventData: EventData | EventData[] | EventDataBatch,
+    options?: SendOptions
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
-    if (!Array.isArray(eventData)) {
+    if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
+      log.error(
+        `[${this._context.connectionId}] No events to send, use tryAdd() function on the EventDataBatch to add events in a batch.`
+      );
+      return;
+    }
+    if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
       eventData = [eventData];
     }
     return this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });

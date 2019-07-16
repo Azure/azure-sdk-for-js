@@ -4,7 +4,6 @@
 import uuid from "uuid/v4";
 import * as log from "./log";
 import {
-  messageProperties,
   Sender,
   EventContext,
   OnAmqpEvent,
@@ -30,6 +29,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { EventDataBatch } from "./eventDataBatch";
 import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 
 /**
@@ -341,6 +341,34 @@ export class EventHubSender extends LinkEntity {
     );
     return result;
   }
+  /**
+   * Returns maximum message size on the AMQP sender link.
+   * @ignore
+   * @returns Promise<number>
+   */
+  async getMaxMessageSize(): Promise<number> {
+    try {
+      if (!this.isOpen()) {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+      }
+      return this._sender!.maxMessageSize;
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while creating the sender %s",
+        this._context.connectionId,
+        this.name,
+        err
+      );
+      throw err;
+    }
+  }
 
   /**
    * Send a batch of EventData to the EventHub. The "message_annotations",
@@ -351,7 +379,10 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(events: EventData[], options?: SendOptions & EventHubProducerOptions): Promise<void> {
+  async send(
+    events: EventData[] | EventDataBatch,
+    options?: SendOptions & EventHubProducerOptions
+  ): Promise<void> {
     try {
       // throw an error if partition key and partition id are both defined
       if (
@@ -370,46 +401,56 @@ export class EventHubSender extends LinkEntity {
         throw error;
       }
 
+      if (events instanceof EventDataBatch && options && options.partitionKey) {
+        // throw an error if partition key is different than the one provided in the options.
+        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
+        log.error(
+          "[%s] Partition key is not supported when using createBatch(). %O",
+          this._context.connectionId,
+          error
+        );
+        throw error;
+      }
+
       log.sender(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
         this.name
       );
-      const partitionKey = (options && options.partitionKey) || undefined;
-      const messages: AmqpMessage[] = [];
-      // Convert EventData to AmqpMessage.
-      for (let i = 0; i < events.length; i++) {
-        const message = toAmqpMessage(events[i], partitionKey);
-        message.body = this._context.dataTransformer.encode(events[i].body);
-        messages[i] = message;
-      }
-      // Encode every amqp message and then convert every encoded message to amqp data section
-      const batchMessage: AmqpMessage = {
-        body: message.data_sections(messages.map(message.encode))
-      };
-      // Set message_annotations, application_properties and properties of the first message as
-      // that of the envelope (batch message).
-      if (messages[0].message_annotations) {
-        batchMessage.message_annotations = messages[0].message_annotations;
-      }
-      if (messages[0].application_properties) {
-        batchMessage.application_properties = messages[0].application_properties;
-      }
-      for (const prop of messageProperties) {
-        if ((messages[0] as any)[prop]) {
-          (batchMessage as any)[prop] = (messages[0] as any)[prop];
-        }
-      }
 
-      // Finally encode the envelope (batch message).
-      const encodedBatchMessage = message.encode(batchMessage);
+      let encodedBatchMessage: Buffer | undefined;
+      if (events instanceof EventDataBatch) {
+        encodedBatchMessage = events.batchMessage!;
+      } else {
+        const partitionKey = (options && options.partitionKey) || undefined;
+        const messages: AmqpMessage[] = [];
+        // Convert EventData to AmqpMessage.
+        for (let i = 0; i < events.length; i++) {
+          const message = toAmqpMessage(events[i], partitionKey);
+          message.body = this._context.dataTransformer.encode(events[i].body);
+          messages[i] = message;
+        }
+        // Encode every amqp message and then convert every encoded message to amqp data section
+        const batchMessage: AmqpMessage = {
+          body: message.data_sections(messages.map(message.encode))
+        };
+
+        // Set message_annotations of the first message as
+        // that of the envelope (batch message).
+        if (messages[0].message_annotations) {
+          batchMessage.message_annotations = messages[0].message_annotations;
+        }
+
+        // Finally encode the envelope (batch message).
+        encodedBatchMessage = message.encode(batchMessage);
+      }
       log.sender(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
         encodedBatchMessage
       );
-      return await this._trySendBatch(encodedBatchMessage, batchMessage.message_id, options);
+      return await this._trySendBatch(encodedBatchMessage, options);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -455,9 +496,7 @@ export class EventHubSender extends LinkEntity {
    */
   private _trySendBatch(
     message: AmqpMessage | Buffer,
-    tag: any,
-    options: SendOptions & EventHubProducerOptions = {},
-    format?: number
+    options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
 

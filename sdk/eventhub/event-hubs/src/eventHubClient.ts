@@ -103,6 +103,24 @@ export interface SendOptions {
 }
 
 /**
+ * The set of options to configure the createBatch operation on the `EventProducer`.
+ */
+export interface BatchOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string;
+  /**
+   * @property
+   * The maximum size allowed for the batch.
+   */
+  maxMessageSizeInBytes?: number;
+}
+
+/**
  * The set of options to configure the behavior of an `EventHubConsumer`.
  * These can be specified when creating the consumer using the `createConsumer` method.
  */

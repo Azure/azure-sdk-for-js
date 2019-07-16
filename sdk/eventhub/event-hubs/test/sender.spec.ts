@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventHubClient, EventData, EventHubProducer } from "../src";
+import { EventHubClient, EventData, EventHubProducer, EventPosition } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
@@ -194,6 +194,100 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         err.message.should.equal(
           "Partition key is not supported when using producers that were created using a partition id."
         );
+      }
+    });
+  });
+
+  describe("Create batch", function(): void {
+    it("should be sent successfully", async function(): Promise<void> {
+      const list = [
+        { name: "Albert" },
+        { name: `${Buffer.from("Mike".repeat(1300000))}` },
+        { name: "Marie" }
+      ];
+      const partitionInfo = await client.getPartitionProperties("0");
+      const producer = client.createProducer({ partitionId: "0" });
+      const consumer = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        "0",
+        EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
+      );
+      const eventDataBatch = await producer.createBatch();
+      for (let i = 0; i < 3; i++) {
+        eventDataBatch.tryAdd({ body: `${list[i].name}` });
+      }
+      await producer.send(eventDataBatch);
+      const data = await consumer.receiveBatch(3, 5);
+      data.length.should.equal(2);
+      list[0].name.should.equal(data[0].body);
+      list[2].name.should.equal(data[1].body);
+      await producer.close();
+      await consumer.close();
+    });
+
+    it("with partition key should be sent successfully.", async function(): Promise<void> {
+      const producer = client.createProducer();
+      const eventDataBatch = await producer.createBatch({ partitionKey: "1" });
+      for (let i = 0; i < 5; i++) {
+        eventDataBatch.tryAdd({ body: `Hello World ${i}` });
+      }
+      await producer.send(eventDataBatch);
+      await producer.close();
+    });
+
+    it("with max message size should be sent successfully.", async function(): Promise<void> {
+      const partitionInfo = await client.getPartitionProperties("0");
+      const producer = client.createProducer({ partitionId: "0" });
+      const consumer = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        "0",
+        EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
+      );
+      const eventDataBatch = await producer.createBatch({ maxMessageSizeInBytes: 5000 });
+      const message = { body: `${Buffer.from("Z".repeat(4096))}` };
+      for (let i = 1; i <= 3; i++) {
+        const isAdded = eventDataBatch.tryAdd(message);
+        if (!isAdded) {
+          debug(`Unable to add ${i} event to the batch`);
+          break;
+        }
+      }
+      await producer.send(eventDataBatch);
+      const data = await consumer.receiveBatch(3, 5);
+      data.length.should.equal(1);
+      message.body.should.equal(data[0].body);
+      await producer.close();
+      await consumer.close();
+    });
+
+    it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
+      void
+    > {
+      try {
+        const producer = client.createProducer({ partitionId: "0" });
+        await producer.createBatch({ maxMessageSizeInBytes: 2046528 });
+        throw new Error("Test Failure");
+      } catch (err) {
+        // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)
+        err.message.should.match(
+          /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
+        );
+      }
+    });
+
+    it("should throw when Partition key is provided in the send options", async function(): Promise<
+      void
+    > {
+      try {
+        const producer = client.createProducer();
+        const eventDataBatch = await producer.createBatch({ partitionKey: "1" });
+        for (let i = 0; i < 5; i++) {
+          eventDataBatch.tryAdd({ body: `Hello World ${i}` });
+        }
+        await producer.send(eventDataBatch, { partitionKey: "2" });
+        throw new Error("Test Failure");
+      } catch (err) {
+        err.message.should.equal("Partition key is not supported when using createBatch().");
       }
     });
   });
