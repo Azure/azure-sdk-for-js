@@ -8,7 +8,6 @@ import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import json from 'rollup-plugin-json';
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -30,7 +29,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "os", "url"];
+  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "os", "url", "assert"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -42,7 +41,6 @@ export function nodeConfig(test = false) {
       banner: banner
     },
     plugins: [
-      json(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
@@ -85,10 +83,10 @@ export function browserConfig(test = false) {
     input: "dist-esm/src/index.js",
     output: {
       file: "browser/azure-keyvault-keys.js",
+      banner: banner,
       format: "umd",
       name: "azurekeyvaultkeys",
-      sourcemap: true,
-      banner: banner
+      sourcemap: true
     },
     preserveSymlinks: false,
     plugins: [
@@ -119,10 +117,9 @@ export function browserConfig(test = false) {
           // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
           // modules with built-in names must have a trailing slash.
           // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-          "assert/": ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          "assert/": ["ok", "equal", "strictEqual"]
         }
       }),
-      json(),
     ] 
   };
 
@@ -131,7 +128,7 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
-    baseConfig.external = ["fs-extra", "path"];
+    baseConfig.external = ["assert", "fs-extra", "path"];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
