@@ -744,6 +744,32 @@ export const DatabaseCheckNameRequest: msRest.CompositeMapper = {
   }
 };
 
+export const DataConnectionCheckNameRequest: msRest.CompositeMapper = {
+  serializedName: "DataConnectionCheckNameRequest",
+  type: {
+    name: "Composite",
+    className: "DataConnectionCheckNameRequest",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        isConstant: true,
+        serializedName: "type",
+        defaultValue: 'Microsoft.Kusto/clusters/databases/dataConnections',
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CheckNameResult: msRest.CompositeMapper = {
   serializedName: "CheckNameResult",
   type: {
@@ -764,6 +790,12 @@ export const CheckNameResult: msRest.CompositeMapper = {
       },
       message: {
         serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      reason: {
+        serializedName: "reason",
         type: {
           name: "String"
         }

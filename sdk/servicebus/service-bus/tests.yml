@@ -1,15 +1,15 @@
 trigger: none
 
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/service-bus"
       # Use a more simple matrix because these tests run for a long time
       Matrix:
-        Linux_Node10X:
+        Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-        Browser_Windows_Node10X:
+        Browser_Windows_Node10:
           OSVmImage: "vs2017-win2016"
           TestType: "browser"
       EnvVars:

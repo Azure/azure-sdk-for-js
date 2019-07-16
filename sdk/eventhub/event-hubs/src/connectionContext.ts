@@ -237,9 +237,45 @@ export namespace ConnectionContext {
       }
     };
 
+    const protocolError: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
+    const error: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
     // Add listeners on the connection object.
     connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
     connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
+    connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
+    connectionContext.connection.on(ConnectionEvents.error, error);
 
     log.context("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
