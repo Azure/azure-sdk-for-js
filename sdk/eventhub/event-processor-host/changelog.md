@@ -2,7 +2,7 @@
 - Use the latest version of the dependency on [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.1) that has the following bug fixes
       - Added event handlers for `error` and `protocolError` events on the connection object to avoid the case of unhandled exceptions. This is related to the [bug 4136](https://github.com/Azure/azure-sdk-for-js/issues/4136)
       - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError` 
-      is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#enable-logs).
+      is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host#debug-logs).
       - When recovering from an error that caused the underlying AMQP connection to get disconnected, 
       [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection 
       resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections. 
