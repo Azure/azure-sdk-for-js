@@ -1,3 +1,15 @@
+## 2019-07-16 2.0.0
+- Minimum dependency on `@azure/event-hubs: "^2.1.1"`.
+
+#### Breaking Changes
+- If you have been using the `createFromAadTokenCredentials` function to create an instance of the 
+`EventProcessorHost`, you will now need to use the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) 
+library instead of [ms-rest-azure](https://www.npmjs.com/package/ms-rest-azure) library to create 
+the credentials that are needed by the `createFromAadTokenCredentials` function.
+    - Typescript: Replace `import * from "ms-rest-azure";` with `import * from "@azure/ms-rest-nodeauth";`
+    - Javascript: Replace `require("ms-rest-azure")` with `require("@azure/ms-rest-nodeauth")`
+
+
 ## 2018-10-05 1.0.6
 - Remove `@azure/amqp-common` and `rhea-promise` as dependencies, since we use very little from 
 those libraries and there is a risk of having two instances of rhea in the dependency chain which 
