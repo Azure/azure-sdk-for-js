@@ -251,7 +251,7 @@ export class ManagementClient extends LinkEntity {
             const ehError = translate(context.session!.error!);
             log.error(
               "[%s] An error occurred on the session for request/response links for " +
-              "$management: %O",
+                "$management: %O",
               id,
               ehError
             );
@@ -260,7 +260,7 @@ export class ManagementClient extends LinkEntity {
         const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-          "srOpts: %o, receiverOpts: %O.",
+            "srOpts: %o, receiverOpts: %O.",
           this._context.connectionId,
           sropt,
           rxopt
@@ -308,8 +308,7 @@ export class ManagementClient extends LinkEntity {
   private async _makeManagementRequest(
     request: Message,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
-  ): Promise<any> {
-    
+  ): Promise<any> { 
     try {
       if (!options) {
         options = {};
