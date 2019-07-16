@@ -259,6 +259,12 @@ export const RoleAssignment: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      principalType: {
+        serializedName: "properties.principalType",
+        type: {
+          name: "String"
+        }
+      },
       canDelegate: {
         serializedName: "properties.canDelegate",
         type: {
