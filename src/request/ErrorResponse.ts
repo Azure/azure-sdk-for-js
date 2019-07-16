@@ -3,15 +3,24 @@ import { CosmosHeaders } from "../index";
 interface ErrorBody {
   code: string;
   message: string;
+  /**
+   * @ignore
+   */
   additionalErrorInfo?: PartitionedQueryExecutionInfo;
 }
 
+/**
+ * @ignore
+ */
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
   queryInfo: QueryInfo;
   queryRanges: QueryRange[];
 }
 
+/**
+ * @ignore
+ */
 interface QueryRange {
   min: string;
   max: string;
@@ -19,6 +28,9 @@ interface QueryRange {
   isMaxInclusive: boolean;
 }
 
+/**
+ * @ignore
+ */
 interface QueryInfo {
   top?: any;
   orderBy?: any[];

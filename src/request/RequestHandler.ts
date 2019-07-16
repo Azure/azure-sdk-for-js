@@ -16,6 +16,10 @@ export async function executeRequest(requestContext: RequestContext) {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }
 
+/**
+ * @ignore
+ * @param requestContext
+ */
 async function httpRequest(requestContext: RequestContext) {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -107,6 +111,10 @@ async function httpRequest(requestContext: RequestContext) {
   };
 }
 
+/**
+ * @ignore
+ * @param requestContext
+ */
 export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);

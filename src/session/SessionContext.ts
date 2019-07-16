@@ -1,5 +1,8 @@
 import { OperationType, ResourceType } from "../common";
 
+/**
+ * @ignore
+ */
 export interface SessionContext {
   resourceId?: string;
   resourceAddress?: string;

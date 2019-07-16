@@ -12,6 +12,10 @@ import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
+/**
+ * @ignore
+ * @param options
+ */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   const optionsType = typeof options;
   return options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number");

@@ -1,6 +1,9 @@
 import { Constants } from "../common/constants";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 
+/**
+ * @ignore
+ */
 function compareRanges(a: any, b: any) {
   const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];
   const bVal = b[0][Constants.PartitionKeyRange.MinInclusive];
@@ -37,6 +40,9 @@ export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[])
   return new InMemoryCollectionRoutingMap(partitionKeyOrderedRange, orderedPartitionInfo);
 }
 
+/**
+ * @ignore
+ */
 function isCompleteSetOfRange(partitionKeyOrderedRange: any) {
   // TODO: any
   let isComplete = false;

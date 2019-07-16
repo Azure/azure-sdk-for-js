@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export class LocationRouting {
   private pIgnorePreferredLocation: boolean;
   private pLocationIndexToRoute: number;

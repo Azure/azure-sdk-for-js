@@ -26,6 +26,9 @@ export function bodyFromData(data: Buffer | string | object) {
   return data;
 }
 
+/**
+ * @ignore
+ */
 interface GetHeadersOptions {
   clientOptions: CosmosClientOptions;
   defaultHeaders: CosmosHeaders;
@@ -39,6 +42,10 @@ interface GetHeadersOptions {
   partitionKey?: PartitionKey;
 }
 
+/**
+ * @ignore
+ * @param param0
+ */
 export async function getHeaders({
   clientOptions,
   defaultHeaders,

@@ -14,6 +14,15 @@ export interface RequestInfo {
 
 export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
+/**
+ * @ignore
+ * @param clientOptions
+ * @param verb
+ * @param path
+ * @param resourceId
+ * @param resourceType
+ * @param headers
+ */
 export async function setAuthorizationHeader(
   clientOptions: CosmosClientOptions,
   verb: HTTPMethod,
@@ -48,7 +57,10 @@ export async function setAuthorizationHeader(
   }
 }
 
-/** The default function for setting header token using the masterKey */
+/**
+ * The default function for setting header token using the masterKey
+ * @ignore
+ */
 export function setAuthorizationTokenHeaderUsingMasterKey(
   verb: HTTPMethod,
   resourceId: string,
@@ -63,6 +75,12 @@ export function setAuthorizationTokenHeaderUsingMasterKey(
   headers = Object.assign(headers, generateHeaders(masterKey, verb, resourceType, resourceId));
 }
 
+/**
+ * @ignore
+ * @param resourceTokens
+ * @param path
+ * @param resourceId
+ */
 // TODO: Resource tokens
 function getAuthorizationTokenUsingResourceTokens(
   resourceTokens: { [resourceId: string]: string },

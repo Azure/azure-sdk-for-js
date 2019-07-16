@@ -1,6 +1,9 @@
 import { ErrorResponse } from "../request";
 import { RetryContext } from "./RetryContext";
 
+/**
+ * @ignore
+ */
 export interface RetryPolicy {
   retryAfterInMilliseconds: number;
   shouldRetry: (

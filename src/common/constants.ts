@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export const Constants = {
   MediaTypes: {
     Any: "*/*",
@@ -231,6 +234,9 @@ export const Constants = {
   }
 };
 
+/**
+ * @ignore
+ */
 export enum ResourceType {
   none = "",
   database = "dbs",
@@ -246,6 +252,9 @@ export enum ResourceType {
   pkranges = "pkranges"
 }
 
+/**
+ * @ignore
+ */
 export enum HTTPMethod {
   get = "GET",
   post = "POST",
@@ -253,6 +262,9 @@ export enum HTTPMethod {
   delete = "DELETE"
 }
 
+/**
+ * @ignore
+ */
 export enum OperationType {
   Create = "create",
   Replace = "replace",

@@ -1,6 +1,11 @@
 import { parsePath } from "./common";
 import { PartitionKey, PartitionKeyDefinition } from "./documents";
 
+/**
+ * @ignore
+ * @param document
+ * @param partitionKeyDefinition
+ */
 export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[] {
   if (partitionKeyDefinition && partitionKeyDefinition.paths && partitionKeyDefinition.paths.length > 0) {
     const partitionKey: PartitionKey[] = [];
@@ -22,7 +27,10 @@ export function extractPartitionKey(document: any, partitionKeyDefinition: Parti
     return partitionKey;
   }
 }
-
+/**
+ * @ignore
+ * @param partitionKeyDefinition
+ */
 export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition) {
   if (partitionKeyDefinition.systemKey === true) {
     return [];

@@ -9,6 +9,9 @@ import { FeedOptions } from "./FeedOptions";
 import { LocationRouting } from "./LocationRouting";
 import { RequestOptions } from "./RequestOptions";
 
+/**
+ * @ignore
+ */
 export interface RequestContext {
   path?: string;
   operationType?: OperationType;

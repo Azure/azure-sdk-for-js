@@ -1,7 +1,7 @@
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import { Constants, OperationType, ResourceType } from "./constants";
 
-/** @hidden */
+/** @ignore */
 const Regexes = Constants.RegularExpressions;
 
 /** @hidden */
@@ -13,6 +13,9 @@ export function jsonStringifyAndEscapeNonASCII(arg: any) {
   });
 }
 
+/**
+ * @ignore
+ */
 export function parseLink(resourcePath: string) {
   if (resourcePath.length === 0) {
     /* for DatabaseAccount case, both type and objectBody will be undefined. */
@@ -65,10 +68,16 @@ export function parseLink(resourcePath: string) {
   return result;
 }
 
+/**
+ * @ignore
+ */
 export function isReadRequest(operationType: OperationType): boolean {
   return operationType === OperationType.Read || operationType === OperationType.Query;
 }
 
+/**
+ * @ignore
+ */
 export function sleep(time: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -77,6 +86,9 @@ export function sleep(time: number): Promise<void> {
   });
 }
 
+/**
+ * @ignore
+ */
 export function getContainerLink(link: string) {
   return link
     .split("/")
@@ -84,16 +96,25 @@ export function getContainerLink(link: string) {
     .join("/");
 }
 
+/**
+ * @ignore
+ */
 export function trimSlashes(source: string) {
   return source
     .replace(Constants.RegularExpressions.TrimLeftSlashes, "")
     .replace(Constants.RegularExpressions.TrimRightSlashes, "");
 }
 
+/**
+ * @ignore
+ */
 export function getHexaDigit() {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
+/**
+ * @ignore
+ */
 export function parsePath(path: string) {
   const pathParts = [];
   let currentIndex = 0;
@@ -157,6 +178,10 @@ export function parsePath(path: string) {
 
   return pathParts;
 }
+
+/**
+ * @ignore
+ */
 export function isResourceValid(resource: any, err: any) {
   // TODO: any TODO: code smell
   if (resource.id) {
@@ -197,11 +222,18 @@ export function getPathFromLink(resourceLink: string, resourceType?: string) {
     return "/" + encodeURI(resourceLink);
   }
 }
+
+/**
+ * @ignore
+ */
 export function isStringNullOrEmpty(inputString: string) {
   // checks whether string is null, undefined, empty or only contains space
   return !inputString || /^\s*$/.test(inputString);
 }
 
+/**
+ * @ignore
+ */
 export function trimSlashFromLeftAndRight(inputString: string) {
   if (typeof inputString !== "string") {
     throw new Error("invalid input: input is not string");
@@ -210,6 +242,9 @@ export function trimSlashFromLeftAndRight(inputString: string) {
   return inputString.replace(Regexes.TrimLeftSlashes, "").replace(Regexes.TrimRightSlashes, "");
 }
 
+/**
+ * @ignore
+ */
 export function validateResourceId(resourceId: string) {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
@@ -229,6 +264,10 @@ export function validateResourceId(resourceId: string) {
   return true;
 }
 
+/**
+ * @ignore
+ * @param resourcePath
+ */
 export function getResourceIdFromPath(resourcePath: string) {
   if (!resourcePath || typeof resourcePath !== "string") {
     return null;
@@ -245,11 +284,17 @@ export function getResourceIdFromPath(resourcePath: string) {
   return pathSegments[pathSegments.length - 1];
 }
 
+/**
+ * @ignore
+ */
 interface ConnectionObject {
   AccountEndpoint: string;
   AccountKey: string;
 }
 
+/**
+ * @ignore
+ */
 export function parseConnectionString(connectionString: string): CosmosClientOptions {
   const keyValueStrings = connectionString.split(";");
   const { AccountEndpoint, AccountKey } = keyValueStrings.reduce(
@@ -269,6 +314,9 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
   };
 }
 
+/**
+ * @ignore
+ */
 // https://github.com/iliakan/detect-node/blob/master/index.js
 export const isNode: boolean =
   Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]";

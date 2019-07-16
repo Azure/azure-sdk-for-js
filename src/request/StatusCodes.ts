@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export const StatusCode = {
   // Success
   Ok: 200 as 200,
@@ -29,8 +32,14 @@ export const StatusCode = {
   OperationCancelled: 1201
 };
 
+/**
+ * @ignore
+ */
 export type StatusCode = (typeof StatusCode)[keyof typeof StatusCode];
 
+/**
+ * @ignore
+ */
 export const SubStatusCode = {
   Unknown: 0 as 0,
 

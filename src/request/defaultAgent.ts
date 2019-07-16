@@ -1,7 +1,13 @@
 import { Agent } from "http";
 import { isNode } from "../common";
 
+/**
+ * @ignore
+ */
 export let defaultHttpAgent: Agent;
+/**
+ * @ignore
+ */
 export let defaultHttpsAgent: Agent;
 
 if (isNode) {

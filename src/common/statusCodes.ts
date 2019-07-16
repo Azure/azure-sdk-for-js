@@ -1,4 +1,6 @@
-﻿// tslint:disable:object-literal-key-quotes
+﻿/**
+ * @ignore
+ */
 export const StatusCodes = {
   // Success
   Ok: 200,
@@ -30,6 +32,9 @@ export const StatusCodes = {
   OperationCancelled: 1201
 };
 
+/**
+ * @ignore
+ */
 export const SubStatusCodes = {
   Unknown: 0,
 

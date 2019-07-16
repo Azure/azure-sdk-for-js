@@ -26,6 +26,9 @@ export interface ConnectionPolicy {
   useMultipleWriteLocations?: boolean;
 }
 
+/**
+ * @ignore
+ */
 export const defaultConnectionPolicy = Object.freeze({
   connectionMode: ConnectionMode.Gateway,
   requestTimeout: 60000,
