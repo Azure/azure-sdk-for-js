@@ -344,7 +344,15 @@
     },
     {
       "packageName": "@azure/event-hubs",
-      "projectFolder": "sdk/eventhub/event-hubs"
+      "projectFolder": "sdk/eventhub/event-hubs",
+      "cyclicDependencyProjects": [
+        "@azure/abort-controller",
+        "@azure/core-arm",
+        "@azure/identity",
+        "@azure/core-http",
+        "@azure/core-paging",
+        "@azure/core-asynciterator-polyfill"
+      ]
     },
     {
       "packageName": "@azure/event-processor-host",
@@ -368,7 +376,16 @@
     },
     {
       "packageName": "@azure/service-bus",
-      "projectFolder": "sdk/servicebus/service-bus"
+      "projectFolder": "sdk/servicebus/service-bus",
+       "cyclicDependencyProjects": [
+        "@azure/abort-controller",
+        "@azure/core-arm",
+        "@azure/identity",
+        "@azure/core-http",
+        "@azure/core-paging",
+        "@azure/core-asynciterator-polyfill",
+        "@azure/core-amqp"
+      ]
     },
     {
       "packageName": "@azure/storage-blob",
