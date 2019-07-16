@@ -19,16 +19,16 @@ jobs:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
-        displayName: "Pack libraries"
-
-      - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
       - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
+
+      - script: |
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+        displayName: "Pack libraries"
 
       - task: CopyFiles@2
         inputs:
