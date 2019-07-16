@@ -317,7 +317,7 @@ export class ManagementClient extends LinkEntity {
     let count: number = 0;
 
     const sendOperationPromise = () =>
-      new Promise<void>((resolve, reject) => {
+      new Promise<void>(async (resolve, reject) => {
         let waitTimer: any;
         let timeOver: boolean = false;
 
@@ -332,12 +332,6 @@ export class ManagementClient extends LinkEntity {
           // Set the message_id in the first attempt only if it is not set
           request.message_id = generate_uuid();
         }
-
-        const rejectOnSendError = (err: Error) => {
-          err = translate(err);
-          log.error("An error occurred while making the request to $management endpoint: %O", err);
-          reject(err);
-        };
 
         log.mgmt(
           "[%s] Acquiring lock to get the management req res link.",
@@ -464,33 +458,28 @@ export class ManagementClient extends LinkEntity {
           getRetryAttemptTimeoutInMs(options!.retryOptions)
         );
 
-        defaultLock
-          .acquire(this.managementLock, () => {
-            return this._init();
-          })
-          .then(() => {
-            if (aborter) {
-              // the aborter may have been triggered between request attempts
-              // so check if it was triggered and reject if needed.
-              if (aborter.aborted) {
-                return rejectOnAbort();
-              }
-              aborter.addEventListener("abort", onAbort);
-            }
+        await defaultLock.acquire(this.managementLock, () => {
+          return this._init();
+        });
 
-            this._mgmtReqResLink!.receiver.on(ReceiverEvents.message, messageCallback);
+        if (aborter) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (aborter.aborted) {
+            return rejectOnAbort();
+          }
+          aborter.addEventListener("abort", onAbort);
+        }
 
-            log.mgmt(
-              "[%s] %s request sent: %O",
-              this._context.connectionId,
-              request.to || "$managment",
-              request
-            );
-            this._mgmtReqResLink!.sender.send(request);
-          })
-          .catch((err: Error) => {
-            rejectOnSendError(err);
-          });
+        this._mgmtReqResLink!.receiver.on(ReceiverEvents.message, messageCallback);
+
+        log.mgmt(
+          "[%s] %s request sent: %O",
+          this._context.connectionId,
+          request.to || "$managment",
+          request
+        );
+        this._mgmtReqResLink!.sender.send(request);
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
