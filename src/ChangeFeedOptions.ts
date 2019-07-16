@@ -6,7 +6,7 @@
  * - startTime
  * - startFromBeginning
  *
- * If none of those options are set, it will start reading changes from the first `ChangeFeedIterator.executeNext()` call.
+ * If none of those options are set, it will start reading changes from the first `ChangeFeedIterator.fetchNext()` call.
  */
 export interface ChangeFeedOptions {
   /**

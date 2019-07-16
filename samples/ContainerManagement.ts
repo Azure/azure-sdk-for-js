@@ -17,7 +17,7 @@ async function run() {
   logStep("Read all containers in database");
   const iterator = database.containers.readAll();
   const { resources: containersList } = await iterator.fetchAll();
-  console.log(" --- Priting via iterator.toArray");
+  console.log(" --- Priting via iterator.fetchAll()");
   console.log(containersList);
 
   logStep("Read container definition");

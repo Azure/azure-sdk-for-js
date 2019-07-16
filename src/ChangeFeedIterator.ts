@@ -75,7 +75,7 @@ export class ChangeFeedIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>> {
     do {
-      const result = await this.executeNext();
+      const result = await this.fetchNext();
       if (result.count > 0) {
         yield result;
       }
@@ -85,7 +85,7 @@ export class ChangeFeedIterator<T> {
   /**
    * Read feed and retrieves the next page of results in Azure Cosmos DB.
    */
-  public async executeNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
+  public async fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     const response = await this.getFeedResponse();
     this.lastStatusCode = response.statusCode;
     this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];

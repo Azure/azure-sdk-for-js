@@ -40,7 +40,7 @@ export class Databases {
    *     {name: "@db", value: "Todo"}
    *   ]
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).toArray();
+   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -57,7 +57,7 @@ export class Databases {
    *     {name: "@db", value: "Todo"}
    *   ]
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).toArray();
+   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -159,7 +159,7 @@ export class Databases {
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
    * ```typescript
-   * const {body: databaseList} = await client.databases.readAll().toArray();
+   * const {body: databaseList} = await client.databases.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {

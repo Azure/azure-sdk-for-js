@@ -57,7 +57,7 @@ describe("Queries", function() {
       resources = { container, doc1, doc2, doc3 };
     });
 
-    it("toArray", async function() {
+    it("fetchAll", async function() {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 3, "queryIterator should return all documents using continuation");

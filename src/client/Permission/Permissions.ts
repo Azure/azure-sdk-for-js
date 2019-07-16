@@ -55,7 +55,7 @@ export class Permissions {
    * @param options
    * @example Read all permissions to array.
    * ```typescript
-   * const {body: permissionList} = await user.permissions.readAll().toArray();
+   * const {body: permissionList} = await user.permissions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<PermissionDefinition & Resource> {

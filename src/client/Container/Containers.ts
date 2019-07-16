@@ -37,7 +37,7 @@ export class Containers {
    *     {name: "@container", value: "Todo"}
    *   ]
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).toArray();
+   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -54,7 +54,7 @@ export class Containers {
    *     {name: "@container", value: "Todo"}
    *   ]
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).toArray();
+   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -172,7 +172,7 @@ export class Containers {
    * @returns {@link QueryIterator} Allows you to return all containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
-   * const {body: containerList} = await client.database("<db id>").containers.readAll().toArray();
+   * const {body: containerList} = await client.database("<db id>").containers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource> {

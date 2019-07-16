@@ -54,7 +54,7 @@ export class Triggers {
    * @param options
    * @example Read all trigger to array.
    * ```typescript
-   * const {body: triggerList} = await container.triggers.readAll().toArray();
+   * const {body: triggerList} = await container.triggers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition & Resource> {

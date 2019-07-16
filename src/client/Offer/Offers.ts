@@ -49,7 +49,7 @@ export class Offers {
    * @param options
    * @example Read all offers to array.
    * ```typescript
-   * const {body: offerList} = await client.offers.readAll().toArray();
+   * const {body: offerList} = await client.offers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource> {

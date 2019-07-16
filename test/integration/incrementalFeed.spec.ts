@@ -38,7 +38,7 @@ describe("Change Feed Iterator", function() {
       const iterator = container.items.readChangeFeed({ startFromBeginning: true });
 
       try {
-        await iterator.executeNext();
+        await iterator.fetchNext();
       } catch (err) {
         assert.equal(
           err.message,
@@ -52,7 +52,7 @@ describe("Change Feed Iterator", function() {
     it("should fetch updated items only", async function() {
       const iterator = container.items.readChangeFeed("0", { startFromBeginning: true });
 
-      const { result: items, headers } = await iterator.executeNext();
+      const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
 
       assert.equal(items.length, 2, "initial number of items should be equal 2");
@@ -63,12 +63,12 @@ describe("Change Feed Iterator", function() {
       const { resource: replaced } = await container.items.upsert(item);
       assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
 
-      const { result: itemsAfterUpdate } = await iterator.executeNext();
+      const { result: itemsAfterUpdate } = await iterator.fetchNext();
       assert.equal(itemsAfterUpdate.length, 1, "initial number of items should be equal 1");
       assert.equal(itemsAfterUpdate[0].name, "xyz", "fetched item should have 'name: xyz'");
       assert.equal(itemsAfterUpdate[0].id, item.id, "fetched item should be valid");
 
-      const { result: shouldHaveNoItems } = await iterator.executeNext();
+      const { result: shouldHaveNoItems } = await iterator.fetchNext();
       assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
       const hasMoreResults = iterator.hasMoreResults;
       assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
@@ -103,7 +103,7 @@ describe("Change Feed Iterator", function() {
     it("should fetch new items only", async function() {
       const iterator = container.items.readChangeFeed("0", {});
 
-      const { result: items, headers } = await iterator.executeNext();
+      const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
       assert.equal(items.length, 0, "change feed response should have no items on it initially");
 
@@ -113,7 +113,7 @@ describe("Change Feed Iterator", function() {
         key: "0"
       });
 
-      const { result: itemsAfterCreate } = await iterator.executeNext();
+      const { result: itemsAfterCreate } = await iterator.fetchNext();
       assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");
       const itemThatWasFound = itemsAfterCreate[0];
 
@@ -122,16 +122,16 @@ describe("Change Feed Iterator", function() {
       delete itemThatWasFound._metadata;
       assert.deepEqual(itemThatWasFound, itemThatWasCreated, "actual value doesn't match with expected value.");
 
-      const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.executeNext();
+      const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.fetchNext();
       assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
 
       await container.items.create({ id: "item3", key: "0" });
       await container.items.create({ id: "item4", key: "0" });
       await container.items.create({ id: "item3", key: "1" });
       await container.items.create({ id: "item4", key: "1" });
-      const { result: itemsShouldHave2NewItems } = await iterator.executeNext();
+      const { result: itemsShouldHave2NewItems } = await iterator.fetchNext();
       assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
-      const { result: shouldHaveNoItems } = await iterator.executeNext();
+      const { result: shouldHaveNoItems } = await iterator.fetchNext();
       assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
       const hasMoreResults = iterator.hasMoreResults;
       assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");

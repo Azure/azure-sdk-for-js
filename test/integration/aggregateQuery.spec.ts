@@ -56,7 +56,7 @@ describe("Aggregate Query", function() {
     assert.deepEqual(actualValue, expectedValue, "actual value doesn't match with expected value.");
   };
 
-  const validateToArray = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
+  const validateFetchAll = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
     assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
@@ -131,7 +131,7 @@ describe("Aggregate Query", function() {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
     const queryIterator = container.items.query(query, options);
-    const fetchAllRequestCharge = await validateToArray(queryIterator, expectedResults);
+    const fetchAllRequestCharge = await validateFetchAll(queryIterator, expectedResults);
     queryIterator.reset();
     await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults, fetchAllRequestCharge);
     queryIterator.reset();

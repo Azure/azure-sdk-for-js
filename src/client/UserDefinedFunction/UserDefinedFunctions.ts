@@ -54,7 +54,7 @@ export class UserDefinedFunctions {
    * @param options
    * @example Read all User Defined Functions to array.
    * ```typescript
-   * const {body: udfList} = await container.userDefinedFunctions.readAll().toArray();
+   * const {body: udfList} = await container.userDefinedFunctions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition & Resource> {

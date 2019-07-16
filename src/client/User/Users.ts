@@ -54,7 +54,7 @@ export class Users {
    * @param options
    * @example Read all users to array.
    * ```typescript
-   * const {body: usersList} = await database.users.readAll().toArray();
+   * const {body: usersList} = await database.users.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource> {

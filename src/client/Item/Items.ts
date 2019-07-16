@@ -46,7 +46,7 @@ export class Items {
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {result: items} = await items.query(querySpec).toArray();
+   * const {result: items} = await items.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -62,7 +62,7 @@ export class Items {
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {result: items} = await items.query<{firstName: string}>(querySpec).toArray();
+   * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
@@ -93,9 +93,9 @@ export class Items {
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
-   * const firstPage = await iterator.executeNext();
+   * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
-   * const secondPage = await iterator.executeNext();
+   * const secondPage = await iterator.fetchNext();
    * ```
    */
   public readChangeFeed(
@@ -153,7 +153,7 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
-   * const {body: containerList} = await items.readAll().toArray();
+   * const {body: containerList} = await items.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
@@ -168,7 +168,7 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
-   * const {body: containerList} = await items.readAll().toArray();
+   * const {body: containerList} = await items.readAll().fetchAll();
    * ```
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;

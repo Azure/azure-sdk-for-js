@@ -33,7 +33,7 @@ export class StoredProcedures {
    *     {name: "@sproc", value: "Todo"}
    *   ]
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
+   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -49,7 +49,7 @@ export class StoredProcedures {
    *     {name: "@sproc", value: "Todo"}
    *   ]
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
+   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -74,7 +74,7 @@ export class StoredProcedures {
    * @param options
    * @example Read all stored procedures to array.
    * ```typescript
-   * const {body: sprocList} = await containers.storedProcedures.readAll().toArray();
+   * const {body: sprocList} = await containers.storedProcedures.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition & Resource> {

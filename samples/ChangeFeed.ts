@@ -1,4 +1,4 @@
-﻿import { finish, handleError, logSampleHeader } from "./Shared/handleError";
+﻿﻿import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
 
@@ -71,29 +71,29 @@ async function run() {
     const fromBeginningIterator = container.items.readChangeFeed(pk, { startFromBeginning: true });
     const fromNowIterator = container.items.readChangeFeed(pk, {});
 
-    const { result: specificContinuationResult } = await specificContinuationIterator.executeNext();
+    const { result: specificContinuationResult } = await specificContinuationIterator.fetchAll();
 
     logResult("initial specific Continuation scenario", [3], specificContinuationResult.map(v => parseInt(v.id)));
 
     // First page is empty. It is catching up to a valid continuation.
-    const { result: shouldBeEmpty } = await specificPointInTimeIterator.executeNext();
+    const { result: shouldBeEmpty } = await specificPointInTimeIterator.fetchAll();
     logResult(
       "initial specific point in time scenario should be empty while it finds the right continuation",
       [],
       shouldBeEmpty.map(v => parseInt(v.id))
     );
     // Second page should have results
-    const { result: specificPointInTimeResults } = await specificPointInTimeIterator.executeNext();
+    const { result: specificPointInTimeResults } = await specificPointInTimeIterator.fetchAll();
     logResult(
       "second specific point in time scenario should have caught up now",
       [2, 3],
       specificPointInTimeResults.map(v => parseInt(v.id))
     );
 
-    const { result: fromBeginningResults } = await fromBeginningIterator.executeNext();
+    const { result: fromBeginningResults } = await fromBeginningIterator.fetchAll();
     logResult("initial from beginning scenario", [1, 2, 3], fromBeginningResults.map(v => parseInt(v.id)));
 
-    const { result: fromNowResultsShouldBeEmpty } = await fromNowIterator.executeNext();
+    const { result: fromNowResultsShouldBeEmpty } = await fromNowIterator.fetchAll();
     logResult("initial from now scenario should be empty", [], fromNowResultsShouldBeEmpty.map(v => parseInt(v.id)));
 
     // Now they should all be caught up to the point after id=3, so if we insert a id=4, they should all get it.
@@ -102,24 +102,24 @@ async function run() {
     await container.items.create({ id: "4", pk });
     console.log("  👉 Inserting id=4 - all scenarios should see this");
 
-    const { result: specificContinuationResult2 } = await specificContinuationIterator.executeNext();
+    const { result: specificContinuationResult2 } = await specificContinuationIterator.fetchAll();
     logResult(
       "after insert, Specific Continuation scenario",
       [4],
       specificContinuationResult2.map(v => parseInt(v.id))
     );
 
-    const { result: specificPointInTimeResults2 } = await specificPointInTimeIterator.executeNext();
+    const { result: specificPointInTimeResults2 } = await specificPointInTimeIterator.fetchAll();
     logResult(
       "after insert, specific point in time scenario",
       [4],
       specificPointInTimeResults2.map(v => parseInt(v.id))
     );
 
-    const { result: fromBeginningResults2 } = await fromBeginningIterator.executeNext();
+    const { result: fromBeginningResults2 } = await fromBeginningIterator.fetchAll();
     logResult("after insert, from beginning scenario", [4], fromBeginningResults2.map(v => parseInt(v.id)));
 
-    const { result: fromNowResults2 } = await fromNowIterator.executeNext();
+    const { result: fromNowResults2 } = await fromNowIterator.fetchAll();
     logResult("after insert, from now scenario", [4], fromNowResults2.map(v => parseInt(v.id)));
   } catch (err) {
     handleError(err);
