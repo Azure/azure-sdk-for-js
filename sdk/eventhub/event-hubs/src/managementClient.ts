@@ -373,7 +373,10 @@ export class ManagementClient extends LinkEntity {
       const config: RetryConfig<void> = {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
-        operationType: RetryOperationType.sendMessage,
+        operationType:
+          request.to && request.to === Constants.cbsEndpoint
+            ? RetryOperationType.cbsAuth
+            : RetryOperationType.management,
         maxRetries: maxRetries,
         delayInSeconds: delayInSeconds + jitterInSeconds
       };
