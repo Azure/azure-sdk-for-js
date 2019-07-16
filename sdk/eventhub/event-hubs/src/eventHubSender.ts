@@ -603,7 +603,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender '${this.name}', ` +
-                 `received a release disposition.Hence we are rejecting the promise.`
+                  `received a release disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
@@ -622,7 +622,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender "${this.name}", ` +
-                 `received a modified disposition.Hence we are rejecting the promise.`
+                  `received a modified disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
