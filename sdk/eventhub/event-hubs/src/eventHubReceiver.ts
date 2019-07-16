@@ -120,13 +120,13 @@ export class EventHubReceiver extends LinkEntity {
    */
   private _receiver?: Receiver;
   /**
-   * @property _userDefinedOnMessage The message handler provided by the user that will be wrapped
+   * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    * inside _onAmqpMessage.
    * @private
    */
   private _onMessage?: OnMessage;
   /**
-   * @property _userDefinedOnError The error handler provided by the user that will be wrapped
+   * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    * inside _onAmqpError.
    * @private
    */
