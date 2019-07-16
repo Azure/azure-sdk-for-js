@@ -1,3 +1,183 @@
+## 3.0.2
+
+Fixes a long outstanding bug where RUs were always being reported as 0 for aggregate queries (#366)
+
+## 3.0.1
+
+Fixes broken session tokens in the browser. Cosmos uses file system friendly base64 to represent resources internally but does not work with the builtin browser atob function (#363)
+
+## 3.0.0
+
+🎉 v3 release! 🎉 Many new features, bug fixes, and a few breaking changes. Primary goals of this release:
+
+- Implement major new features: 
+  - DISTINCT queries
+  - LIMIT/OFFSET queries
+  - User cancelable requests
+- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
+- Make it easier to use Cosmos from the browser
+- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+
+### Migration Guide for Breaking Changes
+
+#### Improved Client Constructor Options (#246)
+
+Constructor options have been simplified:
+
+- `masterKey` was renamed `key` and moved to the top-level
+- Properties previously under `options.auth` have moved to the top-level
+
+```js
+// v2
+const client = new CosmosClient({
+    endpoint: "https://your-database.cosmos.azure.com",
+    auth: {
+        masterKey: "your-primary-key"
+    }
+})
+
+// v3
+const client = new CosmosClient({
+    endpoint: "https://your-database.cosmos.azure.com",
+    key: "your-primary-key"
+})
+```
+
+#### Simplified QueryIterator API (#238 #316)
+
+In v2 there were many different ways to iterate or retrieve results from a query. We have attempted to simplify the v3 API and remove similar or duplciate APIs:
+
+- Remove iterator.next() and iterator.current(). Use fetchNext() to get pages of results.
+- Remove iterator.forEach(). Use async iterators instead.
+- iterator.executeNext() renamed to iterator.fetchNext()
+- iterator.toArray() renamed to iterator.fetchAll()
+- Pages are now proper `Response` objects intead of plain JS objects
+
+``` js
+const container = client.database(dbId).container(containerId)
+
+// v2
+container.items.query('SELECT * from c').toArray()
+container.items.query('SELECT * from c').executeNext()
+container.items.query('SELECT * from c').forEach(({ body: item }) => { console.log(item.id) })
+
+// v3
+container.items.query('SELECT * from c').fetchAll()
+container.items.query('SELECT * from c').fetchNext()
+for await(const { result: item } in client.databases.readAll().getAsyncIterator()) {
+    console.log(item.id)
+}
+```
+
+#### Fixed Containers are now Paritioned (#308)
+
+[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
+
+#### `upsert` removed for Stored Procedures (#356)
+
+Previously `upsert` was allowed for non-partitioned collections, but with the API version update, all collections are partitioned so we removed it entirely.
+
+#### Item reads will not throw on 404 (#343, Community Request)
+
+``` js
+const container = client.database(dbId).container(containerId)
+
+// v2
+try {
+    container.items.read(id, undefined)
+} catch (e) {
+    if (e.code === 404) { console.log('item not found') }
+}
+
+// v3
+const { result: item }  = container.items.read(id, undefined)
+if (item === undefined) { console.log('item not found') }
+```
+
+#### Default Multi Region Write (#335)
+
+The SDK will now write to multiple regions by default if your database configuration supports it. This was previously opt-in behavior.
+
+#### Proper Error Objects (#334, Community Request)
+
+Failed requests now throw proper `Error` or subclasses of `Error`. Previously they threw plain JS objects.
+
+### New Features
+
+#### User Cancellable Requests (#263, Community Request)
+
+The move to `fetch` internally allows us to use the browser `AbortController` API to support user cancellable operations. In the case of operations where multiple requests are potentially in progress (like cross partition queries), all requests for the operation will be canceled. Modern browser users will already have `AbortController`. Node.js users will need to use a [polyfill library](https://www.npmjs.com/package/node-abort-controller)
+
+``` js
+ const controller = new AbortController()
+ const {result: item} = await items.query('SELECT * from c', { abortSignal: controller.signal});
+ controller.abort()
+```
+
+#### Set throughput as part of db/container create operation (#220)
+
+``` js
+    const { database }  = client.databases.create({ id: 'my-database', throughput: 10000 })
+    database.containers.create({ id: 'my-container', throughput: 10000 })
+```
+
+#### @azure/cosmos-sign (#213)
+
+Header token generation was split out into a new library, @azure/cosmos-sign. Anyone calling the Cosmos REST API directly can use this to sign headers using the same code we call inside @azure/cosmos.
+
+#### UUID for generated IDs (#355)
+
+v2 had custom code to generate item IDs. We have switched to the well known and maintained community library `uuid`.
+
+#### Connection Strings (#350, Community Request)
+
+It is now possible to pass a connection string copied from the Azure portal:
+
+``` js
+const client = new CosmosClient("AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=c213asdasdefgdfgrtweaYPpgoeCsHbpRTHhxuMsTaw==;")
+```
+
+#### Add DISTINCT and LIMIT/OFFSET queries (#306)
+
+``` js
+ const { results } = await items.query('SELECT DISTINCT VALUE r.name FROM ROOT').fetchAll()
+ const { results } = await items.query('SELECT * FROM root r OFFSET 1 LIMIT 2').fetchAll()
+```
+
+### Improved Browser Experience
+
+While it was possible to use the v2 SDK in the browser it was not an ideal experience. You needed to polyfill several node.js built-in libraries and use a bundler like Webpack or Parcel. The v3 SDK makes the out of the box experience much better for browser users.
+
+- Replace request internals with `fetch` (#245)
+- Remove usage of Buffer (#330)
+- Remove node builtin usage in favor of universal packages/APIs (#328)
+- Switch to node-abort-controller (#294)
+
+### Bug Fixes
+
+- Fix offer read and bring back offer tests (#224)
+- Fix EnableEndpointDiscovery (#207)
+- Fix missing RUs on paginated results (#360)
+- Expand SQL query parameter type (#346)
+- Add ttl to ItemDefinition (#341)
+- Fix CP query metrics (#311)
+- Add activityId to FeedResponse (#293)
+- Switch _ts type from string to number (#252)(#295)
+- Fix Request Charge Aggregation (#289)
+- Allow blank string partition keys (#277)
+- Add string to conflict query type (#237)
+- Add uniqueKeyPolicy to container (#234)
+
+### Engineering Systems
+
+Not always the most visible changes, but they help our team ship better code, faster.
+
+- Use rollup for production builds (#104)
+- Update to Typescript 3.5 (#327)
+- Convert to TS project references. Extract test folder (#270)
+- Enable noUnusedLocals and noUnusedParameters (#275)
+- Azure Pipelines YAML for CI builds (#298)
+
 ## Changes in 2.0.1
 
 - Fix type issue (See #141)
