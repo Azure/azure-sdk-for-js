@@ -403,7 +403,9 @@ export class EventHubSender extends LinkEntity {
 
       if (events instanceof EventDataBatch && options && options.partitionKey) {
         // throw an error if partition key is different than the one provided in the options.
-        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
+        const error = new Error(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
         log.error(
           "[%s] Partition key is not supported when using createBatch(). %O",
           this._context.connectionId,
@@ -622,8 +624,7 @@ export class EventHubSender extends LinkEntity {
               log.sender(
                 "[%s] Sender '%s', sending message with id '%s'.",
                 this._context.connectionId,
-                this.name,
-                (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
+                this.name
               );
 
               if (abortSignal) {
@@ -634,13 +635,12 @@ export class EventHubSender extends LinkEntity {
               this._sender!.on(SenderEvents.modified, onModified);
               this._sender!.on(SenderEvents.released, onReleased);
 
-              const delivery = this._sender!.send(message, tag, 0x80013700);
+              const delivery = this._sender!.send(message, 0x80013700);
               log.sender(
-                "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+                "[%s] Sender '%s', sent message with delivery id: %d",
                 this._context.connectionId,
                 this.name,
-                delivery.id,
-                delivery.tag.toString()
+                delivery.id
               );
             } else {
               // let us retry to send the message after some time.
