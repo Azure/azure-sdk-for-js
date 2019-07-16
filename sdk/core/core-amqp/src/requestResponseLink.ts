@@ -3,7 +3,6 @@
 
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as Constants from "./util/constants";
-import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
   Session,
   Connection,
@@ -32,19 +31,9 @@ export interface SendRequestOptions {
   abortSignal?: AbortSignalLike;
   /**
    * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
-   * Default: `10 seconds`.
+   * Default: `60 seconds`.
    */
   timeoutInSeconds?: number;
-  /**
-   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
-   * of error. Default: 3.
-   */
-  maxRetries?: number;
-  /**
-   * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Default: 15.
-   */
-  delayInSeconds?: number;
   /**
    * @property {string} [requestName] Name of the request being performed.
    */
@@ -85,10 +74,6 @@ export class RequestResponseLink implements ReqResLink {
   }
 
   /**
-   * Sends the given request message and returns the received response. If the operation is not
-   * completed in the provided timeout in seconds `default: 10`, then the request will be retried
-   * linearly for the provided number of times `default: 3` with the provided delay in seconds
-   * `default: 15` between each attempt.
    *
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
@@ -98,10 +83,9 @@ export class RequestResponseLink implements ReqResLink {
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
-      options.timeoutInSeconds = 10;
+      options.timeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
-    let count: number = 0;
     const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
     const sendRequestPromise = () =>
@@ -114,12 +98,8 @@ export class RequestResponseLink implements ReqResLink {
           errorCondition: string;
         };
 
-        count++;
-        if (count !== 1) {
-          // Generate a new message_id every time after the first attempt
-          request.message_id = generate_uuid();
-        } else if (!request.message_id) {
-          // Set the message_id in the first attempt only if it is not set
+        if (!request.message_id) {
+          // Set the message_id only if it is not set
           request.message_id = generate_uuid();
         }
 
@@ -249,17 +229,17 @@ export class RequestResponseLink implements ReqResLink {
         );
         this.sender.send(request);
       });
-    const config: RetryConfig<AmqpMessage> = {
-      operation: sendRequestPromise,
-      connectionId: this.connection.id,
-      operationType:
-        request.to && request.to === Constants.cbsEndpoint
-          ? RetryOperationType.cbsAuth
-          : RetryOperationType.management,
-      delayInSeconds: options.delayInSeconds,
-      maxRetries: options.maxRetries
-    };
-    return retry<AmqpMessage>(config);
+
+    let result: AmqpMessage;
+    sendRequestPromise()
+      .then((message) => {
+        result = message;
+      })
+      .catch((err: Error) => {
+        throw err;
+      });
+
+    return result;
   }
 
   /**

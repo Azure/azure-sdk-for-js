@@ -1,3 +1,7 @@
+## 1.0.0-preview.2.0 - 16th July, 2019
+
+- `sendRequest()` function in the `RequestResponseLink` now excludes default retries and leaves it up to the users to implement it as necessary.
+
 ## 1.0.0-preview.1.0 - 28th June, 2019
 
 This library is based off of the [@azure/amqp-common](https://www.npmjs.com/package/@azure/amqp-common)
