@@ -55,9 +55,9 @@ export interface RetryOptions {
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
-      typeof retryOptions.timeoutInMs !== "number" ||
-      !isFinite(retryOptions.timeoutInMs) ||
-      retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+    typeof retryOptions.timeoutInMs !== "number" ||
+    !isFinite(retryOptions.timeoutInMs) ||
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
       ? Constants.defaultOperationTimeoutInSeconds * 1000
       : retryOptions.timeoutInMs;
   return timeoutInMs;
@@ -324,6 +324,12 @@ export class EventHubClient {
    * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     return new EventHubProducer(this._context, options);
   }
@@ -352,6 +358,12 @@ export class EventHubClient {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): EventHubConsumer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
