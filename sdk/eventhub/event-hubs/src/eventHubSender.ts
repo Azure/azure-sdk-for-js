@@ -576,6 +576,7 @@ export class EventHubSender extends LinkEntity {
         };
 
         const removeListeners = (): void => {
+          clearTimeout(waitTimer);
           // When `removeListeners` is called on timeout, the sender might be closed and cleared
           // So, check if it exists, before removing listeners from it.
           if (abortSignal) {
@@ -601,7 +602,6 @@ export class EventHubSender extends LinkEntity {
         };
 
         const actionAfterTimeout = () => {
-          clearTimeout(waitTimer);
           removeListeners();
           const desc: string =
             `[${this._context.connectionId}] Sender "${this.name}" with ` +
