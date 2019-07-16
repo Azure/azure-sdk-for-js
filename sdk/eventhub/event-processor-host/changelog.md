@@ -1,5 +1,7 @@
 ## 2019-07-16 2.0.0
-- Minimum dependency on `@azure/event-hubs: "^2.1.1"`.
+- Use the latest version of the dependency on [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.1) that has fixes for the following bugs
+        - TODO: Talk about the unhandled exception here
+        - TODO: Talk about the network related bug fixes that were done in Event Hubs
 
 #### Breaking Changes
 - If you have been using the `createFromAadTokenCredentials` function or the `createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager` function to create an instance of the 
