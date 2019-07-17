@@ -629,7 +629,7 @@ export class EventHubSender extends LinkEntity {
               this.name,
               err
             );
-            reject(err);
+            return reject(err);
           }
         }
 
