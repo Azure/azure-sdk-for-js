@@ -71,7 +71,6 @@ jobs:
           node common/scripts/install-run-rush.js lint $(rushFlags)
         displayName: 'Run lint'
 
-      
       - task: CopyFiles@2
         inputs:
           contents: 'sdk/**/**/*lintReport.html'
