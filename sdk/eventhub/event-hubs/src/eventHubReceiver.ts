@@ -166,7 +166,8 @@ export class EventHubReceiver extends LinkEntity {
   private _isStreaming: boolean = false;
 
   /**
-   * @property Returns sequenceNumber of the last event received from the service. This will not match the last event received by `EventHubConsumer` when the `_internalQueue` is not empty
+   * @property Returns sequenceNumber of the last event received from the service. This will not match the
+   * last event received by `EventHubConsumer` when the `_internalQueue` is not empty
    * @readonly
    */
   get checkpoint(): number {
@@ -182,14 +183,15 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
+   * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
+   * either batching or streaming mode.
    * @ignore
    * @constructor
-   * @param client                            The EventHub client.
+   * @param context        The connection context corresponding to the EventHubClient instance
    * @param consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param partitionId                               Partition ID from which to receive.
-   * @param eventPosition The position in the stream from where to start receiving events.
-   * @param [options]                         Receiver options.
+   * @param partitionId    The Partition ID from which to receive.
+   * @param eventPosition  The position in the stream from where to start receiving events.
+   * @param [options]      Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -241,14 +243,16 @@ export class EventHubReceiver extends LinkEntity {
       );
     }
 
-    // automatically add credit if there is a listener
-    if (this._onMessage && !this._usingInternalQueue) {
+    // Add to internal queue if
+    // - There are no listeners, we are probably getting events due to pending credits
+    // - Or Events from internal queue are being processed, so add to it to ensure order of processing is retained
+    if (!this._onMessage || this._usingInternalQueue) {
+      this._internalQueue.push(receivedEventData);
+    } else {
       if (this._isStreaming) {
         this._addCredit(1);
       }
       this._onMessage(receivedEventData);
-    } else {
-      this._internalQueue.push(receivedEventData);
     }
   }
 
@@ -263,14 +267,6 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    const error = translate(amqpError);
-    log.error(
-      "[%s] An error occurred for Receiver '%s': %O.",
-      this._context.connectionId,
-      this.name,
-      error
-    );
-
     if (amqpReceiver.isItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
@@ -281,6 +277,13 @@ export class EventHubReceiver extends LinkEntity {
     }
 
     if (this._onError) {
+      const error = translate(amqpError);
+      log.error(
+        "[%s] An error occurred for Receiver '%s': %O.",
+        this._context.connectionId,
+        this.name,
+        error
+      );
       log.error(
         "[%s] Since the user did not close the receiver " +
           "we let the user know about it by calling the user's error handler.",
@@ -301,14 +304,6 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    const error = translate(sessionError);
-    log.error(
-      "[%s] An error occurred on the session for Receiver '%s': %O.",
-      this._context.connectionId,
-      this.name,
-      error
-    );
-
     if (amqpReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
@@ -319,6 +314,14 @@ export class EventHubReceiver extends LinkEntity {
     }
 
     if (this._onError) {
+      const error = translate(sessionError);
+      log.error(
+        "[%s] An error occurred on the session for Receiver '%s': %O.",
+        this._context.connectionId,
+        this.name,
+        error
+      );
+
       log.error(
         "[%s] Since the user did not close the receiver, " +
           "we let the user know about it by calling the user's error handler.",
@@ -363,7 +366,6 @@ export class EventHubReceiver extends LinkEntity {
         this.name,
         this.address
       );
-      // session close event not initiated by SDK, so calling detached handler.
       await this.onDetached(sessionError);
     } else {
       log.error(
@@ -610,7 +612,7 @@ export class EventHubReceiver extends LinkEntity {
     onMessage: OnMessage,
     onError: OnError,
     maximumCreditCount: number,
-    isStreaming: boolean = false,
+    isStreaming: boolean,
     abortSignal?: AbortSignalLike,
     onAbort?: OnAbort
   ): void {
