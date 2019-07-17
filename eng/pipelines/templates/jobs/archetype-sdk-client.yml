@@ -9,7 +9,7 @@ jobs:
     steps:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
-        displayName: 'Tag scheduled builds'
+        displayName: "Tag scheduled builds"
         condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
       - template: ../steps/common.yml
@@ -68,29 +68,29 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
-        displayName: 'Install Rush'
+        displayName: "Install Rush"
 
       - script: |
           node common/scripts/install-run-rush.js lint $(rushFlags)
-        displayName: 'Run lint'
+        displayName: "Lint libraries"
 
       - task: CopyFiles@2
         inputs:
-          contents: 'sdk/**/**/*lintReport.html'
+          contents: "sdk/**/**/*lintReport.html"
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
-        displayName: 'Copy packages'
+        displayName: "Copy packages"
 
       - task: PublishBuildArtifacts@1
         condition: succeededOrFailed()
-        displayName: 'Publish lint reports'
+        displayName: "Publish lint reports"
         inputs:
           artifactName: reports
 
       - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit packages"
+        displayName: "Audit libraries"
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
