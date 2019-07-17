@@ -677,7 +677,6 @@ export class EventHubSender extends LinkEntity {
         }
       });
 
-    const jitterInSeconds = randomNumberFromInterval(1, 4);
     const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
       options.retryOptions &&
@@ -690,7 +689,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       maxRetries: maxRetries,
-      delayInSeconds: delayInSeconds + jitterInSeconds
+      delayInSeconds: delayInSeconds
     };
     return retry<void>(config);
   }
