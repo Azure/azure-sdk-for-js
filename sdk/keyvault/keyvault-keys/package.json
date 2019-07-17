@@ -27,24 +27,15 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "lib/",
-    "types/keyvault-keys.d.ts",
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
-    "rollup.config.js",
+    "types/src/",
+    "dist/",
+    "dist-esm/",
+    "src/",
     "tsconfig.json"
   ],
   "browser": {
     "./dist/index.js": "./browser/azure-keyvault-keys.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.js",
-    "./dist-esm/tests/utils/index.js": "./dist-esm/tests/utils/index.js",
     "os": false,
     "process": false
   },
@@ -58,7 +49,7 @@
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log browser statistics.html coverage",
+    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log browser statistics.html coverage && find src/ -type f -name '*.js' -exec rm {} + && find tests/ -type f -name '*.js' -exec rm {} +",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
@@ -83,7 +74,6 @@
     "@azure/core-paging": "^1.0.0-preview.1",
     "@azure/identity": "^1.0.0-preview.1",
     "@types/query-string": "6.2.0",
-    "rollup-plugin-json": "^4.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -98,6 +88,7 @@
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
+    "assert": "^1.4.1",
     "chai": "^4.2.0",
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
