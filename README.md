@@ -3,32 +3,32 @@
 This project provides JavaScript & Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos
 Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This project also includes samples, tools, and utilities.
 
-[![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos) [![Build Status](https://travis-ci.org/Azure/azure-cosmos-js.svg?branch=master)](https://travis-ci.org/Azure/azure-cosmos-js) [![Build Status](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_apis/build/status/azure-cosmos-js-Emulator?branchName=master)](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_build/latest?definitionId=1&branchName=master)
+[![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos)
+[![Build Status](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_apis/build/status/Azure.azure-cosmos-js?branchName=master)](https://cosmos-db-sdk-public.visualstudio.com/cosmos-db-sdk-public/_build/latest?definitionId=7&branchName=master)
 
 ```js
 // JavaScript
-const cosmos = require("@azure/cosmos");
-const CosmosClient = cosmos.CosmosClient;
+const { CosmosClient } = require("@azure/cosmos");
 
-const endpoint = "[hostendpoint]"; // Add your endpoint
-const masterKey = "[database account masterkey]"; // Add the masterkey of the endpoint
-const client = new CosmosClient({ endpoint, key: masterKey });
+const endpoint = "https://your-account.documents.azure.com"; // Add your endpoint
+const key = "[database account masterkey]"; // Add the masterkey of the endpoint
+const client = new CosmosClient({ endpoint, key });
 
 const databaseDefinition = { id: "sample database" };
 const collectionDefinition = { id: "sample collection" };
 const documentDefinition = { id: "hello world doc", content: "Hello World!" };
 
 async function helloCosmos() {
-  const { database: db } = await client.databases.create(databaseDefinition);
-  console.log("created db");
+  const { database } = await client.databases.create(databaseDefinition);
+  console.log("created database");
 
-  const { container } = await db.containers.create(collectionDefinition);
+  const { container } = await database.containers.create(collectionDefinition);
   console.log("created collection");
 
-  const { body } = await container.items.create(documentDefinition);
-  console.log("Created item with content: ", body.content);
+  const { resource } = await container.items.create(documentDefinition);
+  console.log("Created item with content: ", resource.content);
 
-  await db.delete();
+  await database.delete();
   console.log("Deleted database");
 }
 
