@@ -68,6 +68,9 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
+        displayName: 'Install Rush'
+
+      - script: |
           node common/scripts/install-run-rush.js lint $(rushFlags)
         displayName: 'Run lint'
 
