@@ -1,12 +1,13 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, StatusCodes } from "../../common";
+import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
+import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
+import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 
 /**
@@ -39,7 +40,7 @@ export class Databases {
    *     {name: "@db", value: "Todo"}
    *   ]
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).toArray();
+   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -56,13 +57,20 @@ export class Databases {
    *     {name: "@db", value: "Todo"}
    *   ]
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).toArray();
+   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const cb: FetchFunctionCallback = innerOptions => {
-      return this.clientContext.queryFeed("/dbs", "dbs", "", result => result.Databases, query, innerOptions);
+      return this.clientContext.queryFeed({
+        path: "/dbs",
+        resourceType: ResourceType.database,
+        resourceId: "",
+        resultFn: result => result.Databases,
+        query,
+        options: innerOptions
+      });
     };
     return new QueryIterator(this.clientContext, query, options, cb);
   }
@@ -81,28 +89,29 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
+  public async create(body: DatabaseRequest, options: RequestOptions = {}): Promise<DatabaseResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
+    if (body.throughput) {
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.OfferThroughput]: body.throughput
+      });
+      delete body.throughput;
+    }
+
     const path = "/dbs"; // TODO: constant
-    const response = await this.clientContext.create<DatabaseDefinition>(
+    const response = await this.clientContext.create<DatabaseRequest>({
       body,
       path,
-      "dbs",
-      undefined,
-      undefined,
+      resourceType: ResourceType.database,
+      resourceId: undefined,
       options
-    );
+    });
     const ref = new Database(this.client, body.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      database: ref
-    };
+    return new DatabaseResponse(response.result, response.headers, response.code, ref);
   }
 
   /**
@@ -120,7 +129,7 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options
    */
-  public async createIfNotExists(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
+  public async createIfNotExists(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }
@@ -135,7 +144,7 @@ export class Databases {
       if (err.code === StatusCodes.NotFound) {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
-        HeaderUtils.mergeHeaders(createResponse.headers, err.headers);
+        mergeHeaders(createResponse.headers, err.headers);
         return createResponse;
       } else {
         throw err;
@@ -150,7 +159,7 @@ export class Databases {
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
    * ```typescript
-   * const {body: databaseList} = await client.databases.readAll().toArray();
+   * const {body: databaseList} = await client.databases.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {

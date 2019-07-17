@@ -140,6 +140,11 @@ export class VectorSessionToken {
   }
 }
 
+/**
+ * @ignore
+ * @param int1
+ * @param int2
+ */
 function max(int1: string, int2: string) {
   // NOTE: This only works for positive numbers
   if (int1.length === int2.length) {

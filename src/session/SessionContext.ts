@@ -1,7 +1,12 @@
+import { OperationType, ResourceType } from "../common";
+
+/**
+ * @ignore
+ */
 export interface SessionContext {
   resourceId?: string;
   resourceAddress?: string;
-  resourceType?: string; // TODO: enum
+  resourceType?: ResourceType;
   isNameBased?: boolean;
-  operationType?: string; // TODO: enum
+  operationType?: OperationType;
 }

@@ -27,5 +27,11 @@ export interface SqlParameter {
   /** Name of the parameter. (i.e. "@lastName") */
   name: string;
   /** Value of the parameter (this is safe to come from users, assuming they are authorized) */
-  value: string | number | boolean;
+  value: JSONValue;
 }
+
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export interface JSONObject {
+  [key: string]: JSONValue;
+}
+export interface JSONArray extends Array<JSONValue> {}

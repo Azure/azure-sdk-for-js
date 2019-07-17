@@ -1,37 +1,23 @@
-import { FetchFunctionCallback, SqlQuerySpec } from ".";
 import { ClientContext } from "../ClientContext";
-import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
+import { Constants, getIdFromLink, getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "../common";
 import { FeedOptions } from "../request";
-import { Response } from "../request/request";
+import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
-import { HeaderUtils, IHeaders } from "./headerUtils";
-
-/** @hidden */
-const HttpHeaders = Constants;
-
-/** @hidden */
-enum DocumentProducerStates {
-  started = "started",
-  inProgress = "inProgress",
-  ended = "ended"
-}
+import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
+import { FetchFunctionCallback, SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {
-  // // Static Members
-  // STATES: Object.freeze({ started: "started", inProgress: "inProgress", ended: "ended" })
-  private static readonly STATES = DocumentProducerStates;
   private collectionLink: string;
   private query: string | SqlQuerySpec;
   public targetPartitionKeyRange: any; // TODO: any partitionkeyrange
   public fetchResults: FetchResult[];
-  private state: DocumentProducerStates;
   public allFetched: boolean;
   private err: Error;
   public previousContinuationToken: string;
   public continuationToken: string;
-  private respHeaders: IHeaders;
+  private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
 
   /**
@@ -56,17 +42,15 @@ export class DocumentProducer {
     this.targetPartitionKeyRange = targetPartitionKeyRange;
     this.fetchResults = [];
 
-    this.state = DocumentProducer.STATES.started;
     this.allFetched = false;
     this.err = undefined;
 
     this.previousContinuationToken = undefined;
     this.continuationToken = undefined;
-    this.respHeaders = HeaderUtils.getInitialHeader();
+    this.respHeaders = getInitialHeader();
 
     // tslint:disable-next-line:no-shadowed-variable
-    this.internalExecutionContext = new DefaultQueryExecutionContext(clientContext, query, options, this.fetchFunction);
-    this.state = DocumentProducer.STATES.inProgress;
+    this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
@@ -93,18 +77,18 @@ export class DocumentProducer {
   }
 
   public fetchFunction: FetchFunctionCallback = async (options: any) => {
-    const path = Helper.getPathFromLink(this.collectionLink, "docs");
-    const id = Helper.getIdFromLink(this.collectionLink);
+    const path = getPathFromLink(this.collectionLink, ResourceType.item);
+    const id = getIdFromLink(this.collectionLink);
 
-    return this.clientContext.queryFeed(
+    return this.clientContext.queryFeed({
       path,
-      "docs",
-      id,
-      (result: any) => result.Documents, // TODO: any
-      this.query,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      resultFn: (result: any) => result.Documents,
+      query: this.query,
       options,
-      this.targetPartitionKeyRange["id"]
-    );
+      partitionKeyRangeId: this.targetPartitionKeyRange["id"]
+    });
   };
 
   public hasMoreResults() {
@@ -124,22 +108,18 @@ export class DocumentProducer {
 
   private _getAndResetActiveResponseHeaders() {
     const ret = this.respHeaders;
-    this.respHeaders = HeaderUtils.getInitialHeader();
+    this.respHeaders = getInitialHeader();
     return ret;
   }
 
   private _updateStates(err: any, allFetched: boolean) {
     // TODO: any Error
     if (err) {
-      this.state = DocumentProducer.STATES.ended;
       this.err = err;
       return;
     }
     if (allFetched) {
       this.allFetched = true;
-    }
-    if (this.allFetched && this.peekBufferedItems().length === 0) {
-      this.state = DocumentProducer.STATES.ended;
     }
     if (this.internalExecutionContext.continuation === this.continuationToken) {
       // nothing changed
@@ -294,7 +274,7 @@ export class DocumentProducer {
       if (result === undefined) {
         return { result: undefined, headers };
       }
-      HeaderUtils.mergeHeaders(this.respHeaders, headers);
+      mergeHeaders(this.respHeaders, headers);
 
       return this.current();
     } catch (err) {

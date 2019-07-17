@@ -12,7 +12,7 @@ const CosmosClient = cosmos.CosmosClient;
 
 const endpoint = "[hostendpoint]"; // Add your endpoint
 const masterKey = "[database account masterkey]"; // Add the masterkey of the endpoint
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 const databaseDefinition = { id: "sample database" };
 const collectionDefinition = { id: "sample collection" };

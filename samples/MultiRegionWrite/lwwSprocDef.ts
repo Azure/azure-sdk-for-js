@@ -1,4 +1,4 @@
-import { StoredProcedureDefinition } from "../../lib";
+import { StoredProcedureDefinition } from "../../dist-esm";
 
 const lwwSprocDef: StoredProcedureDefinition = {
   id: "resolver",

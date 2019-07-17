@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -33,7 +33,7 @@ export class StoredProcedures {
    *     {name: "@sproc", value: "Todo"}
    *   ]
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
+   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -49,16 +49,23 @@ export class StoredProcedures {
    *     {name: "@sproc", value: "Todo"}
    *   ]
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
+   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.sproc);
+    const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "sprocs", id, result => result.StoredProcedures, query, innerOptions);
+      return this.clientContext.queryFeed({
+        path,
+        resourceType: ResourceType.sproc,
+        resourceId: id,
+        resultFn: result => result.StoredProcedures,
+        query,
+        options: innerOptions
+      });
     });
   }
 
@@ -67,7 +74,7 @@ export class StoredProcedures {
    * @param options
    * @example Read all stored procedures to array.
    * ```typescript
-   * const {body: sprocList} = await containers.storedProcedures.readAll().toArray();
+   * const {body: sprocList} = await containers.storedProcedures.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition & Resource> {
@@ -89,57 +96,21 @@ export class StoredProcedures {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.sproc);
+    const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<StoredProcedureDefinition>(
+    const response = await this.clientContext.create<StoredProcedureDefinition>({
       body,
       path,
-      "sprocs",
-      id,
-      undefined,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
       options
-    );
+    });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
-  }
-
-  /**
-   * Upsert a StoredProcedure.
-   *
-   * Azure Cosmos DB allows stored procedures to be executed in the storage tier,
-   * directly against a document container. The script
-   * gets executed under ACID transactions on the primary storage partition of the
-   *  specified container. For additional details,
-   * refer to the server-side JavaScript API documentation.
-   *
-   */
-  public async upsert(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
-
-    const err = {};
-    if (!Helper.isResourceValid(body, err)) {
-      throw err;
-    }
-
-    const path = Helper.getPathFromLink(this.container.url, "sprocs");
-    const id = Helper.getIdFromLink(this.container.url);
-
-    const response = await this.clientContext.upsert<StoredProcedureDefinition>(
-      body,
-      path,
-      "sprocs",
-      id,
-      undefined,
-      options
-    );
-    const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
+    return new StoredProcedureResponse(response.result, response.headers, response.code, ref);
   }
 }

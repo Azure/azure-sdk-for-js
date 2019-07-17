@@ -1,6 +1,6 @@
 import { ClientSideMetrics } from "./clientSideMetrics";
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { QueryPreparationTimes } from "./queryPreparationTime";
 import { RuntimeExecutionTimes } from "./runtimeExecutionTimes";
 import { TimeSpan } from "./timeSpan";
@@ -36,10 +36,6 @@ export class QueryMetrics {
    * returns a new QueryMetrics instance that is the addition of this and the arguments.
    */
   public add(queryMetricsArray: QueryMetrics[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let retrievedDocumentCount = 0;
     let retrievedDocumentSize = 0;
     let outputDocumentCount = 0;
@@ -57,23 +53,21 @@ export class QueryMetrics {
     queryMetricsArray.push(this);
 
     for (const queryMetrics of queryMetricsArray) {
-      if (queryMetrics == null) {
-        throw new Error("queryMetricsArray has null or undefined item(s)");
+      if (queryMetrics) {
+        retrievedDocumentCount += queryMetrics.retrievedDocumentCount;
+        retrievedDocumentSize += queryMetrics.retrievedDocumentSize;
+        outputDocumentCount += queryMetrics.outputDocumentCount;
+        outputDocumentSize += queryMetrics.outputDocumentSize;
+        indexHitDocumentCount += queryMetrics.indexHitDocumentCount;
+        totalQueryExecutionTime = totalQueryExecutionTime.add(queryMetrics.totalQueryExecutionTime);
+        queryPreparationTimesArray.push(queryMetrics.queryPreparationTimes);
+        indexLookupTime = indexLookupTime.add(queryMetrics.indexLookupTime);
+        documentLoadTime = documentLoadTime.add(queryMetrics.documentLoadTime);
+        vmExecutionTime = vmExecutionTime.add(queryMetrics.vmExecutionTime);
+        runtimeExecutionTimesArray.push(queryMetrics.runtimeExecutionTimes);
+        documentWriteTime = documentWriteTime.add(queryMetrics.documentWriteTime);
+        clientSideQueryMetricsArray.push(queryMetrics.clientSideMetrics);
       }
-
-      retrievedDocumentCount += queryMetrics.retrievedDocumentCount;
-      retrievedDocumentSize += queryMetrics.retrievedDocumentSize;
-      outputDocumentCount += queryMetrics.outputDocumentCount;
-      outputDocumentSize += queryMetrics.outputDocumentSize;
-      indexHitDocumentCount += queryMetrics.indexHitDocumentCount;
-      totalQueryExecutionTime = totalQueryExecutionTime.add(queryMetrics.totalQueryExecutionTime);
-      queryPreparationTimesArray.push(queryMetrics.queryPreparationTimes);
-      indexLookupTime = indexLookupTime.add(queryMetrics.indexLookupTime);
-      documentLoadTime = documentLoadTime.add(queryMetrics.documentLoadTime);
-      vmExecutionTime = vmExecutionTime.add(queryMetrics.vmExecutionTime);
-      runtimeExecutionTimesArray.push(queryMetrics.runtimeExecutionTimes);
-      documentWriteTime = documentWriteTime.add(queryMetrics.documentWriteTime);
-      clientSideQueryMetricsArray.push(queryMetrics.clientSideMetrics);
     }
 
     return new QueryMetrics(
@@ -169,7 +163,7 @@ export class QueryMetrics {
    * @instance
    */
   public static createFromArray(queryMetricsArray: QueryMetrics[]) {
-    if (queryMetricsArray == null) {
+    if (!queryMetricsArray) {
       throw new Error("queryMetricsArray is null or undefined item(s)");
     }
 
@@ -182,7 +176,7 @@ export class QueryMetrics {
    * @instance
    */
   public static createFromDelimitedString(delimitedString: string, clientSideMetrics?: ClientSideMetrics) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
     const indexHitRatio = metrics[QueryMetricsConstants.IndexHitRatio] || 0;
     const retrievedDocumentCount = metrics[QueryMetricsConstants.RetrievedDocumentCount] || 0;
@@ -190,10 +184,7 @@ export class QueryMetrics {
     const outputDocumentCount = metrics[QueryMetricsConstants.OutputDocumentCount] || 0;
     const outputDocumentSize = metrics[QueryMetricsConstants.OutputDocumentSize] || 0;
     const retrievedDocumentSize = metrics[QueryMetricsConstants.RetrievedDocumentSize] || 0;
-    const totalQueryExecutionTime = QueryMetricsUtils.timeSpanFromMetrics(
-      metrics,
-      QueryMetricsConstants.TotalQueryExecutionTimeInMs
-    );
+    const totalQueryExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.TotalQueryExecutionTimeInMs);
     return new QueryMetrics(
       retrievedDocumentCount,
       retrievedDocumentSize,
@@ -202,11 +193,11 @@ export class QueryMetrics {
       indexHitCount,
       totalQueryExecutionTime,
       QueryPreparationTimes.createFromDelimitedString(delimitedString),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs),
       RuntimeExecutionTimes.createFromDelimitedString(delimitedString),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs),
       clientSideMetrics || ClientSideMetrics.zero
     );
   }

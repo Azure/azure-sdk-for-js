@@ -1,11 +1,11 @@
-import { ItemDefinition } from "../Item";
+import { OperationType, ResourceType } from "../../common";
 
 export interface ConflictDefinition {
   /** The id of the conflict */
   id?: string;
   /** Source resource id */
   resourceId?: string;
-  resourceType?: string;
-  operationType?: string; // TODO: enum
+  resourceType?: ResourceType;
+  operationType?: OperationType;
   content?: string;
 }

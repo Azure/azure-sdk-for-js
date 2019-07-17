@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -34,11 +34,18 @@ export class Users {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.database.url, "users");
-    const id = Helper.getIdFromLink(this.database.url);
+    const path = getPathFromLink(this.database.url, ResourceType.user);
+    const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "users", id, result => result.Users, query, innerOptions);
+      return this.clientContext.queryFeed({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        resultFn: result => result.Users,
+        query,
+        options: innerOptions
+      });
     });
   }
 
@@ -47,7 +54,7 @@ export class Users {
    * @param options
    * @example Read all users to array.
    * ```typescript
-   * const {body: usersList} = await database.users.readAll().toArray();
+   * const {body: usersList} = await database.users.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource> {
@@ -61,15 +68,21 @@ export class Users {
    */
   public async create(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.database.url, "users");
-    const id = Helper.getIdFromLink(this.database.url);
-    const response = await this.clientContext.create<UserDefinition>(body, path, "users", id, undefined, options);
+    const path = getPathFromLink(this.database.url, ResourceType.user);
+    const id = getIdFromLink(this.database.url);
+    const response = await this.clientContext.create<UserDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, user: ref };
+    return new UserResponse(response.result, response.headers, response.code, ref);
   }
 
   /**
@@ -79,15 +92,21 @@ export class Users {
    */
   public async upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.database.url, "users");
-    const id = Helper.getIdFromLink(this.database.url);
+    const path = getPathFromLink(this.database.url, ResourceType.user);
+    const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.upsert<UserDefinition>(body, path, "users", id, undefined, options);
+    const response = await this.clientContext.upsert<UserDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, user: ref };
+    return new UserResponse(response.result, response.headers, response.code, ref);
   }
 }
