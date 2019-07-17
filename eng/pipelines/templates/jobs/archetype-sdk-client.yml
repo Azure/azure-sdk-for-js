@@ -79,7 +79,7 @@ jobs:
           contents: "sdk/**/**/*lintReport.html"
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
-        displayName: "Copy packages"
+        displayName: "Copy lint reports"
 
       - task: PublishBuildArtifacts@1
         condition: succeededOrFailed()
