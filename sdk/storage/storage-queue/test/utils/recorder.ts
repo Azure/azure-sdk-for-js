@@ -458,26 +458,18 @@ export function record(testContext: any) {
      */
     skip: function(runtime: string) {
       if (isRecording) {
-        if (runtime === "node") {
-          if (!isBrowser()) {
-            recorder.stop();
-            testContext.skip();
-          }
-        } else if (runtime === "browser") {
-          if (isBrowser()) {
-            recorder.stop();
-            testContext.skip();
-          }
+        if (runtime === "node" && !isBrowser()) {
+          recorder.stop();
+          testContext.skip();
+        } else if (runtime === "browser" && isBrowser()) {
+          recorder.stop();
+          testContext.skip();
         }
       } else if (isPlayingBack) {
-        if (runtime === "node") {
-          if (!isBrowser()) {
-            testContext.skip();
-          }
-        } else if (runtime === "browser") {
-          if (isBrowser()) {
-            testContext.skip();
-          }
+        if (runtime === "node" && !isBrowser()) {
+          testContext.skip();
+        } else if (runtime === "browser" && isBrowser()) {
+          testContext.skip();
         }
       }
     },
