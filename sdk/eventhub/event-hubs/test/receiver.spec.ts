@@ -524,6 +524,19 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data.length.should.equal(5, "Failed to receive five expected messages");
     });
 
+    it("should receive messages correctly with maxRetries 0", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.earliest(),
+        { retryOptions: { maxRetries: 0 } }
+      );
+      const data = await receiver.receiveBatch(5, 10);
+      debug("received messages: ", data);
+      data.length.should.equal(5, "Failed to receive five expected messages");
+    });
+
     it("should support being cancelled", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
