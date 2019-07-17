@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "main": "./dist/src/index.js",
+  "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./typings/event-processor-host.d.ts",
   "engine": {
