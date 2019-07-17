@@ -121,13 +121,11 @@ export class EventHubReceiver extends LinkEntity {
   private _receiver?: Receiver;
   /**
    * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * inside _onAmqpMessage.
    * @private
    */
   private _onMessage?: OnMessage;
   /**
    * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * inside _onAmqpError.
    * @private
    */
   private _onError?: OnError;
@@ -137,12 +135,12 @@ export class EventHubReceiver extends LinkEntity {
    */
   private _checkpoint: number = -1;
   /**
-   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally.
+   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
    * @private
    */
   private _internalQueue: ReceivedEventData[] = [];
   /**
-   * @property _usingInternalQueue Indicates that events in the internal queue are being processed.
+   * @property _usingInternalQueue Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
    * @private
    */
   private _usingInternalQueue: boolean = false;
@@ -152,7 +150,7 @@ export class EventHubReceiver extends LinkEntity {
   private _isReceivingMessages: boolean = false;
 
   /**
-   * @property Returns sequenceNumber of the last event received.
+   * @property Returns sequenceNumber of the last event received from the service. This will not match the last event received by `EventHubConsumer` when the `_internalQueue` is not empty
    * @readonly
    */
   get checkpoint(): number {
