@@ -70,7 +70,7 @@ export class EventDataBatch {
    * @property Size of a batch of events.
    * @readonly
    */
-  get size(): number {
+  get sizeInBytes(): number {
     return this._sizeInBytes;
   }
 
