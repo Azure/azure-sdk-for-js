@@ -43,7 +43,7 @@ jobs:
         displayName: "Publish artifacts"
         inputs:
           artifactName: packages
-          targetPath: $(Build.ArtifactStagingDirectory)
+          path: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
 
