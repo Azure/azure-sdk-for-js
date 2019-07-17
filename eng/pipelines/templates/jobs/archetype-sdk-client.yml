@@ -68,6 +68,24 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
+          node common/scripts/install-run-rush.js lint $(rushFlags)
+        displayName: 'Run lint'
+
+      
+      - task: CopyFiles@2
+        inputs:
+          contents: 'sdk/**/**/*lintReport.html'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: 'Copy packages'
+
+      - task: PublishBuildArtifacts@1
+        condition: succeededOrFailed()
+        displayName: 'Publish lint reports'
+        inputs:
+          artifactName: reports
+
+      - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit packages"
