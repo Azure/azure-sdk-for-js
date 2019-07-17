@@ -86,6 +86,7 @@ jobs:
         displayName: "Publish lint reports"
         inputs:
           artifactName: reports
+          targetPath: $(Build.ArtifactStagingDirectory)
 
       - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
