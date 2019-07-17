@@ -81,7 +81,7 @@ jobs:
           flattenFolders: true
         displayName: "Copy lint reports"
 
-      - task: PublishBuildArtifacts@1
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish lint reports"
         inputs:
