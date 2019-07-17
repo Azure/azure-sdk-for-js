@@ -21,8 +21,7 @@ import {
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
-  Constants,
-  randomNumberFromInterval
+  Constants
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
