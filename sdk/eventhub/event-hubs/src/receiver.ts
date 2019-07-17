@@ -404,7 +404,7 @@ export class EventHubConsumer {
       delayInSeconds: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries: retryOptions.maxRetries + 1 // include base attempt
+      maxRetries: retryOptions.maxRetries
     };
     return retry<ReceivedEventData[]>(config);
   }
