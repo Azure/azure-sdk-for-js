@@ -610,70 +610,70 @@ export class EventHubSender extends LinkEntity {
           return rejectOnAbort();
         }
 
-        if (!this.isOpen()) {
-          log.sender(
-            "Acquiring lock %s for initializing the session, sender and " +
-              "possibly the connection.",
-            this.senderLock
-          );
+        try {
+          if (!this.isOpen()) {
+            log.sender(
+              "Acquiring lock %s for initializing the session, sender and " +
+                "possibly the connection.",
+              this.senderLock
+            );
 
-          try {
             await defaultLock.acquire(this.senderLock, () => {
               return this._init();
             });
-          } catch (err) {
-            err = translate(err);
-            log.error(
-              "[%s] An error occurred while creating the sender %s",
-              this._context.connectionId,
-              this.name,
-              err
-            );
-            reject(err);
-          } finally {
-            clearTimeout(waitTimer);
           }
-        }
 
-        log.sender(
-          "[%s] Sender '%s', credit: %d available: %d",
-          this._context.connectionId,
-          this.name,
-          this._sender!.credit,
-          this._sender!.session.outgoing.available()
-        );
-        if (this._sender!.sendable()) {
           log.sender(
-            "[%s] Sender '%s', sending message with id '%s'.",
-            this._context.connectionId,
-            this.name
-          );
-
-          if (abortSignal) {
-            abortSignal.addEventListener("abort", onAborted);
-          }
-          this._sender!.on(SenderEvents.accepted, onAccepted);
-          this._sender!.on(SenderEvents.rejected, onRejected);
-          this._sender!.on(SenderEvents.modified, onModified);
-          this._sender!.on(SenderEvents.released, onReleased);
-          const delivery = this._sender!.send(message, undefined, 0x80013700);
-          log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d",
+            "[%s] Sender '%s', credit: %d available: %d",
             this._context.connectionId,
             this.name,
-            delivery.id
+            this._sender!.credit,
+            this._sender!.session.outgoing.available()
           );
-        } else {
-          // let us retry to send the message after some time.
-          const msg =
-            `[${this._context.connectionId}] Sender "${this.name}", ` +
-            `cannot send the message right now. Please try later.`;
-          log.error(msg);
-          const amqpError: AmqpError = {
-            condition: ErrorNameConditionMapper.SenderBusyError,
-            description: msg
-          };
-          reject(translate(amqpError));
+          if (this._sender!.sendable()) {
+            log.sender(
+              "[%s] Sender '%s', sending message with id '%s'.",
+              this._context.connectionId,
+              this.name
+            );
+
+            if (abortSignal) {
+              abortSignal.addEventListener("abort", onAborted);
+            }
+            this._sender!.on(SenderEvents.accepted, onAccepted);
+            this._sender!.on(SenderEvents.rejected, onRejected);
+            this._sender!.on(SenderEvents.modified, onModified);
+            this._sender!.on(SenderEvents.released, onReleased);
+            const delivery = this._sender!.send(message, undefined, 0x80013700);
+            log.sender(
+              "[%s] Sender '%s', sent message with delivery id: %d",
+              this._context.connectionId,
+              this.name,
+              delivery.id
+            );
+          } else {
+            // let us retry to send the message after some time.
+            const msg =
+              `[${this._context.connectionId}] Sender "${this.name}", ` +
+              `cannot send the message right now. Please try later.`;
+            log.error(msg);
+            const amqpError: AmqpError = {
+              condition: ErrorNameConditionMapper.SenderBusyError,
+              description: msg
+            };
+            reject(translate(amqpError));
+          }
+        } catch (err) {
+          err = translate(err);
+          log.error(
+            "[%s] An error occurred while creating the sender %s",
+            this._context.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
+        } finally {
+          clearTimeout(waitTimer);
         }
       });
 
