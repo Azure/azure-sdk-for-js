@@ -1,3 +1,4 @@
+import * as identity from "@azure/identity"
 import { getKeyvaultName } from "./utils.common";
 import { KeysClient } from "../../src";
 import {
@@ -35,11 +36,9 @@ export async function authenticate(that: any): Promise<any> {
   let credential;
 
   if (isNode) {
-    const { EnvironmentCredential } = require("@azure/identity");
-    credential = await new EnvironmentCredential();
+    credential = await new identity.EnvironmentCredential();
   } else {
-    const { ClientSecretCredential } = require("@azure/identity");
-    credential = await new ClientSecretCredential(
+    credential = await new identity.ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET
