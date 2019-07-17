@@ -1,12 +1,10 @@
-import * as identity from "@azure/identity"
+import { EnvironmentCredential } from "@azure/identity"
 import { getKeyvaultName } from "./utils.common";
 import { KeysClient } from "../../src";
 import {
-  isNode,
   record,
   setReplaceableVariables,
   setReplacements,
-  env,
   uniqueString
 } from "./recorder";
 import TestClient from "./testClient";
@@ -32,18 +30,7 @@ export async function authenticate(that: any): Promise<any> {
   ]);
 
   const recorder = record(that);
-
-  let credential;
-
-  if (isNode) {
-    credential = await new identity.EnvironmentCredential();
-  } else {
-    credential = await new identity.ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-  }
+  const credential = await new EnvironmentCredential();
 
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
