@@ -618,9 +618,22 @@ export class EventHubSender extends LinkEntity {
             this.senderLock
           );
 
-          await defaultLock.acquire(this.senderLock, () => {
-            return this._init();
-          });
+          try {
+            await defaultLock.acquire(this.senderLock, () => {
+              return this._init();
+            });
+          } catch (err) {
+              err = translate(err);
+              log.error(
+                "[%s] An error occurred while creating the sender %s",
+                this._context.connectionId,
+                this.name,
+                err
+              );
+              reject(err);
+          } finally {
+            clearTimeout(waitTimer);
+          }
         }
 
         log.sender(
