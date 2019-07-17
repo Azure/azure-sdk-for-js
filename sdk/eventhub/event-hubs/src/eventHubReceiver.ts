@@ -115,7 +115,7 @@ export class EventHubReceiver extends LinkEntity {
    */
   receiverRuntimeMetricEnabled: boolean = false;
   /**
-   * @property [_receiver] The AMQP receiver link.
+   * @property [_receiver] The RHEA AMQP-based receiver link.
    * @private
    */
   private _receiver?: Receiver;
@@ -257,17 +257,17 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   private _onAmqpError(context: EventContext): void {
-    const amqpReceiver = this._receiver || context.receiver;
-    if (!amqpReceiver) {
+    const rheaReceiver = this._receiver || context.receiver;
+    if (!rheaReceiver) {
       return;
     }
 
-    const amqpError = amqpReceiver.error;
+    const amqpError = rheaReceiver.error;
     if (!amqpError) {
       return;
     }
 
-    if (amqpReceiver.isItselfClosed()) {
+    if (rheaReceiver.isItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
           "Hence not notifying the user's error handler.",
@@ -294,8 +294,8 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   private _onAmqpSessionError(context: EventContext): void {
-    const amqpReceiver = this._receiver || context.receiver;
-    if (!amqpReceiver) {
+    const rheaReceiver = this._receiver || context.receiver;
+    if (!rheaReceiver) {
       return;
     }
 
@@ -304,7 +304,7 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    if (amqpReceiver.isSessionItselfClosed()) {
+    if (rheaReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] The receiver was closed by the user." +
           "Hence not notifying the user's error handler.",
@@ -332,8 +332,8 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   private async _onAmqpSessionClose(context: EventContext): Promise<void> {
-    const amqpReceiver = this._receiver || context.receiver;
-    if (!amqpReceiver || amqpReceiver.isSessionItselfClosed()) {
+    const rheaReceiver = this._receiver || context.receiver;
+    if (!rheaReceiver || rheaReceiver.isSessionItselfClosed()) {
       log.error(
         "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
           "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
@@ -380,8 +380,8 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   private async _onAmqpClose(context: EventContext): Promise<void> {
-    const amqpReceiver = this._receiver || context.receiver;
-    if (!amqpReceiver || amqpReceiver.isItselfClosed()) {
+    const rheaReceiver = this._receiver || context.receiver;
+    if (!rheaReceiver || rheaReceiver.isItselfClosed()) {
       log.error(
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
           "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
@@ -393,7 +393,7 @@ export class EventHubReceiver extends LinkEntity {
       return;
     }
 
-    const amqpError = amqpReceiver.error;
+    const amqpError = rheaReceiver.error;
     if (amqpError) {
       log.error(
         "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
@@ -448,11 +448,11 @@ export class EventHubReceiver extends LinkEntity {
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     try {
-      const amqpReceiver = this._receiver;
-      const wasCloseInitiated = amqpReceiver && amqpReceiver.isItselfClosed();
+      const rheaReceiver = this._receiver;
+      const wasCloseInitiated = rheaReceiver && rheaReceiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(amqpReceiver);
+      await this._closeLink(rheaReceiver);
       // We should attempt to reopen only when the receiver(sdk) did not initiate the close
       let shouldReopen = false;
       if (receiverError && !wasCloseInitiated) {
@@ -653,10 +653,10 @@ export class EventHubReceiver extends LinkEntity {
         }
         // add credits
         const existingCredits = this._receiver ? this._receiver.credit : 0;
-        const minimumDefaultCount = isStreaming ? 1 : 0;
+        const prcoessedEventCountToExclude = isStreaming ? 0 : processedEventCount;
         const creditsToAdd = Math.max(
-          maximumCreditCount - (existingCredits + processedEventCount),
-          minimumDefaultCount
+          maximumCreditCount - (existingCredits + prcoessedEventCountToExclude),
+          0
         );
         this._addCredit(creditsToAdd);
       })
