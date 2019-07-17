@@ -31,11 +31,15 @@ export class EventDataBatch {
   /**
    * @property Current size of the batch in bytes.
    */
-  private _size: number;
+  private _sizeInBytes: number;
   /**
    * @property Encoded amqp messages.
    */
   private _encodedMessages: Buffer[] = [];
+  /**
+   * @property Number of events in the batch.
+   */
+  private _count: number;
   /**
    * @property Encoded batch message.
    */
@@ -50,7 +54,8 @@ export class EventDataBatch {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._partitionKey = partitionKey;
-    this._size = 0;
+    this._sizeInBytes = 0;
+    this._count = 0;
   }
 
   /**
@@ -66,7 +71,15 @@ export class EventDataBatch {
    * @readonly
    */
   get size(): number {
-    return this._size;
+    return this._sizeInBytes;
+  }
+
+  /**
+   * @property Number of events in the batch.
+   * @readonly
+   */
+  get count(): number {
+    return this._count;
   }
 
   /**
@@ -107,7 +120,8 @@ export class EventDataBatch {
       return false;
     }
     this._batchMessage = encodedBatchMessage;
-    this._size = currentSize;
+    this._sizeInBytes = currentSize;
+    this._count++;
     return true;
   }
 }

@@ -70,6 +70,22 @@ export class EventHubProducer {
     if (!options) {
       options = {};
     }
+    // throw an error if partition key and partition id are both defined
+    if (
+      typeof options.partitionKey === "string" &&
+      typeof this._senderOptions.partitionId === "string"
+    ) {
+      const error = new Error(
+        "Partition key is not supported when using producers that were created using a partition id."
+      );
+      log.error(
+        "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
+        this._context.connectionId,
+        error
+      );
+      throw error;
+    }
+
     let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
     if (options.maxMessageSizeInBytes) {
       if (options.maxMessageSizeInBytes > maxMessageSize) {
@@ -107,13 +123,17 @@ export class EventHubProducer {
     options?: SendOptions
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+    if (Array.isArray(eventData) && eventData.length === 0) {
+      log.error(`[${this._context.connectionId}] No events to send.`);
+      return;
+    }
     if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
       log.error(
         `[${this._context.connectionId}] No events to send, use tryAdd() function on the EventDataBatch to add events in a batch.`
       );
       return;
     }
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
     if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
       eventData = [eventData];
     }
