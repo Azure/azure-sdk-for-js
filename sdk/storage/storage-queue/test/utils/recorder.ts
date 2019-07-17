@@ -93,18 +93,18 @@ export function delay(milliseconds: number): Promise<void> | null {
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
  */
-const skip = [
-  // Abort
-  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
-  // Character
-  "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
-];
+// const skip = [
+//   // Abort
+//   "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
+//   // Abort
+//   "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
+//   // Abort
+//   "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
+//   // Abort
+//   "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
+//   // Character
+//   "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
+// ];
 
 abstract class Recorder {
   protected readonly filepath: string;
@@ -153,9 +153,9 @@ abstract class Recorder {
     return updatedRecording;
   }
 
-  public skip(): boolean {
-    return skip.includes(this.filepath);
-  }
+  // public skip(): boolean {
+  //   return skip.includes(this.filepath);
+  // }
 
   public abstract record(): void;
   public abstract playback(): void;
@@ -436,9 +436,9 @@ export function record(testContext: any) {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  if (recorder.skip() && (isRecording || isPlayingBack)) {
-    testContext.skip();
-  }
+  // if (recorder.skip() && (isRecording || isPlayingBack)) {
+  //   testContext.skip();
+  // }
 
   // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecording) {
@@ -451,6 +451,34 @@ export function record(testContext: any) {
     stop: function() {
       if (isRecording) {
         recorder.stop();
+      }
+    },
+    /**
+     * @param runtime [string] Let the recorder know when to skip the test - browser or node.js runtime.
+     */
+    skip: function(runtime: string) {
+      if (isRecording) {
+        if (runtime === "node") {
+          if (!isBrowser()) {
+            recorder.stop();
+            testContext.skip();
+          }
+        } else if (runtime === "browser") {
+          if (isBrowser()) {
+            recorder.stop();
+            testContext.skip();
+          }
+        }
+      } else if (isPlayingBack) {
+        if (runtime === "node") {
+          if (!isBrowser()) {
+            testContext.skip();
+          }
+        } else if (runtime === "browser") {
+          if (isBrowser()) {
+            testContext.skip();
+          }
+        }
       }
     },
     getUniqueName: function(prefix: string, recorderId?: string): string {
