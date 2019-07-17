@@ -110,11 +110,6 @@ export class EventHubReceiver extends LinkEntity {
    */
   options: EventHubConsumerOptions;
   /**
-   * @property [prefetchCount] The number of messages that the receiver can fetch/receive
-   * initially. Defaults to 0.
-   */
-  prefetchCount: number = 0;
-  /**
    * @property receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
    * is enabled. Default: false.
    */
@@ -161,8 +156,14 @@ export class EventHubReceiver extends LinkEntity {
   private _usingInternalQueue: boolean = false;
   /**
    * @property _isReceivingMessages Indicates if messages are being received from this receiver.
+   * @private
    */
   private _isReceivingMessages: boolean = false;
+  /**
+   * @property _isStreaming Indicated if messages are being received in streaming mode.
+   * @private
+   */
+  private _isStreaming: boolean = false;
 
   /**
    * @property Returns sequenceNumber of the last event received from the service. This will not match the last event received by `EventHubConsumer` when the `_internalQueue` is not empty
@@ -242,9 +243,8 @@ export class EventHubReceiver extends LinkEntity {
 
     // automatically add credit if there is a listener
     if (this._onMessage && !this._usingInternalQueue) {
-      const existingCredits = this._receiver ? this._receiver.credit : 0;
-      if (this.prefetchCount) {
-        this._addCredit(Math.max(this.prefetchCount - existingCredits, 1));
+      if (this._isStreaming) {
+        this._addCredit(1);
       }
       this._onMessage(receivedEventData);
     } else {
@@ -533,6 +533,11 @@ export class EventHubReceiver extends LinkEntity {
       };
 
       await retry(linkCreationConfig);
+
+      // if the receiver is in streaming mode we need to add credits again.
+      if (this._isStreaming) {
+        this._addCredit(Constants.defaultPrefetchCount);
+      }
     } catch (err) {
       log.error(
         "[%s] An error occurred while processing onDetached() of Receiver '%s' with address " +
@@ -559,7 +564,7 @@ export class EventHubReceiver extends LinkEntity {
     this._onError = undefined;
     this._onMessage = undefined;
     this._isReceivingMessages = false;
-    this.prefetchCount = 0;
+    this._isStreaming = false;
   }
 
   /**
@@ -613,7 +618,7 @@ export class EventHubReceiver extends LinkEntity {
     this._onAbort = onAbort;
     this._onError = onError;
     this._onMessage = onMessage;
-
+    this._isStreaming = isStreaming;
     // indicate that messages are being received.
     this._isReceivingMessages = true;
 
@@ -629,8 +634,6 @@ export class EventHubReceiver extends LinkEntity {
           return;
         }
 
-        // ensure we creat an amqpReceiver with no credit window
-        this.prefetchCount = 0;
         if (!this.isOpen()) {
           try {
             await this.initialize();
@@ -653,7 +656,6 @@ export class EventHubReceiver extends LinkEntity {
           maximumCreditCount - (existingCredits + processedEventCount),
           minimumDefaultCount
         );
-        this.prefetchCount = isStreaming ? maximumCreditCount : 0;
         this._addCredit(creditsToAdd);
       })
       .catch((err) => {
@@ -684,7 +686,7 @@ export class EventHubReceiver extends LinkEntity {
     onMessage: OnMessage,
     abortSignal?: AbortSignalLike
   ): Promise<number> {
-    let processedMessages = 0;
+    let processedMessagesCount = 0;
     // allow the event loop to process any blocking code outside
     // this code path before sending any events.
     await delay(0);
@@ -705,14 +707,14 @@ export class EventHubReceiver extends LinkEntity {
         break;
       }
       const eventData = this._internalQueue.splice(0, 1)[0];
-      processedMessages++;
+      processedMessagesCount++;
       onMessage(eventData);
       // allow the event loop to process any blocking code outside
       // this code path before sending the next event.
       await delay(0);
     }
     this._usingInternalQueue = false;
-    return processedMessages;
+    return processedMessagesCount;
   }
 
   /**
@@ -775,10 +777,6 @@ export class EventHubReceiver extends LinkEntity {
         this._context.receivers[this.name] = this;
 
         await this._ensureTokenRenewal();
-        if (this._onMessage) {
-          // add at least 1 credit when the user has a registered handler
-          this._addCredit(this.prefetchCount || 1);
-        }
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
