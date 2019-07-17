@@ -68,12 +68,11 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          verbose: false
+          command: install
 
       - task: Npm@1
         displayName: 'npm audit'
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         inputs:
           command: custom
-          verbose: false
           customCommand: 'audit'

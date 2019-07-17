@@ -38,13 +38,12 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          verbose: false
+          command: install
 
       - task: Npm@1
         displayName: 'npm run build'
         inputs:
           command: custom
-          verbose: false
           customCommand: 'run build -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
 
   - job: 'Check_everything'
@@ -58,19 +57,17 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          verbose: false
+          command: custom
 
       - task: Npm@1
         displayName: 'npm audit'
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         inputs:
           command: custom
-          verbose: false
           customCommand: 'audit'
 
       - task: Npm@1
         displayName: 'npm run check:everything'
         inputs:
           command: custom
-          verbose: false
           customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
