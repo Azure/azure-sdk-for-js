@@ -76,6 +76,11 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
+ * Describes the abort handler signature.
+ */
+export type OnAbort = () => void;
+
+/**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  * @internal
@@ -129,6 +134,16 @@ export class EventHubReceiver extends LinkEntity {
    * @private
    */
   private _onError?: OnError;
+  /**
+   * @property _onAbort The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * @private
+   */
+  private _onAbort?: OnAbort;
+  /**
+   * @property _abortSignal An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
+   * @private
+   */
+  private _abortSignal?: AbortSignalLike;
   /**
    * @property _checkpoint The sequence number of the most recently received AMQP message.
    * @private
@@ -256,19 +271,22 @@ export class EventHubReceiver extends LinkEntity {
       error
     );
 
-    if (!amqpReceiver.isItselfClosed() && this._onError) {
+    if (amqpReceiver.isItselfClosed()) {
+      log.error(
+        "[%s] The receiver was closed by the user." +
+          "Hence not notifying the user's error handler.",
+        this._context.connectionId
+      );
+      return;
+    }
+
+    if (this._onError) {
       log.error(
         "[%s] Since the user did not close the receiver " +
           "we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
-    } else {
-      log.error(
-        "[%s] The receiver was closed by the user." +
-          "Hence not notifying the user's error handler.",
-        this._context.connectionId
-      );
     }
   }
 
@@ -290,10 +308,20 @@ export class EventHubReceiver extends LinkEntity {
       this.name,
       error
     );
-    if (!amqpReceiver.isSessionItselfClosed() && this._onError) {
+
+    if (amqpReceiver.isSessionItselfClosed()) {
       log.error(
-        "[%s] Since the user did not close the receiver and the session error is not " +
-          "retryable, we let the user know about it by calling the user's error handler.",
+        "[%s] The receiver was closed by the user." +
+          "Hence not notifying the user's error handler.",
+        this._context.connectionId
+      );
+      return;
+    }
+
+    if (this._onError) {
+      log.error(
+        "[%s] Since the user did not close the receiver, " +
+          "we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
       this._onError(error);
@@ -402,7 +430,7 @@ export class EventHubReceiver extends LinkEntity {
       `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
       `address "${this.address}" has been cancelled by the user.`;
     log.error(desc);
-    if (typeof this._onError === "function") {
+    if (this._onError) {
       const error = new AbortError("The receive operation has been cancelled by the user.");
       this._onError(error);
     }
@@ -522,6 +550,12 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    */
   clearHandlers(): void {
+    if (this._abortSignal && this._onAbort) {
+      this._abortSignal.removeEventListener("abort", this._onAbort);
+    }
+
+    this._abortSignal = undefined;
+    this._onAbort = undefined;
     this._onError = undefined;
     this._onMessage = undefined;
     this._isReceivingMessages = false;
@@ -534,11 +568,12 @@ export class EventHubReceiver extends LinkEntity {
    * @returns
    */
   async close(): Promise<void> {
+    this.clearHandlers();
+
     if (!this._receiver) {
       return;
     }
 
-    this.clearHandlers();
     const receiverLink = this._receiver;
     this._deleteFromCache();
     await this._closeLink(receiverLink);
@@ -564,9 +599,6 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Registers the user's onMessage and onError handlers.
    * Sends buffered events from the queue before adding additional credits to the AMQP link.
-   * @param onMessage
-   * @param onError
-   * @param abortSignal
    * @ignore
    */
   registerHandlers(
@@ -574,8 +606,11 @@ export class EventHubReceiver extends LinkEntity {
     onError: OnError,
     maximumCreditCount: number,
     isStreaming: boolean = false,
-    abortSignal?: AbortSignalLike
+    abortSignal?: AbortSignalLike,
+    onAbort?: OnAbort
   ): void {
+    this._abortSignal = abortSignal;
+    this._onAbort = onAbort;
     this._onError = onError;
     this._onMessage = onMessage;
 
@@ -600,8 +635,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.initialize();
             if (abortSignal && abortSignal.aborted) {
-              this.abort();
-              await this.close();
+              await this.abort();
             }
           } catch (err) {
             return this._onError === onError && onError(err);
@@ -781,7 +815,7 @@ export class EventHubReceiver extends LinkEntity {
       source: {
         address: this.address
       },
-      credit_window: this.prefetchCount,
+      credit_window: 0,
       onMessage: options.onMessage || ((context: EventContext) => this._onAmqpMessage(context)),
       onError: options.onError || ((context: EventContext) => this._onAmqpError(context)),
       onClose: options.onClose || ((context: EventContext) => this._onAmqpClose(context)),
@@ -792,10 +826,9 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     if (typeof this.ownerLevel === "number") {
-      if (!rcvrOptions.properties)
-        rcvrOptions.properties = {
-          [Constants.attachEpoch]: types.wrap_long(this.ownerLevel)
-        };
+      rcvrOptions.properties = {
+        [Constants.attachEpoch]: types.wrap_long(this.ownerLevel)
+      };
     }
 
     if (this.receiverRuntimeMetricEnabled) {

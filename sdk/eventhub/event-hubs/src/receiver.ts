@@ -184,12 +184,6 @@ export class EventHubConsumer {
         this.close().catch(() => {}); // no-op close error handler
         return new ReceiveHandler(baseConsumer);
       }
-
-      abortSignal.addEventListener("abort", () => {
-        if (this._baseConsumer) {
-          this._baseConsumer.abort();
-        }
-      });
     }
 
     const wrappedOnError = (error: Error) => {
@@ -205,12 +199,19 @@ export class EventHubConsumer {
       onError(error);
     };
 
+    const onAbort = () => {
+      if (this._baseConsumer) {
+        this._baseConsumer.abort();
+      }
+    };
+
     baseConsumer.registerHandlers(
       onMessage,
       wrappedOnError,
       Constants.defaultPrefetchCount,
       true,
-      abortSignal
+      abortSignal,
+      onAbort
     );
 
     return new ReceiveHandler(baseConsumer);
@@ -307,11 +308,6 @@ export class EventHubConsumer {
           return await rejectOnAbort();
         }
 
-        const onAbort = (): void => {
-          clearTimeout(timer);
-          rejectOnAbort();
-        };
-
         // updates the prefetch count so that the baseConsumer adds
         // the correct number of credits to receive the same number of events.
         const prefetchCount = Math.max(maxMessageCount - receivedEvents.length, 0);
@@ -330,10 +326,12 @@ export class EventHubConsumer {
           if (this._baseConsumer) {
             this._baseConsumer.clearHandlers();
           }
-          if (abortSignal) {
-            abortSignal.removeEventListener("abort", onAbort);
-          }
           clearTimeout(timer);
+        };
+
+        const onAbort = (): void => {
+          clearTimeout(timer);
+          rejectOnAbort();
         };
 
         this._baseConsumer.registerHandlers(
@@ -364,7 +362,8 @@ export class EventHubConsumer {
           },
           maxMessageCount - receivedEvents.length,
           false,
-          abortSignal
+          abortSignal,
+          onAbort
         );
 
         const addTimeout = (): void => {
