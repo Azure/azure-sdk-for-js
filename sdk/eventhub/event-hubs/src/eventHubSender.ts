@@ -503,7 +503,6 @@ export class EventHubSender extends LinkEntity {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
-        // Callbacks used for being registered with events on sender
         const rejectOnAbort = () => {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${
@@ -631,7 +630,7 @@ export class EventHubSender extends LinkEntity {
               err
             );
             reject(err);
-          } 
+          }
         }
 
         log.sender(
