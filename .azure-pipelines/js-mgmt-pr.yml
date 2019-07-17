@@ -57,7 +57,7 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          command: custom
+          command: install
 
       - task: Npm@1
         displayName: 'npm audit'
