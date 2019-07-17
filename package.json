@@ -14,7 +14,10 @@
   "version": "3.0.2",
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
+  "module": "./dist-esm/index.js",
+  "browser": {
+    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js"
+  },
   "types": "./dist/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
