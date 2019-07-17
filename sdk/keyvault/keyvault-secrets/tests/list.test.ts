@@ -2,50 +2,25 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { expect } from "chai";
 import { SecretsClient } from "../src";
-import {
-  record,
-  setReplaceableVariables,
-  retry,
-  setReplacements,
-  env,
-  uniqueString
-} from "./utils/recorder";
-import { EnvironmentCredential } from "@azure/identity";
+import { retry, env } from "./utils/recorder";
+import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-
+ 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
+  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  let secretSuffix: string;
   let client: SecretsClient;
   let testClient: TestClient;
   let recorder: any;
 
-  const secretPrefix = `list${env.SECRET_NAME || "SecretName"}`;
-  let secretSuffix: string;
-
   before(async function() {
-    setReplaceableVariables({
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
-      KEYVAULT_NAME: "keyvault_name"
-    });
-
-    secretSuffix = uniqueString();
-    setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording) =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
-    ]);
-
-    recorder = record(this); // eslint-disable-line no-invalid-this
-
-    const vaultName = env.KEYVAULT_NAME;
-    const url = `https://${vaultName}.vault.azure.net`;
-    const credential = new EnvironmentCredential();
-    client = new SecretsClient(url, credential);
-    testClient = new TestClient(client);
+    const authentication = await authenticate(this);
+    secretSuffix = authentication.secretSuffix;
+    client = authentication.client;
+    testClient = authentication.testClient;
+    recorder = authentication.recorder;
   });
 
   after(async function() {
@@ -55,7 +30,7 @@ describe("Secret client - list secrets in various ways", () => {
   // The tests follow
 
   it("can list secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -76,7 +51,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list deleted secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -103,7 +78,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can retrieve all versions of a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -132,7 +107,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secret versions (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     let totalVersions = 0;
     for await (const version of client.listSecretVersions(secretName)) {
       assert.equal(
@@ -146,7 +121,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -166,7 +141,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list deleted secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -193,7 +168,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can retrieve all versions of a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -224,7 +199,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secret versions (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     let totalVersions = 0;
     for await (const page of client.listSecretVersions(secretName).byPage()) {
       for (const version of page) {

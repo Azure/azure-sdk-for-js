@@ -3,49 +3,25 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import {
-  record,
-  setReplaceableVariables,
-  retry,
-  setReplacements,
-  env,
-  uniqueString
-} from "./utils/recorder";
-import { EnvironmentCredential } from "@azure/identity";
+import { retry, env } from "./utils/recorder";
+import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
+  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  let secretSuffix: string;
   let client: SecretsClient;
   let testClient: TestClient;
   let recorder: any;
 
-  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
-  let secretSuffix: string;
-
   before(async function() {
-    setReplaceableVariables({
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
-      KEYVAULT_NAME: "keyvault_name"
-    });
-
-    secretSuffix = uniqueString();
-    setReplacements([
-      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording) =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
-    ]);
-
-    recorder = record(this); // eslint-disable-line no-invalid-this
-
-    const vaultName = env.KEYVAULT_NAME;
-    const url = `https://${vaultName}.vault.azure.net`;
-    const credential = new EnvironmentCredential();
-    client = new SecretsClient(url, credential);
-    testClient = new TestClient(client);
+    const authentication = await authenticate(this);
+    secretSuffix = authentication.secretSuffix;
+    client = authentication.client;
+    testClient = authentication.testClient;
+    recorder = authentication.recorder;
   });
 
   after(async function() {
@@ -120,7 +96,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can set a secret with attributes", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
     await client.setSecret(secretName, secretValue, { expires: expiryDate });
@@ -134,7 +110,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can update a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
@@ -153,7 +129,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can update a disabled Secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
@@ -172,7 +148,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can get a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
@@ -181,7 +157,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can't get a disabled Secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
 
@@ -204,7 +180,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can retrieve the latest version of a secret value", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
 
     const result = await client.getSecret(secretName);
@@ -215,7 +191,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can get a secret (Non Existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     let error;
     try {
       await client.getSecret(secretName);
@@ -231,7 +207,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can delete a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     await client.deleteSecret(secretName);
     try {
