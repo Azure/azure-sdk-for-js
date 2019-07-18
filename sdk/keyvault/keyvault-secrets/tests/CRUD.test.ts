@@ -13,6 +13,7 @@ import {
 } from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
 import TestClient from "./utils/testClient";
+import { AbortController } from "@azure/abort-controller";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -59,6 +60,22 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
+  });
+
+  it("can abort adding a secret", async function() {
+    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const controller = new AbortController();
+    const resultPromise = client.setSecret(secretName, secretValue, {
+      abortSignal: controller.signal
+    });
+    controller.abort();
+    let error;
+    try {
+      await resultPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, "The request was aborted");
   });
 
   it("cannot create a secret with an empty name", async function() {

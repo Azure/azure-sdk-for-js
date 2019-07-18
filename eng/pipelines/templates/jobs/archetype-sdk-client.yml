@@ -9,7 +9,7 @@ jobs:
     steps:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
-        displayName: 'Tag scheduled builds'
+        displayName: "Tag scheduled builds"
         condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
       - template: ../steps/common.yml
@@ -38,12 +38,12 @@ jobs:
           flattenFolders: true
         displayName: "Copy packages"
 
-      - task: PublishPipelineArtifact@0
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish artifacts"
         inputs:
           artifactName: packages
-          targetPath: $(Build.ArtifactStagingDirectory)
+          path: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
 
@@ -68,9 +68,30 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
+        displayName: "Lint libraries"
+
+      - task: CopyFiles@2
+        inputs:
+          contents: "sdk/**/**/*lintReport.html"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: "Copy lint reports"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish lint reports"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
+
+      - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit packages"
+        displayName: "Audit libraries"
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR

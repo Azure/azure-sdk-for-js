@@ -13,7 +13,6 @@ import { delay } from '@azure/core-amqp';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { OnAmqpEvent } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
@@ -50,7 +49,7 @@ export class EventDataBatch {
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     readonly batchMessage: Buffer | undefined;
     readonly partitionKey: string | undefined;
-    readonly size: number | undefined;
+    readonly size: number;
     tryAdd(eventData: EventData): boolean;
 }
 
