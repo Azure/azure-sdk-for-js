@@ -38,7 +38,7 @@ jobs:
           flattenFolders: true
         displayName: "Copy packages"
 
-      - task: PublishPipelineArtifact@0
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish artifacts"
         inputs:
@@ -71,7 +71,7 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js lint $(rushFlags)
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
         displayName: "Lint libraries"
 
       - task: CopyFiles@2
