@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "argparse": "^1.0.10",
     "handlebars": "^4.1.2",
+    "jju": "^1.4.0",
     "js-yaml": "^3.13.1",
     "semver": "^6.2.0",
     "tar": "^4.4.10"

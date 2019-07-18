@@ -1,10 +1,76 @@
-const util = require('util');
+const Buffer = require('buffer').Buffer;
 const fs = require('fs');
+const path = require('path');
 const process = require('process');
-const Handlebars = require('handlebars');
+const util = require('util');
 
+const argparse = require('argparse');
+const Handlebars = require('handlebars');
+const jju = require('jju');
+const tar = require('tar');
+
+const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
+
+const getRushPackages = async (rushPath) => {
+  const baseDir = path.dirname(rushPath);
+  const rushJson = jju.parse(await readFile(rushPath, 'utf8'));
+  const packageData = {};
+
+  for (const proj of rushJson.projects) {
+    const projDir = path.join(baseDir, proj.projectFolder);
+    const packageJson = jju.parse(await readFile(path.join(projDir, 'package.json'), 'utf8'));
+    appendPackageData(packageData, projDir, packageJson);
+  }
+
+  return packageData;
+};
+
+const getTarballPackages = async (tarballDir) => {
+  const files = await readdir(tarballDir);
+  const packageData = {};
+
+  for (const file of files) {
+    const filePath = path.join(tarballDir, file);
+    if (path.extname(filePath).toLowerCase() === ".tgz") {
+      const packageJson = jju.parse(await readCompressedFile(filePath, 'package/package.json', 'utf8'));
+      appendPackageData(packageData, filePath, packageJson);
+    }
+  }
+  return packageData;
+};
+
+const readCompressedFile = async (archivePath, filePath, encoding) => {
+  const data = [];
+  let processed = false;
+
+  await tar.t({
+    file: archivePath,
+    onentry: entry => {
+      if (!processed) {
+        processed = true;
+        entry.on('data', c => { data.push(c) })
+      }
+    }
+  }, [filePath]);
+
+  if (data) {
+    return Buffer.concat(data).toString(encoding);
+  } else {
+    return undefined;
+  }
+}
+
+const appendPackageData = (data, pkgSrc, pkgJson) => {
+  data[pkgJson.name] = {
+    src: pkgSrc,
+    ver: pkgJson.version,
+    run: pkgJson.dependencies,
+    dev: pkgJson.devDependencies,
+    peer: pkgJson.peerDependencies
+  };
+}
 
 const render = async (context, dest) => {
   context.branch = process.env.SYSTEM_PULLREQUEST_SOURCEBRANCH || process.env.BUILD_SOURCEBRANCHNAME;
@@ -33,4 +99,32 @@ const render = async (context, dest) => {
   return writeFile(dest, Handlebars.compile(template)(context));
 };
 
-render({}, "out.html");
+const main = async () => {
+  const parser = new argparse.ArgumentParser({ prog: 'analyze-deps', description: 'Analyze dependencies in NodeJS packages.' });
+  parser.addArgument('--verbose', { help: 'verbose output', action: 'storeTrue' });
+  parser.addArgument('--out', { metavar: 'FILE', help: 'write HTML-formatted report to FILE' });
+  parser.addArgument('--packdir', { metavar: 'DIR', help: 'analyze packed tarballs in DIR rather than source packages in this repository' });
+  const args = parser.parseArgs();
+
+  const context = {};
+  context.packages = await (
+    args.packdir
+      ? getTarballPackages(path.resolve(args.packdir))
+      : getRushPackages(path.resolve(`${__dirname}/../../../rush.json`))
+  );
+
+  if (args.verbose) {
+    console.log('Packages analyzed:');
+    for (const package of Object.keys(context.packages).sort()) {
+      const info = context.packages[package];
+      console.log(`${package} ${info.ver}`);
+      console.log(`  from ${info.src}`);
+    }
+  }
+
+  if (args.out) {
+    await render(context, args.out);
+  }
+}
+
+main();
