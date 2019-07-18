@@ -1,0 +1,17 @@
+{
+  "name": "analyze-deps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "analyze-deps": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.1.2",
+    "js-yaml": "^3.13.1",
+    "semver": "^6.2.0",
+    "tar": "^4.4.10"
+  }
+}
