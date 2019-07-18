@@ -58,9 +58,9 @@ export abstract class BaseRecorder {
   protected readonly filepath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
 
-  constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
+  constructor(runtime: string, testHierarchy: string, testTitle: string, ext: string) {
     this.filepath =
-      env +
+      runtime +
       "/" +
       this.formatPath(testHierarchy) +
       "/recording_" +
