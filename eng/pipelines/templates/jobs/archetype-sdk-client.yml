@@ -38,7 +38,7 @@ jobs:
           flattenFolders: true
         displayName: "Copy packages"
 
-      - task: PublishPipelineArtifact@0
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish artifacts"
         inputs:
