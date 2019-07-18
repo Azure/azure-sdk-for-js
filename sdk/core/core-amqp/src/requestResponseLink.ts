@@ -76,7 +76,7 @@ export class RequestResponseLink implements ReqResLink {
   /**
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in seconds `default: 60`, then `OperationTimeoutError` is thrown.
-   * 
+   *
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
@@ -92,7 +92,6 @@ export class RequestResponseLink implements ReqResLink {
 
     const sendRequestPromise = () =>
       new Promise<AmqpMessage>((resolve: any, reject: any) => {
-        let waitTimer: any;
         let timeOver: boolean = false;
         type NormalizedInfo = {
           statusCode: number;
@@ -100,45 +99,24 @@ export class RequestResponseLink implements ReqResLink {
           errorCondition: string;
         };
 
-        if (!request.message_id) {
-          // Set the message_id only if it is not set
-          request.message_id = generate_uuid();
-        }
-
-        const rejectOnAbort = () => {
-          const address = this.receiver.address || "address";
-          const requestName = options!.requestName;
-          const desc: string =
-            `[${this.connection.id}] The request "${requestName}" ` +
-            `to "${address}" has been cancelled by the user.`;
-          log.error(desc);
-          const error = new AbortError(
-            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-          );
-
-          reject(error);
-        };
-
-        const onAbort = () => {
-          // remove the event listener as this will be registered next time someone makes a request.
+        const actionAfterTimeout = () => {
+          timeOver = true;
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          // safe to clear the timeout if it hasn't already occurred.
-          if (!timeOver) {
-            clearTimeout(waitTimer);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
           }
-          aborter!.removeEventListener("abort", onAbort);
-
-          rejectOnAbort();
+          const address = this.receiver.address || "address";
+          const desc: string =
+            `The request with message_id "${request.message_id}" to "${address}" ` +
+            `endpoint timed out. Please try again later.`;
+          const e: Error = {
+            name: "OperationTimeoutError",
+            message: desc
+          };
+          return reject(translate(e));
         };
 
-        if (aborter) {
-          // the aborter may have been triggered between request attempts
-          // so check if it was triggered and reject if needed.
-          if (aborter.aborted) {
-            return rejectOnAbort();
-          }
-          aborter.addEventListener("abort", onAbort);
-        }
+        const waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
 
         // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
         const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
@@ -204,25 +182,48 @@ export class RequestResponseLink implements ReqResLink {
           }
         };
 
-        const actionAfterTimeout = () => {
-          timeOver = true;
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          if (aborter) {
-            aborter.removeEventListener("abort", onAbort);
-          }
+        const rejectOnAbort = () => {
           const address = this.receiver.address || "address";
+          const requestName = options!.requestName;
           const desc: string =
-            `The request with message_id "${request.message_id}" to "${address}" ` +
-            `endpoint timed out. Please try again later.`;
-          const e: Error = {
-            name: "OperationTimeoutError",
-            message: desc
-          };
-          return reject(translate(e));
+            `[${this.connection.id}] The request "${requestName}" ` +
+            `to "${address}" has been cancelled by the user.`;
+          log.error(desc);
+          const error = new AbortError(
+            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
+          );
+
+          reject(error);
         };
 
+        const onAbort = () => {
+          // remove the event listener as this will be registered next time someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          // safe to clear the timeout if it hasn't already occurred.
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          aborter!.removeEventListener("abort", onAbort);
+
+          rejectOnAbort();
+        };
+
+        if (aborter) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (aborter.aborted) {
+            return rejectOnAbort();
+          }
+          aborter.addEventListener("abort", onAbort);
+        }
+
+        if (!request.message_id) {
+          // Set the message_id only if it is not set
+          request.message_id = generate_uuid();
+        }
+
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,
