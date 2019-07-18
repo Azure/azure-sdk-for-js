@@ -38,7 +38,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can abort creating a key", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const controller = new AbortController();
     const resultPromise = client.createKey(keyName, "RSA", {
       abortSignal: controller.signal
