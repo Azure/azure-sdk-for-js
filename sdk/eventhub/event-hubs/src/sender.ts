@@ -124,7 +124,7 @@ export class EventHubProducer {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     if (Array.isArray(eventData) && eventData.length === 0) {
-      log.error(`[${this._context.connectionId}] No events to send.`);
+      log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
     if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
