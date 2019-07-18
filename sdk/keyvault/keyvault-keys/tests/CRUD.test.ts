@@ -15,6 +15,7 @@ import {
   uniqueString
 } from "./utils/recorder";
 import TestClient from "./utils/testClient";
+import { AbortController } from "@azure/abort-controller";
 
 describe("Keys client - create, read, update and delete operations", () => {
   let client: KeysClient;
@@ -62,6 +63,22 @@ describe("Keys client - create, read, update and delete operations", () => {
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
+  });
+
+  it("can abort creating a key", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this.test.title}-${keySuffix}`);
+    const controller = new AbortController();
+    const resultPromise = client.createKey(keyName, "RSA", {
+      abortSignal: controller.signal
+    });
+    controller.abort();
+    let error;
+    try {
+      await resultPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, "The request was aborted");
   });
 
   it("cannot create a key with an empty name", async function() {
