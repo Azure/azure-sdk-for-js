@@ -83,7 +83,7 @@ node app.js
 Set the `esModuleInterop` property to true in the tsconfig.json file.
 
 ### Credentials
-Be sure to set the environment variables needed and credentials before running the sample.
+Be sure to set the environment variables and credentials required before running the sample.
 
 ## Next steps
 Check the [Azure SDK for JS Repository](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk) for more samples inside the sdk folder.
