@@ -55,7 +55,7 @@ const skip = [
   "browsers/aborter/recording_should_abort_after_aborter_timeout.json"
 ];
 
-export abstract class Recorder {
+export abstract class BaseRecorder {
   protected readonly filepath: string;
   public uniqueTestInfo: any = {};
 
@@ -121,7 +121,7 @@ export abstract class Recorder {
   public abstract stop(): void;
 }
 
-export class NockRecorder extends Recorder {
+export class NockRecorder extends BaseRecorder {
   constructor(testHierarchy: string, testTitle: string) {
     super("node", testHierarchy, testTitle, "js");
   }
@@ -201,7 +201,7 @@ export class NockRecorder extends Recorder {
 
 // Nise module does not have a native implementation of record/playback like Nock does
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
-export class NiseRecorder extends Recorder {
+export class NiseRecorder extends BaseRecorder {
   private readonly sasQueryParameters = ["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"];
   private recordings: any[] = [];
 

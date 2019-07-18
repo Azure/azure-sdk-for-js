@@ -59,6 +59,7 @@
   "private": true,
   "dependencies": {
     "@types/fs-extra": "~7.0.0",
+    "@types/mocha": "^5.2.5",
     "@types/nise": "^1.4.0",
     "@types/nock": "^10.0.1",
     "@types/query-string": "6.2.0",
