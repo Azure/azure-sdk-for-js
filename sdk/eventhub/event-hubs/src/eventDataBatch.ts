@@ -5,6 +5,7 @@ import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * A class representing a batch of events which can be passed to the `send` method of a `EventConsumer` instance.
@@ -96,6 +97,7 @@ export class EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   public tryAdd(eventData: EventData): boolean {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
     // Convert EventData to AmqpMessage.
     const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
     amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
