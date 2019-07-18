@@ -232,16 +232,7 @@ export class RequestResponseLink implements ReqResLink {
         this.sender.send(request);
       });
 
-    let result: AmqpMessage;
-    sendRequestPromise()
-      .then((message) => {
-        result = message;
-      })
-      .catch((err: Error) => {
-        throw err;
-      });
-
-    return result;
+    return sendRequestPromise();
   }
 
   /**

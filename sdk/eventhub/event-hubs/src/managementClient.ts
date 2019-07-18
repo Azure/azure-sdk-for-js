@@ -308,7 +308,7 @@ export class ManagementClient extends LinkEntity {
   private async _makeManagementRequest(
     request: Message,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
-  ): Promise<any> { 
+  ): Promise<any> {
     try {
       if (!options) {
         options = {};
@@ -316,52 +316,65 @@ export class ManagementClient extends LinkEntity {
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
-
-          let waitTimer: any;
-          const actionAfterTimeout = () => {
-            const address = this._mgmtReqResLink!.receiver.address || "address";
-            const desc: string =
-              `The request with message_id "${request.message_id}" to "${address}" ` +
-              `endpoint timed out. Please try again later.`;
-            const e: Error = {
-              name: "OperationTimeoutError",
-              message: desc
+          try {
+            const actionAfterTimeout = () => {
+              const address = this._mgmtReqResLink!.receiver.address || "address";
+              const desc: string =
+                `The request with message_id "${request.message_id}" to "${address}" ` +
+                `endpoint timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+              return reject(translate(e));
             };
-            return reject(translate(e));
-          };
 
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            getRetryAttemptTimeoutInMs(options!.retryOptions)
-          );
+            const waitTimer = setTimeout(
+              actionAfterTimeout,
+              getRetryAttemptTimeoutInMs(options!.retryOptions)
+            );
 
-          const initOperationStartTime = Date.now();
-          log.mgmt(
-            "[%s] Acquiring lock to get the management req res link.",
-            this._context.connectionId
-          );
-          await defaultLock.acquire(this.managementLock, () => {
-            return this._init().catch((err: Error) => {
-              clearTimeout(waitTimer);
-              reject(translate(err));
+            const initOperationStartTime = Date.now();
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.connectionId
+            );
+            await defaultLock.acquire(this.managementLock, () => {
+              return this._init().catch((err: Error) => {
+                clearTimeout(waitTimer);
+                reject(translate(err));
+              });
             });
-          });
-          const initOperationEndTime = Date.now();
+            const initOperationEndTime = Date.now();
 
-          if (!options) {
-            options = {};
+            if (!options) {
+              options = {};
+            }
+
+            const operationTimeoutInMs = initOperationEndTime - initOperationStartTime;
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: options.abortSignal,
+              requestName: options.requestName,
+              timeoutInSeconds: operationTimeoutInMs / 1000
+            };
+
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            resolve(result);
+          } catch (err) {
+            err = translate(err);
+            const address = this._mgmtReqResLink!.sender.address || "address";
+            log.error(
+              "[%s] An error occurred during send on management request-response link '%s' with address " +
+                "'%s': %O",
+              this._context.connectionId,
+              this._mgmtReqResLink!.name,
+              address,
+              err
+            );
+            reject(err);
           }
-
-          const operationTimeoutInMs = initOperationEndTime - initOperationStartTime;
-          const sendRequestOptions: SendRequestOptions = {
-            abortSignal: options.abortSignal,
-            requestName: options.requestName,
-            timeoutInSeconds: operationTimeoutInMs / 1000
-          };
-          resolve((await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)));
         });
 
-      const jitterInSeconds = randomNumberFromInterval(1, 4);
       const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
       const delayInSeconds =
         options.retryOptions &&
@@ -372,14 +385,11 @@ export class ManagementClient extends LinkEntity {
       const config: RetryConfig<void> = {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
-        operationType:
-          request.to && request.to === Constants.cbsEndpoint
-            ? RetryOperationType.cbsAuth
-            : RetryOperationType.management,
+        operationType: RetryOperationType.management,
         maxRetries: maxRetries,
-        delayInSeconds: delayInSeconds + jitterInSeconds
+        delayInSeconds: delayInSeconds
       };
-      return retry<Message>(config).body;
+      return (await retry<Message>(config)).body;
     } catch (err) {
       err = translate(err);
       log.error("An error occurred while making the request to $management endpoint: %O", err);
