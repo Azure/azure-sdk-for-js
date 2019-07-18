@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+export interface TestInfo {
+  uniqueName: { [x: string]: string };
+  newDate: { [x: string]: string };
+}
+
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function escapeRegExp(str: string): string {

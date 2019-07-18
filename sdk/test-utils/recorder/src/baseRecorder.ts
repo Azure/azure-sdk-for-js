@@ -4,7 +4,7 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { isBrowser, blobToString, escapeRegExp, env } from "./utils";
+import { isBrowser, blobToString, escapeRegExp, env, TestInfo } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 import nock from "nock";
 import path from "path";
@@ -57,7 +57,7 @@ const skip = [
 
 export abstract class BaseRecorder {
   protected readonly filepath: string;
-  public uniqueTestInfo: any = {};
+  public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
 
   constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
     this.filepath =
