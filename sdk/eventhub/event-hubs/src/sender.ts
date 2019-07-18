@@ -76,7 +76,7 @@ export class EventHubProducer {
       typeof this._senderOptions.partitionId === "string"
     ) {
       const error = new Error(
-        "Partition key is not supported when using producers that were created using a partition id."
+        "Creating a batch with partition key is not supported when using producers that were created using a partition id."
       );
       log.error(
         "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
