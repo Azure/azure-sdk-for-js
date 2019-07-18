@@ -114,7 +114,6 @@ describe("RequestResponseLink", function() {
       });
     }, 4000);
     const response = await link.sendRequest(request, {
-      delayInSeconds: 1,
       timeoutInSeconds: 5
     });
     assert.equal(response.correlation_id, messageId);
@@ -240,7 +239,6 @@ describe("RequestResponseLink", function() {
       const signal = controller.signal;
       setTimeout(controller.abort.bind(controller), 100);
       await link.sendRequest(request, {
-        delayInSeconds: 1,
         timeoutInSeconds: 5,
         abortSignal: signal // cancel between request attempts
       });
