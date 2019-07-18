@@ -3,9 +3,8 @@
 
 import fs from "fs-extra";
 import nise from "nise";
-import { delay as restDelay } from "@azure/ms-rest-js";
 import { retry as realRetry } from "./retry";
-import { isNode as coreIsNode } from "@azure/core-http";
+import { isNode as coreIsNode, delay as coreDelay } from "@azure/core-http";
 import queryString from "query-string";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
@@ -57,7 +56,7 @@ export function setReplacements(maps: any): void {
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
-  return isPlayingBack ? null : restDelay(milliseconds);
+  return isPlayingBack ? null : coreDelay(milliseconds);
 }
 
 export async function retry<T>(
@@ -131,7 +130,9 @@ class NockRecorder extends Recorder {
   }
 
   public playback(): void {
-    const path = "../../recordings/" + this.filepath;
+    // This path makes sense when tests are called through dist-test/index.node.js
+    // If tests are called directly, this would need to be `../../recordings/`.
+    const path = "../recordings/" + this.filepath;
     this.uniqueTestInfo = require(path).testInfo;
   }
 
@@ -348,18 +349,23 @@ class NiseRecorder extends Recorder {
   }
 
   public stop(): void {
+    for (let i = 0; i < this.recordings.length; i++) {
+      for (const k of Object.keys(this.recordings[i])) {
+        if (typeof this.recordings[i][k] === "string") {
+          this.recordings[i][k] = this.filterSecrets(this.recordings[i][k]);
+        }
+      }
+    }
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
-      this.filterSecrets(
-        JSON.stringify({
-          writeFile: true,
-          path: "./recordings/" + this.filepath,
-          content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
-        })
-      )
+      JSON.stringify({
+        writeFile: true,
+        path: "./recordings/" + this.filepath,
+        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+      })
     );
   }
-} 
+}
 
 export function uniqueString(): string {
   return isPlayingBack

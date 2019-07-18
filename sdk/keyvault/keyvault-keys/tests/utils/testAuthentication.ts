@@ -1,19 +1,10 @@
-import { EnvironmentCredential } from "@azure/identity"
+import { ClientSecretCredential } from "@azure/identity";
 import { getKeyvaultName } from "./utils.common";
 import { KeysClient } from "../../src";
-import {
-  record,
-  setReplaceableVariables,
-  setReplacements,
-  uniqueString
-} from "./recorder";
+import { env, record, setReplaceableVariables, setReplacements, uniqueString } from "./recorder";
 import TestClient from "./testClient";
 
 export async function authenticate(that: any): Promise<any> {
-  // NOTE:
-  // setReplaceableVariables and setReplacements are reused just to put their ussage in the open,
-  // to avoid having them obscured into a generic utility file. Once the recording tool is centralized
-  // we can move these somewhere else!
   setReplaceableVariables({
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -30,7 +21,11 @@ export async function authenticate(that: any): Promise<any> {
   ]);
 
   const recorder = record(that);
-  const credential = await new EnvironmentCredential();
+  const credential = await new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
 
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;

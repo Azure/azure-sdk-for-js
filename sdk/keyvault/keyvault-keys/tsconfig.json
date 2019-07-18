@@ -15,10 +15,10 @@
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "declarationDir": "./types/src",
+    "declarationDir": "./types",
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "esModuleInterop": true
-  }, 
+  },
   "compileOnSave": true,
   "exclude": ["node_modules", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./tests/**/*.ts"]

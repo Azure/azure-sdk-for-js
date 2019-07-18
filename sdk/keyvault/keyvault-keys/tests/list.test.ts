@@ -15,7 +15,7 @@ describe("Keys client - list keys in various ways", () => {
   let recorder: any;
 
   before(async function() {
-    const authentication = await authenticate(this); // eslint-disable-line no-invalid-this
+    const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

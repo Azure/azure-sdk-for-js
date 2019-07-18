@@ -29,7 +29,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "os", "url", "assert"];
+  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -52,7 +52,7 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
-    ] 
+    ]
   };
 
   if (test) {
@@ -73,7 +73,7 @@ export function nodeConfig(test = false) {
     baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(terser());
-  } 
+  }
 
   return baseConfig;
 }
@@ -119,8 +119,8 @@ export function browserConfig(test = false) {
           // https://github.com/rollup/rollup-plugin-commonjs/issues/394
           "assert/": ["ok", "equal", "strictEqual"]
         }
-      }),
-    ] 
+      })
+    ]
   };
 
   if (test) {

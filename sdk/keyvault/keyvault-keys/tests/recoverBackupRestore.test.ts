@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { KeysClient } from "../src";
-import { retry, env } from "./utils/recorder";
+import { retry, isNode, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
@@ -15,7 +15,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let recorder: any;
 
   before(async function() {
-    const authentication = await authenticate(this); // eslint-disable-line no-invalid-this
+    const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -56,7 +56,11 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
-    assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
+    if (isNode) {
+      assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
+    } else {
+      assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
+    }
     assert.ok(result!.length > 8300, "Unexpected length of buffer from backupKey()");
     await testClient.flushKey(keyName);
   });
@@ -85,10 +89,10 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("fails to restore a key with a malformed backup", async function() {
-    const backup = Buffer.alloc(8693);
+    const backup = new Uint8Array(8693);
     let error;
     try {
-      await client.restoreKey(backup as Uint8Array);
+      await client.restoreKey(backup);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
