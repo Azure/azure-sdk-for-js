@@ -31,7 +31,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   // The tests follow
 
   it("can add a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
@@ -71,28 +71,12 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can set a secret with Empty Value", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     const secretValue = "";
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
-  });
-
-  it("cannot create a secret with a null name", async function() {
-    const secretName = null;
-    let error;
-    try {
-      await client.setSecret(secretName, "");
-      throw Error("Expecting an error but not catching one.");
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(
-      error.message,
-      "secretName cannot be null or undefined.",
-      "Unexpected error while running setSecret with an empty string as the name."
-    );
   });
 
   it("can set a secret with attributes", async function() {
@@ -103,7 +87,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const updated = await client.getSecret(secretName);
     assert.equal(
       expiryDate.getDate(),
-      updated.expires.getDate(),
+      updated!.expires!.getDate(),
       "Expect attribute 'expires' to be defined."
     );
     await testClient.flushSecret(secretName);
@@ -121,7 +105,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     const updated = await client.getSecret(secretName);
     assert.equal(
-      updated.expires.getDate(),
+      updated!.expires!.getDate(),
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
@@ -140,7 +124,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       expires: expiryDate
     });
     assert.equal(
-      updated.expires.getDate(),
+      updated!.expires!.getDate(),
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
@@ -224,7 +208,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can delete a secret (Non Existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     let error;
     try {
       await client.deleteSecret(secretName);
@@ -240,7 +224,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can get a deleted secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
     const getResult = await retry(async () => client.getDeletedSecret(secretName));
@@ -249,7 +233,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can get a deleted secret (Non Existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this.test.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
     let error;
     try {
       await client.deleteSecret(secretName);

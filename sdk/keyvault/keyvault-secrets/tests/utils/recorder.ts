@@ -350,15 +350,20 @@ class NiseRecorder extends Recorder {
   }
 
   public stop(): void {
+    for (let i = 0; i < this.recordings.length; i++) {
+      for (const k of Object.keys(this.recordings[i])) {
+        if (typeof this.recordings[i][k] === "string") {
+          this.recordings[i][k] = this.filterSecrets(this.recordings[i][k]);
+        }
+      }
+    }
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
-      this.filterSecrets(
-        JSON.stringify({
-          writeFile: true,
-          path: "./recordings/" + this.filepath,
-          content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
-        })
-      )
+      JSON.stringify({
+        writeFile: true,
+        path: "./recordings/" + this.filepath,
+        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+      })
     );
   }
 }

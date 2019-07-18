@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
+import chai from "chai";
 import { SecretsClient } from "../src";
 import { retry, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+const { expect } = chai;
  
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
