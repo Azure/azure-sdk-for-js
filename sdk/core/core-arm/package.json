@@ -76,7 +76,7 @@
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
   },
-  "homepage": "https://github.com/Azure/ms-rest-azure-js/tree/master/sdk/core/core-arm",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-arm",
   "repository": {
     "type": "git",
     "url": "git@github.com:Azure/azure-sdk-for-js.git"

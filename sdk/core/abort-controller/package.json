@@ -64,7 +64,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^1.9.3"
