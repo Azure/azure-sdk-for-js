@@ -128,7 +128,7 @@ export class EventHubProducer {
       log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
-    if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
+    if (eventData instanceof EventDataBatch && eventData.count === 0) {
       log.error(
         `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
       );
