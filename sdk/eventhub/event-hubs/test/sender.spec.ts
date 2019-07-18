@@ -243,7 +243,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         "0",
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       );
-      const eventDataBatch = await producer.createBatch({ maxMessageSizeInBytes: 5000 });
+      const eventDataBatch = await producer.createBatch({ maxSizeInBytes: 5000 });
       const message = { body: `${Buffer.from("Z".repeat(4096))}` };
       for (let i = 1; i <= 3; i++) {
         const isAdded = eventDataBatch.tryAdd(message);
@@ -265,7 +265,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     > {
       try {
         const producer = client.createProducer({ partitionId: "0" });
-        await producer.createBatch({ maxMessageSizeInBytes: 2046528 });
+        await producer.createBatch({ maxSizeInBytes: 2046528 });
         throw new Error("Test Failure");
       } catch (err) {
         // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)
