@@ -177,13 +177,11 @@ export class EventHubConsumer {
     }
 
     // return immediately if the abortSignal is already aborted.
-    if (abortSignal) {
-      if (abortSignal.aborted) {
-        onError(new AbortError("The receive operation has been cancelled by the user."));
-        // close this receiver when user triggers a cancellation.
-        this.close().catch(() => {}); // no-op close error handler
-        return new ReceiveHandler(baseConsumer);
-      }
+    if (abortSignal && abortSignal.aborted) {
+      onError(new AbortError("The receive operation has been cancelled by the user."));
+      // close this receiver when user triggers a cancellation.
+      this.close().catch(() => {}); // no-op close error handler
+      return new ReceiveHandler(baseConsumer);
     }
 
     const wrappedOnError = (error: Error) => {
@@ -191,6 +189,11 @@ export class EventHubConsumer {
       if ((error as MessagingError).retryable) {
         return;
       }
+
+      log.error(
+        "[%s] Since the error is retryable, we let the user know about it by calling the user's error handler.",
+        this._context.connectionId
+      );
 
       if (error.name === "AbortError") {
         // close this receiver when user triggers a cancellation.
