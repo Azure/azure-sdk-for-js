@@ -45,7 +45,7 @@ export class BlobStorage{
     private static async CleanUp(){
         console.log("Deleting container and blobs (Cleaning up the resource)...");
         const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
-        blobClient.delete();
+        await blobClient.delete();
         console.log("\tdone");
     }
 }
