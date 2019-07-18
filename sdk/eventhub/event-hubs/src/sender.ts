@@ -79,7 +79,7 @@ export class EventHubProducer {
         "Creating a batch with partition key is not supported when using producers that were created using a partition id."
       );
       log.error(
-        "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
+        "[%s] Creating a batch with partition key is not supported when using producers that were created using a partition id. %O",
         this._context.connectionId,
         error
       );
