@@ -3,7 +3,7 @@
 
 import fs from "fs-extra";
 import nise from "nise";
-import { delay as restDelay } from "@azure/ms-rest-js";
+import { delay as coreDelay } from "@azure/core-http";
 import { retry as realRetry } from "./retry";
 import { isNode as coreIsNode } from "@azure/core-http";
 import queryString from "query-string";
@@ -57,7 +57,7 @@ export function setReplacements(maps: any): void {
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
-  return isPlayingBack ? null : restDelay(milliseconds);
+  return isPlayingBack ? null : coreDelay(milliseconds);
 }
 
 export async function retry<T>(
