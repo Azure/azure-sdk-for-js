@@ -508,7 +508,6 @@ export class EventHubSender extends LinkEntity {
     message: AmqpMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
-
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
@@ -647,7 +646,10 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, getRetryAttemptTimeoutInMs(options.retryOptions));
+          waitTimer = setTimeout(
+            actionAfterTimeout,
+            getRetryAttemptTimeoutInMs(options.retryOptions)
+          );
           const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d",
