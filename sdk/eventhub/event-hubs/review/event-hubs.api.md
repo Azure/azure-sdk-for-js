@@ -24,7 +24,7 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface BatchOptions {
-    maxMessageSizeInBytes?: number;
+    maxSizeInBytes?: number;
     partitionKey?: string;
 }
 
