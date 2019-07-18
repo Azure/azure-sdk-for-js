@@ -8,6 +8,14 @@ export interface TestInfo {
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
+export function isRecording() {
+  return env.TEST_MODE === "record";
+}
+
+export function isPlayingBack() {
+  return env.TEST_MODE === "playback";
+}
+
 export function escapeRegExp(str: string): string {
   return encodeURIComponent(str).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }

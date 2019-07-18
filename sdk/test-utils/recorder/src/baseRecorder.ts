@@ -4,23 +4,23 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { isBrowser, blobToString, escapeRegExp, env, TestInfo } from "./utils";
+import {
+  isBrowser,
+  blobToString,
+  escapeRegExp,
+  env,
+  TestInfo,
+  isPlayingBack,
+  isRecording
+} from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 import nock from "nock";
 import path from "path";
 
-let isRecording: boolean;
-let isPlayingBack: boolean;
-
-function envTestMode() {
-  isRecording = env.TEST_MODE === "record";
-  isPlayingBack = env.TEST_MODE === "playback";
-}
-
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
   replaceableVariables = a;
-  if (isPlayingBack) {
+  if (isPlayingBack()) {
     // Providing dummy values to avoid the error
     Object.keys(a).map((k) => {
       env[k] = a[k];
@@ -34,12 +34,11 @@ export function setReplacements(maps: any): void {
 }
 
 export function setEnviromentOnLoad() {
-  envTestMode();
-  if (isBrowser() && isRecording) {
+  if (isBrowser() && isRecording()) {
     customConsoleLog();
   }
 
-  if (isPlayingBack) {
+  if (isPlayingBack()) {
     // Providing dummy values to avoid the error [ENVs for storage packages]
     env.ACCOUNT_NAME = "fakestorageaccount";
     env.ACCOUNT_KEY = "aaaaa";

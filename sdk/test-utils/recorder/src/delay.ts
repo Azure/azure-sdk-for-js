@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { isBrowser } from "./utils";
-const env = isBrowser() ? (window as any).__env__ : process.env;
-const isPlayingBack = env.TEST_MODE === "playback";
-
+import { isPlayingBack } from "./utils";
 /**
  * Usage - `await delay(<milliseconds>)`
  * This `delay` has no effect if the `TEST_MODE` is `"playback"`.
@@ -14,5 +11,5 @@ const isPlayingBack = env.TEST_MODE === "playback";
  * @returns {Promise<T>} Resolved promise
  */
 export function delay(milliseconds: number): Promise<void> | null {
-  return isPlayingBack ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
+  return isPlayingBack() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
 }

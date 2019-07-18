@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, env } from "./utils";
+import { getUniqueName, isBrowser, isRecording, isPlayingBack } from "./utils";
 import { NiseRecorder, NockRecorder, BaseRecorder, setEnviromentOnLoad } from "./baseRecorder";
 
 /**
@@ -59,9 +59,6 @@ export function record(testContext: Mocha.Context): Recorder {
     testTitle = testContext.test!.title;
   }
 
-  const isRecording = env.TEST_MODE === "record";
-  const isPlayingBack = env.TEST_MODE === "playback";
-
   setEnviromentOnLoad();
 
   if (isBrowser()) {
@@ -70,20 +67,20 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  if (recorder.skip() && (isRecording || isPlayingBack)) {
+  if (recorder.skip() && (isRecording() || isPlayingBack())) {
     testContext.skip();
   }
 
   // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
-  if (isRecording) {
+  if (isRecording()) {
     recorder.record();
-  } else if (isPlayingBack) {
+  } else if (isPlayingBack()) {
     recorder.playback(testContext.currentTest!.file!);
   }
 
   return {
     stop: function() {
-      if (isRecording) {
+      if (isRecording()) {
         recorder.stop();
       }
     },
@@ -92,10 +89,10 @@ export function record(testContext: Mocha.Context): Recorder {
       if (!label) {
         label = prefix;
       }
-      if (isRecording) {
+      if (isRecording()) {
         name = getUniqueName(prefix);
         recorder.uniqueTestInfo["uniqueName"][label] = name;
-      } else if (isPlayingBack) {
+      } else if (isPlayingBack()) {
         name = recorder.uniqueTestInfo["uniqueName"][label];
       } else {
         name = getUniqueName(prefix);
@@ -104,10 +101,10 @@ export function record(testContext: Mocha.Context): Recorder {
     },
     newDate: function(label: string): Date {
       let date: Date;
-      if (isRecording) {
+      if (isRecording()) {
         date = new Date();
         recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
-      } else if (isPlayingBack) {
+      } else if (isPlayingBack()) {
         date = new Date(recorder.uniqueTestInfo["newDate"][label]);
       } else {
         date = new Date();
