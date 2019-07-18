@@ -331,54 +331,6 @@ export class EventHubReceiver extends LinkEntity {
     }
   }
 
-  private async _onAmqpSessionClose(context: EventContext): Promise<void> {
-    const rheaReceiver = this._receiver || context.receiver;
-    if (!rheaReceiver || rheaReceiver.isSessionItselfClosed()) {
-      log.error(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      return;
-    }
-
-    const sessionError = context.session && context.session.error;
-    if (sessionError) {
-      log.error(
-        "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-          "The associated error is: %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        sessionError
-      );
-    }
-
-    if (!this.isConnecting) {
-      log.error(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-          "_onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-      await this.onDetached(sessionError);
-    } else {
-      log.error(
-        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
-        this._context.connectionId,
-        this.name,
-        this.address
-      );
-    }
-  }
-
   private async _onAmqpClose(context: EventContext): Promise<void> {
     const rheaReceiver = this._receiver || context.receiver;
     if (!rheaReceiver || rheaReceiver.isItselfClosed()) {
@@ -420,6 +372,54 @@ export class EventHubReceiver extends LinkEntity {
         "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
           "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
           "Hence not calling detached from the _onAmqpClose() handler.",
+        this._context.connectionId,
+        this.name,
+        this.address
+      );
+    }
+  }
+
+  private async _onAmqpSessionClose(context: EventContext): Promise<void> {
+    const rheaReceiver = this._receiver || context.receiver;
+    if (!rheaReceiver || rheaReceiver.isSessionItselfClosed()) {
+      log.error(
+        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
+        this._context.connectionId,
+        this.name,
+        this.address
+      );
+      return;
+    }
+
+    const sessionError = context.session && context.session.error;
+    if (sessionError) {
+      log.error(
+        "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        sessionError
+      );
+    }
+
+    if (!this.isConnecting) {
+      log.error(
+        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+          "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+          "_onAmqpSessionClose() handler.",
+        this._context.connectionId,
+        this.name,
+        this.address
+      );
+      await this.onDetached(sessionError);
+    } else {
+      log.error(
+        "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+          "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+          "re-connecting. Hence not calling detached from the _onAmqpSessionClose() handler.",
         this._context.connectionId,
         this.name,
         this.address
