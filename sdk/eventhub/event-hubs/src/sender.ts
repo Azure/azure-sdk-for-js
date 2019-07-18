@@ -130,7 +130,7 @@ export class EventHubProducer {
     }
     if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
       log.error(
-        `[${this._context.connectionId}] No events to send, use tryAdd() function on the EventDataBatch to add events in a batch.`
+        `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
       );
       return;
     }
