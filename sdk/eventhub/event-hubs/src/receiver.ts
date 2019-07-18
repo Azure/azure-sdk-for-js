@@ -191,7 +191,7 @@ export class EventHubConsumer {
       }
 
       log.error(
-        "[%s] Since the error is retryable, we let the user know about it by calling the user's error handler.",
+        "[%s] Since the error is not retryable, we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
 
