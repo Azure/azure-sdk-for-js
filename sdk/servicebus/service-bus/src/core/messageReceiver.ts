@@ -10,7 +10,7 @@ import {
   RetryConfig,
   ConditionErrorNameMapper,
   ErrorNameConditionMapper
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import {
   Receiver,
   OnAmqpEvent,
@@ -955,7 +955,7 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
+          maxRetries: Constants.defaultMaxRetriesForConnection,
           connectionHost: this._context.namespace.config.host,
           delayInSeconds: 15
         };

@@ -7,7 +7,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
 import * as log from "../log";
 import { Semaphore } from "../util/semaphore";
-import { delay, ConditionErrorNameMapper, Constants } from "@azure/amqp-common";
+import { delay, ConditionErrorNameMapper, Constants } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -178,7 +178,7 @@ export class SessionManager {
         // the Promise is rejected. The "microsoft.timeout" error occurs when timeout happens on
         // the server side and ServiceBus sends a detach frame due to which the Promise is rejected.
         if (
-          err.name === ConditionErrorNameMapper["amqp:operation-timeout"] ||
+          err.name === "OperationTimeoutError" ||
           err.name === ConditionErrorNameMapper["com.microsoft:timeout"] ||
           err.name === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
         ) {
