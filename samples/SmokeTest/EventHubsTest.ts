@@ -58,7 +58,15 @@ export class EventHubs{
         await producer.send({ body: "JS Event Test 3" });
 
         console.log("receiving events...");
-        await consumer.receiveBatch(3, 5);
+        let eventsReceived = await consumer.receiveBatch(3, 5);
+        eventsReceived.forEach(event => {
+                console.log(`Event received: ${event}`);
+        });
+        
+        if(eventsReceived.length != 3){
+            throw `Error: expecting 3 events but ${eventsReceived.length} were received.`
+        }
+        
         console.log("\tdone");
     }
 }
