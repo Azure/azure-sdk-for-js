@@ -292,6 +292,34 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         );
       }
     });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const producer = client.createProducer();
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await producer.createBatch({ abortSignal: abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The create batch operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
+      const abortController = new AbortController();
+      abortController.abort();
+      try {
+        const producer = client.createProducer();
+        await producer.createBatch({ abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The create batch operation has been cancelled by the user.");
+      }
+    });
   });
 
   describe("multiple producers", function(): void {

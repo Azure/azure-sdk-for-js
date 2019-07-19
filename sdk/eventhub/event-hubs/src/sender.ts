@@ -86,7 +86,7 @@ export class EventHubProducer {
       throw error;
     }
 
-    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize(options.abortSignal);
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize) {
         const error = new Error(
@@ -129,9 +129,7 @@ export class EventHubProducer {
       return;
     }
     if (eventData instanceof EventDataBatch && eventData.count === 0) {
-      log.error(
-        `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
-      );
+      log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
     if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {

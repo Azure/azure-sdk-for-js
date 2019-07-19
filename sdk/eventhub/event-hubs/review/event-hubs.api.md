@@ -23,6 +23,7 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface BatchOptions {
+    abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
     partitionKey?: string;
 }

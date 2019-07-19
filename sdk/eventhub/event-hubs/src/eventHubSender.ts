@@ -343,12 +343,39 @@ export class EventHubSender extends LinkEntity {
   }
   /**
    * Returns maximum message size on the AMQP sender link.
-   * @ignore
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<number>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getMaxMessageSize(): Promise<number> {
-    try {
-      if (!this.isOpen()) {
+  async getMaxMessageSize(abortSignal?: AbortSignalLike): Promise<number> {
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      const rejectOnAbort = () => {
+        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
+        log.error(desc);
+        const error = new AbortError(`The create batch operation has been cancelled by the user.`);
+        reject(error);
+      };
+
+      const onAbort = () => {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
+        rejectOnAbort();
+      };
+
+      if (abortSignal) {
+        // the aborter may have been triggered between request attempts
+        // so check if it was triggered and reject if needed.
+        if (abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+        abortSignal.addEventListener("abort", onAbort);
+      }
+      try {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
             "possibly the connection.",
@@ -357,17 +384,21 @@ export class EventHubSender extends LinkEntity {
         await defaultLock.acquire(this.senderLock, () => {
           return this._init();
         });
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        log.error(
+          "[%s] An error occurred while creating the sender %s",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+        reject(err);
+      } finally {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
       }
-      return this._sender!.maxMessageSize;
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while creating the sender %s",
-        this._context.connectionId,
-        this.name,
-        err
-      );
-      throw err;
-    }
+    });
   }
 
   /**
