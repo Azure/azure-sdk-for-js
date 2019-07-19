@@ -232,7 +232,6 @@ export class RequestResponseLink implements ReqResLink {
         );
         this.sender.send(request);
       });
-
     return sendRequestPromise();
   }
 
