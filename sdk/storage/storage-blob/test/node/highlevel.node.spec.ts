@@ -253,8 +253,28 @@ describe("Highlevel", () => {
       maxRetryRequestsPerBlock: 5,
       parallelism: 1
     });
-
     assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 3, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 2, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 1, 7, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaabbbb");
   });
 
   it("downloadBlobToBuffer should abort", async () => {

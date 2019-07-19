@@ -187,7 +187,12 @@ export async function downloadAzureFileToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.rangeSize) {
     batch.addOperation(async () => {
-      const chunkEnd = off + options.rangeSize! <= offset + count! ? off + options.rangeSize! : offset + count!;
+      // Exclusive chunk end position
+      let chunkEnd = offset + count!;
+      if (off + options.rangeSize! < chunkEnd) {
+        chunkEnd = off + options.rangeSize!;
+      }
+
       const response = await fileURL.download(aborter, off, chunkEnd - off, {
         maxRetryRequests: options.maxRetryRequestsPerRange
       });

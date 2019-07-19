@@ -247,8 +247,35 @@ describe("Highlevel", () => {
       maxRetryRequestsPerRange: 5,
       parallelism: 1
     });
-
     assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 3, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 2, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 1, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, 8, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaaabbbb");
   });
 
   it("downloadAzureFileToBuffer should abort", async () => {

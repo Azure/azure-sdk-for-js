@@ -76,6 +76,8 @@ describe("RetryPolicy", () => {
 
     let hasError = false;
     try {
+      // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
+      // happens between 2 requests
       await injectShareURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
     } catch (err) {
       hasError = true;

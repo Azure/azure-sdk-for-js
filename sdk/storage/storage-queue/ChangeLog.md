@@ -3,7 +3,7 @@
 * Fixed a bug that `Aborter` cannot work during retry interval.
 * Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
 * Export `RetryPolicyType`.
-* Aborter doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+* `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 
 2019.1 Version 10.1.0
 

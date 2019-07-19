@@ -238,7 +238,12 @@ export async function downloadBlobToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.blockSize) {
     batch.addOperation(async () => {
-      const chunkEnd = off + options.blockSize! <= offset + count! ? off + options.blockSize! : offset + count!; // Exclusive chunk end position
+      // Exclusive chunk end position
+      let chunkEnd = offset + count!;
+      if (off + options.blockSize! < chunkEnd) {
+        chunkEnd = off + options.blockSize!;
+      }
+
       const response = await blobURL.download(aborter, off, chunkEnd - off, {
         blobAccessConditions: options.blobAccessConditions,
         maxRetryRequests: options.maxRetryRequestsPerBlock

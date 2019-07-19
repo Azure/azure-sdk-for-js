@@ -4,10 +4,10 @@
 * Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 * Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 * Fixed a bug that `Aborter` cannot work during retry interval.
-* Fixed a bug that Aborter throws timeout error even though it succeeds of `BlockBlobUrl.download()`.
+* Fixed a bug that `Aborter` throws timeout error even though it succeeds of `BlockBlobUrl.download()`.
 * Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
 * Export `RetryPolicyType`.
-* Aborter doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+* `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 
 2018.12 10.3.0
 
