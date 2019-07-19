@@ -118,6 +118,12 @@ export interface BatchOptions {
    * The maximum size allowed for the batch.
    */
   maxSizeInBytes?: number;
+  /**
+   * @property
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
