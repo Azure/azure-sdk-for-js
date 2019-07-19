@@ -35,7 +35,6 @@
   ],
   "browser": {
     "./dist/index.js": "./browser/azure-keyvault-secrets.min.js",
-    "./dist-esm/src/index.js": "./dist-esm/src/index.js",
     "os": false,
     "process": false
   },
@@ -73,7 +72,6 @@
     "@azure/core-http": "^1.0.0-preview.1",
     "@azure/core-paging": "^1.0.0-preview.1",
     "@azure/identity": "^1.0.0-preview.1",
-    "@types/query-string": "6.2.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -85,6 +83,7 @@
     "@types/nise": "^1.4.0",
     "@types/nock": "^10.0.1",
     "@types/node": "^8.0.0",
+    "@types/query-string": "6.2.0",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
     "assert": "^1.4.1",
