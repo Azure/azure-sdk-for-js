@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as msRest from "@azure/core-http";
-import { AbortSignalLike } from '@azure/abort-controller'
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";

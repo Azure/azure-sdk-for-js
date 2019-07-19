@@ -50,11 +50,11 @@ describe("Keys client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-		if (isNode) {
+    if (isNode) {
       assert.equal(error.message, "The request was aborted");
-		} else {
+    } else {
       assert.equal(error.message, "Failed to send the request.");
-		}
+    }
   });
 
   it("cannot create a key with an empty name", async function() {
