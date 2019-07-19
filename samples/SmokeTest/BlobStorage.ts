@@ -23,7 +23,13 @@ export class BlobStorage{
         const serviceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net`,credential);
         BlobStorage.ContainerClient = serviceClient.getContainerClient(containerName);
 
-        await BlobStorage.UploadBlob();
+        //Ensure that the blob does not already existis
+        try {
+            await BlobStorage.CleanUp();
+        }
+        catch { }
+        
+        await BlobStorage.UploadBlob()
         await BlobStorage.CleanUp();
     }
 
