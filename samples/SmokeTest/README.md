@@ -1,4 +1,4 @@
-# Azure Smoke Tests for JavaScript
+# Azure Smoke Test for JS
 This sample code is a smoke test to ensure that Azure Preview for JS work while loaded into the same process by performing 2 or more actions with them.
 
 Libraries tested:
