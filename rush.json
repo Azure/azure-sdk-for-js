@@ -351,20 +351,24 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
+      "packageName": "testhub",
+      "projectFolder": "sdk/eventhub/testhub"
+    },
+    {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity"
     },
     {
-      "packageName": "@azure/keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets"
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates"
     },
     {
       "packageName": "@azure/keyvault-keys",
       "projectFolder": "sdk/keyvault/keyvault-keys"
     },
     {
-      "packageName": "@azure/keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates"
+      "packageName": "@azure/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets"
     },
     {
       "packageName": "@azure/service-bus",
@@ -385,10 +389,6 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub"
     }
   ]
 }
