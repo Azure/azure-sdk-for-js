@@ -6,7 +6,7 @@ export default class TestClient {
   constructor(client: KeysClient) {
     this.client = client;
   }
-  public formatName(name: string) {
+  public formatName(name: string): string {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeKey(keyName: string): Promise<void> {
