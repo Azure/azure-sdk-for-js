@@ -516,7 +516,7 @@ export class EventHubSender extends LinkEntity {
               this.name
             }" with ` + `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
-          reject(new AbortError("The send operation has been cancelled by the user."));
+          return reject(new AbortError("The send operation has been cancelled by the user."));
         };
 
         if (abortSignal && abortSignal.aborted) {
@@ -565,7 +565,7 @@ export class EventHubSender extends LinkEntity {
           log.error(err);
           reject(err);
         };
-        
+
         onModified = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
@@ -611,6 +611,10 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
+        if (abortSignal) {
+          abortSignal.addEventListener("abort", onAborted);
+        }
+
         waitTimer = setTimeout(
           actionAfterTimeout,
           getRetryAttemptTimeoutInMs(options.retryOptions)
@@ -628,6 +632,9 @@ export class EventHubSender extends LinkEntity {
               return this._init();
             });
           } catch (err) {
+            if (abortSignal) {
+              abortSignal.removeEventListener("abort", onAborted);
+            }
             clearTimeout(waitTimer);
             err = translate(err);
             log.error(
@@ -654,14 +661,11 @@ export class EventHubSender extends LinkEntity {
             this.name
           );
 
-          if (abortSignal) {
-            abortSignal.addEventListener("abort", onAborted);
-          }
           this._sender!.on(SenderEvents.accepted, onAccepted);
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          
+
           const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d",
