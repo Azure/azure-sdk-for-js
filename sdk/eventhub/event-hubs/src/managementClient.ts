@@ -354,12 +354,10 @@ export class ManagementClient extends LinkEntity {
               options = {};
             }
 
-            const operationTimeoutInMs =
-              options && options.retryOptions && options.retryOptions.timeoutInMs
-                ? options.retryOptions.timeoutInMs
-                : Constants.defaultOperationTimeoutInSeconds * 1000;
             const remainingOperationTimeoutInMs =
-              operationTimeoutInMs - (initOperationEndTime - initOperationStartTime);
+              getRetryAttemptTimeoutInMs(options.retryOptions) -
+              (initOperationEndTime - initOperationStartTime);
+
             const sendRequestOptions: SendRequestOptions = {
               abortSignal: options.abortSignal,
               requestName: options.requestName,
