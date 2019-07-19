@@ -28,9 +28,14 @@ export class KeyVaultSecrets{
         KeyVaultSecrets.secretName = "MySecretName";
         KeyVaultSecrets.secretValue = "MySecretValue";
 
-        await KeyVaultSecrets.setSecret();
-        await KeyVaultSecrets.getSecret();
-        await KeyVaultSecrets.deleteSecret();
+        try {
+            await KeyVaultSecrets.setSecret();
+            await KeyVaultSecrets.getSecret();
+        } catch (err) {
+            throw err;
+        } finally {
+            await KeyVaultSecrets.deleteSecret();
+        }
     }
 
     private static async setSecret(){
