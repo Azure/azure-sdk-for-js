@@ -105,9 +105,6 @@ export class RequestResponseLink implements ReqResLink {
       }
 
       const rejectOnAbort = () => {
-        if (timeOver) {
-          clearTimeout(waitTimer);
-        }
         const address = this.receiver.address || "address";
         const requestName = options!.requestName;
         const desc: string =
