@@ -65,11 +65,14 @@ export class MessageIdClient extends StorageClient {
   private messageIdContext: MessageId;
 
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
    * Creates an instance of MessageIdClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example - 
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
    * @param {string} messageId Message Id.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -135,19 +138,28 @@ export class MessageIdClient extends StorageClient {
       messageIdOrOptions &&
       typeof messageIdOrOptions === "string"
     ) {
-      if (isNode) {
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      if (extractedCreds.kind === "AccountConnString") {
+        if (isNode) {
+          const queueName = credentialOrPipelineOrQueueName;
+          const messageId = messageIdOrOptions;
+
+          const sharedKeyCredential = new SharedKeyCredential(
+            extractedCreds.accountName,
+            extractedCreds.accountKey
+          );
+          urlOrConnectionString = extractedCreds.url + queueName + "/" + messageId;
+          pipeline = newPipeline(sharedKeyCredential, options);
+        } else {
+          throw new Error("Account connection string is only supported in Node.js environment");
+        }
+      } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         const messageId = messageIdOrOptions;
-
-        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-        const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
-          extractedCreds.accountKey
-        );
-        urlOrConnectionString = extractedCreds.url + "/" + queueName + "/" + messageId;
-        pipeline = newPipeline(sharedKeyCredential, options);
+        urlOrConnectionString = extractedCreds.url + queueName + "/" + messageId + extractedCreds.accountSas;
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
-        throw new Error("Connection string is only supported in Node.js environment");
+        throw new Error("Connection string must be either an Account connection string or a SAS connection string");
       }
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
