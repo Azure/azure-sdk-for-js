@@ -35,7 +35,6 @@
   ],
   "browser": {
     "./dist/index.js": "./browser/azure-keyvault-keys.min.js",
-    "./dist-esm/src/index.js": "./dist-esm/src/index.js",
     "os": false,
     "process": false
   },
