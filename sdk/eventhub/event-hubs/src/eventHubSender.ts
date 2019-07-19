@@ -348,12 +348,8 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<number>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getMaxMessageSize(options?: {
-    retryOptions?: RetryOptions;
-    abortSignal?: AbortSignalLike;
-  }): Promise<number> {
+  async getMaxMessageSize(abortSignal?: AbortSignalLike): Promise<number> {
     return new Promise<number>(async (resolve, reject) => {
-      const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
       const rejectOnAbort = () => {
         const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
         log.error(desc);
