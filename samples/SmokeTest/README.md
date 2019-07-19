@@ -123,7 +123,7 @@ The classes can be used as base code and be changed to satisfied specific needs.
 ### Async-lock
 Set the `esModuleInterop` property to true in the tsconfig.json file.
 
-### Credentials
+### Authentication
 Be sure to set the environment variables and credentials required before running the sample.
 
 ## Next steps
