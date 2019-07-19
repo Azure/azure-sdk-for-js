@@ -354,16 +354,16 @@ export class ManagementClient extends LinkEntity {
               options = {};
             }
 
-            let operationTimeoutInMs =
+            const operationTimeoutInMs =
               options && options.retryOptions && options.retryOptions.timeoutInMs
                 ? options.retryOptions.timeoutInMs
                 : Constants.defaultOperationTimeoutInSeconds * 1000;
-            operationTimeoutInMs =
+            const remainingOperationTimeoutInMs =
               operationTimeoutInMs - (initOperationEndTime - initOperationStartTime);
             const sendRequestOptions: SendRequestOptions = {
               abortSignal: options.abortSignal,
               requestName: options.requestName,
-              timeoutInSeconds: operationTimeoutInMs / 1000
+              timeoutInSeconds: remainingOperationTimeoutInMs / 1000
             };
 
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
