@@ -49,7 +49,7 @@
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/http",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
   "repository": {
     "type": "git",
     "url": "git@github.com:Azure/azure-sdk-for-js.git"

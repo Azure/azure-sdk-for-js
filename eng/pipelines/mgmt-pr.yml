@@ -1,23 +1,23 @@
 pr:
   branches:
     include:
-    - '*'
+      - '*'
   paths:
     exclude:
-    - sdk/core/
-    - sdk/cosmosdb/cosmos/
-    - sdk/eventhub/
-    - sdk/identity/
-    - sdk/keyvault/keyvault-certificates/
-    - sdk/keyvault/keyvault-keys/
-    - sdk/keyvault/keyvault-secrets/
-    - sdk/keyvault/keyvault/
-    - sdk/servicebus/service-bus/
-    - sdk/storage/storage-blob/
-    - sdk/storage/storage-datalake/
-    - sdk/storage/storage-file/
-    - sdk/storage/storage-queue/
-    - sdk/template/template/
+      - sdk/core/
+      - sdk/cosmosdb/cosmos/
+      - sdk/eventhub/
+      - sdk/identity/
+      - sdk/keyvault/keyvault-certificates/
+      - sdk/keyvault/keyvault-keys/
+      - sdk/keyvault/keyvault-secrets/
+      - sdk/keyvault/keyvault/
+      - sdk/servicebus/service-bus/
+      - sdk/storage/storage-blob/
+      - sdk/storage/storage-datalake/
+      - sdk/storage/storage-file/
+      - sdk/storage/storage-queue/
+      - sdk/template/template/
 
 variables:
   NodeVersion: '10.x'
@@ -38,13 +38,12 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          verbose: false
+          command: install
 
       - task: Npm@1
         displayName: 'npm run build'
         inputs:
           command: custom
-          verbose: false
           customCommand: 'run build -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
 
   - job: 'Check_everything'
@@ -58,11 +57,17 @@ jobs:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          verbose: false
+          command: install
+
+      - task: Npm@1
+        displayName: 'npm audit'
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        inputs:
+          command: custom
+          customCommand: 'audit'
 
       - task: Npm@1
         displayName: 'npm run check:everything'
         inputs:
           command: custom
-          verbose: false
           customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'

@@ -426,11 +426,7 @@ export class SecretsClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
-    const response: any = await this.client.backupSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
     return response.value;
   }
 

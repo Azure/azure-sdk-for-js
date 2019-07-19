@@ -343,12 +343,39 @@ export class EventHubSender extends LinkEntity {
   }
   /**
    * Returns maximum message size on the AMQP sender link.
-   * @ignore
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<number>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getMaxMessageSize(): Promise<number> {
-    try {
-      if (!this.isOpen()) {
+  async getMaxMessageSize(abortSignal?: AbortSignalLike): Promise<number> {
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      const rejectOnAbort = () => {
+        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
+        log.error(desc);
+        const error = new AbortError(`The create batch operation has been cancelled by the user.`);
+        reject(error);
+      };
+
+      const onAbort = () => {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
+        rejectOnAbort();
+      };
+
+      if (abortSignal) {
+        // the aborter may have been triggered between request attempts
+        // so check if it was triggered and reject if needed.
+        if (abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+        abortSignal.addEventListener("abort", onAbort);
+      }
+      try {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
             "possibly the connection.",
@@ -357,17 +384,21 @@ export class EventHubSender extends LinkEntity {
         await defaultLock.acquire(this.senderLock, () => {
           return this._init();
         });
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        log.error(
+          "[%s] An error occurred while creating the sender %s",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+        reject(err);
+      } finally {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
       }
-      return this._sender!.maxMessageSize;
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while creating the sender %s",
-        this._context.connectionId,
-        this.name,
-        err
-      );
-      throw err;
-    }
+    });
   }
 
   /**
@@ -401,11 +432,13 @@ export class EventHubSender extends LinkEntity {
         throw error;
       }
 
+      // throw an error if partition key is different than the one provided in the options.
       if (events instanceof EventDataBatch && options && options.partitionKey) {
-        // throw an error if partition key is different than the one provided in the options.
-        const error = new Error("Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead.");
+        const error = new Error(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
         log.error(
-          "[%s] Partition key is not supported when using createBatch(). %O",
+          "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
           this._context.connectionId,
           error
         );
@@ -508,7 +541,6 @@ export class EventHubSender extends LinkEntity {
     message: AmqpMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
-
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
@@ -647,7 +679,10 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, getRetryAttemptTimeoutInMs(options.retryOptions));
+          waitTimer = setTimeout(
+            actionAfterTimeout,
+            getRetryAttemptTimeoutInMs(options.retryOptions)
+          );
           const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d",

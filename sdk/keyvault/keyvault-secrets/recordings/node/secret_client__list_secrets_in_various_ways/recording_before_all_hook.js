@@ -4,7 +4,7 @@ module.exports.testInfo = {}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -17,17 +17,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '69f406df-a61a-47b5-bcec-7d9d1e9f6b00',
+  '3b82c115-5abf-4b67-95d0-827237f60501',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHAQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:34 GMT; path=/; secure; HttpOnly',
+  'fpc=AuC3gtWViTNIjxmEM5TUeLY_aSJHAQAAAJYGw9QOAAAA; expires=Sun, 18-Aug-2019 00:32:22 GMT; path=/; secure; HttpOnly',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Fri, 28 Jun 2019 12:43:33 GMT',
+  'Fri, 19 Jul 2019 00:32:22 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -35,9 +35,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistsecrets-0', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistsecrets-0', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0/bafe2a75be934eccb71d1aea0a5b8bc0","attributes":{"enabled":true,"created":1561725814,"updated":1561725814,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0/31a46ba5232b4f2f92d84966e22270ad","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -50,11 +50,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b2190017-9b56-465b-b0cf-947471f353f3',
+  '7f454111-3ba7-405c-8fcb-95b12efe0a97',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -64,49 +64,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:34 GMT',
+  'Fri, 19 Jul 2019 00:32:22 GMT',
   'Connection',
   'close',
   'Content-Length',
   '259' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '21d67693-9c7b-4a18-b95e-3ab871816300',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHAgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:34 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:34 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistsecrets-1', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistsecrets-1', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1/516e394d29a4471da0740197a853415b","attributes":{"enabled":true,"created":1561725815,"updated":1561725815,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1/6e4884a23216491ea9948da454e6959e","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -119,11 +87,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3a729e99-af7b-42b7-b5ac-367f088f8c55',
+  '6b425a71-0db2-4a03-b549-94c08f20df6c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -133,49 +101,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:35 GMT',
+  'Fri, 19 Jul 2019 00:32:23 GMT',
   'Connection',
   'close',
   'Content-Length',
   '259' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c23d9555-8fc3-4283-9ae1-e6f10a5f0a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHAwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:35 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:34 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/ExamplePassword","attributes":{"enabled":true,"created":1559920536,"updated":1559920536,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035497352907352","attributes":{"enabled":true,"created":1560354978,"updated":1560354978,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035503730605597","attributes":{"enabled":true,"created":1560355042,"updated":1560355042,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035505405304954","attributes":{"enabled":true,"created":1560355059,"updated":1560355059,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0","attributes":{"enabled":true,"created":1561725814,"updated":1561725814,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1","attributes":{"enabled":true,"created":1561725815,"updated":1561725815,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830299800555","attributes":{"enabled":true,"created":1559698309,"updated":1559698309,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830501005254","attributes":{"enabled":true,"exp":32503680000,"created":1559698313,"updated":1559698313,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830702405633","attributes":{"enabled":true,"exp":32503680000,"created":1559698314,"updated":1559698328,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969831104103177","attributes":{"enabled":true,"created":1559698345,"updated":1559698345,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969840997100376","attributes":{"enabled":true,"created":1559698415,"updated":1559698415,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969841605401224","attributes":{"enabled":true,"created":1559698422,"updated":1559698422,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969842993209999","attributes":{"enabled":true,"exp":32503680000,"created":1559698435,"updated":1559698435,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969844356809107","attributes":{"enabled":true,"exp":32503680000,"created":1559698450,"updated":1559698457,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969847359407300","attributes":{"enabled":true,"created":1559698479,"updated":1559698479,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969857586802675","attributes":{"enabled":true,"created":1559698582,"updated":1559698582,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969858938507540","attributes":{"enabled":true,"exp":32503680000,"created":1559698595,"updated":1559698595,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969860209703057","attributes":{"enabled":true,"exp":32503680000,"created":1559698608,"updated":1559698615,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969864161208327","attributes":{"enabled":true,"created":1559698661,"updated":1559698661,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974871145300045","attributes":{"enabled":true,"created":1559748717,"updated":1559748717,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974872276605440","attributes":{"enabled":true,"exp":32503680000,"created":1559748728,"updated":1559748728,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOelE0TnpNek9EQXpNRFl6TmpNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canabortaddingasecret-12981529728391816","attributes":{"enabled":true,"created":1563495687,"updated":1563495687,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/ExamplePassword","attributes":{"enabled":true,"created":1559920536,"updated":1559920536,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035497352907352","attributes":{"enabled":true,"created":1560354978,"updated":1560354978,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035503730605597","attributes":{"enabled":true,"created":1560355042,"updated":1560355042,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035505405304954","attributes":{"enabled":true,"created":1560355059,"updated":1560355059,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName1","attributes":{"enabled":true,"created":1561751921,"updated":1561751921,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830299800555","attributes":{"enabled":true,"created":1559698309,"updated":1559698309,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830501005254","attributes":{"enabled":true,"exp":32503680000,"created":1559698313,"updated":1559698313,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830702405633","attributes":{"enabled":true,"exp":32503680000,"created":1559698314,"updated":1559698328,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969831104103177","attributes":{"enabled":true,"created":1559698345,"updated":1559698345,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969840997100376","attributes":{"enabled":true,"created":1559698415,"updated":1559698415,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969841605401224","attributes":{"enabled":true,"created":1559698422,"updated":1559698422,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969842993209999","attributes":{"enabled":true,"exp":32503680000,"created":1559698435,"updated":1559698435,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969844356809107","attributes":{"enabled":true,"exp":32503680000,"created":1559698450,"updated":1559698457,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969847359407300","attributes":{"enabled":true,"created":1559698479,"updated":1559698479,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969857586802675","attributes":{"enabled":true,"created":1559698582,"updated":1559698582,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TlRnNU16ZzFNRGMxTkRBaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -188,11 +124,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b346037a-11f7-4d91-97d9-4f94e6c56ba3',
+  '655dead3-01a6-4904-94f6-4e4952924147',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -202,49 +138,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:35 GMT',
+  'Fri, 19 Jul 2019 00:32:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '4434' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'b70c09a7-3b55-4a09-b8c1-3e9f21a26e00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHBAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:36 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:35 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3831' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974873380306363","attributes":{"enabled":true,"exp":32503680000,"created":1559748739,"updated":1559748744,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974876803708577","attributes":{"enabled":true,"created":1559748784,"updated":1559748784,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155976267700703146","attributes":{"enabled":true,"created":1559762682,"updated":1559762682,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987019000658","attributes":{"enabled":true,"created":1559779876,"updated":1559779876,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987618402041","attributes":{"enabled":true,"created":1559779883,"updated":1559779883,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977989062300314","attributes":{"enabled":true,"exp":32503680000,"created":1559779896,"updated":1559779896,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977990311305514","attributes":{"enabled":true,"exp":32503680000,"created":1559779909,"updated":1559779916,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977994218208573","attributes":{"enabled":true,"created":1559779954,"updated":1559779954,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155985529172800962","attributes":{"enabled":true,"created":1559855297,"updated":1559855297,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986124522104520","attributes":{"enabled":true,"created":1559861253,"updated":1559861253,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986125376001211","attributes":{"enabled":true,"created":1559861260,"updated":1559861260,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986126989703251","attributes":{"enabled":true,"exp":32503680000,"created":1559861276,"updated":1559861276,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467744608684","attributes":{"enabled":true,"created":1560354683,"updated":1560354683,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelUwTmpnek1Ua3dNREkzTVRnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969858938507540","attributes":{"enabled":true,"exp":32503680000,"created":1559698595,"updated":1559698595,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969860209703057","attributes":{"enabled":true,"exp":32503680000,"created":1559698608,"updated":1559698615,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969864161208327","attributes":{"enabled":true,"created":1559698661,"updated":1559698661,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974871145300045","attributes":{"enabled":true,"created":1559748717,"updated":1559748717,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974872276605440","attributes":{"enabled":true,"exp":32503680000,"created":1559748728,"updated":1559748728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974873380306363","attributes":{"enabled":true,"exp":32503680000,"created":1559748739,"updated":1559748744,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974876803708577","attributes":{"enabled":true,"created":1559748784,"updated":1559748784,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155976267700703146","attributes":{"enabled":true,"created":1559762682,"updated":1559762682,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987019000658","attributes":{"enabled":true,"created":1559779876,"updated":1559779876,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987618402041","attributes":{"enabled":true,"created":1559779883,"updated":1559779883,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977989062300314","attributes":{"enabled":true,"exp":32503680000,"created":1559779896,"updated":1559779896,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977990311305514","attributes":{"enabled":true,"exp":32503680000,"created":1559779909,"updated":1559779916,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977994218208573","attributes":{"enabled":true,"created":1559779954,"updated":1559779954,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155985529172800962","attributes":{"enabled":true,"created":1559855297,"updated":1559855297,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986124522104520","attributes":{"enabled":true,"created":1559861253,"updated":1559861253,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986125376001211","attributes":{"enabled":true,"created":1559861260,"updated":1559861260,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986126989703251","attributes":{"enabled":true,"exp":32503680000,"created":1559861276,"updated":1559861276,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamt3TWpBNE5ERTFNRFUxTlRVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -257,11 +161,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1a34387f-f5e2-465e-bc98-7b152355e4b2',
+  'c1ff5dbb-52f9-4b7b-a9f5-2a5d09766291',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -271,49 +175,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:36 GMT',
+  'Fri, 19 Jul 2019 00:32:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2832' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '731b0759-79a5-4903-bc38-c84bf9fc6200',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHBQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:36 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:36 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3646' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035468319002718","attributes":{"enabled":true,"exp":32503680000,"created":1560354688,"updated":1560354688,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035469457101815","attributes":{"enabled":true,"exp":32503680000,"created":1560354700,"updated":1560354705,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035471178508910","attributes":{"enabled":false,"exp":32503680000,"created":1560354717,"updated":1560354723,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035472322108987","attributes":{"enabled":true,"created":1560354728,"updated":1560354728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035473421700992","attributes":{"enabled":false,"created":1560354739,"updated":1560354739,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035474537300332","attributes":{"enabled":true,"created":1560354751,"updated":1560354751,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035492380902463","attributes":{"enabled":true,"created":1560354940,"updated":1560354940,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566801100575","attributes":{"enabled":true,"created":1560365673,"updated":1560365673,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036567378506379","attributes":{"enabled":true,"exp":32503680000,"created":1560365679,"updated":1560365679,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036568492401952","attributes":{"enabled":true,"exp":32503680000,"created":1560365690,"updated":1560365695,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036570169100621","attributes":{"enabled":false,"exp":32503680000,"created":1560365707,"updated":1560365713,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036571333008936","attributes":{"enabled":true,"created":1560365718,"updated":1560365718,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036572454709051","attributes":{"enabled":false,"created":1560365729,"updated":1560365729,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036573548102072","attributes":{"enabled":true,"created":1560365740,"updated":1560365740,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036585124607918","attributes":{"enabled":true,"created":1560365867,"updated":1560365867,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036590080809323","attributes":{"enabled":true,"created":1560365906,"updated":1560365906,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036596439108652","attributes":{"enabled":true,"created":1560365969,"updated":1560365969,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036624468808284","attributes":{"enabled":true,"created":1560366250,"updated":1560366250,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTWpVd05ETXhNRE15TkRNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467744608684","attributes":{"enabled":true,"created":1560354683,"updated":1560354683,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035468319002718","attributes":{"enabled":true,"exp":32503680000,"created":1560354688,"updated":1560354688,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035469457101815","attributes":{"enabled":true,"exp":32503680000,"created":1560354700,"updated":1560354705,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035471178508910","attributes":{"enabled":false,"exp":32503680000,"created":1560354717,"updated":1560354723,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035472322108987","attributes":{"enabled":true,"created":1560354728,"updated":1560354728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035473421700992","attributes":{"enabled":false,"created":1560354739,"updated":1560354739,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035474537300332","attributes":{"enabled":true,"created":1560354751,"updated":1560354751,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035492380902463","attributes":{"enabled":true,"created":1560354940,"updated":1560354940,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566801100575","attributes":{"enabled":true,"created":1560365673,"updated":1560365673,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036567378506379","attributes":{"enabled":true,"exp":32503680000,"created":1560365679,"updated":1560365679,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036568492401952","attributes":{"enabled":true,"exp":32503680000,"created":1560365690,"updated":1560365695,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036570169100621","attributes":{"enabled":false,"exp":32503680000,"created":1560365707,"updated":1560365713,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036571333008936","attributes":{"enabled":true,"created":1560365718,"updated":1560365718,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036572454709051","attributes":{"enabled":false,"created":1560365729,"updated":1560365729,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036573548102072","attributes":{"enabled":true,"created":1560365740,"updated":1560365740,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036585124607918","attributes":{"enabled":true,"created":1560365867,"updated":1560365867,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxT1RBd09EQTRNRGt6TWpNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -326,11 +198,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '25170133-79b3-4538-85e1-e08acd35c55b',
+  'b0c4258f-193f-4b58-962d-702b08640157',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -340,49 +212,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:36 GMT',
+  'Fri, 19 Jul 2019 00:32:24 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '3822' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3b7c14dd-1d68-4149-8c9b-1f8687da6b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHBgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:37 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:36 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3442' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036625043103243","attributes":{"enabled":true,"exp":32503680000,"created":1560366256,"updated":1560366256,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036626200104356","attributes":{"enabled":true,"exp":32503680000,"created":1560366267,"updated":1560366272,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036627848202634","attributes":{"enabled":false,"exp":32503680000,"created":1560366283,"updated":1560366289,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036628972007025","attributes":{"enabled":true,"created":1560366295,"updated":1560366295,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036630071100034","attributes":{"enabled":false,"created":1560366306,"updated":1560366306,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036631177303153","attributes":{"enabled":true,"created":1560366317,"updated":1560366317,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036651431706935","attributes":{"enabled":true,"created":1560366530,"updated":1560366530,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036656390609451","attributes":{"enabled":true,"created":1560366569,"updated":1560366569,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036662789900557","attributes":{"enabled":true,"created":1560366633,"updated":1560366633,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036776000805385","attributes":{"enabled":true,"created":1560367765,"updated":1560367765,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083458808007836","attributes":{"enabled":true,"created":1560834589,"updated":1560834589,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083462580205466","attributes":{"enabled":true,"created":1560834627,"updated":1560834627,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083472284304384","attributes":{"enabled":true,"created":1560834724,"updated":1560834724,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdPRE0wTnpZeE56ZzVNREk1T0RNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036590080809323","attributes":{"enabled":true,"created":1560365906,"updated":1560365906,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036596439108652","attributes":{"enabled":true,"created":1560365969,"updated":1560365969,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036624468808284","attributes":{"enabled":true,"created":1560366250,"updated":1560366250,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036625043103243","attributes":{"enabled":true,"exp":32503680000,"created":1560366256,"updated":1560366256,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036626200104356","attributes":{"enabled":true,"exp":32503680000,"created":1560366267,"updated":1560366272,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036627848202634","attributes":{"enabled":false,"exp":32503680000,"created":1560366283,"updated":1560366289,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036628972007025","attributes":{"enabled":true,"created":1560366295,"updated":1560366295,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036630071100034","attributes":{"enabled":false,"created":1560366306,"updated":1560366306,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036631177303153","attributes":{"enabled":true,"created":1560366317,"updated":1560366317,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036651431706935","attributes":{"enabled":true,"created":1560366530,"updated":1560366530,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036656390609451","attributes":{"enabled":true,"created":1560366569,"updated":1560366569,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036662789900557","attributes":{"enabled":true,"created":1560366633,"updated":1560366633,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036776000805385","attributes":{"enabled":true,"created":1560367765,"updated":1560367765,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdORFEyTVRnNU1UVXhNRGN6TkRraE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -395,11 +235,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6c0e1432-9b23-4cc7-b918-1abd82884259',
+  'ed701c2b-3ecc-4621-b86f-9fcfb1989fe1',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -409,49 +249,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:37 GMT',
+  'Fri, 19 Jul 2019 00:32:25 GMT',
   'Connection',
   'close',
   'Content-Length',
   '2816' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'bc2d9d70-37da-4839-8e3e-11a3c72d6f00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHBwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:37 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:37 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083476178902983","attributes":{"enabled":true,"created":1560834763,"updated":1560834763,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601606330","attributes":{"enabled":true,"created":1560351327,"updated":1560351327,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280103968","attributes":{"enabled":true,"created":1560354843,"updated":1560354843,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280107298","attributes":{"enabled":true,"created":1560354838,"updated":1560354838,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736106694","attributes":{"enabled":true,"created":1560365822,"updated":1560365822,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736108753","attributes":{"enabled":true,"created":1560365828,"updated":1560365828,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908703029","attributes":{"enabled":true,"created":1560366404,"updated":1560366404,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908709648","attributes":{"enabled":true,"created":1560366410,"updated":1560366410,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364403280","attributes":{"enabled":true,"created":1560834555,"updated":1560834555,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257408076","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257409406","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719004650","attributes":{"enabled":true,"created":1560834728,"updated":1560834728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719009472","attributes":{"enabled":true,"created":1560834727,"updated":1560834727,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083458808007836","attributes":{"enabled":true,"created":1560834589,"updated":1560834589,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083462580205466","attributes":{"enabled":true,"created":1560834627,"updated":1560834627,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083472284304384","attributes":{"enabled":true,"created":1560834724,"updated":1560834724,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083476178902983","attributes":{"enabled":true,"created":1560834763,"updated":1560834763,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601606330","attributes":{"enabled":true,"created":1560351327,"updated":1560351327,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280103968","attributes":{"enabled":true,"created":1560354843,"updated":1560354843,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280107298","attributes":{"enabled":true,"created":1560354838,"updated":1560354838,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736106694","attributes":{"enabled":true,"created":1560365822,"updated":1560365822,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736108753","attributes":{"enabled":true,"created":1560365828,"updated":1560365828,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908703029","attributes":{"enabled":true,"created":1560366404,"updated":1560366404,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908709648","attributes":{"enabled":true,"created":1560366410,"updated":1560366410,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364403280","attributes":{"enabled":true,"created":1560834555,"updated":1560834555,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257408076","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257409406","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719004650","attributes":{"enabled":true,"created":1560834728,"updated":1560834728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719009472","attributes":{"enabled":true,"created":1560834727,"updated":1560834727,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -464,11 +272,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3212d87e-9da8-433b-9519-3b504af8ce24',
+  'f1c259ba-ac85-451e-8810-ba31a77861eb',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -478,49 +286,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:37 GMT',
+  'Fri, 19 Jul 2019 00:32:25 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2509' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c7806a1b-9bc0-47ad-ac77-2cb6fab86900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHCAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:38 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:37 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3079' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecrets-0')
+  .delete('/secrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecrets-0","deletedDate":1561725818,"scheduledPurgeDate":1569501818,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0/bafe2a75be934eccb71d1aea0a5b8bc0","attributes":{"enabled":true,"created":1561725814,"updated":1561725814,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistsecrets-0","deletedDate":1563496346,"scheduledPurgeDate":1571272346,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0/31a46ba5232b4f2f92d84966e22270ad","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -533,11 +309,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0d1a9707-8cef-4c4d-b56a-20f60aace6e6',
+  'aa51895c-d2de-4fe1-bdac-506b0d3fdfd7',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -547,47 +323,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:38 GMT',
+  'Fri, 19 Jul 2019 00:32:26 GMT',
   'Connection',
   'close',
   'Content-Length',
   '416' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'ab1ad2cf-aece-45c1-8f00-6f58bc5e6e00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHCQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:38 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:38 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -604,11 +348,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '2583fbd0-c5c6-472f-95ae-6c13b3d130a2',
+  '970e2240-4a42-481e-9913-b948827de587',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -618,114 +362,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:38 GMT',
+  'Fri, 19 Jul 2019 00:32:26 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '7c4c07f9-c967-4f20-9001-211d59166600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHCgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:49 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:48 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
-  .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '121',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'eec3a444-96ac-4176-9513-b974aa915f74',
-  'x-ms-keyvault-service-version',
-  '1.1.0.866',
-  'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:49 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '85577e9b-2ddf-4eac-bb3e-966345756e00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHCwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:43:59 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:59 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -738,11 +381,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '21239b35-c4aa-425b-8fa2-e9c8a18a8366',
+  'c9b4905d-de44-4a5a-9551-bb41b8816b23',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -752,47 +395,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:43:59 GMT',
+  'Fri, 19 Jul 2019 00:32:37 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '0144e3e0-1aea-43db-8039-3ff0ae230c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHDAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:00 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:59 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecrets-1')
+  .delete('/secrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecrets-1","deletedDate":1561725840,"scheduledPurgeDate":1569501840,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1/516e394d29a4471da0740197a853415b","attributes":{"enabled":true,"created":1561725815,"updated":1561725815,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistsecrets-1","deletedDate":1563496357,"scheduledPurgeDate":1571272357,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1/6e4884a23216491ea9948da454e6959e","attributes":{"enabled":true,"created":1563496343,"updated":1563496343,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -805,11 +416,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f62800ea-57a6-4c11-b5d6-3a7e7b4e4f12',
+  '312b9c9f-04b9-4556-bd9c-bc8486d2c02c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -819,47 +430,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:00 GMT',
+  'Fri, 19 Jul 2019 00:32:37 GMT',
   'Connection',
   'close',
   'Content-Length',
   '416' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '38d59dd8-a09a-4df5-b005-5f62496f6c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHDQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:00 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:43:59 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -876,11 +455,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '845d1744-8397-44d8-95bb-667cdead3097',
+  'aa8cf67c-f416-4849-ad27-6391acc42442',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -890,45 +469,50 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:00 GMT',
+  'Fri, 19 Jul 2019 00:32:38 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
+  'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '121',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '91442542-0c2e-4935-8d9a-63b5f541ea19',
+  'x-ms-keyvault-service-version',
+  '1.1.0.872',
+  'x-ms-keyvault-network-info',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
   'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
+  'max-age=31536000;includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  '7af524d8-f871-4806-86b5-d64f37b96900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHDgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:11 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Fri, 28 Jun 2019 12:44:10 GMT',
+  'Fri, 19 Jul 2019 00:32:48 GMT',
   'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -941,11 +525,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7ad23582-bba9-4278-b962-aefc64632eae',
+  '155108d9-5c90-4de7-bd6c-512588cc301c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -955,47 +539,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:11 GMT',
+  'Fri, 19 Jul 2019 00:32:58 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'eda2fb30-661f-468f-9781-687f428a6300',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHDwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:11 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:11 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistdeletedsecrets-0', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistdeletedsecrets-0', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/c2472e7c597d4992a59646a4e2c03d76","attributes":{"enabled":true,"created":1561725851,"updated":1561725851,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/a2cc698bfe104bedad8b1792806370bb","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1008,11 +560,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7b0cd3f6-e493-468d-ad7c-5d72362ad530',
+  '7786b7f0-48ef-4cc8-83c2-ca2ee87d4f52',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1022,49 +574,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:11 GMT',
+  'Fri, 19 Jul 2019 00:32:58 GMT',
   'Connection',
   'close',
   'Content-Length',
   '266' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'a66f29dc-0190-48af-89e6-d4228bee6400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHEAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:12 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:11 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistdeletedsecrets-1', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistdeletedsecrets-1', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1/6fec825f0d3d40a4b3a5e12f484c69c2","attributes":{"enabled":true,"created":1561725852,"updated":1561725852,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1/c6bb1da9d0634ad7b24dec664bff007a","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1077,11 +597,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '66c461ae-ea82-420e-af3c-9bcc806ff24c',
+  '35e6d28a-e908-444b-bdfa-8a76688b5923',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1091,49 +611,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:12 GMT',
+  'Fri, 19 Jul 2019 00:32:59 GMT',
   'Connection',
   'close',
   'Content-Length',
   '266' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'b1a2ea4a-78d4-4d9d-b5c2-69763a8d6000',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHEQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:12 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:12 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistdeletedsecrets-0')
+  .delete('/secrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725852,"scheduledPurgeDate":1569501852,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/c2472e7c597d4992a59646a4e2c03d76","attributes":{"enabled":true,"created":1561725851,"updated":1561725851,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496380,"scheduledPurgeDate":1571272380,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/a2cc698bfe104bedad8b1792806370bb","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1146,11 +634,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd66c896c-454e-48ae-874f-81960445f1ad',
+  'f4bdb2b0-489f-4161-b861-1aef67501f1f',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1160,49 +648,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:12 GMT',
+  'Fri, 19 Jul 2019 00:32:59 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c8958c9a-1416-4c28-8dcc-f75b0f4a0b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHEgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:13 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:12 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistdeletedsecrets-1')
+  .delete('/secrets/CRUDSecretName-canlistdeletedsecrets-1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-1","deletedDate":1561725853,"scheduledPurgeDate":1569501853,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1/6fec825f0d3d40a4b3a5e12f484c69c2","attributes":{"enabled":true,"created":1561725852,"updated":1561725852,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1","deletedDate":1563496380,"scheduledPurgeDate":1571272380,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1/c6bb1da9d0634ad7b24dec664bff007a","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1215,11 +671,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '9ef33c77-8dbb-4bca-bf60-8d19b2d6a08b',
+  'f2847f47-f9ea-4cd4-ac43-25f57d617a04',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1229,49 +685,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:13 GMT',
+  'Fri, 19 Jul 2019 00:33:00 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'fdfc06b5-8613-4598-8e34-847b46167100',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHEwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:13 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:12 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .get('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistdeletedsecrets-0"}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: CRUDSecretName-canlistdeletedsecrets-0"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1286,11 +710,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '25933dac-a4f0-48ee-b3a8-b0f8915984c0',
+  '519f018d-8583-49a3-a79c-c3e8e46c188e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1300,116 +724,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:13 GMT',
+  'Fri, 19 Jul 2019 00:33:00 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'e9d1d612-1346-4023-b7ee-26a2c5b26500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHFAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:24 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:23 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .get('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistdeletedsecrets-0"}}, [ 'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '128',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'c091ef50-048f-486e-9ea6-37be192bd0a8',
-  'x-ms-keyvault-service-version',
-  '1.1.0.866',
-  'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:23 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '6f6d46b1-37a0-4136-9897-c122b3556a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHFQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:34 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:33 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725852,"scheduledPurgeDate":1569501852,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/c2472e7c597d4992a59646a4e2c03d76","attributes":{"enabled":true,"created":1561725851,"updated":1561725851,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496380,"scheduledPurgeDate":1571272380,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/a2cc698bfe104bedad8b1792806370bb","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1422,11 +745,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '98c9f433-4132-48b3-8178-486a40bc19f4',
+  '5e036eb2-4e0b-4540-9dae-ac63ed571765',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1436,49 +759,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:33 GMT',
+  'Fri, 19 Jul 2019 00:33:11 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '48300df5-d4a1-4e43-bc72-a36c7dba6400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHFgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:34 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:34 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725852,"scheduledPurgeDate":1569501852,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0","attributes":{"enabled":true,"created":1561725851,"updated":1561725851,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-1","deletedDate":1561725853,"scheduledPurgeDate":1569501853,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1","attributes":{"enabled":true,"created":1561725852,"updated":1561725852,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canrestoreasecret-08015957746121516","deletedDate":1561725411,"scheduledPurgeDate":1569501411,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canrestoreasecret-08015957746121516","attributes":{"enabled":true,"created":1561725356,"updated":1561725356,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TXpFeE1EUXhNRE14Tnpjdk1UYzRSakkxUkVaR01qRTBORVkzT0VJNU4wSkJRVU00UTBaQlFUYzVRa0VoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-9288107853032652","deletedDate":1562091716,"scheduledPurgeDate":1569867716,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-9288107853032652","attributes":{"enabled":true,"created":1562091716,"updated":1562091716,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496380,"scheduledPurgeDate":1571272380,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1","deletedDate":1563496380,"scheduledPurgeDate":1571272380,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1","attributes":{"enabled":true,"created":1563496379,"updated":1563496379,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName0","deletedDate":1561751925,"scheduledPurgeDate":1569527925,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName0","attributes":{"enabled":true,"created":1561751921,"updated":1561751921,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName","deletedDate":1561752013,"scheduledPurgeDate":1569528013,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName","attributes":{"enabled":true,"created":1561752012,"updated":1561752012,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOVNSVU5QVmtWU1UwVkRVa1ZVVGtGTlJTMURRVTVTUlZOVVQxSkZRVk5GUTFKRlZDMHdPREF4TlRrMU56YzBOakV5TVRVeE5pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1491,11 +782,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7ef1de61-8dea-4a18-85ae-7b6195527d3f',
+  '6633b4c9-9967-4c2d-a83e-3248fe8863ba',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1505,49 +796,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
+  'Fri, 19 Jul 2019 00:33:11 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2215' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'd87312f2-1b14-4c0e-9a24-7d650fae6a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHFwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:35 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '2852' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOelE0TnpZNE1ETTNNRGcxTnpjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canrestoreasecret-08015957746121516","deletedDate":1561725411,"scheduledPurgeDate":1569501411,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canrestoreasecret-08015957746121516","attributes":{"enabled":true,"created":1561725356,"updated":1561725356,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TmpBeU1EazNNRE13TlRjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1560,11 +819,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e572bab7-42d0-4ef0-a4cd-88e9cfb65fae',
+  '8b1b98b1-497a-425a-b751-9d6167a6268a',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1574,49 +833,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
+  'Fri, 19 Jul 2019 00:33:12 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '298' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '01dce0d0-eab8-41d3-a417-cedcd60c6d00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHGAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:36 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '693' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028838837406917","deletedDate":1560288400,"scheduledPurgeDate":1568064400,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028838837406917","attributes":{"enabled":true,"created":1560288394,"updated":1560288394,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028933587502205","deletedDate":1560289358,"scheduledPurgeDate":1568065358,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028933587502205","attributes":{"enabled":false,"exp":32503680000,"created":1560289341,"updated":1560289347,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamc1TXpNMU9EYzFNREl5TURVdk5qUkdNak5FTVRORE5UWTJORVpDUmtKRk9UTkRSVEkxTXpkRlF6UXdSalFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVPRFUxTWpreE56STRNREE1TmpJdk5EWXhPRVV6TUVORk1ESXdORUpCTkRnM1Fqa3dPVGMwTnpreE5URkVOemNoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1629,11 +856,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a92121b5-6015-4b70-afdd-0be43d6ffae3',
+  '02dc7a05-e404-4c26-b9ce-2e073afd3acd',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1643,49 +870,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
+  'Fri, 19 Jul 2019 00:33:12 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1050' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'f5fea180-6608-414d-a820-35e8cbd56900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHGQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:36 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:35 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '356' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028954261707102","deletedDate":1560289559,"scheduledPurgeDate":1568065559,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028954261707102","attributes":{"enabled":false,"exp":32503680000,"created":1560289548,"updated":1560289554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028963087108194","deletedDate":1560289648,"scheduledPurgeDate":1568065648,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028963087108194","attributes":{"enabled":false,"exp":32503680000,"created":1560289636,"updated":1560289642,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028968597502042","deletedDate":1560289703,"scheduledPurgeDate":1568065703,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028968597502042","attributes":{"enabled":false,"exp":32503680000,"created":1560289691,"updated":1560289697,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028981007704437","deletedDate":1560289831,"scheduledPurgeDate":1568065831,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028981007704437","attributes":{"enabled":false,"exp":32503680000,"created":1560289815,"updated":1560289826,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028997762408585","deletedDate":1560289994,"scheduledPurgeDate":1568065994,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028997762408585","attributes":{"enabled":false,"exp":32503680000,"created":1560289983,"updated":1560289989,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029003971701409","deletedDate":1560290062,"scheduledPurgeDate":1568066062,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029003971701409","attributes":{"enabled":false,"exp":32503680000,"created":1560290045,"updated":1560290051,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029020841505555","deletedDate":1560290236,"scheduledPurgeDate":1568066236,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029020841505555","attributes":{"enabled":false,"exp":32503680000,"created":1560290214,"updated":1560290219,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029021974300578","deletedDate":1560290242,"scheduledPurgeDate":1568066242,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029021974300578","attributes":{"enabled":false,"created":1560290225,"updated":1560290225,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156034699779802419","deletedDate":1560347014,"scheduledPurgeDate":1568123014,"id":"https://keyvault_name.vault.azure.net/secrets/secret156034699779802419","attributes":{"enabled":false,"exp":32503680000,"created":1560347002,"updated":1560347008,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035467151900829","deletedDate":1560355143,"scheduledPurgeDate":1568131143,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467151900829","attributes":{"enabled":true,"created":1560354677,"updated":1560354677,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelUwTmprME5UY3hNREU0TVRVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028838837406917","deletedDate":1560288400,"scheduledPurgeDate":1568064400,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028838837406917","attributes":{"enabled":true,"created":1560288394,"updated":1560288394,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028933587502205","deletedDate":1560289358,"scheduledPurgeDate":1568065358,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028933587502205","attributes":{"enabled":false,"exp":32503680000,"created":1560289341,"updated":1560289347,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028954261707102","deletedDate":1560289559,"scheduledPurgeDate":1568065559,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028954261707102","attributes":{"enabled":false,"exp":32503680000,"created":1560289548,"updated":1560289554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028963087108194","deletedDate":1560289648,"scheduledPurgeDate":1568065648,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028963087108194","attributes":{"enabled":false,"exp":32503680000,"created":1560289636,"updated":1560289642,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028968597502042","deletedDate":1560289703,"scheduledPurgeDate":1568065703,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028968597502042","attributes":{"enabled":false,"exp":32503680000,"created":1560289691,"updated":1560289697,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028981007704437","deletedDate":1560289831,"scheduledPurgeDate":1568065831,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028981007704437","attributes":{"enabled":false,"exp":32503680000,"created":1560289815,"updated":1560289826,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028997762408585","deletedDate":1560289994,"scheduledPurgeDate":1568065994,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028997762408585","attributes":{"enabled":false,"exp":32503680000,"created":1560289983,"updated":1560289989,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029003971701409","deletedDate":1560290062,"scheduledPurgeDate":1568066062,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029003971701409","attributes":{"enabled":false,"exp":32503680000,"created":1560290045,"updated":1560290051,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029020841505555","deletedDate":1560290236,"scheduledPurgeDate":1568066236,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029020841505555","attributes":{"enabled":false,"exp":32503680000,"created":1560290214,"updated":1560290219,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamt3TWpFNU56UXpNREExTnpnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1698,11 +893,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4ca7d22e-8a9b-43eb-91c0-66e9b8325e14',
+  '4c8079f0-465c-4f1a-a21c-70b46ecd16ee',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1712,49 +907,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:37 GMT',
+  'Fri, 19 Jul 2019 00:33:13 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '3830' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '164bfa5e-1f37-45c8-999b-da1688346800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHGgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:37 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:36 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3491' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035476213308921","deletedDate":1560354773,"scheduledPurgeDate":1568130773,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035476213308921","attributes":{"enabled":true,"created":1560354767,"updated":1560354767,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036054148104164","deletedDate":1560360558,"scheduledPurgeDate":1568136558,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036054148104164","attributes":{"enabled":true,"exp":32503680000,"created":1560360547,"updated":1560360547,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036566207901067","deletedDate":1560366029,"scheduledPurgeDate":1568142029,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566207901067","attributes":{"enabled":true,"created":1560365667,"updated":1560365667,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxTnpBeE5qa3hNREEyTWpFdk5rWXlNemRGTmpRNE1qQXdOREExTUVKQlFqa3pOVEEwT0RBelFVSXpNalloTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029021974300578","deletedDate":1560290242,"scheduledPurgeDate":1568066242,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029021974300578","attributes":{"enabled":false,"created":1560290225,"updated":1560290225,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156034699779802419","deletedDate":1560347014,"scheduledPurgeDate":1568123014,"id":"https://keyvault_name.vault.azure.net/secrets/secret156034699779802419","attributes":{"enabled":false,"exp":32503680000,"created":1560347002,"updated":1560347008,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035467151900829","deletedDate":1560355143,"scheduledPurgeDate":1568131143,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467151900829","attributes":{"enabled":true,"created":1560354677,"updated":1560354677,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035476213308921","deletedDate":1560354773,"scheduledPurgeDate":1568130773,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035476213308921","attributes":{"enabled":true,"created":1560354767,"updated":1560354767,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036054148104164","deletedDate":1560360558,"scheduledPurgeDate":1568136558,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036054148104164","attributes":{"enabled":true,"exp":32503680000,"created":1560360547,"updated":1560360547,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNell3TlRReE5EZ3hNRFF4TmpRdlJFWkdOek0wUkRZMU16UTJORUkxTlVFd01rTkJNVFZGUlVZMk5FSkRSa1FoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1767,11 +930,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a2cec19d-b274-4041-a874-4badedf96e99',
+  'd55606fd-3639-45ce-a6ee-a5b4a528c7e2',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1781,49 +944,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:37 GMT',
+  'Fri, 19 Jul 2019 00:33:13 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1387' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3e692a0c-cbe5-4984-83e1-aa9a15657000',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHGwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:37 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:37 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '2083' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036575195005928","deletedDate":1560365763,"scheduledPurgeDate":1568141763,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036575195005928","attributes":{"enabled":true,"created":1560365757,"updated":1560365757,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036577464301231","deletedDate":1560365785,"scheduledPurgeDate":1568141785,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036577464301231","attributes":{"enabled":true,"created":1560365780,"updated":1560365780,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036598110406898","deletedDate":1560365997,"scheduledPurgeDate":1568141997,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036598110406898","attributes":{"enabled":true,"created":1560365986,"updated":1560365986,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036623881507210","deletedDate":1560366693,"scheduledPurgeDate":1568142693,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036623881507210","attributes":{"enabled":true,"created":1560366244,"updated":1560366244,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTWpZeU1EQXhNRFF6TlRZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036566207901067","deletedDate":1560366029,"scheduledPurgeDate":1568142029,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566207901067","attributes":{"enabled":true,"created":1560365667,"updated":1560365667,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036575195005928","deletedDate":1560365763,"scheduledPurgeDate":1568141763,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036575195005928","attributes":{"enabled":true,"created":1560365757,"updated":1560365757,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036577464301231","deletedDate":1560365785,"scheduledPurgeDate":1568141785,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036577464301231","attributes":{"enabled":true,"created":1560365780,"updated":1560365780,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxT1RZME16a3hNRGcyTlRJaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1836,11 +967,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '36520f19-89d8-48e8-a736-ca0eb083c598',
+  'e32e9608-8379-48bb-8be3-a5f375cdee3d',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1850,49 +981,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:37 GMT',
+  'Fri, 19 Jul 2019 00:33:14 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1649' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'f7e8eafb-abf7-4bf2-8d58-54464c886b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHHAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:38 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:37 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1311' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036632835700621","deletedDate":1560366339,"scheduledPurgeDate":1568142339,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036632835700621","attributes":{"enabled":true,"created":1560366333,"updated":1560366333,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036664460803342","deletedDate":1560366661,"scheduledPurgeDate":1568142661,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036664460803342","attributes":{"enabled":true,"created":1560366650,"updated":1560366650,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036742269706797","deletedDate":1560367433,"scheduledPurgeDate":1568143433,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036742269706797","attributes":{"enabled":true,"created":1560367428,"updated":1560367428,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036761951707796","deletedDate":1560368144,"scheduledPurgeDate":1568144144,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036761951707796","attributes":{"enabled":true,"created":1560367636,"updated":1560367636,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036774298602180","deletedDate":1560368181,"scheduledPurgeDate":1568144181,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036774298602180","attributes":{"enabled":true,"created":1560367748,"updated":1560367748,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkzTnpReU9UZzJNREl4T0RBdk16UkNNelV6TkVKRE1qUXdORVZETkVGRlJUZEVSak0yUWpnMlFURTVNMFFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036598110406898","deletedDate":1560365997,"scheduledPurgeDate":1568141997,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036598110406898","attributes":{"enabled":true,"created":1560365986,"updated":1560365986,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036623881507210","deletedDate":1560366693,"scheduledPurgeDate":1568142693,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036623881507210","attributes":{"enabled":true,"created":1560366244,"updated":1560366244,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036632835700621","deletedDate":1560366339,"scheduledPurgeDate":1568142339,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036632835700621","attributes":{"enabled":true,"created":1560366333,"updated":1560366333,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTlRZek9UQTJNRGswTlRFdk1rSTBNakV3UWtZMU9USkZOREZGUWpnNE5rVXdPVGhFTXpkR09ERkNNakVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1905,11 +1004,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7c107abc-41f9-4c89-af0e-37e1f4e95459',
+  'f24e4e79-afa4-4e3c-bc81-2359e68b32fb',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1919,49 +1018,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:38 GMT',
+  'Fri, 19 Jul 2019 00:33:14 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2045' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '6a7d8200-e8e5-4274-a6ce-36f963916400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHHQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:38 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:38 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1369' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037005065302933","deletedDate":1560370061,"scheduledPurgeDate":1568146061,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037005065302933","attributes":{"enabled":true,"created":1560370056,"updated":1560370056,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037026758407704","deletedDate":1560370705,"scheduledPurgeDate":1568146705,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037026758407704","attributes":{"enabled":true,"created":1560370284,"updated":1560370284,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044578898402701","deletedDate":1560446082,"scheduledPurgeDate":1568222082,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044578898402701","attributes":{"enabled":true,"created":1560445805,"updated":1560445805,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044598025306659","deletedDate":1560446150,"scheduledPurgeDate":1568222150,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044598025306659","attributes":{"enabled":true,"created":1560445997,"updated":1560445997,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044616159608298","deletedDate":1560446194,"scheduledPurgeDate":1568222194,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044616159608298","attributes":{"enabled":true,"created":1560446178,"updated":1560446178,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044618915107349","deletedDate":1560446233,"scheduledPurgeDate":1568222233,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044618915107349","attributes":{"enabled":true,"created":1560446205,"updated":1560446205,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044658599507851","deletedDate":1560446631,"scheduledPurgeDate":1568222631,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044658599507851","attributes":{"enabled":true,"created":1560446603,"updated":1560446603,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDQhTURBd01ETXlJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRE0xTVRNeE5qQXhOVEEwTXpVMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036664460803342","deletedDate":1560366661,"scheduledPurgeDate":1568142661,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036664460803342","attributes":{"enabled":true,"created":1560366650,"updated":1560366650,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036742269706797","deletedDate":1560367433,"scheduledPurgeDate":1568143433,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036742269706797","attributes":{"enabled":true,"created":1560367428,"updated":1560367428,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036761951707796","deletedDate":1560368144,"scheduledPurgeDate":1568144144,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036761951707796","attributes":{"enabled":true,"created":1560367636,"updated":1560367636,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036774298602180","deletedDate":1560368181,"scheduledPurgeDate":1568144181,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036774298602180","attributes":{"enabled":true,"created":1560367748,"updated":1560367748,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037005065302933","deletedDate":1560370061,"scheduledPurgeDate":1568146061,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037005065302933","attributes":{"enabled":true,"created":1560370056,"updated":1560370056,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037026758407704","deletedDate":1560370705,"scheduledPurgeDate":1568146705,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037026758407704","attributes":{"enabled":true,"created":1560370284,"updated":1560370284,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044578898402701","deletedDate":1560446082,"scheduledPurgeDate":1568222082,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044578898402701","attributes":{"enabled":true,"created":1560445805,"updated":1560445805,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044598025306659","deletedDate":1560446150,"scheduledPurgeDate":1568222150,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044598025306659","attributes":{"enabled":true,"created":1560445997,"updated":1560445997,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044616159608298","deletedDate":1560446194,"scheduledPurgeDate":1568222194,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044616159608298","attributes":{"enabled":true,"created":1560446178,"updated":1560446178,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044618915107349","deletedDate":1560446233,"scheduledPurgeDate":1568222233,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044618915107349","attributes":{"enabled":true,"created":1560446205,"updated":1560446205,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdORFEyTlRnMU9UazFNRGM0TlRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1974,11 +1041,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '49af1405-d15b-48de-afd2-6c93ea4e8523',
+  '515078cd-7874-4edd-9092-1734f922f1db',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1988,49 +1055,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:38 GMT',
+  'Fri, 19 Jul 2019 00:33:14 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2668' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '2f311bf3-b4f3-4d31-a956-fdfa1b536e00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHHgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:39 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:39 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3677' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156035131601504355","deletedDate":1560351344,"scheduledPurgeDate":1568127344,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601504355","attributes":{"enabled":true,"created":1560351321,"updated":1560351321,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870903851","deletedDate":1560365851,"scheduledPurgeDate":1568141851,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870903851","attributes":{"enabled":true,"created":1560365840,"updated":1560365840,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870905970","deletedDate":1560365845,"scheduledPurgeDate":1568141845,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870905970","attributes":{"enabled":true,"created":1560365834,"updated":1560365834,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083455364402057","deletedDate":1560834630,"scheduledPurgeDate":1568610630,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364402057","attributes":{"enabled":true,"created":1560834554,"updated":1560834554,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRGd6TkRVNU1qVTNOREE0TURjMkx6aERNVFZCTWtJd1FqQTVRVFJHUVRNNU1UTTVRVU00TXpjNVF6QkZRamxGSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044658599507851","deletedDate":1560446631,"scheduledPurgeDate":1568222631,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044658599507851","attributes":{"enabled":true,"created":1560446603,"updated":1560446603,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156035131601504355","deletedDate":1560351344,"scheduledPurgeDate":1568127344,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601504355","attributes":{"enabled":true,"created":1560351321,"updated":1560351321,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870903851","deletedDate":1560365851,"scheduledPurgeDate":1568141851,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870903851","attributes":{"enabled":true,"created":1560365840,"updated":1560365840,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870905970","deletedDate":1560365845,"scheduledPurgeDate":1568141845,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870905970","attributes":{"enabled":true,"created":1560365834,"updated":1560365834,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRE0yTlRneU9EY3dPVEExT1Rjd0wwWkJOa1V4TkVORk4wUTFSRFJDTWtaQlJrUXdPRVUxTWprek56TTBPRGcwSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2043,11 +1078,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '74f90906-78fc-45c2-821a-648155155786',
+  '87d8d092-079b-45e9-8cb9-f4c3180c7448',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2057,49 +1092,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:38 GMT',
+  'Fri, 19 Jul 2019 00:33:15 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1721' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3d5b07df-44bb-40e1-b0f3-0d10e0b26600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHHwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:39 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:39 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1719' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083468802106547","deletedDate":1560834787,"scheduledPurgeDate":1568610787,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083468802106547","attributes":{"enabled":true,"created":1560834689,"updated":1560834689,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083455364402057","deletedDate":1560834630,"scheduledPurgeDate":1568610630,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364402057","attributes":{"enabled":true,"created":1560834554,"updated":1560834554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083468802106547","deletedDate":1560834787,"scheduledPurgeDate":1568610787,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083468802106547","attributes":{"enabled":true,"created":1560834689,"updated":1560834689,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2112,11 +1115,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8b3cdd8f-11f1-4505-a2ad-5ac8dd5a1b94',
+  '2aae68ee-414e-449d-9ced-a6664fdc9afe',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2126,47 +1129,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
+  'Fri, 19 Jul 2019 00:33:15 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '367' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '752142f3-2370-4393-9a70-82b2a15d6400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHIAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:40 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '707' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -2179,11 +1150,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'bdc5ecac-41f0-442a-8517-dd80cdc6029a',
+  '0043eff6-436c-4050-ad48-deceed2582d1',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2193,45 +1164,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
+  'Fri, 19 Jul 2019 00:33:16 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'bf03e643-0367-4f82-a25e-f5d2a38e6800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHIQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:41 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistdeletedsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -2244,11 +1183,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'ce47b99e-aa0e-4014-9199-838a42c51543',
+  'ca4bad25-718d-42d6-8946-0fd6954076f0',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2258,47 +1197,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
+  'Fri, 19 Jul 2019 00:33:17 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '429b6603-ca36-4fe8-a254-43fc64556b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHIgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:41 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:41 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE0"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE0"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9d67ed0b7b7041c99faf570a93389e68","attributes":{"enabled":true,"created":1561725881,"updated":1561725881,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/72f85425ec6946a3a417cf8927b42526","attributes":{"enabled":true,"created":1563496397,"updated":1563496397,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2311,11 +1218,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '9793e3a5-503c-4e8a-ab5d-5e743410cded',
+  '02e51254-77f9-4a31-a635-f09bc0892457',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2325,49 +1232,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:40 GMT',
+  'Fri, 19 Jul 2019 00:33:17 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c1a0379a-105b-46ec-8a27-b6b649377800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHIwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:41 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:41 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE1"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE1"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/b95608c840de487492bcbcb844c9b852","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/7f8b22ed57264866bc062cd7d951b7b0","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2380,11 +1255,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '17aa2a54-ae38-4416-9b06-c42be08b1b15',
+  'b5fe50b4-4df0-4e77-8996-147673ddccda',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2394,49 +1269,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:41 GMT',
+  'Fri, 19 Jul 2019 00:33:17 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3d7dd699-e28e-423c-a5c6-60e30ce26400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHJAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:42 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:42 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE2"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE2"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/5cede84ddb30496da62f677b6ceb89d6","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/a3a3e7e508804b90b23ee3985b87d9ce","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2449,11 +1292,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1a3bb1ac-57d8-4e94-94f9-2966081edead',
+  '45e6b18e-f0e2-48dc-acd8-e1feb2530a41',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2463,49 +1306,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:41 GMT',
+  'Fri, 19 Jul 2019 00:33:17 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '56f70bd2-4f63-4e1b-8744-6829b0966c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHJQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:42 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:42 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/versions')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/versions')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/5cede84ddb30496da62f677b6ceb89d6","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9d67ed0b7b7041c99faf570a93389e68","attributes":{"enabled":true,"created":1561725881,"updated":1561725881,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/b95608c840de487492bcbcb844c9b852","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/72f85425ec6946a3a417cf8927b42526","attributes":{"enabled":true,"created":1563496397,"updated":1563496397,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/7f8b22ed57264866bc062cd7d951b7b0","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/a3a3e7e508804b90b23ee3985b87d9ce","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2518,11 +1329,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a472e8ba-6957-49db-abd4-69d8a6de5e75',
+  '13967245-3d24-4c40-b06f-8bdd137cc1f6',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2532,49 +1343,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:42 GMT',
+  'Fri, 19 Jul 2019 00:33:18 GMT',
   'Connection',
   'close',
   'Content-Length',
   '813' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'a4d42df8-73aa-483b-9bbe-a83a21a56500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHJgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:43 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:42 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/5cede84ddb30496da62f677b6ceb89d6')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/72f85425ec6946a3a417cf8927b42526')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/5cede84ddb30496da62f677b6ceb89d6","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/72f85425ec6946a3a417cf8927b42526","attributes":{"enabled":true,"created":1563496397,"updated":1563496397,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2587,11 +1366,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '494981f0-94c8-4677-bceb-e7d5d3e077a7',
+  '586432a7-fdb6-4b1f-8212-69c27e495343',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2601,49 +1380,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:43 GMT',
+  'Fri, 19 Jul 2019 00:33:18 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '0aaf7f8c-f2fe-4422-a2bf-857a3e076700',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHJwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:43 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:42 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/9d67ed0b7b7041c99faf570a93389e68')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/7f8b22ed57264866bc062cd7d951b7b0')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9d67ed0b7b7041c99faf570a93389e68","attributes":{"enabled":true,"created":1561725881,"updated":1561725881,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/7f8b22ed57264866bc062cd7d951b7b0","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2656,11 +1403,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '20932ef3-ea69-4800-b6a3-50a0e57c00cf',
+  '373df782-2236-42e5-89dd-0bd64fa6c1f5',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2670,49 +1417,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:43 GMT',
+  'Fri, 19 Jul 2019 00:33:19 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'd644ab08-59f8-4a73-8a25-7e61857f6900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHKAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:44 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:43 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/b95608c840de487492bcbcb844c9b852')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/a3a3e7e508804b90b23ee3985b87d9ce')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/b95608c840de487492bcbcb844c9b852","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/a3a3e7e508804b90b23ee3985b87d9ce","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2725,11 +1440,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '21405045-03dc-4cb5-b8f0-1a5296e47414',
+  '161252de-c356-446f-aaf8-b898f6d702dc',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2739,49 +1454,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:44 GMT',
+  'Fri, 19 Jul 2019 00:33:19 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '5085bf37-a064-4717-8430-01991a9a6500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHKQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:44 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:44 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/secrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canretrieveallversionsofasecret-","deletedDate":1561725884,"scheduledPurgeDate":1569501884,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/5cede84ddb30496da62f677b6ceb89d6","attributes":{"enabled":true,"created":1561725882,"updated":1561725882,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-","deletedDate":1563496400,"scheduledPurgeDate":1571272400,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/a3a3e7e508804b90b23ee3985b87d9ce","attributes":{"enabled":true,"created":1563496398,"updated":1563496398,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2794,11 +1477,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '78480565-6085-401e-9b73-e7686fe05520',
+  '8d7a6f72-59ce-4f0c-b63e-04a7f28ea34e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2808,47 +1491,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:44 GMT',
+  'Fri, 19 Jul 2019 00:33:19 GMT',
   'Connection',
   'close',
   'Content-Length',
   '448' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3b7c14dd-1d68-4149-8c9b-1f8684e76b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHKgAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:45 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:44 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -2865,11 +1516,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '9c95c88c-4835-4131-b846-e1f1ecb4d172',
+  '5cce3202-9df1-42da-a598-2946e55c91d5',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2879,45 +1530,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:45 GMT',
+  'Fri, 19 Jul 2019 00:33:20 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '429b6603-ca36-4fe8-a254-43fc34586b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHKwAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:44:55 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:44:55 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -2934,11 +1553,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'dd0cfca8-886f-428e-a155-45748a154ccb',
+  'f40d1730-3387-463b-8f5a-e56b4645df7d',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2948,45 +1567,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:44:56 GMT',
+  'Fri, 19 Jul 2019 00:33:30 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '62f167e7-7d60-447e-8c0b-a092b4ef7200',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLAAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:06 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:06 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -2999,11 +1586,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '89be60a6-c71c-42ca-9634-f406fcc3761a',
+  '7414eba4-6f1c-413a-97eb-b0edb1ac932e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3013,45 +1600,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:05 GMT',
+  'Fri, 19 Jul 2019 00:33:41 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '4dd21e8b-5a58-458b-a28e-29bb28636b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:06 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:06 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canlistsecretversionsnonexisting-/versions')
+  .get('/secrets/CRUDSecretName-canlistsecretversionsnonexisting-/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
@@ -3066,11 +1621,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f8af63c4-f854-47fd-9cb4-76b556fb0b2b',
+  '94483dcc-0627-49f4-b0ae-00db5cb81224',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3080,49 +1635,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:06 GMT',
+  'Fri, 19 Jul 2019 00:33:41 GMT',
   'Connection',
   'close',
   'Content-Length',
   '28' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '13ecde3e-097b-47ae-9a67-60f6d1c66500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:07 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:06 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistsecrets-0', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistsecrets-0', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0/a7ff33289f034132b2caecf356eca5b6","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0/6716876e968844089e3e9915204db072","attributes":{"enabled":true,"created":1563496422,"updated":1563496422,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3135,11 +1658,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c7419511-9964-48a4-b2a1-b629a3613eff',
+  'ba7f0294-d5ca-45d7-900d-a162a93473db',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3149,49 +1672,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:07 GMT',
+  'Fri, 19 Jul 2019 00:33:42 GMT',
   'Connection',
   'close',
   'Content-Length',
   '259' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '7945225b-7214-46e5-9417-6a10c00e6700',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:07 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:07 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistsecrets-1', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistsecrets-1', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1/e3eac4ed0f5d4c40935a473e642c5e11","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1/b73bdc44042a4bf1b75e39592f9def59","attributes":{"enabled":true,"created":1563496423,"updated":1563496423,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3204,11 +1695,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c648b42c-b9e8-4310-b541-f4e5cf3c6744',
+  'fd6793c4-6814-405e-b39b-b9176fbef803',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3218,49 +1709,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:07 GMT',
+  'Fri, 19 Jul 2019 00:33:43 GMT',
   'Connection',
   'close',
   'Content-Length',
   '259' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '19fb6f84-7f14-42c1-acdd-64b3831e6900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:08 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:07 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/ExamplePassword","attributes":{"enabled":true,"created":1559920536,"updated":1559920536,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035497352907352","attributes":{"enabled":true,"created":1560354978,"updated":1560354978,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035503730605597","attributes":{"enabled":true,"created":1560355042,"updated":1560355042,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035505405304954","attributes":{"enabled":true,"created":1560355059,"updated":1560355059,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830299800555","attributes":{"enabled":true,"created":1559698309,"updated":1559698309,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830501005254","attributes":{"enabled":true,"exp":32503680000,"created":1559698313,"updated":1559698313,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830702405633","attributes":{"enabled":true,"exp":32503680000,"created":1559698314,"updated":1559698328,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969831104103177","attributes":{"enabled":true,"created":1559698345,"updated":1559698345,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969840997100376","attributes":{"enabled":true,"created":1559698415,"updated":1559698415,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969841605401224","attributes":{"enabled":true,"created":1559698422,"updated":1559698422,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969842993209999","attributes":{"enabled":true,"exp":32503680000,"created":1559698435,"updated":1559698435,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969844356809107","attributes":{"enabled":true,"exp":32503680000,"created":1559698450,"updated":1559698457,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969847359407300","attributes":{"enabled":true,"created":1559698479,"updated":1559698479,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969857586802675","attributes":{"enabled":true,"created":1559698582,"updated":1559698582,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969858938507540","attributes":{"enabled":true,"exp":32503680000,"created":1559698595,"updated":1559698595,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969860209703057","attributes":{"enabled":true,"exp":32503680000,"created":1559698608,"updated":1559698615,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969864161208327","attributes":{"enabled":true,"created":1559698661,"updated":1559698661,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974871145300045","attributes":{"enabled":true,"created":1559748717,"updated":1559748717,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974872276605440","attributes":{"enabled":true,"exp":32503680000,"created":1559748728,"updated":1559748728,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOelE0TnpNek9EQXpNRFl6TmpNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canabortaddingasecret-12981529728391816","attributes":{"enabled":true,"created":1563495687,"updated":1563495687,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0","attributes":{"enabled":true,"created":1563496422,"updated":1563496422,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1","attributes":{"enabled":true,"created":1563496423,"updated":1563496423,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/ExamplePassword","attributes":{"enabled":true,"created":1559920536,"updated":1559920536,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035497352907352","attributes":{"enabled":true,"created":1560354978,"updated":1560354978,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035503730605597","attributes":{"enabled":true,"created":1560355042,"updated":1560355042,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/key156035505405304954","attributes":{"enabled":true,"created":1560355059,"updated":1560355059,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName1","attributes":{"enabled":true,"created":1561751921,"updated":1561751921,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830299800555","attributes":{"enabled":true,"created":1559698309,"updated":1559698309,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830501005254","attributes":{"enabled":true,"exp":32503680000,"created":1559698313,"updated":1559698313,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969830702405633","attributes":{"enabled":true,"exp":32503680000,"created":1559698314,"updated":1559698328,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969831104103177","attributes":{"enabled":true,"created":1559698345,"updated":1559698345,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969840997100376","attributes":{"enabled":true,"created":1559698415,"updated":1559698415,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969841605401224","attributes":{"enabled":true,"created":1559698422,"updated":1559698422,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969842993209999","attributes":{"enabled":true,"exp":32503680000,"created":1559698435,"updated":1559698435,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969844356809107","attributes":{"enabled":true,"exp":32503680000,"created":1559698450,"updated":1559698457,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969847359407300","attributes":{"enabled":true,"created":1559698479,"updated":1559698479,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969857586802675","attributes":{"enabled":true,"created":1559698582,"updated":1559698582,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TlRnNU16ZzFNRGMxTkRBaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3273,11 +1732,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f3fcfc42-fc57-49bf-9d89-1fa28995235c',
+  '371a7ba6-ed97-492a-86cb-552194dd297c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3287,49 +1746,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:07 GMT',
+  'Fri, 19 Jul 2019 00:33:43 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '4434' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '7e88d5c7-d6d7-463a-a51d-1d545aa07400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:08 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:08 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3831' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974873380306363","attributes":{"enabled":true,"exp":32503680000,"created":1559748739,"updated":1559748744,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974876803708577","attributes":{"enabled":true,"created":1559748784,"updated":1559748784,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155976267700703146","attributes":{"enabled":true,"created":1559762682,"updated":1559762682,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987019000658","attributes":{"enabled":true,"created":1559779876,"updated":1559779876,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987618402041","attributes":{"enabled":true,"created":1559779883,"updated":1559779883,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977989062300314","attributes":{"enabled":true,"exp":32503680000,"created":1559779896,"updated":1559779896,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977990311305514","attributes":{"enabled":true,"exp":32503680000,"created":1559779909,"updated":1559779916,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977994218208573","attributes":{"enabled":true,"created":1559779954,"updated":1559779954,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155985529172800962","attributes":{"enabled":true,"created":1559855297,"updated":1559855297,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986124522104520","attributes":{"enabled":true,"created":1559861253,"updated":1559861253,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986125376001211","attributes":{"enabled":true,"created":1559861260,"updated":1559861260,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986126989703251","attributes":{"enabled":true,"exp":32503680000,"created":1559861276,"updated":1559861276,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467744608684","attributes":{"enabled":true,"created":1560354683,"updated":1560354683,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelUwTmpnek1Ua3dNREkzTVRnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969858938507540","attributes":{"enabled":true,"exp":32503680000,"created":1559698595,"updated":1559698595,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969860209703057","attributes":{"enabled":true,"exp":32503680000,"created":1559698608,"updated":1559698615,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155969864161208327","attributes":{"enabled":true,"created":1559698661,"updated":1559698661,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974871145300045","attributes":{"enabled":true,"created":1559748717,"updated":1559748717,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974872276605440","attributes":{"enabled":true,"exp":32503680000,"created":1559748728,"updated":1559748728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974873380306363","attributes":{"enabled":true,"exp":32503680000,"created":1559748739,"updated":1559748744,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155974876803708577","attributes":{"enabled":true,"created":1559748784,"updated":1559748784,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155976267700703146","attributes":{"enabled":true,"created":1559762682,"updated":1559762682,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987019000658","attributes":{"enabled":true,"created":1559779876,"updated":1559779876,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977987618402041","attributes":{"enabled":true,"created":1559779883,"updated":1559779883,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977989062300314","attributes":{"enabled":true,"exp":32503680000,"created":1559779896,"updated":1559779896,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977990311305514","attributes":{"enabled":true,"exp":32503680000,"created":1559779909,"updated":1559779916,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155977994218208573","attributes":{"enabled":true,"created":1559779954,"updated":1559779954,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155985529172800962","attributes":{"enabled":true,"created":1559855297,"updated":1559855297,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986124522104520","attributes":{"enabled":true,"created":1559861253,"updated":1559861253,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986125376001211","attributes":{"enabled":true,"created":1559861260,"updated":1559861260,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret155986126989703251","attributes":{"enabled":true,"exp":32503680000,"created":1559861276,"updated":1559861276,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamt3TWpBNE5ERTFNRFUxTlRVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3342,11 +1769,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '2559dfe1-818e-4568-9add-6c98886077c5',
+  '1951d633-ed89-4c8e-b469-c99a5e8bdc79',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3356,49 +1783,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:08 GMT',
+  'Fri, 19 Jul 2019 00:33:43 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2832' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c2ade1ed-3937-4be5-adc7-55aa24a60a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:09 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:08 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3646' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035468319002718","attributes":{"enabled":true,"exp":32503680000,"created":1560354688,"updated":1560354688,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035469457101815","attributes":{"enabled":true,"exp":32503680000,"created":1560354700,"updated":1560354705,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035471178508910","attributes":{"enabled":false,"exp":32503680000,"created":1560354717,"updated":1560354723,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035472322108987","attributes":{"enabled":true,"created":1560354728,"updated":1560354728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035473421700992","attributes":{"enabled":false,"created":1560354739,"updated":1560354739,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035474537300332","attributes":{"enabled":true,"created":1560354751,"updated":1560354751,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035492380902463","attributes":{"enabled":true,"created":1560354940,"updated":1560354940,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566801100575","attributes":{"enabled":true,"created":1560365673,"updated":1560365673,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036567378506379","attributes":{"enabled":true,"exp":32503680000,"created":1560365679,"updated":1560365679,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036568492401952","attributes":{"enabled":true,"exp":32503680000,"created":1560365690,"updated":1560365695,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036570169100621","attributes":{"enabled":false,"exp":32503680000,"created":1560365707,"updated":1560365713,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036571333008936","attributes":{"enabled":true,"created":1560365718,"updated":1560365718,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036572454709051","attributes":{"enabled":false,"created":1560365729,"updated":1560365729,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036573548102072","attributes":{"enabled":true,"created":1560365740,"updated":1560365740,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036585124607918","attributes":{"enabled":true,"created":1560365867,"updated":1560365867,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036590080809323","attributes":{"enabled":true,"created":1560365906,"updated":1560365906,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036596439108652","attributes":{"enabled":true,"created":1560365969,"updated":1560365969,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036624468808284","attributes":{"enabled":true,"created":1560366250,"updated":1560366250,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTWpVd05ETXhNRE15TkRNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467744608684","attributes":{"enabled":true,"created":1560354683,"updated":1560354683,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035468319002718","attributes":{"enabled":true,"exp":32503680000,"created":1560354688,"updated":1560354688,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035469457101815","attributes":{"enabled":true,"exp":32503680000,"created":1560354700,"updated":1560354705,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035471178508910","attributes":{"enabled":false,"exp":32503680000,"created":1560354717,"updated":1560354723,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035472322108987","attributes":{"enabled":true,"created":1560354728,"updated":1560354728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035473421700992","attributes":{"enabled":false,"created":1560354739,"updated":1560354739,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035474537300332","attributes":{"enabled":true,"created":1560354751,"updated":1560354751,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156035492380902463","attributes":{"enabled":true,"created":1560354940,"updated":1560354940,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566801100575","attributes":{"enabled":true,"created":1560365673,"updated":1560365673,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036567378506379","attributes":{"enabled":true,"exp":32503680000,"created":1560365679,"updated":1560365679,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036568492401952","attributes":{"enabled":true,"exp":32503680000,"created":1560365690,"updated":1560365695,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036570169100621","attributes":{"enabled":false,"exp":32503680000,"created":1560365707,"updated":1560365713,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036571333008936","attributes":{"enabled":true,"created":1560365718,"updated":1560365718,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036572454709051","attributes":{"enabled":false,"created":1560365729,"updated":1560365729,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036573548102072","attributes":{"enabled":true,"created":1560365740,"updated":1560365740,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036585124607918","attributes":{"enabled":true,"created":1560365867,"updated":1560365867,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxT1RBd09EQTRNRGt6TWpNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3411,11 +1806,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6847429c-64a0-4a09-b7eb-8086bf57fc2f',
+  '845261ae-46a2-4d7f-85f0-3f42fb68c5fa',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3425,49 +1820,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:09 GMT',
+  'Fri, 19 Jul 2019 00:33:44 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '3822' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '21fbc47a-f642-4d61-b755-23272f446500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:10 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:09 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3442' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036625043103243","attributes":{"enabled":true,"exp":32503680000,"created":1560366256,"updated":1560366256,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036626200104356","attributes":{"enabled":true,"exp":32503680000,"created":1560366267,"updated":1560366272,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036627848202634","attributes":{"enabled":false,"exp":32503680000,"created":1560366283,"updated":1560366289,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036628972007025","attributes":{"enabled":true,"created":1560366295,"updated":1560366295,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036630071100034","attributes":{"enabled":false,"created":1560366306,"updated":1560366306,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036631177303153","attributes":{"enabled":true,"created":1560366317,"updated":1560366317,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036651431706935","attributes":{"enabled":true,"created":1560366530,"updated":1560366530,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036656390609451","attributes":{"enabled":true,"created":1560366569,"updated":1560366569,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036662789900557","attributes":{"enabled":true,"created":1560366633,"updated":1560366633,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036776000805385","attributes":{"enabled":true,"created":1560367765,"updated":1560367765,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083458808007836","attributes":{"enabled":true,"created":1560834589,"updated":1560834589,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083462580205466","attributes":{"enabled":true,"created":1560834627,"updated":1560834627,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083472284304384","attributes":{"enabled":true,"created":1560834724,"updated":1560834724,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdPRE0wTnpZeE56ZzVNREk1T0RNaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036590080809323","attributes":{"enabled":true,"created":1560365906,"updated":1560365906,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036596439108652","attributes":{"enabled":true,"created":1560365969,"updated":1560365969,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036624468808284","attributes":{"enabled":true,"created":1560366250,"updated":1560366250,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036625043103243","attributes":{"enabled":true,"exp":32503680000,"created":1560366256,"updated":1560366256,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036626200104356","attributes":{"enabled":true,"exp":32503680000,"created":1560366267,"updated":1560366272,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036627848202634","attributes":{"enabled":false,"exp":32503680000,"created":1560366283,"updated":1560366289,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036628972007025","attributes":{"enabled":true,"created":1560366295,"updated":1560366295,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036630071100034","attributes":{"enabled":false,"created":1560366306,"updated":1560366306,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036631177303153","attributes":{"enabled":true,"created":1560366317,"updated":1560366317,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036651431706935","attributes":{"enabled":true,"created":1560366530,"updated":1560366530,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036656390609451","attributes":{"enabled":true,"created":1560366569,"updated":1560366569,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036662789900557","attributes":{"enabled":true,"created":1560366633,"updated":1560366633,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156036776000805385","attributes":{"enabled":true,"created":1560367765,"updated":1560367765,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/secrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdORFEyTVRnNU1UVXhNRGN6TkRraE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3480,11 +1843,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e4e02a1d-14bc-4646-b8af-5ac43023c7e4',
+  '70f7962c-0221-4e85-a3dc-455d1940d611',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3494,49 +1857,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:09 GMT',
+  'Fri, 19 Jul 2019 00:33:45 GMT',
   'Connection',
   'close',
   'Content-Length',
   '2816' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3054dfb1-239c-41c9-a7f9-f1f1d80b6a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:10 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:10 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083476178902983","attributes":{"enabled":true,"created":1560834763,"updated":1560834763,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601606330","attributes":{"enabled":true,"created":1560351327,"updated":1560351327,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280103968","attributes":{"enabled":true,"created":1560354843,"updated":1560354843,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280107298","attributes":{"enabled":true,"created":1560354838,"updated":1560354838,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736106694","attributes":{"enabled":true,"created":1560365822,"updated":1560365822,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736108753","attributes":{"enabled":true,"created":1560365828,"updated":1560365828,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908703029","attributes":{"enabled":true,"created":1560366404,"updated":1560366404,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908709648","attributes":{"enabled":true,"created":1560366410,"updated":1560366410,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364403280","attributes":{"enabled":true,"created":1560834555,"updated":1560834555,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257408076","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257409406","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719004650","attributes":{"enabled":true,"created":1560834728,"updated":1560834728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719009472","attributes":{"enabled":true,"created":1560834727,"updated":1560834727,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083458808007836","attributes":{"enabled":true,"created":1560834589,"updated":1560834589,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083462580205466","attributes":{"enabled":true,"created":1560834627,"updated":1560834627,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083472284304384","attributes":{"enabled":true,"created":1560834724,"updated":1560834724,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secret156083476178902983","attributes":{"enabled":true,"created":1560834763,"updated":1560834763,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601606330","attributes":{"enabled":true,"created":1560351327,"updated":1560351327,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280103968","attributes":{"enabled":true,"created":1560354843,"updated":1560354843,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035483280107298","attributes":{"enabled":true,"created":1560354838,"updated":1560354838,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736106694","attributes":{"enabled":true,"created":1560365822,"updated":1560365822,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036581736108753","attributes":{"enabled":true,"created":1560365828,"updated":1560365828,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908703029","attributes":{"enabled":true,"created":1560366404,"updated":1560366404,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036639908709648","attributes":{"enabled":true,"created":1560366410,"updated":1560366410,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364403280","attributes":{"enabled":true,"created":1560834555,"updated":1560834555,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257408076","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083459257409406","attributes":{"enabled":true,"created":1560834593,"updated":1560834593,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719004650","attributes":{"enabled":true,"created":1560834728,"updated":1560834728,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083472719009472","attributes":{"enabled":true,"created":1560834727,"updated":1560834727,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3549,11 +1880,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0d6893c0-13a5-4703-8117-20517ca71150',
+  '6bfe16b8-f491-4d6a-8f4e-69de68bb801b',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3563,49 +1894,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:10 GMT',
+  'Fri, 19 Jul 2019 00:33:46 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2509' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'cd5e1591-0a70-459c-8b7a-b1d98b3d7100',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:11 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:10 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3079' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecrets-0')
+  .delete('/secrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecrets-0","deletedDate":1561725911,"scheduledPurgeDate":1569501911,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-0/a7ff33289f034132b2caecf356eca5b6","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistsecrets-0","deletedDate":1563496426,"scheduledPurgeDate":1571272426,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-0/6716876e968844089e3e9915204db072","attributes":{"enabled":true,"created":1563496422,"updated":1563496422,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3618,11 +1917,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b51158e6-870b-4c1a-9e0d-e04750c3595b',
+  '1a6f6618-e93c-4aad-aeea-0dfd0eaf7e2a',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3632,47 +1931,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:11 GMT',
+  'Fri, 19 Jul 2019 00:33:46 GMT',
   'Connection',
   'close',
   'Content-Length',
   '416' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3b9f940a-03ac-4bb2-a5c3-ad23ef986600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:11 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:11 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -3689,11 +1956,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0db8fc9e-619e-467b-b0e5-8c399e84036d',
+  '5c3ce32c-63cc-4c07-8888-c7deb9a8e62e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3703,114 +1970,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:11 GMT',
+  'Fri, 19 Jul 2019 00:33:46 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'cf1e3236-fb33-45fc-b258-bd6c6d986500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:22 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:22 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
-  .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '121',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '954db4e4-992b-4f54-913a-46be7385f439',
-  'x-ms-keyvault-service-version',
-  '1.1.0.866',
-  'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:21 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '3a9efdb5-53a1-4c60-860c-5d1f1bac0b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:32 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:32 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-0')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -3823,11 +1989,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3a30d5ec-9913-4666-8024-14dc239e202e',
+  'e5f5e00e-e12c-48e7-b2b5-d8323dbd9ccb',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3837,47 +2003,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:32 GMT',
+  'Fri, 19 Jul 2019 00:33:57 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '7e240e0c-74e2-4c83-8721-f8e6a9b46c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:33 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:33 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistsecrets-1')
+  .delete('/secrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistsecrets-1","deletedDate":1561725933,"scheduledPurgeDate":1569501933,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistsecrets-1/e3eac4ed0f5d4c40935a473e642c5e11","attributes":{"enabled":true,"created":1561725907,"updated":1561725907,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistsecrets-1","deletedDate":1563496437,"scheduledPurgeDate":1571272437,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistsecrets-1/b73bdc44042a4bf1b75e39592f9def59","attributes":{"enabled":true,"created":1563496423,"updated":1563496423,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3890,11 +2024,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '175ece80-73f1-4d3a-bba8-1cc2a68dd27a',
+  '5026df7a-85d6-4ba4-abc4-3f9c4facec74',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3904,47 +2038,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:32 GMT',
+  'Fri, 19 Jul 2019 00:33:57 GMT',
   'Connection',
   'close',
   'Content-Length',
   '416' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'ce0caaae-fc83-4538-8ff9-99d2c3855b00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:33 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:33 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -3961,11 +2063,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '12f5416c-ad86-4cf4-886e-b8e045d827ab',
+  '64f7405e-da60-45a7-b7f1-85e0a8254c9f',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3975,45 +2077,50 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:34 GMT',
+  'Fri, 19 Jul 2019 00:33:58 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
+  'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '121',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '8ddbd8de-3a3f-4af3-9e97-47ff9b978d12',
+  'x-ms-keyvault-service-version',
+  '1.1.0.872',
+  'x-ms-keyvault-network-info',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
   'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
+  'max-age=31536000;includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  'e300d927-ad29-4e81-9857-3df481076f00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:44 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Fri, 28 Jun 2019 12:45:44 GMT',
+  'Fri, 19 Jul 2019 00:34:09 GMT',
   'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistsecrets-1')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -4026,11 +2133,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '597d2e78-01e0-4e88-9935-cf4b4b86736b',
+  '36fe1415-16ed-4fa8-9492-7480095a65c1',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4040,47 +2147,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:44 GMT',
+  'Fri, 19 Jul 2019 00:34:19 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'de278ac7-e98a-4cf4-bc40-42b1cd666700',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:44 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:44 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistdeletedsecrets-0', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistdeletedsecrets-0', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/4d0aeaa83ef140faae2c80bb99511109","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/936b67d32aa246c9acacfe0449bf098f","attributes":{"enabled":true,"created":1563496459,"updated":1563496459,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4093,11 +2168,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e013bd52-d756-4597-9af8-0ae68255bbe0',
+  'e88db46d-0193-4938-abd2-436ba3a0e22e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4107,49 +2182,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:44 GMT',
+  'Fri, 19 Jul 2019 00:34:19 GMT',
   'Connection',
   'close',
   'Content-Length',
   '266' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '04a2d5c0-16c2-4710-957b-e3871b936600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:45 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:44 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canlistdeletedsecrets-1', {"value":"RSA"})
+  .put('/secrets/CRUDSecretName-canlistdeletedsecrets-1', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1/9647e2fed0e842349e37eb5ea8b9e969","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1/39a24e06d0454abb857cbfdbb3f9c862","attributes":{"enabled":true,"created":1563496460,"updated":1563496460,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4162,11 +2205,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cc3d7db5-b77b-49b9-933a-24c33c8c3ce5',
+  '0846f9cb-821e-4bcc-8416-8f79c04fd573',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4176,49 +2219,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:45 GMT',
+  'Fri, 19 Jul 2019 00:34:19 GMT',
   'Connection',
   'close',
   'Content-Length',
   '266' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '2b7d8a90-1587-46f4-b675-dc9be8ca0900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:45 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:45 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistdeletedsecrets-0')
+  .delete('/secrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725946,"scheduledPurgeDate":1569501946,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/4d0aeaa83ef140faae2c80bb99511109","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496460,"scheduledPurgeDate":1571272460,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/936b67d32aa246c9acacfe0449bf098f","attributes":{"enabled":true,"created":1563496459,"updated":1563496459,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4231,11 +2242,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '820b9dea-bfd4-467e-aa3a-f8ea2f5fbcf4',
+  '0754755d-79e6-4863-a573-433608a101b6',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4245,49 +2256,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:45 GMT',
+  'Fri, 19 Jul 2019 00:34:20 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'dcd53194-1b76-49fe-b904-61746eda7400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:46 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:45 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canlistdeletedsecrets-1')
+  .delete('/secrets/CRUDSecretName-canlistdeletedsecrets-1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-1","deletedDate":1561725946,"scheduledPurgeDate":1569501946,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1/9647e2fed0e842349e37eb5ea8b9e969","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1","deletedDate":1563496461,"scheduledPurgeDate":1571272461,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1/39a24e06d0454abb857cbfdbb3f9c862","attributes":{"enabled":true,"created":1563496460,"updated":1563496460,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4300,11 +2279,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'afeb71b5-b736-490f-89f9-a0bebf8aa2ba',
+  '66196e9a-4eed-4de4-8c2f-5a3a61a7e40c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4314,49 +2293,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:46 GMT',
+  'Fri, 19 Jul 2019 00:34:20 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '86f8a1b4-c2e6-4f09-90de-599da8186c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:46 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:46 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .get('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: listSecretName-canlistdeletedsecrets-0"}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: CRUDSecretName-canlistdeletedsecrets-0"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4371,11 +2318,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd715bb19-52dd-4e03-9027-b6d36ccf37a0',
+  '5c48241c-0a1b-43c0-97c9-5237011e42b7',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4385,47 +2332,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:47 GMT',
+  'Fri, 19 Jul 2019 00:34:21 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '05bc1431-d91f-48c6-adb4-691f339b6000',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:57 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:57 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .get('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725946,"scheduledPurgeDate":1569501946,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0/4d0aeaa83ef140faae2c80bb99511109","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496460,"scheduledPurgeDate":1571272460,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0/936b67d32aa246c9acacfe0449bf098f","attributes":{"enabled":true,"created":1563496459,"updated":1563496459,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4438,11 +2353,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c2ffd348-c7ad-4e7b-9c38-0bc5ab2a2d19',
+  '94e4d582-76e8-423b-9624-232e8a95377e',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4452,49 +2367,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:56 GMT',
+  'Fri, 19 Jul 2019 00:34:31 GMT',
   'Connection',
   'close',
   'Content-Length',
   '430' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '0590ab04-f928-4567-a011-1124cf436a00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:57 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:57 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-0","deletedDate":1561725946,"scheduledPurgeDate":1569501946,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-0","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canlistdeletedsecrets-1","deletedDate":1561725946,"scheduledPurgeDate":1569501946,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canlistdeletedsecrets-1","attributes":{"enabled":true,"created":1561725945,"updated":1561725945,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canrestoreasecret-08015957746121516","deletedDate":1561725411,"scheduledPurgeDate":1569501411,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canrestoreasecret-08015957746121516","attributes":{"enabled":true,"created":1561725356,"updated":1561725356,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TXpFeE1EUXhNRE14Tnpjdk1UYzRSakkxUkVaR01qRTBORVkzT0VJNU4wSkJRVU00UTBaQlFUYzVRa0VoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-9288107853032652","deletedDate":1562091716,"scheduledPurgeDate":1569867716,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-9288107853032652","attributes":{"enabled":true,"created":1562091716,"updated":1562091716,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0","deletedDate":1563496460,"scheduledPurgeDate":1571272460,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-0","attributes":{"enabled":true,"created":1563496459,"updated":1563496459,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1","deletedDate":1563496461,"scheduledPurgeDate":1571272461,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canlistdeletedsecrets-1","attributes":{"enabled":true,"created":1563496460,"updated":1563496460,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName0","deletedDate":1561751925,"scheduledPurgeDate":1569527925,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName0","attributes":{"enabled":true,"created":1561751921,"updated":1561751921,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName","deletedDate":1561752013,"scheduledPurgeDate":1569528013,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName","attributes":{"enabled":true,"created":1561752012,"updated":1561752012,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDAhTURBd01EWXdJWE5sWTNKbGRDOVNSVU5QVmtWU1UwVkRVa1ZVVGtGTlJTMURRVTVTUlZOVVQxSkZRVk5GUTFKRlZDMHdPREF4TlRrMU56YzBOakV5TVRVeE5pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4507,11 +2390,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '29e0e0e2-7012-46b5-a748-ec7dd4a61b01',
+  '405c787d-8d1b-488d-818f-82a308a7bce0',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4521,49 +2404,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:57 GMT',
+  'Fri, 19 Jul 2019 00:34:32 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2215' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '2221fefe-eaff-458c-85bf-b00198456900',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:58 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:57 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '2852' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOelE0TnpZNE1ETTNNRGcxTnpjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canrestoreasecret-08015957746121516","deletedDate":1561725411,"scheduledPurgeDate":1569501411,"id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canrestoreasecret-08015957746121516","attributes":{"enabled":true,"created":1561725356,"updated":1561725356,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TmpBeU1EazNNRE13TlRjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4576,11 +2427,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'ecdfec44-7600-42a9-9e77-0e02f06cbf3f',
+  '51488679-fc97-4d80-a7ec-199fd68ecc96',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4590,49 +2441,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:57 GMT',
+  'Fri, 19 Jul 2019 00:34:32 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '298' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '5d711923-1ae2-4801-bb4c-d2404ac46d00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:58 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:58 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '693' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028838837406917","deletedDate":1560288400,"scheduledPurgeDate":1568064400,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028838837406917","attributes":{"enabled":true,"created":1560288394,"updated":1560288394,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028933587502205","deletedDate":1560289358,"scheduledPurgeDate":1568065358,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028933587502205","attributes":{"enabled":false,"exp":32503680000,"created":1560289341,"updated":1560289347,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamc1TXpNMU9EYzFNREl5TURVdk5qUkdNak5FTVRORE5UWTJORVpDUmtKRk9UTkRSVEkxTXpkRlF6UXdSalFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVPRFUxTWpreE56STRNREE1TmpJdk5EWXhPRVV6TUVORk1ESXdORUpCTkRnM1Fqa3dPVGMwTnpreE5URkVOemNoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4645,11 +2464,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3192fb81-f227-48fc-ad9c-296279281436',
+  '52f99ce8-e83d-4888-b119-dfe71e3c04cb',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4659,49 +2478,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:58 GMT',
+  'Fri, 19 Jul 2019 00:34:33 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1050' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '908d8450-e56b-49ee-98f1-6a00019f6d00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:59 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:58 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '356' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028954261707102","deletedDate":1560289559,"scheduledPurgeDate":1568065559,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028954261707102","attributes":{"enabled":false,"exp":32503680000,"created":1560289548,"updated":1560289554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028963087108194","deletedDate":1560289648,"scheduledPurgeDate":1568065648,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028963087108194","attributes":{"enabled":false,"exp":32503680000,"created":1560289636,"updated":1560289642,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028968597502042","deletedDate":1560289703,"scheduledPurgeDate":1568065703,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028968597502042","attributes":{"enabled":false,"exp":32503680000,"created":1560289691,"updated":1560289697,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028981007704437","deletedDate":1560289831,"scheduledPurgeDate":1568065831,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028981007704437","attributes":{"enabled":false,"exp":32503680000,"created":1560289815,"updated":1560289826,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028997762408585","deletedDate":1560289994,"scheduledPurgeDate":1568065994,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028997762408585","attributes":{"enabled":false,"exp":32503680000,"created":1560289983,"updated":1560289989,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029003971701409","deletedDate":1560290062,"scheduledPurgeDate":1568066062,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029003971701409","attributes":{"enabled":false,"exp":32503680000,"created":1560290045,"updated":1560290051,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029020841505555","deletedDate":1560290236,"scheduledPurgeDate":1568066236,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029020841505555","attributes":{"enabled":false,"exp":32503680000,"created":1560290214,"updated":1560290219,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029021974300578","deletedDate":1560290242,"scheduledPurgeDate":1568066242,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029021974300578","attributes":{"enabled":false,"created":1560290225,"updated":1560290225,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156034699779802419","deletedDate":1560347014,"scheduledPurgeDate":1568123014,"id":"https://keyvault_name.vault.azure.net/secrets/secret156034699779802419","attributes":{"enabled":false,"exp":32503680000,"created":1560347002,"updated":1560347008,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035467151900829","deletedDate":1560355143,"scheduledPurgeDate":1568131143,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467151900829","attributes":{"enabled":true,"created":1560354677,"updated":1560354677,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelUwTmprME5UY3hNREU0TVRVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028838837406917","deletedDate":1560288400,"scheduledPurgeDate":1568064400,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028838837406917","attributes":{"enabled":true,"created":1560288394,"updated":1560288394,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028933587502205","deletedDate":1560289358,"scheduledPurgeDate":1568065358,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028933587502205","attributes":{"enabled":false,"exp":32503680000,"created":1560289341,"updated":1560289347,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028954261707102","deletedDate":1560289559,"scheduledPurgeDate":1568065559,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028954261707102","attributes":{"enabled":false,"exp":32503680000,"created":1560289548,"updated":1560289554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028963087108194","deletedDate":1560289648,"scheduledPurgeDate":1568065648,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028963087108194","attributes":{"enabled":false,"exp":32503680000,"created":1560289636,"updated":1560289642,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028968597502042","deletedDate":1560289703,"scheduledPurgeDate":1568065703,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028968597502042","attributes":{"enabled":false,"exp":32503680000,"created":1560289691,"updated":1560289697,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028981007704437","deletedDate":1560289831,"scheduledPurgeDate":1568065831,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028981007704437","attributes":{"enabled":false,"exp":32503680000,"created":1560289815,"updated":1560289826,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156028997762408585","deletedDate":1560289994,"scheduledPurgeDate":1568065994,"id":"https://keyvault_name.vault.azure.net/secrets/secret156028997762408585","attributes":{"enabled":false,"exp":32503680000,"created":1560289983,"updated":1560289989,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029003971701409","deletedDate":1560290062,"scheduledPurgeDate":1568066062,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029003971701409","attributes":{"enabled":false,"exp":32503680000,"created":1560290045,"updated":1560290051,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029020841505555","deletedDate":1560290236,"scheduledPurgeDate":1568066236,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029020841505555","attributes":{"enabled":false,"exp":32503680000,"created":1560290214,"updated":1560290219,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNamt3TWpFNU56UXpNREExTnpnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4714,11 +2501,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a46a42c7-a605-4da0-a4b5-e8fa4902e4d7',
+  'ee8694a0-579b-4782-aa6d-d1df73977a13',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4728,49 +2515,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:45:58 GMT',
+  'Fri, 19 Jul 2019 00:34:33 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '3830' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'a9fdfa1a-fbcd-4277-8482-4d9174c06c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:45:59 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:45:58 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3491' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035476213308921","deletedDate":1560354773,"scheduledPurgeDate":1568130773,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035476213308921","attributes":{"enabled":true,"created":1560354767,"updated":1560354767,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036054148104164","deletedDate":1560360558,"scheduledPurgeDate":1568136558,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036054148104164","attributes":{"enabled":true,"exp":32503680000,"created":1560360547,"updated":1560360547,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036566207901067","deletedDate":1560366029,"scheduledPurgeDate":1568142029,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566207901067","attributes":{"enabled":true,"created":1560365667,"updated":1560365667,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxTnpBeE5qa3hNREEyTWpFdk5rWXlNemRGTmpRNE1qQXdOREExTUVKQlFqa3pOVEEwT0RBelFVSXpNalloTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156029021974300578","deletedDate":1560290242,"scheduledPurgeDate":1568066242,"id":"https://keyvault_name.vault.azure.net/secrets/secret156029021974300578","attributes":{"enabled":false,"created":1560290225,"updated":1560290225,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156034699779802419","deletedDate":1560347014,"scheduledPurgeDate":1568123014,"id":"https://keyvault_name.vault.azure.net/secrets/secret156034699779802419","attributes":{"enabled":false,"exp":32503680000,"created":1560347002,"updated":1560347008,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035467151900829","deletedDate":1560355143,"scheduledPurgeDate":1568131143,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035467151900829","attributes":{"enabled":true,"created":1560354677,"updated":1560354677,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156035476213308921","deletedDate":1560354773,"scheduledPurgeDate":1568130773,"id":"https://keyvault_name.vault.azure.net/secrets/secret156035476213308921","attributes":{"enabled":true,"created":1560354767,"updated":1560354767,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036054148104164","deletedDate":1560360558,"scheduledPurgeDate":1568136558,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036054148104164","attributes":{"enabled":true,"exp":32503680000,"created":1560360547,"updated":1560360547,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNell3TlRReE5EZ3hNRFF4TmpRdlJFWkdOek0wUkRZMU16UTJORUkxTlVFd01rTkJNVFZGUlVZMk5FSkRSa1FoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4783,11 +2538,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1748c724-7fe6-40a4-942e-09e4009c1eda',
+  '077cba34-eae7-4d8e-89c3-c66ed4071a82',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4797,49 +2552,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
+  'Fri, 19 Jul 2019 00:34:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1387' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '36af1cf4-bdb2-4c6e-9497-33acec647100',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:00 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '2083' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036575195005928","deletedDate":1560365763,"scheduledPurgeDate":1568141763,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036575195005928","attributes":{"enabled":true,"created":1560365757,"updated":1560365757,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036577464301231","deletedDate":1560365785,"scheduledPurgeDate":1568141785,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036577464301231","attributes":{"enabled":true,"created":1560365780,"updated":1560365780,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036598110406898","deletedDate":1560365997,"scheduledPurgeDate":1568141997,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036598110406898","attributes":{"enabled":true,"created":1560365986,"updated":1560365986,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036623881507210","deletedDate":1560366693,"scheduledPurgeDate":1568142693,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036623881507210","attributes":{"enabled":true,"created":1560366244,"updated":1560366244,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTWpZeU1EQXhNRFF6TlRZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036566207901067","deletedDate":1560366029,"scheduledPurgeDate":1568142029,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036566207901067","attributes":{"enabled":true,"created":1560365667,"updated":1560365667,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036575195005928","deletedDate":1560365763,"scheduledPurgeDate":1568141763,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036575195005928","attributes":{"enabled":true,"created":1560365757,"updated":1560365757,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036577464301231","deletedDate":1560365785,"scheduledPurgeDate":1568141785,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036577464301231","attributes":{"enabled":true,"created":1560365780,"updated":1560365780,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkxT1RZME16a3hNRGcyTlRJaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4852,11 +2575,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd3250ac3-a73d-4363-8760-672253e26deb',
+  '8eced1f9-7d7d-497d-9435-f8362fe8f749',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4866,49 +2589,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
+  'Fri, 19 Jul 2019 00:34:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1649' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '480c7350-73f5-48fb-9ffa-69ba25766e00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:00 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1311' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036632835700621","deletedDate":1560366339,"scheduledPurgeDate":1568142339,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036632835700621","attributes":{"enabled":true,"created":1560366333,"updated":1560366333,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036664460803342","deletedDate":1560366661,"scheduledPurgeDate":1568142661,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036664460803342","attributes":{"enabled":true,"created":1560366650,"updated":1560366650,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036742269706797","deletedDate":1560367433,"scheduledPurgeDate":1568143433,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036742269706797","attributes":{"enabled":true,"created":1560367428,"updated":1560367428,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036761951707796","deletedDate":1560368144,"scheduledPurgeDate":1568144144,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036761951707796","attributes":{"enabled":true,"created":1560367636,"updated":1560367636,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036774298602180","deletedDate":1560368181,"scheduledPurgeDate":1568144181,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036774298602180","attributes":{"enabled":true,"created":1560367748,"updated":1560367748,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkzTnpReU9UZzJNREl4T0RBdk16UkNNelV6TkVKRE1qUXdORVZETkVGRlJUZEVSak0yUWpnMlFURTVNMFFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036598110406898","deletedDate":1560365997,"scheduledPurgeDate":1568141997,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036598110406898","attributes":{"enabled":true,"created":1560365986,"updated":1560365986,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036623881507210","deletedDate":1560366693,"scheduledPurgeDate":1568142693,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036623881507210","attributes":{"enabled":true,"created":1560366244,"updated":1560366244,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036632835700621","deletedDate":1560366339,"scheduledPurgeDate":1568142339,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036632835700621","attributes":{"enabled":true,"created":1560366333,"updated":1560366333,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdNelkyTlRZek9UQTJNRGswTlRFdk1rSTBNakV3UWtZMU9USkZOREZGUWpnNE5rVXdPVGhFTXpkR09ERkNNakVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4921,11 +2612,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a0deb193-2953-4708-9da0-050cf4c789f6',
+  '0541a887-1aa6-4d64-b4bb-7763d5ea6d7f',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -4935,49 +2626,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
+  'Fri, 19 Jul 2019 00:34:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2045' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '20517aaf-82eb-4494-ae97-c4e5e3a67000',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:01 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1369' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037005065302933","deletedDate":1560370061,"scheduledPurgeDate":1568146061,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037005065302933","attributes":{"enabled":true,"created":1560370056,"updated":1560370056,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037026758407704","deletedDate":1560370705,"scheduledPurgeDate":1568146705,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037026758407704","attributes":{"enabled":true,"created":1560370284,"updated":1560370284,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044578898402701","deletedDate":1560446082,"scheduledPurgeDate":1568222082,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044578898402701","attributes":{"enabled":true,"created":1560445805,"updated":1560445805,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044598025306659","deletedDate":1560446150,"scheduledPurgeDate":1568222150,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044598025306659","attributes":{"enabled":true,"created":1560445997,"updated":1560445997,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044616159608298","deletedDate":1560446194,"scheduledPurgeDate":1568222194,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044616159608298","attributes":{"enabled":true,"created":1560446178,"updated":1560446178,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044618915107349","deletedDate":1560446233,"scheduledPurgeDate":1568222233,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044618915107349","attributes":{"enabled":true,"created":1560446205,"updated":1560446205,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044658599507851","deletedDate":1560446631,"scheduledPurgeDate":1568222631,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044658599507851","attributes":{"enabled":true,"created":1560446603,"updated":1560446603,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDQhTURBd01ETXlJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRE0xTVRNeE5qQXhOVEEwTXpVMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036664460803342","deletedDate":1560366661,"scheduledPurgeDate":1568142661,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036664460803342","attributes":{"enabled":true,"created":1560366650,"updated":1560366650,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036742269706797","deletedDate":1560367433,"scheduledPurgeDate":1568143433,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036742269706797","attributes":{"enabled":true,"created":1560367428,"updated":1560367428,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036761951707796","deletedDate":1560368144,"scheduledPurgeDate":1568144144,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036761951707796","attributes":{"enabled":true,"created":1560367636,"updated":1560367636,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156036774298602180","deletedDate":1560368181,"scheduledPurgeDate":1568144181,"id":"https://keyvault_name.vault.azure.net/secrets/secret156036774298602180","attributes":{"enabled":true,"created":1560367748,"updated":1560367748,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037005065302933","deletedDate":1560370061,"scheduledPurgeDate":1568146061,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037005065302933","attributes":{"enabled":true,"created":1560370056,"updated":1560370056,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156037026758407704","deletedDate":1560370705,"scheduledPurgeDate":1568146705,"id":"https://keyvault_name.vault.azure.net/secrets/secret156037026758407704","attributes":{"enabled":true,"created":1560370284,"updated":1560370284,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044578898402701","deletedDate":1560446082,"scheduledPurgeDate":1568222082,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044578898402701","attributes":{"enabled":true,"created":1560445805,"updated":1560445805,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044598025306659","deletedDate":1560446150,"scheduledPurgeDate":1568222150,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044598025306659","attributes":{"enabled":true,"created":1560445997,"updated":1560445997,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044616159608298","deletedDate":1560446194,"scheduledPurgeDate":1568222194,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044616159608298","attributes":{"enabled":true,"created":1560446178,"updated":1560446178,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044618915107349","deletedDate":1560446233,"scheduledPurgeDate":1568222233,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044618915107349","attributes":{"enabled":true,"created":1560446205,"updated":1560446205,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMDAhTURBd01ETXhJWE5sWTNKbGRDOVRSVU5TUlZReE5UWXdORFEyTlRnMU9UazFNRGM0TlRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -4990,11 +2649,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8fd1c34a-7cf9-45bd-b070-cb2f5ec828bf',
+  '69af262d-eb60-4ac7-b356-82c7d0087779',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5004,49 +2663,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:00 GMT',
+  'Fri, 19 Jul 2019 00:34:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '2668' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '04c284ac-e8f7-4935-83d5-537f9bf46d00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:01 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:01 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '3677' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156035131601504355","deletedDate":1560351344,"scheduledPurgeDate":1568127344,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601504355","attributes":{"enabled":true,"created":1560351321,"updated":1560351321,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870903851","deletedDate":1560365851,"scheduledPurgeDate":1568141851,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870903851","attributes":{"enabled":true,"created":1560365840,"updated":1560365840,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870905970","deletedDate":1560365845,"scheduledPurgeDate":1568141845,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870905970","attributes":{"enabled":true,"created":1560365834,"updated":1560365834,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083455364402057","deletedDate":1560834630,"scheduledPurgeDate":1568610630,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364402057","attributes":{"enabled":true,"created":1560834554,"updated":1560834554,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRGd6TkRVNU1qVTNOREE0TURjMkx6aERNVFZCTWtJd1FqQTVRVFJHUVRNNU1UTTVRVU00TXpjNVF6QkZRamxGSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secret156044658599507851","deletedDate":1560446631,"scheduledPurgeDate":1568222631,"id":"https://keyvault_name.vault.azure.net/secrets/secret156044658599507851","attributes":{"enabled":true,"created":1560446603,"updated":1560446603,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156035131601504355","deletedDate":1560351344,"scheduledPurgeDate":1568127344,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156035131601504355","attributes":{"enabled":true,"created":1560351321,"updated":1560351321,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870903851","deletedDate":1560365851,"scheduledPurgeDate":1568141851,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870903851","attributes":{"enabled":true,"created":1560365840,"updated":1560365840,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156036582870905970","deletedDate":1560365845,"scheduledPurgeDate":1568141845,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156036582870905970","attributes":{"enabled":true,"created":1560365834,"updated":1560365834,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJWE5sWTNKbGRDOVRSVU5TUlZSVE1UVTJNRE0yTlRneU9EY3dPVEExT1Rjd0wwWkJOa1V4TkVORk4wUTFSRFJDTWtaQlJrUXdPRVUxTWprek56TTBPRGcwSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5059,11 +2686,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6261b7ea-e3bc-4882-a686-a015a6e6f705',
+  '9a95c8a9-26f8-4a2a-adf6-c0f2f39ae9d2',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5073,49 +2700,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:01 GMT',
+  'Fri, 19 Jul 2019 00:34:35 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1721' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '2228bad4-6555-4b8a-8d93-db08f7bb6800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:02 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:01 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '1719' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083468802106547","deletedDate":1560834787,"scheduledPurgeDate":1568610787,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083468802106547","attributes":{"enabled":true,"created":1560834689,"updated":1560834689,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083455364402057","deletedDate":1560834630,"scheduledPurgeDate":1568610630,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083455364402057","attributes":{"enabled":true,"created":1560834554,"updated":1560834554,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/secrets156083468802106547","deletedDate":1560834787,"scheduledPurgeDate":1568610787,"id":"https://keyvault_name.vault.azure.net/secrets/secrets156083468802106547","attributes":{"enabled":true,"created":1560834689,"updated":1560834689,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5128,11 +2723,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a6ee1f2d-479b-4e2b-a018-982270bcf453',
+  '01d4df83-5e70-49e1-a0ed-4c40435ed4ae',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5142,47 +2737,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:02 GMT',
+  'Fri, 19 Jul 2019 00:34:36 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '367' ]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '56644893-eb0a-4dd9-bd7d-e0cc31545d00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:02 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:02 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  '707' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistdeletedsecrets-0')
+  .delete('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-0')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -5195,11 +2758,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8d9cd5f4-a261-42fd-8488-8673d6a131bc',
+  '5c0f3964-a546-4cee-acb5-54fe16436a66',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5209,45 +2772,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:02 GMT',
+  'Fri, 19 Jul 2019 00:34:36 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '7e240e0c-74e2-4c83-8721-f8e6c6ba6c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:03 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:03 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canlistdeletedsecrets-1')
+  .delete('/deletedsecrets/CRUDSecretName-canlistdeletedsecrets-1')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -5260,11 +2791,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '9ca2d78a-7b95-4aa2-ace8-e11b40b8f734',
+  '900f97b2-2a5d-4be4-b63c-6bf2ea5793e7',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5274,47 +2805,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:03 GMT',
+  'Fri, 19 Jul 2019 00:34:37 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'c08db772-ac3f-46fb-8a2c-f57270da6300',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:03 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:03 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE0"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE0"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/e1e4f2c482c14e0292f3f7049ac9a17f","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/3f1a15834dfd428fb2fd3c2adebd588e","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5327,11 +2826,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7a47d31b-33a1-4ef2-a4c8-6b1ade502d6d',
+  '16fce2a3-1b45-4aeb-b215-d7343131cbda',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5341,49 +2840,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:04 GMT',
+  'Fri, 19 Jul 2019 00:34:37 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '4c96f7fb-aaf3-473e-9453-c1a6867c5800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:04 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:03 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE1"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE1"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9ae984be115a40d881b07b10acbbbe92","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/0b20660f55f0483eb6f51a8cee59613c","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5396,11 +2863,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f972b823-bc3a-43e6-ae6c-7d072e89cda7',
+  '54157f6f-f68a-4822-8008-717e6e2eb3b7',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5410,49 +2877,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:04 GMT',
+  'Fri, 19 Jul 2019 00:34:37 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '32e3f384-860c-4bff-b2bd-0c1bd2656800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:04 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:04 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/listSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE2"})
+  .put('/secrets/CRUDSecretName-canretrieveallversionsofasecret-', {"value":"SECRET_VALUE2"})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/cc2db9c9fca6432db50d5b4712937745","attributes":{"enabled":true,"created":1561725965,"updated":1561725965,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/e9fc7d2a985a4aee8c32776076b0c24a","attributes":{"enabled":true,"created":1563496478,"updated":1563496478,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5465,11 +2900,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7945e4a7-a528-4215-a744-0a44706582da',
+  'af361b9a-c945-4505-bfbc-e0cffb8a77a3',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5479,49 +2914,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:04 GMT',
+  'Fri, 19 Jul 2019 00:34:38 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '5537efd2-33da-45f7-8a84-f73281646000',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:05 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:04 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/versions')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/versions')
   .query(true)
-  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9ae984be115a40d881b07b10acbbbe92","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/cc2db9c9fca6432db50d5b4712937745","attributes":{"enabled":true,"created":1561725965,"updated":1561725965,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/e1e4f2c482c14e0292f3f7049ac9a17f","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/0b20660f55f0483eb6f51a8cee59613c","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/3f1a15834dfd428fb2fd3c2adebd588e","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}},{"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/e9fc7d2a985a4aee8c32776076b0c24a","attributes":{"enabled":true,"created":1563496478,"updated":1563496478,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5534,11 +2937,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5a5ae758-4b9b-4172-86b4-3b234a212955',
+  'eeeae6bf-c7e0-479e-97f5-fb1ff84f112a',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5548,49 +2951,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:05 GMT',
+  'Fri, 19 Jul 2019 00:34:37 GMT',
   'Connection',
   'close',
   'Content-Length',
   '813' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '8707fa6d-cf6f-4329-bb81-711a66520800',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:05 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:05 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/9ae984be115a40d881b07b10acbbbe92')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/0b20660f55f0483eb6f51a8cee59613c')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/9ae984be115a40d881b07b10acbbbe92","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE1","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/0b20660f55f0483eb6f51a8cee59613c","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5603,11 +2974,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1788cf3d-8314-48c9-bb6b-294d227808fe',
+  'e0cec79c-681b-4db5-8cb2-722b677ace70',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5617,49 +2988,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
+  'Fri, 19 Jul 2019 00:34:38 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'e5af4030-4e04-4a8d-84d9-f517a0a07400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:06 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:05 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/cc2db9c9fca6432db50d5b4712937745')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/3f1a15834dfd428fb2fd3c2adebd588e')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/cc2db9c9fca6432db50d5b4712937745","attributes":{"enabled":true,"created":1561725965,"updated":1561725965,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/3f1a15834dfd428fb2fd3c2adebd588e","attributes":{"enabled":true,"created":1563496477,"updated":1563496477,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5672,11 +3011,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a501dc0b-773b-410d-a09b-2b30ee753de7',
+  'e2ea31d1-9c3d-444d-8e48-0b66599f406c',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5686,49 +3025,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
+  'Fri, 19 Jul 2019 00:34:38 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'ce34b7e8-8e38-410b-8b8f-f924e7c86c00',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:06 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canretrieveallversionsofasecret-/e1e4f2c482c14e0292f3f7049ac9a17f')
+  .get('/secrets/CRUDSecretName-canretrieveallversionsofasecret-/e9fc7d2a985a4aee8c32776076b0c24a')
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE0","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/e1e4f2c482c14e0292f3f7049ac9a17f","attributes":{"enabled":true,"created":1561725964,"updated":1561725964,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"SECRET_VALUE2","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/e9fc7d2a985a4aee8c32776076b0c24a","attributes":{"enabled":true,"created":1563496478,"updated":1563496478,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5741,11 +3048,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1fcc3803-b39c-4484-ac82-6aff6cd75e15',
+  'a12b0988-d799-443f-8a14-67d0f4a1dfb0',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5755,49 +3062,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
+  'Fri, 19 Jul 2019 00:34:38 GMT',
   'Connection',
   'close',
   'Content-Length',
   '285' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '94fb2dd1-3257-41c8-b45e-b6c2141c7600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:07 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/secrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName-canretrieveallversionsofasecret-","deletedDate":1561725967,"scheduledPurgeDate":1569501967,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName-canretrieveallversionsofasecret-/cc2db9c9fca6432db50d5b4712937745","attributes":{"enabled":true,"created":1561725965,"updated":1561725965,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-","deletedDate":1563496479,"scheduledPurgeDate":1571272479,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrieveallversionsofasecret-/e9fc7d2a985a4aee8c32776076b0c24a","attributes":{"enabled":true,"created":1563496478,"updated":1563496478,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -5810,11 +3085,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c40a6e18-2e90-413d-b628-6804f6e36613',
+  'f394fcf9-03ac-4664-8055-4b79965329a4',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5824,47 +3099,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:06 GMT',
+  'Fri, 19 Jul 2019 00:34:39 GMT',
   'Connection',
   'close',
   'Content-Length',
   '448' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'f663f73f-3558-4a45-a112-a26cd35a7600',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:07 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:07 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
   .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
@@ -5881,11 +3124,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'adcf7865-4ac5-48d5-a91d-4124e9392c2b',
+  '4f740315-0ee5-4a8e-bb6c-b9f21f53433f',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5895,45 +3138,50 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:07 GMT',
+  'Fri, 19 Jul 2019 00:34:39 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Secret is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
+  'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '121',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'ba985b21-5eee-4126-aecd-dbb18d3f1441',
+  'x-ms-keyvault-service-version',
+  '1.1.0.872',
+  'x-ms-keyvault-network-info',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
   'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
+  'max-age=31536000;includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  '2c397826-a46a-4cbb-9733-f68874f76500',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:18 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Fri, 28 Jun 2019 12:46:17 GMT',
+  'Fri, 19 Jul 2019 00:34:50 GMT',
   'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/listSecretName-canretrieveallversionsofasecret-')
+  .delete('/deletedsecrets/CRUDSecretName-canretrieveallversionsofasecret-')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -5946,11 +3194,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7bce9178-4f6a-4964-a843-db7f99f41c27',
+  '590c8f56-358d-4c96-abf2-9c88d6549eab',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -5960,45 +3208,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:18 GMT',
+  'Fri, 19 Jul 2019 00:35:00 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '20f188ee-8f55-4efe-9ecb-843929f16400',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AuRA0w6qmolPrBxwEeExI8c_aSJHLQAAAHUCqNQOAAAA; expires=Sun, 28-Jul-2019 12:46:18 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
-  'Date',
-  'Fri, 28 Jun 2019 12:46:18 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231' ]);
-
-
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/listSecretName-canlistsecretversionsnonexisting-/versions')
+  .get('/secrets/CRUDSecretName-canlistsecretversionsnonexisting-/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
@@ -6013,11 +3229,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cf18e711-9687-4b76-bdcb-7f9fbdcf8009',
+  '28e902a0-5b7f-4ef3-b8c4-bcb3335e0583',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.872',
   'x-ms-keyvault-network-info',
-  'addr=104.41.142.53;act_addr_fam=InterNetwork;',
+  'addr=13.82.238.224;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -6027,7 +3243,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 28 Jun 2019 12:46:18 GMT',
+  'Fri, 19 Jul 2019 00:35:02 GMT',
   'Connection',
   'close',
   'Content-Length',

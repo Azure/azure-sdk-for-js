@@ -14,7 +14,7 @@ export async function retry<T>(
   delay: number = 1000,
   timeout: number = Infinity,
   increaseFactor: number = 1
-): Promise<T> {
+): Promise<any> {
   const start = new Date().getTime();
   let updatedDelay = delay;
   while (new Date().getTime() - start < timeout) {

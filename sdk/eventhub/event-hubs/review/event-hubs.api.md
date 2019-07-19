@@ -13,7 +13,6 @@ import { delay } from '@azure/core-amqp';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { OnAmqpEvent } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { Sender } from 'rhea-promise';
@@ -24,7 +23,8 @@ import { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface BatchOptions {
-    maxMessageSizeInBytes?: number;
+    abortSignal?: AbortSignalLike;
+    maxSizeInBytes?: number;
     partitionKey?: string;
 }
 
@@ -49,8 +49,9 @@ export class EventDataBatch {
     // @internal
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     readonly batchMessage: Buffer | undefined;
+    readonly count: number;
     readonly partitionKey: string | undefined;
-    readonly size: number;
+    readonly sizeInBytes: number;
     tryAdd(eventData: EventData): boolean;
 }
 

@@ -243,7 +243,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         "0",
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       );
-      const eventDataBatch = await producer.createBatch({ maxMessageSizeInBytes: 5000 });
+      const eventDataBatch = await producer.createBatch({ maxSizeInBytes: 5000 });
       const message = { body: `${Buffer.from("Z".repeat(4096))}` };
       for (let i = 1; i <= 3; i++) {
         const isAdded = eventDataBatch.tryAdd(message);
@@ -265,7 +265,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     > {
       try {
         const producer = client.createProducer({ partitionId: "0" });
-        await producer.createBatch({ maxMessageSizeInBytes: 2046528 });
+        await producer.createBatch({ maxSizeInBytes: 2046528 });
         throw new Error("Test Failure");
       } catch (err) {
         // \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\)
@@ -287,7 +287,37 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         await producer.send(eventDataBatch, { partitionKey: "2" });
         throw new Error("Test Failure");
       } catch (err) {
-        err.message.should.equal("Partition key is not supported when using createBatch().");
+        err.message.should.equal(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
+      }
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const producer = client.createProducer();
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await producer.createBatch({ abortSignal: abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The create batch operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
+      const abortController = new AbortController();
+      abortController.abort();
+      try {
+        const producer = client.createProducer();
+        await producer.createBatch({ abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The create batch operation has been cancelled by the user.");
       }
     });
   });
