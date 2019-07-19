@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
@@ -17,7 +16,6 @@ import { userAgentPolicy, getDefaultUserAgentHeaderName, getDefaultUserAgentValu
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { signingPolicy } from "./policies/signingPolicy";
 import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
@@ -133,16 +131,16 @@ export class ServiceClient {
   /**
    * The ServiceClient constructor
    * @constructor
-   * @param {ServiceClientCredentials} [credentials] The credentials object used for authentication.
+   * @param {TokenCredential} [credentials] The credentials object used for authentication.
    * @param {ServiceClientOptions} [options] The service client options that govern the behavior of the client.
    */
-  constructor(credentials?: ServiceClientCredentials | TokenCredential, options?: ServiceClientOptions) {
+  constructor(credentials?: TokenCredential, options?: ServiceClientOptions) {
     if (!options) {
       options = {};
     }
 
-    if (credentials && !isTokenCredential(credentials) && !credentials.signRequest) {
-      throw new Error("credentials argument needs to implement signRequest method");
+    if (credentials && !isTokenCredential(credentials)) {
+      throw new Error("credentials argument needs to implement TokenCredential interface");
     }
 
     this._withCredentials = options.withCredentials || false;
@@ -153,7 +151,7 @@ export class ServiceClient {
     if (Array.isArray(options.requestPolicyFactories)) {
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
-      let credentialsOrFactory: ServiceClientCredentials | RequestPolicyFactory | undefined = undefined;
+      let credentialsOrFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
@@ -422,7 +420,7 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(credentials: RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -432,8 +430,6 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   if (credentials) {
     if (isRequestPolicyFactory(credentials)) {
       factories.push(credentials);
-    } else {
-      factories.push(signingPolicy(credentials));
     }
   }
 
