@@ -1,5 +1,5 @@
 # Azure Smoke Tests for JavaScript
-This sample code is a smoke test to ensure that Azure Preview for JS work while loaded into the same process.
+This sample code is a smoke test to ensure that Azure Preview for JS work while loaded into the same process by performing 2 or more actions with them.
 
 Libraries tested:
 * keyvault-secrets
@@ -76,7 +76,48 @@ node app.js
 ```
 ## Key Concepts
 
+
 ## Examples
+All the classes in this sample has a `Run()` method as entry point, and do not depend on each other. 
+
+It is possible to run them individually:
+```javascript
+import {KeyVaultSecrets} from "./KeyVaultTest";
+
+await KeyVaultSecrets.Run();
+```
+
+They can be included in other projects by moving the class in it:
+```javascript
+import {KeyVaultSecrets} from "./KeyVaultTest";
+
+...
+
+function myTests(){
+    console.log("Smoke Test imported from other project");
+    await KeyVaultSecrets.Run();
+}
+
+myTests();
+otherFunction();
+...
+```
+
+The classes can be used as base code and be changed to satisfied specific needs. For example, the method `EventHubs.SendAndReceiveEvents()` can be change to only send events from an array given from a parameter:
+```javascript
+    private static async SendEvents(events:string[]){
+        const producerOptions = {
+            partitionId : EventHubs.partitionId[0]
+        }
+        const producer = EventHubs.client.createProducer(producerOptions);
+        
+        events.forEach(async event => {
+            await producer.send({ body: event });
+        });
+    }
+```
+
+**Note:** The methods in the classes are not necessary independent on each other, and the order matters. For example, in order to run `BlobStorage.CleanUp();`, the method `BlobStorage.UploadBlob();` must be run before, since in the other way it will fail because there is not going to be a blob to delete.
 
 ## Troubleshooting
 ### Async-lock
