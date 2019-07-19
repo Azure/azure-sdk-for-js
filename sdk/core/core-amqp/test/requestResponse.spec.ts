@@ -8,7 +8,7 @@ import { stub } from "sinon";
 import EventEmitter from "events";
 import { AbortController } from "@azure/abort-controller";
 
-describe.only("RequestResponseLink", function() {
+describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();

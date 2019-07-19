@@ -76,7 +76,7 @@ export class RequestResponseLink implements ReqResLink {
   /**
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in seconds `default: 60`, then `OperationTimeoutError` is thrown.
-   * 
+   *
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
@@ -106,6 +106,9 @@ export class RequestResponseLink implements ReqResLink {
         }
 
         const rejectOnAbort = () => {
+          if(timeOver) {
+            clearTimeout(waitTimer);
+          }
           const address = this.receiver.address || "address";
           const requestName = options!.requestName;
           const desc: string =
@@ -220,9 +223,10 @@ export class RequestResponseLink implements ReqResLink {
           };
           return reject(translate(e));
         };
-
-        this.receiver.on(ReceiverEvents.message, messageCallback);
+        
         waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+        this.receiver.on(ReceiverEvents.message, messageCallback);
+
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,

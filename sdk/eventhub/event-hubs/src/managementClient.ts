@@ -334,23 +334,32 @@ export class ManagementClient extends LinkEntity {
             );
 
             const initOperationStartTime = Date.now();
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.connectionId
-            );
-            await defaultLock.acquire(this.managementLock, () => {
-              return this._init().catch((err: Error) => {
-                clearTimeout(waitTimer);
-                reject(translate(err));
+
+            if (!this._isMgmtRequestResponseLinkOpen()) {
+              log.mgmt(
+                "[%s] Acquiring lock to get the management req res link.",
+                this._context.connectionId
+              );
+
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init().catch((err: Error) => {
+                  clearTimeout(waitTimer);
+                  reject(translate(err));
+                });
               });
-            });
+            }
             const initOperationEndTime = Date.now();
 
             if (!options) {
               options = {};
             }
 
-            const operationTimeoutInMs = initOperationEndTime - initOperationStartTime;
+            let operationTimeoutInMs =
+              options && options.retryOptions && options.retryOptions.timeoutInMs
+                ? options.retryOptions.timeoutInMs
+                : Constants.defaultOperationTimeoutInSeconds * 1000;
+            operationTimeoutInMs =
+              operationTimeoutInMs - (initOperationEndTime - initOperationStartTime);
             const sendRequestOptions: SendRequestOptions = {
               abortSignal: options.abortSignal,
               requestName: options.requestName,
