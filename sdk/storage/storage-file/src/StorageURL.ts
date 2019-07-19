@@ -3,6 +3,7 @@ import { deserializationPolicy, RequestPolicyFactory } from "@azure/ms-rest-js";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { StorageClientContext } from "./generated/src/storageClientContext";
+import { IKeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
@@ -27,7 +28,22 @@ export interface INewPipelineOptions {
    * @memberof INewPipelineOptions
    */
   telemetry?: ITelemetryOptions;
+
+  /**
+   * Retry options.
+   *
+   * @type {IRetryOptions}
+   * @memberof INewPipelineOptions
+   */
   retryOptions?: IRetryOptions;
+
+  /**
+   * Keep alive configurations. Default keep-alive is enabled.
+   *
+   * @type {IKeepAliveOptions}
+   * @memberof INewPipelineOptions
+   */
+  keepAliveOptions?: IKeepAliveOptions
 
   logger?: IHttpPipelineLogger;
   httpClient?: IHttpClient;
@@ -57,6 +73,7 @@ export abstract class StorageURL {
     // The credential's policy factory must appear close to the wire so it can sign any
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const factories: RequestPolicyFactory[] = [
+      new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
       new TelemetryPolicyFactory(pipelineOptions.telemetry),
       new UniqueRequestIDPolicyFactory(),
       new BrowserPolicyFactory(),

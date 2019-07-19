@@ -59,7 +59,7 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: (ev?: any) => any;
+  public onabort: ((this: AbortSignalLike, ev: any) => any) | null = null;
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
@@ -180,11 +180,11 @@ export class Aborter implements AbortSignalLike {
     this.cancelTimer();
 
     if (this.onabort) {
-      this.onabort.call(this);
+      this.onabort.call(this, { type: "abort" } as any);
     }
 
     this.abortEventListeners.forEach((listener) => {
-      listener.call(this, undefined);
+      listener.call(this, { type: "abort" } as any);
     });
 
     this.children.forEach((child) => child.cancelByParent());
@@ -241,6 +241,10 @@ export class Aborter implements AbortSignalLike {
     if (index > -1) {
       this.abortEventListeners.splice(index, 1);
     }
+  }
+
+  public dispatchEvent(): boolean {
+    throw new Error("Method not implemented.");
   }
 
   private cancelByParent() {

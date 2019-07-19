@@ -7,6 +7,8 @@
 * Export `RetryPolicyType`.
 * `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 * Updated API version to 2018-11-09.
+* Updated HTTP client from axios to node-fetch in Node.js runtime.
+* A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 
 2019.1 Version 10.1.0
 

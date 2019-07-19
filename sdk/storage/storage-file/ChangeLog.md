@@ -8,6 +8,8 @@
 * Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
 * `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
 * Export `RetryPolicyType`.
+* Updated HTTP client from axios to node-fetch in Node.js runtime.
+* A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 * Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 * The `ShareURL.getStatistics()` now returns the approximate size in bytes with `shareUsageBytes`.
 * Added `DirectoryURL.listHandlesSegment()` and `FileURL.listHandlesSegment()` to returns a list of open handles on a directory or a file.
