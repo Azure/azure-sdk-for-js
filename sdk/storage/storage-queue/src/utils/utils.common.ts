@@ -115,53 +115,76 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
- * ONLY AVAILABLE IN NODE.JS RUNTIME.
- *
  * Extracts the parts of an Azure Storage account connection string.
  *
  * @export
  * @param {string} connectionString Connection string.
  * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Queue, account name, and account key.
  */
-export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
-  const matchCredentials = connectionString.match(
-    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
-  );
-
-  let defaultEndpointsProtocol;
-  let accountName;
-  let accountKey;
-  let endpointSuffix;
-
-  try {
-    defaultEndpointsProtocol = matchCredentials![1] || "";
-    accountName = matchCredentials![2] || "";
-    accountKey = Buffer.from(matchCredentials![3], "base64");
-    endpointSuffix = matchCredentials![4] || "";
-  } catch (err) {
-    throw new Error("Invalid Connection String");
-  }
-
-  const protocol = defaultEndpointsProtocol.toLowerCase();
-  if (protocol !== "https" && protocol !== "http") {
-    throw new Error(
-      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+export function extractConnectionStringParts(connectionString: string): { kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any } {
+  // Account connection string
+  if ((connectionString.search("DefaultEndpointsProtocol=") !== -1) && (connectionString.search("AccountKey=") !== -1)) {
+    const matchCredentials = connectionString.match(
+      "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
     );
-  } else if (!accountName) {
-    throw new Error("Invalid AccountName in the provided Connection String");
-  } else if (accountKey.length === 0) {
-    throw new Error("Invalid AccountKey in the provided Connection String");
-  } else if (!endpointSuffix) {
-    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+
+    let defaultEndpointsProtocol;
+    let accountName;
+    let accountKey;
+    let endpointSuffix;
+
+    try {
+      defaultEndpointsProtocol = matchCredentials![1] || "";
+      accountName = matchCredentials![2] || "";
+      accountKey = Buffer.from(matchCredentials![3], "base64");
+      endpointSuffix = matchCredentials![4] || "";
+    } catch (err) {
+      throw new Error("Invalid Account Connection String");
+    }
+
+    const protocol = defaultEndpointsProtocol.toLowerCase();
+    if (protocol !== "https" && protocol !== "http") {
+      throw new Error(
+        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+      );
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided Connection String");
+    } else if (accountKey.length === 0) {
+      throw new Error("Invalid AccountKey in the provided Connection String");
+    } else if (!endpointSuffix) {
+      throw new Error("Invalid EndpointSuffix in the provided Connection String");
+    }
+
+    const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}/`;
+
+    return {
+      kind: "AccountConnString",
+      url,
+      accountName,
+      accountKey
+    };
+  } else {
+    // SAS connection string
+    const matchCredentials = connectionString.match(
+      "BlobEndpoint=(.*);QueueEndpoint=(.*);FileEndpoint=(.*);TableEndpoint=(.*);SharedAccessSignature=(.*)"
+    );
+    let endpoint;
+    let accountSas;
+    try {
+      endpoint = matchCredentials![2] || "";
+      accountSas = matchCredentials![5] || "";
+    } catch (error) {
+      throw new Error("Invalid SAS Connection String");
+    }
+
+    if (!endpoint) {
+      throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
+    } else if (!accountSas) {
+      throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    }
+
+    return { kind: "SASConnString", url: endpoint, accountSas: `?${accountSas}` };
   }
-
-  const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-
-  return {
-    url,
-    accountName,
-    accountKey
-  };
 }
 
 /**
