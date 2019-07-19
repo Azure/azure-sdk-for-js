@@ -361,7 +361,9 @@ export class EventHubSender extends LinkEntity {
       };
 
       const onAbort = () => {
-        abortSignal!.removeEventListener("abort", onAbort);
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
         rejectOnAbort();
       };
 
@@ -382,9 +384,6 @@ export class EventHubSender extends LinkEntity {
         await defaultLock.acquire(this.senderLock, () => {
           return this._init();
         });
-        if (abortSignal) {
-          abortSignal.removeEventListener("abort", onAbort);
-        }
         resolve(this._sender!.maxMessageSize);
       } catch (err) {
         log.error(
@@ -393,10 +392,11 @@ export class EventHubSender extends LinkEntity {
           this.name,
           err
         );
+        reject(err);
+      } finally {
         if (abortSignal) {
           abortSignal.removeEventListener("abort", onAbort);
         }
-        reject(err);
       }
     });
   }
