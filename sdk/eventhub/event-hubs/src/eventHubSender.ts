@@ -502,6 +502,14 @@ export class EventHubSender extends LinkEntity {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
+        let waitTimer: any;
+
+        let onRejected: Func<EventContext, void>;
+        let onReleased: Func<EventContext, void>;
+        let onModified: Func<EventContext, void>;
+        let onAccepted: Func<EventContext, void>;
+        let onAborted: () => void;
+
         const rejectOnAbort = () => {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${
@@ -511,15 +519,17 @@ export class EventHubSender extends LinkEntity {
           reject(new AbortError("The send operation has been cancelled by the user."));
         };
 
-        const onRejected: Func<EventContext, void> = (context: EventContext) => {
+        if (abortSignal && abortSignal.aborted) {
+          // operation has been cancelled, so exit quickly
+          return rejectOnAbort();
+        }
+
+        onAborted = () => {
           removeListeners();
-          log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
-          const err = translate(context!.delivery!.remote_state!.error);
-          log.error(err);
-          reject(err);
+          rejectOnAbort();
         };
 
-        const onAccepted: Func<EventContext, void> = (context: EventContext) => {
+        onAccepted = (context: EventContext) => {
           // Since we will be adding listener for accepted and rejected event every time
           // we send a message, we need to remove listener for both the events.
           // This will ensure duplicate listeners are not added for the same event.
@@ -532,12 +542,15 @@ export class EventHubSender extends LinkEntity {
           resolve();
         };
 
-        const onAborted = () => {
+        onRejected = (context: EventContext) => {
           removeListeners();
-          rejectOnAbort();
+          log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+          const err = translate(context!.delivery!.remote_state!.error);
+          log.error(err);
+          reject(err);
         };
 
-        const onReleased = (context: EventContext) => {
+        onReleased = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
           let err: Error;
@@ -552,8 +565,8 @@ export class EventHubSender extends LinkEntity {
           log.error(err);
           reject(err);
         };
-
-        const onModified = (context: EventContext) => {
+        
+        onModified = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
           let err: Error;
@@ -598,15 +611,10 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(
+        waitTimer = setTimeout(
           actionAfterTimeout,
           getRetryAttemptTimeoutInMs(options.retryOptions)
         );
-
-        if (abortSignal && abortSignal.aborted) {
-          // operation has been cancelled, so exit quickly
-          return rejectOnAbort();
-        }
 
         if (!this.isOpen()) {
           log.sender(
