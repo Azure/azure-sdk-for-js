@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { MessageId } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { Credential } from "./credentials/Credential";
@@ -20,14 +20,14 @@ import { extractConnectionStringParts } from "./utils/utils.common";
  */
 export interface MessageIdDeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -38,14 +38,14 @@ export interface MessageIdDeleteOptions {
  */
 export interface MessageIdUpdateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -169,7 +169,7 @@ export class MessageIdClient extends StorageClient {
     popReceipt: string,
     options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.deleteMethod(popReceipt, {
       abortSignal: aborter
     });
@@ -198,7 +198,7 @@ export class MessageIdClient extends StorageClient {
     visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.update(
       {
         messageText: message

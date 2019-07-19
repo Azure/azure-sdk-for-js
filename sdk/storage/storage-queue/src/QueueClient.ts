@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -26,14 +26,14 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface QueueCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
   /**
    * A collection of key-value string pair to associate with the queue object.
    * The keys need to be lower-case.
@@ -52,14 +52,14 @@ export interface QueueCreateOptions {
  */
 export interface QueueGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -70,14 +70,14 @@ export interface QueueGetPropertiesOptions {
  */
 export interface QueueDeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -88,14 +88,14 @@ export interface QueueDeleteOptions {
  */
 export interface QueueGetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -106,14 +106,14 @@ export interface QueueGetAccessPolicyOptions {
  */
 export interface QueueSetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -124,14 +124,14 @@ export interface QueueSetAccessPolicyOptions {
  */
 export interface QueueSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -292,7 +292,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.create({
       ...options,
       abortSignal: aborter
@@ -319,7 +319,7 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<Models.QueueGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.getProperties({
       abortSignal: aborter
     });
@@ -334,7 +334,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
     });
@@ -356,7 +356,7 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.setMetadata({
       abortSignal: aborter,
       metadata
@@ -378,7 +378,7 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
@@ -420,7 +420,7 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
       acl.push({

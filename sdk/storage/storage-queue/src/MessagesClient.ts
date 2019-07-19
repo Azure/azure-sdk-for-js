@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { Messages } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -21,14 +21,14 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface MessagesClearOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
+   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
    * about request cancellation.
    *
-   * @type {Aborter}
+   * @type {AbortSignal}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -252,7 +252,7 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.messagesContext.clear({
       abortSignal: aborter
     });
@@ -283,7 +283,7 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.enqueue(
       {
         messageText: messageText
@@ -319,7 +319,7 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.dequeue({
       abortSignal: aborter,
       ...options
@@ -345,14 +345,12 @@ export class MessagesClient extends StorageClient {
    * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
    * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.peek({
       abortSignal: aborter,
       ...options
