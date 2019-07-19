@@ -6,7 +6,7 @@ import { SecretsClient } from "../src";
 import { retry, isNode, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
- 
+
 describe("Secret client - restore secrets and recover backups", () => {
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
@@ -25,11 +25,13 @@ describe("Secret client - restore secrets and recover backups", () => {
   after(async function() {
     recorder.stop();
   });
- 
+
   // The tests follow
 
   it("can recover a deleted secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
     const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
@@ -45,7 +47,9 @@ describe("Secret client - restore secrets and recover backups", () => {
   });
 
   it("can recover a deleted secret (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     let error;
     try {
       await client.recoverDeletedSecret(secretName);
@@ -57,7 +61,9 @@ describe("Secret client - restore secrets and recover backups", () => {
   });
 
   it("can backup a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     await client.setSecret(secretName, "RSA");
     const result = await client.backupSecret(secretName);
     if (isNode) {
@@ -73,7 +79,9 @@ describe("Secret client - restore secrets and recover backups", () => {
   });
 
   it("can backup a secret (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     let error;
     try {
       await client.backupSecret(secretName);
@@ -85,7 +93,9 @@ describe("Secret client - restore secrets and recover backups", () => {
   });
 
   it("can restore a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await testClient.flushSecret(secretName);

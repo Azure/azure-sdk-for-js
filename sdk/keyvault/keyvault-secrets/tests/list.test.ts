@@ -8,7 +8,7 @@ import { retry, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 const { expect } = chai;
- 
+
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
@@ -28,11 +28,13 @@ describe("Secret client - list secrets in various ways", () => {
   after(async function() {
     recorder.stop();
   });
- 
+
   // The tests follow
 
   it("can list secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -53,7 +55,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list deleted secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -80,7 +84,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can retrieve all versions of a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -109,7 +115,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secret versions (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     let totalVersions = 0;
     for await (const version of client.listSecretVersions(secretName)) {
       assert.equal(
@@ -123,7 +131,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -143,7 +153,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list deleted secrets", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -170,7 +182,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can retrieve all versions of a secret", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -201,7 +215,9 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   it("can list secret versions (non existing)", async function() {
-    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
     let totalVersions = 0;
     for await (const page of client.listSecretVersions(secretName).byPage()) {
       for (const version of page) {
