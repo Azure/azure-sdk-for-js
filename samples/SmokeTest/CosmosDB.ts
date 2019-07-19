@@ -9,15 +9,15 @@ export class CosmosDB {
     private static container : Container;
 
     static async Run(){
-        console.log();
-        console.log("------------------------");
-        console.log("Cosmos DB");
-        console.log("------------------------");
-        console.log("1) Create a database");
-        console.log("2) Create a collection");
-        console.log("3) Create documents (items) in the collection");
-        console.log("4) Delete the database (Clean up the resource)");
-        console.log();
+        console.log(`
+            ------------------------
+            Cosmos DB
+            ------------------------
+            1) Create a database
+            2) Create a collection
+            3) Create documents (items) in the collection
+            4) Delete the database (Clean up the resource)
+            `);
 
         const endpoint = process.env["COSMOS_ENDPOINT"] || "<YourEndpoint>";
         const masterKey = process.env["COSMOS_KEY"] || "<YourKey>"; 

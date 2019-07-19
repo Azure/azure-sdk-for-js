@@ -6,13 +6,13 @@ export class BlobStorage{
     private static blobName : string;
 
     static async Run(){
-        console.log();
-        console.log("------------------------");
-        console.log("Storage - Blobs");
-        console.log("------------------------");
-        console.log("1) Upload Blob");
-        console.log("2) Delete Blob (Clean up the resource)");
-        console.log();
+        console.log(`
+------------------------
+Storage - Blobs
+------------------------
+1) Upload Blob
+2) Delete Blob (Clean up the resource
+`);
 
         const account = process.env["STORAGE_ACCOUNT_NAME"]     || "<YourStorageAccountNAME>";
         const accountKey = process.env["STORAGE_ACCOUNT_KEY"]   || "<YourStorageAccountKEY>";

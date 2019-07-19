@@ -7,14 +7,15 @@ export class KeyVaultSecrets{
     private static secretValue : string;
     
     static async Run() {
-        console.log();
-        console.log("------------------------");
-        console.log("Key Vault - Secrets\nIdentity - Credential");
-        console.log("------------------------");
-        console.log("1) Set a secret");
-        console.log("2) Get that secret");
-        console.log("3) Delete that secret (Clean up the resource)");
-        console.log();
+        console.log(`
+        ------------------------
+        Key Vault - Secrets
+        Identity - Credential
+        ------------------------
+        1) Set a secret
+        2) Get that secret
+        3) Delete that secret (Clean up the resource)
+        `);
         
         // EnvironmentCredential expects the following three environment variables:
         // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory

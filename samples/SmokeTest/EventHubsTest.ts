@@ -6,14 +6,14 @@ export class EventHubs{
     private static partitionId : string[];
 
     static async Run(){
-        console.log();
-        console.log("------------------------");
-        console.log("Event Hubs");
-        console.log("------------------------");
-        console.log("1) Get partitions ID");
-        console.log("2) Send a batch of 3 events");
-        console.log("3) Get a batch of events");
-        console.log();
+        console.log(`
+            ------------------------
+            "Event Hubs"
+            ------------------------
+            1) Get partitions ID
+            2) Send a batch of 3 events
+            3) Get a batch of events
+            `);
 
         let eventHubName = "myeventhub";
         let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"] || "<YourConnectionString>";

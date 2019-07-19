@@ -4,9 +4,11 @@ import {BlobStorage} from "./BlobStorage";
 import {CosmosDB} from "./CosmosDB";
 
 function welcomeMessage(){
-    console.log("=============================================");
-    console.log("Smoke Test Samples for SDK Track 2 libraries");
-    console.log("=============================================");
+    console.log(`
+=============================================
+Smoke Test Samples for SDK Track 2 libraries
+============================================
+`);
 }
 
 async function main(){
