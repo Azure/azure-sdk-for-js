@@ -90,152 +90,148 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
-    const sendRequestPromise = () =>
-      new Promise<AmqpMessage>((resolve: any, reject: any) => {
-        let waitTimer: any;
-        let timeOver: boolean = false;
-        type NormalizedInfo = {
-          statusCode: number;
-          statusDescription: string;
-          errorCondition: string;
-        };
+    return new Promise<AmqpMessage>((resolve: any, reject: any) => {
+      let waitTimer: any;
+      let timeOver: boolean = false;
+      type NormalizedInfo = {
+        statusCode: number;
+        statusDescription: string;
+        errorCondition: string;
+      };
 
-        if (!request.message_id) {
-          // Set the message_id only if it is not set
-          request.message_id = generate_uuid();
+      if (!request.message_id) {
+        // Set the message_id only if it is not set
+        request.message_id = generate_uuid();
+      }
+
+      const rejectOnAbort = () => {
+        if (timeOver) {
+          clearTimeout(waitTimer);
         }
-
-        const rejectOnAbort = () => {
-          if(timeOver) {
-            clearTimeout(waitTimer);
-          }
-          const address = this.receiver.address || "address";
-          const requestName = options!.requestName;
-          const desc: string =
-            `[${this.connection.id}] The request "${requestName}" ` +
-            `to "${address}" has been cancelled by the user.`;
-          log.error(desc);
-          const error = new AbortError(
-            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-          );
-
-          reject(error);
-        };
-
-        const onAbort = () => {
-          // remove the event listener as this will be registered next time someone makes a request.
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          // safe to clear the timeout if it hasn't already occurred.
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
-          aborter!.removeEventListener("abort", onAbort);
-
-          rejectOnAbort();
-        };
-
-        if (aborter) {
-          // the aborter may have been triggered between request attempts
-          // so check if it was triggered and reject if needed.
-          if (aborter.aborted) {
-            return rejectOnAbort();
-          }
-          aborter.addEventListener("abort", onAbort);
-        }
-
-        // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
-        const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
-          if (!props) props = {};
-          return {
-            statusCode: (props[Constants.statusCode] || props.statusCode) as number,
-            statusDescription: (props[Constants.statusDescription] ||
-              props.statusDescription) as string,
-            errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
-          };
-        };
-
-        const messageCallback = (context: EventContext) => {
-          // remove the event listeners as they will be registered next time when someone makes a request.
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          if (aborter) {
-            aborter.removeEventListener("abort", onAbort);
-          }
-          const info = getCodeDescriptionAndError(context.message!.application_properties);
-          const responseCorrelationId = context.message!.correlation_id;
-          log.reqres(
-            "[%s] %s response: ",
-            this.connection.id,
-            request.to || "$management",
-            context.message
-          );
-          if (info.statusCode > 199 && info.statusCode < 300) {
-            if (
-              request.message_id === responseCorrelationId ||
-              request.correlation_id === responseCorrelationId
-            ) {
-              if (!timeOver) {
-                clearTimeout(waitTimer);
-              }
-              log.reqres(
-                "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
-              return resolve(context.message);
-            } else {
-              log.error(
-                "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-                  "Hence dropping this response and waiting for the next one.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
-            }
-          } else {
-            const condition =
-              info.errorCondition ||
-              ConditionStatusMapper[info.statusCode] ||
-              "amqp:internal-error";
-            const e: AmqpError = {
-              condition: condition,
-              description: info.statusDescription
-            };
-            const error = translate(e);
-            log.error(error);
-            return reject(error);
-          }
-        };
-
-        const actionAfterTimeout = () => {
-          timeOver = true;
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          if (aborter) {
-            aborter.removeEventListener("abort", onAbort);
-          }
-          const address = this.receiver.address || "address";
-          const desc: string =
-            `The request with message_id "${request.message_id}" to "${address}" ` +
-            `endpoint timed out. Please try again later.`;
-          const e: Error = {
-            name: "OperationTimeoutError",
-            message: desc
-          };
-          return reject(translate(e));
-        };
-        
-        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
-        this.receiver.on(ReceiverEvents.message, messageCallback);
-
-        log.reqres(
-          "[%s] %s request sent: %O",
-          this.connection.id,
-          request.to || "$managment",
-          request
+        const address = this.receiver.address || "address";
+        const requestName = options!.requestName;
+        const desc: string =
+          `[${this.connection.id}] The request "${requestName}" ` +
+          `to "${address}" has been cancelled by the user.`;
+        log.error(desc);
+        const error = new AbortError(
+          `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
         );
-        this.sender.send(request);
-      });
-    return sendRequestPromise();
+
+        reject(error);
+      };
+
+      const onAbort = () => {
+        // remove the event listener as this will be registered next time someone makes a request.
+        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        // safe to clear the timeout if it hasn't already occurred.
+        if (!timeOver) {
+          clearTimeout(waitTimer);
+        }
+        aborter!.removeEventListener("abort", onAbort);
+
+        rejectOnAbort();
+      };
+
+      if (aborter) {
+        // the aborter may have been triggered between request attempts
+        // so check if it was triggered and reject if needed.
+        if (aborter.aborted) {
+          return rejectOnAbort();
+        }
+        aborter.addEventListener("abort", onAbort);
+      }
+
+      // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
+      const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
+        if (!props) props = {};
+        return {
+          statusCode: (props[Constants.statusCode] || props.statusCode) as number,
+          statusDescription: (props[Constants.statusDescription] ||
+            props.statusDescription) as string,
+          errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
+        };
+      };
+
+      const messageCallback = (context: EventContext) => {
+        // remove the event listeners as they will be registered next time when someone makes a request.
+        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (aborter) {
+          aborter.removeEventListener("abort", onAbort);
+        }
+        const info = getCodeDescriptionAndError(context.message!.application_properties);
+        const responseCorrelationId = context.message!.correlation_id;
+        log.reqres(
+          "[%s] %s response: ",
+          this.connection.id,
+          request.to || "$management",
+          context.message
+        );
+        if (info.statusCode > 199 && info.statusCode < 300) {
+          if (
+            request.message_id === responseCorrelationId ||
+            request.correlation_id === responseCorrelationId
+          ) {
+            if (!timeOver) {
+              clearTimeout(waitTimer);
+            }
+            log.reqres(
+              "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+            return resolve(context.message);
+          } else {
+            log.error(
+              "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
+                "Hence dropping this response and waiting for the next one.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+          }
+        } else {
+          const condition =
+            info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
+          const e: AmqpError = {
+            condition: condition,
+            description: info.statusDescription
+          };
+          const error = translate(e);
+          log.error(error);
+          return reject(error);
+        }
+      };
+
+      const actionAfterTimeout = () => {
+        timeOver = true;
+        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (aborter) {
+          aborter.removeEventListener("abort", onAbort);
+        }
+        const address = this.receiver.address || "address";
+        const desc: string =
+          `The request with message_id "${request.message_id}" to "${address}" ` +
+          `endpoint timed out. Please try again later.`;
+        const e: Error = {
+          name: "OperationTimeoutError",
+          message: desc
+        };
+        return reject(translate(e));
+      };
+
+      waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+      this.receiver.on(ReceiverEvents.message, messageCallback);
+
+      log.reqres(
+        "[%s] %s request sent: %O",
+        this.connection.id,
+        request.to || "$managment",
+        request
+      );
+      this.sender.send(request);
+    });
   }
 
   /**
