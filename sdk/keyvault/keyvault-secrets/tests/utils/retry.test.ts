@@ -18,7 +18,6 @@ describe("retry utility function", function() {
   });
 
   it("returns the value if resolved on time", async () => {
-    const success = async () => true;
     const result = await retry(async () => true);
     assert.strictEqual(result, true);
   });
