@@ -349,6 +349,9 @@ export class EventHubSender extends LinkEntity {
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getMaxMessageSize(abortSignal?: AbortSignalLike): Promise<number> {
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
     return new Promise<number>(async (resolve, reject) => {
       const rejectOnAbort = () => {
         const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
@@ -371,15 +374,16 @@ export class EventHubSender extends LinkEntity {
         abortSignal.addEventListener("abort", onAbort);
       }
       try {
-        if (!this.isOpen()) {
-          log.sender(
-            "Acquiring lock %s for initializing the session, sender and " +
-              "possibly the connection.",
-            this.senderLock
-          );
-          await defaultLock.acquire(this.senderLock, () => {
-            return this._init();
-          });
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
         }
         resolve(this._sender!.maxMessageSize);
       } catch (err) {
@@ -389,6 +393,9 @@ export class EventHubSender extends LinkEntity {
           this.name,
           err
         );
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
         reject(err);
       }
     });
