@@ -8,7 +8,6 @@ import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch } from "./eventDataBatch";
-import { RetryConfig, retry, Constants, RetryOperationType } from "@azure/core-amqp";
 
 /**
  * A producer responsible for sending `EventData` to a specific Event Hub.
@@ -87,28 +86,10 @@ export class EventHubProducer {
       throw error;
     }
 
-    const retryOptions = this._senderOptions.retryOptions;
-    const maxRetries =
-      retryOptions && typeof retryOptions.maxRetries === "number"
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
-    const retryInterval =
-      retryOptions &&
-      typeof retryOptions.retryInterval === "number" &&
-      retryOptions.retryInterval > 0
-        ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
-    const config: RetryConfig<number> = {
-      operation: () => this._eventHubSender!.getMaxMessageSize(options!.abortSignal),
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.senderLink,
-      maxRetries: maxRetries,
-      delayInSeconds: retryInterval
-    };
-
-    let maxMessageSize = await retry<number>(config);
-
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize({
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options.abortSignal
+    });
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize) {
         const error = new Error(
