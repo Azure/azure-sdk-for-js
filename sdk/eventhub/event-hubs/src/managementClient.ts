@@ -10,8 +10,7 @@ import {
   SendRequestOptions,
   retry,
   RetryConfig,
-  RetryOperationType,
-  randomNumberFromInterval
+  RetryOperationType
 } from "@azure/core-amqp";
 import {
   Message,
@@ -364,10 +363,10 @@ export class ManagementClient extends LinkEntity {
             err = translate(err);
             const address = this._mgmtReqResLink!.sender.address || "address";
             log.error(
-              "[%s] An error occurred during send on management request-response link '%s' with address " +
+              "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
               this._context.connectionId,
-              this._mgmtReqResLink!.name,
+
               address,
               err
             );
@@ -382,7 +381,7 @@ export class ManagementClient extends LinkEntity {
         options.retryOptions.retryInterval >= 0
           ? options.retryOptions.retryInterval / 1000
           : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-      const config: RetryConfig<void> = {
+      const config: RetryConfig<Message> = {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
