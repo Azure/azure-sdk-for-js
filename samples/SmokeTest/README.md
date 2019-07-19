@@ -74,7 +74,7 @@ tsc
 ```
 node app.js
 ```
-## Key Concepts
+## Key concepts
 
 
 ## Examples
