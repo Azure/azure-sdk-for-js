@@ -287,7 +287,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         await producer.send(eventDataBatch, { partitionKey: "2" });
         throw new Error("Test Failure");
       } catch (err) {
-        err.message.should.equal("Partition key is not supported when using createBatch().");
+        err.message.should.equal(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
       }
     });
   });

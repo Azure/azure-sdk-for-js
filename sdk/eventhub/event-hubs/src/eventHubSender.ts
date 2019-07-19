@@ -661,6 +661,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
+          
           const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d",
