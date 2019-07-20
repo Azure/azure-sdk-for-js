@@ -41,3 +41,14 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
     }
   }
 }
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_SAS_CONNECTION_STRING`;
+  const connectionString = (window as any).__env__[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
+}
