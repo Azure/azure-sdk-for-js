@@ -60,10 +60,15 @@ jobs:
       - script: npm run build
         displayName: "npm run build"
 
-      - bash: npm run test -- --forbid-only
+      - bash: npm run test -- --forbid-only --reporter mocha-junit-reporter
         displayName: "npm test"
         env:
           MOCHA_TIMEOUT: 100000
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: '**/test-results.xml'
       - bash: npm run test-consumer
         displayName: "TypeScript consumer tests"
       
