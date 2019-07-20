@@ -86,7 +86,10 @@ export class EventHubProducer {
       throw error;
     }
 
-    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize(options.abortSignal);
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize({
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options.abortSignal
+    });
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize) {
         const error = new Error(
