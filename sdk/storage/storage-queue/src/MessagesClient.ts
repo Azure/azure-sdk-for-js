@@ -231,7 +231,7 @@ export class MessagesClient extends StorageClient {
           extractedCreds.accountName,
           extractedCreds.accountKey
         );
-        urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
+        urlOrConnectionString = extractedCreds.url + queueName + "/messages";
         pipeline = newPipeline(sharedKeyCredential, options);
       } else {
         throw new Error("Connection string is only supported in Node.js environment");

@@ -271,7 +271,7 @@ export class QueueClient extends StorageClient {
           extractedCreds.accountName,
           extractedCreds.accountKey
         );
-        urlOrConnectionString = extractedCreds.url + "/" + queueName;
+        urlOrConnectionString = extractedCreds.url + queueName;
         pipeline = newPipeline(sharedKeyCredential, options);
       } else {
         throw new Error("Connection string is only supported in Node.js environment");
