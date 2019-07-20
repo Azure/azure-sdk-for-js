@@ -235,7 +235,7 @@ export class MessagesClient extends StorageClient {
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + queueName + "/messages";
+          urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection is only supported in Node.js environment");
@@ -243,7 +243,7 @@ export class MessagesClient extends StorageClient {
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         urlOrConnectionString =
-          extractedCreds.url + queueName + "/messages" + extractedCreds.accountSas;
+          extractedCreds.url + "/" + queueName + "/messages" + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

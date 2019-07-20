@@ -160,7 +160,7 @@ export function extractConnectionStringParts(
       throw new Error("Invalid EndpointSuffix in the provided Connection String");
     }
 
-    const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}/`;
+    const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
 
     return {
       kind: "AccountConnString",
@@ -171,7 +171,7 @@ export function extractConnectionStringParts(
   } else {
     // SAS connection string
     const matchCredentials = connectionString.match(
-      "BlobEndpoint=(.*);QueueEndpoint=(.*);FileEndpoint=(.*);TableEndpoint=(.*);SharedAccessSignature=(.*)"
+      "BlobEndpoint=(.*)/;QueueEndpoint=(.*)/;FileEndpoint=(.*)/;TableEndpoint=(.*)/;SharedAccessSignature=(.*)"
     );
     let endpoint;
     let accountSas;
@@ -188,7 +188,7 @@ export function extractConnectionStringParts(
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: endpoint, accountSas: `?${accountSas}` };
+    return { kind: "SASConnString", url: endpoint, accountSas };
   }
 }
 

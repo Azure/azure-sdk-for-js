@@ -274,14 +274,15 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + queueName;
+          urlOrConnectionString = extractedCreds.url + "/" + queueName;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        urlOrConnectionString = extractedCreds.url + queueName + extractedCreds.accountSas;
+        urlOrConnectionString =
+          extractedCreds.url + "/" + queueName + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
