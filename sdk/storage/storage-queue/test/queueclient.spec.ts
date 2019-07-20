@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getQSU } from "./utils";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
@@ -116,5 +116,39 @@ describe("QueueClient", () => {
       error = err;
     }
     assert.ok(error); // For browser, permission denied; For node, invalid permission
+  });
+
+  it("can be created with a sas connection string and a queue name", async () => {
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a sas connection string and a queue name and an option bag", async () => {
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("throws error if constructor queueName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new QueueClient(getSASConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for queueName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });
