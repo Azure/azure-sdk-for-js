@@ -69,7 +69,7 @@ export class MessageIdClient extends StorageClient {
    *
    * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
-   *                                  Account connection string example - 
+   *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -148,7 +148,7 @@ export class MessageIdClient extends StorageClient {
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + queueName + "/" + messageId;
+          urlOrConnectionString = extractedCreds.url + queueName + "/messages/" + messageId;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -156,10 +156,13 @@ export class MessageIdClient extends StorageClient {
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         const messageId = messageIdOrOptions;
-        urlOrConnectionString = extractedCreds.url + queueName + "/" + messageId + extractedCreds.accountSas;
+        urlOrConnectionString =
+          extractedCreds.url + queueName + "/messages/" + messageId + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
-        throw new Error("Connection string must be either an Account connection string or a SAS connection string");
+        throw new Error(
+          "Connection string must be either an Account connection string or a SAS connection string"
+        );
       }
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
