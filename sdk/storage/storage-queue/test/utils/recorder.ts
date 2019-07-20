@@ -78,6 +78,7 @@ if (isPlayingBack) {
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
   env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
+  env.STORAGE_SAS_CONNECTION_STRING = `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
