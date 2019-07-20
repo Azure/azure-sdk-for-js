@@ -30,7 +30,7 @@ import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch } from "./eventDataBatch";
-import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs, RetryOptions } from "./eventHubClient";
 
 /**
  * @ignore
@@ -348,7 +348,12 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<number>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getMaxMessageSize(abortSignal?: AbortSignalLike): Promise<number> {
+  async getMaxMessageSize(options?: {
+    retryOptions?: RetryOptions;
+    abortSignal?: AbortSignalLike;
+  }): Promise<number> {
+    const abortSignal = options && options.abortSignal;
+    const retryOptions = options && options.retryOptions;
     if (this.isOpen()) {
       return this._sender!.maxMessageSize;
     }
@@ -382,7 +387,26 @@ export class EventHubSender extends LinkEntity {
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
+          const maxRetries =
+            retryOptions && typeof retryOptions.maxRetries === "number"
+              ? retryOptions.maxRetries
+              : Constants.defaultMaxRetries;
+          const retryInterval =
+            retryOptions &&
+            typeof retryOptions.retryInterval === "number" &&
+            retryOptions.retryInterval > 0
+              ? retryOptions.retryInterval / 1000
+              : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+
+          const config: RetryConfig<void> = {
+            operation: () => this._init(),
+            connectionId: this._context.connectionId,
+            operationType: RetryOperationType.senderLink,
+            maxRetries: maxRetries,
+            delayInSeconds: retryInterval
+          };
+
+          return retry<void>(config);
         });
         resolve(this._sender!.maxMessageSize);
       } catch (err) {
