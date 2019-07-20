@@ -119,11 +119,16 @@ export function getURLQueries(url: string): { [key: string]: string } {
  *
  * @export
  * @param {string} connectionString Connection string.
- * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Queue, account name, and account key.
+ * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
  */
-export function extractConnectionStringParts(connectionString: string): { kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any } {
+export function extractConnectionStringParts(
+  connectionString: string
+): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
   // Account connection string
-  if ((connectionString.search("DefaultEndpointsProtocol=") !== -1) && (connectionString.search("AccountKey=") !== -1)) {
+  if (
+    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
+    connectionString.search("AccountKey=") !== -1
+  ) {
     const matchCredentials = connectionString.match(
       "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
     );
