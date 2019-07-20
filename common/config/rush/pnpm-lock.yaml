@@ -1,5 +1,8 @@
 dependencies:
+  '@azure/abort-controller': 1.0.0-preview.1
   '@azure/arm-servicebus': 0.1.0
+  '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+  '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': 2.1.1
   '@azure/event-processor-host': 1.0.6
   '@azure/logger-js': 1.3.2
@@ -185,6 +188,12 @@ dependencies:
   yarn: 1.17.3
 lockfileVersion: 5.1
 packages:
+  /@azure/abort-controller/1.0.0-preview.1:
+    dependencies:
+      tslib: 1.10.0
+    dev: false
+    resolution:
+      integrity: sha512-NnJqi6oHqt06Q2hz4nO1HO0QlyusBa3E/wezvn9flHEtl0IHYSmzGbtlb+MaAJ5GzxwqSevQ4q1+4B8fvVijOA==
   /@azure/amqp-common/0.1.9_rhea-promise@0.1.15:
     dependencies:
       async-lock: 1.2.2
@@ -229,6 +238,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mjfeTrEayb1koiy9hq/c9mfa5mys4P6zZdW2QAx4Ma0x4W6/f24O3p0109NHRkiHRay4QsOY3PaTy6CBlvIp+g==
+  /@azure/core-asynciterator-polyfill/1.0.0-preview.1:
+    dev: false
+    resolution:
+      integrity: sha512-hMp0y+j/odkAyTa5TYewn4hUlFdEe3sR9uTd2Oq+se61RtuDsqM7UWrNNlyylPyjIENSZHJVWN7jte/jvvMN2Q==
+  /@azure/core-paging/1.0.0-preview.1:
+    dependencies:
+      '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+    dev: false
+    resolution:
+      integrity: sha512-mZHkadyAbhV1+brHEsWICnURW6E72D2HReM+8MWDn5oVJdlxD51w14PeqsOZC4UDYv4x2Eww5+PFRTEOrNB1Uw==
   /@azure/event-hubs/1.0.8:
     dependencies:
       '@azure/amqp-common': 0.1.9_rhea-promise@0.1.15
@@ -9681,6 +9700,7 @@ packages:
     version: 0.0.0
   'file:projects/core-amqp.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -9745,7 +9765,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-zLeKKzKgHkgwAXAE0QzD/xU4jcOydOMsp/WMMMHW2WHwZh6zfLQLsV3D5J/MT2oYGhcL8CblmK64AA3dkAxZGg==
+      integrity: sha512-9LHxNb4QrxyNRXfAf5u1uisfKB2+L3H/fet8fGbe8aotNAfIeVipiftCD8oaATz7qdnG+FXQwLVxXMaz4dI7rg==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9807,6 +9827,7 @@ packages:
     version: 0.0.0
   'file:projects/core-auth.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.2
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
@@ -9841,7 +9862,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-wu8h+6VdvLfuUz6YnPyOCC8C2+TLDNyETJ9g+eQq2iftft3Kn06avg3RF+Vd1VdLDADfoW0BfQtCPqf4IeSG9g==
+      integrity: sha512-D6tMjROHeCf7ijXZIPhewnP5sPK7Aj+k5Na5O5OU629HF7qLBczazjTCnpnnex4X8yvi4X3b82rX/LD2OxZ0dQ==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -9928,6 +9949,7 @@ packages:
     version: 0.0.0
   'file:projects/core-paging.tgz':
     dependencies:
+      '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
       '@types/node': 8.10.51
       '@typescript-eslint/eslint-plugin': 1.12.0_db854cf46887ef4aa7b9323cccc417a5
       '@typescript-eslint/parser': 1.12.0_eslint@5.16.0+typescript@3.5.3
@@ -9942,7 +9964,7 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-/W+0n29xaW4k8IAYkvUEUKaXP76zzu9zXR/Yl1tOYdtlH9gVukaIWBDAXoO5SuGCuR2t3d7XyRavEUBkWHvEuw==
+      integrity: sha512-MTsl2eG0FXkUyouQVkSEpgLuG6tNUKE8ckhH8y4B3VUevh/MOS/ghpCqXFRKEAMF7jVfB1s2BSSorGYFuWlcDg==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -9989,6 +10011,8 @@ packages:
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
+      '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.2
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
@@ -10058,7 +10082,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-tWBCA9FCCE0kDlXL5s7wjEa0mgEO2EacEyM2PcELFrq49fU0/rm3G6CfqCelbBi5fcjZzXt+x1daOAgZQTVxog==
+      integrity: sha512-1GJu6YVyxIFLe1hq0W9+is9tGnNt5ExJ6aHDvGGPX+j1zCZnh2x0Lb/fK0VTUcEybCw9D+lLpTd4vXNYphTMww==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10198,6 +10222,8 @@ packages:
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
+      '@azure/core-paging': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.2
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
@@ -10260,11 +10286,13 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-wkUgQkpcf3+IFS5rvnFuXI6/kLxbS4LlOBWH6yllYBBom6yJdCBnNYuTs9KebyINpWwmTaGPjdRhugVARCL/4Q==
+      integrity: sha512-YxgQVL8Y2a9w5pgeg9+ySRGDEhxDinZqrJOBO9xWt3T1Yqdeg1Z60JYoEJxNkeYTdKyU/e+SqtNCraDlHQl+og==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
+      '@azure/core-paging': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.2
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
@@ -10327,7 +10355,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-iskOBtzM5p7jC0PEt61VE9eT2ToqP3UlcQB/enumy/fwxpMI3gcuy1dEPVMFgX5XuzFN43kBfF95gYM6rkjVOQ==
+      integrity: sha512-FX/fAYRKt7iVsLL2O1bUD31Ywx+dYKQWOa/rUflIa11oY+QacfCt6OKT8l44cQN3irSr8ty7dcHcZ+yDULKnVg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10698,7 +10726,10 @@ packages:
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 specifiers:
+  '@azure/abort-controller': 1.0.0-preview.1
   '@azure/arm-servicebus': ^0.1.0
+  '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+  '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': ^2.1.1
   '@azure/event-processor-host': ^1.0.6
   '@azure/logger-js': ^1.0.2
