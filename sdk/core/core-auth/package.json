@@ -62,7 +62,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/abort-controller": "1.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",

@@ -58,7 +58,7 @@
   "sideEffects": true,
   "private": false,
   "dependencies": {
-    "@azure/core-asynciterator-polyfill": "1.0.0-preview.2"
+    "@azure/core-asynciterator-polyfill": "1.0.0-preview.1"
   },
   "devDependencies": {
     "@types/node": "^8.0.0",
