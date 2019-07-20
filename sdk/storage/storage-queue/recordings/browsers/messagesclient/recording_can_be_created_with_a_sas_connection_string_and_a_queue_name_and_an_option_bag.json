@@ -1,0 +1,59 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156360480122604632",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "076fb209-0003-0025-50c5-3ee222000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 20 Jul 2019 06:40:00 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156360480122604632/messages",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
+   "status": 201,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>b406836f-c5f4-4594-8efd-7dcc5ba4a2b6</MessageId><InsertionTime>Sat, 20 Jul 2019 06:40:01 GMT</InsertionTime><ExpirationTime>Sat, 27 Jul 2019 06:40:01 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAzhrd9MU+1QE=</PopReceipt><TimeNextVisible>Sat, 20 Jul 2019 06:40:01 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Sat, 20 Jul 2019 06:40:00 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "076fb21b-0003-0025-61c5-3ee222000000",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156360480122604632",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "076fb226-0003-0025-6ac5-3ee222000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 20 Jul 2019 06:40:01 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "queue": "queue156360480122604632"
+ }
+}
