@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.7.3",
+  "rushVersion": "5.10.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "3.2.0",
+  "pnpmVersion": "3.5.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -319,6 +319,10 @@
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/core-arm",
+      "projectFolder": "sdk/core/core-arm"
+    },
+    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth"
     },
@@ -369,10 +373,6 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob"
-    },
-    {
-      "packageName": "@azure/storage-datalake",
-      "projectFolder": "sdk/storage/storage-datalake"
     },
     {
       "packageName": "@azure/storage-file",

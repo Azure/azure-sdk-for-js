@@ -4,19 +4,14 @@
 
 ```ts
 
-import { AmqpMessage } from '@azure/amqp-common';
-import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { DataTransformer } from '@azure/amqp-common';
-import { delay } from '@azure/amqp-common';
+import { AmqpMessage } from '@azure/core-amqp';
+import { DataTransformer } from '@azure/core-amqp';
+import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import Long from 'long';
-import { MessagingError } from '@azure/amqp-common';
-import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
-import { TokenInfo } from '@azure/amqp-common';
-import { TokenProvider } from '@azure/amqp-common';
-import { TokenType } from '@azure/amqp-common';
-import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { MessagingError } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-amqp';
+import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
@@ -153,9 +148,7 @@ export class Sender {
 // @public
 export class ServiceBusClient {
     close(): Promise<any>;
-    static createFromAadTokenCredentials(host: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ServiceBusClientOptions): ServiceBusClient;
     static createFromConnectionString(connectionString: string, options?: ServiceBusClientOptions): ServiceBusClient;
-    static createFromTokenProvider(host: string, tokenProvider: TokenProvider, options?: ServiceBusClientOptions): ServiceBusClient;
     createQueueClient(queueName: string): QueueClient;
     createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
     createTopicClient(topicName: string): TopicClient;
@@ -260,9 +253,7 @@ export class SubscriptionClient implements Client {
     readonly topicName: string;
 }
 
-export { TokenInfo }
-
-export { TokenProvider }
+export { TokenCredential }
 
 export { TokenType }
 

@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
@@ -21,6 +22,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 
 // @public
 export interface CreateKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];

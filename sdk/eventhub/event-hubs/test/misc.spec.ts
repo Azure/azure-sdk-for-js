@@ -9,8 +9,13 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
-import { EventPosition, EventHubClient, EventData, EventHubProperties } from "../src";
-import { BatchingReceiver } from "../src/batchingReceiver";
+import {
+  EventPosition,
+  EventHubClient,
+  EventData,
+  EventHubProperties,
+  EventHubConsumer
+} from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
@@ -20,7 +25,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
-  let breceiver: BatchingReceiver;
+  let receiver: EventHubConsumer;
   let hubInfo: EventHubProperties;
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -38,7 +43,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     await client.close();
   });
 
-  it("should be able to send and receive a large message correctly", async function(): Promise<void> {
+  it("should be able to send and receive a large message correctly", async function(): Promise<
+    void
+  > {
     const bodysize = 220 * 1024;
     const partitionId = hubInfo.partitionIds[0];
     const msgString = "A".repeat(220 * 1024);
@@ -47,20 +54,19 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
-    breceiver = BatchingReceiver.create(
-      (client as any)._context,
+    receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
     );
-    let data = await breceiver.receive(5, 10);
+    let data = await receiver.receiveBatch(5, 10);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    data = await breceiver.receive(5, 30);
+    data = await receiver.receiveBatch(5, 30);
     debug("Closing the receiver..");
-    await breceiver.close();
+    await receiver.close();
     debug("received message: ", data.length);
     should.exist(data);
     should.equal(data.length, 1);
@@ -68,7 +74,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<void> {
+  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<
+    void
+  > {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = {
       id: "123-456-789",
@@ -86,8 +94,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    breceiver = BatchingReceiver.create(
-      (client as any)._context,
+    receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
@@ -95,8 +102,8 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 30);
-    await breceiver.close();
+    const data = await receiver.receiveBatch(5, 30);
+    await receiver.close();
     debug("received message: ", data);
     should.exist(data);
     should.equal(data.length, 1);
@@ -105,7 +112,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive an array as a message correctly", async function(): Promise<void> {
+  it("should be able to send and receive an array as a message correctly", async function(): Promise<
+    void
+  > {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = [
       {
@@ -121,8 +130,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    breceiver = BatchingReceiver.create(
-      (client as any)._context,
+    receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
@@ -130,8 +138,8 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 30);
-    await breceiver.close();
+    const data = await receiver.receiveBatch(5, 30);
+    await receiver.close();
     debug("received message: ", data);
     should.exist(data);
     should.equal(data.length, 1);
@@ -147,8 +155,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    breceiver = BatchingReceiver.create(
-      (client as any)._context,
+    receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       partitionId,
       EventPosition.fromOffset(offset)
@@ -156,8 +163,8 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 30);
-    await breceiver.close();
+    const data = await receiver.receiveBatch(5, 30);
+    await receiver.close();
     debug("received message: ", data);
     should.exist(data);
     should.equal(data.length, 1);
@@ -166,7 +173,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive batched messages correctly ", async function(): Promise<void> {
+  it("should be able to send and receive batched messages correctly ", async function(): Promise<
+    void
+  > {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
@@ -201,7 +210,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     }
   });
 
-  it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<void> {
+  it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<
+    void
+  > {
     try {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
@@ -254,7 +265,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     }
   });
 
-  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<void> {
+  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<
+    void
+  > {
     const msgToSendCount = 50;
     const partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
@@ -271,7 +284,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
       const sender = client.createProducer();
-      await sender.send([{ body: "Hello EventHub " + i }], { partitionKey: partitionKey.toString() });
+      await sender.send([{ body: "Hello EventHub " + i }], {
+        partitionKey: partitionKey.toString()
+      });
     }
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};
