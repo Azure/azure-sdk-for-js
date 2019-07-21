@@ -65,6 +65,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/core-arm": "^1.0.0-preview.1",
     "@azure/core-http": "^1.0.0-preview.1",
     "tslib": "^1.9.3"
   },
