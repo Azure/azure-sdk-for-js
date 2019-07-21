@@ -24,7 +24,7 @@ import {
   RetryOperationType,
   Constants,
   randomNumberFromInterval
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import {
   SendableMessageInfo,
   toAmqpMessage,
@@ -395,7 +395,7 @@ export class MessageSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      times: Constants.defaultRetryAttempts,
+      maxRetries: Constants.defaultMaxRetries,
       delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
 
@@ -537,7 +537,7 @@ export class MessageSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            times: Constants.defaultConnectionRetryAttempts,
+            maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.namespace.config.host,
             delayInSeconds: 15
           };

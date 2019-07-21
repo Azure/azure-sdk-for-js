@@ -65,7 +65,7 @@
   "engine": {
     "node": ">=6.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/identity/identity",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "^1.0.0-preview.1",

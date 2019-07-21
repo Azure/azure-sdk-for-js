@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.3",
+  "version": "2.0.0-preview.1",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
@@ -65,7 +65,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/amqp-common": "^1.0.0-preview.6",
+    "@azure/core-amqp": "^1.0.0-preview.1",
     "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",

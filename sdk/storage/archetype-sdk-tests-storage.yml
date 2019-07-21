@@ -6,57 +6,57 @@ parameters:
     ACCOUNT_SAS: $(js-storage-test-account-sas)
     STORAGE_CONNECTION_STRING: $(js-storage-test-connection-string)
   Matrix:
-    Linux_Node8X:
+    Linux_Node8:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "8.x"
       TestType: "node"
-    Linux_Node10X:
+    Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
       TestType: "node"
-    Linux_Node12X:
+    Linux_Node12:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "12.x"
       TestType: "node"
-    Windows_Node8X:
+    Windows_Node8:
       OSVmImage: "vs2017-win2016"
       NodeVersion: "8.x"
       TestType: "node"
-    Windows_Node10X:
+    Windows_Node10:
       OSVmImage: "vs2017-win2016"
       NodeVersion: "10.x"
       TestType: "node"
-    Windows_Node12X:
+    Windows_Node12:
       OSVmImage: "vs2017-win2016"
       NodeVersion: "12.x"
       TestType: "node"
-    Mac_Node8X:
+    macOS_Node8:
       OSVmImage: "macOS-10.13"
       NodeVersion: "8.x"
       TestType: "node"
-    Mac_Node10X:
+    macOS_Node10:
       OSVmImage: "macOS-10.13"
       NodeVersion: "10.x"
       TestType: "node"
-    Mac_Node12X:
+    macOS_Node12:
       OSVmImage: "macOS-10.13"
       NodeVersion: "12.x"
       TestType: "node"
-    Browser_Linux_Node10X:
+    Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
       TestType: "browser"
-    Browser_Windows_Node10X:
+    Browser_Windows_Node10:
       OSVmImage: "vs2017-win2016"
       NodeVersion: "10.x"
       TestType: "browser"
-    Browser_Mac_Node10X:
+    Browser_macOS_Node10:
       OSVmImage: "macOS-10.13"
       NodeVersion: "10.x"
       TestType: "browser"
 
 jobs:
-  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}

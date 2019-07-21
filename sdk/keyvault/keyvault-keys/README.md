@@ -51,38 +51,41 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to create/get client secret credentials.
 
- * Create a service principal and configure its access to Azure resources:
-    ```Bash
-    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-    ```
-    Output:
-    ```json
-    {
-        "appId": "generated-app-ID",
-        "displayName": "dummy-app-name",
-        "name": "http://dummy-app-name",
-        "password": "random-password",
-        "tenant": "tenant-ID"
-    }
-    ```
-* Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+- Create a service principal and configure its access to Azure resources:
+  ```Bash
+  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+  ```
+  Output:
+  ```json
+  {
+    "appId": "generated-app-ID",
+    "displayName": "dummy-app-name",
+    "name": "http://dummy-app-name",
+    "password": "random-password",
+    "tenant": "tenant-ID"
+  }
+  ```
+- Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+
   ```Bash
     export AZURE_CLIENT_ID="generated-app-ID"
     export AZURE_CLIENT_SECRET="random-password"
     export AZURE_TENANT_ID="tenant-ID"
   ```
 
-* Grant the above mentioned application authorization to perform secret operations on the keyvault:
-    ```Bash
-    az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
-    ```
-    > --secret-permissions:
-    > Accepted values: backup, delete, get, list, purge, recover, restore, set
+- Grant the above mentioned application authorization to perform secret operations on the keyvault:
 
-* Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
-    ```Bash
-    az keyvault show --name <your-key-vault-name>
-    ```
+  ```Bash
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+  ```
+
+  > --secret-permissions:
+  > Accepted values: backup, delete, get, list, purge, recover, restore, set
+
+- Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
+  ```Bash
+  az keyvault show --name <your-key-vault-name>
+  ```
 
 ### Authenticate the client
 
@@ -144,12 +147,14 @@ In key vaults with 'soft delete' enabled, keys are not immediately removed but i
 
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Keys. 
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Keys.
 
 Once you have authenticated and created an instance of an `KeysClient` class (see "Authenticate the client" above), you can create, read, update, and delete keys:
 
 ### Create a key
+
 `createKey` creates a Key to be stored in the Azure Key Vault. If a key with the same name already exists, then a new version of the key is created.
+
 ```javascript
 const keyName = "MyKeyName";
 
@@ -158,14 +163,18 @@ console.log("result: ", result);
 ```
 
 ### Get a key
+
 `getKey` retrieves a key previous stores in the Key Vault.
+
 ```javascript
 const getResult = await client.getKey(keyName);
 console.log("getResult: ", getResult);
 ```
 
 ### List all versions of a key
+
 `listKeyVersions` will list versions of the given key.
+
 ```javascript
 for await (let version of client.listKeyVersions(keyName)) {
   console.log("version: ", version);
@@ -173,7 +182,9 @@ for await (let version of client.listKeyVersions(keyName)) {
 ```
 
 ### List all keys
+
 `listKeys` will list all keys in the Key Vault.
+
 ```javascript
 for await (let listedKey of client.listKeys()) {
   console.log("key: ", listedKey);
@@ -181,14 +192,17 @@ for await (let listedKey of client.listKeys()) {
 ```
 
 ### Update a key
-`updateKey` updates the attributes of a key.
-```javascript
-const updatedKey = await client.updateKeyAttributes(keyName, result.version, { enabled: false });
 
+`updateKey` updates the attributes of a key.
+
+```javascript
+const updatedKey = await client.updateKey(keyName, result.version, { enabled: false });
 ```
 
 ### Delete a key
+
 `deleteKey` deletes a key previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the key.
+
 ```javascript
 await client.deleteKey(keyName);
 ```
@@ -235,17 +249,18 @@ export DEBUG=azure:keyvault-keys:error,azure-amqp-common:error,rhea-promise:erro
     node your-test-script.js >out.log 2>&1
     ```
   - Logging statements from your test script and the sdk go to the same file `out.log`.
+
     ```bash
       node your-test-script.js &> out.log
     ```
-    
+
 ## Next steps
 
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 directory for detailed examples on how to use this library.
 
-* [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/helloWorld.ts) - Create, read, update, and delete keys
+- [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/helloWorld.ts) - Create, read, update, and delete keys
 
 ## Contributing
 
@@ -256,6 +271,8 @@ the rights to use your contribution. For details, visit <https://cla.microsoft.c
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
+
+If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
