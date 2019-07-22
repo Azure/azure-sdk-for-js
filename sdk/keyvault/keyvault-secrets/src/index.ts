@@ -699,7 +699,9 @@ export class SecretsClient {
     };
 
     if (deletedSecretBundle.attributes) {
-      resultObject.attributes = deletedSecretBundle.attributes;
+      resultObject.attributes = {
+        ...deletedSecretBundle.attributes
+      };
       delete resultObject.attributes;
     }
 
