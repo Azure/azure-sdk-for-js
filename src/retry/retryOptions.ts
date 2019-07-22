@@ -9,12 +9,3 @@ export interface RetryOptions {
   /** Max wait time in seconds to wait for a request while the retries are happening. Default value 30 seconds. */
   maxWaitTimeInSeconds: number;
 }
-
-/**
- * @ignore
- */
-export const defaultRetryOptions = Object.freeze({
-  maxRetryAttemptCount: 9,
-  fixedRetryIntervalInMilliseconds: 0,
-  maxWaitTimeInSeconds: 30
-});
