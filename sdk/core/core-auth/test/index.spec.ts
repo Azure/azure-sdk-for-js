@@ -29,4 +29,18 @@ describe("isTokenCredential", function () {
       getToken: true
     }), false);
   });
+
+  it("should return false for an object that has a 'signRequest' field and getToken that takes no parameters", () => {
+    assert.strictEqual(isTokenCredential({
+      getToken: function () { },
+      signRequest: function() { },
+    }), false);
+  })
+
+  it("should return true for an object that has a 'signRequest' field and getToken that takes parameters", () => {
+    assert.strictEqual(isTokenCredential({
+      getToken: function (scope: string) { },
+      signRequest: function() { },
+    }), true);
+  })
 });
