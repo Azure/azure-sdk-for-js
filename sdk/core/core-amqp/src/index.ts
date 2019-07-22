@@ -4,10 +4,10 @@
 /// <reference lib="es2015" />
 
 export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
-export { retry, RetryConfig, RetryOperationType } from "./retry";
+export { retry, RetryConfig, RetryOperationType, RetryPolicy } from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
-export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-http";
+export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-auth";
 export { SharedKeyCredential } from "./auth/sas";
 export { IotSharedKeyCredential } from "./auth/iotSas";
 

@@ -4,7 +4,6 @@
 import uuid from "uuid/v4";
 import * as log from "./log";
 import {
-  messageProperties,
   Sender,
   EventContext,
   OnAmqpEvent,
@@ -30,6 +29,8 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { EventDataBatch } from "./eventDataBatch";
+import { getRetryAttemptTimeoutInMs, RetryOptions } from "./eventHubClient";
 
 /**
  * @ignore
@@ -101,7 +102,12 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         const err = translate(senderError);
-        log.error("[%s] An error occurred for sender '%s': %O.", this._context.connectionId, this.name, err);
+        log.error(
+          "[%s] An error occurred for sender '%s': %O.",
+          this._context.connectionId,
+          this.name,
+          err
+        );
       }
     };
 
@@ -123,7 +129,8 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error(
-          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
+            "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -168,7 +175,8 @@ export class EventHubSender extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error(
-          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
+            "The associated error is: %O",
           this._context.connectionId,
           this.name,
           this.address,
@@ -280,7 +288,7 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            times: Constants.defaultConnectionRetryAttempts,
+            maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
             delayInSeconds: 15
           };
@@ -289,7 +297,8 @@ export class EventHubSender extends LinkEntity {
       }
     } catch (err) {
       log.error(
-        "[%s] An error occurred while processing onDetached() of Sender '%s' with address " + "'%s': %O",
+        "[%s] An error occurred while processing onDetached() of Sender '%s' with address " +
+          "'%s': %O",
         this._context.connectionId,
         this.name,
         this.address,
@@ -332,6 +341,89 @@ export class EventHubSender extends LinkEntity {
     );
     return result;
   }
+  /**
+   * Returns maximum message size on the AMQP sender link.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns Promise<number>
+   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   */
+  async getMaxMessageSize(options?: {
+    retryOptions?: RetryOptions;
+    abortSignal?: AbortSignalLike;
+  }): Promise<number> {
+    const abortSignal = options && options.abortSignal;
+    const retryOptions = options && options.retryOptions;
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      const rejectOnAbort = () => {
+        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
+        log.error(desc);
+        const error = new AbortError(`The create batch operation has been cancelled by the user.`);
+        reject(error);
+      };
+
+      const onAbort = () => {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
+        rejectOnAbort();
+      };
+
+      if (abortSignal) {
+        // the aborter may have been triggered between request attempts
+        // so check if it was triggered and reject if needed.
+        if (abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+        abortSignal.addEventListener("abort", onAbort);
+      }
+      try {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          const maxRetries =
+            retryOptions && typeof retryOptions.maxRetries === "number"
+              ? retryOptions.maxRetries
+              : Constants.defaultMaxRetries;
+          const retryInterval =
+            retryOptions &&
+            typeof retryOptions.retryInterval === "number" &&
+            retryOptions.retryInterval > 0
+              ? retryOptions.retryInterval / 1000
+              : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+
+          const config: RetryConfig<void> = {
+            operation: () => this._init(),
+            connectionId: this._context.connectionId,
+            operationType: RetryOperationType.senderLink,
+            maxRetries: maxRetries,
+            delayInSeconds: retryInterval
+          };
+
+          return retry<void>(config);
+        });
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        log.error(
+          "[%s] An error occurred while creating the sender %s",
+          this._context.connectionId,
+          this.name,
+          err
+        );
+        reject(err);
+      } finally {
+        if (abortSignal) {
+          abortSignal.removeEventListener("abort", onAbort);
+        }
+      }
+    });
+  }
 
   /**
    * Send a batch of EventData to the EventHub. The "message_annotations",
@@ -342,10 +434,17 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(events: EventData[], options?: SendOptions & EventHubProducerOptions): Promise<void> {
+  async send(
+    events: EventData[] | EventDataBatch,
+    options?: SendOptions & EventHubProducerOptions
+  ): Promise<void> {
     try {
       // throw an error if partition key and partition id are both defined
-      if (options && typeof options.partitionKey === "string" && typeof options.partitionId === "string") {
+      if (
+        options &&
+        typeof options.partitionKey === "string" &&
+        typeof options.partitionId === "string"
+      ) {
         const error = new Error(
           "Partition key is not supported when using producers that were created using a partition id."
         );
@@ -356,51 +455,69 @@ export class EventHubSender extends LinkEntity {
         );
         throw error;
       }
+
+      // throw an error if partition key is different than the one provided in the options.
+      if (events instanceof EventDataBatch && options && options.partitionKey) {
+        const error = new Error(
+          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
+        );
+        log.error(
+          "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
+          this._context.connectionId,
+          error
+        );
+        throw error;
+      }
+
       if (!this.isOpen()) {
         log.sender(
-          "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
           return this._init();
         });
       }
-      log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
-      const partitionKey = (options && options.partitionKey) || undefined;
-      const messages: AmqpMessage[] = [];
-      // Convert EventData to AmqpMessage.
-      for (let i = 0; i < events.length; i++) {
-        const message = toAmqpMessage(events[i], partitionKey);
-        message.body = this._context.dataTransformer.encode(events[i].body);
-        messages[i] = message;
-      }
-      // Encode every amqp message and then convert every encoded message to amqp data section
-      const batchMessage: AmqpMessage = {
-        body: message.data_sections(messages.map(message.encode))
-      };
-      // Set message_annotations, application_properties and properties of the first message as
-      // that of the envelope (batch message).
-      if (messages[0].message_annotations) {
-        batchMessage.message_annotations = messages[0].message_annotations;
-      }
-      if (messages[0].application_properties) {
-        batchMessage.application_properties = messages[0].application_properties;
-      }
-      for (const prop of messageProperties) {
-        if ((messages[0] as any)[prop]) {
-          (batchMessage as any)[prop] = (messages[0] as any)[prop];
-        }
-      }
+      log.sender(
+        "[%s] Sender '%s', trying to send EventData[].",
+        this._context.connectionId,
+        this.name
+      );
 
-      // Finally encode the envelope (batch message).
-      const encodedBatchMessage = message.encode(batchMessage);
+      let encodedBatchMessage: Buffer | undefined;
+      if (events instanceof EventDataBatch) {
+        encodedBatchMessage = events.batchMessage!;
+      } else {
+        const partitionKey = (options && options.partitionKey) || undefined;
+        const messages: AmqpMessage[] = [];
+        // Convert EventData to AmqpMessage.
+        for (let i = 0; i < events.length; i++) {
+          const message = toAmqpMessage(events[i], partitionKey);
+          message.body = this._context.dataTransformer.encode(events[i].body);
+          messages[i] = message;
+        }
+        // Encode every amqp message and then convert every encoded message to amqp data section
+        const batchMessage: AmqpMessage = {
+          body: message.data_sections(messages.map(message.encode))
+        };
+
+        // Set message_annotations of the first message as
+        // that of the envelope (batch message).
+        if (messages[0].message_annotations) {
+          batchMessage.message_annotations = messages[0].message_annotations;
+        }
+
+        // Finally encode the envelope (batch message).
+        encodedBatchMessage = message.encode(batchMessage);
+      }
       log.sender(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
         encodedBatchMessage
       );
-      return await this._trySendBatch(encodedBatchMessage, batchMessage.message_id, options);
+      return await this._trySendBatch(encodedBatchMessage, options);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -446,14 +563,8 @@ export class EventHubSender extends LinkEntity {
    */
   private _trySendBatch(
     message: AmqpMessage | Buffer,
-    tag: any,
-    options?: SendOptions & EventHubProducerOptions,
-    format?: number
+    options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
-    if (!options) {
-      options = {};
-    }
-
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
@@ -482,8 +593,7 @@ export class EventHubSender extends LinkEntity {
           log.sender(
             "[%s] Sender '%s', sending message with id '%s'.",
             this._context.connectionId,
-            this.name,
-            (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
+            this.name
           );
           let onRejected: Func<EventContext, void>;
           let onReleased: Func<EventContext, void>;
@@ -515,19 +625,31 @@ export class EventHubSender extends LinkEntity {
             // we send a message, we need to remove listener for both the events.
             // This will ensure duplicate listeners are not added for the same event.
             removeListeners();
-            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+            log.sender(
+              "[%s] Sender '%s', got event accepted.",
+              this._context.connectionId,
+              this.name
+            );
             resolve();
           };
           onRejected = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+            log.error(
+              "[%s] Sender '%s', got event rejected.",
+              this._context.connectionId,
+              this.name
+            );
             const err = translate(context!.delivery!.remote_state!.error);
             log.error(err);
             reject(err);
           };
           onReleased = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+            log.error(
+              "[%s] Sender '%s', got event released.",
+              this._context.connectionId,
+              this.name
+            );
             let err: Error;
             if (context!.delivery!.remote_state!.error) {
               err = translate(context!.delivery!.remote_state!.error);
@@ -542,7 +664,11 @@ export class EventHubSender extends LinkEntity {
           };
           onModified = (context: EventContext) => {
             removeListeners();
-            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+            log.error(
+              "[%s] Sender '%s', got event modified.",
+              this._context.connectionId,
+              this.name
+            );
             let err: Error;
             if (context!.delivery!.remote_state!.error) {
               err = translate(context!.delivery!.remote_state!.error);
@@ -577,14 +703,16 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
-          const delivery = this._sender!.send(message, tag, 0x80013700);
+          waitTimer = setTimeout(
+            actionAfterTimeout,
+            getRetryAttemptTimeoutInMs(options.retryOptions)
+          );
+          const delivery = this._sender!.send(message, undefined, 0x80013700);
           log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+            "[%s] Sender '%s', sent message with delivery id: %d",
             this._context.connectionId,
             this.name,
-            delivery.id,
-            delivery.tag.toString()
+            delivery.id
           );
         } else {
           // let us retry to send the message after some time.
@@ -601,19 +729,18 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const times =
-      options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
-        ? options.retryOptions.retryCount
-        : Constants.defaultRetryAttempts;
+    const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
     const delayInSeconds =
-      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
+      options.retryOptions &&
+      options.retryOptions.retryInterval &&
+      options.retryOptions.retryInterval >= 0
         ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      times: times,
+      maxRetries: maxRetries,
       delayInSeconds: delayInSeconds + jitterInSeconds
     };
     return retry<void>(config);
@@ -659,14 +786,20 @@ export class EventHubSender extends LinkEntity {
           this._context.connectionId,
           this.name
         );
-        log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
+        log.error(
+          "[%s] Sender '%s' created with sender options: %O",
+          this._context.connectionId,
+          this.name,
+          options
+        );
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
         await this._ensureTokenRenewal();
       } else {
         log.error(
-          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " + "-> %s. Hence not reconnecting.",
+          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " +
+            "-> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,
@@ -677,7 +810,12 @@ export class EventHubSender extends LinkEntity {
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
-      log.error("[%s] An error occurred while creating the sender %s", this._context.connectionId, this.name, err);
+      log.error(
+        "[%s] An error occurred while creating the sender %s",
+        this._context.connectionId,
+        this.name,
+        err
+      );
       throw err;
     }
   }

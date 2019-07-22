@@ -507,13 +507,16 @@ export interface SqlVirtualMachine extends TrackedResource {
   readonly provisioningState?: string;
   /**
    * SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly sqlImageOffer?: string;
+  sqlImageOffer?: string;
   /**
    * SQL Server license type. Possible values include: 'PAYG', 'AHUB'
    */
   sqlServerLicenseType?: SqlServerLicenseType;
+  /**
+   * SQL Server Management type. Possible values include: 'Full', 'LightWeight', 'NoAgent'
+   */
+  sqlManagement?: SqlManagementMode;
   /**
    * SQL Server edition type. Possible values include: 'Developer', 'Express', 'Standard',
    * 'Enterprise', 'Web'
@@ -680,6 +683,14 @@ export type IdentityType = 'SystemAssigned';
  * @enum {string}
  */
 export type SqlServerLicenseType = 'PAYG' | 'AHUB';
+
+/**
+ * Defines values for SqlManagementMode.
+ * Possible values include: 'Full', 'LightWeight', 'NoAgent'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlManagementMode = 'Full' | 'LightWeight' | 'NoAgent';
 
 /**
  * Defines values for SqlImageSku.

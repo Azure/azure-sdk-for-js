@@ -2,7 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "rollup-plugin-replace";
-import { uglify } from "rollup-plugin-uglify";
+import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 
@@ -36,6 +36,7 @@ export function nodeConfig(test = false) {
   if (test) {
     // entry point is every test file
     baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -49,7 +50,7 @@ export function nodeConfig(test = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.plugins.push(uglify());
+    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;
@@ -58,13 +59,11 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/ms-rest-js"],
     output: {
       file: "browser/identity.js",
       format: "umd",
-      name: "ExampleClient",
-      sourcemap: true,
-      globals: { "@azure/ms-rest-js": "msRest" }
+      name: "Azure.Identity",
+      sourcemap: true
     },
     preserveSymlinks: false,
     plugins: [
@@ -93,7 +92,7 @@ export function browserConfig(test = false, production = false) {
   };
 
   if (test) {
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = "dist-esm/test/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 
@@ -103,7 +102,7 @@ export function browserConfig(test = false, production = false) {
     baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.output.file = "browser/identity.min.js";
-    baseConfig.plugins.push(uglify());
+    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;

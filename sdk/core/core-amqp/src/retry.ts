@@ -4,7 +4,12 @@
 import { translate, MessagingError } from "./errors";
 import { delay, isNode } from "./util/utils";
 import * as log from "./log";
-import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
+import {
+  defaultMaxRetries,
+  defaultDelayBetweenOperationRetriesInSeconds,
+  defaultMaxDelayForExponentialRetryInMs,
+  defaultMinDelayForExponentialRetryInMs
+} from "./util/constants";
 import { resolve } from "dns";
 
 /**
@@ -23,6 +28,15 @@ function isDelivery(obj: any): boolean {
     result = true;
   }
   return result;
+}
+
+/**
+ * Describes the RetryPolicy type
+ * @enum RetryPolicy
+ */
+export enum RetryPolicy {
+  ExponentialRetryPolicy,
+  LinearRetryPolicy
 }
 
 /**
@@ -60,13 +74,15 @@ export interface RetryConfig<T> {
    */
   operationType: RetryOperationType;
   /**
-   * @property {number} [times] Number of times the operation needs to be retried in case
-   * of error. Default: 3.
+   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
+   * of retryable error. Default: 3.
    */
-  times?: number;
+  maxRetries?: number;
   /**
    * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Default: 15.
+   * next attempt. Default: 30.
+   * When `retryPolicy` option is set to `ExponentialRetryPolicy`, \
+   * this is used to compute the exponentially increasing delays between retries.
    */
   delayInSeconds?: number;
   /**
@@ -74,6 +90,20 @@ export interface RetryConfig<T> {
    * Used to check network connectivity.
    */
   connectionHost?: string;
+  /**
+   * @property {RetryPolicy} [retryPolicy] Denotes which retry policy to apply. Default is `LinearRetryPolicy`
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
+   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
+   */
+  maxExponentialRetryDelayInMs?: number;
+  /**
+   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay between retries
+   * to use. Applicable only when performing exponential retry.
+   */
+  minExponentialRetryDelayInMs?: number;
 }
 
 /**
@@ -111,30 +141,40 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 }
 
 /**
- * It will attempt to linearly retry an operation specified number of times with a specified
- * delay in between each retry. The retries will only happen if the error is retryable.
+ * Every operation is attempted at least once. Additional attempts are made if the previous attempt failed
+ * with a retryable error. The number of additional attempts is governed by the `maxRetries` property provided
+ * on the `RetryConfig` argument.
  *
- * @param {RetryConfig<T>} config Parameters to configure retry operation.
+ * If `retryPolicy` option is set to `LinearRetryPolicy`, then the retries when made are done so linearly on the
+ * given operation for a specified number of times, with a specified delay in between each retry.
+ *
+ * If `retryPolicy` option is set to `ExponentialRetryPolicy`, then the delay between retries is adjusted to increase
+ * exponentially with each attempt using back-off factor of power 2.
+ *
+ * @param {RetryConfig<T>} config Parameters to configure retry operation
  *
  * @return {Promise<T>} Promise<T>.
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (config.times == undefined) config.times = defaultRetryAttempts;
-  if (config.delayInSeconds == undefined) {
-    config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
+  if (config.maxRetries == undefined || config.maxRetries < 0) {
+    config.maxRetries = defaultMaxRetries;
+  }
+  if (config.delayInSeconds == undefined || config.delayInSeconds < 0) {
+    config.delayInSeconds = defaultDelayBetweenOperationRetriesInSeconds;
+  }
+  if (config.maxExponentialRetryDelayInMs == undefined || config.maxExponentialRetryDelayInMs < 0) {
+    config.maxExponentialRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+  }
+  if (config.minExponentialRetryDelayInMs == undefined || config.minExponentialRetryDelayInMs < 0) {
+    config.minExponentialRetryDelayInMs = defaultMinDelayForExponentialRetryInMs;
   }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
-  for (let i = 0; i < config.times; i++) {
-    const j = i + 1;
-    log.retry(
-      "[%s] Retry for '%s', attempt number: %d",
-      config.connectionId,
-      config.operationType,
-      j
-    );
+  const totalNumberOfAttempts = config.maxRetries + 1;
+  for (let i = 1; i <= totalNumberOfAttempts; i++) {
+    log.retry("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
     try {
       result = await config.operation();
       success = true;
@@ -142,7 +182,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         "[%s] Success for '%s', after attempt number: %d.",
         config.connectionId,
         config.operationType,
-        j
+        i
       );
       if (result && !isDelivery(result)) {
         log.retry(
@@ -170,17 +210,31 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         "[%s] Error occured for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
-        j,
+        i,
         err
       );
+      let targetDelayInMs = config.delayInSeconds;
+      if (config.retryPolicy === RetryPolicy.ExponentialRetryPolicy) {
+        let incrementDelta = Math.pow(2, i) - 1;
+        const boundedRandDelta =
+          config.delayInSeconds * 0.8 +
+          Math.floor(Math.random() * (config.delayInSeconds * 1.2 - config.delayInSeconds * 0.8));
+        incrementDelta *= boundedRandDelta;
+
+        targetDelayInMs = Math.min(
+          config.minExponentialRetryDelayInMs + incrementDelta,
+          config.maxExponentialRetryDelayInMs
+        );
+      }
+
       if (lastError && lastError.retryable) {
         log.error(
           "[%s] Sleeping for %d seconds for '%s'.",
           config.connectionId,
-          config.delayInSeconds,
+          targetDelayInMs / 1000,
           config.operationType
         );
-        await delay(config.delayInSeconds * 1000);
+        await delay(targetDelayInMs);
         continue;
       } else {
         break;

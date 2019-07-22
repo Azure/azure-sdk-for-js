@@ -11,8 +11,9 @@ import {
   CreateConnectionContextBaseParameters,
   Dictionary,
   delay,
-  TokenProvider
-} from "@azure/amqp-common";
+  TokenCredential,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { ServiceBusClientOptions } from "./serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
@@ -21,7 +22,7 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
  * @internal
  * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
- * tokenProvider, senders, receivers, etc. about the ServiceBus client.
+ * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
@@ -45,13 +46,13 @@ export namespace ConnectionContext {
 
   export function create(
     config: ConnectionConfig,
-    tokenProvider: TokenProvider,
+    tokenCredential: SharedKeyCredential | TokenCredential,
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: tokenProvider,
+      tokenCredential: tokenCredential,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {
@@ -146,9 +147,45 @@ export namespace ConnectionContext {
       }
     };
 
+    const protocolError: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
+    const error: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
     // Add listeners on the connection object.
     connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
     connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
+    connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
+    connectionContext.connection.on(ConnectionEvents.error, error);
 
     log.connectionCtxt(
       "[%s] Created connection context successfully.",

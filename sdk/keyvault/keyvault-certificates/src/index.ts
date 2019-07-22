@@ -13,6 +13,7 @@ import {
   proxyPolicy,
   throttlingRetryPolicy,
   getDefaultProxySettings,
+  isNode,
   userAgentPolicy
 } from "@azure/core-http";
 
@@ -60,8 +61,13 @@ export class CertificatesClient {
 
     const userAgentString: string = CertificatesClient.getUserAgentString(pipelineOptions.telemetry);
 
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+    let requestPolicyFactories: RequestPolicyFactory[] = [];
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
+    requestPolicyFactories = requestPolicyFactories.concat([
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -77,7 +83,7 @@ export class CertificatesClient {
       isTokenCredential(credential)
         ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
         : signingPolicy(credential)
-    ];
+    ]);
 
     return {
       httpClient: pipelineOptions.HTTPClient,
@@ -117,7 +123,7 @@ export class CertificatesClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {
