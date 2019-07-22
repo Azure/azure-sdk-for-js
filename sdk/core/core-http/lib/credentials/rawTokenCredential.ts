@@ -4,7 +4,9 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 /**
- * A TokenCredential that always returns the given token.
+ * A TokenCredential that always returns the given token. This class can be
+ * used when the access token is already known or can be retrieved from an
+ * outside source.
  */
 export class RawTokenCredential implements TokenCredential {
   /**
