@@ -3,9 +3,9 @@
 2019.08
 
 - [Breaking] Aborter class is no longer exposed from the package. You are expected to use
-the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
 
-2019.07 Version 12.0.0-preview.1
+  2019.07 Version 12.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
@@ -47,6 +47,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
 - Exported HttpRequestBody type for who wants to implement a customized HTTP client.
 
-  2018.12 Version 10.0.0-preview
+2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
