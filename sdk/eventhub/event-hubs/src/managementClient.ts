@@ -24,7 +24,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
 import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
@@ -313,10 +313,47 @@ export class ManagementClient extends LinkEntity {
         options = {};
       }
 
+      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
           try {
+            let timeOver: boolean = false;
+            const rejectOnAbort = () => {
+              const address = this._mgmtReqResLink!.receiver.address || "address";
+              const requestName = options!.requestName;
+              const desc: string =
+                `[${this._context.connectionId}] The request "${requestName}" ` +
+                `to "${address}" has been cancelled by the user.`;
+              log.error(desc);
+              const error = new AbortError(
+                `The ${
+                  requestName ? requestName + " " : ""
+                }operation has been cancelled by the user.`
+              );
+
+              reject(error);
+            };
+
+            const onAbort = () => {
+              // safe to clear the timeout if it hasn't already occurred.
+              if (!timeOver) {
+                clearTimeout(waitTimer);
+              }
+              aborter!.removeEventListener("abort", onAbort);
+
+              rejectOnAbort();
+            };
+
+            if (aborter) {
+              if (aborter.aborted) {
+                return rejectOnAbort();
+              }
+              aborter.addEventListener("abort", onAbort);
+            }
+
             const actionAfterTimeout = () => {
+              timeOver = true;
               const address = this._mgmtReqResLink!.receiver.address || "address";
               const desc: string =
                 `The request with message_id "${request.message_id}" to "${address}" ` +
