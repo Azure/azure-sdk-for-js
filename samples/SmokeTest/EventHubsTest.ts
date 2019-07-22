@@ -5,7 +5,7 @@ export class EventHubs {
   private static partitionId: string[];
 
   static async Run() {
-    console.log(`
+    console.log(EventHubs.dedent`
         ------------------------
         "Event Hubs"
         ------------------------
@@ -66,5 +66,9 @@ export class EventHubs {
     }
 
     console.log("\tdone");
+  }
+
+  private static dedent(str:ReadonlyArray<string>){
+    return str[0].replace(/^\ */gm,'');
   }
 }

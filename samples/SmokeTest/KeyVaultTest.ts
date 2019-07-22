@@ -7,7 +7,7 @@ export class KeyVaultSecrets {
   private static secretValue: string;
 
   static async Run() {
-    console.log(`
+    console.log(KeyVaultSecrets.dedent`
         ------------------------
         Key Vault - Secrets
         Identity - Credential
@@ -67,5 +67,9 @@ export class KeyVaultSecrets {
     console.log("\tDeleting that secret...");
     await KeyVaultSecrets.client.deleteSecret(KeyVaultSecrets.secretName);
     console.log("\t\tdone");
+  }
+
+  private static dedent(str:ReadonlyArray<string>){
+    return str[0].replace(/^\ */gm,'');
   }
 }

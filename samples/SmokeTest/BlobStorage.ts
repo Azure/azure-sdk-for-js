@@ -5,7 +5,7 @@ export class BlobStorage {
   private static blobName: string;
 
   static async Run() {
-    console.log(`
+    console.log(BlobStorage.dedent`
         ------------------------
         Storage - Blobs
         ------------------------
@@ -54,5 +54,9 @@ export class BlobStorage {
     const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
     await blobClient.delete();
     console.log("\tdone");
+  }
+
+  private static dedent(str:ReadonlyArray<string>){
+    return str[0].replace(/^\ */gm,'');
   }
 }

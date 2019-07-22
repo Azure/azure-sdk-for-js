@@ -8,7 +8,7 @@ export class CosmosDB {
   private static container: Container;
 
   static async Run() {
-    console.log(`
+    console.log(CosmosDB.dedent`
         ------------------------
         Cosmos DB
         ------------------------
@@ -88,5 +88,9 @@ export class CosmosDB {
     console.log("Deleting database...");
     await CosmosDB.db.delete();
     console.log("\tdone");
+  }
+
+  private static dedent(str:ReadonlyArray<string>){
+    return str[0].replace(/^\ */gm,'');
   }
 }
