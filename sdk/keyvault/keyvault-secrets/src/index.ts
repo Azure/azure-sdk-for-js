@@ -26,6 +26,7 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecretBundle,
+	DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams
 } from "./core/models";
@@ -262,7 +263,7 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    return this.getSecretFromSecretBundle(response);
+    return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
   /**
@@ -683,6 +684,21 @@ export class SecretsClient {
         ...secretBundle,
         ...parsedId
       };
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedSecretFromDeletedSecretBundle(deletedSecretBundle: DeletedSecretBundle): DeletedSecret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
+    const resultObject = {
+      ...deletedSecretBundle,
+      ...parsedId,
+		}
+
+    if (deletedSecretBundle.attributes) {
+      resultObject.attributes = deletedSecretBundle.attributes;
+      delete resultObject.attributes;
     }
 
     return resultObject;

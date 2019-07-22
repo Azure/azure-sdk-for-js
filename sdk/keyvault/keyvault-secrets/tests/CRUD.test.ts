@@ -219,7 +219,12 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    await client.deleteSecret(secretName);
+    const result = await client.deleteSecret(secretName);
+
+    assert.equal(typeof result.recoveryId, "string");
+    assert.ok(result.deletedDate instanceof Date);
+    assert.ok(result.scheduledPurgeDate instanceof Date);
+
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
