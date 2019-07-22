@@ -2551,7 +2551,7 @@ describe("AzureServiceClient", () => {
 
   describe("sendRequest", () => {
     it ("adds custom user agent if specified", async () => {
-      const client = new AzureServiceClient(new TokenCredentials("fake-token"), { userAgent: "custom-ua" });
+      const client = createServiceClientWithOptions({ userAgent: "custom-ua" }, [{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
@@ -2560,7 +2560,7 @@ describe("AzureServiceClient", () => {
     });
 
     it ("adds user agent header that looks similar to \"core-arm/0.1.0 core-http/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
-      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
+      const client = createServiceClient([{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
@@ -2582,7 +2582,11 @@ interface HttpResponse {
 }
 
 function createServiceClient(responses: HttpResponse[]): AzureServiceClient {
-  return new AzureServiceClient(new TokenCredentials("my-fake-token"), {
+  return createServiceClientWithOptions({}, responses);
+}
+
+function createServiceClientWithOptions(options: AzureServiceClientOptions, responses: HttpResponse[]): AzureServiceClient {
+  return new AzureServiceClient(new TokenCredentials("my-fake-token"), Object.assign({
     httpClient: {
       sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
         const response: HttpResponse | undefined = responses.shift();
@@ -2599,5 +2603,5 @@ function createServiceClient(responses: HttpResponse[]): AzureServiceClient {
       }
     },
     longRunningOperationRetryTimeout: 0
-  });
+  }, options));
 }
