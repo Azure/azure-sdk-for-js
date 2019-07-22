@@ -2,14 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import {
-  RequestResponseLink,
-  AmqpMessage,
-  ErrorNameConditionMapper,
-  RetryConfig,
-  RetryOperationType,
-  retry
-} from "../src";
+import { RequestResponseLink, AmqpMessage } from "../src";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
