@@ -40,17 +40,17 @@ export class KeyVaultSecrets {
   }
 
   private static async setSecret() {
-    console.log("\tSetting a secret...");
+    console.log("Setting a secret...");
     const result = await KeyVaultSecrets.client.setSecret(
       KeyVaultSecrets.secretName,
       KeyVaultSecrets.secretValue
     );
-    console.log("\t\tSecret = (" + result.name + "," + result.value + ")");
-    console.log("\t\tdone");
+    console.log("\tSecret = (" + result.name + "," + result.value + ")");
+    console.log("\tdone");
   }
 
   private static async getSecret() {
-    console.log("\tGetting that secret...");
+    console.log("Getting that secret...");
     const result = await KeyVaultSecrets.client.getSecret(KeyVaultSecrets.secretName);
 
     if (
@@ -60,13 +60,13 @@ export class KeyVaultSecrets {
       throw "Error, a secret was obtained but is not the one that was setted before";
     }
 
-    console.log("\t\tdone");
+    console.log("\tdone");
   }
 
   private static async deleteSecret() {
-    console.log("\tDeleting that secret...");
+    console.log("Deleting that secret...");
     await KeyVaultSecrets.client.deleteSecret(KeyVaultSecrets.secretName);
-    console.log("\t\tdone");
+    console.log("\tdone");
   }
 
   private static dedent(str:ReadonlyArray<string>){
