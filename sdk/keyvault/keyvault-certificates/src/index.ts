@@ -39,6 +39,7 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export class CertificatesClient {
   /**
@@ -144,56 +145,128 @@ export class CertificatesClient {
     return userAgentInfo.join(" ");
   }
 
+  private async *listCertificatesPage(
+    continuationState: PageSettings,
+    options?: RequestOptions
+  ): AsyncIterableIterator<CertificateAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getCertificates(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getCertificatesNext(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+    }
+  }
+
+  private async *listCertificatesAll(
+    options?: RequestOptions
+  ): AsyncIterableIterator<CertificateAttributes> {
+    const f = {};
+
+    for await (const page of this.listCertificatesPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
   /**
    * Iterates the latest version of all certificates in the vault.  The full certificate identifier and attributes are provided
    * in the response. No values are returned for the certificates. This operations requires the certificates/list permission.
    * @summary List all versions of the specified certificate.
    * @param [options] The optional parameters
-   * @returns AsyncIterableIterator<Certificate>
+   * @returns PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]>
    */
-  public async *getCertificates(options?: RequestOptions): AsyncIterableIterator<CertificateAttributes> {
-    let currentSetResponse = await this.client.getCertificates(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
-    yield* currentSetResponse.map(this.getCertificateFromCertificateBundle);
+  public listCertificates(options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+    const iter = this.listCertificatesAll(options);
+    let result = {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listCertificatesPage(settings, options)
+    };
 
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getCertificatesNext(
-        currentSetResponse.nextLink,
+    return result;
+  }
+
+  private async *listCertificateVersionsPage(
+    name: string,
+    continuationState: PageSettings,
+    options?: RequestOptions
+  ): AsyncIterableIterator<CertificateAttributes[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getCertificateVersions(
+        this.vaultBaseUrl,
+        name,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getCertificateVersionsNext(
+        continuationState.continuationToken,
         options
       );
-      yield* currentSetResponse.map(this.getCertificateFromCertificateBundle);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+    }
+  }
+
+  private async *listCertificateVersionsAll(
+    name: string,
+    options?: RequestOptions
+  ): AsyncIterableIterator<CertificateAttributes> {
+    const f = {};
+
+    for await (const page of this.listCertificateVersionsPage(name, f, options)) {
+      for (const item of page) {
+        yield item;
+      }
     }
   }
 
   /**
-   * The GetCertificateVersions operation returns the versions of a certificate in the specified key
+   * Returns the versions of a certificate in the specified key
    * vault. This operation requires the certificates/list permission.
    * @summary List the versions of a certificate.
-   * @param certificateName The name of the certificate.
+   * @param name The name of the certificate.
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
-  public async *getCertificateVersions(certificateName: string, options?: KeyVaultClientGetCertificateVersionsOptionalParams): AsyncIterableIterator<CertificateAttributes> {
-    let currentSetResponse = await this.client.getCertificateVersions(
-      this.vaultBaseUrl,
-      certificateName,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
-    yield* currentSetResponse.map(this.getCertificateFromCertificateBundle);
+  public listCertificateVersions(name: string, options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+    const iter = this.listCertificateVersionsAll(name, options);
+    let result = {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listCertificateVersionsPage(name, settings, options)
+    };
 
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getCertificatesNext(
-        currentSetResponse.nextLink,
-        options
-      );
-      yield* currentSetResponse.map(this.getCertificateFromCertificateBundle);
-    }
+    return result;
   }
 
   /**
@@ -229,22 +302,57 @@ export class CertificatesClient {
     return result._response.parsedBody;
   }
 
-  public async *getCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): AsyncIterableIterator<CertificateIssuer> {
-    let currentSetResponse = await this.client.getCertificateIssuers(
-      this.vaultBaseUrl,
-      {
+  private async *listCertificateIssuersPage(
+    continuationState: PageSettings,
+    options?: KeyVaultClientGetCertificateIssuersOptionalParams
+  ): AsyncIterableIterator<CertificateIssuer[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
-    yield* currentSetResponse;
-
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getCertificatesNext(
-        currentSetResponse.nextLink,
+      };
+      const currentSetResponse = await this.client.getCertificateIssuers(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse;
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getCertificateIssuersNext(
+        continuationState.continuationToken,
         options
       );
-      yield* currentSetResponse;
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse;
     }
+  }
+
+  private async *listCertificateIssuersAll(
+    options?: KeyVaultClientGetCertificateIssuersOptionalParams
+  ): AsyncIterableIterator<CertificateIssuer> {
+    const f = {};
+
+    for await (const page of this.listCertificateIssuersPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  public listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
+    const iter = this.listCertificateIssuersAll(options);
+    let result = {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listCertificateIssuersPage(settings, options)
+    };
+
+    return result;
   }
 
   /**
@@ -378,17 +486,57 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  public async *getDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): AsyncIterableIterator<DeletedCertificate> {
-    let currentSetResponse = await this.client.getDeletedCertificates(this.vaultBaseUrl, options);
-    yield* currentSetResponse.map(this.getDeletedCertificateFromItem);
-
-    while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getCertificatesNext(
-        currentSetResponse.nextLink,
+  private async *listDeletedCertificatesPage(
+    continuationState: PageSettings,
+    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
+  ): AsyncIterableIterator<DeletedCertificate[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      };
+      const currentSetResponse = await this.client.getDeletedCertificates(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getDeletedCertificatesNext(
+        continuationState.continuationToken,
         options
       );
-      yield* currentSetResponse.map(this.getDeletedCertificateFromItem);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
     }
+  }
+
+  private async *listDeletedCertificatesAll(
+    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
+  ): AsyncIterableIterator<DeletedCertificate> {
+    const f = {};
+
+    for await (const page of this.listDeletedCertificatesPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  public listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
+    const iter = this.listDeletedCertificatesAll(options);
+    let result = {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, options)
+    };
+
+    return result;
   }
 
   public async getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate> {
