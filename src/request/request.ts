@@ -142,7 +142,7 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
   }
 
-  if (partitionKey !== undefined) {
+  if (partitionKey !== undefined && !headers[Constants.HttpHeaders.PartitionKey]) {
     if (partitionKey === null || !Array.isArray(partitionKey)) {
       partitionKey = [partitionKey as string];
     }
