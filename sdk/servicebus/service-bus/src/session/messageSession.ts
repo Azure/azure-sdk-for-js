@@ -284,7 +284,7 @@ export class MessageSession extends LinkEntity {
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
-              maxRetries: 4
+              times: 4
             }
           );
           log.receiver(

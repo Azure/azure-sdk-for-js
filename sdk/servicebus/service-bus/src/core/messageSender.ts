@@ -395,7 +395,7 @@ export class MessageSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      maxRetries: Constants.defaultMaxRetries,
+      times: Constants.defaultRetryAttempts,
       delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
 
@@ -537,7 +537,7 @@ export class MessageSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            maxRetries: Constants.defaultMaxRetriesForConnection,
+            times: Constants.defaultConnectionRetryAttempts,
             connectionHost: this._context.namespace.config.host,
             delayInSeconds: 15
           };
