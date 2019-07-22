@@ -139,8 +139,8 @@ export class ServiceClient {
       options = {};
     }
 
-    if (credentials && !isTokenCredential(credentials)) {
-      throw new Error("credentials argument needs to implement TokenCredential interface");
+    if (credentials && !isTokenCredential(credentials) && !isRequestPolicyFactory(credentials)) {
+      throw new Error("credentials argument needs to implement either the TokenCredential or RequestPolicyFactory interface");
     }
 
     this._withCredentials = options.withCredentials || false;
