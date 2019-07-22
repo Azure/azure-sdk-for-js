@@ -693,17 +693,20 @@ export class SecretsClient {
     deletedSecretBundle: DeletedSecretBundle
   ): DeletedSecret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
-    const resultObject = {
-      ...deletedSecretBundle,
-      ...parsedId
-    };
 
+    let resultObject;
     if (deletedSecretBundle.attributes) {
       resultObject = {
-        ...resultObject,
+        ...deletedSecretBundle,
+        ...parsedId,
         ...deletedSecretBundle.attributes
       };
       delete resultObject.attributes;
+    } else {
+      resultObject = {
+        ...deletedSecretBundle,
+        ...parsedId
+      };
     }
 
     return resultObject;
