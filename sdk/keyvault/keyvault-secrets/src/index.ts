@@ -9,7 +9,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  bearerTokenAuthenticationPolicy,
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -31,6 +30,8 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   Secret,
   DeletedSecret,
@@ -110,7 +111,7 @@ export class SecretsClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 

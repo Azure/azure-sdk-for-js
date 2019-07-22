@@ -8,7 +8,6 @@ import {
   isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
-  bearerTokenAuthenticationPolicy,
   signingPolicy,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -38,6 +37,8 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   NewPipelineOptions,
   isNewPipelineOptions,
@@ -128,7 +129,7 @@ export class KeysClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -186,6 +187,8 @@ export class KeysClient {
     } else {
       this.pipeline = pipelineOrOptions;
     }
+
+    this.pipeline.requestPolicyFactories
 
     this.client = new KeyVaultClient(credential, this.pipeline);
   }
