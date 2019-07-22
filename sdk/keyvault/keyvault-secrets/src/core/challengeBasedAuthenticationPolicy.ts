@@ -90,10 +90,8 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     let originalBody = webResource.body;
 
-    let headers = webResource.headers;
     if (this.challenge == undefined) {
       // Use a blank to start the challenge
-      webResource.headers = new HttpHeaders();
       webResource.body = "";
     } else {
       // or use the cached token if we have one
@@ -104,7 +102,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     if (response.status == 401) {
       webResource.body = originalBody;
-      webResource.headers = headers;
 
       let www_authenticate = response.headers.get("WWW-Authenticate");
 
