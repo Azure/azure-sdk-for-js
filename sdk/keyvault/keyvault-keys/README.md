@@ -196,7 +196,7 @@ for await (let listedKey of client.listKeys()) {
 `updateKey` updates the attributes of a key.
 
 ```javascript
-const updatedKey = await client.updateKeyAttributes(keyName, result.version, { enabled: false });
+const updatedKey = await client.updateKey(keyName, result.version, { enabled: false });
 ```
 
 ### Delete a key
