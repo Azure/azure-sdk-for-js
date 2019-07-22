@@ -18,6 +18,10 @@
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js"
   },
+  "files": [
+    "dist",
+    "dist-esm"
+  ],
   "types": "./dist/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
