@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.10.1",
+  "rushVersion": "5.10.3",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "3.5.3",
+  "pnpmVersion": "3.6.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -311,16 +311,20 @@
     // },
     //
     {
-      "packageName": "@azure/core-amqp",
-      "projectFolder": "sdk/core/core-amqp"
-    },
-    {
       "packageName": "@azure/abort-controller",
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/core-amqp",
+      "projectFolder": "sdk/core/core-amqp"
+    },
+    {
       "packageName": "@azure/core-arm",
       "projectFolder": "sdk/core/core-arm"
+    },
+    {
+      "packageName": "@azure/core-asynciterator-polyfill",
+      "projectFolder": "sdk/core/core-asynciterator-polyfill"
     },
     {
       "packageName": "@azure/core-auth",
@@ -335,10 +339,6 @@
       "projectFolder": "sdk/core/core-paging"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill"
-    },
-    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
@@ -351,20 +351,24 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
+      "packageName": "testhub",
+      "projectFolder": "sdk/eventhub/testhub"
+    },
+    {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity"
     },
     {
-      "packageName": "@azure/keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets"
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates"
     },
     {
       "packageName": "@azure/keyvault-keys",
       "projectFolder": "sdk/keyvault/keyvault-keys"
     },
     {
-      "packageName": "@azure/keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates"
+      "packageName": "@azure/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets"
     },
     {
       "packageName": "@azure/service-bus",
@@ -389,10 +393,6 @@
     {
       "packageName": "@azure/test-utils-recorder",
       "projectFolder": "sdk/test-utils/recorder"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub"
     }
   ]
 }

@@ -187,7 +187,7 @@ export class KeysClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
