@@ -10,7 +10,7 @@ import {
   RetryOperationType,
   retry
 } from "../src";
-import { Connection } from "rhea-promise";
+import { Connection, Message } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -116,13 +116,13 @@ describe("RequestResponseLink", function() {
       });
     }, 1000);
 
-    const sendRequestPromise = async () => {
-      await link.sendRequest(request, {
+    const sendRequestPromise = async (): Promise<Message> => {
+      return await link.sendRequest(request, {
         timeoutInSeconds: 5
       });
     };
 
-    const config: RetryConfig<void> = {
+    const config: RetryConfig<Message> = {
       operation: sendRequestPromise,
       connectionId: "connection-1",
       operationType: RetryOperationType.management,
@@ -130,8 +130,10 @@ describe("RequestResponseLink", function() {
       delayInSeconds: 1
     };
 
-    await retry<void>(config);
+    const message = await retry<Message>(config);
     assert.equal(count, 2, "It should retry twice");
+    assert.equal(message == undefined, false, "It should return a valid message");
+    assert.equal(message.body, "Hello World!!", "It should retry twice");
   });
 
   it("should abort a request and response correctly", async function() {
