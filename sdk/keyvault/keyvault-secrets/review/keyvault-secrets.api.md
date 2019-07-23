@@ -27,12 +27,14 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 
 // @public
 export interface GetSecretOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetSecretsOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
@@ -137,6 +139,7 @@ export interface TelemetryOptions {
 
 // @public
 export interface UpdateSecretOptions {
+    abortSignal?: AbortSignalLike;
     contentType?: string;
     enabled?: boolean;
     expires?: Date;
