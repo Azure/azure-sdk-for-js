@@ -37,7 +37,11 @@ export namespace CheckpointInfo {
    * @param {number} [sequenceNumber] The sequence number of the event to be checked in.
    * @return {CheckpointInfo} CheckpointInfo
    */
-  export function create(partitionId: string, offset?: string, sequenceNumber?: number): CheckpointInfo {
+  export function create(
+    partitionId: string,
+    offset?: string,
+    sequenceNumber?: number
+  ): CheckpointInfo {
     validateType("partitionId", partitionId, true, "string");
     validateType("offset", offset, false, "string");
     validateType("sequenceNumber", sequenceNumber, false, "number");

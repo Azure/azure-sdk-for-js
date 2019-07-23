@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import { PartitionContext } from "./partitionContext";
-import { EventData, MessagingError, EventPosition, TokenProvider, ClientOptionsBase } from "@azure/event-hubs";
+import {
+  EventData,
+  MessagingError,
+  EventPosition,
+  TokenProvider,
+  ClientOptionsBase
+} from "@azure/event-hubs";
 import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
 
