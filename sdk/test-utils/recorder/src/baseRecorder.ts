@@ -132,15 +132,9 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public playback(filePath: string): void {
-    const searchTerm = "\\";
     this.uniqueTestInfo = require(path.resolve(
-      filePath
-        .substring(0, filePath.lastIndexOf(searchTerm))
-        .substring(
-          0,
-          filePath.substring(0, filePath.lastIndexOf(searchTerm)).lastIndexOf(searchTerm) + 1
-        ),
-      "./recordings/" + this.filepath
+      filePath,
+      "../../recordings/" + this.filepath
     )).testInfo;
   }
 
