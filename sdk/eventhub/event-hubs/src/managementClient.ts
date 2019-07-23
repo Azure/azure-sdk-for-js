@@ -380,6 +380,9 @@ export class ManagementClient extends LinkEntity {
                   name: "OperationTimeoutError",
                   message: desc
                 };
+                if (aborter) {
+                  aborter.removeEventListener("abort", onAbort);
+                }
                 return reject(translate(e));
               };
 
@@ -426,7 +429,6 @@ export class ManagementClient extends LinkEntity {
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
               this._context.connectionId,
-
               address,
               err
             );
