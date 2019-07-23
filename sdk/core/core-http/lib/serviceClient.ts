@@ -139,10 +139,6 @@ export class ServiceClient {
       options = {};
     }
 
-    if (credentials && !isTokenCredential(credentials) && !isRequestPolicyFactory(credentials)) {
-      throw new Error("credentials argument needs to implement either the TokenCredential or RequestPolicyFactory interface");
-    }
-
     this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
@@ -151,7 +147,7 @@ export class ServiceClient {
     if (Array.isArray(options.requestPolicyFactories)) {
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
-      let credentialsOrFactory: RequestPolicyFactory | undefined = undefined;
+      let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
@@ -173,13 +169,15 @@ export class ServiceClient {
           }
         };
 
-        credentialsOrFactory = wrappedPolicyFactory();
-      } else {
-        credentialsOrFactory = credentials;
+        authPolicyFactory = wrappedPolicyFactory();
+      } else if (credentials !== undefined) {
+        throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
-      requestPolicyFactories = createDefaultRequestPolicyFactories(credentialsOrFactory, options);
+      requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
+        // options.requestPolicyFactories can also be a function that manipulates
+        // the default requestPolicyFactories array
         const newRequestPolicyFactories: void | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
           requestPolicyFactories = newRequestPolicyFactories;
@@ -403,10 +401,6 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
   }
 }
 
-function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory {
-  return typeof instance.create === "function";
-}
-
 function getValueOrFunctionResult(value: undefined | string | ((defaultValue: string) => string), defaultValueCreator: (() => string)): string {
   let result: string;
   if (typeof value === "string") {
@@ -420,17 +414,15 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(credentials: RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(authPolicyFactory: RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
     factories.push(generateClientRequestIdPolicy(options.clientRequestIdHeaderName));
   }
 
-  if (credentials) {
-    if (isRequestPolicyFactory(credentials)) {
-      factories.push(credentials);
-    }
+  if (authPolicyFactory) {
+    factories.push(authPolicyFactory);
   }
 
   const userAgentHeaderName: string = getValueOrFunctionResult(options.userAgentHeaderName, getDefaultUserAgentHeaderName);
