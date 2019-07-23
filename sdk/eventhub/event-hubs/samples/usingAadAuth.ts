@@ -16,6 +16,8 @@
      - In the "Certificates & Secrets" tab, create a secret and note that down.
      - In the Azure portal, go to your Even Hubs resource and click on the Access control (IAM)
        tab. Here, assign the "Azure Event Hubs Data Owner (Preview)" role to the registered application.
+     - For more information on Event Hubs RBAC setup, learn more at 
+      https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-role-based-access-control)
 
   Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
