@@ -318,59 +318,13 @@ export class ManagementClient extends LinkEntity {
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
           try {
-            let timeOver: boolean = false;
-            const rejectOnAbort = () => {
-              const address = this._mgmtReqResLink!.receiver.address || "address";
-              const requestName = options!.requestName;
-              const desc: string =
-                `[${this._context.connectionId}] The request "${requestName}" ` +
-                `to "${address}" has been cancelled by the user.`;
-              log.error(desc);
-              const error = new AbortError(
-                `The ${
-                  requestName ? requestName + " " : ""
-                }operation has been cancelled by the user.`
-              );
-
-              reject(error);
-            };
-
-            const onAbort = () => {
-              // safe to clear the timeout if it hasn't already occurred.
-              if (!timeOver) {
-                clearTimeout(waitTimer);
-              }
-              aborter!.removeEventListener("abort", onAbort);
-
-              rejectOnAbort();
-            };
-
-            if (aborter) {
-              if (aborter.aborted) {
-                return rejectOnAbort();
-              }
-              aborter.addEventListener("abort", onAbort);
+            if (!options) {
+              options = {};
             }
 
-            const actionAfterTimeout = () => {
-              timeOver = true;
-              const address = this._mgmtReqResLink!.receiver.address || "address";
-              const desc: string =
-                `The request with message_id "${request.message_id}" to "${address}" ` +
-                `endpoint timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(
-              actionAfterTimeout,
-              getRetryAttemptTimeoutInMs(options!.retryOptions)
-            );
-
-            const initOperationStartTime = Date.now();
+            let timeOver: boolean = false;
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+            let timeTakenByInit = 0;
 
             if (!this._isMgmtRequestResponseLinkOpen()) {
               log.mgmt(
@@ -378,22 +332,70 @@ export class ManagementClient extends LinkEntity {
                 this._context.connectionId
               );
 
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init().catch((err: Error) => {
+              const rejectOnAbort = () => {
+                const address = this._mgmtReqResLink!.receiver.address || "address";
+                const requestName = options!.requestName;
+                const desc: string =
+                  `[${this._context.connectionId}] The request "${requestName}" ` +
+                  `to "${address}" has been cancelled by the user.`;
+                log.error(desc);
+                const error = new AbortError(
+                  `The ${
+                    requestName ? requestName + " " : ""
+                  }operation has been cancelled by the user.`
+                );
+
+                return reject(error);
+              };
+
+              const onAbort = () => {
+                // safe to clear the timeout if it hasn't already occurred.
+                if (!timeOver) {
                   clearTimeout(waitTimer);
-                  reject(translate(err));
+                }
+                aborter!.removeEventListener("abort", onAbort);
+
+                rejectOnAbort();
+              };
+
+              if (aborter) {
+                if (aborter.aborted) {
+                  return rejectOnAbort();
+                }
+                aborter.addEventListener("abort", onAbort);
+              }
+
+              const initOperationStartTime = Date.now();
+
+              const actionAfterTimeout = () => {
+                timeOver = true;
+                const address = this._mgmtReqResLink!.receiver.address || "address";
+                const desc: string =
+                  `The request with message_id "${request.message_id}" to "${address}" ` +
+                  `endpoint timed out. Please try again later.`;
+                const e: Error = {
+                  name: "OperationTimeoutError",
+                  message: desc
+                };
+                return reject(translate(e));
+              };
+
+              const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+              try {
+                await defaultLock.acquire(this.managementLock, () => {
+                  return this._init();
                 });
-              });
+              } catch (err) {
+                return reject(translate(err));
+              } finally {
+                clearTimeout(waitTimer);
+                aborter!.removeEventListener("abort", onAbort);
+              }
+              timeTakenByInit = Date.now() - initOperationStartTime;
             }
-            const initOperationEndTime = Date.now();
 
-            if (!options) {
-              options = {};
-            }
-
-            const remainingOperationTimeoutInMs =
-              getRetryAttemptTimeoutInMs(options.retryOptions) -
-              (initOperationEndTime - initOperationStartTime);
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
             const sendRequestOptions: SendRequestOptions = {
               abortSignal: options.abortSignal,
