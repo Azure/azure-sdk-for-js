@@ -1,28 +1,61 @@
 trigger: none
 
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/event-hubs"
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
-        Linux_Node10X:
+        Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-        Windows_Node10X:
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: "hub_linux_node10"
+        Windows_Node10:
           OSVmImage: "vs2017-win2016"
           TestType: "node"
-        Mac_Node10X:
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: "hub_windows_node10"
+        macOS_Node10:
           OSVmImage: "macOS-10.13"
           TestType: "node"
+          NodeVersion: "10.x"
+          EVENTHUB_NAME: "hub_mac_node10"
+        Linux_Node12:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: "hub_linux_node12"
+        Windows_Node12:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: "hub_windows_node12"
+        macOS_Node12:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "12.x"
+          EVENTHUB_NAME: "hub_mac_node12"
+        Linux_Node8:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: "hub_linux_node8"
+        Windows_Node8:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: "hub_windows_node8"
+        macOS_Node8:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "8.x"
+          EVENTHUB_NAME: "hub_mac_node8"
+
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        ENDPOINT: $(js-event-hubs-test-endpoint)
-        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        EVENTHUB_NAME: $(js-event-hubs-test-name)
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-
-      # Event Hubs tests do not support concurrent execution
-      MaxParallel: 1
+        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+        ENDPOINT: $(js-event-hubs-test-endpoint)

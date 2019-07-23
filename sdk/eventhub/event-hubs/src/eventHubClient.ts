@@ -35,6 +35,11 @@ export interface RetryOptions {
    * Number of milliseconds to wait between attempts.
    */
   retryInterval?: number;
+  /**
+   * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
+   * A minimum value of 60 seconds will be used if a value not greater than this is provided.
+   */
+  timeoutInMs?: number;
   // /**
   //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
   //  * Not applicable, when `isExponential` is set to `false`.
@@ -45,6 +50,17 @@ export interface RetryOptions {
   //  * retries or kept the same.
   //  */
   // isExponential?: boolean;
+}
+
+export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
+  const timeoutInMs =
+    retryOptions == undefined ||
+    typeof retryOptions.timeoutInMs !== "number" ||
+    !isFinite(retryOptions.timeoutInMs) ||
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+      ? Constants.defaultOperationTimeoutInSeconds * 1000
+      : retryOptions.timeoutInMs;
+  return timeoutInMs;
 }
 
 /**
@@ -78,6 +94,30 @@ export interface SendOptions {
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;
+  /**
+   * @property
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The set of options to configure the createBatch operation on the `EventProducer`.
+ */
+export interface BatchOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string;
+  /**
+   * @property
+   * The maximum size allowed for the batch.
+   */
+  maxSizeInBytes?: number;
   /**
    * @property
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -209,7 +249,12 @@ export class EventHubClient {
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options -  A set of options to apply when configuring the client.
    */
-  constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
+  constructor(
+    host: string,
+    eventHubPath: string,
+    credential: TokenCredential,
+    options?: EventHubClientOptions
+  );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
@@ -279,7 +324,9 @@ export class EventHubClient {
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(`An error occurred while closing the connection "${this._context.connectionId}":\n${err}`);
+      log.error(
+        `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
+      );
       throw err;
     }
   }
@@ -301,6 +348,12 @@ export class EventHubClient {
    * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     return new EventHubProducer(this._context, options);
   }
@@ -329,6 +382,12 @@ export class EventHubClient {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): EventHubConsumer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
@@ -386,7 +445,10 @@ export class EventHubClient {
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
+  async getPartitionProperties(
+    partitionId: string,
+    abortSignal?: AbortSignalLike
+  ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
@@ -412,10 +474,15 @@ export class EventHubClient {
     iothubConnectionString: string,
     options?: EventHubClientOptions
   ): Promise<EventHubClient> {
-    if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
+    if (
+      !iothubConnectionString ||
+      (iothubConnectionString && typeof iothubConnectionString !== "string")
+    ) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
+    const connectionString = await new IotHubClient(
+      iothubConnectionString
+    ).getEventHubConnectionString();
     return new EventHubClient(connectionString, options);
   }
 

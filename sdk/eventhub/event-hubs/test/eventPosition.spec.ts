@@ -79,7 +79,9 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       try {
         EventPosition.fromOffset("");
       } catch (err) {
-        err.message.should.match(/'offset' is a required parameter and must be a non-empty string.*/gi);
+        err.message.should.match(
+          /'offset' is a required parameter and must be a non-empty string.*/gi
+        );
       }
       done();
     });

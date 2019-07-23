@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-preview.2",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -49,7 +49,7 @@
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/http",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
   "repository": {
     "type": "git",
     "url": "git@github.com:Azure/azure-sdk-for-js.git"
@@ -110,10 +110,10 @@
     "all": true
   },
   "dependencies": {
-    "@azure/core-auth": "^1.0.0-preview.1",
+    "@azure/core-auth": "1.0.0-preview.1",
     "@types/tunnel": "^0.0.0",
     "axios": "^0.19.0",
-    "form-data": "^2.3.2",
+    "form-data": "^2.5.0",
     "process": "^0.11.10",
     "tough-cookie": "^2.4.3",
     "tslib": "^1.9.3",
@@ -125,7 +125,6 @@
     "@azure/logger-js": "^1.0.2",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
-    "@types/form-data": "^2.2.1",
     "@types/glob": "^7.1.1",
     "@types/karma": "^3.0.0",
     "@types/mocha": "^5.2.5",
@@ -170,12 +169,12 @@
     "rollup": "^1.16.3",
     "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-resolve": "0.0.1-predev.1",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-visualizer": "^1.0.0",
+    "rollup-plugin-visualizer": "^2.0.0",
     "semver": "^5.5.0",
     "shx": "^0.3.2",
     "sinon": "^7.1.0",

@@ -29,4 +29,11 @@ describe("isTokenCredential", function () {
       getToken: true
     }), false);
   });
+
+  it("should return false for an object that has a 'signRequest' field", () => {
+    assert.strictEqual(isTokenCredential({
+      getToken: function () { },
+      signRequest: function() { },
+    }), false);
+  })
 });

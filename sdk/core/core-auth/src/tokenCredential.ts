@@ -49,5 +49,11 @@ export interface AccessToken {
  * @param credential The assumed TokenCredential to be tested.
  */
 export function isTokenCredential(credential: any): credential is TokenCredential {
-  return credential && typeof credential.getToken === "function";
+  // Check for an object with a 'getToken' function but without
+  // a 'signRequest' function.  We do this check to make sure that
+  // a ServiceClientCredentials implementor (like TokenClientCredentials
+  // in ms-rest-nodeauth) doesn't get mistaken for a TokenCredential.
+  return credential
+    && typeof credential.getToken === "function"
+    && credential.signRequest === undefined;
 }
