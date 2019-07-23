@@ -54,7 +54,11 @@ export class PartitionContext {
    * @param {string} owner The name of the owner.
    * @param {CompleteLease} lease The lease object.
    */
-  constructor(context: HostContextWithCheckpointLeaseManager, partitionId: string, lease: CompleteLease) {
+  constructor(
+    context: HostContextWithCheckpointLeaseManager,
+    partitionId: string,
+    lease: CompleteLease
+  ) {
     this._context = context;
     this.partitionId = partitionId;
     this.lease = lease;
@@ -117,7 +121,9 @@ export class PartitionContext {
    * @ignore
    */
   async getInitialOffset(): Promise<EventPosition> {
-    const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(this.partitionId);
+    const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(
+      this.partitionId
+    );
     const withHostAndPartiton = this._context.withHostAndPartition;
     let result: EventPosition;
     if (!startingCheckpoint) {
@@ -130,7 +136,8 @@ export class PartitionContext {
       result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
     } else {
       if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;
-      if (startingCheckpoint.sequenceNumber != undefined) this._sequenceNumber = startingCheckpoint.sequenceNumber;
+      if (startingCheckpoint.sequenceNumber != undefined)
+        this._sequenceNumber = startingCheckpoint.sequenceNumber;
       result = EventPosition.fromOffset(this._offset);
       log.partitionContext(
         withHostAndPartiton(this, "Retrieved starting offset/sequence " + "number: %s/%d"),
@@ -139,7 +146,10 @@ export class PartitionContext {
       );
     }
     log.partitionContext(
-      withHostAndPartiton(this, "Initial position provider offset: %s, " + "sequenceNumber: %d, enqueuedTime: %d"),
+      withHostAndPartiton(
+        this,
+        "Initial position provider offset: %s, " + "sequenceNumber: %d, enqueuedTime: %d"
+      ),
       result.offset,
       result.sequenceNumber,
       result.enqueuedTime
@@ -153,7 +163,9 @@ export class PartitionContext {
   private async _persistCheckpoint(checkpoint: CheckpointInfo): Promise<void> {
     const withHostAndPartiton = this._context.withHostAndPartition;
     try {
-      const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(checkpoint.partitionId);
+      const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(
+        checkpoint.partitionId
+      );
       if (inStoreCheckpoint && inStoreCheckpoint.sequenceNumber >= checkpoint.sequenceNumber) {
         const msg =
           `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
@@ -165,7 +177,10 @@ export class PartitionContext {
       }
       log.partitionContext(withHostAndPartiton(this, "Persisting the checkpoint: %O."), checkpoint);
       await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
-      log.partitionContext(withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."), checkpoint);
+      log.partitionContext(
+        withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."),
+        checkpoint
+      );
     } catch (err) {
       const msg =
         `An error occurred while checkpointing info for partition ` +

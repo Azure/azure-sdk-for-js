@@ -51,17 +51,20 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 
 // @public
 export interface GetKeyOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetKeysOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
 // @public
 export interface ImportKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     hsm?: boolean;
@@ -177,6 +180,7 @@ export interface ProxyOptions {
 
 // @public
 export interface RequestOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
@@ -195,6 +199,7 @@ export interface TelemetryOptions {
 
 // @public
 export interface UpdateKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];

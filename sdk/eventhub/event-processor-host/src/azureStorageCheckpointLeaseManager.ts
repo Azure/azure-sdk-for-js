@@ -107,7 +107,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         await Promise.all(deleteBlobs);
         await blobService.deleteContainerIfExists(storageContainerName);
       } else {
-        throw new Error("'blobService' is not defined in the 'hostContext', hence cannot " + "list all the blobs.");
+        throw new Error(
+          "'blobService' is not defined in the 'hostContext', hence cannot " + "list all the blobs."
+        );
       }
     } catch (err) {
       const msg =
@@ -189,7 +191,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       const leaseBlobs = await this._listBlobs();
       if (leaseBlobs.length === partitionIds.length) {
         log.checkpointLeaseMgr(
-          withHost("Number of blobs %d === Number of partitionIds %d. " + "Hence no need to create leases."),
+          withHost(
+            "Number of blobs %d === Number of partitionIds %d. " + "Hence no need to create leases."
+          ),
           leaseBlobs.length,
           partitionIds.length
         );
@@ -235,7 +239,10 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         returnLease = <AzureBlobLease>await this.getLease(partitionId);
       } else {
         log.error(
-          withHostAndPartition(partitionId, "An error occurred while creating lease if " + "it does not exist: %O."),
+          withHostAndPartition(
+            partitionId,
+            "An error occurred while creating lease if " + "it does not exist: %O."
+          ),
           error
         );
         throw error;
@@ -277,7 +284,10 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           return false;
         }
         log.checkpointLeaseMgr(
-          withHostAndPartition(lease, "Need to change lease '%s' -> '%s' " + "for partitionId '%s'."),
+          withHostAndPartition(
+            lease,
+            "Need to change lease '%s' -> '%s' " + "for partitionId '%s'."
+          ),
           lease.token,
           newLeaseId,
           lease.partitionId
@@ -364,7 +374,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     log.checkpointLeaseMgr(
       withHostAndPartition(
         lease,
-        "Let us renew the lease to make sure the " + "update with offset '%s' and sequence number %d will go through."
+        "Let us renew the lease to make sure the " +
+          "update with offset '%s' and sequence number %d will go through."
       ),
       lease.offset,
       lease.sequenceNumber
@@ -463,7 +474,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       log.checkpointLeaseMgr(withHost("Number of blobs: %d"), listResult.entries.length);
       return listResult.entries;
     } else {
-      throw new Error("'blobService' is not defined in the 'hostContext', hence cannot " + "list all the blobs.");
+      throw new Error(
+        "'blobService' is not defined in the 'hostContext', hence cannot " + "list all the blobs."
+      );
     }
   }
 
@@ -521,7 +534,10 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       options.metadata[metadataOwnerName] = lease.owner || this._context.hostName;
     }
     log.checkpointLeaseMgr(
-      withHostAndPartition(lease, "Trying to upload raw JSON for activity " + "'%s': %s, with options: %o"),
+      withHostAndPartition(
+        lease,
+        "Trying to upload raw JSON for activity " + "'%s': %s, with options: %o"
+      ),
       activity,
       jsonToUpload,
       options
@@ -546,7 +562,11 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         result = true;
       }
     }
-    log.error(withHostAndPartition(partitionId, "Was lease lost -> %s, err: %O."), result, getStorageError(err));
+    log.error(
+      withHostAndPartition(partitionId, "Was lease lost -> %s, err: %O."),
+      result,
+      getStorageError(err)
+    );
     return result;
   }
 }

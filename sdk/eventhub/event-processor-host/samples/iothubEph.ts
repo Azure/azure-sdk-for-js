@@ -33,7 +33,7 @@ async function main(): Promise<void> {
   await stopEph(eph);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Exiting from main() due to an error: %O.", err);
 });
 
@@ -58,7 +58,9 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   // Message handler
   const partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => {
-    !partionCount[context.partitionId] ? (partionCount[context.partitionId] = 1) : partionCount[context.partitionId]++;
+    !partionCount[context.partitionId]
+      ? (partionCount[context.partitionId] = 1)
+      : partionCount[context.partitionId]++;
     console.log(
       "[%s] %d - Received message from partition: '%s', offset: '%s'",
       ephName,
@@ -75,7 +77,11 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
           eph.receivingFromPartitions
         );
         await context.checkpointFromEventData(event);
-        console.log("[%s] Successfully checkpointed message number %d", ephName, partionCount[context.partitionId]);
+        console.log(
+          "[%s] Successfully checkpointed message number %d",
+          ephName,
+          partionCount[context.partitionId]
+        );
       } catch (err) {
         console.log(
           "[%s] An error occurred while checkpointing msg number %d: %O",
