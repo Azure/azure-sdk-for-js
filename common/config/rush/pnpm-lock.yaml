@@ -781,7 +781,6 @@ packages:
     dependencies:
       '@typescript-eslint/experimental-utils': 1.13.0_eslint@5.16.0
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
-      '@typescript-eslint/typescript-estree': 1.13.0
       eslint: 5.16.0
       eslint-utils: 1.4.0
       functional-red-black-tree: 1.0.1
