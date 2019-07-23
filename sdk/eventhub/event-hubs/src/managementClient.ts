@@ -18,7 +18,8 @@ import {
   SenderEvents,
   ReceiverEvents,
   SenderOptions,
-  ReceiverOptions
+  ReceiverOptions,
+  generate_uuid
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -318,6 +319,8 @@ export class ManagementClient extends LinkEntity {
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
           try {
+            let count = 0;
+
             if (!options) {
               options = {};
             }
@@ -390,9 +393,9 @@ export class ManagementClient extends LinkEntity {
                 return reject(translate(err));
               } finally {
                 clearTimeout(waitTimer);
-if (aborter) {
-        aborter.removeEventListener("abort", onAbort);
- }
+                if (aborter) {
+                  aborter.removeEventListener("abort", onAbort);
+                }
               }
               timeTakenByInit = Date.now() - initOperationStartTime;
             }
@@ -404,6 +407,15 @@ if (aborter) {
               requestName: options.requestName,
               timeoutInSeconds: remainingOperationTimeoutInMs / 1000
             };
+
+            count++;
+            if (count !== 1) {
+              // Generate a new message_id every time after the first attempt
+              request.message_id = generate_uuid();
+            } else if (!request.message_id) {
+              // Set the message_id in the first attempt only if it is not set
+              request.message_id = generate_uuid();
+            }
 
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
             resolve(result);

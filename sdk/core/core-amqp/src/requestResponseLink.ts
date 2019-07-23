@@ -14,8 +14,7 @@ import {
   SenderOptions,
   ReceiverOptions,
   ReceiverEvents,
-  ReqResLink,
-  generate_uuid
+  ReqResLink
 } from "rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
 import * as log from "./log";
@@ -98,11 +97,6 @@ export class RequestResponseLink implements ReqResLink {
         statusDescription: string;
         errorCondition: string;
       };
-
-      if (!request.message_id) {
-        // Set the message_id only if it is not set
-        request.message_id = generate_uuid();
-      }
 
       const rejectOnAbort = () => {
         const address = this.receiver.address || "address";
