@@ -11,8 +11,7 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError,
-  RetryPolicy
+  MessagingError
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -461,7 +460,6 @@ export class EventHubConsumer {
       maxRetries,
       retryInterval,
       retryPolicy,
-      // timeoutInMs,
       minExponentialRetryDelayInMs,
       maxExponentialRetryDelayInMs
     };
