@@ -32,10 +32,12 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
-// import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
+import { getEnvVars } from "./utils/envVarUtils";
+import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
@@ -68,21 +70,21 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
 
-  // it("Missing tokenProvider in createFromTokenProvider", function(): void {
-  //   let caughtError: Error | undefined;
-  //   try {
-  //     sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
-  //   } catch (error) {
-  //     caughtError = error;
-  //   }
-  //   should.equal(caughtError && caughtError.name, "TypeError");
-  //   should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
-  // });
+  it("Missing tokenProvider in createFromTokenProvider", function(): void {
+    let caughtError: Error | undefined;
+    try {
+      sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
+  });
 
-  // it("Coerces input to string for host in createFromTokenProvider", function(): void {
-  //   sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
-  //   should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-  // });
+  it("Coerces input to string for host in createFromTokenProvider", function(): void {
+    sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
+    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+  });
 });
 
 describe("Errors with non existing Namespace #RunInBrowser", function(): void {
@@ -310,79 +312,79 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-// describe("Test createFromAadTokenCredentials", function(): void {
-//   let sbClient: ServiceBusClient;
-//   let errorWasThrown: boolean = false;
+describe("Test createFromAadTokenCredentials", function(): void {
+  let sbClient: ServiceBusClient;
+  let errorWasThrown: boolean = false;
 
-//   const env = getEnvVars();
-//   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-//     "Endpoint=sb://((.*).servicebus.windows.net)"
-//   ) || "")[1];
+  const env = getEnvVars();
+  const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://((.*).servicebus.windows.net)"
+  ) || "")[1];
 
-//   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
-//     const testMessages = TestMessage.getSample();
-//     sbClient = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
-//     sbClient.should.be.an.instanceof(ServiceBusClient);
-//     const clients = await getSenderReceiverClients(
-//       sbClient,
-//       TestClientType.UnpartitionedQueue,
-//       TestClientType.UnpartitionedQueue
-//     );
+  async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
+    const testMessages = TestMessage.getSample();
+    sbClient = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
+    sbClient.should.be.an.instanceof(ServiceBusClient);
+    const clients = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
 
-//     const sender = clients.senderClient.createSender();
-//     const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
-//     await sender.send(testMessages);
-//     const msgs = await receiver.receiveMessages(1);
+    const sender = clients.senderClient.createSender();
+    const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+    await sender.send(testMessages);
+    const msgs = await receiver.receiveMessages(1);
 
-//     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-//     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-//     should.equal(msgs.length, 1, "Unexpected number of messages");
-//   }
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+  }
 
-//   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
-//     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
-//       errorWasThrown = true;
-//       should.equal(
-//         err.message,
-//         "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
-//         "ErrorMessage is different than expected"
-//       );
-//     });
-//     should.equal(errorWasThrown, true, "Error thrown flag must be true");
-//   });
+  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
 
-//   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
-//     void
-//   > {
-//     const env = getEnvVars();
+  it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+    void
+  > {
+    const env = getEnvVars();
 
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
-//     sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
-//     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-//   });
+    let tokenCreds = await loginWithServicePrincipalSecret(
+      env.AAD_CLIENT_ID,
+      env.AAD_CLIENT_SECRET,
+      env.AAD_TENANT_ID,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
+    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+  });
 
-//   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-//     const env = getEnvVars();
+  it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+    const env = getEnvVars();
 
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
-//     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-//     await sbClient.close();
-//   });
-// });
+    let tokenCreds = await loginWithServicePrincipalSecret(
+      env.AAD_CLIENT_ID,
+      env.AAD_CLIENT_SECRET,
+      env.AAD_TENANT_ID,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+    await sbClient.close();
+  });
+});
 
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClient;

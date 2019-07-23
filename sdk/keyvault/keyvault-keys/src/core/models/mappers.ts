@@ -6,7 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
 import * as coreHttp from "@azure/core-http";
+
+export const CloudError = CloudErrorMapper;
+export const BaseResource = BaseResourceMapper;
 
 export const Attributes: coreHttp.CompositeMapper = {
   serializedName: "Attributes",

@@ -9,6 +9,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -17,12 +18,11 @@ import { KeyVaultClientContext } from "./keyVaultClientContext";
 class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
-   * @param apiVersion Client API version.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, apiVersion: string, options?: coreHttp.ServiceClientOptions) {
-    super(credentials, apiVersion, options);
+  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
+    super(credentials, options);
   }
 
   /**
@@ -3362,6 +3362,9 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       kty: "kty",
@@ -3412,6 +3415,9 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       hsm: [
@@ -3454,6 +3460,9 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -3475,6 +3484,9 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -3518,6 +3530,9 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -3540,6 +3555,9 @@ const getKeyVersionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -3560,6 +3578,9 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.maxresults,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -3582,6 +3603,9 @@ const backupKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupKeyResult
@@ -3601,6 +3625,9 @@ const restoreKeyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -3632,6 +3659,9 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -3665,6 +3695,9 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3697,6 +3730,9 @@ const signOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3728,6 +3764,9 @@ const verifyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -3762,6 +3801,9 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3794,6 +3836,9 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3825,6 +3870,9 @@ const getDeletedKeysOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -3845,6 +3893,9 @@ const getDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -3867,6 +3918,9 @@ const purgeDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     204: {},
     default: {
@@ -3885,6 +3939,9 @@ const recoverDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -3906,6 +3963,9 @@ const setSecretOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -3949,6 +4009,9 @@ const deleteSecretOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -3970,6 +4033,9 @@ const updateSecretOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4013,6 +4079,9 @@ const getSecretOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -4033,6 +4102,9 @@ const getSecretsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.maxresults,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4056,6 +4128,9 @@ const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -4076,6 +4151,9 @@ const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.maxresults,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4098,6 +4176,9 @@ const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -4119,6 +4200,9 @@ const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     204: {},
     default: {
@@ -4137,6 +4221,9 @@ const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4159,6 +4246,9 @@ const backupSecretOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupSecretResult
@@ -4178,6 +4268,9 @@ const restoreSecretOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4210,6 +4303,9 @@ const getCertificatesOperationSpec: coreHttp.OperationSpec = {
     Parameters.includePending,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -4231,6 +4327,9 @@ const deleteCertificateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -4250,6 +4349,9 @@ const setCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: "contacts",
@@ -4278,6 +4380,9 @@ const getCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -4297,6 +4402,9 @@ const deleteCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4319,6 +4427,9 @@ const getCertificateIssuersOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateIssuerListResult
@@ -4339,6 +4450,9 @@ const setCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4381,6 +4495,9 @@ const updateCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4427,6 +4544,9 @@ const getCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -4448,6 +4568,9 @@ const deleteCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -4468,6 +4591,9 @@ const createCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4509,6 +4635,9 @@ const importCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4557,6 +4686,9 @@ const getCertificateVersionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -4578,6 +4710,9 @@ const getCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificatePolicy
@@ -4598,6 +4733,9 @@ const updateCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: "certificatePolicy",
@@ -4627,6 +4765,9 @@ const updateCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4670,6 +4811,9 @@ const getCertificateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -4690,6 +4834,9 @@ const updateCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4721,6 +4868,9 @@ const getCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -4742,6 +4892,9 @@ const deleteCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -4762,6 +4915,9 @@ const mergeCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4801,6 +4957,9 @@ const backupCertificateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupCertificateResult
@@ -4820,6 +4979,9 @@ const restoreCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -4852,6 +5014,9 @@ const getDeletedCertificatesOperationSpec: coreHttp.OperationSpec = {
     Parameters.includePending,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateListResult
@@ -4872,6 +5037,9 @@ const getDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4894,6 +5062,9 @@ const purgeDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     204: {},
     default: {
@@ -4912,6 +5083,9 @@ const recoverDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4934,6 +5108,9 @@ const getStorageAccountsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StorageListResult
@@ -4954,6 +5131,9 @@ const getDeletedStorageAccountsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.maxresults,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -4976,6 +5156,9 @@ const getDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -4997,6 +5180,9 @@ const purgeDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     204: {},
     default: {
@@ -5015,6 +5201,9 @@ const recoverDeletedStorageAccountOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5037,6 +5226,9 @@ const backupStorageAccountOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupStorageResult
@@ -5056,6 +5248,9 @@ const restoreStorageAccountOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -5087,6 +5282,9 @@ const deleteStorageAccountOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -5108,6 +5306,9 @@ const getStorageAccountOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StorageBundle
@@ -5128,6 +5329,9 @@ const setStorageAccountOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -5172,6 +5376,9 @@ const updateStorageAccountOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -5222,6 +5429,9 @@ const regenerateStorageAccountKeyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
       keyName: "keyName"
@@ -5253,6 +5463,9 @@ const getSasDefinitionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxresults,
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionListResult
@@ -5274,6 +5487,9 @@ const getDeletedSasDefinitionsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.maxresults,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5297,6 +5513,9 @@ const getDeletedSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -5318,6 +5537,9 @@ const recoverDeletedSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5341,6 +5563,9 @@ const deleteSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -5363,6 +5588,9 @@ const getSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
@@ -5384,6 +5612,9 @@ const setSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -5425,6 +5656,9 @@ const updateSasDefinitionOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
@@ -5472,6 +5706,9 @@ const getKeyVersionsNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5489,6 +5726,9 @@ const getKeysNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5508,6 +5748,9 @@ const getDeletedKeysNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -5525,6 +5768,9 @@ const getSecretsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5544,6 +5790,9 @@ const getSecretVersionsNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -5561,6 +5810,9 @@ const getDeletedSecretsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5580,6 +5832,9 @@ const getCertificatesNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -5597,6 +5852,9 @@ const getCertificateIssuersNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5616,6 +5874,9 @@ const getCertificateVersionsNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -5633,6 +5894,9 @@ const getDeletedCertificatesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5652,6 +5916,9 @@ const getStorageAccountsNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StorageListResult
@@ -5669,6 +5936,9 @@ const getDeletedStorageAccountsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
@@ -5688,6 +5958,9 @@ const getSasDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.nextPageLink
   ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionListResult
@@ -5705,6 +5978,9 @@ const getDeletedSasDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
   ],
   responses: {
     200: {
