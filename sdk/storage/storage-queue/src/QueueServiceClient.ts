@@ -24,9 +24,8 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface ServiceGetPropertiesOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
@@ -42,9 +41,8 @@ export interface ServiceGetPropertiesOptions {
  */
 export interface ServiceSetPropertiesOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
@@ -60,9 +58,8 @@ export interface ServiceSetPropertiesOptions {
  */
 export interface ServiceGetStatisticsOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
@@ -77,9 +74,8 @@ export interface ServiceGetStatisticsOptions {
  */
 interface ServiceListQueuesSegmentOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof ServiceListQueuesSegmentOptions
@@ -116,9 +112,8 @@ interface ServiceListQueuesSegmentOptions {
  */
 export interface ServiceListQueuesOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof ServiceListQueuesOptions

@@ -21,9 +21,8 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface MessagesClearOptions {
   /**
-   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
-   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
@@ -312,8 +311,6 @@ export class MessagesClient extends StorageClient {
    * Dequeue retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
    * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
    * @memberof MessagesClient
