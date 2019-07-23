@@ -11,8 +11,7 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError,
-  RetryPolicy
+  MessagingError
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -453,6 +452,7 @@ export class EventHubConsumer {
         ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
 
+    const timeOutInMs = retryOptions.timeoutInMs;
     const retryPolicy = retryOptions.retryPolicy;
     const minExponentialRetryDelayInMs = retryOptions.minExponentialRetryDelayInMs;
     const maxExponentialRetryDelayInMs = retryOptions.maxExponentialRetryDelayInMs;
@@ -460,8 +460,8 @@ export class EventHubConsumer {
     return {
       maxRetries,
       retryInterval,
+      timeOutInMs,
       retryPolicy,
-      // timeoutInMs,
       minExponentialRetryDelayInMs,
       maxExponentialRetryDelayInMs
     };
