@@ -390,7 +390,9 @@ export class ManagementClient extends LinkEntity {
                 return reject(translate(err));
               } finally {
                 clearTimeout(waitTimer);
-                aborter!.removeEventListener("abort", onAbort);
+if (aborter) {
+        aborter.removeEventListener("abort", onAbort);
+ }
               }
               timeTakenByInit = Date.now() - initOperationStartTime;
             }
