@@ -45,7 +45,6 @@ export { URLBuilder, URLQuery } from "./url";
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential, RawTokenCredential } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
-export { TokenCredentials } from "./credentials/tokenCredentials";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
