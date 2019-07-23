@@ -111,6 +111,7 @@ describe("RequestResponseLink", function() {
         /The foo operation has been cancelled by the user.$/,
         "gi"
       );
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(
         expectedErrorRegex.test(err.message),
         true,
@@ -170,6 +171,7 @@ describe("RequestResponseLink", function() {
         /The foo operation has been cancelled by the user.$/,
         "gi"
       );
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(
         expectedErrorRegex.test(err.message),
         true,

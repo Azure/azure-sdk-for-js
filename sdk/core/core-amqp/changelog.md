@@ -1,4 +1,4 @@
-## 1.0.0-preview.2.0 - 16th July, 2019
+## 1.0.0-preview.2.0 - Coming soon...
 
 - `sendRequest()` function in the `RequestResponseLink` now excludes default retries and leaves it up to the users to implement it as necessary.
 
