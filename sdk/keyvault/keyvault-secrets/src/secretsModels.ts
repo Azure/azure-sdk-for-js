@@ -183,6 +183,10 @@ export interface UpdateSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+  /**
+   * @member {AbortSignalLike} [abortSignal] Abort signal
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -200,6 +204,10 @@ export interface GetSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+  /**
+   * @member {AbortSignalLike} [abortSignal] Abort signal
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -212,4 +220,8 @@ export interface ListSecretsOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+  /**
+   * @member {AbortSignalLike} [abortSignal] Abort signal
+   */
+  abortSignal?: AbortSignalLike;
 }
