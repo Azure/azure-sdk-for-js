@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { TokenCredential, GetTokenOptions, AccessToken } from "./tokenCredential";
 
 /**
  * A TokenCredential that always returns the given token. This class can be
