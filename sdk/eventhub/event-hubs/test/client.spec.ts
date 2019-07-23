@@ -70,16 +70,16 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     void
   > {
     should.exist(
-      env[EnvVarKeys.EVENTHUB_AAD_CLIENT_ID],
-      "define EVENTHUB_AAD_CLIENT_ID in your environment before running integration tests."
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      "define AZURE_CLIENT_ID in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.EVENTHUB_AAD_TENANT_ID],
-      "define EVENTHUB_AAD_TENANT_ID in your environment before running integration tests."
+      env[EnvVarKeys.AZURE_TENANT_ID],
+      "define AZURE_TENANT_ID in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.EVENTHUB_AAD_CLIENT_SECRET],
-      "define EVENTHUB_AAD_CLIENT_SECRET in your environment before running integration tests."
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
     );
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
