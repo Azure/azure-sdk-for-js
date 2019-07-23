@@ -162,10 +162,6 @@ describe("RequestResponseLink", function() {
     try {
       const controller = new AbortController();
       const signal: AbortSignalLike = controller.signal;
-      const onAborted = () => {
-        // do nothing and just to mark signal as aborted internally
-      };
-      signal.addEventListener("abort", onAborted);
       controller.abort();
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
