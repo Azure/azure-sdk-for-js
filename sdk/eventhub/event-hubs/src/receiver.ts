@@ -74,16 +74,8 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<
-    Pick<
-      RetryOptions,
-      | "maxRetries"
-      | "retryInterval"
-      | "retryPolicy"
-      | "minExponentialRetryDelayInMs"
-      | "maxExponentialRetryDelayInMs"
-    >
-  >;
+  private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> &
+    RetryOptions;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -451,16 +443,7 @@ export class EventHubConsumer {
 
   private _initRetryOptions(
     retryOptions: RetryOptions = {}
-  ): Required<
-    Pick<
-      RetryOptions,
-      | "maxRetries"
-      | "retryInterval"
-      | "retryPolicy"
-      | "minExponentialRetryDelayInMs"
-      | "maxExponentialRetryDelayInMs"
-    >
-  > {
+  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> & RetryOptions {
     const maxRetries =
       typeof retryOptions.maxRetries === "number"
         ? retryOptions.maxRetries
@@ -469,6 +452,7 @@ export class EventHubConsumer {
       typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
         ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+
     const retryPolicy = retryOptions.retryPolicy;
     const minExponentialRetryDelayInMs = retryOptions.minExponentialRetryDelayInMs;
     const maxExponentialRetryDelayInMs = retryOptions.maxExponentialRetryDelayInMs;
@@ -477,6 +461,7 @@ export class EventHubConsumer {
       maxRetries,
       retryInterval,
       retryPolicy,
+      // timeoutInMs,
       minExponentialRetryDelayInMs,
       maxExponentialRetryDelayInMs
     };
