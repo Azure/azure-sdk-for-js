@@ -31,20 +31,20 @@ export interface SendRequestOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
-   * Default: `10 seconds`.
+   * @property {number} [timeoutInMs] Max time to wait for the operation to complete.
+   * Default: `10000 milliseconds`.
    */
-  timeoutInSeconds?: number;
+  timeoutInMs?: number;
   /**
    * @property {number} [maxRetries] Number of times the operation needs to be retried in case
    * of error. Default: 3.
    */
   maxRetries?: number;
   /**
-   * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Default: 15.
+   * @property {number} [delayInMs] Amount of time to wait in milliseconds before making the
+   * next attempt. Default: `15000 milliseconds`.
    */
-  delayInSeconds?: number;
+  delayInMs?: number;
   /**
    * @property {string} [requestName] Name of the request being performed.
    */
@@ -86,9 +86,9 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Sends the given request message and returns the received response. If the operation is not
-   * completed in the provided timeout in seconds `default: 10`, then the request will be retried
-   * linearly for the provided number of times `default: 3` with the provided delay in seconds
-   * `default: 15` between each attempt.
+   * completed in the provided timeout in milliseconds `default: 10000`, then the request will be retried
+   * linearly for the provided number of times `default: 3` with the provided delay in milliseconds
+   * `default: 15000` between each attempt.
    *
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
@@ -97,8 +97,8 @@ export class RequestResponseLink implements ReqResLink {
   sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
     if (!options) options = {};
 
-    if (!options.timeoutInSeconds) {
-      options.timeoutInSeconds = 10;
+    if (!options.timeoutInMs) {
+      options.timeoutInMs = 10000;
     }
 
     let count: number = 0;
@@ -240,7 +240,7 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInMs!);
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,
@@ -256,7 +256,7 @@ export class RequestResponseLink implements ReqResLink {
         request.to && request.to === Constants.cbsEndpoint
           ? RetryOperationType.cbsAuth
           : RetryOperationType.management,
-      delayInSeconds: options.delayInSeconds,
+      delayInMs: options.delayInMs,
       maxRetries: options.maxRetries
     };
     return retry<AmqpMessage>(config);

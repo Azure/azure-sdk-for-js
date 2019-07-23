@@ -6,7 +6,7 @@ import { delay, isNode } from "./util/utils";
 import * as log from "./log";
 import {
   defaultMaxRetries,
-  defaultDelayBetweenOperationRetriesInSeconds,
+  defaultDelayBetweenOperationRetriesInMs,
   defaultMaxDelayForExponentialRetryInMs,
   defaultMinDelayForExponentialRetryInMs
 } from "./util/constants";
@@ -79,12 +79,12 @@ export interface RetryConfig<T> {
    */
   maxRetries?: number;
   /**
-   * @property {number} [delayInSeconds] Amount of time to wait in seconds before making the
-   * next attempt. Default: 30.
+   * @property {number} [delayInMs] Amount of time to wait in milliseconds before making the
+   * next attempt. Default: `30000 milliseconds`.
    * When `retryPolicy` option is set to `ExponentialRetryPolicy`, \
    * this is used to compute the exponentially increasing delays between retries.
    */
-  delayInSeconds?: number;
+  delayInMs?: number;
   /**
    * @property {string} connectionHost The host "<yournamespace>.servicebus.windows.net".
    * Used to check network connectivity.
@@ -160,8 +160,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.maxRetries == undefined || config.maxRetries < 0) {
     config.maxRetries = defaultMaxRetries;
   }
-  if (config.delayInSeconds == undefined || config.delayInSeconds < 0) {
-    config.delayInSeconds = defaultDelayBetweenOperationRetriesInSeconds;
+  if (config.delayInMs == undefined || config.delayInMs < 0) {
+    config.delayInMs = defaultDelayBetweenOperationRetriesInMs;
   }
   if (config.maxExponentialRetryDelayInMs == undefined || config.maxExponentialRetryDelayInMs < 0) {
     config.maxExponentialRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
@@ -213,12 +213,12 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      let targetDelayInMs = config.delayInSeconds;
+      let targetDelayInMs = config.delayInMs;
       if (config.retryPolicy === RetryPolicy.ExponentialRetryPolicy) {
         let incrementDelta = Math.pow(2, i) - 1;
         const boundedRandDelta =
-          config.delayInSeconds * 0.8 +
-          Math.floor(Math.random() * (config.delayInSeconds * 1.2 - config.delayInSeconds * 0.8));
+          config.delayInMs * 0.8 +
+          Math.floor(Math.random() * (config.delayInMs * 1.2 - config.delayInMs * 0.8));
         incrementDelta *= boundedRandDelta;
 
         targetDelayInMs = Math.min(
@@ -229,7 +229,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
 
       if (lastError && lastError.retryable) {
         log.error(
-          "[%s] Sleeping for %d seconds for '%s'.",
+          "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,
           targetDelayInMs / 1000,
           config.operationType
