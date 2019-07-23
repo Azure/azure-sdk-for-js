@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { Messages } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -21,14 +21,14 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface MessagesClearOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams { }
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -47,7 +47,7 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams { }
 
 /**
  * Options to configure Messages - Peek operation
@@ -56,7 +56,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams { }
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -85,68 +85,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.EnqueuedMessage[];
-    };
+    parsedHeaders: Models.MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.EnqueuedMessage[];
   };
+};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.DequeuedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.DequeuedMessageItem[];
   };
+};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.PeekedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.PeekedMessageItem[];
   };
+};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.

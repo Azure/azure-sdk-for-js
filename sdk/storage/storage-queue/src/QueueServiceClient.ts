@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -24,14 +24,14 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface ServiceGetPropertiesOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -42,14 +42,14 @@ export interface ServiceGetPropertiesOptions {
  */
 export interface ServiceSetPropertiesOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -60,14 +60,14 @@ export interface ServiceSetPropertiesOptions {
  */
 export interface ServiceGetStatisticsOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -77,14 +77,14 @@ export interface ServiceGetStatisticsOptions {
  */
 interface ServiceListQueuesSegmentOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof ServiceListQueuesSegmentOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.
@@ -116,14 +116,14 @@ interface ServiceListQueuesSegmentOptions {
  */
 export interface ServiceListQueuesOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof ServiceListQueuesOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.

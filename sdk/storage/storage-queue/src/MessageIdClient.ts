@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { MessageId } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { Credential } from "./credentials/Credential";
@@ -20,14 +20,14 @@ import { extractConnectionStringParts } from "./utils/utils.common";
  */
 export interface MessageIdDeleteOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -38,14 +38,14 @@ export interface MessageIdDeleteOptions {
  */
 export interface MessageIdUpdateOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**

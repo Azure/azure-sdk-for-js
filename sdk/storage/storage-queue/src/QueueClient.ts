@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -26,14 +26,14 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface QueueCreateOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the queue object.
    * The keys need to be lower-case.
@@ -52,14 +52,14 @@ export interface QueueCreateOptions {
  */
 export interface QueueGetPropertiesOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -70,14 +70,14 @@ export interface QueueGetPropertiesOptions {
  */
 export interface QueueDeleteOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -88,14 +88,14 @@ export interface QueueDeleteOptions {
  */
 export interface QueueGetAccessPolicyOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -106,14 +106,14 @@ export interface QueueGetAccessPolicyOptions {
  */
 export interface QueueSetAccessPolicyOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -124,14 +124,14 @@ export interface QueueSetAccessPolicyOptions {
  */
 export interface QueueSetMetadataOptions {
   /**
-   * AbortSignal instance to cancel request. It can be created with AbortSignal.none
-   * or AbortSignal.timeout(). Go to documents of {@link AbortSignal} for more examples
+   * AbortSignalLike instance to cancel request. It can be created with AbortSignalLike.none
+   * or AbortSignalLike.timeout(). Go to documents of {@link AbortSignalLike} for more examples
    * about request cancellation.
    *
-   * @type {AbortSignal}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -168,24 +168,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
