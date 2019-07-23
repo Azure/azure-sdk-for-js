@@ -11,7 +11,8 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError
+  MessagingError,
+  RetryPolicy
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -450,7 +451,16 @@ export class EventHubConsumer {
 
   private _initRetryOptions(
     retryOptions: RetryOptions = {}
-  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> {
+  ): Required<
+    Pick<
+      RetryOptions,
+      | "maxRetries"
+      | "retryInterval"
+      | "retryPolicy"
+      | "minExponentialRetryDelayInMs"
+      | "maxExponentialRetryDelayInMs"
+    >
+  > {
     const maxRetries =
       typeof retryOptions.maxRetries === "number"
         ? retryOptions.maxRetries
@@ -459,10 +469,16 @@ export class EventHubConsumer {
       typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
         ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+    const retryPolicy = retryOptions.retryPolicy;
+    const minExponentialRetryDelayInMs = retryOptions.minExponentialRetryDelayInMs;
+    const maxExponentialRetryDelayInMs = retryOptions.maxExponentialRetryDelayInMs;
 
     return {
       maxRetries,
-      retryInterval
+      retryInterval,
+      retryPolicy,
+      minExponentialRetryDelayInMs,
+      maxExponentialRetryDelayInMs
     };
   }
 
