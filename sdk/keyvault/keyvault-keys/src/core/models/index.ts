@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { BaseResource, CloudError } from "@azure/core-arm";
 import * as coreHttp from "@azure/core-http";
+
+export { BaseResource, CloudError };
 
 /**
  * The object attributes managed by the KeyVault service.

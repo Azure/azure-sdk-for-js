@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock, TokenType, AccessToken, Constants, SharedKeyCredential } from "@azure/core-amqp";
+import { defaultLock } from "@azure/amqp-common";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
@@ -82,11 +82,6 @@ export class LinkEntity {
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout
-   * @protected
-   */
-  protected _tokenTimeout?: number;
-  /**
    * Creates a new ClientEntity instance.
    * @constructor
    * @param {ClientEntityContext} context The connection context.
@@ -123,24 +118,7 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
       return this._context.namespace.cbsSession.init();
     });
-
-    let tokenObject: AccessToken;
-    let tokenType: TokenType;
-    if (this._context.namespace.tokenCredential instanceof SharedKeyCredential) {
-      tokenObject = this._context.namespace.tokenCredential.getToken(this.audience);
-      tokenType = TokenType.CbsTokenTypeSas;
-      // renew sas token in every 45 minutess
-      this._tokenTimeout = (3600 - 900) * 1000;
-    } else {
-      const aadToken = await this._context.namespace.tokenCredential.getToken(Constants.aadServiceBusScope);
-      if (!aadToken) {
-        throw new Error(`Failed to get token from the provided "TokenCredential" object`);
-      }
-      tokenObject = aadToken;
-      tokenType = TokenType.CbsTokenTypeJwt;
-      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
-    }
-    
+    const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.namespace.connectionId,
@@ -156,11 +134,8 @@ export class LinkEntity {
       this.name,
       this.address
     );
-    if (!tokenObject) {
-      throw new Error("Token cannot be null");
-    }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
@@ -180,13 +155,15 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    if (!this._tokenTimeout) {
-      return;
-    }
+    const tokenValidTimeInSeconds = this._context.namespace.tokenProvider.tokenValidTimeInSeconds;
+    const tokenRenewalMarginInSeconds = this._context.namespace.tokenProvider
+      .tokenRenewalMarginInSeconds;
+    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
+        // TODO: May be add some retries over here before emitting the error.
         log.error(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.namespace.connectionId,
@@ -196,15 +173,15 @@ export class LinkEntity {
           err
         );
       }
-    }, this._tokenTimeout);
+    }, nextRenewalTimeout);
     log.link(
       "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
       this._context.namespace.connectionId,
       this._type,
       this.name,
       this.address,
-      this._tokenTimeout / 1000,
-      new Date(Date.now() + this._tokenTimeout).toString()
+      nextRenewalTimeout / 1000,
+      new Date(Date.now() + nextRenewalTimeout).toString()
     );
   }
 
