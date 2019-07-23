@@ -86,7 +86,8 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
 
-    const endpoint = (env.EVENTHUB_CONNECTION_STRING.match("(.*).servicebus.windows.net") || "")[1];
+    // This is of the form <your-namespace>.servicebus.windows.net
+    const endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
 
     const credential = new EnvironmentCredential();
     const client = new EventHubClient(endpoint, env.EVENTHUB_NAME, credential);
