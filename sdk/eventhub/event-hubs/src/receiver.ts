@@ -73,7 +73,16 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">>;
+  private _retryOptions: Required<
+    Pick<
+      RetryOptions,
+      | "maxRetries"
+      | "retryInterval"
+      | "retryPolicy"
+      | "minExponentialRetryDelayInMs"
+      | "maxExponentialRetryDelayInMs"
+    >
+  >;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -370,7 +379,7 @@ export class EventHubConsumer {
         );
 
         const addTimeout = (): void => {
-          let msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
           log.batching(
             msg,
             this._context.connectionId,
@@ -407,7 +416,10 @@ export class EventHubConsumer {
       delayInSeconds: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries: retryOptions.maxRetries
+      maxRetries: retryOptions.maxRetries,
+      retryPolicy: retryOptions.retryPolicy,
+      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
     };
     return retry<ReceivedEventData[]>(config);
   }

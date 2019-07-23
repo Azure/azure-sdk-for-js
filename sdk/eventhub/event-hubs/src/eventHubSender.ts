@@ -717,7 +717,12 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       maxRetries: maxRetries,
-      delayInSeconds: delayInSeconds + jitterInSeconds
+      delayInSeconds: delayInSeconds + jitterInSeconds,
+      retryPolicy: options.retryOptions && options.retryOptions.retryPolicy,
+      minExponentialRetryDelayInMs:
+        options.retryOptions && options.retryOptions.minExponentialRetryDelayInMs,
+      maxExponentialRetryDelayInMs:
+        options.retryOptions && options.retryOptions.maxExponentialRetryDelayInMs
     };
     return retry<void>(config);
   }
