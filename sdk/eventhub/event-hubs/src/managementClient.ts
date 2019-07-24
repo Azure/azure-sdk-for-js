@@ -25,7 +25,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
 import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
@@ -314,8 +314,6 @@ export class ManagementClient extends LinkEntity {
         options = {};
       }
 
-      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
-
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
           try {
@@ -325,7 +323,6 @@ export class ManagementClient extends LinkEntity {
               options = {};
             }
 
-            let timeOver: boolean = false;
             const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
             let timeTakenByInit = 0;
 
@@ -335,50 +332,15 @@ export class ManagementClient extends LinkEntity {
                 this._context.connectionId
               );
 
-              const rejectOnAbort = () => {
-                const requestName = options!.requestName;
-                const desc: string = `[${this._context.connectionId}] The request "${requestName}" has been cancelled by the user.`;
-                log.error(desc);
-                const error = new AbortError(
-                  `The ${
-                    requestName ? requestName + " " : ""
-                  }operation has been cancelled by the user.`
-                );
-
-                return reject(error);
-              };
-
-              const onAbort = () => {
-                // safe to clear the timeout if it hasn't already occurred.
-                if (!timeOver) {
-                  clearTimeout(waitTimer);
-                }
-
-                if (aborter) {
-                  aborter.removeEventListener("abort", onAbort);
-                }
-                rejectOnAbort();
-              };
-
-              if (aborter) {
-                if (aborter.aborted) {
-                  return rejectOnAbort();
-                }
-                aborter.addEventListener("abort", onAbort);
-              }
-
               const initOperationStartTime = Date.now();
 
               const actionAfterTimeout = () => {
-                timeOver = true;
                 const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
                 const e: Error = {
                   name: "OperationTimeoutError",
                   message: desc
                 };
-                if (aborter) {
-                  aborter.removeEventListener("abort", onAbort);
-                }
+
                 return reject(translate(e));
               };
 
@@ -392,9 +354,6 @@ export class ManagementClient extends LinkEntity {
                 return reject(translate(err));
               } finally {
                 clearTimeout(waitTimer);
-                if (aborter) {
-                  aborter.removeEventListener("abort", onAbort);
-                }
               }
               timeTakenByInit = Date.now() - initOperationStartTime;
             }
