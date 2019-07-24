@@ -187,9 +187,6 @@ export namespace HostContext {
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
     if (!options.eventHubPath) options.eventHubPath = config.entityPath;
-    if (!options.leaseRenewInterval)
-      options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
-    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
     if (!options.dataTransformer) options.dataTransformer = new DefaultDataTransformer();
     if (!options.startupScanDelay) options.startupScanDelay = defaultStartupScanDelayInSeconds;
@@ -219,6 +216,15 @@ export namespace HostContext {
     validateType("options.leaseDuration", options.leaseDuration, false, "number");
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
     _eitherLeaseManagerOrleaseDurationAndRenewal(options);
+
+    if (options.leaseManager) {
+      options.leaseDuration = options.leaseManager.leaseDuration;
+      options.leaseRenewInterval = options.leaseManager.leaseRenewInterval;
+    }
+
+    if (!options.leaseRenewInterval)
+      options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
+    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
 
     const context: BaseHostContext = {
       hostName: hostName,
