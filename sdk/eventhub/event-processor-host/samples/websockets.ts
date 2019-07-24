@@ -36,9 +36,9 @@ const proxyAgent = new httpsProxyAgent(urlParts);
 async function main(): Promise<void> {
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName(ephName),
-    storageConnectionString!,
+    storageConnectionString,
     storageContainerName,
-    ehConnectionString!,
+    ehConnectionString,
     {
       eventHubPath: eventHubsName,
       onEphError: (error: any) => {
