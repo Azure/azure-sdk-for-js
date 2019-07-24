@@ -336,11 +336,8 @@ export class ManagementClient extends LinkEntity {
               );
 
               const rejectOnAbort = () => {
-                const address = this._mgmtReqResLink!.receiver.address || "address";
                 const requestName = options!.requestName;
-                const desc: string =
-                  `[${this._context.connectionId}] The request "${requestName}" ` +
-                  `to "${address}" has been cancelled by the user.`;
+                const desc: string = `[${this._context.connectionId}] The request "${requestName}" has been cancelled by the user.`;
                 log.error(desc);
                 const error = new AbortError(
                   `The ${
@@ -356,8 +353,10 @@ export class ManagementClient extends LinkEntity {
                 if (!timeOver) {
                   clearTimeout(waitTimer);
                 }
-                aborter!.removeEventListener("abort", onAbort);
 
+                if (aborter) {
+                  aborter.removeEventListener("abort", onAbort);
+                }
                 rejectOnAbort();
               };
 
@@ -372,10 +371,7 @@ export class ManagementClient extends LinkEntity {
 
               const actionAfterTimeout = () => {
                 timeOver = true;
-                const address = this._mgmtReqResLink!.receiver.address || "address";
-                const desc: string =
-                  `The request with message_id "${request.message_id}" to "${address}" ` +
-                  `endpoint timed out. Please try again later.`;
+                const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
                 const e: Error = {
                   name: "OperationTimeoutError",
                   message: desc
