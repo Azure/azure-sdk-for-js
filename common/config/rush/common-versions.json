@@ -37,5 +37,9 @@
     // "typescript": [
     //   "~2.4.0"
     // ]
+
+    // This is required to allow for backward compatibility with Service Bus Track 1
+    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
+    "rhea-promise": ["^0.1.15"]
   }
 }

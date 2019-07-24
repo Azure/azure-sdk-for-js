@@ -1,6 +1,6 @@
 dependencies:
   '@azure/abort-controller': 1.0.0-preview.1
-  '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
+  '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': 0.1.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-paging': 1.0.0-preview.1
@@ -144,7 +144,6 @@ dependencies:
   query-string: 5.1.1
   requirejs: 2.3.6
   rhea: 1.0.8
-  rhea-promise: 0.1.15
   rimraf: 2.6.3
   rollup: 1.17.0
   rollup-plugin-alias: 1.5.2
@@ -209,6 +208,27 @@ packages:
       rhea-promise: ^0.1.13
     resolution:
       integrity: sha512-B/HFWNbqAjFjhj8x/zlHcpuYtsr92l3ZVArJdumi2kpN2Di/h4g6GIa2JeQEDD+rkLa3oAR6zHKfJbGnybOmvg==
+  /@azure/amqp-common/1.0.0-preview.6:
+    dependencies:
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/async-lock': 1.1.1
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.2
+      buffer: 5.2.1
+      debug: 3.2.6
+      events: 3.0.0
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      stream-browserify: 2.0.2
+      tslib: 1.10.0
+      url: 0.11.0
+      util: 0.11.1
+    dev: false
+    peerDependencies:
+      rhea-promise: ^0.1.15
+    resolution:
+      integrity: sha512-5XJZaJGtGoPmLhFx5y0vfCXiAHksoA4fdSnHAfkgEm4krhCW1jt1LH/6aJdUwUTJe+bz6m3Pv0sG/ILG0Vd65g==
   /@azure/amqp-common/1.0.0-preview.6_rhea-promise@0.1.15:
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3
@@ -7742,6 +7762,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
+  /rhea-promise/1.0.0:
+    dependencies:
+      debug: 3.2.6
+      rhea: 1.0.8
+      tslib: 1.10.0
+    dev: false
+    resolution:
+      integrity: sha512-odAjpbB/IpFFBenPDwPkTWMQldt+DUlMBH9yI48Ct5OgTeDuuQcBnlhB+YCc6g2z8+URiP2ejms88joEanNCaw==
   /rhea/1.0.8:
     dependencies:
       debug: 3.2.6
@@ -9743,7 +9771,7 @@ packages:
       process: 0.11.10
       puppeteer: 1.18.1
       rhea: 1.0.8
-      rhea-promise: 0.1.15
+      rhea-promise: 1.0.0
       rimraf: 2.6.3
       rollup: 1.17.0
       rollup-plugin-commonjs: 10.0.1_rollup@1.17.0
@@ -9767,7 +9795,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-9LHxNb4QrxyNRXfAf5u1uisfKB2+L3H/fet8fGbe8aotNAfIeVipiftCD8oaATz7qdnG+FXQwLVxXMaz4dI7rg==
+      integrity: sha512-W0Y0tq9iza4UyiXj7tltKtZk5aKqk89TB3T/tAk6rqdFCx5eBGcMsFyinWo0R2iY09n+jOIy5qkWs69cElre/Q==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10063,7 +10091,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.18.1
-      rhea-promise: 0.1.15
+      rhea-promise: 1.0.0
       rimraf: 2.6.3
       rollup: 1.17.0
       rollup-plugin-commonjs: 10.0.1_rollup@1.17.0
@@ -10084,7 +10112,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-1GJu6YVyxIFLe1hq0W9+is9tGnNt5ExJ6aHDvGGPX+j1zCZnh2x0Lb/fK0VTUcEybCw9D+lLpTd4vXNYphTMww==
+      integrity: sha512-0mjQEMP/AVz7oC1IAlNLQ33iz4Nr5+qBaXXYl61l8Xk/jIAgIMhQPZBy1vRj9MzG1dW71rmAVVsK2RSIH7k3uA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10101,6 +10129,7 @@ packages:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
       '@types/uuid': 3.4.5
+      '@types/ws': 6.0.1
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       async-lock: 1.2.2
@@ -10117,6 +10146,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
+      https-proxy-agent: 2.2.2
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
       mocha-multi: 1.1.0_mocha@5.2.0
@@ -10136,10 +10166,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
+      ws: 6.2.1
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-YEltFsweWeV5/IHJyEd/kVz7RG4iRz2AWE6rsw23UIXJaMkEc3nhsw/FtJpWq8bGWs8Dp3pvzKx1VezkCFB9MQ==
+      integrity: sha512-ArbUM9DPleTcwpTC+4K/0fPHmaYl4POCPoGdwyFmHWq6Jci/i2QUwzKVsRt/g1x/N2QmpX9b1ptBbQbCFo5w4A==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10728,6 +10759,7 @@ packages:
       integrity: sha512-Lt7NGJIhEbyVoQ1sJ4eUnUg7nGIkdgatRJJMWz18ZVWxKFXPxbBjxPsvIJNirR8QdA3efLv1FhyM4lszfJHcjw==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10874,7 +10906,6 @@ specifiers:
   query-string: ^5.0.0
   requirejs: ^2.3.5
   rhea: ^1.0.4
-  rhea-promise: ^0.1.15
   rimraf: ^2.6.2
   rollup: ^1.16.3
   rollup-plugin-alias: ^1.4.0
