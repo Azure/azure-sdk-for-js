@@ -187,9 +187,11 @@ export namespace HostContext {
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
     if (!options.eventHubPath) options.eventHubPath = config.entityPath;
-    if (!options.leaseRenewInterval)
-      options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
-    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
+    if (!options.leaseManager) {
+      if (!options.leaseRenewInterval)
+        options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
+      if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
+    }
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
     if (!options.dataTransformer) options.dataTransformer = new DefaultDataTransformer();
     if (!options.startupScanDelay) options.startupScanDelay = defaultStartupScanDelayInSeconds;
@@ -215,8 +217,12 @@ export namespace HostContext {
     validateType("options.storageContainerName", options.storageContainerName, false, "string");
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
-    validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
-    validateType("options.leaseDuration", options.leaseDuration, false, "number");
+    if (!options.leaseManager) {
+      validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
+      validateType("options.leaseDuration", options.leaseDuration, false, "number");
+    } else {
+      validateType("options.leaseManager", options.leaseManager, false, "object");
+    }
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
     _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
@@ -264,7 +270,9 @@ export namespace HostContext {
       context.blobService = BlobService.create(hostName, options.storageConnectionString);
     }
 
-    _validateLeaseDurationAndRenewInterval(context.leaseDuration, context.leaseRenewInterval);
+    if (!options.leaseManager) {
+      _validateLeaseDurationAndRenewInterval(context.leaseDuration, context.leaseRenewInterval);
+    }
     if (context.storageContainerName) _validatestorageContainerName(context.storageContainerName);
     return context;
   }
