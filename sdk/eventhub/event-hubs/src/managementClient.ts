@@ -25,7 +25,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
 import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  * @interface HubRuntimeInformation
@@ -307,24 +307,44 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
+    options: {
+      retryOptions?: RetryOptions;
+      abortSignal?: AbortSignalLike;
+      requestName?: string;
+    } = {}
   ): Promise<any> {
     try {
-      if (!options) {
-        options = {};
-      }
+      let result: any;
+      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
           try {
             let count = 0;
 
-            if (!options) {
-              options = {};
-            }
-
             const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
             let timeTakenByInit = 0;
+
+            const rejectOnAbort = () => {
+              const requestName = options.requestName;
+              const desc: string =
+                `[${this.connection.id}] The request "${requestName}" ` +
+                `to has been cancelled by the user.`;
+              log.error(desc);
+              const error = new AbortError(
+                `The ${
+                  requestName ? requestName + " " : ""
+                }operation has been cancelled by the user.`
+              );
+
+              reject(error);
+            };
+
+            if (aborter) {
+              if (aborter.aborted) {
+                return rejectOnAbort();
+              }
+            }
 
             if (!this._isMgmtRequestResponseLinkOpen()) {
               log.mgmt(
@@ -335,7 +355,9 @@ export class ManagementClient extends LinkEntity {
               const initOperationStartTime = Date.now();
 
               const actionAfterTimeout = () => {
-                const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+                const desc: string = `The request with message_id "${
+                  request.message_id
+                }" timed out. Please try again later.`;
                 const e: Error = {
                   name: "OperationTimeoutError",
                   message: desc
@@ -375,11 +397,22 @@ export class ManagementClient extends LinkEntity {
               request.message_id = generate_uuid();
             }
 
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            if (aborter) {
+              if (aborter.aborted) {
+                return rejectOnAbort();
+              }
+            }
+
+            if (this._mgmtReqResLink) {
+              result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            }
             resolve(result);
           } catch (err) {
             err = translate(err);
-            const address = this._mgmtReqResLink!.sender.address || "address";
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
             log.error(
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
