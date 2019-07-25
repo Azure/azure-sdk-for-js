@@ -17,7 +17,7 @@ describe("ClientSecretCredential", function () {
 
     await credential.getToken("scope");
 
-    const authRequest = await mockHttpClient.getAuthRequest();
+    const authRequest = mockHttpClient.requests[0];
     assertClientCredentials(authRequest, "tenant", "client", "secret");
   });
 });

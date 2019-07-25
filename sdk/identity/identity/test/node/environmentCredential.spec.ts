@@ -19,7 +19,7 @@ describe("EnvironmentCredential", function () {
     delete process.env.AZURE_CLIENT_ID;
     delete process.env.AZURE_CLIENT_SECRET;
 
-    const authRequest = await mockHttpClient.getAuthRequest();
+    const authRequest = mockHttpClient.requests[0];
     assertClientCredentials(authRequest, "tenant", "client", "secret");
   });
 });
