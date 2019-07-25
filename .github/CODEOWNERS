@@ -17,6 +17,9 @@
 # /sdk/keyvault/
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
 
+# Management Plane
+/**/*Management*.ts @yaohaizh
+
 ###########
 # Eng Sys
 ###########
