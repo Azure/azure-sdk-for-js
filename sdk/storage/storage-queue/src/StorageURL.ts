@@ -41,7 +41,7 @@ export interface INewPipelineOptions {
    * @type {IKeepAliveOptions}
    * @memberof INewPipelineOptions
    */
-  keepAliveOptions?: IKeepAliveOptions
+  keepAliveOptions?: IKeepAliveOptions;
 
   logger?: IHttpPipelineLogger;
   httpClient?: IHttpClient;
