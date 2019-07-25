@@ -48,10 +48,7 @@ export interface PartitionOwnership {
  * The PartitionProcessorFactory is called by EPH whenever a new partition is about to be processed.
  */
 export interface PartitionProcessorFactory {
-  createPartitionProcessor(
-    context: PartitionContext,
-    checkpointManger: CheckpointManager
-  ): PartitionProcessor;
+  (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
 }
 
 /**
