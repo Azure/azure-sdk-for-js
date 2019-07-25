@@ -17,6 +17,7 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    "rhea-promise": "^0.1.15"
   },
 
   /**
