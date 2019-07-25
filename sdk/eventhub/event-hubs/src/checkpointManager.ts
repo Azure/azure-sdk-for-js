@@ -6,7 +6,7 @@ import { EventData } from "./eventData";
 import { PartitionManager } from "./eventProcessor";
 
 /**
- *  used by createCheckpoint in PartitionManager
+ * Used by createCheckpoint in PartitionManager
  **/
 export interface Checkpoint {
   eventHubName: string;
@@ -17,11 +17,8 @@ export interface Checkpoint {
   offset: number;
 }
 
-
 /**
  * CheckPointManager is created by the library & passed to user's code to let them create a checkpoint
- * This was not needed in Track 1 as the checkpoint() function was available on the PartitionContext
- * This may not be needed in Track 2 if passing a lambda function works
  */
 export class CheckpointManager {
   private partitionContext: PartitionContext; // for internal use by createCheckpoint
