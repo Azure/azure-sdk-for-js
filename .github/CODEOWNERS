@@ -16,6 +16,7 @@
 # /sdk/identity/
 # /sdk/keyvault/
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
+/sdk/batch/ @xingwu1 @matthchr @bgklein
 
 ###########
 # Eng Sys
