@@ -77,6 +77,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@azure/abort-controller": "1.0.0-preview.1",
     "@types/jws": "~3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
