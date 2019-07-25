@@ -48,7 +48,7 @@ export class IdentityClient extends ServiceClient {
         expiresOnTimestamp: expiresOnParser(response.parsedBody)
       };
     } else {
-      throw new AuthenticationError(response.status, response.bodyAsText);
+      throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
     }
   }
 

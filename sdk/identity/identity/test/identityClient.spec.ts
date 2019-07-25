@@ -22,7 +22,7 @@ describe("IdentityClient", function () {
     const mockHttp = new MockAuthHttpClient({
       authResponse: {
         status: 400,
-        bodyAsText: `{ "error": "test_error", "error_description": "This is a test error" }`
+        parsedBody: { error: "test_error", error_description: "This is a test error" }
       }
     });
 
