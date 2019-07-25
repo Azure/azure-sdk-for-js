@@ -64,7 +64,7 @@ export function browserConfig(test = false, production = false) {
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
-      globals: { "@azure/core-http": "coreHttp" }
+      globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
     plugins: [
