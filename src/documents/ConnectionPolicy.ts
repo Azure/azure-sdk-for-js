@@ -15,11 +15,6 @@ export interface ConnectionPolicy {
   /** RetryOptions object which defines several configurable properties used during retry. */
   retryOptions?: RetryOptions;
   /**
-   * Flag to disable SSL verification for the requests. SSL verification is enabled by default. Don't set this when targeting production endpoints.
-   * This is intended to be used only when targeting emulator endpoint to avoid failing your requests with SSL related error.
-   */
-  disableSSLVerification?: boolean;
-  /**
    * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
    * Default is `false`.
    */
@@ -35,6 +30,5 @@ export const defaultConnectionPolicy = Object.freeze({
   enableEndpointDiscovery: true,
   preferredLocations: [],
   retryOptions: {},
-  disableSSLVerification: false,
   useMultipleWriteLocations: true
 });
