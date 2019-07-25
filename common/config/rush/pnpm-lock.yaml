@@ -5,7 +5,6 @@ dependencies:
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': 2.1.1
-  '@azure/event-processor-host': 1.0.6
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-js': 1.8.13
   '@azure/ms-rest-nodeauth': 0.9.3
@@ -195,20 +194,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NnJqi6oHqt06Q2hz4nO1HO0QlyusBa3E/wezvn9flHEtl0IHYSmzGbtlb+MaAJ5GzxwqSevQ4q1+4B8fvVijOA==
-  /@azure/amqp-common/0.1.9_rhea-promise@0.1.15:
-    dependencies:
-      async-lock: 1.2.2
-      debug: 3.2.6
-      is-buffer: 2.0.3
-      jssha: 2.3.1
-      ms-rest-azure: 2.6.0
-      rhea-promise: 0.1.15
-      tslib: 1.10.0
-    dev: false
-    peerDependencies:
-      rhea-promise: ^0.1.13
-    resolution:
-      integrity: sha512-B/HFWNbqAjFjhj8x/zlHcpuYtsr92l3ZVArJdumi2kpN2Di/h4g6GIa2JeQEDD+rkLa3oAR6zHKfJbGnybOmvg==
   /@azure/amqp-common/1.0.0-preview.6_rhea-promise@0.1.15:
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3
@@ -249,20 +234,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mZHkadyAbhV1+brHEsWICnURW6E72D2HReM+8MWDn5oVJdlxD51w14PeqsOZC4UDYv4x2Eww5+PFRTEOrNB1Uw==
-  /@azure/event-hubs/1.0.8:
-    dependencies:
-      '@azure/amqp-common': 0.1.9_rhea-promise@0.1.15
-      async-lock: 1.2.2
-      debug: 3.2.6
-      is-buffer: 2.0.2
-      jssha: 2.3.1
-      ms-rest-azure: 2.6.0
-      rhea-promise: 0.1.15
-      tslib: 1.10.0
-      uuid: 3.3.2
-    dev: false
-    resolution:
-      integrity: sha512-iYaB08erq2Eg5sUOXD0GXn4OmkqC67xczLfnlaaF0fLtgk999ePTuFqj4LHYT5HHUdDumYZ+U3WjPSvb0ztHJw==
   /@azure/event-hubs/2.1.1:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
@@ -277,19 +248,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nGnFBPcB/rs+5YWwmHJg+d3Cs7BrjtVfuD1eEv8j+ui2X6uXxB88wom1A2t/7xsSzkunQSrXJ2mCwdHxKI5aHw==
-  /@azure/event-processor-host/1.0.6:
-    dependencies:
-      '@azure/event-hubs': 1.0.8
-      async-lock: 1.2.2
-      azure-storage: 2.10.3
-      debug: 3.2.6
-      ms-rest-azure: 2.6.0
-      path-browserify: 1.0.0
-      tslib: 1.10.0
-      uuid: 3.3.2
-    dev: false
-    resolution:
-      integrity: sha512-SjlC+eXXeVWEU0oSK7Q6xVhbFd9G7tG+F6QK7orqpIYSzn0NPtDeKZasTO+nS0uvrUDKr3vs2DiK+fEjz8hm5g==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.10.0
@@ -4831,12 +4789,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
-  /is-buffer/2.0.2:
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha512-imvkm8cOGKeZ/NwkAd+FAURi0hsL9gr3kvdi0r3MnqChcOdPaQRIOQiOU+sD40XzUIe6nFmSHYtQjbkDvaQbEg==
   /is-buffer/2.0.3:
     dev: false
     engines:
@@ -10708,7 +10660,6 @@ packages:
   'file:projects/testhub.tgz':
     dependencies:
       '@azure/event-hubs': 2.1.1
-      '@azure/event-processor-host': 1.0.6
       '@types/node': 8.10.51
       '@types/uuid': 3.4.5
       '@types/yargs': 11.1.2
@@ -10728,10 +10679,9 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-Lt7NGJIhEbyVoQ1sJ4eUnUg7nGIkdgatRJJMWz18ZVWxKFXPxbBjxPsvIJNirR8QdA3efLv1FhyM4lszfJHcjw==
+      integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10739,7 +10689,6 @@ specifiers:
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': ^2.1.1
-  '@azure/event-processor-host': ^1.0.6
   '@azure/logger-js': ^1.0.2
   '@azure/ms-rest-js': ^1.2.6
   '@azure/ms-rest-nodeauth': ^0.9.2
