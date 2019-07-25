@@ -5,6 +5,7 @@ import assert from "assert";
 import { assertRejects } from "./authTestUtils";
 import { MockAuthHttpClient } from "./authTestUtils";
 import { AuthenticationError } from "../src/";
+import { IdentityClient } from "../src/client/identityClient";
 import { ClientSecretCredential } from "../src";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
@@ -33,6 +34,13 @@ describe("IdentityClient", function () {
         return true;
       }
     );
+  });
+
+  it("throws an exception when an authorityHost using 'http' is provided", async () => {
+    assert.throws(
+      () => { new IdentityClient({ authorityHost: "http://totallyinsecure.lol" }) },
+      Error,
+      "The authorityHost address must use the 'https' protocol.");
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
