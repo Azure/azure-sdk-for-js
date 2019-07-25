@@ -314,7 +314,6 @@ export class ManagementClient extends LinkEntity {
     } = {}
   ): Promise<any> {
     try {
-      let result: any;
       const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
@@ -395,9 +394,8 @@ export class ManagementClient extends LinkEntity {
               request.message_id = generate_uuid();
             }
 
-            if (this._mgmtReqResLink) {
-              result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            }
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+
             resolve(result);
           } catch (err) {
             err = translate(err);
