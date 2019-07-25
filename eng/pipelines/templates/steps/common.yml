@@ -1,6 +1,6 @@
 steps:
   - pwsh: |
-      Invoke-WebRequest -MaximumRetryCount 10 -UseBasicParsing -Uri "https://raw.githubusercontent.com/Azure/azure-sdk-tools/verify-agent-os_1.1.0/scripts/python/verify_agent_os.py" -OutFile "verify_agent_os.py" | Wait-Process
+      Invoke-WebRequest -MaximumRetryCount 10 -Uri "https://raw.githubusercontent.com/Azure/azure-sdk-tools/verify-agent-os_1.1.0/scripts/python/verify_agent_os.py" -OutFile "verify_agent_os.py" | Wait-Process
     workingDirectory: "$(Build.BinariesDirectory)"
     displayName: "Download verify_agent_os.py"
 
