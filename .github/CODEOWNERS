@@ -15,7 +15,7 @@
 # /sdk/eventhub/
 # /sdk/identity/
 # /sdk/keyvault/
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
 
 ###########
 # Eng Sys
