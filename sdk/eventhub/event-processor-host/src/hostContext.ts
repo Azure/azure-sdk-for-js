@@ -212,8 +212,6 @@ export namespace HostContext {
     validateType("options.storageContainerName", options.storageContainerName, false, "string");
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
-    validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
-    validateType("options.leaseDuration", options.leaseDuration, false, "number");
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
     _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
@@ -221,10 +219,12 @@ export namespace HostContext {
       options.leaseDuration = options.leaseManager.leaseDuration;
       options.leaseRenewInterval = options.leaseManager.leaseRenewInterval;
     }
-
     if (!options.leaseRenewInterval)
       options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
+
+    validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
+    validateType("options.leaseDuration", options.leaseDuration, false, "number");
 
     const context: BaseHostContext = {
       hostName: hostName,
