@@ -395,12 +395,6 @@ export class ManagementClient extends LinkEntity {
               request.message_id = generate_uuid();
             }
 
-            if (aborter) {
-              if (aborter.aborted) {
-                return rejectOnAbort();
-              }
-            }
-
             if (this._mgmtReqResLink) {
               result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
             }
