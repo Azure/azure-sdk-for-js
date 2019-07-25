@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/apiSchemaMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class ApiSchema {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, callback: coreHttp.ServiceCallback<Models.SchemaCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +52,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiSchemaListByApiOptionalParams, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiSchemaListByApiOptionalParams | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiSchemaListByApiOptionalParams, callback: coreHttp.ServiceCallback<Models.SchemaCollection>): void;
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiSchemaListByApiOptionalParams | coreHttp.ServiceCallback<Models.SchemaCollection>, callback?: coreHttp.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiSchemaGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -86,7 +86,7 @@ export class ApiSchema {
    * service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -97,8 +97,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiSchemaGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ApiSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaGetResponse>;
+  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiSchemaGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -132,7 +132,7 @@ export class ApiSchema {
    * service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, callback: coreHttp.ServiceCallback<Models.SchemaContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -143,8 +143,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SchemaContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SchemaContract>, callback?: coreHttp.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,7 +180,7 @@ export class ApiSchema {
    * @param parameters The schema contents to apply.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, callback: coreHttp.ServiceCallback<Models.SchemaContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -192,8 +192,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SchemaContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SchemaContract>, callback?: coreHttp.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,9 +218,9 @@ export class ApiSchema {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -232,7 +232,7 @@ export class ApiSchema {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -245,8 +245,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options: Models.ApiSchemaDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options: Models.ApiSchemaDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,19 +266,19 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaListByApiNextResponse>
    */
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaListByApiNextResponse>;
+  listByApiNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiSchemaListByApiNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
+  listByApiNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SchemaCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiNextResponse> {
+  listByApiNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SchemaCollection>): void;
+  listByApiNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SchemaCollection>, callback?: coreHttp.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -290,8 +290,8 @@ export class ApiSchema {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByApiOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByApiOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas",
   urlParameters: [
@@ -320,7 +320,7 @@ const listByApiOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   urlParameters: [
@@ -347,7 +347,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   urlParameters: [
@@ -375,7 +375,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   urlParameters: [
@@ -415,7 +415,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   urlParameters: [
@@ -443,7 +443,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByApiNextOperationSpec: msRest.OperationSpec = {
+const listByApiNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

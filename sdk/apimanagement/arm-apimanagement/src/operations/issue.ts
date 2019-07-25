@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/issueMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Issue {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.IssueCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.IssueListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.IssueListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.IssueListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.IssueListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.IssueCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.IssueListByServiceOptionalParams | coreHttp.ServiceCallback<Models.IssueCollection>, callback?: coreHttp.ServiceCallback<Models.IssueCollection>): Promise<Models.IssueListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,14 +66,14 @@ export class Issue {
    * @param [options] The optional parameters
    * @returns Promise<Models.IssueGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, issueId: string, options?: msRest.RequestOptionsBase): Promise<Models.IssueGetResponse>;
+  get(resourceGroupName: string, serviceName: string, issueId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IssueGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, issueId: string, callback: msRest.ServiceCallback<Models.IssueContract>): void;
+  get(resourceGroupName: string, serviceName: string, issueId: string, callback: coreHttp.ServiceCallback<Models.IssueContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,8 +81,8 @@ export class Issue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  get(resourceGroupName: string, serviceName: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.IssueGetResponse> {
+  get(resourceGroupName: string, serviceName: string, issueId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IssueContract>): void;
+  get(resourceGroupName: string, serviceName: string, issueId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssueContract>, callback?: coreHttp.ServiceCallback<Models.IssueContract>): Promise<Models.IssueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,19 +100,19 @@ export class Issue {
    * @param [options] The optional parameters
    * @returns Promise<Models.IssueListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IssueListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IssueListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.IssueCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.IssueListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IssueCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssueCollection>, callback?: coreHttp.ServiceCallback<Models.IssueCollection>): Promise<Models.IssueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -124,8 +124,8 @@ export class Issue {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues",
   urlParameters: [
@@ -153,7 +153,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues/{issueId}",
   urlParameters: [
@@ -180,7 +180,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

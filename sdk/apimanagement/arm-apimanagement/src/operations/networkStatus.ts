@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/networkStatusMappers";
 import * as Parameters from "../models/parameters";
@@ -35,21 +35,21 @@ export class NetworkStatus {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkStatusListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkStatusListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkStatusListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.NetworkStatusContractByLocation[]>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>, callback?: msRest.ServiceCallback<Models.NetworkStatusContractByLocation[]>): Promise<Models.NetworkStatusListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkStatusContractByLocation[]>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkStatusContractByLocation[]>, callback?: coreHttp.ServiceCallback<Models.NetworkStatusContractByLocation[]>): Promise<Models.NetworkStatusListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -71,7 +71,7 @@ export class NetworkStatus {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkStatusListByLocationResponse>
    */
-  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkStatusListByLocationResponse>;
+  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkStatusListByLocationResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -79,7 +79,7 @@ export class NetworkStatus {
    * Azure Regions like West US, East US, South Central US.
    * @param callback The callback
    */
-  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, callback: msRest.ServiceCallback<Models.NetworkStatusContract>): void;
+  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, callback: coreHttp.ServiceCallback<Models.NetworkStatusContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -88,8 +88,8 @@ export class NetworkStatus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkStatusContract>): void;
-  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkStatusContract>, callback?: msRest.ServiceCallback<Models.NetworkStatusContract>): Promise<Models.NetworkStatusListByLocationResponse> {
+  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkStatusContract>): void;
+  listByLocation(resourceGroupName: string, serviceName: string, locationName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkStatusContract>, callback?: coreHttp.ServiceCallback<Models.NetworkStatusContract>): Promise<Models.NetworkStatusListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,8 +103,8 @@ export class NetworkStatus {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/networkstatus",
   urlParameters: [
@@ -140,7 +140,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByLocationOperationSpec: msRest.OperationSpec = {
+const listByLocationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/locations/{locationName}/networkstatus",
   urlParameters: [

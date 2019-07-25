@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/notificationRecipientEmailMappers";
 import * as Parameters from "../models/parameters";
@@ -37,7 +37,7 @@ export class NotificationRecipientEmail {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientEmailListByNotificationResponse>
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientEmailListByNotificationResponse>;
+  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: coreHttp.RequestOptionsBase): Promise<Models.NotificationRecipientEmailListByNotificationResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -47,7 +47,7 @@ export class NotificationRecipientEmail {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param callback The callback
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: msRest.ServiceCallback<Models.RecipientEmailCollection>): void;
+  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: coreHttp.ServiceCallback<Models.RecipientEmailCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -58,8 +58,8 @@ export class NotificationRecipientEmail {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientEmailCollection>): void;
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientEmailCollection>, callback?: msRest.ServiceCallback<Models.RecipientEmailCollection>): Promise<Models.NotificationRecipientEmailListByNotificationResponse> {
+  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RecipientEmailCollection>): void;
+  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RecipientEmailCollection>, callback?: coreHttp.ServiceCallback<Models.RecipientEmailCollection>): Promise<Models.NotificationRecipientEmailListByNotificationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class NotificationRecipientEmail {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -94,7 +94,7 @@ export class NotificationRecipientEmail {
    * @param email Email identifier.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: coreHttp.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -106,8 +106,8 @@ export class NotificationRecipientEmail {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<boolean>, callback?: coreHttp.ServiceCallback<boolean>): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class NotificationRecipientEmail {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -143,7 +143,7 @@ export class NotificationRecipientEmail {
    * @param email Email identifier.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: msRest.ServiceCallback<Models.RecipientEmailContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: coreHttp.ServiceCallback<Models.RecipientEmailContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -155,8 +155,8 @@ export class NotificationRecipientEmail {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientEmailContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientEmailContract>, callback?: msRest.ServiceCallback<Models.RecipientEmailContract>): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RecipientEmailContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RecipientEmailContract>, callback?: coreHttp.ServiceCallback<Models.RecipientEmailContract>): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,9 +179,9 @@ export class NotificationRecipientEmail {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param email Email identifier.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -192,7 +192,7 @@ export class NotificationRecipientEmail {
    * @param email Email identifier.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -204,8 +204,8 @@ export class NotificationRecipientEmail {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,8 +220,8 @@ export class NotificationRecipientEmail {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByNotificationOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByNotificationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientEmails",
   urlParameters: [
@@ -247,7 +247,7 @@ const listByNotificationOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkEntityExistsOperationSpec: msRest.OperationSpec = {
+const checkEntityExistsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientEmails/{email}",
   urlParameters: [
@@ -273,7 +273,7 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientEmails/{email}",
   urlParameters: [
@@ -303,7 +303,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientEmails/{email}",
   urlParameters: [
