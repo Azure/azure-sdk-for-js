@@ -269,12 +269,12 @@ describe("Highlevel", () => {
     });
     assert.deepStrictEqual(buf.toString(), "aabb");
 
-    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 1, 7, {
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 1, 4, {
       blockSize: 4,
       maxRetryRequestsPerBlock: 5,
       parallelism: 1
     });
-    assert.deepStrictEqual(buf.toString(), "aaabbbb");
+    assert.deepStrictEqual(buf.toString(), "aaab");
   });
 
   it("downloadBlobToBuffer should abort", async () => {

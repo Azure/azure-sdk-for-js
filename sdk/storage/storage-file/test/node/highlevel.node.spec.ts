@@ -270,12 +270,12 @@ describe("Highlevel", () => {
     });
     assert.deepStrictEqual(buf.toString(), "aaab");
 
-    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, 8, {
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
       parallelism: 1
     });
-    assert.deepStrictEqual(buf.toString(), "aaaabbbb");
+    assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
   it("downloadAzureFileToBuffer should abort", async () => {
