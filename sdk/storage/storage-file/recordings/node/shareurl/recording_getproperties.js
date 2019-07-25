@@ -1,41 +1,41 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"share":"share156093657537700993"}
+module.exports.testInfo = {"share":"share156404680405604906"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156093657537700993')
+  .put('/share156404680405604906')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:26:33 GMT',
+  'Thu, 25 Jul 2019 09:23:06 GMT',
   'ETag',
-  '"0x8D6F498386A64E4"',
+  '"0x8D710E1B3B6338A"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '65024451-a01a-010c-6581-269632000000',
+  'bc7c01dc-101a-00dd-4dca-426d38000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Wed, 19 Jun 2019 09:26:32 GMT',
+  'Thu, 25 Jul 2019 09:23:05 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/share156093657537700993')
+  .get('/share156404680405604906')
   .query(true)
   .reply(200, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:26:33 GMT',
+  'Thu, 25 Jul 2019 09:23:06 GMT',
   'ETag',
-  '"0x8D6F498386A64E4"',
+  '"0x8D710E1B3B6338A"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e0a1deb2-001a-0128-6481-260f7c000000',
+  'e80e381a-e01a-0122-4bca-4216f5000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-has-immutability-policy',
@@ -49,24 +49,24 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Wed, 19 Jun 2019 09:26:33 GMT',
+  'Thu, 25 Jul 2019 09:23:06 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share156093657537700993')
+  .delete('/share156404680405604906')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '83808f22-901a-012d-2681-26fb03000000',
+  'a80d528d-301a-000d-75ca-42d19a000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Wed, 19 Jun 2019 09:26:33 GMT',
+  'Thu, 25 Jul 2019 09:23:06 GMT',
   'Connection',
   'close' ]);
 

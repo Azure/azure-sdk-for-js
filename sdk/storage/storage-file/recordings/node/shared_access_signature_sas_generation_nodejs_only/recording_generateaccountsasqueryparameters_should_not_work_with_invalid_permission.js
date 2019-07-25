@@ -1,18 +1,18 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-06-19T09:30:11.221Z"}
+module.exports.testInfo = {"undefined":"2019-07-25T09:27:31.498Z"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
   .query(true)
-  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationPermissionMismatch</Code><Message>This request is not authorized to perform this operation using this permission.\nRequestId:2efb614a-101a-0055-0681-26d5e1000000\nTime:2019-06-19T09:27:09.6935304Z</Message></Error>", [ 'Content-Length',
+  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationPermissionMismatch</Code><Message>This request is not authorized to perform this operation using this permission.\nRequestId:7668b0e2-101a-011e-6aca-42a22e000000\nTime:2019-07-25T09:23:53.5637032Z</Message></Error>", [ 'Content-Length',
   '279',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '2efb614a-101a-0055-0681-26d5e1000000',
+  '7668b0e2-101a-011e-6aca-42a22e000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-error-code',
@@ -22,7 +22,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Wed, 19 Jun 2019 09:27:08 GMT',
+  'Thu, 25 Jul 2019 09:23:52 GMT',
   'Connection',
   'close' ]);
 

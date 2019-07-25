@@ -1,111 +1,111 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"share":"share156093652489303360","dir":"dir156093652816508409","file":"file156093652843200995"}
+module.exports.testInfo = {"share":"share156404674077306005","dir":"dir156404674104703412","file":"file156404674131804370"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156093652489303360')
+  .put('/share156404674077306005')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:25:45 GMT',
+  'Thu, 25 Jul 2019 09:22:02 GMT',
   'ETag',
-  '"0x8D6F4981BA8ED8F"',
+  '"0x8D710E18DC2F7AB"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd8045fe6-301a-00c1-5a80-26b52f000000',
+  '71a4abac-101a-0077-21ca-42bbd7000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Wed, 19 Jun 2019 09:25:45 GMT',
+  'Thu, 25 Jul 2019 09:22:02 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156093652489303360/dir156093652816508409')
+  .put('/share156404674077306005/dir156404674104703412')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:25:46 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'ETag',
-  '"0x8D6F4981C46015D"',
+  '"0x8D710E18DECB51B"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0824cf39-f01a-0039-4380-267e32000000',
+  '4493045a-301a-0006-2aca-42c9ee000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 19 Jun 2019 09:25:45 GMT',
+  'Thu, 25 Jul 2019 09:22:02 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156093652489303360/dir156093652816508409/file156093652843200995')
+  .put('/share156404674077306005/dir156404674104703412/file156404674131804370')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:25:46 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'ETag',
-  '"0x8D6F4981C6E7843"',
+  '"0x8D710E18E152BFE"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a96b27c0-b01a-0094-4480-265e58000000',
+  '66b61fe0-c01a-003a-28ca-427d35000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 19 Jun 2019 09:25:46 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156093652489303360/dir156093652816508409/file156093652843200995', "HelloWorld")
+  .put('/share156404674077306005/dir156404674104703412/file156404674131804370', "HelloWorld")
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
   'aOEJ8PQMpyoV4FzCJ4b45g==',
   'Last-Modified',
-  'Wed, 19 Jun 2019 09:25:47 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'ETag',
-  '"0x8D6F4981C99398D"',
+  '"0x8D710E18E3F02B0"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '40722d1e-401a-0064-2f80-268e36000000',
+  'e9b2717b-a01a-010c-03ca-429632000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 19 Jun 2019 09:25:46 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share156093652489303360')
+  .delete('/share156404674077306005')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ab9aff8a-d01a-0103-4180-267bc4000000',
+  'dbba64e6-a01a-0080-31ca-429d3c000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Wed, 19 Jun 2019 09:25:46 GMT',
+  'Thu, 25 Jul 2019 09:22:03 GMT',
   'Connection',
   'close' ]);
 

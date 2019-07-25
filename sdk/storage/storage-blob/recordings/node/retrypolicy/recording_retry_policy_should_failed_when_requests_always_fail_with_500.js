@@ -1,41 +1,41 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156231866457801534"}
+module.exports.testInfo = {"container":"container156404682632305706"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156231866457801534')
+  .put('/container156404682632305706')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 05 Jul 2019 09:21:05 GMT',
+  'Thu, 25 Jul 2019 09:23:28 GMT',
   'ETag',
-  '"0x8D7012A1B4F689A"',
+  '"0x8D710E1C0BFE1DC"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ea466d91-701e-0001-5112-333f6b000000',
+  'fbe29127-501e-00d1-7fca-4283c9000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 05 Jul 2019 09:21:04 GMT',
+  'Thu, 25 Jul 2019 09:23:27 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156231866457801534')
+  .delete('/container156404682632305706')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '9628a5cb-c01e-0031-1212-336541000000',
+  '6002c167-401e-010d-35ca-4297cf000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 05 Jul 2019 09:21:09 GMT',
+  'Thu, 25 Jul 2019 09:23:31 GMT',
   'Connection',
   'close' ]);
 

@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue156266531888009902"}
+module.exports.testInfo = {"queue":"queue156404671741301650"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156266531888009902')
+  .put('/queue156404671741301650')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a3c41b49-0003-00c9-633a-36ae5c000000',
+  'eae86568-1003-0115-5eca-42ba5a000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 09 Jul 2019 09:38:35 GMT',
+  'Thu, 25 Jul 2019 09:21:39 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156266531888009902')
+  .put('/queue156404671741301650')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '01391135-1003-007c-523a-36a3a3000000',
+  '16d0d4ee-a003-002a-13ca-424bd3000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 09 Jul 2019 09:38:35 GMT',
+  'Thu, 25 Jul 2019 09:21:38 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156266531888009902')
+  .get('/queue156404671741301650')
   .query(true)
   .reply(200, "", [ 'Cache-Control',
   'no-cache',
@@ -46,7 +46,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0eaa5254-9003-0083-193a-369e3b000000',
+  '358d5461-3003-00ca-5bca-42ad5b000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-approximate-messages-count',
@@ -62,24 +62,24 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 09 Jul 2019 09:38:36 GMT',
+  'Thu, 25 Jul 2019 09:21:39 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156266531888009902')
+  .delete('/queue156404671741301650')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '83d05276-2003-0116-343a-36b95d000000',
+  'b8d9d0b7-9003-000b-67ca-4226e2000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 09 Jul 2019 09:38:36 GMT',
+  'Thu, 25 Jul 2019 09:21:39 GMT',
   'Connection',
   'close' ]);
 

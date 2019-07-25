@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156093668493402519",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404693043303317",
    "query": {
     "restype": "share"
    },
@@ -10,18 +10,18 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 19 Jun 2019 09:28:23 GMT",
-    "last-modified": "Wed, 19 Jun 2019 09:28:23 GMT",
+    "date": "Thu, 25 Jul 2019 09:25:11 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:25:12 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6F49879A32CE7\"",
-    "x-ms-request-id": "0824d1fa-f01a-0039-2681-267e32000000",
+    "etag": "\"0x8D710E1FEBA2D84\"",
+    "x-ms-request-id": "842cc6f6-b01a-003e-7fca-4288b7000000",
     "x-ms-version": "2018-11-09",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156093668493402519",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404693043303317",
    "query": {
     "restype": "share"
    },
@@ -29,12 +29,12 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 19 Jun 2019 09:28:23 GMT",
+    "date": "Thu, 25 Jul 2019 09:25:11 GMT",
     "x-ms-has-legal-hold": "false",
-    "last-modified": "Wed, 19 Jun 2019 09:28:23 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:25:12 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6F49879A32CE7\"",
-    "x-ms-request-id": "0824d1fd-f01a-0039-2881-267e32000000",
+    "etag": "\"0x8D710E1FEBA2D84\"",
+    "x-ms-request-id": "842cc6f9-b01a-003e-01ca-4288b7000000",
     "x-ms-share-quota": "5120",
     "x-ms-version": "2018-11-09",
     "x-ms-has-immutability-policy": "false",
@@ -43,7 +43,7 @@
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156093668493402519",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404693043303317",
    "query": {
     "restype": "share"
    },
@@ -51,15 +51,15 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0824d1ff-f01a-0039-2a81-267e32000000",
+    "x-ms-request-id": "842cc6fb-b01a-003e-03ca-4288b7000000",
     "x-ms-version": "2018-11-09",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Wed, 19 Jun 2019 09:28:23 GMT",
+    "date": "Thu, 25 Jul 2019 09:25:11 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "share": "share156093668493402519"
+  "share": "share156404693043303317"
  }
 }

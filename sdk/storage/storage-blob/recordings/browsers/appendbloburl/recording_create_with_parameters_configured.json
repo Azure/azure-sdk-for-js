@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875574006350",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691486509500",
    "query": {
     "restype": "container"
    },
@@ -10,28 +10,28 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 05 Jul 2019 09:22:36 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:55 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7012A51917D76\"",
-    "x-ms-request-id": "3e05b11e-901e-0066-4413-338ccc000000",
+    "etag": "\"0x8D710E1F571C02C\"",
+    "x-ms-request-id": "d494acd1-c01e-0075-06ca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875574006350/blob156231875588100744",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691486509500/blob156404691500107642",
    "query": {},
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 05 Jul 2019 09:22:36 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:56 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7012A51A7E9C7\"",
-    "x-ms-request-id": "3e05b12f-901e-0066-5213-338ccc000000",
+    "etag": "\"0x8D710E1F588434D\"",
+    "x-ms-request-id": "d494ad16-c01e-0075-3dca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -39,14 +39,14 @@
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875574006350/blob156231875588100744",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691486509500/blob156404691500107642",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "AppendBlob",
-    "date": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:56 GMT",
     "content-encoding": "blobContentEncoding",
     "x-ms-access-tier-inferred": "true",
     "x-ms-tag-count": "0",
@@ -57,13 +57,13 @@
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
     "accept-ranges": "bytes",
-    "x-ms-creation-time": "Fri, 05 Jul 2019 09:22:36 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "x-ms-creation-time": "Thu, 25 Jul 2019 09:24:56 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-blob-committed-block-count": "0",
-    "etag": "\"0x8D7012A51A7E9C7\"",
+    "etag": "\"0x8D710E1F588434D\"",
     "content-language": "blobContentLanguage",
-    "x-ms-request-id": "3e05b15a-901e-0066-7513-338ccc000000",
+    "x-ms-request-id": "d494ad54-c01e-0075-6bca-42b92d000000",
     "cache-control": "blobCacheControl",
     "x-ms-version": "2018-11-09",
     "x-ms-meta-key1": "vala",
@@ -73,7 +73,7 @@
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875574006350",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691486509500",
    "query": {
     "restype": "container"
    },
@@ -81,16 +81,16 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "3e05b17c-901e-0066-1313-338ccc000000",
+    "x-ms-request-id": "d494adc0-c01e-0075-3cca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:56 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156231875574006350",
-  "blob": "blob156231875588100744"
+  "container": "container156404691486509500",
+  "blob": "blob156404691500107642"
  }
 }

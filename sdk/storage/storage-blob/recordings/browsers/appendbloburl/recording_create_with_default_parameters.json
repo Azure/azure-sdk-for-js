@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875515201039",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691430703753",
    "query": {
     "restype": "container"
    },
@@ -10,28 +10,28 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 05 Jul 2019 09:22:35 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:35 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:55 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7012A5138508F\"",
-    "x-ms-request-id": "3e05b099-901e-0066-5113-338ccc000000",
+    "etag": "\"0x8D710E1F51D284B\"",
+    "x-ms-request-id": "d494ab92-c01e-0075-10ca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875515201039/blob156231875529808799",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691430703753/blob156404691444700882",
    "query": {},
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 05 Jul 2019 09:22:35 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:55 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7012A514FA748\"",
-    "x-ms-request-id": "3e05b0b0-901e-0066-6613-338ccc000000",
+    "etag": "\"0x8D710E1F533AB1E\"",
+    "x-ms-request-id": "d494abe9-c01e-0075-53ca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -39,33 +39,33 @@
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875515201039/blob156231875529808799",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691430703753/blob156404691444700882",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "AppendBlob",
-    "date": "Fri, 05 Jul 2019 09:22:35 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:55 GMT",
     "x-ms-tag-count": "0",
     "x-ms-server-encrypted": "true",
     "content-length": "0",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
-    "x-ms-creation-time": "Fri, 05 Jul 2019 09:22:36 GMT",
-    "last-modified": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "x-ms-creation-time": "Thu, 25 Jul 2019 09:24:56 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:56 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-blob-committed-block-count": "0",
-    "etag": "\"0x8D7012A514FA748\"",
+    "etag": "\"0x8D710E1F533AB1E\"",
     "content-type": "application/octet-stream",
-    "x-ms-request-id": "3e05b0e2-901e-0066-1313-338ccc000000",
+    "x-ms-request-id": "d494ac2e-c01e-0075-05ca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "accept-ranges": "bytes"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156231875515201039",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156404691430703753",
    "query": {
     "restype": "container"
    },
@@ -73,16 +73,16 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "3e05b10c-901e-0066-3513-338ccc000000",
+    "x-ms-request-id": "d494ac90-c01e-0075-4fca-42b92d000000",
     "x-ms-version": "2018-11-09",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 05 Jul 2019 09:22:36 GMT",
+    "date": "Thu, 25 Jul 2019 09:24:55 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156231875515201039",
-  "blob": "blob156231875529808799"
+  "container": "container156404691430703753",
+  "blob": "blob156404691444700882"
  }
 }

@@ -11,10 +11,10 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 05 Jul 2019 09:24:22 GMT",
+    "date": "Thu, 25 Jul 2019 09:26:38 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-account-kind": "StorageV2",
-    "x-ms-request-id": "3e064404-901e-0066-7013-338ccc000000",
+    "x-ms-request-id": "d495b229-c01e-0075-55cb-42b92d000000",
     "x-ms-sku-name": "Standard_RAGRS",
     "x-ms-version": "2018-11-09",
     "content-length": "0"

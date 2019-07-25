@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156093668833209918",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156404693419804637",
    "query": {
     "restype": "share"
    },
@@ -10,18 +10,18 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 19 Jun 2019 09:28:26 GMT",
-    "last-modified": "Wed, 19 Jun 2019 09:28:26 GMT",
+    "date": "Thu, 25 Jul 2019 09:25:15 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:25:16 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6F4987BA9BB26\"",
-    "x-ms-request-id": "0824d23a-f01a-0039-5881-267e32000000",
+    "etag": "\"0x8D710E200F89E25\"",
+    "x-ms-request-id": "842cc732-b01a-003e-2fca-4288b7000000",
     "x-ms-version": "2018-11-09",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156093668833209918/dir156093668833306303",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156404693419804637/dir156404693419906088",
    "query": {
     "restype": "directory"
    },
@@ -29,11 +29,11 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 19 Jun 2019 09:28:26 GMT",
-    "last-modified": "Wed, 19 Jun 2019 09:28:26 GMT",
+    "date": "Thu, 25 Jul 2019 09:25:15 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:25:16 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6F4987BBE2769\"",
-    "x-ms-request-id": "0824d23d-f01a-0039-5a81-267e32000000",
+    "etag": "\"0x8D710E2011737DD\"",
+    "x-ms-request-id": "842cc735-b01a-003e-31ca-4288b7000000",
     "x-ms-version": "2018-11-09",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -41,7 +41,7 @@
   }
  ],
  "uniqueTestInfo": {
-  "1share-with-dash": "1share-with-dash156093668833209918",
-  "dir": "dir156093668833306303"
+  "1share-with-dash": "1share-with-dash156404693419804637",
+  "dir": "dir156404693419906088"
  }
 }

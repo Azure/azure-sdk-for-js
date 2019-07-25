@@ -12,7 +12,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'da1d393b-901e-00ee-5412-333415000000',
+  'b64dd64e-f01e-0054-1dca-42d41c000000',
   'x-ms-version',
   '2018-11-09',
   'Access-Control-Expose-Headers',
@@ -20,7 +20,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 05 Jul 2019 09:21:15 GMT',
+  'Thu, 25 Jul 2019 09:23:36 GMT',
   'Connection',
   'close' ]);
 
@@ -33,11 +33,11 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '131c6a62-001e-0123-5e12-331708000000',
+  '8f9fe0f4-201e-011d-06ca-42a129000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 05 Jul 2019 09:21:16 GMT',
+  'Thu, 25 Jul 2019 09:23:39 GMT',
   'Connection',
   'close' ]);
 
@@ -52,7 +52,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '00e6b501-901e-012d-7213-33fb03000000',
+  '7542888e-701e-0028-66ca-424929000000',
   'x-ms-version',
   '2018-11-09',
   'Access-Control-Expose-Headers',
@@ -60,7 +60,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 05 Jul 2019 09:21:21 GMT',
+  'Thu, 25 Jul 2019 09:23:44 GMT',
   'Connection',
   'close' ]);
 
