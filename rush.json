@@ -389,6 +389,10 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template"
+    },
+    {
+      "packageName": "@azure/core-tracing",
+      "projectFolder": "sdk/core/core-tracing"
     }
   ]
 }

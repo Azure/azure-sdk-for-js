@@ -20,6 +20,8 @@ import {
   userAgentPolicy
 } from "@azure/core-http";
 
+import { TracerProxy, Span } from "@azure/core-tracing";
+
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -188,9 +190,9 @@ export class KeysClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.pipeline.requestPolicyFactories
+    this.pipeline.requestPolicyFactories;
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);    
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -497,12 +499,23 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
+    const span:Span = TracerProxy.getTracer().startSpan( 
+      "getKeyMethod", 
+      options ? 
+        options.requestOptions ? options.requestOptions["spanOptions"] : undefined
+      : undefined
+    );
+    span.start();
+
     const response = await this.client.getKey(
       this.vaultBaseUrl,
       name,
       options && options.version ? options.version : "",
       options
     );
+
+    span.end();
+    
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -752,7 +765,17 @@ export class KeysClient {
   public listKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const span:Span = TracerProxy.getTracer().startSpan( 
+      "listKeysMethod", 
+      options ? 
+        options.requestOptions ? options.requestOptions["spanOptions"] : undefined
+      : undefined
+    );
+    span.start();
+
     const iter = this.listKeysAll(options);
+
+    span.end();
     return {
       next() {
         return iter.next();
