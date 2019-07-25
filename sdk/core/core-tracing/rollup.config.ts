@@ -12,7 +12,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import visualizer from "rollup-plugin-visualizer";
 
-const banner = `/** @license @azure/core-http
+const banner = `/** @license @azure/core-tracing
   * Copyright (c) Microsoft Corporation. All rights reserved.
   * Licensed under the MIT License. See License.txt and ThirdPartyNotices.txt in the project root for license information.
   */`;
@@ -21,7 +21,7 @@ const banner = `/** @license @azure/core-http
  * @type {import('rollup').RollupFileOptions}
  */
 const nodeConfig = {
-  input: "./es/lib/index.js",
+  input: "./es/index.js",
   external: [
     "axios",
     "form-data",
@@ -57,7 +57,7 @@ const nodeConfig = {
  * @type {import('rollup').RollupFileOptions}
  */
 const browserConfig = {
-  input: "./es/lib/index.js",
+  input: "./es/index.js",
   external: [],
   output: {
     file: "./dist/index.browser.js",

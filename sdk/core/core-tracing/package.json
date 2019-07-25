@@ -1,13 +1,16 @@
 {
   "name": "@azure/core-tracing",
+  "version": "1.0.0-preview.1",
+  "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "sdk-type": "client",
+  "main": "./dist/index.node.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0-preview.1",
-  "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
     "browser",
@@ -26,9 +29,6 @@
     "autorest",
     "clientruntime"
   ],
-  "main": "./dist/index.node.js",
-  "module": "./es/index.js",
-  "types": "./es/index.d.ts",
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
@@ -51,11 +51,39 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "run-p build:lib",
-    "build:lib": "run-s build:tsc",
+    "build:lib": "run-s build:tsc build:rollup build:minify-browser",
+    "build:scripts": "tsc -p ./.scripts/",
+    "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.ts 2>&1",
-    "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/index.browser.js.map'\" -o ./dist/index.browser.min.js ./dist/index.browser.js"
+    "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/index.browser.js.map'\" -o ./dist/index.browser.min.js ./dist/index.browser.js",
+    "build:test-browser": "webpack --config webpack.testconfig.ts",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf ./es ./dist",
+    "format": "prettier --write --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint \"lib/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
+    "lint": "eslint -c ../../.eslintrc.json lib test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o core-http-lintReport.html || exit 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "node ./node_modules/karma/bin/karma start karma.conf.ts --browsers ChromeNoSecurity --single-run",
+    "unit-test:node": "nyc mocha",
+    "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts",
+    "check:foronlycalls": "ts-node ./.scripts/checkForOnlyCalls.ts",
+    "check:everything": "ts-node ./.scripts/checkEverything.ts",
+    "dep:autorest.typescript": "npx ts-node .scripts/testDependentProjects.ts autorest.typescript 'gulp build' 'gulp regenerate' 'npm run local'",
+    "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
+    "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts"
   },
   "sideEffects": false,
   "nyc": {
