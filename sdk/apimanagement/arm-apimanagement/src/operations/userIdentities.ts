@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/userIdentitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class UserIdentities {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserIdentitiesListResponse>
    */
-  list(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.UserIdentitiesListResponse>;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.UserIdentitiesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, callback: coreHttp.ServiceCallback<Models.UserIdentityCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +49,8 @@ export class UserIdentities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
-  list(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
+  list(resourceGroupName: string, serviceName: string, userId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.UserIdentityCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.UserIdentityCollection>, callback?: coreHttp.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,19 +68,19 @@ export class UserIdentities {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserIdentitiesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UserIdentitiesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.UserIdentitiesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.UserIdentityCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.UserIdentityCollection>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.UserIdentityCollection>, callback?: coreHttp.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -92,8 +92,8 @@ export class UserIdentities {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/identities",
   urlParameters: [
@@ -119,7 +119,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
