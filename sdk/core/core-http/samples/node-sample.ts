@@ -18,7 +18,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "subscriptionId";
 // 1.5 in the curl tab you will see the actual curl request that has the bearer token in it
 // 1.6 copy paste that token here. That token is valid for 1 hour
 const token = process.env["ACCESS_TOKEN"] || "token";
-const creds = new coreHttp.RawTokenCredential(token);
+const creds = new coreHttp.SimpleTokenCredential(token);
 const client = new coreHttp.ServiceClient(creds, clientOptions);
 const req: coreHttp.RequestPrepareOptions = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,

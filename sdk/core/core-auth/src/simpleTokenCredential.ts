@@ -8,7 +8,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "./tokenCredential
  * used when the access token is already known or can be retrieved from an
  * outside source.
  */
-export class RawTokenCredential implements TokenCredential {
+export class SimpleTokenCredential implements TokenCredential {
   /**
    * The raw token string.  Can be changed when the token needs to be updated.
    */

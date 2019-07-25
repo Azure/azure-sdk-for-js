@@ -23,7 +23,7 @@ export interface GetTokenOptions {
 export function isTokenCredential(credential: any): credential is TokenCredential;
 
 // @public
-export class RawTokenCredential implements TokenCredential {
+export class SimpleTokenCredential implements TokenCredential {
     constructor(token: string, expiresOn?: Date);
     expiresOn: Date;
     getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
