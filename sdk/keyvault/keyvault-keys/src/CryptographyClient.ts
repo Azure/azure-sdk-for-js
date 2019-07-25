@@ -1,19 +1,44 @@
-import { GetKeyOptions } from "./keysModels";
-import { Pipeline } from "./core/keyVaultBase";
-import { JsonWebKey } from "./core/models";
-import { ServiceClientCredentials, TokenCredential } from "@azure/core-http";
+import { GetKeyOptions, RequestOptions } from "./keysModels";
+import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm } from "./core/models";
+import {
+  ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
+  isTokenCredential,
+  deserializationPolicy,
+  signingPolicy,
+  exponentialRetryPolicy,
+  redirectPolicy,
+  systemErrorRetryPolicy,
+  generateClientRequestIdPolicy,
+  proxyPolicy,
+  throttlingRetryPolicy,
+  getDefaultProxySettings,
+  userAgentPolicy,
+  getDefaultUserAgentValue,
+} from "@azure/core-http";
+import { parseKeyvaultIdentifier } from "./core/utils";
+import { TelemetryOptions } from "./core";
+import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import {
+  NewPipelineOptions,
+  isNewPipelineOptions,
+  Pipeline,
+} from "./core/keyVaultBase";
+import { KeyVaultClient } from "./core/keyVaultClient";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 export class CryptographyClient {
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
     if (typeof this.key === "string") {
-      const name: string; // TODO: How to get the name from the URL?
+      if (!this.name || this.name == "") {
+        throw new Error("getKey requires a key with a name");
+      }
       const key = await this.client.getKey(
         this.vaultBaseUrl,
-        name,
-        options && options.version ? options.version : "",
+        this.name,
+        options && options.version ? options.version : (this.version ? this.version : ""),
         options
       );
-      return key.keyMaterial;
+      return key.key!;
     } else {
       return this.key;
     }
@@ -22,64 +47,74 @@ export class CryptographyClient {
   public async encrypt(
     plaintext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
-    iv?: Uint8Array,
-    authenticationData?: Uint8Array,
+    _iv?: Uint8Array,
+    _authenticationData?: Uint8Array,
     options?: RequestOptions
-  ): Promise<KeyOperationResult> {
+  ): Promise<Uint8Array> {
     // TODO: How do we distinguish between doing a service call or encrypting locally?
     // TODO: How do we derive the remote key from a JWK object?
 
-    const name: string; // TODO: How to get the name from the Key URL?
-    const version: string; // TODO: How to get the version from the Key URL?
-
-    return this.client.encrypt(this.vaultBaseUrl, name, version, algorithm, plaintext, options);
+    if (this.name && this.version) {
+      let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
+      return result.result!;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async decrypt(
     ciphertext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
-    iv?: Uint8Array,
-    authenticationData?: Uint8Array,
-    authenticationTag?: Uint8Array,
+    _iv?: Uint8Array,
+    _authenticationData?: Uint8Array,
+    _authenticationTag?: Uint8Array,
     options?: RequestOptions
-  ): Promise<KeyOperationResult> {
-    const name: string;
-    const version: string;
-
-    return this.client.decrypt(this.vaultBaseUrl, name, version, algorithm, ciphertext, options);
+  ): Promise<Uint8Array> {
+    if (this.name && this.version) {
+      let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
+      return result.result!;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async wrapKey(
     key: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
-  ): Promise<KeyOperationResult> {
-    const name: string;
-    const version: string;
-
-    return this.client.wrapKey(this.vaultBaseUrl, name, version, algorithm, key, options);
+  ): Promise<Uint8Array> {
+    if (this.name && this.version) {
+      let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
+      return result.result!;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async unwrapKey(
     encryptedKey: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
-  ): Promise<KeyOperationResult> {
-    const name: string;
-    const version: string;
-
-    return this.client.unwrapKey(this.vaultBaseUrl, name, version, algorithm, encryptedKey, options);
+  ): Promise<Uint8Array> {
+    if (this.name && this.version) {
+      let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
+      return result.result!;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async sign(
     digest: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
-  ): Promise<KeyOperationResult> {
-    const name: string;
-    const version: string;
-
-    return this.client.sign(this.vaultBaseUrl, name, version, algorithm, digest, options);
+  ): Promise<Uint8Array> {
+    if (this.name && this.version) {
+      let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
+      return result.result!;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async verify(
@@ -88,26 +123,29 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    const name: string;
-    const version: string;
-
-    const response = await this.client.verify(this.vaultBaseUrl, name, version, algorithm, digest, signature, options);
-    return response.value;
+    if (this.name && this.version) {
+      const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
+      return response.value ? response.value : false;
+    } else {
+      throw new Error("Local crypto not yet supported");
+    }
   }
 
   public async signData(
-    data: Uint8Array,
-    algorithm: JsonWebKeySignatureAlgorithm,
-    options?: RequestOptions
-  ): Promise<KeyOperationResult> {
+    _data: Uint8Array,
+    _algorithm: JsonWebKeySignatureAlgorithm,
+    _options?: RequestOptions
+  ): Promise<Uint8Array> {
+    throw new Error("INCOMPLETE: Needs hash/digest function");
   }
 
   public async verifyData(
-    data: Uint8Array,
-    signature: Uint8Array,
-    algorithm: JsonWebKeySignatureAlgorithm,
-    options?: RequestOptions
-  ): Promise<bool> {
+    _data: Uint8Array,
+    _signature: Uint8Array,
+    _algorithm: JsonWebKeySignatureAlgorithm,
+    _options?: RequestOptions
+  ): Promise<boolean> {
+    throw new Error("INCOMPLETE: Needs hash/digest function");
   }
 
   public static getDefaultPipeline(
@@ -119,7 +157,7 @@ export class CryptographyClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = CryptographyClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -152,6 +190,24 @@ export class CryptographyClient {
     };
   }
 
+  private static getUserAgentString(telemetry?: TelemetryOptions): string {
+    const userAgentInfo: string[] = [];
+    if (telemetry) {
+      if (userAgentInfo.indexOf(telemetry.value) === -1) {
+        userAgentInfo.push(telemetry.value);
+      }
+    }
+    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
+    if (userAgentInfo.indexOf(libInfo) === -1) {
+      userAgentInfo.push(libInfo);
+    }
+    const defaultUserAgentInfo = getDefaultUserAgentValue();
+    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+      userAgentInfo.push(defaultUserAgentInfo);
+    }
+    return userAgentInfo.join(" ");
+  }
+
   /**
    * The base URL to the vault
    */
@@ -173,6 +229,16 @@ export class CryptographyClient {
    */
   public readonly key: string | JsonWebKey;
 
+  /**
+   * Name of the key the client represents
+   */
+  private name: string | undefined;
+
+  /**
+   * Version of the key the client represents
+   */
+  private version: string | undefined;
+
   constructor(
     url: string,
     key: string | JsonWebKey, // keyUrl or JsonWebKey
@@ -188,6 +254,21 @@ export class CryptographyClient {
     }
     // this.pipeline.requestPolicyFactories;
     this.client = new KeyVaultClient(credential, this.pipeline);
-    this.key = key; // TODO
+    this.key = key;
+
+    if (typeof this.key === "string") {
+      let parsed = parseKeyvaultIdentifier("keys", this.key);
+
+      if (parsed.name == "") {
+        throw new Error("Could not find 'name' of key in key URL");
+      }
+
+      if (!parsed.version || parsed.version == "") {
+        throw new Error("Could not find 'version' of key in key URL");
+      }
+
+      this.name = parsed.name;
+      this.version = parsed.version;
+    }
   }
 }
