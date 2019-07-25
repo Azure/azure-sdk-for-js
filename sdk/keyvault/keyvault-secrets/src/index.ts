@@ -9,7 +9,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  bearerTokenAuthenticationPolicy,
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -26,11 +25,14 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecretBundle,
+  DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   Secret,
   DeletedSecret,
@@ -110,7 +112,7 @@ export class SecretsClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -169,7 +171,7 @@ export class SecretsClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -262,7 +264,7 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    return this.getSecretFromSecretBundle(response);
+    return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
   /**
@@ -681,6 +683,29 @@ export class SecretsClient {
     } else {
       resultObject = {
         ...secretBundle,
+        ...parsedId
+      };
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedSecretFromDeletedSecretBundle(
+    deletedSecretBundle: DeletedSecretBundle
+  ): DeletedSecret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
+
+    let resultObject;
+    if (deletedSecretBundle.attributes) {
+      resultObject = {
+        ...deletedSecretBundle,
+        ...parsedId,
+        ...deletedSecretBundle.attributes
+      };
+      delete resultObject.attributes;
+    } else {
+      resultObject = {
+        ...deletedSecretBundle,
         ...parsedId
       };
     }

@@ -21,7 +21,7 @@ import {
   ConditionErrorNameMapper,
   AmqpMessage,
   SendRequestOptions
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   ReceivedMessageInfo,
@@ -467,7 +467,7 @@ export class ManagementClient extends LinkEntity {
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
-    if (options.maxRetries == null) options.maxRetries = 5;
+    if (options.times == null) options.times = 5;
 
     try {
       const messageBody: any = {};
@@ -878,7 +878,7 @@ export class ManagementClient extends LinkEntity {
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
-    if (options.maxRetries == null) options.maxRetries = 5;
+    if (options.times == null) options.times = 5;
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
