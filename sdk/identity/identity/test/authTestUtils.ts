@@ -3,7 +3,6 @@
 
 import assert from "assert";
 import { IdentityClientOptions } from "../src";
-import { AuthenticationError } from "../src";
 import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient, delay, RestError } from "@azure/core-http";
 
 export interface MockAuthResponse {

@@ -70,32 +70,6 @@ export class DeviceCodeCredential implements TokenCredential {
     this.userPromptCallback = userPromptCallback;
   }
 
-  /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
-   *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
-   */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-    const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, options);
-
-    this.userPromptCallback({
-      userCode: deviceCodeResponse.user_code,
-      verificationUri: deviceCodeResponse.verification_uri,
-      message: deviceCodeResponse.message
-    });
-
-    return await this.pollForToken(deviceCodeResponse, options);
-  }
-
   private async sendDeviceCodeRequest(
     scope: string,
     options?: GetTokenOptions
@@ -176,5 +150,31 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
     return accessToken;
+  }
+
+  /**
+   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
+   *
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  public async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    const scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
+    const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, options);
+
+    this.userPromptCallback({
+      userCode: deviceCodeResponse.user_code,
+      verificationUri: deviceCodeResponse.verification_uri,
+      message: deviceCodeResponse.message
+    });
+
+    return this.pollForToken(deviceCodeResponse, options);
   }
 }

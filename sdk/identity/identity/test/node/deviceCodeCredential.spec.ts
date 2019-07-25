@@ -23,7 +23,7 @@ const pendingResponse: ErrorResponse = {
 };
 
 describe("DeviceCodeCredential", function () {
-  this.timeout(10000);
+  this.timeout(10000); // eslint-disable-line no-invalid-this
 
   it("sends a device code request and returns a token when the user completes it", async function() {
     const mockHttpClient = new MockAuthHttpClient({
