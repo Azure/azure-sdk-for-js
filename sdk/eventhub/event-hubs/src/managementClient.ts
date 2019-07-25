@@ -328,7 +328,7 @@ export class ManagementClient extends LinkEntity {
             const rejectOnAbort = () => {
               const requestName = options.requestName;
               const desc: string =
-                `[${this.connection.id}] The request "${requestName}" ` +
+                `[${this._context.connectionId}] The request "${requestName}" ` +
                 `to has been cancelled by the user.`;
               log.error(desc);
               const error = new AbortError(
@@ -355,9 +355,7 @@ export class ManagementClient extends LinkEntity {
               const initOperationStartTime = Date.now();
 
               const actionAfterTimeout = () => {
-                const desc: string = `The request with message_id "${
-                  request.message_id
-                }" timed out. Please try again later.`;
+                const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
                 const e: Error = {
                   name: "OperationTimeoutError",
                   message: desc
