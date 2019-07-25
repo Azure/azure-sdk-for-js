@@ -21,12 +21,20 @@ export interface Checkpoint {
  * CheckPointManager is created by the library & passed to user's code to let them create a checkpoint
  */
 export class CheckpointManager {
-  private partitionContext: PartitionContext; // for internal use by createCheckpoint
-  private partitionManager: PartitionManager; // for internal use by createCheckpoint
+  private _partitionContext: PartitionContext; // for internal use by createCheckpoint
+  private _partitionManager: PartitionManager; // for internal use by createCheckpoint
+
+  get partitionContext(): PartitionContext {
+    return this._partitionContext;
+  }
+
+  get partitionManager(): PartitionManager {
+    return this._partitionManager;
+  }
 
   constructor(partitionContext: PartitionContext, partitionManager: PartitionManager) {
-    this.partitionContext = partitionContext;
-    this.partitionManager = partitionManager;
+    this._partitionContext = partitionContext;
+    this._partitionManager = partitionManager;
   }
 
   public async createCheckpoint(eventData: EventData): Promise<void>;
