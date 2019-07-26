@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
@@ -31,17 +31,17 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.OperationsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResponse>): void;
+  list(callback: coreHttp.ServiceCallback<Models.OperationListResponse>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResponse>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResponse>, callback?: msRest.ServiceCallback<Models.OperationListResponse>): Promise<Models.OperationsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.OperationListResponse>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.OperationListResponse>, callback?: coreHttp.ServiceCallback<Models.OperationListResponse>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -56,19 +56,19 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResponse>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.OperationListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResponse>, callback?: msRest.ServiceCallback<Models.OperationListResponse>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.OperationListResponse>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.OperationListResponse>, callback?: coreHttp.ServiceCallback<Models.OperationListResponse>): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -80,8 +80,8 @@ export class Operations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.DataFactory/operations",
   queryParameters: [
@@ -101,7 +101,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

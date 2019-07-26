@@ -9,14 +9,14 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/arm-datafactory";
-const packageVersion = "0.1.0";
+const packageVersion = "5.3.0";
 
-export class DataFactoryManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class DataFactoryManagementClientContext extends coreArm.AzureServiceClient {
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
 
@@ -26,7 +26,7 @@ export class DataFactoryManagementClientContext extends msRestAzure.AzureService
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -38,7 +38,7 @@ export class DataFactoryManagementClientContext extends msRestAzure.AzureService
       options = {};
     }
     if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
