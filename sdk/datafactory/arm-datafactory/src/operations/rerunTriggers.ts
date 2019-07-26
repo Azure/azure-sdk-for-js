@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/rerunTriggersMappers";
 import * as Parameters from "../models/parameters";
@@ -38,7 +38,7 @@ export class RerunTriggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.RerunTriggersCreateResponse>
    */
-  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: msRest.RequestOptionsBase): Promise<Models.RerunTriggersCreateResponse>;
+  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.RerunTriggersCreateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -48,7 +48,7 @@ export class RerunTriggers {
    * parameters.
    * @param callback The callback
    */
-  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
+  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, callback: coreHttp.ServiceCallback<Models.TriggerResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -59,8 +59,8 @@ export class RerunTriggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
-  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerResource>, callback?: msRest.ServiceCallback<Models.TriggerResource>): Promise<Models.RerunTriggersCreateResponse> {
+  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TriggerResource>): void;
+  create(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, rerunTumblingWindowTriggerActionParameters: Models.RerunTumblingWindowTriggerActionParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TriggerResource>, callback?: coreHttp.ServiceCallback<Models.TriggerResource>): Promise<Models.RerunTriggersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,9 +81,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  start(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  start(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStart(resourceGroupName,factoryName,triggerName,rerunTriggerName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -95,9 +95,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  stop(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStop(resourceGroupName,factoryName,triggerName,rerunTriggerName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -109,9 +109,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  cancel(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginCancel(resourceGroupName,factoryName,triggerName,rerunTriggerName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -124,14 +124,14 @@ export class RerunTriggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.RerunTriggersListByTriggerResponse>
    */
-  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.RerunTriggersListByTriggerResponse>;
+  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RerunTriggersListByTriggerResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param triggerName The trigger name.
    * @param callback The callback
    */
-  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
+  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, callback: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -139,8 +139,8 @@ export class RerunTriggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
-  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RerunTriggerListResponse>, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerResponse> {
+  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): void;
+  listByTrigger(resourceGroupName: string, factoryName: string, triggerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RerunTriggerListResponse>, callback?: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,9 +159,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStart(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -181,9 +181,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStop(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -203,9 +203,9 @@ export class RerunTriggers {
    * @param triggerName The trigger name.
    * @param rerunTriggerName The rerun trigger name.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCancel(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCancel(resourceGroupName: string, factoryName: string, triggerName: string, rerunTriggerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -224,19 +224,19 @@ export class RerunTriggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.RerunTriggersListByTriggerNextResponse>
    */
-  listByTriggerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RerunTriggersListByTriggerNextResponse>;
+  listByTriggerNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RerunTriggersListByTriggerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTriggerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
+  listByTriggerNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTriggerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RerunTriggerListResponse>): void;
-  listByTriggerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RerunTriggerListResponse>, callback?: msRest.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerNextResponse> {
+  listByTriggerNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): void;
+  listByTriggerNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RerunTriggerListResponse>, callback?: coreHttp.ServiceCallback<Models.RerunTriggerListResponse>): Promise<Models.RerunTriggersListByTriggerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -248,8 +248,8 @@ export class RerunTriggers {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers/{rerunTriggerName}",
   urlParameters: [
@@ -283,7 +283,7 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByTriggerOperationSpec: msRest.OperationSpec = {
+const listByTriggerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers",
   urlParameters: [
@@ -309,7 +309,7 @@ const listByTriggerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStartOperationSpec: msRest.OperationSpec = {
+const beginStartOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers/{rerunTriggerName}/start",
   urlParameters: [
@@ -334,7 +334,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStopOperationSpec: msRest.OperationSpec = {
+const beginStopOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers/{rerunTriggerName}/stop",
   urlParameters: [
@@ -359,7 +359,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCancelOperationSpec: msRest.OperationSpec = {
+const beginCancelOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/rerunTriggers/{rerunTriggerName}/cancel",
   urlParameters: [
@@ -384,7 +384,7 @@ const beginCancelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByTriggerNextOperationSpec: msRest.OperationSpec = {
+const listByTriggerNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

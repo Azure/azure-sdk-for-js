@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/pipelineRunsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsQueryByFactoryResponse>
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsQueryByFactoryResponse>;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.PipelineRunsQueryByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param filterParameters Parameters to filter the pipeline run.
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, callback: coreHttp.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -49,8 +49,8 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): Promise<Models.PipelineRunsQueryByFactoryResponse> {
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PipelineRunsQueryResponse>, callback?: coreHttp.ServiceCallback<Models.PipelineRunsQueryResponse>): Promise<Models.PipelineRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,14 +70,14 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsGetResponse>;
+  get(resourceGroupName: string, factoryName: string, runId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PipelineRunsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param runId The pipeline run identifier.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
+  get(resourceGroupName: string, factoryName: string, runId: string, callback: coreHttp.ServiceCallback<Models.PipelineRun>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -85,8 +85,8 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
-  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>, callback?: msRest.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
+  get(resourceGroupName: string, factoryName: string, runId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PipelineRun>): void;
+  get(resourceGroupName: string, factoryName: string, runId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PipelineRun>, callback?: coreHttp.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,16 +104,16 @@ export class PipelineRuns {
    * @param factoryName The factory name.
    * @param runId The pipeline run identifier.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams): Promise<msRest.RestResponse>;
+  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param runId The pipeline run identifier.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(resourceGroupName: string, factoryName: string, runId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -121,8 +121,8 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options: Models.PipelineRunsCancelOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, factoryName: string, runId: string, options: Models.PipelineRunsCancelOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,8 +136,8 @@ export class PipelineRuns {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const queryByFactoryOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const queryByFactoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns",
   urlParameters: [
@@ -169,7 +169,7 @@ const queryByFactoryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}",
   urlParameters: [
@@ -195,7 +195,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const cancelOperationSpec: msRest.OperationSpec = {
+const cancelOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/cancel",
   urlParameters: [
