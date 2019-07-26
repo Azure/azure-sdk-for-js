@@ -190,8 +190,8 @@ Most likely the associated connection string will not have send claims. Hence ge
 
 ```javascript
 const client = await EventHubClient.createFromIotHubConnectionString("connectionString");
-await client.getHubRuntimeInformation();
-await client.getPartitionInformation("partitionId");
+await client.getProperties();
+await client.getPartitionProperties("partitionId");
 ```
 
 **Notes:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host). The Event Processor host, internally uses the streaming receiver to receive events.
