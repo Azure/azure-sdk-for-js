@@ -2,10 +2,10 @@
   "name": "@azure/arm-authorization",
   "author": "Microsoft Corporation",
   "description": "AuthorizationManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "8.3.1",
+  "version": "8.3.2",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.1.0",
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-azure-js": "^2.0.0",
+    "@azure/ms-rest-js": "^2.0.3",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -23,15 +23,16 @@
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/authorization/arm-authorization",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/authorization/arm-authorization",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/**/*.js",
@@ -43,6 +44,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -52,5 +54,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "authPublish": true
+  "autoPublish": true
 }

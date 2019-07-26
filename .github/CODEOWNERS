@@ -15,7 +15,10 @@
 # /sdk/eventhub/
 # /sdk/identity/
 # /sdk/keyvault/
-# /sdk/storage/
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
+
+# Management Plane
+/**/*Management*.ts @yaohaizh
 
 ###########
 # Eng Sys
