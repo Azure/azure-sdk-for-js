@@ -5371,7 +5371,7 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -5405,7 +5405,7 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   path: "keys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -6512,7 +6512,7 @@ const getDeletedStorageAccountsOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageListResult
