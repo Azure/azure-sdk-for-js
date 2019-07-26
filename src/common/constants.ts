@@ -96,6 +96,7 @@ export const Constants = {
     EmitVerboseTracesInQuery: "x-ms-documentdb-query-emit-traces",
     EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
     ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
+    ResponseContinuationTokenLimitInKB: "x-ms-documentdb-responsecontinuationtokenlimitinkb",
 
     // QueryMetrics
     // Request header to tell backend to give you query metrics.
