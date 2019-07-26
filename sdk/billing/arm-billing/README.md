@@ -9,32 +9,33 @@ This package contains an isomorphic SDK for BillingManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-billing
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list enrollmentAccounts as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list billingAccounts as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+```typescript
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { BillingManagementClient, BillingManagementModels, BillingManagementMappers } from "@azure/arm-billing";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new BillingManagementClient(creds, subscriptionId);
-  client.enrollmentAccounts.list().then((result) => {
+  const expand = "testexpand";
+  client.billingAccounts.list(expand).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,11 +44,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list enrollmentAccounts as an example written in JavaScript.
+#### browser - Authentication, client creation and list billingAccounts as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -61,8 +62,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-billing sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
+    <script src="node_modules/@azure/core-arm/dist/coreArm.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-billing/dist/arm-billing.js"></script>
     <script type="text/javascript">
@@ -77,7 +78,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmBilling.BillingManagementClient(res.creds, subscriptionId);
-        client.enrollmentAccounts.list().then((result) => {
+        const expand = "testexpand";
+        client.billingAccounts.list(expand).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -94,6 +96,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/billing/arm-billing/README.png)

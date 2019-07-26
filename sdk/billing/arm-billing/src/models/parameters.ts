@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,17 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const agreementName: coreHttp.OperationURLParameter = {
+  parameterPath: "agreementName",
+  mapper: {
+    required: true,
+    serializedName: "agreementName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,17 +40,97 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const billingPeriodName: msRest.OperationURLParameter = {
-  parameterPath: "billingPeriodName",
+export const billingAccountName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingAccountName",
   mapper: {
     required: true,
-    serializedName: "billingPeriodName",
+    serializedName: "billingAccountName",
     type: {
       name: "String"
     }
   }
 };
-export const expand: msRest.OperationQueryParameter = {
+export const billingProfileName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingProfileName",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingRoleAssignmentName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingRoleAssignmentName",
+  mapper: {
+    required: true,
+    serializedName: "billingRoleAssignmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingRoleDefinitionName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingRoleDefinitionName",
+  mapper: {
+    required: true,
+    serializedName: "billingRoleDefinitionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingSubscriptionName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingSubscriptionName",
+  mapper: {
+    required: true,
+    serializedName: "billingSubscriptionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const customerName: coreHttp.OperationURLParameter = {
+  parameterPath: "customerName",
+  mapper: {
+    required: true,
+    serializedName: "customerName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const departmentName: coreHttp.OperationURLParameter = {
+  parameterPath: "departmentName",
+  mapper: {
+    required: true,
+    serializedName: "departmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const endDate: coreHttp.OperationQueryParameter = {
+  parameterPath: "endDate",
+  mapper: {
+    required: true,
+    serializedName: "endDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const enrollmentAccountName: coreHttp.OperationURLParameter = {
+  parameterPath: "enrollmentAccountName",
+  mapper: {
+    required: true,
+    serializedName: "enrollmentAccountName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const expand: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "expand"
@@ -52,7 +142,7 @@ export const expand: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter: msRest.OperationQueryParameter = {
+export const filter: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -64,7 +154,7 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const invoiceName: msRest.OperationURLParameter = {
+export const invoiceName: coreHttp.OperationURLParameter = {
   parameterPath: "invoiceName",
   mapper: {
     required: true,
@@ -74,17 +164,17 @@ export const invoiceName: msRest.OperationURLParameter = {
     }
   }
 };
-export const name: msRest.OperationURLParameter = {
-  parameterPath: "name",
+export const invoiceSectionName: coreHttp.OperationURLParameter = {
+  parameterPath: "invoiceSectionName",
   mapper: {
     required: true,
-    serializedName: "name",
+    serializedName: "invoiceSectionName",
     type: {
       name: "String"
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -95,7 +185,37 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const skiptoken: msRest.OperationQueryParameter = {
+export const periodEndDate: coreHttp.OperationQueryParameter = {
+  parameterPath: "periodEndDate",
+  mapper: {
+    required: true,
+    serializedName: "periodEndDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const periodStartDate: coreHttp.OperationQueryParameter = {
+  parameterPath: "periodStartDate",
+  mapper: {
+    required: true,
+    serializedName: "periodStartDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const productName: coreHttp.OperationURLParameter = {
+  parameterPath: "productName",
+  mapper: {
+    required: true,
+    serializedName: "productName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skiptoken: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "skiptoken"
@@ -107,7 +227,17 @@ export const skiptoken: msRest.OperationQueryParameter = {
     }
   }
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const startDate: coreHttp.OperationQueryParameter = {
+  parameterPath: "startDate",
+  mapper: {
+    required: true,
+    serializedName: "startDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
@@ -117,19 +247,13 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+export const transferName: coreHttp.OperationURLParameter = {
+  parameterPath: "transferName",
   mapper: {
-    serializedName: "$top",
-    constraints: {
-      InclusiveMaximum: 100,
-      InclusiveMinimum: 1
-    },
+    required: true,
+    serializedName: "transferName",
     type: {
-      name: "Number"
+      name: "String"
     }
   }
 };

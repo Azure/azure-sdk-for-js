@@ -28,7 +28,6 @@ export {
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
-  InvoiceListResult,
   InvoiceSection,
   InvoiceSummary,
   LineOfCredit,
@@ -36,8 +35,15 @@ export {
   PaymentMethod,
   PaymentProperties,
   Policy,
+  ProductsListResult,
+  ProductsTransferHeaders,
   ProductSummary,
   Reseller,
   Resource,
-  TransactionsSummary
+  TransactionsSummary,
+  TransferProductRequestProperties,
+  UpdateAutoRenewOperationSummary,
+  UpdateAutoRenewRequest,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";

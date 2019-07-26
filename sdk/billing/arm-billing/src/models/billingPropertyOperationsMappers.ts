@@ -28,7 +28,6 @@ export {
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
-  InvoiceListResult,
   InvoiceSection,
   InvoiceSummary,
   LineOfCredit,

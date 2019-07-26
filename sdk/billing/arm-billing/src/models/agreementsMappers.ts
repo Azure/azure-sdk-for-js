@@ -9,6 +9,7 @@
 export {
   Address,
   Agreement,
+  AgreementListResult,
   Amount,
   AvailableBalance,
   BaseResource,
@@ -28,7 +29,6 @@ export {
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
-  InvoiceListResult,
   InvoiceSection,
   InvoiceSummary,
   LineOfCredit,
