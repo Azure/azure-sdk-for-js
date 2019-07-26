@@ -117,7 +117,7 @@ dependencies:
   karma-rollup-preprocessor: 7.0.2_rollup@1.17.0
   karma-sourcemap-loader: 0.3.7
   karma-typescript-es6-transform: 4.1.1
-  karma-webpack: 4.0.2_webpack@4.37.0
+  karma-webpack: 4.0.2_webpack@4.38.0
   long: 4.0.0
   mocha: 5.2.0
   mocha-chrome: 1.1.0
@@ -177,9 +177,9 @@ dependencies:
   url: 0.11.0
   util: 0.11.1
   uuid: 3.3.2
-  webpack: 4.37.0_webpack@4.37.0
-  webpack-cli: 3.3.6_webpack@4.37.0
-  webpack-dev-middleware: 3.7.0_webpack@4.37.0
+  webpack: 4.38.0_webpack@4.38.0
+  webpack-cli: 3.3.6_webpack@4.38.0
+  webpack-dev-middleware: 3.7.0_webpack@4.38.0
   ws: 6.2.1
   xhr-mock: 2.5.0
   xml2js: 0.4.19
@@ -5488,15 +5488,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-WTGGThwufBT73c20q30iTcXq8Jb3Wat/h+JW1lwKgMtymT5rVxLknoaUVNfenaV3+cRMiTEsBT773kz9jWk6IQ==
-  /karma-webpack/4.0.2_webpack@4.37.0:
+  /karma-webpack/4.0.2_webpack@4.38.0:
     dependencies:
       clone-deep: 4.0.1
       loader-utils: 1.2.3
       neo-async: 2.6.1
       schema-utils: 1.0.0
       source-map: 0.7.3
-      webpack: 4.37.0_webpack@4.37.0
-      webpack-dev-middleware: 3.7.0_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
+      webpack-dev-middleware: 3.7.0_webpack@4.38.0
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -8647,7 +8647,7 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-jP9jD7fp2gXwR8dM5M5NaFRX1JI=
-  /terser-webpack-plugin/1.3.0_webpack@4.37.0:
+  /terser-webpack-plugin/1.3.0_webpack@4.38.0:
     dependencies:
       cacache: 11.3.3
       find-cache-dir: 2.1.0
@@ -8657,7 +8657,7 @@ packages:
       serialize-javascript: 1.7.0
       source-map: 0.6.1
       terser: 4.1.2
-      webpack: 4.37.0_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
       webpack-sources: 1.3.0
       worker-farm: 1.7.0
     dev: false
@@ -9290,7 +9290,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-i6dHe3EyLjMmDlU1/bGQpEw25XSjkJULPuAVKCbNRefQVq48yXKUpwg538F7AZTf9kyr57zj++pQFltUa5H7yA==
-  /webpack-cli/3.3.6_webpack@4.37.0:
+  /webpack-cli/3.3.6_webpack@4.38.0:
     dependencies:
       chalk: 2.4.2
       cross-spawn: 6.0.5
@@ -9302,7 +9302,7 @@ packages:
       loader-utils: 1.2.3
       supports-color: 6.1.0
       v8-compile-cache: 2.0.3
-      webpack: 4.37.0_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
       yargs: 13.2.4
     dev: false
     engines:
@@ -9312,12 +9312,12 @@ packages:
       webpack: 4.x.x
     resolution:
       integrity: sha512-0vEa83M7kJtxK/jUhlpZ27WHIOndz5mghWL2O53kiDoA9DIxSKnfqB92LoqEn77cT4f3H2cZm1BMEat/6AZz3A==
-  /webpack-dev-middleware/3.7.0_webpack@4.37.0:
+  /webpack-dev-middleware/3.7.0_webpack@4.38.0:
     dependencies:
       memory-fs: 0.4.1
       mime: 2.4.4
       range-parser: 1.2.1
-      webpack: 4.37.0_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
       webpack-log: 2.0.0
     dev: false
     engines:
@@ -9342,7 +9342,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-OiVgSrbGu7NEnEvQJJgdSFPl2qWKkWq5lHMhgiToIiN9w34EBnjYzSYs+VbL5KoYiLNtFFa7BZIKxRED3I32pA==
-  /webpack/4.37.0_webpack@4.37.0:
+  /webpack/4.38.0_webpack@4.38.0:
     dependencies:
       '@webassemblyjs/ast': 1.8.5
       '@webassemblyjs/helper-module-context': 1.8.5
@@ -9364,7 +9364,7 @@ packages:
       node-libs-browser: 2.2.1
       schema-utils: 1.0.0
       tapable: 1.1.3
-      terser-webpack-plugin: 1.3.0_webpack@4.37.0
+      terser-webpack-plugin: 1.3.0_webpack@4.38.0
       watchpack: 1.6.0
       webpack-sources: 1.3.0
     dev: false
@@ -9374,7 +9374,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-iJPPvL7XpbcbwOthbzpa2BSPlmGp8lGDokAj/LdWtK80rsPoPOdANSbDBf2GAVLKZD3GhCuQ/gGkgN9HWs0Keg==
+      integrity: sha512-lbuFsVOq8PZY+1Ytz/mYOvYOo+d4IJ31hHk/7iyoeWtwN33V+5HYotSH+UIb9tq914ey0Hot7z6HugD+je3sWw==
   /which-module/1.0.0:
     dev: false
     resolution:
@@ -9920,7 +9920,7 @@ packages:
       karma-rollup-preprocessor: 7.0.2_rollup@1.17.0
       karma-sourcemap-loader: 0.3.7
       karma-typescript-es6-transform: 4.1.1
-      karma-webpack: 4.0.2_webpack@4.37.0
+      karma-webpack: 4.0.2_webpack@4.38.0
       mocha: 5.2.0
       mocha-chrome: 1.1.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
@@ -9951,9 +9951,9 @@ packages:
       typescript: 3.5.3
       uglify-js: 3.6.0
       uuid: 3.3.2
-      webpack: 4.37.0_webpack@4.37.0
-      webpack-cli: 3.3.6_webpack@4.37.0
-      webpack-dev-middleware: 3.7.0_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
+      webpack-cli: 3.3.6_webpack@4.38.0
+      webpack-dev-middleware: 3.7.0_webpack@4.38.0
       xhr-mock: 2.5.0
       xml2js: 0.4.19
       yarn: 1.17.3
@@ -10017,8 +10017,8 @@ packages:
       tslib: 1.10.0
       tunnel: 0.0.6
       typescript: 3.5.3
-      webpack: 4.37.0_webpack@4.37.0
-      webpack-cli: 3.3.6_webpack@4.37.0
+      webpack: 4.38.0_webpack@4.38.0
+      webpack-cli: 3.3.6_webpack@4.38.0
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
