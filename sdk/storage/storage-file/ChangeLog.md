@@ -1,6 +1,12 @@
 # Changelog
 
-2019.07 Version 12.0.0-preview.1
+### 2019.08
+
+- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  [`AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.]
+
+### 2019.07 Version 12.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - ServiceURL, ShareURL, DirectoryURL and FileURL to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
@@ -19,7 +25,7 @@
 - [Breaking] Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
 - [Breaking] High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
-  `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
+    `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 - Updated dependency `@azure/ms-rest-js` to `@azure/core-http`.
 - Constructor overloads added into client types so they can be constructed from a url and a pipeline/credential and connection string.
@@ -35,7 +41,7 @@
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-2019.01 Version 10.1.0
+### 2019.01 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
@@ -48,6 +54,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
-2018.12 Version 10.0.0-preview
+### 2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
