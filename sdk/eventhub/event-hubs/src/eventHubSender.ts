@@ -615,13 +615,10 @@ export class EventHubSender extends LinkEntity {
 
           try {
             await defaultLock.acquire(this.senderLock, () => {
-              return this._init(this._createSenderOptions({}));
+              return this._init();
             });
           } catch (err) {
-            clearTimeout(waitTimer);
-            if (abortSignal) {
-              abortSignal.removeEventListener("abort", onAborted);
-            }
+            removeListeners();
             err = translate(err);
             log.error(
               "[%s] An error occurred while creating the sender %s",
@@ -655,6 +652,7 @@ export class EventHubSender extends LinkEntity {
               this.name,
               delivery.id
             );
+            return resolve();
           } catch (err) {
             err = translate(err);
             log.error(
@@ -664,9 +662,8 @@ export class EventHubSender extends LinkEntity {
             );
             return reject(err);
           } finally {
-            clearTimeout(waitTimer);
+            removeListeners();
           }
-          return resolve();
         } else {
           // let us retry to send the message after some time.
           const msg =

@@ -557,7 +557,7 @@ export function translate(err: AmqpError | Error): MessagingError {
   // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
   if (
     // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until OperationTimeoutError is updated, and that doesn't break compatibility
+    // Must do a name check until InsufficientCreditError is updated, and that doesn't break compatibility
     // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
     (err as Error).name === "InsufficientCreditError"
   ) {
