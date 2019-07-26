@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/triggerRunsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class TriggerRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggerRunsQueryByFactoryResponse>
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.TriggerRunsQueryByFactoryResponse>;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.TriggerRunsQueryByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param filterParameters Parameters to filter the pipeline run.
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, callback: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): void;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, callback: coreHttp.ServiceCallback<Models.TriggerRunsQueryResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -49,8 +49,8 @@ export class TriggerRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.TriggerRunsQueryResponse>): Promise<Models.TriggerRunsQueryByFactoryResponse> {
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TriggerRunsQueryResponse>): void;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TriggerRunsQueryResponse>, callback?: coreHttp.ServiceCallback<Models.TriggerRunsQueryResponse>): Promise<Models.TriggerRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,8 +64,8 @@ export class TriggerRuns {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const queryByFactoryOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const queryByFactoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryTriggerRuns",
   urlParameters: [

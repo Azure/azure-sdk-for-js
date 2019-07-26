@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/linkedServicesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,21 +33,21 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesListByFactoryResponse>
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesListByFactoryResponse>;
+  listByFactory(resourceGroupName: string, factoryName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LinkedServicesListByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
+  listByFactory(resourceGroupName: string, factoryName: string, callback: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryResponse> {
+  listByFactory(resourceGroupName: string, factoryName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): void;
+  listByFactory(resourceGroupName: string, factoryName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LinkedServiceListResponse>, callback?: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -75,7 +75,7 @@ export class LinkedServices {
    * @param linkedService Linked service resource definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
+  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, callback: coreHttp.ServiceCallback<Models.LinkedServiceResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -84,8 +84,8 @@ export class LinkedServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options: Models.LinkedServicesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options?: Models.LinkedServicesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.LinkedServiceResource>, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options: Models.LinkedServicesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.LinkedServiceResource>): void;
+  createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: Models.LinkedServiceResource, options?: Models.LinkedServicesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.LinkedServiceResource>, callback?: coreHttp.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class LinkedServices {
    * @param linkedServiceName The linked service name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
+  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, callback: coreHttp.ServiceCallback<Models.LinkedServiceResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -121,8 +121,8 @@ export class LinkedServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: Models.LinkedServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.LinkedServiceResource>): void;
-  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: Models.LinkedServicesGetOptionalParams | msRest.ServiceCallback<Models.LinkedServiceResource>, callback?: msRest.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: Models.LinkedServicesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.LinkedServiceResource>): void;
+  get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: Models.LinkedServicesGetOptionalParams | coreHttp.ServiceCallback<Models.LinkedServiceResource>, callback?: coreHttp.ServiceCallback<Models.LinkedServiceResource>): Promise<Models.LinkedServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,16 +140,16 @@ export class LinkedServices {
    * @param factoryName The factory name.
    * @param linkedServiceName The linked service name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param linkedServiceName The linked service name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -157,8 +157,8 @@ export class LinkedServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,19 +176,19 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesListByFactoryNextResponse>
    */
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesListByFactoryNextResponse>;
+  listByFactoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LinkedServicesListByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
+  listByFactoryNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryNextResponse> {
+  listByFactoryNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): void;
+  listByFactoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LinkedServiceListResponse>, callback?: coreHttp.ServiceCallback<Models.LinkedServiceListResponse>): Promise<Models.LinkedServicesListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -200,8 +200,8 @@ export class LinkedServices {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByFactoryOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByFactoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices",
   urlParameters: [
@@ -226,7 +226,7 @@ const listByFactoryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices/{linkedServiceName}",
   urlParameters: [
@@ -260,7 +260,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices/{linkedServiceName}",
   urlParameters: [
@@ -288,7 +288,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/linkedservices/{linkedServiceName}",
   urlParameters: [
@@ -313,7 +313,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByFactoryNextOperationSpec: msRest.OperationSpec = {
+const listByFactoryNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
