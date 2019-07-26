@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimesMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesListByFactoryResponse>
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesListByFactoryResponse>;
+  listByFactory(resourceGroupName: string, factoryName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesListByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
+  listByFactory(resourceGroupName: string, factoryName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): Promise<Models.IntegrationRuntimesListByFactoryResponse> {
+  listByFactory(resourceGroupName: string, factoryName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
+  listByFactory(resourceGroupName: string, factoryName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): Promise<Models.IntegrationRuntimesListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class IntegrationRuntimes {
    * @param integrationRuntime Integration runtime resource definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -85,8 +85,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, options: Models.IntegrationRuntimesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, options?: Models.IntegrationRuntimesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, options: Models.IntegrationRuntimesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: Models.IntegrationRuntimeResource, options?: Models.IntegrationRuntimesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +114,7 @@ export class IntegrationRuntimes {
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -122,8 +122,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimesGetOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimesGetOptionalParams | msRest.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimesGetOptionalParams | coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesUpdateResponse>
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesUpdateResponse>;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -152,7 +152,7 @@ export class IntegrationRuntimes {
    * @param updateIntegrationRuntimeRequest The parameters for updating an integration runtime.
    * @param callback The callback
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -161,8 +161,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): void;
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesUpdateResponse> {
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): void;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: Models.UpdateIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeResource>): Promise<Models.IntegrationRuntimesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,16 +181,16 @@ export class IntegrationRuntimes {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -198,8 +198,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,14 +219,14 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesGetStatusResponse>
    */
-  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetStatusResponse>;
+  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetStatusResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
+  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -234,8 +234,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
-  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): Promise<Models.IntegrationRuntimesGetStatusResponse> {
+  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
+  getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): Promise<Models.IntegrationRuntimesGetStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -256,14 +256,14 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesGetConnectionInfoResponse>
    */
-  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetConnectionInfoResponse>;
+  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetConnectionInfoResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): void;
+  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -271,8 +271,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): void;
-  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): Promise<Models.IntegrationRuntimesGetConnectionInfoResponse> {
+  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): void;
+  getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): Promise<Models.IntegrationRuntimesGetConnectionInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +294,7 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesRegenerateAuthKeyResponse>
    */
-  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesRegenerateAuthKeyResponse>;
+  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesRegenerateAuthKeyResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -303,7 +303,7 @@ export class IntegrationRuntimes {
    * authentication key.
    * @param callback The callback
    */
-  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -313,8 +313,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
-  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimesRegenerateAuthKeyResponse> {
+  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimesRegenerateAuthKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -335,14 +335,14 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesListAuthKeysResponse>
    */
-  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesListAuthKeysResponse>;
+  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesListAuthKeysResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -350,8 +350,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
-  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimesListAuthKeysResponse> {
+  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimesListAuthKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -371,7 +371,7 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesStartResponse>
    */
-  start(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesStartResponse> {
+  start(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesStartResponse> {
     return this.beginStart(resourceGroupName,factoryName,integrationRuntimeName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IntegrationRuntimesStartResponse>;
   }
@@ -382,9 +382,9 @@ export class IntegrationRuntimes {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  stop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStop(resourceGroupName,factoryName,integrationRuntimeName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -398,16 +398,16 @@ export class IntegrationRuntimes {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<void>): void;
+  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -415,8 +415,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -437,14 +437,14 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesGetMonitoringDataResponse>
    */
-  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetMonitoringDataResponse>;
+  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesGetMonitoringDataResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
+  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -452,8 +452,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
-  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): Promise<Models.IntegrationRuntimesGetMonitoringDataResponse> {
+  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
+  getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeMonitoringData>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): Promise<Models.IntegrationRuntimesGetMonitoringDataResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -466,21 +466,21 @@ export class IntegrationRuntimes {
   }
 
   /**
-   * Upgrade self-hosted integration runtime to latest version if availably.
+   * Upgrade self-hosted integration runtime to latest version if availability.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<void>): void;
+  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -488,8 +488,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -509,9 +509,9 @@ export class IntegrationRuntimes {
    * @param integrationRuntimeName The integration runtime name.
    * @param linkedIntegrationRuntimeRequest The data factory name for the linked integration runtime.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -519,7 +519,7 @@ export class IntegrationRuntimes {
    * @param linkedIntegrationRuntimeRequest The data factory name for the linked integration runtime.
    * @param callback The callback
    */
-  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, callback: msRest.ServiceCallback<void>): void;
+  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -528,8 +528,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: Models.LinkedIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -551,7 +551,7 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse>
    */
-  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse>;
+  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -559,7 +559,7 @@ export class IntegrationRuntimes {
    * @param createLinkedIntegrationRuntimeRequest The linked integration runtime properties.
    * @param callback The callback
    */
-  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
+  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -568,8 +568,8 @@ export class IntegrationRuntimes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
-  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): Promise<Models.IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse> {
+  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
+  createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: Models.CreateLinkedIntegrationRuntimeRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): Promise<Models.IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -588,9 +588,9 @@ export class IntegrationRuntimes {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStart(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -608,9 +608,9 @@ export class IntegrationRuntimes {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -628,19 +628,19 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimesListByFactoryNextResponse>
    */
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimesListByFactoryNextResponse>;
+  listByFactoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimesListByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
+  listByFactoryNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeListResponse>): Promise<Models.IntegrationRuntimesListByFactoryNextResponse> {
+  listByFactoryNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): void;
+  listByFactoryNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeListResponse>): Promise<Models.IntegrationRuntimesListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -652,8 +652,8 @@ export class IntegrationRuntimes {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByFactoryOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByFactoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes",
   urlParameters: [
@@ -678,7 +678,7 @@ const listByFactoryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   urlParameters: [
@@ -712,7 +712,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   urlParameters: [
@@ -740,7 +740,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   urlParameters: [
@@ -773,7 +773,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   urlParameters: [
@@ -798,7 +798,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getStatusOperationSpec: msRest.OperationSpec = {
+const getStatusOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
   urlParameters: [
@@ -824,7 +824,7 @@ const getStatusOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getConnectionInfoOperationSpec: msRest.OperationSpec = {
+const getConnectionInfoOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getConnectionInfo",
   urlParameters: [
@@ -850,7 +850,7 @@ const getConnectionInfoOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const regenerateAuthKeyOperationSpec: msRest.OperationSpec = {
+const regenerateAuthKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
   urlParameters: [
@@ -883,7 +883,7 @@ const regenerateAuthKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAuthKeysOperationSpec: msRest.OperationSpec = {
+const listAuthKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
   urlParameters: [
@@ -909,7 +909,7 @@ const listAuthKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const syncCredentialsOperationSpec: msRest.OperationSpec = {
+const syncCredentialsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
   urlParameters: [
@@ -933,7 +933,7 @@ const syncCredentialsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getMonitoringDataOperationSpec: msRest.OperationSpec = {
+const getMonitoringDataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
   urlParameters: [
@@ -959,7 +959,7 @@ const getMonitoringDataOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const upgradeOperationSpec: msRest.OperationSpec = {
+const upgradeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/upgrade",
   urlParameters: [
@@ -983,7 +983,7 @@ const upgradeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const removeLinksOperationSpec: msRest.OperationSpec = {
+const removeLinksOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/removeLinks",
   urlParameters: [
@@ -1014,7 +1014,7 @@ const removeLinksOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createLinkedIntegrationRuntimeOperationSpec: msRest.OperationSpec = {
+const createLinkedIntegrationRuntimeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/linkedIntegrationRuntime",
   urlParameters: [
@@ -1047,7 +1047,7 @@ const createLinkedIntegrationRuntimeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStartOperationSpec: msRest.OperationSpec = {
+const beginStartOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/start",
   urlParameters: [
@@ -1074,7 +1074,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStopOperationSpec: msRest.OperationSpec = {
+const beginStopOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/stop",
   urlParameters: [
@@ -1099,7 +1099,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByFactoryNextOperationSpec: msRest.OperationSpec = {
+const listByFactoryNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
