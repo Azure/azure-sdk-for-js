@@ -21,7 +21,7 @@
 
 /sdk/identity/ @daviwil
 /sdk/keyvault/ @jonathandturner @sadasant
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
 
 # Management Plane
 /**/*Management*.ts @yaohaizh

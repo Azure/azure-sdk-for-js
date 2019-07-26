@@ -1,11 +1,12 @@
 import * as assert from "assert";
 
+import { BlobSASPermissions, BlockBlobURL, generateBlobSASQueryParameters, SharedKeyCredential } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
-import { getBSU } from "../utils";
-import { record, delay } from "../utils/recorder";
+import { bodyToString, getBSU } from "../utils";
+import { delay, record } from "../utils/recorder";
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
@@ -101,5 +102,39 @@ describe("PageBlobURL", () => {
 
     const pageBlobProperties = await destPageBlobURL.getProperties(Aborter.none);
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
+  });
+
+  it("uploadPagesFromURL", async () => {
+    await pageBlobURL.create(Aborter.none, 1024);
+
+    const result = await blobURL.download(Aborter.none, 0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blockBlobName);
+    await blockBlobURL.upload(Aborter.none, content, content.length);
+
+    // Get a SAS for blobURL
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      blobURL.pipeline.factories[blobURL.pipeline.factories.length - 1] as SharedKeyCredential
+    );
+
+    await pageBlobURL.uploadPagesFromURL(Aborter.none, `${blockBlobURL.url}?${sas}`, 0, 0, 512);
+    await pageBlobURL.uploadPagesFromURL(Aborter.none, `${blockBlobURL.url}?${sas}`, 512, 512, 512);
+
+    const page1 = await pageBlobURL.download(Aborter.none, 0, 512);
+    const page2 = await pageBlobURL.download(Aborter.none, 512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 });

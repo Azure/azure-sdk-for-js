@@ -1,10 +1,10 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
-import { PageBlob } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
@@ -22,6 +22,12 @@ export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+}
+
+export interface IPageBlobUploadPagesFromURLOptions {
+  accessConditions?: IPageBlobAccessConditions;
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceContentMD5?: Uint8Array;
 }
 
 export interface IPageBlobClearPagesOptions {
@@ -185,7 +191,7 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of body, also how many bytes to be uploaded
+   * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
@@ -207,6 +213,53 @@ export class PageBlobURL extends BlobURL {
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
       transactionalContentMD5: options.transactionalContentMD5
     });
+  }
+
+  /**
+   * The Upload Pages operation writes a range of pages to a page blob where the
+   * contents are read from a URL.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
+   * @param {number} destOffset Offset of destination page blob
+   * @param {number} count Number of bytes to be uploaded from source page blob
+   * @param {IPageBlobUploadPagesFromURLOptions} [options={}]
+   * @returns {Promise<Models.PageBlobUploadPagesFromURLResponse>}
+   * @memberof PageBlobURL
+   */
+  public async uploadPagesFromURL(
+    aborter: Aborter,
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number,
+    options: IPageBlobUploadPagesFromURLOptions = {}
+  ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+    options.accessConditions = options.accessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+
+    return this.pageBlobContext.uploadPagesFromURL(
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      rangeToString({ offset: destOffset, count }),
+      {
+        abortSignal: aborter,
+        sourceContentMD5: options.sourceContentMD5,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        }
+      }
+    );
   }
 
   /**
