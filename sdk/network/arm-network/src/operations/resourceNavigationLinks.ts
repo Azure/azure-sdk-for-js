@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceNavigationLinksMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class ResourceNavigationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceNavigationLinksListResponse>
    */
-  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceNavigationLinksListResponse>;
+  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ResourceNavigationLinksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, callback: msRest.ServiceCallback<Models.ResourceNavigationLinksListResult>): void;
+  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, callback: coreHttp.ServiceCallback<Models.ResourceNavigationLinksListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -49,8 +49,8 @@ export class ResourceNavigationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNavigationLinksListResult>): void;
-  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNavigationLinksListResult>, callback?: msRest.ServiceCallback<Models.ResourceNavigationLinksListResult>): Promise<Models.ResourceNavigationLinksListResponse> {
+  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceNavigationLinksListResult>): void;
+  list(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceNavigationLinksListResult>, callback?: coreHttp.ServiceCallback<Models.ResourceNavigationLinksListResult>): Promise<Models.ResourceNavigationLinksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,8 +64,8 @@ export class ResourceNavigationLinks {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks",
   urlParameters: [

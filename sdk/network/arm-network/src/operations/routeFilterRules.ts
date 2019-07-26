@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/routeFilterRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,9 +33,9 @@ export class RouteFilterRules {
    * @param routeFilterName The name of the route filter.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,routeFilterName,ruleName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -48,14 +48,14 @@ export class RouteFilterRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteFilterRulesGetResponse>
    */
-  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesGetResponse>;
+  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteFilterRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeFilterName: string, ruleName: string, callback: msRest.ServiceCallback<Models.RouteFilterRule>): void;
+  get(resourceGroupName: string, routeFilterName: string, ruleName: string, callback: coreHttp.ServiceCallback<Models.RouteFilterRule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
@@ -63,8 +63,8 @@ export class RouteFilterRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRule>): void;
-  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRule>, callback?: msRest.ServiceCallback<Models.RouteFilterRule>): Promise<Models.RouteFilterRulesGetResponse> {
+  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteFilterRule>): void;
+  get(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteFilterRule>, callback?: coreHttp.ServiceCallback<Models.RouteFilterRule>): Promise<Models.RouteFilterRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class RouteFilterRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteFilterRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.RouteFilterRule, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.RouteFilterRule, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteFilterRulesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,routeFilterName,ruleName,routeFilterRuleParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteFilterRulesCreateOrUpdateResponse>;
   }
@@ -100,7 +100,7 @@ export class RouteFilterRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteFilterRulesUpdateResponse>
    */
-  update(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesUpdateResponse> {
+  update(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteFilterRulesUpdateResponse> {
     return this.beginUpdate(resourceGroupName,routeFilterName,ruleName,routeFilterRuleParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteFilterRulesUpdateResponse>;
   }
@@ -112,21 +112,21 @@ export class RouteFilterRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteFilterRulesListByRouteFilterResponse>
    */
-  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesListByRouteFilterResponse>;
+  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteFilterRulesListByRouteFilterResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
    * @param callback The callback
    */
-  listByRouteFilter(resourceGroupName: string, routeFilterName: string, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
+  listByRouteFilter(resourceGroupName: string, routeFilterName: string, callback: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
-  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterResponse> {
+  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): void;
+  listByRouteFilter(resourceGroupName: string, routeFilterName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,9 +143,9 @@ export class RouteFilterRules {
    * @param routeFilterName The name of the route filter.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, routeFilterName: string, ruleName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -165,9 +165,9 @@ export class RouteFilterRules {
    * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.RouteFilterRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.RouteFilterRule, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,9 +187,9 @@ export class RouteFilterRules {
    * @param ruleName The name of the route filter rule.
    * @param routeFilterRuleParameters Parameters supplied to the update route filter rule operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, routeFilterName: string, ruleName: string, routeFilterRuleParameters: Models.PatchRouteFilterRule, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -208,19 +208,19 @@ export class RouteFilterRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteFilterRulesListByRouteFilterNextResponse>
    */
-  listByRouteFilterNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse>;
+  listByRouteFilterNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByRouteFilterNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
+  listByRouteFilterNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRouteFilterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): void;
-  listByRouteFilterNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse> {
+  listByRouteFilterNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): void;
+  listByRouteFilterNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>, callback?: coreHttp.ServiceCallback<Models.RouteFilterRuleListResult>): Promise<Models.RouteFilterRulesListByRouteFilterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -232,8 +232,8 @@ export class RouteFilterRules {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
   urlParameters: [
@@ -259,7 +259,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByRouteFilterOperationSpec: msRest.OperationSpec = {
+const listByRouteFilterOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
   urlParameters: [
@@ -284,7 +284,7 @@ const listByRouteFilterOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
   urlParameters: [
@@ -310,7 +310,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
   urlParameters: [
@@ -346,7 +346,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
   urlParameters: [
@@ -379,7 +379,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByRouteFilterNextOperationSpec: msRest.OperationSpec = {
+const listByRouteFilterNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

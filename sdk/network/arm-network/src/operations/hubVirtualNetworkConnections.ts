@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/hubVirtualNetworkConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsGetResponse>
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
+  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param connectionName The name of the vpn connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
+  get(resourceGroupName: string, virtualHubName: string, connectionName: string, callback: coreHttp.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -49,8 +49,8 @@ export class HubVirtualNetworkConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubVirtualNetworkConnection>, callback?: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
+  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
+  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.HubVirtualNetworkConnection>, callback?: coreHttp.ServiceCallback<Models.HubVirtualNetworkConnection>): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,21 +69,21 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsListResponse>
    */
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListResponse>;
+  list(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  list(resourceGroupName: string, virtualHubName: string, callback: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
+  list(resourceGroupName: string, virtualHubName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  list(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,19 +100,19 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: coreHttp.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -124,8 +124,8 @@ export class HubVirtualNetworkConnections {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
   urlParameters: [
@@ -151,7 +151,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections",
   urlParameters: [
@@ -176,7 +176,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

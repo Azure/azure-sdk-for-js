@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/azureFirewallFqdnTagsMappers";
 import * as Parameters from "../models/parameters";
@@ -31,17 +31,17 @@ export class AzureFirewallFqdnTags {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallFqdnTagsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallFqdnTagsListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.AzureFirewallFqdnTagsListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -56,19 +56,19 @@ export class AzureFirewallFqdnTags {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallFqdnTagsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>, callback?: coreHttp.ServiceCallback<Models.AzureFirewallFqdnTagListResult>): Promise<Models.AzureFirewallFqdnTagsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -80,8 +80,8 @@ export class AzureFirewallFqdnTags {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listAllOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
   urlParameters: [
@@ -104,7 +104,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualNetworksMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class VirtualNetworks {
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualNetworkName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,virtualNetworkName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class VirtualNetworks {
    * @param virtualNetworkName The name of the virtual network.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkName: string, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
+  get(resourceGroupName: string, virtualNetworkName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetwork>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkName: string, options: Models.VirtualNetworksGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
-  get(resourceGroupName: string, virtualNetworkName: string, options?: Models.VirtualNetworksGetOptionalParams | msRest.ServiceCallback<Models.VirtualNetwork>, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
+  get(resourceGroupName: string, virtualNetworkName: string, options: Models.VirtualNetworksGetOptionalParams, callback: coreHttp.ServiceCallback<Models.VirtualNetwork>): void;
+  get(resourceGroupName: string, virtualNetworkName: string, options?: Models.VirtualNetworksGetOptionalParams | coreHttp.ServiceCallback<Models.VirtualNetwork>, callback?: coreHttp.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, parameters: Models.VirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, parameters: Models.VirtualNetwork, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworksCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualNetworkName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, virtualNetworkName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,virtualNetworkName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworksUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,14 +157,14 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse>
    */
-  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse>;
+  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param ipAddress The private IP address to be verified.
    * @param callback The callback
    */
-  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, callback: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
+  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, callback: coreHttp.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -172,8 +172,8 @@ export class VirtualNetworks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
-  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IPAddressAvailabilityResult>, callback?: msRest.ServiceCallback<Models.IPAddressAvailabilityResult>): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse> {
+  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IPAddressAvailabilityResult>): void;
+  checkIPAddressAvailability(resourceGroupName: string, virtualNetworkName: string, ipAddress: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IPAddressAvailabilityResult>, callback?: coreHttp.ServiceCallback<Models.IPAddressAvailabilityResult>): Promise<Models.VirtualNetworksCheckIPAddressAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,21 +192,21 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListUsageResponse>
    */
-  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListUsageResponse>;
+  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListUsageResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param callback The callback
    */
-  listUsage(resourceGroupName: string, virtualNetworkName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
+  listUsage(resourceGroupName: string, virtualNetworkName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsage(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
-  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageResponse> {
+  listUsage(resourceGroupName: string, virtualNetworkName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
+  listUsage(resourceGroupName: string, virtualNetworkName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -222,9 +222,9 @@ export class VirtualNetworks {
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualNetworkName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -241,9 +241,9 @@ export class VirtualNetworks {
    * @param virtualNetworkName The name of the virtual network.
    * @param parameters Parameters supplied to the create or update virtual network operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, parameters: Models.VirtualNetwork, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, parameters: Models.VirtualNetwork, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -261,9 +261,9 @@ export class VirtualNetworks {
    * @param virtualNetworkName The name of the virtual network.
    * @param parameters Parameters supplied to update virtual network tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, virtualNetworkName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, virtualNetworkName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -281,19 +281,19 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -309,19 +309,19 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListResult>): Promise<Models.VirtualNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -337,19 +337,19 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListUsageNextResponse>
    */
-  listUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListUsageNextResponse>;
+  listUsageNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworksListUsageNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listUsageNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
+  listUsageNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
-  listUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageNextResponse> {
+  listUsageNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): void;
+  listUsageNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkListUsageResult>): Promise<Models.VirtualNetworksListUsageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -361,8 +361,8 @@ export class VirtualNetworks {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
   urlParameters: [
@@ -388,7 +388,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks",
   urlParameters: [
@@ -411,7 +411,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
   urlParameters: [
@@ -435,7 +435,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkIPAddressAvailabilityOperationSpec: msRest.OperationSpec = {
+const checkIPAddressAvailabilityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability",
   urlParameters: [
@@ -461,7 +461,7 @@ const checkIPAddressAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listUsageOperationSpec: msRest.OperationSpec = {
+const listUsageOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages",
   urlParameters: [
@@ -486,7 +486,7 @@ const listUsageOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
   urlParameters: [
@@ -511,7 +511,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
   urlParameters: [
@@ -546,7 +546,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
   urlParameters: [
@@ -578,7 +578,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -599,7 +599,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -620,7 +620,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listUsageNextOperationSpec: msRest.OperationSpec = {
+const listUsageNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

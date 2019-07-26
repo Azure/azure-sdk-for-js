@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/bgpServiceCommunitiesMappers";
 import * as Parameters from "../models/parameters";
@@ -31,17 +31,17 @@ export class BgpServiceCommunities {
    * @param [options] The optional parameters
    * @returns Promise<Models.BgpServiceCommunitiesListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.BgpServiceCommunitiesListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.BgpServiceCommunitiesListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -56,19 +56,19 @@ export class BgpServiceCommunities {
    * @param [options] The optional parameters
    * @returns Promise<Models.BgpServiceCommunitiesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BgpServiceCommunitiesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BgpServiceCommunitiesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: msRest.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>, callback?: coreHttp.ServiceCallback<Models.BgpServiceCommunityListResult>): Promise<Models.BgpServiceCommunitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -80,8 +80,8 @@ export class BgpServiceCommunities {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities",
   urlParameters: [
@@ -104,7 +104,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -22,8 +22,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   applicationSecurityGroups: operations.ApplicationSecurityGroups;
   availableDelegations: operations.AvailableDelegations;
   availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
-  availablePrivateEndpointTypes: operations.AvailablePrivateEndpointTypes;
-  availableResourceGroupPrivateEndpointTypes: operations.AvailableResourceGroupPrivateEndpointTypes;
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
   bastionHosts: operations.BastionHosts;
@@ -43,8 +41,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRoutePortsLocations: operations.ExpressRoutePortsLocations;
   expressRoutePorts: operations.ExpressRoutePorts;
   expressRouteLinks: operations.ExpressRouteLinks;
-  privateEndpoints: operations.PrivateEndpoints;
-  privateLinkServices: operations.PrivateLinkServices;
   loadBalancers: operations.LoadBalancers;
   loadBalancerBackendAddressPools: operations.LoadBalancerBackendAddressPools;
   loadBalancerFrontendIPConfigurations: operations.LoadBalancerFrontendIPConfigurations;
@@ -66,6 +62,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   packetCaptures: operations.PacketCaptures;
   connectionMonitors: operations.ConnectionMonitors;
   operations: operations.Operations;
+  privateEndpoints: operations.PrivateEndpoints;
+  availablePrivateEndpointTypes: operations.AvailablePrivateEndpointTypes;
+  privateLinkServices: operations.PrivateLinkServices;
   publicIPAddresses: operations.PublicIPAddresses;
   publicIPPrefixes: operations.PublicIPPrefixes;
   routeFilters: operations.RouteFilters;
@@ -88,11 +87,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualWans: operations.VirtualWans;
   vpnSites: operations.VpnSites;
+  vpnSiteLinks: operations.VpnSiteLinks;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
   virtualHubs: operations.VirtualHubs;
   hubVirtualNetworkConnections: operations.HubVirtualNetworkConnections;
   vpnGateways: operations.VpnGateways;
   vpnConnections: operations.VpnConnections;
+  vpnSiteLinkConnections: operations.VpnSiteLinkConnections;
+  vpnLinkConnections: operations.VpnLinkConnections;
   p2sVpnServerConfigurations: operations.P2sVpnServerConfigurations;
   p2sVpnGateways: operations.P2sVpnGateways;
   webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
@@ -104,14 +106,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.NetworkManagementClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.NetworkManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.applicationGateways = new operations.ApplicationGateways(this);
     this.applicationSecurityGroups = new operations.ApplicationSecurityGroups(this);
     this.availableDelegations = new operations.AvailableDelegations(this);
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
-    this.availablePrivateEndpointTypes = new operations.AvailablePrivateEndpointTypes(this);
-    this.availableResourceGroupPrivateEndpointTypes = new operations.AvailableResourceGroupPrivateEndpointTypes(this);
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
     this.bastionHosts = new operations.BastionHosts(this);
@@ -131,8 +131,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRoutePortsLocations = new operations.ExpressRoutePortsLocations(this);
     this.expressRoutePorts = new operations.ExpressRoutePorts(this);
     this.expressRouteLinks = new operations.ExpressRouteLinks(this);
-    this.privateEndpoints = new operations.PrivateEndpoints(this);
-    this.privateLinkServices = new operations.PrivateLinkServices(this);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
     this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
@@ -154,6 +152,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.packetCaptures = new operations.PacketCaptures(this);
     this.connectionMonitors = new operations.ConnectionMonitors(this);
     this.operations = new operations.Operations(this);
+    this.privateEndpoints = new operations.PrivateEndpoints(this);
+    this.availablePrivateEndpointTypes = new operations.AvailablePrivateEndpointTypes(this);
+    this.privateLinkServices = new operations.PrivateLinkServices(this);
     this.publicIPAddresses = new operations.PublicIPAddresses(this);
     this.publicIPPrefixes = new operations.PublicIPPrefixes(this);
     this.routeFilters = new operations.RouteFilters(this);
@@ -176,11 +177,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualWans = new operations.VirtualWans(this);
     this.vpnSites = new operations.VpnSites(this);
+    this.vpnSiteLinks = new operations.VpnSiteLinks(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);
     this.virtualHubs = new operations.VirtualHubs(this);
     this.hubVirtualNetworkConnections = new operations.HubVirtualNetworkConnections(this);
     this.vpnGateways = new operations.VpnGateways(this);
     this.vpnConnections = new operations.VpnConnections(this);
+    this.vpnSiteLinkConnections = new operations.VpnSiteLinkConnections(this);
+    this.vpnLinkConnections = new operations.VpnLinkConnections(this);
     this.p2sVpnServerConfigurations = new operations.P2sVpnServerConfigurations(this);
     this.p2sVpnGateways = new operations.P2sVpnGateways(this);
     this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
@@ -194,14 +198,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckDnsNameAvailabilityResponse>
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckDnsNameAvailabilityResponse>;
+  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CheckDnsNameAvailabilityResponse>;
   /**
    * @param location The location of the domain name.
    * @param domainNameLabel The domain name to be verified. It must conform to the following regular
    * expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
    * @param callback The callback
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
+  checkDnsNameAvailability(location: string, domainNameLabel: string, callback: coreHttp.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
   /**
    * @param location The location of the domain name.
    * @param domainNameLabel The domain name to be verified. It must conform to the following regular
@@ -209,8 +213,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
+  checkDnsNameAvailability(location: string, domainNameLabel: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
+  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DnsNameAvailabilityResult>, callback?: coreHttp.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -229,14 +233,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SupportedSecurityProvidersResponse>
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<Models.SupportedSecurityProvidersResponse>;
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SupportedSecurityProvidersResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param virtualWANName The name of the VirtualWAN for which supported security providers are
    * needed.
    * @param callback The callback
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, callback: coreHttp.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param virtualWANName The name of the VirtualWAN for which supported security providers are
@@ -244,8 +248,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWanSecurityProviders>, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
+  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualWanSecurityProviders>, callback?: coreHttp.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -258,8 +262,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const checkDnsNameAvailabilityOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const checkDnsNameAvailabilityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
   urlParameters: [
@@ -284,7 +288,7 @@ const checkDnsNameAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const supportedSecurityProvidersOperationSpec: msRest.OperationSpec = {
+const supportedSecurityProvidersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
   urlParameters: [

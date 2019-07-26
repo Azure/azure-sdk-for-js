@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/loadBalancerProbesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,21 +33,21 @@ export class LoadBalancerProbes {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancerProbesListResponse>
    */
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancerProbesListResponse>;
+  list(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancerProbesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param callback The callback
    */
-  list(resourceGroupName: string, loadBalancerName: string, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
+  list(resourceGroupName: string, loadBalancerName: string, callback: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
+  list(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,14 +66,14 @@ export class LoadBalancerProbes {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancerProbesGetResponse>
    */
-  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancerProbesGetResponse>;
+  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancerProbesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param probeName The name of the probe.
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, probeName: string, callback: msRest.ServiceCallback<Models.Probe>): void;
+  get(resourceGroupName: string, loadBalancerName: string, probeName: string, callback: coreHttp.ServiceCallback<Models.Probe>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
@@ -81,8 +81,8 @@ export class LoadBalancerProbes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Probe>): void;
-  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Probe>, callback?: msRest.ServiceCallback<Models.Probe>): Promise<Models.LoadBalancerProbesGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Probe>): void;
+  get(resourceGroupName: string, loadBalancerName: string, probeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Probe>, callback?: coreHttp.ServiceCallback<Models.Probe>): Promise<Models.LoadBalancerProbesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,19 +100,19 @@ export class LoadBalancerProbes {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancerProbesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancerProbesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancerProbesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerProbeListResult>): Promise<Models.LoadBalancerProbesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -124,8 +124,8 @@ export class LoadBalancerProbes {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes",
   urlParameters: [
@@ -150,7 +150,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}",
   urlParameters: [
@@ -176,7 +176,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

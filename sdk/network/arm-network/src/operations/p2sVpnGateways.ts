@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/p2sVpnGatewaysMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysGetResponse>
    */
-  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGetResponse>;
+  get(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, callback: msRest.ServiceCallback<Models.P2SVpnGateway>): void;
+  get(resourceGroupName: string, gatewayName: string, callback: coreHttp.ServiceCallback<Models.P2SVpnGateway>): void;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.P2SVpnGateway>): void;
-  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.P2SVpnGateway>, callback?: msRest.ServiceCallback<Models.P2SVpnGateway>): Promise<Models.P2sVpnGatewaysGetResponse> {
+  get(resourceGroupName: string, gatewayName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.P2SVpnGateway>): void;
+  get(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.P2SVpnGateway>, callback?: coreHttp.ServiceCallback<Models.P2SVpnGateway>): Promise<Models.P2sVpnGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +68,7 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.P2SVpnGateway, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.P2SVpnGateway, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,gatewayName,p2SVpnGatewayParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysCreateOrUpdateResponse>;
   }
@@ -81,7 +81,7 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,gatewayName,p2SVpnGatewayParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysUpdateTagsResponse>;
   }
@@ -91,9 +91,9 @@ export class P2sVpnGateways {
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,gatewayName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -104,19 +104,19 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,17 +131,17 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -159,7 +159,7 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysGenerateVpnProfileResponse>
    */
-  generateVpnProfile(resourceGroupName: string, gatewayName: string, parameters: Models.P2SVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGenerateVpnProfileResponse> {
+  generateVpnProfile(resourceGroupName: string, gatewayName: string, parameters: Models.P2SVpnProfileParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGenerateVpnProfileResponse> {
     return this.beginGenerateVpnProfile(resourceGroupName,gatewayName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysGenerateVpnProfileResponse>;
   }
@@ -172,7 +172,7 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse>
    */
-  getP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse> {
+  getP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse> {
     return this.beginGetP2sVpnConnectionHealth(resourceGroupName,gatewayName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse>;
   }
@@ -184,9 +184,9 @@ export class P2sVpnGateways {
    * @param p2SVpnGatewayParameters Parameters supplied to create or Update a virtual wan p2s vpn
    * gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.P2SVpnGateway, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.P2SVpnGateway, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,9 +204,9 @@ export class P2sVpnGateways {
    * @param gatewayName The name of the gateway.
    * @param p2SVpnGatewayParameters Parameters supplied to update a virtual wan p2s vpn gateway tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -223,9 +223,9 @@ export class P2sVpnGateways {
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -243,9 +243,9 @@ export class P2sVpnGateways {
    * @param parameters Parameters supplied to the generate P2SVpnGateway VPN client package
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGenerateVpnProfile(resourceGroupName: string, gatewayName: string, parameters: Models.P2SVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGenerateVpnProfile(resourceGroupName: string, gatewayName: string, parameters: Models.P2SVpnProfileParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -263,9 +263,9 @@ export class P2sVpnGateways {
    * @param resourceGroupName The name of the resource group.
    * @param gatewayName The name of the P2SVpnGateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -282,19 +282,19 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -310,19 +310,19 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnGatewaysListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnGatewaysResult>): Promise<Models.P2sVpnGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -334,8 +334,8 @@ export class P2sVpnGateways {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
   urlParameters: [
@@ -360,7 +360,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways",
   urlParameters: [
@@ -384,7 +384,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways",
   urlParameters: [
@@ -407,7 +407,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
   urlParameters: [
@@ -442,7 +442,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
   urlParameters: [
@@ -477,7 +477,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
   urlParameters: [
@@ -502,7 +502,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGenerateVpnProfileOperationSpec: msRest.OperationSpec = {
+const beginGenerateVpnProfileOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile",
   urlParameters: [
@@ -535,7 +535,7 @@ const beginGenerateVpnProfileOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetP2sVpnConnectionHealthOperationSpec: msRest.OperationSpec = {
+const beginGetP2sVpnConnectionHealthOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth",
   urlParameters: [
@@ -561,7 +561,7 @@ const beginGetP2sVpnConnectionHealthOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -582,7 +582,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/vpnGatewaysMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysGetResponse>
    */
-  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysGetResponse>;
+  get(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, callback: msRest.ServiceCallback<Models.VpnGateway>): void;
+  get(resourceGroupName: string, gatewayName: string, callback: coreHttp.ServiceCallback<Models.VpnGateway>): void;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnGateway>): void;
-  get(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnGateway>, callback?: msRest.ServiceCallback<Models.VpnGateway>): Promise<Models.VpnGatewaysGetResponse> {
+  get(resourceGroupName: string, gatewayName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VpnGateway>): void;
+  get(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VpnGateway>, callback?: coreHttp.ServiceCallback<Models.VpnGateway>): Promise<Models.VpnGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.VpnGateway, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.VpnGateway, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,gatewayName,vpnGatewayParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VpnGatewaysCreateOrUpdateResponse>;
   }
@@ -80,7 +80,7 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,gatewayName,vpnGatewayParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VpnGatewaysUpdateTagsResponse>;
   }
@@ -90,9 +90,9 @@ export class VpnGateways {
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,gatewayName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -104,7 +104,7 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysResetResponse>
    */
-  reset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysResetResponse> {
+  reset(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysResetResponse> {
     return this.beginReset(resourceGroupName,gatewayName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VpnGatewaysResetResponse>;
   }
@@ -115,19 +115,19 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,17 +142,17 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -167,9 +167,9 @@ export class VpnGateways {
    * @param gatewayName The name of the gateway.
    * @param vpnGatewayParameters Parameters supplied to create or Update a virtual wan vpn gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.VpnGateway, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.VpnGateway, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,9 +187,9 @@ export class VpnGateways {
    * @param gatewayName The name of the gateway.
    * @param vpnGatewayParameters Parameters supplied to update a virtual wan vpn gateway tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, gatewayName: string, vpnGatewayParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -206,9 +206,9 @@ export class VpnGateways {
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -224,9 +224,9 @@ export class VpnGateways {
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginReset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReset(resourceGroupName: string, gatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -243,19 +243,19 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -271,19 +271,19 @@ export class VpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnGatewaysListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VpnGatewaysListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: msRest.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>, callback?: coreHttp.ServiceCallback<Models.ListVpnGatewaysResult>): Promise<Models.VpnGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -295,8 +295,8 @@ export class VpnGateways {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
   urlParameters: [
@@ -321,7 +321,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways",
   urlParameters: [
@@ -345,7 +345,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways",
   urlParameters: [
@@ -368,7 +368,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
   urlParameters: [
@@ -403,7 +403,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
   urlParameters: [
@@ -438,7 +438,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
   urlParameters: [
@@ -463,7 +463,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginResetOperationSpec: msRest.OperationSpec = {
+const beginResetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset",
   urlParameters: [
@@ -489,7 +489,7 @@ const beginResetOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -510,7 +510,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

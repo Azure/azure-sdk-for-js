@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCircuitConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,9 +34,9 @@ export class ExpressRouteCircuitConnections {
    * @param peeringName The name of the peering.
    * @param connectionName The name of the express route circuit connection.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,circuitName,peeringName,connectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -50,7 +50,7 @@ export class ExpressRouteCircuitConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitConnectionsGetResponse>
    */
-  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsGetResponse>;
+  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
@@ -58,7 +58,7 @@ export class ExpressRouteCircuitConnections {
    * @param connectionName The name of the express route circuit connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): void;
+  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
@@ -67,8 +67,8 @@ export class ExpressRouteCircuitConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): void;
-  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnection>): Promise<Models.ExpressRouteCircuitConnectionsGetResponse> {
+  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnection>): void;
+  get(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnection>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnection>): Promise<Models.ExpressRouteCircuitConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class ExpressRouteCircuitConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, expressRouteCircuitConnectionParameters: Models.ExpressRouteCircuitConnection, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, expressRouteCircuitConnectionParameters: Models.ExpressRouteCircuitConnection, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,circuitName,peeringName,connectionName,expressRouteCircuitConnectionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitConnectionsCreateOrUpdateResponse>;
   }
@@ -105,14 +105,14 @@ export class ExpressRouteCircuitConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitConnectionsListResponse>
    */
-  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListResponse>;
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  list(resourceGroupName: string, circuitName: string, peeringName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  list(resourceGroupName: string, circuitName: string, peeringName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
@@ -120,8 +120,8 @@ export class ExpressRouteCircuitConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, circuitName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
-  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListResponse> {
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  list(resourceGroupName: string, circuitName: string, peeringName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,9 +140,9 @@ export class ExpressRouteCircuitConnections {
    * @param peeringName The name of the peering.
    * @param connectionName The name of the express route circuit connection.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,9 +164,9 @@ export class ExpressRouteCircuitConnections {
    * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update
    * express route circuit connection operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, expressRouteCircuitConnectionParameters: Models.ExpressRouteCircuitConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, circuitName: string, peeringName: string, connectionName: string, expressRouteCircuitConnectionParameters: Models.ExpressRouteCircuitConnection, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -186,19 +186,19 @@ export class ExpressRouteCircuitConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCircuitConnectionListResult>): Promise<Models.ExpressRouteCircuitConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -210,8 +210,8 @@ export class ExpressRouteCircuitConnections {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
   urlParameters: [
@@ -238,7 +238,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections",
   urlParameters: [
@@ -264,7 +264,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
   urlParameters: [
@@ -291,7 +291,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
   urlParameters: [
@@ -328,7 +328,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/networkSecurityGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class NetworkSecurityGroups {
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, networkSecurityGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,networkSecurityGroupName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class NetworkSecurityGroups {
    * @param networkSecurityGroupName The name of the network security group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkSecurityGroupName: string, callback: msRest.ServiceCallback<Models.NetworkSecurityGroup>): void;
+  get(resourceGroupName: string, networkSecurityGroupName: string, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkSecurityGroupName: string, options: Models.NetworkSecurityGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.NetworkSecurityGroup>): void;
-  get(resourceGroupName: string, networkSecurityGroupName: string, options?: Models.NetworkSecurityGroupsGetOptionalParams | msRest.ServiceCallback<Models.NetworkSecurityGroup>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroup>): Promise<Models.NetworkSecurityGroupsGetResponse> {
+  get(resourceGroupName: string, networkSecurityGroupName: string, options: Models.NetworkSecurityGroupsGetOptionalParams, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroup>): void;
+  get(resourceGroupName: string, networkSecurityGroupName: string, options?: Models.NetworkSecurityGroupsGetOptionalParams | coreHttp.ServiceCallback<Models.NetworkSecurityGroup>, callback?: coreHttp.ServiceCallback<Models.NetworkSecurityGroup>): Promise<Models.NetworkSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.NetworkSecurityGroup, options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.NetworkSecurityGroup, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,networkSecurityGroupName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkSecurityGroupsCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,networkSecurityGroupName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkSecurityGroupsUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,9 +154,9 @@ export class NetworkSecurityGroups {
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, networkSecurityGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -173,9 +173,9 @@ export class NetworkSecurityGroups {
    * @param networkSecurityGroupName The name of the network security group.
    * @param parameters Parameters supplied to the create or update network security group operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.NetworkSecurityGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.NetworkSecurityGroup, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,9 +193,9 @@ export class NetworkSecurityGroups {
    * @param networkSecurityGroupName The name of the network security group.
    * @param parameters Parameters supplied to update network security group tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, networkSecurityGroupName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class NetworkSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkSecurityGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkSecurityGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkSecurityGroupListResult>): Promise<Models.NetworkSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class NetworkSecurityGroups {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   urlParameters: [
@@ -292,7 +292,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups",
   urlParameters: [
@@ -315,7 +315,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups",
   urlParameters: [
@@ -339,7 +339,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   urlParameters: [
@@ -364,7 +364,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   urlParameters: [
@@ -399,7 +399,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   urlParameters: [
@@ -431,7 +431,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -452,7 +452,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

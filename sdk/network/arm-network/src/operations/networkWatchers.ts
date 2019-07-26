@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/networkWatchersMappers";
 import * as Parameters from "../models/parameters";
@@ -35,14 +35,14 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters that define the network watcher resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -50,8 +50,8 @@ export class NetworkWatchers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkWatcher, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkWatcher>, callback?: coreHttp.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,21 +70,21 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetResponse>
    */
-  get(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetResponse>;
+  get(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
+  get(resourceGroupName: string, networkWatcherName: string, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  get(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
+  get(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkWatcher>, callback?: coreHttp.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,9 +100,9 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,networkWatcherName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -115,14 +115,14 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters supplied to update network watcher tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
+  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -130,8 +130,8 @@ export class NetworkWatchers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcher>): void;
-  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcher>, callback?: msRest.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkWatcher>): void;
+  updateTags(resourceGroupName: string, networkWatcherName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkWatcher>, callback?: coreHttp.ServiceCallback<Models.NetworkWatcher>): Promise<Models.NetworkWatchersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,19 +149,19 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcherListResult>, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkWatcherListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,17 +176,17 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkWatcherListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkWatcherListResult>, callback?: msRest.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkWatcherListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkWatcherListResult>): Promise<Models.NetworkWatchersListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -203,14 +203,14 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetTopologyResponse>
    */
-  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetTopologyResponse>;
+  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetTopologyResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters that define the representation of topology.
    * @param callback The callback
    */
-  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, callback: msRest.ServiceCallback<Models.Topology>): void;
+  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, callback: coreHttp.ServiceCallback<Models.Topology>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -218,8 +218,8 @@ export class NetworkWatchers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Topology>): void;
-  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Topology>, callback?: msRest.ServiceCallback<Models.Topology>): Promise<Models.NetworkWatchersGetTopologyResponse> {
+  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Topology>): void;
+  getTopology(resourceGroupName: string, networkWatcherName: string, parameters: Models.TopologyParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Topology>, callback?: coreHttp.ServiceCallback<Models.Topology>): Promise<Models.NetworkWatchersGetTopologyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +239,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersVerifyIPFlowResponse>
    */
-  verifyIPFlow(resourceGroupName: string, networkWatcherName: string, parameters: Models.VerificationIPFlowParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersVerifyIPFlowResponse> {
+  verifyIPFlow(resourceGroupName: string, networkWatcherName: string, parameters: Models.VerificationIPFlowParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersVerifyIPFlowResponse> {
     return this.beginVerifyIPFlow(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersVerifyIPFlowResponse>;
   }
@@ -252,7 +252,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetNextHopResponse>
    */
-  getNextHop(resourceGroupName: string, networkWatcherName: string, parameters: Models.NextHopParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetNextHopResponse> {
+  getNextHop(resourceGroupName: string, networkWatcherName: string, parameters: Models.NextHopParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetNextHopResponse> {
     return this.beginGetNextHop(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetNextHopResponse>;
   }
@@ -265,7 +265,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetVMSecurityRulesResponse>
    */
-  getVMSecurityRules(resourceGroupName: string, networkWatcherName: string, parameters: Models.SecurityGroupViewParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetVMSecurityRulesResponse> {
+  getVMSecurityRules(resourceGroupName: string, networkWatcherName: string, parameters: Models.SecurityGroupViewParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetVMSecurityRulesResponse> {
     return this.beginGetVMSecurityRules(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetVMSecurityRulesResponse>;
   }
@@ -278,7 +278,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetTroubleshootingResponse>
    */
-  getTroubleshooting(resourceGroupName: string, networkWatcherName: string, parameters: Models.TroubleshootingParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetTroubleshootingResponse> {
+  getTroubleshooting(resourceGroupName: string, networkWatcherName: string, parameters: Models.TroubleshootingParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetTroubleshootingResponse> {
     return this.beginGetTroubleshooting(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetTroubleshootingResponse>;
   }
@@ -291,7 +291,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetTroubleshootingResultResponse>
    */
-  getTroubleshootingResult(resourceGroupName: string, networkWatcherName: string, parameters: Models.QueryTroubleshootingParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetTroubleshootingResultResponse> {
+  getTroubleshootingResult(resourceGroupName: string, networkWatcherName: string, parameters: Models.QueryTroubleshootingParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetTroubleshootingResultResponse> {
     return this.beginGetTroubleshootingResult(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetTroubleshootingResultResponse>;
   }
@@ -304,7 +304,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersSetFlowLogConfigurationResponse>
    */
-  setFlowLogConfiguration(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogInformation, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersSetFlowLogConfigurationResponse> {
+  setFlowLogConfiguration(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogInformation, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersSetFlowLogConfigurationResponse> {
     return this.beginSetFlowLogConfiguration(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersSetFlowLogConfigurationResponse>;
   }
@@ -314,11 +314,11 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define a resource to query flow log and traffic analytics
-   * (optional)  status.
+   * (optional) status.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetFlowLogStatusResponse>
    */
-  getFlowLogStatus(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogStatusParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetFlowLogStatusResponse> {
+  getFlowLogStatus(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogStatusParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetFlowLogStatusResponse> {
     return this.beginGetFlowLogStatus(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetFlowLogStatusResponse>;
   }
@@ -332,7 +332,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersCheckConnectivityResponse>
    */
-  checkConnectivity(resourceGroupName: string, networkWatcherName: string, parameters: Models.ConnectivityParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersCheckConnectivityResponse> {
+  checkConnectivity(resourceGroupName: string, networkWatcherName: string, parameters: Models.ConnectivityParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersCheckConnectivityResponse> {
     return this.beginCheckConnectivity(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersCheckConnectivityResponse>;
   }
@@ -346,7 +346,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetAzureReachabilityReportResponse>
    */
-  getAzureReachabilityReport(resourceGroupName: string, networkWatcherName: string, parameters: Models.AzureReachabilityReportParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetAzureReachabilityReportResponse> {
+  getAzureReachabilityReport(resourceGroupName: string, networkWatcherName: string, parameters: Models.AzureReachabilityReportParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetAzureReachabilityReportResponse> {
     return this.beginGetAzureReachabilityReport(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetAzureReachabilityReportResponse>;
   }
@@ -359,7 +359,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersListAvailableProvidersResponse>
    */
-  listAvailableProviders(resourceGroupName: string, networkWatcherName: string, parameters: Models.AvailableProvidersListParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersListAvailableProvidersResponse> {
+  listAvailableProviders(resourceGroupName: string, networkWatcherName: string, parameters: Models.AvailableProvidersListParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersListAvailableProvidersResponse> {
     return this.beginListAvailableProviders(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersListAvailableProvidersResponse>;
   }
@@ -372,7 +372,7 @@ export class NetworkWatchers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetNetworkConfigurationDiagnosticResponse>
    */
-  getNetworkConfigurationDiagnostic(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkConfigurationDiagnosticParameters, options?: msRest.RequestOptionsBase): Promise<Models.NetworkWatchersGetNetworkConfigurationDiagnosticResponse> {
+  getNetworkConfigurationDiagnostic(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkConfigurationDiagnosticParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkWatchersGetNetworkConfigurationDiagnosticResponse> {
     return this.beginGetNetworkConfigurationDiagnostic(resourceGroupName,networkWatcherName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkWatchersGetNetworkConfigurationDiagnosticResponse>;
   }
@@ -382,9 +382,9 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -401,9 +401,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters that define the IP flow to be verified.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginVerifyIPFlow(resourceGroupName: string, networkWatcherName: string, parameters: Models.VerificationIPFlowParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginVerifyIPFlow(resourceGroupName: string, networkWatcherName: string, parameters: Models.VerificationIPFlowParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -421,9 +421,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters that define the source and destination endpoint.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetNextHop(resourceGroupName: string, networkWatcherName: string, parameters: Models.NextHopParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetNextHop(resourceGroupName: string, networkWatcherName: string, parameters: Models.NextHopParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -441,9 +441,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters that define the VM to check security groups for.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetVMSecurityRules(resourceGroupName: string, networkWatcherName: string, parameters: Models.SecurityGroupViewParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetVMSecurityRules(resourceGroupName: string, networkWatcherName: string, parameters: Models.SecurityGroupViewParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -461,9 +461,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to troubleshoot.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetTroubleshooting(resourceGroupName: string, networkWatcherName: string, parameters: Models.TroubleshootingParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetTroubleshooting(resourceGroupName: string, networkWatcherName: string, parameters: Models.TroubleshootingParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -481,9 +481,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to query the troubleshooting result.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetTroubleshootingResult(resourceGroupName: string, networkWatcherName: string, parameters: Models.QueryTroubleshootingParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetTroubleshootingResult(resourceGroupName: string, networkWatcherName: string, parameters: Models.QueryTroubleshootingParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -501,9 +501,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the configuration of flow log.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginSetFlowLogConfiguration(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogInformation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSetFlowLogConfiguration(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogInformation, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -520,11 +520,11 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define a resource to query flow log and traffic analytics
-   * (optional)  status.
+   * (optional) status.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetFlowLogStatus(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogStatusParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetFlowLogStatus(resourceGroupName: string, networkWatcherName: string, parameters: Models.FlowLogStatusParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -543,9 +543,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that determine how the connectivity check will be performed.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCheckConnectivity(resourceGroupName: string, networkWatcherName: string, parameters: Models.ConnectivityParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCheckConnectivity(resourceGroupName: string, networkWatcherName: string, parameters: Models.ConnectivityParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -564,9 +564,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that determine Azure reachability report configuration.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetAzureReachabilityReport(resourceGroupName: string, networkWatcherName: string, parameters: Models.AzureReachabilityReportParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetAzureReachabilityReport(resourceGroupName: string, networkWatcherName: string, parameters: Models.AzureReachabilityReportParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -584,9 +584,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that scope the list of available providers.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginListAvailableProviders(resourceGroupName: string, networkWatcherName: string, parameters: Models.AvailableProvidersListParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListAvailableProviders(resourceGroupName: string, networkWatcherName: string, parameters: Models.AvailableProvidersListParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -604,9 +604,9 @@ export class NetworkWatchers {
    * @param networkWatcherName The name of the network watcher.
    * @param parameters Parameters to get network configuration diagnostic.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetNetworkConfigurationDiagnostic(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkConfigurationDiagnosticParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetNetworkConfigurationDiagnostic(resourceGroupName: string, networkWatcherName: string, parameters: Models.NetworkConfigurationDiagnosticParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -620,8 +620,8 @@ export class NetworkWatchers {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
   urlParameters: [
@@ -656,7 +656,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
   urlParameters: [
@@ -681,7 +681,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateTagsOperationSpec: msRest.OperationSpec = {
+const updateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
   urlParameters: [
@@ -713,7 +713,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers",
   urlParameters: [
@@ -737,7 +737,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers",
   urlParameters: [
@@ -760,7 +760,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getTopologyOperationSpec: msRest.OperationSpec = {
+const getTopologyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology",
   urlParameters: [
@@ -792,7 +792,7 @@ const getTopologyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
   urlParameters: [
@@ -816,7 +816,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginVerifyIPFlowOperationSpec: msRest.OperationSpec = {
+const beginVerifyIPFlowOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify",
   urlParameters: [
@@ -851,7 +851,7 @@ const beginVerifyIPFlowOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetNextHopOperationSpec: msRest.OperationSpec = {
+const beginGetNextHopOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop",
   urlParameters: [
@@ -886,7 +886,7 @@ const beginGetNextHopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetVMSecurityRulesOperationSpec: msRest.OperationSpec = {
+const beginGetVMSecurityRulesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView",
   urlParameters: [
@@ -921,7 +921,7 @@ const beginGetVMSecurityRulesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetTroubleshootingOperationSpec: msRest.OperationSpec = {
+const beginGetTroubleshootingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot",
   urlParameters: [
@@ -956,7 +956,7 @@ const beginGetTroubleshootingOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetTroubleshootingResultOperationSpec: msRest.OperationSpec = {
+const beginGetTroubleshootingResultOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult",
   urlParameters: [
@@ -991,7 +991,7 @@ const beginGetTroubleshootingResultOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginSetFlowLogConfigurationOperationSpec: msRest.OperationSpec = {
+const beginSetFlowLogConfigurationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog",
   urlParameters: [
@@ -1026,7 +1026,7 @@ const beginSetFlowLogConfigurationOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetFlowLogStatusOperationSpec: msRest.OperationSpec = {
+const beginGetFlowLogStatusOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus",
   urlParameters: [
@@ -1061,7 +1061,7 @@ const beginGetFlowLogStatusOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCheckConnectivityOperationSpec: msRest.OperationSpec = {
+const beginCheckConnectivityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck",
   urlParameters: [
@@ -1096,7 +1096,7 @@ const beginCheckConnectivityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetAzureReachabilityReportOperationSpec: msRest.OperationSpec = {
+const beginGetAzureReachabilityReportOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport",
   urlParameters: [
@@ -1131,7 +1131,7 @@ const beginGetAzureReachabilityReportOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginListAvailableProvidersOperationSpec: msRest.OperationSpec = {
+const beginListAvailableProvidersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList",
   urlParameters: [
@@ -1166,7 +1166,7 @@ const beginListAvailableProvidersOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetNetworkConfigurationDiagnosticOperationSpec: msRest.OperationSpec = {
+const beginGetNetworkConfigurationDiagnosticOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic",
   urlParameters: [

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/p2sVpnServerConfigurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -35,14 +35,14 @@ export class P2sVpnServerConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnServerConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsGetResponse>;
+  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnServerConfiguration.
    * @param virtualWanName The name of the VirtualWan.
    * @param p2SVpnServerConfigurationName The name of the P2SVpnServerConfiguration.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, callback: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): void;
+  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, callback: coreHttp.ServiceCallback<Models.P2SVpnServerConfiguration>): void;
   /**
    * @param resourceGroupName The resource group name of the P2SVpnServerConfiguration.
    * @param virtualWanName The name of the VirtualWan.
@@ -50,8 +50,8 @@ export class P2sVpnServerConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): void;
-  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.P2SVpnServerConfiguration>, callback?: msRest.ServiceCallback<Models.P2SVpnServerConfiguration>): Promise<Models.P2sVpnServerConfigurationsGetResponse> {
+  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.P2SVpnServerConfiguration>): void;
+  get(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.P2SVpnServerConfiguration>, callback?: coreHttp.ServiceCallback<Models.P2SVpnServerConfiguration>): Promise<Models.P2sVpnServerConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +74,7 @@ export class P2sVpnServerConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnServerConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, p2SVpnServerConfigurationParameters: Models.P2SVpnServerConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, p2SVpnServerConfigurationParameters: Models.P2SVpnServerConfiguration, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualWanName,p2SVpnServerConfigurationName,p2SVpnServerConfigurationParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnServerConfigurationsCreateOrUpdateResponse>;
   }
@@ -85,9 +85,9 @@ export class P2sVpnServerConfigurations {
    * @param virtualWanName The name of the VirtualWan.
    * @param p2SVpnServerConfigurationName The name of the P2SVpnServerConfiguration.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,virtualWanName,p2SVpnServerConfigurationName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -99,21 +99,21 @@ export class P2sVpnServerConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse>
    */
-  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse>;
+  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWanName The name of the VirtualWan.
    * @param callback The callback
    */
-  listByVirtualWan(resourceGroupName: string, virtualWanName: string, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
+  listByVirtualWan(resourceGroupName: string, virtualWanName: string, callback: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWanName The name of the VirtualWan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
-  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse> {
+  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
+  listByVirtualWan(resourceGroupName: string, virtualWanName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,9 +133,9 @@ export class P2sVpnServerConfigurations {
    * @param p2SVpnServerConfigurationParameters Parameters supplied to create or Update a
    * P2SVpnServerConfiguration.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, p2SVpnServerConfigurationParameters: Models.P2SVpnServerConfiguration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, p2SVpnServerConfigurationParameters: Models.P2SVpnServerConfiguration, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -154,9 +154,9 @@ export class P2sVpnServerConfigurations {
    * @param virtualWanName The name of the VirtualWan.
    * @param p2SVpnServerConfigurationName The name of the P2SVpnServerConfiguration.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualWanName: string, p2SVpnServerConfigurationName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -174,19 +174,19 @@ export class P2sVpnServerConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse>
    */
-  listByVirtualWanNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse>;
+  listByVirtualWanNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByVirtualWanNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
+  listByVirtualWanNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVirtualWanNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
-  listByVirtualWanNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: msRest.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse> {
+  listByVirtualWanNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): void;
+  listByVirtualWanNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>, callback?: coreHttp.ServiceCallback<Models.ListP2SVpnServerConfigurationsResult>): Promise<Models.P2sVpnServerConfigurationsListByVirtualWanNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -198,8 +198,8 @@ export class P2sVpnServerConfigurations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}",
   urlParameters: [
@@ -225,7 +225,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByVirtualWanOperationSpec: msRest.OperationSpec = {
+const listByVirtualWanOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations",
   urlParameters: [
@@ -250,7 +250,7 @@ const listByVirtualWanOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}",
   urlParameters: [
@@ -286,7 +286,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}",
   urlParameters: [
@@ -312,7 +312,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByVirtualWanNextOperationSpec: msRest.OperationSpec = {
+const listByVirtualWanNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

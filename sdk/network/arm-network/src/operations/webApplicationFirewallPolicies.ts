@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/webApplicationFirewallPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,19 +33,19 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,17 +60,17 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -86,21 +86,21 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesGetResponse>
    */
-  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesGetResponse>;
+  get(resourceGroupName: string, policyName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param callback The callback
    */
-  get(resourceGroupName: string, policyName: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
+  get(resourceGroupName: string, policyName: string, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
-  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): Promise<Models.WebApplicationFirewallPoliciesGetResponse> {
+  get(resourceGroupName: string, policyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
+  get(resourceGroupName: string, policyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): Promise<Models.WebApplicationFirewallPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,14 +119,14 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param parameters Policy to be created.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
@@ -134,8 +134,8 @@ export class WebApplicationFirewallPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy>): Promise<Models.WebApplicationFirewallPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): void;
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicy>): Promise<Models.WebApplicationFirewallPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,9 +152,9 @@ export class WebApplicationFirewallPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, policyName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,policyName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -164,9 +164,9 @@ export class WebApplicationFirewallPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the policy.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, policyName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -183,19 +183,19 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -211,19 +211,19 @@ export class WebApplicationFirewallPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebApplicationFirewallPoliciesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.WebApplicationFirewallPoliciesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: coreHttp.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.WebApplicationFirewallPoliciesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -235,8 +235,8 @@ export class WebApplicationFirewallPolicies {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
   urlParameters: [
@@ -260,7 +260,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
   urlParameters: [
@@ -283,7 +283,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
@@ -308,7 +308,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
@@ -343,7 +343,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
@@ -368,7 +368,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -389,7 +389,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

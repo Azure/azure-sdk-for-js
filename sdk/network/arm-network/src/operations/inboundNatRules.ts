@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/inboundNatRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class InboundNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesListResponse>
    */
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase): Promise<Models.InboundNatRulesListResponse>;
+  list(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.InboundNatRulesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param callback The callback
    */
-  list(resourceGroupName: string, loadBalancerName: string, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
+  list(resourceGroupName: string, loadBalancerName: string, callback: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, loadBalancerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
-  list(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundNatRuleListResult>, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListResponse> {
+  list(resourceGroupName: string, loadBalancerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): void;
+  list(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.InboundNatRuleListResult>, callback?: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,9 +65,9 @@ export class InboundNatRules {
    * @param loadBalancerName The name of the load balancer.
    * @param inboundNatRuleName The name of the inbound nat rule.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,loadBalancerName,inboundNatRuleName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -87,7 +87,7 @@ export class InboundNatRules {
    * @param inboundNatRuleName The name of the inbound nat rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, callback: msRest.ServiceCallback<Models.InboundNatRule>): void;
+  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, callback: coreHttp.ServiceCallback<Models.InboundNatRule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
@@ -95,8 +95,8 @@ export class InboundNatRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options: Models.InboundNatRulesGetOptionalParams, callback: msRest.ServiceCallback<Models.InboundNatRule>): void;
-  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: Models.InboundNatRulesGetOptionalParams | msRest.ServiceCallback<Models.InboundNatRule>, callback?: msRest.ServiceCallback<Models.InboundNatRule>): Promise<Models.InboundNatRulesGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options: Models.InboundNatRulesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.InboundNatRule>): void;
+  get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: Models.InboundNatRulesGetOptionalParams | coreHttp.ServiceCallback<Models.InboundNatRule>, callback?: coreHttp.ServiceCallback<Models.InboundNatRule>): Promise<Models.InboundNatRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class InboundNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, inboundNatRuleParameters: Models.InboundNatRule, options?: msRest.RequestOptionsBase): Promise<Models.InboundNatRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, inboundNatRuleParameters: Models.InboundNatRule, options?: coreHttp.RequestOptionsBase): Promise<Models.InboundNatRulesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,loadBalancerName,inboundNatRuleName,inboundNatRuleParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InboundNatRulesCreateOrUpdateResponse>;
   }
@@ -129,9 +129,9 @@ export class InboundNatRules {
    * @param loadBalancerName The name of the load balancer.
    * @param inboundNatRuleName The name of the inbound nat rule.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,9 +151,9 @@ export class InboundNatRules {
    * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, inboundNatRuleParameters: Models.InboundNatRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, inboundNatRuleParameters: Models.InboundNatRule, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -172,19 +172,19 @@ export class InboundNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InboundNatRulesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.InboundNatRulesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundNatRuleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundNatRuleListResult>, callback?: msRest.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.InboundNatRuleListResult>, callback?: coreHttp.ServiceCallback<Models.InboundNatRuleListResult>): Promise<Models.InboundNatRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -196,8 +196,8 @@ export class InboundNatRules {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
   urlParameters: [
@@ -222,7 +222,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   urlParameters: [
@@ -249,7 +249,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   urlParameters: [
@@ -275,7 +275,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
   urlParameters: [
@@ -311,7 +311,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCrossConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,17 +32,17 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -57,19 +57,19 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,14 +87,14 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsGetResponse>
    */
-  get(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsGetResponse>;
+  get(resourceGroupName: string, crossConnectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group (peering location of the circuit).
    * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the
    * circuit).
    * @param callback The callback
    */
-  get(resourceGroupName: string, crossConnectionName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): void;
+  get(resourceGroupName: string, crossConnectionName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group (peering location of the circuit).
    * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the
@@ -102,8 +102,8 @@ export class ExpressRouteCrossConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, crossConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): void;
-  get(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnection>): Promise<Models.ExpressRouteCrossConnectionsGetResponse> {
+  get(resourceGroupName: string, crossConnectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnection>): void;
+  get(resourceGroupName: string, crossConnectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCrossConnection>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnection>): Promise<Models.ExpressRouteCrossConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, crossConnectionName: string, parameters: Models.ExpressRouteCrossConnection, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, crossConnectionName: string, parameters: Models.ExpressRouteCrossConnection, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,crossConnectionName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionsCreateOrUpdateResponse>;
   }
@@ -136,7 +136,7 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, crossConnectionName: string, crossConnectionParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, crossConnectionName: string, crossConnectionParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,crossConnectionName,crossConnectionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionsUpdateTagsResponse>;
   }
@@ -151,7 +151,7 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListArpTableResponse>
    */
-  listArpTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListArpTableResponse> {
+  listArpTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListArpTableResponse> {
     return this.beginListArpTable(resourceGroupName,crossConnectionName,peeringName,devicePath,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionsListArpTableResponse>;
   }
@@ -166,7 +166,7 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListRoutesTableSummaryResponse>
    */
-  listRoutesTableSummary(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListRoutesTableSummaryResponse> {
+  listRoutesTableSummary(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListRoutesTableSummaryResponse> {
     return this.beginListRoutesTableSummary(resourceGroupName,crossConnectionName,peeringName,devicePath,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionsListRoutesTableSummaryResponse>;
   }
@@ -181,7 +181,7 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListRoutesTableResponse>
    */
-  listRoutesTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListRoutesTableResponse> {
+  listRoutesTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListRoutesTableResponse> {
     return this.beginListRoutesTable(resourceGroupName,crossConnectionName,peeringName,devicePath,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionsListRoutesTableResponse>;
   }
@@ -192,9 +192,9 @@ export class ExpressRouteCrossConnections {
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param parameters Parameters supplied to the update express route crossConnection operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, crossConnectionName: string, parameters: Models.ExpressRouteCrossConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, crossConnectionName: string, parameters: Models.ExpressRouteCrossConnection, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,9 +213,9 @@ export class ExpressRouteCrossConnections {
    * @param crossConnectionParameters Parameters supplied to update express route cross connection
    * tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, crossConnectionName: string, crossConnectionParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, crossConnectionName: string, crossConnectionParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -235,9 +235,9 @@ export class ExpressRouteCrossConnections {
    * @param peeringName The name of the peering.
    * @param devicePath The path of the device.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginListArpTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListArpTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -258,9 +258,9 @@ export class ExpressRouteCrossConnections {
    * @param peeringName The name of the peering.
    * @param devicePath The path of the device.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginListRoutesTableSummary(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListRoutesTableSummary(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -281,9 +281,9 @@ export class ExpressRouteCrossConnections {
    * @param peeringName The name of the peering.
    * @param devicePath The path of the device.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginListRoutesTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListRoutesTable(resourceGroupName: string, crossConnectionName: string, peeringName: string, devicePath: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -302,19 +302,19 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -330,19 +330,19 @@ export class ExpressRouteCrossConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteCrossConnectionListResult>): Promise<Models.ExpressRouteCrossConnectionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -354,8 +354,8 @@ export class ExpressRouteCrossConnections {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections",
   urlParameters: [
@@ -378,7 +378,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections",
   urlParameters: [
@@ -402,7 +402,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
   urlParameters: [
@@ -427,7 +427,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
   urlParameters: [
@@ -459,7 +459,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
   urlParameters: [
@@ -491,7 +491,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginListArpTableOperationSpec: msRest.OperationSpec = {
+const beginListArpTableOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}",
   urlParameters: [
@@ -519,7 +519,7 @@ const beginListArpTableOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginListRoutesTableSummaryOperationSpec: msRest.OperationSpec = {
+const beginListRoutesTableSummaryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
   urlParameters: [
@@ -547,7 +547,7 @@ const beginListRoutesTableSummaryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginListRoutesTableOperationSpec: msRest.OperationSpec = {
+const beginListRoutesTableOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}",
   urlParameters: [
@@ -575,7 +575,7 @@ const beginListRoutesTableOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -596,7 +596,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

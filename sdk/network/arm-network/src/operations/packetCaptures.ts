@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/packetCapturesMappers";
 import * as Parameters from "../models/parameters";
@@ -36,7 +36,7 @@ export class PacketCaptures {
    * @param [options] The optional parameters
    * @returns Promise<Models.PacketCapturesCreateResponse>
    */
-  create(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: Models.PacketCapture, options?: msRest.RequestOptionsBase): Promise<Models.PacketCapturesCreateResponse> {
+  create(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: Models.PacketCapture, options?: coreHttp.RequestOptionsBase): Promise<Models.PacketCapturesCreateResponse> {
     return this.beginCreate(resourceGroupName,networkWatcherName,packetCaptureName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PacketCapturesCreateResponse>;
   }
@@ -49,14 +49,14 @@ export class PacketCaptures {
    * @param [options] The optional parameters
    * @returns Promise<Models.PacketCapturesGetResponse>
    */
-  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<Models.PacketCapturesGetResponse>;
+  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PacketCapturesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param packetCaptureName The name of the packet capture session.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, callback: msRest.ServiceCallback<Models.PacketCaptureResult>): void;
+  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, callback: coreHttp.ServiceCallback<Models.PacketCaptureResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -64,8 +64,8 @@ export class PacketCaptures {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PacketCaptureResult>): void;
-  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PacketCaptureResult>, callback?: msRest.ServiceCallback<Models.PacketCaptureResult>): Promise<Models.PacketCapturesGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PacketCaptureResult>): void;
+  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PacketCaptureResult>, callback?: coreHttp.ServiceCallback<Models.PacketCaptureResult>): Promise<Models.PacketCapturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,9 +83,9 @@ export class PacketCaptures {
    * @param networkWatcherName The name of the network watcher.
    * @param packetCaptureName The name of the packet capture session.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,networkWatcherName,packetCaptureName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -96,9 +96,9 @@ export class PacketCaptures {
    * @param networkWatcherName The name of the network watcher.
    * @param packetCaptureName The name of the packet capture session.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  stop(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStop(resourceGroupName,networkWatcherName,packetCaptureName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -111,7 +111,7 @@ export class PacketCaptures {
    * @param [options] The optional parameters
    * @returns Promise<Models.PacketCapturesGetStatusResponse>
    */
-  getStatus(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<Models.PacketCapturesGetStatusResponse> {
+  getStatus(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PacketCapturesGetStatusResponse> {
     return this.beginGetStatus(resourceGroupName,networkWatcherName,packetCaptureName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PacketCapturesGetStatusResponse>;
   }
@@ -123,21 +123,21 @@ export class PacketCaptures {
    * @param [options] The optional parameters
    * @returns Promise<Models.PacketCapturesListResponse>
    */
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.PacketCapturesListResponse>;
+  list(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PacketCapturesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, callback: msRest.ServiceCallback<Models.PacketCaptureListResult>): void;
+  list(resourceGroupName: string, networkWatcherName: string, callback: coreHttp.ServiceCallback<Models.PacketCaptureListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PacketCaptureListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PacketCaptureListResult>, callback?: msRest.ServiceCallback<Models.PacketCaptureListResult>): Promise<Models.PacketCapturesListResponse> {
+  list(resourceGroupName: string, networkWatcherName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PacketCaptureListResult>): void;
+  list(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PacketCaptureListResult>, callback?: coreHttp.ServiceCallback<Models.PacketCaptureListResult>): Promise<Models.PacketCapturesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,9 +155,9 @@ export class PacketCaptures {
    * @param packetCaptureName The name of the packet capture session.
    * @param parameters Parameters that define the create packet capture operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreate(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: Models.PacketCapture, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: Models.PacketCapture, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -176,9 +176,9 @@ export class PacketCaptures {
    * @param networkWatcherName The name of the network watcher.
    * @param packetCaptureName The name of the packet capture session.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -196,9 +196,9 @@ export class PacketCaptures {
    * @param networkWatcherName The name of the network watcher.
    * @param packetCaptureName The name of the packet capture session.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStop(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -216,9 +216,9 @@ export class PacketCaptures {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param packetCaptureName The name given to the packet capture session.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginGetStatus(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetStatus(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -232,8 +232,8 @@ export class PacketCaptures {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   urlParameters: [
@@ -259,7 +259,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures",
   urlParameters: [
@@ -284,7 +284,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOperationSpec: msRest.OperationSpec = {
+const beginCreateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   urlParameters: [
@@ -317,7 +317,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   urlParameters: [
@@ -342,7 +342,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStopOperationSpec: msRest.OperationSpec = {
+const beginStopOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop",
   urlParameters: [
@@ -367,7 +367,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginGetStatusOperationSpec: msRest.OperationSpec = {
+const beginGetStatusOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus",
   urlParameters: [

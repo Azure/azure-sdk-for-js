@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualWansMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansGetResponse>
    */
-  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansGetResponse>;
+  get(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWANName: string, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
+  get(resourceGroupName: string, virtualWANName: string, callback: coreHttp.ServiceCallback<Models.VirtualWAN>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being retrieved.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
-  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansGetResponse> {
+  get(resourceGroupName: string, virtualWANName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualWAN>): void;
+  get(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualWAN>, callback?: coreHttp.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualWANName,wANParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualWansCreateOrUpdateResponse>;
   }
@@ -80,7 +80,7 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,virtualWANName,wANParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualWansUpdateTagsResponse>;
   }
@@ -90,9 +90,9 @@ export class VirtualWans {
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being deleted.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,virtualWANName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -103,19 +103,19 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualWANsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,17 +130,17 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualWANsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -155,9 +155,9 @@ export class VirtualWans {
    * @param virtualWANName The name of the VirtualWAN being created or updated.
    * @param wANParameters Parameters supplied to create or update VirtualWAN.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,9 +175,9 @@ export class VirtualWans {
    * @param virtualWANName The name of the VirtualWAN being updated.
    * @param wANParameters Parameters supplied to Update VirtualWAN tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -194,9 +194,9 @@ export class VirtualWans {
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being deleted.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualWANName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualWANsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualWansListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualWANsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class VirtualWans {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
@@ -291,7 +291,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
   urlParameters: [
@@ -315,7 +315,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
   urlParameters: [
@@ -338,7 +338,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
@@ -373,7 +373,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
@@ -408,7 +408,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
@@ -433,7 +433,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -454,7 +454,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

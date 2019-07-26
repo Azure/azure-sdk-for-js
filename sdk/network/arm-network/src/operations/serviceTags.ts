@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceTagsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class ServiceTags {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceTagsListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceTagsListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ServiceTagsListResponse>;
   /**
    * @param location The location.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.ServiceTagsListResult>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.ServiceTagsListResult>): void;
   /**
    * @param location The location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTagsListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTagsListResult>, callback?: msRest.ServiceCallback<Models.ServiceTagsListResult>): Promise<Models.ServiceTagsListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ServiceTagsListResult>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ServiceTagsListResult>, callback?: coreHttp.ServiceCallback<Models.ServiceTagsListResult>): Promise<Models.ServiceTagsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -56,8 +56,8 @@ export class ServiceTags {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
   urlParameters: [

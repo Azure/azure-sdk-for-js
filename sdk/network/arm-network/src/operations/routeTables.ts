@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/routeTablesMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class RouteTables {
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, routeTableName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,routeTableName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class RouteTables {
    * @param routeTableName The name of the route table.
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeTableName: string, callback: msRest.ServiceCallback<Models.RouteTable>): void;
+  get(resourceGroupName: string, routeTableName: string, callback: coreHttp.ServiceCallback<Models.RouteTable>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeTableName: string, options: Models.RouteTablesGetOptionalParams, callback: msRest.ServiceCallback<Models.RouteTable>): void;
-  get(resourceGroupName: string, routeTableName: string, options?: Models.RouteTablesGetOptionalParams | msRest.ServiceCallback<Models.RouteTable>, callback?: msRest.ServiceCallback<Models.RouteTable>): Promise<Models.RouteTablesGetResponse> {
+  get(resourceGroupName: string, routeTableName: string, options: Models.RouteTablesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.RouteTable>): void;
+  get(resourceGroupName: string, routeTableName: string, options?: Models.RouteTablesGetOptionalParams | coreHttp.ServiceCallback<Models.RouteTable>, callback?: coreHttp.ServiceCallback<Models.RouteTable>): Promise<Models.RouteTablesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, routeTableName: string, parameters: Models.RouteTable, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, routeTableName: string, parameters: Models.RouteTable, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,routeTableName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteTablesCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,routeTableName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteTablesUpdateTagsResponse>;
   }
@@ -103,19 +103,19 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteTableListResult>, callback?: msRest.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteTableListResult>, callback?: coreHttp.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,17 +130,17 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteTableListResult>, callback?: msRest.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteTableListResult>, callback?: coreHttp.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -154,9 +154,9 @@ export class RouteTables {
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, routeTableName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -173,9 +173,9 @@ export class RouteTables {
    * @param routeTableName The name of the route table.
    * @param parameters Parameters supplied to the create or update route table operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, routeTableName: string, parameters: Models.RouteTable, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, routeTableName: string, parameters: Models.RouteTable, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,9 +193,9 @@ export class RouteTables {
    * @param routeTableName The name of the route table.
    * @param parameters Parameters supplied to update route table tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, routeTableName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteTableListResult>, callback?: msRest.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteTableListResult>, callback?: coreHttp.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class RouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.RouteTablesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RouteTablesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RouteTablesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteTableListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteTableListResult>, callback?: msRest.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RouteTableListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RouteTableListResult>, callback?: coreHttp.ServiceCallback<Models.RouteTableListResult>): Promise<Models.RouteTablesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class RouteTables {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
   urlParameters: [
@@ -292,7 +292,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables",
   urlParameters: [
@@ -316,7 +316,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables",
   urlParameters: [
@@ -339,7 +339,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
   urlParameters: [
@@ -364,7 +364,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
   urlParameters: [
@@ -399,7 +399,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
   urlParameters: [
@@ -431,7 +431,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -452,7 +452,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -37,7 +37,7 @@ export class ExpressRouteConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, putExpressRouteConnectionParameters: Models.ExpressRouteConnection, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, putExpressRouteConnectionParameters: Models.ExpressRouteConnection, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,expressRouteGatewayName,connectionName,putExpressRouteConnectionParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteConnectionsCreateOrUpdateResponse>;
   }
@@ -50,14 +50,14 @@ export class ExpressRouteConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteConnectionsGetResponse>
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsGetResponse>;
+  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param connectionName The name of the ExpressRoute connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ExpressRouteConnection>): void;
+  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
@@ -65,8 +65,8 @@ export class ExpressRouteConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteConnection>): void;
-  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteConnection>): Promise<Models.ExpressRouteConnectionsGetResponse> {
+  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteConnection>): void;
+  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteConnection>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteConnection>): Promise<Models.ExpressRouteConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,9 +84,9 @@ export class ExpressRouteConnections {
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param connectionName The name of the connection subresource.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,expressRouteGatewayName,connectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -98,21 +98,21 @@ export class ExpressRouteConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteConnectionsListResponse>
    */
-  list(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsListResponse>;
+  list(resourceGroupName: string, expressRouteGatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param callback The callback
    */
-  list(resourceGroupName: string, expressRouteGatewayName: string, callback: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): void;
+  list(resourceGroupName: string, expressRouteGatewayName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteConnectionList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, expressRouteGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): void;
-  list(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteConnectionList>, callback?: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): Promise<Models.ExpressRouteConnectionsListResponse> {
+  list(resourceGroupName: string, expressRouteGatewayName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteConnectionList>): void;
+  list(resourceGroupName: string, expressRouteGatewayName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteConnectionList>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteConnectionList>): Promise<Models.ExpressRouteConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,9 +131,9 @@ export class ExpressRouteConnections {
    * @param putExpressRouteConnectionParameters Parameters required in an ExpressRouteConnection PUT
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, putExpressRouteConnectionParameters: Models.ExpressRouteConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, putExpressRouteConnectionParameters: Models.ExpressRouteConnection, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -152,9 +152,9 @@ export class ExpressRouteConnections {
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param connectionName The name of the connection subresource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -168,8 +168,8 @@ export class ExpressRouteConnections {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
   urlParameters: [
@@ -195,7 +195,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections",
   urlParameters: [
@@ -220,7 +220,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
   urlParameters: [
@@ -256,7 +256,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
   urlParameters: [

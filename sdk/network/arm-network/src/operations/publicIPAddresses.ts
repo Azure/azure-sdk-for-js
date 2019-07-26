@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/publicIPAddressesMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class PublicIPAddresses {
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,publicIpAddressName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class PublicIPAddresses {
    * @param publicIpAddressName The name of the subnet.
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpAddressName: string, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
+  get(resourceGroupName: string, publicIpAddressName: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddress>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetResponse> {
+  get(resourceGroupName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.PublicIPAddress>): void;
+  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams | coreHttp.ServiceCallback<Models.PublicIPAddress>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,publicIpAddressName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPAddressesCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,publicIpAddressName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPAddressesUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,21 +156,21 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>
    */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>;
+  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
    * @param callback The callback
    */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
+  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>
    */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>;
+  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
@@ -201,7 +201,7 @@ export class PublicIPAddresses {
    * @param ipConfigurationName The IP configuration name.
    * @param callback The callback
    */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
@@ -211,8 +211,8 @@ export class PublicIPAddresses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
+  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetVMPublicIPAddresses(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class PublicIPAddresses {
    * @param publicIpAddressName The name of the public IP Address.
    * @param callback The callback
    */
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
+  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddress>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
@@ -258,8 +258,8 @@ export class PublicIPAddresses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
+  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams, callback: coreHttp.ServiceCallback<Models.PublicIPAddress>): void;
+  getVirtualMachineScaleSetPublicIPAddress(resourceGroupName: string, virtualMachineScaleSetName: string, virtualmachineIndex: string, networkInterfaceName: string, ipConfigurationName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams | coreHttp.ServiceCallback<Models.PublicIPAddress>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -279,9 +279,9 @@ export class PublicIPAddresses {
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -298,9 +298,9 @@ export class PublicIPAddresses {
    * @param publicIpAddressName The name of the public IP address.
    * @param parameters Parameters supplied to the create or update public IP address operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -318,9 +318,9 @@ export class PublicIPAddresses {
    * @param publicIpAddressName The name of the public IP address.
    * @param parameters Parameters supplied to update public IP address tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -338,19 +338,19 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -366,19 +366,19 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -395,19 +395,19 @@ export class PublicIPAddresses {
    * @returns
    * Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>
    */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>;
+  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
+  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetPublicIPAddressesNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -425,19 +425,19 @@ export class PublicIPAddresses {
    * @returns
    * Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>
    */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>;
+  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
+  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listVirtualMachineScaleSetVMPublicIPAddressesNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPAddressListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -449,8 +449,8 @@ export class PublicIPAddresses {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
@@ -476,7 +476,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
   urlParameters: [
@@ -499,7 +499,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
   urlParameters: [
@@ -523,7 +523,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: msRest.OperationSpec = {
+const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
   urlParameters: [
@@ -548,7 +548,7 @@ const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: msRest.Operation
   serializer
 };
 
-const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: msRest.OperationSpec = {
+const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
   urlParameters: [
@@ -576,7 +576,7 @@ const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: msRest.Operati
   serializer
 };
 
-const getVirtualMachineScaleSetPublicIPAddressOperationSpec: msRest.OperationSpec = {
+const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
   urlParameters: [
@@ -606,7 +606,7 @@ const getVirtualMachineScaleSetPublicIPAddressOperationSpec: msRest.OperationSpe
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
@@ -631,7 +631,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
@@ -666,7 +666,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
@@ -698,7 +698,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -719,7 +719,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -740,7 +740,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: msRest.OperationSpec = {
+const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -761,7 +761,7 @@ const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: msRest.Opera
   serializer
 };
 
-const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: msRest.OperationSpec = {
+const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

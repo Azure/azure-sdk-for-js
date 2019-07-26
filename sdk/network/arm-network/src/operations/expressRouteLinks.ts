@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteLinksMappers";
 import * as Parameters from "../models/parameters";
@@ -34,14 +34,14 @@ export class ExpressRouteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteLinksGetResponse>
    */
-  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteLinksGetResponse>;
+  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteLinksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param linkName The name of the ExpressRouteLink resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, callback: msRest.ServiceCallback<Models.ExpressRouteLink>): void;
+  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteLink>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
@@ -49,8 +49,8 @@ export class ExpressRouteLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLink>): void;
-  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLink>, callback?: msRest.ServiceCallback<Models.ExpressRouteLink>): Promise<Models.ExpressRouteLinksGetResponse> {
+  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteLink>): void;
+  get(resourceGroupName: string, expressRoutePortName: string, linkName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteLink>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteLink>): Promise<Models.ExpressRouteLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,21 +69,21 @@ export class ExpressRouteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteLinksListResponse>
    */
-  list(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteLinksListResponse>;
+  list(resourceGroupName: string, expressRoutePortName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteLinksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, expressRoutePortName: string, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
+  list(resourceGroupName: string, expressRoutePortName: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, expressRoutePortName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
-  list(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListResponse> {
+  list(resourceGroupName: string, expressRoutePortName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
+  list(resourceGroupName: string, expressRoutePortName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,19 +100,19 @@ export class ExpressRouteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteLinksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteLinksListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRouteLinksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRouteLinkListResult>): Promise<Models.ExpressRouteLinksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -124,8 +124,8 @@ export class ExpressRouteLinks {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}",
   urlParameters: [
@@ -151,7 +151,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links",
   urlParameters: [
@@ -176,7 +176,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

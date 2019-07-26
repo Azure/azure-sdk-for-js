@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRoutePortsLocationsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,17 +32,17 @@ export class ExpressRoutePortsLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -58,19 +58,19 @@ export class ExpressRoutePortsLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsGetResponse>
    */
-  get(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsGetResponse>;
+  get(locationName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsGetResponse>;
   /**
    * @param locationName Name of the requested ExpressRoutePort peering location.
    * @param callback The callback
    */
-  get(locationName: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
+  get(locationName: string, callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
   /**
    * @param locationName Name of the requested ExpressRoutePort peering location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocation>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
+  get(locationName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
+  get(locationName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRoutePortsLocation>, callback?: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocation>): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -87,19 +87,19 @@ export class ExpressRoutePortsLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: coreHttp.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -111,8 +111,8 @@ export class ExpressRoutePortsLocations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
   urlParameters: [
@@ -135,7 +135,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
   urlParameters: [
@@ -159,7 +159,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

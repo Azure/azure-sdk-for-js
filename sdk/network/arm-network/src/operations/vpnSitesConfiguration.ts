@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/vpnSitesConfigurationMappers";
 import * as Parameters from "../models/parameters";
@@ -34,9 +34,9 @@ export class VpnSitesConfiguration {
    * needed.
    * @param request Parameters supplied to download vpn-sites configuration.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  download(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  download(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDownload(resourceGroupName,virtualWANName,request,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -48,9 +48,9 @@ export class VpnSitesConfiguration {
    * needed.
    * @param request Parameters supplied to download vpn-sites configuration.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDownload(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownload(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -64,8 +64,8 @@ export class VpnSitesConfiguration {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const beginDownloadOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const beginDownloadOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration",
   urlParameters: [

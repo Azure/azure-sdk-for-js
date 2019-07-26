@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualHubsMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsGetResponse>
    */
-  get(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsGetResponse>;
+  get(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, callback: msRest.ServiceCallback<Models.VirtualHub>): void;
+  get(resourceGroupName: string, virtualHubName: string, callback: coreHttp.ServiceCallback<Models.VirtualHub>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualHub>): void;
-  get(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualHub>, callback?: msRest.ServiceCallback<Models.VirtualHub>): Promise<Models.VirtualHubsGetResponse> {
+  get(resourceGroupName: string, virtualHubName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualHub>): void;
+  get(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualHub>, callback?: coreHttp.ServiceCallback<Models.VirtualHub>): Promise<Models.VirtualHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.VirtualHub, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.VirtualHub, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,virtualHubParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualHubsCreateOrUpdateResponse>;
   }
@@ -80,7 +80,7 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,virtualHubName,virtualHubParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualHubsUpdateTagsResponse>;
   }
@@ -90,9 +90,9 @@ export class VirtualHubs {
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,virtualHubName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -103,19 +103,19 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualHubsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,17 +130,17 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualHubsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -155,9 +155,9 @@ export class VirtualHubs {
    * @param virtualHubName The name of the VirtualHub.
    * @param virtualHubParameters Parameters supplied to create or update VirtualHub.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.VirtualHub, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.VirtualHub, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,9 +175,9 @@ export class VirtualHubs {
    * @param virtualHubName The name of the VirtualHub.
    * @param virtualHubParameters Parameters supplied to update VirtualHub tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, virtualHubName: string, virtualHubParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -194,9 +194,9 @@ export class VirtualHubs {
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualHubsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class VirtualHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualHubsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualHubsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualHubsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListVirtualHubsResult>, callback?: coreHttp.ServiceCallback<Models.ListVirtualHubsResult>): Promise<Models.VirtualHubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class VirtualHubs {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
   urlParameters: [
@@ -291,7 +291,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs",
   urlParameters: [
@@ -315,7 +315,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs",
   urlParameters: [
@@ -338,7 +338,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
   urlParameters: [
@@ -373,7 +373,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
   urlParameters: [
@@ -408,7 +408,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
   urlParameters: [
@@ -433,7 +433,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -454,7 +454,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

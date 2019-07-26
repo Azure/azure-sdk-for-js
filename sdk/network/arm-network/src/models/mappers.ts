@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ApplicationGatewayProbeHealthResponseMatch: msRest.CompositeMapper = {
+export const ApplicationGatewayProbeHealthResponseMatch: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayProbeHealthResponseMatch",
   type: {
     name: "Composite",
@@ -39,7 +39,7 @@ export const ApplicationGatewayProbeHealthResponseMatch: msRest.CompositeMapper 
   }
 };
 
-export const ApplicationGatewayOnDemandProbe: msRest.CompositeMapper = {
+export const ApplicationGatewayOnDemandProbe: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayOnDemandProbe",
   type: {
     name: "Composite",
@@ -98,7 +98,7 @@ export const ApplicationGatewayOnDemandProbe: msRest.CompositeMapper = {
   }
 };
 
-export const SubResource: msRest.CompositeMapper = {
+export const SubResource: coreHttp.CompositeMapper = {
   serializedName: "SubResource",
   type: {
     name: "Composite",
@@ -114,7 +114,7 @@ export const SubResource: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceTapConfiguration: msRest.CompositeMapper = {
+export const NetworkInterfaceTapConfiguration: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceTapConfiguration",
   type: {
     name: "Composite",
@@ -158,7 +158,7 @@ export const NetworkInterfaceTapConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
+export const Resource: coreHttp.CompositeMapper = {
   serializedName: "Resource",
   type: {
     name: "Composite",
@@ -205,7 +205,7 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationSecurityGroup: msRest.CompositeMapper = {
+export const ApplicationSecurityGroup: coreHttp.CompositeMapper = {
   serializedName: "ApplicationSecurityGroup",
   type: {
     name: "Composite",
@@ -237,7 +237,7 @@ export const ApplicationSecurityGroup: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityRule: msRest.CompositeMapper = {
+export const SecurityRule: coreHttp.CompositeMapper = {
   serializedName: "SecurityRule",
   type: {
     name: "Composite",
@@ -391,7 +391,7 @@ export const SecurityRule: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
+export const PrivateLinkServiceConnectionState: coreHttp.CompositeMapper = {
   serializedName: "PrivateLinkServiceConnectionState",
   type: {
     name: "Composite",
@@ -419,7 +419,7 @@ export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkServiceConnection: msRest.CompositeMapper = {
+export const PrivateLinkServiceConnection: coreHttp.CompositeMapper = {
   serializedName: "PrivateLinkServiceConnection",
   type: {
     name: "Composite",
@@ -466,7 +466,7 @@ export const PrivateLinkServiceConnection: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateEndpoint: msRest.CompositeMapper = {
+export const PrivateEndpoint: coreHttp.CompositeMapper = {
   serializedName: "PrivateEndpoint",
   type: {
     name: "Composite",
@@ -534,7 +534,7 @@ export const PrivateEndpoint: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceDnsSettings: msRest.CompositeMapper = {
+export const NetworkInterfaceDnsSettings: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceDnsSettings",
   type: {
     name: "Composite",
@@ -584,7 +584,7 @@ export const NetworkInterfaceDnsSettings: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterface: msRest.CompositeMapper = {
+export const NetworkInterface: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterface",
   type: {
     name: "Composite",
@@ -703,7 +703,7 @@ export const NetworkInterface: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityGroup: msRest.CompositeMapper = {
+export const NetworkSecurityGroup: coreHttp.CompositeMapper = {
   serializedName: "NetworkSecurityGroup",
   type: {
     name: "Composite",
@@ -782,7 +782,7 @@ export const NetworkSecurityGroup: msRest.CompositeMapper = {
   }
 };
 
-export const Route: msRest.CompositeMapper = {
+export const Route: coreHttp.CompositeMapper = {
   serializedName: "Route",
   type: {
     name: "Composite",
@@ -830,7 +830,7 @@ export const Route: msRest.CompositeMapper = {
   }
 };
 
-export const RouteTable: msRest.CompositeMapper = {
+export const RouteTable: coreHttp.CompositeMapper = {
   serializedName: "RouteTable",
   type: {
     name: "Composite",
@@ -884,7 +884,7 @@ export const RouteTable: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceEndpointPropertiesFormat: msRest.CompositeMapper = {
+export const ServiceEndpointPropertiesFormat: coreHttp.CompositeMapper = {
   serializedName: "ServiceEndpointPropertiesFormat",
   type: {
     name: "Composite",
@@ -917,7 +917,7 @@ export const ServiceEndpointPropertiesFormat: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceEndpointPolicyDefinition: msRest.CompositeMapper = {
+export const ServiceEndpointPolicyDefinition: coreHttp.CompositeMapper = {
   serializedName: "ServiceEndpointPolicyDefinition",
   type: {
     name: "Composite",
@@ -970,7 +970,7 @@ export const ServiceEndpointPolicyDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceEndpointPolicy: msRest.CompositeMapper = {
+export const ServiceEndpointPolicy: coreHttp.CompositeMapper = {
   serializedName: "ServiceEndpointPolicy",
   type: {
     name: "Composite",
@@ -1026,7 +1026,7 @@ export const ServiceEndpointPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPAddressSku: msRest.CompositeMapper = {
+export const PublicIPAddressSku: coreHttp.CompositeMapper = {
   serializedName: "PublicIPAddressSku",
   type: {
     name: "Composite",
@@ -1042,7 +1042,7 @@ export const PublicIPAddressSku: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPAddressDnsSettings: msRest.CompositeMapper = {
+export const PublicIPAddressDnsSettings: coreHttp.CompositeMapper = {
   serializedName: "PublicIPAddressDnsSettings",
   type: {
     name: "Composite",
@@ -1070,7 +1070,7 @@ export const PublicIPAddressDnsSettings: msRest.CompositeMapper = {
   }
 };
 
-export const DdosSettings: msRest.CompositeMapper = {
+export const DdosSettings: coreHttp.CompositeMapper = {
   serializedName: "DdosSettings",
   type: {
     name: "Composite",
@@ -1093,7 +1093,7 @@ export const DdosSettings: msRest.CompositeMapper = {
   }
 };
 
-export const IpTag: msRest.CompositeMapper = {
+export const IpTag: coreHttp.CompositeMapper = {
   serializedName: "IpTag",
   type: {
     name: "Composite",
@@ -1115,7 +1115,7 @@ export const IpTag: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPAddress: msRest.CompositeMapper = {
+export const PublicIPAddress: coreHttp.CompositeMapper = {
   serializedName: "PublicIPAddress",
   type: {
     name: "Composite",
@@ -1227,7 +1227,7 @@ export const PublicIPAddress: msRest.CompositeMapper = {
   }
 };
 
-export const IPConfiguration: msRest.CompositeMapper = {
+export const IPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "IPConfiguration",
   type: {
     name: "Composite",
@@ -1282,7 +1282,7 @@ export const IPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const IPConfigurationProfile: msRest.CompositeMapper = {
+export const IPConfigurationProfile: coreHttp.CompositeMapper = {
   serializedName: "IPConfigurationProfile",
   type: {
     name: "Composite",
@@ -1326,7 +1326,7 @@ export const IPConfigurationProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceNavigationLink: msRest.CompositeMapper = {
+export const ResourceNavigationLink: coreHttp.CompositeMapper = {
   serializedName: "ResourceNavigationLink",
   type: {
     name: "Composite",
@@ -1376,7 +1376,7 @@ export const ResourceNavigationLink: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceAssociationLink: msRest.CompositeMapper = {
+export const ServiceAssociationLink: coreHttp.CompositeMapper = {
   serializedName: "ServiceAssociationLink",
   type: {
     name: "Composite",
@@ -1442,7 +1442,7 @@ export const ServiceAssociationLink: msRest.CompositeMapper = {
   }
 };
 
-export const Delegation: msRest.CompositeMapper = {
+export const Delegation: coreHttp.CompositeMapper = {
   serializedName: "Delegation",
   type: {
     name: "Composite",
@@ -1489,7 +1489,7 @@ export const Delegation: msRest.CompositeMapper = {
   }
 };
 
-export const Subnet: msRest.CompositeMapper = {
+export const Subnet: coreHttp.CompositeMapper = {
   serializedName: "Subnet",
   type: {
     name: "Composite",
@@ -1646,6 +1646,18 @@ export const Subnet: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      privateEndpointNetworkPolicies: {
+        serializedName: "properties.privateEndpointNetworkPolicies",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkServiceNetworkPolicies: {
+        serializedName: "properties.privateLinkServiceNetworkPolicies",
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -1662,7 +1674,7 @@ export const Subnet: msRest.CompositeMapper = {
   }
 };
 
-export const FrontendIPConfiguration: msRest.CompositeMapper = {
+export const FrontendIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "FrontendIPConfiguration",
   type: {
     name: "Composite",
@@ -1733,6 +1745,12 @@ export const FrontendIPConfiguration: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      privateIPAddressVersion: {
+        serializedName: "properties.privateIPAddressVersion",
+        type: {
+          name: "String"
+        }
+      },
       subnet: {
         serializedName: "properties.subnet",
         type: {
@@ -1772,6 +1790,13 @@ export const FrontendIPConfiguration: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       zones: {
         serializedName: "zones",
         type: {
@@ -1787,7 +1812,7 @@ export const FrontendIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkTap: msRest.CompositeMapper = {
+export const VirtualNetworkTap: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkTap",
   type: {
     name: "Composite",
@@ -1851,7 +1876,7 @@ export const VirtualNetworkTap: msRest.CompositeMapper = {
   }
 };
 
-export const BackendAddressPool: msRest.CompositeMapper = {
+export const BackendAddressPool: coreHttp.CompositeMapper = {
   serializedName: "BackendAddressPool",
   type: {
     name: "Composite",
@@ -1892,6 +1917,19 @@ export const BackendAddressPool: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      outboundRules: {
+        readOnly: true,
+        serializedName: "properties.outboundRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1909,12 +1947,19 @@ export const BackendAddressPool: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const InboundNatRule: msRest.CompositeMapper = {
+export const InboundNatRule: coreHttp.CompositeMapper = {
   serializedName: "InboundNatRule",
   type: {
     name: "Composite",
@@ -1989,12 +2034,19 @@ export const InboundNatRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const NetworkInterfaceIPConfiguration: msRest.CompositeMapper = {
+export const NetworkInterfaceIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceIPConfiguration",
   type: {
     name: "Composite",
@@ -2121,7 +2173,7 @@ export const NetworkInterfaceIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendAddress: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendAddress: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendAddress",
   type: {
     name: "Composite",
@@ -2143,7 +2195,7 @@ export const ApplicationGatewayBackendAddress: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendAddressPool: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendAddressPool: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendAddressPool",
   type: {
     name: "Composite",
@@ -2202,7 +2254,7 @@ export const ApplicationGatewayBackendAddressPool: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayConnectionDraining: msRest.CompositeMapper = {
+export const ApplicationGatewayConnectionDraining: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayConnectionDraining",
   type: {
     name: "Composite",
@@ -2230,7 +2282,7 @@ export const ApplicationGatewayConnectionDraining: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendHttpSettings: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHttpSettings: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHttpSettings",
   type: {
     name: "Composite",
@@ -2357,7 +2409,7 @@ export const ApplicationGatewayBackendHttpSettings: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendHealthServer: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHealthServer: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHealthServer",
   type: {
     name: "Composite",
@@ -2392,7 +2444,7 @@ export const ApplicationGatewayBackendHealthServer: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendHealthHttpSettings: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHealthHttpSettings: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHealthHttpSettings",
   type: {
     name: "Composite",
@@ -2421,7 +2473,7 @@ export const ApplicationGatewayBackendHealthHttpSettings: msRest.CompositeMapper
   }
 };
 
-export const ApplicationGatewayBackendHealthOnDemand: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHealthOnDemand: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHealthOnDemand",
   type: {
     name: "Composite",
@@ -2445,7 +2497,7 @@ export const ApplicationGatewayBackendHealthOnDemand: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendHealthPool: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHealthPool: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHealthPool",
   type: {
     name: "Composite",
@@ -2474,7 +2526,7 @@ export const ApplicationGatewayBackendHealthPool: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayBackendHealth: msRest.CompositeMapper = {
+export const ApplicationGatewayBackendHealth: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayBackendHealth",
   type: {
     name: "Composite",
@@ -2496,7 +2548,7 @@ export const ApplicationGatewayBackendHealth: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewaySku: msRest.CompositeMapper = {
+export const ApplicationGatewaySku: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewaySku",
   type: {
     name: "Composite",
@@ -2524,7 +2576,7 @@ export const ApplicationGatewaySku: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewaySslPolicy: msRest.CompositeMapper = {
+export const ApplicationGatewaySslPolicy: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewaySslPolicy",
   type: {
     name: "Composite",
@@ -2574,7 +2626,7 @@ export const ApplicationGatewaySslPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayIPConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayIPConfiguration",
   type: {
     name: "Composite",
@@ -2616,7 +2668,7 @@ export const ApplicationGatewayIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayAuthenticationCertificate: msRest.CompositeMapper = {
+export const ApplicationGatewayAuthenticationCertificate: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayAuthenticationCertificate",
   type: {
     name: "Composite",
@@ -2657,7 +2709,7 @@ export const ApplicationGatewayAuthenticationCertificate: msRest.CompositeMapper
   }
 };
 
-export const ApplicationGatewayTrustedRootCertificate: msRest.CompositeMapper = {
+export const ApplicationGatewayTrustedRootCertificate: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayTrustedRootCertificate",
   type: {
     name: "Composite",
@@ -2704,7 +2756,7 @@ export const ApplicationGatewayTrustedRootCertificate: msRest.CompositeMapper = 
   }
 };
 
-export const ApplicationGatewaySslCertificate: msRest.CompositeMapper = {
+export const ApplicationGatewaySslCertificate: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewaySslCertificate",
   type: {
     name: "Composite",
@@ -2763,7 +2815,7 @@ export const ApplicationGatewaySslCertificate: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayFrontendIPConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayFrontendIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFrontendIPConfiguration",
   type: {
     name: "Composite",
@@ -2824,7 +2876,7 @@ export const ApplicationGatewayFrontendIPConfiguration: msRest.CompositeMapper =
   }
 };
 
-export const ApplicationGatewayFrontendPort: msRest.CompositeMapper = {
+export const ApplicationGatewayFrontendPort: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFrontendPort",
   type: {
     name: "Composite",
@@ -2865,7 +2917,7 @@ export const ApplicationGatewayFrontendPort: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayCustomError: msRest.CompositeMapper = {
+export const ApplicationGatewayCustomError: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayCustomError",
   type: {
     name: "Composite",
@@ -2887,7 +2939,7 @@ export const ApplicationGatewayCustomError: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayHttpListener: msRest.CompositeMapper = {
+export const ApplicationGatewayHttpListener: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayHttpListener",
   type: {
     name: "Composite",
@@ -2973,7 +3025,7 @@ export const ApplicationGatewayHttpListener: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayPathRule: msRest.CompositeMapper = {
+export const ApplicationGatewayPathRule: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayPathRule",
   type: {
     name: "Composite",
@@ -3047,7 +3099,7 @@ export const ApplicationGatewayPathRule: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayProbe: msRest.CompositeMapper = {
+export const ApplicationGatewayProbe: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayProbe",
   type: {
     name: "Composite",
@@ -3147,7 +3199,7 @@ export const ApplicationGatewayProbe: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
+export const ApplicationGatewayRequestRoutingRule: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRequestRoutingRule",
   type: {
     name: "Composite",
@@ -3230,7 +3282,7 @@ export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRewriteRuleCondition: msRest.CompositeMapper = {
+export const ApplicationGatewayRewriteRuleCondition: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRewriteRuleCondition",
   type: {
     name: "Composite",
@@ -3264,7 +3316,7 @@ export const ApplicationGatewayRewriteRuleCondition: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayHeaderConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayHeaderConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayHeaderConfiguration",
   type: {
     name: "Composite",
@@ -3286,7 +3338,7 @@ export const ApplicationGatewayHeaderConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRewriteRuleActionSet: msRest.CompositeMapper = {
+export const ApplicationGatewayRewriteRuleActionSet: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRewriteRuleActionSet",
   type: {
     name: "Composite",
@@ -3320,7 +3372,7 @@ export const ApplicationGatewayRewriteRuleActionSet: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
+export const ApplicationGatewayRewriteRule: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRewriteRule",
   type: {
     name: "Composite",
@@ -3361,7 +3413,7 @@ export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRewriteRuleSet: msRest.CompositeMapper = {
+export const ApplicationGatewayRewriteRuleSet: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRewriteRuleSet",
   type: {
     name: "Composite",
@@ -3404,7 +3456,7 @@ export const ApplicationGatewayRewriteRuleSet: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayRedirectConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayRedirectConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayRedirectConfiguration",
   type: {
     name: "Composite",
@@ -3500,7 +3552,7 @@ export const ApplicationGatewayRedirectConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayUrlPathMap: msRest.CompositeMapper = {
+export const ApplicationGatewayUrlPathMap: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayUrlPathMap",
   type: {
     name: "Composite",
@@ -3575,7 +3627,7 @@ export const ApplicationGatewayUrlPathMap: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayFirewallDisabledRuleGroup: msRest.CompositeMapper = {
+export const ApplicationGatewayFirewallDisabledRuleGroup: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallDisabledRuleGroup",
   type: {
     name: "Composite",
@@ -3603,7 +3655,7 @@ export const ApplicationGatewayFirewallDisabledRuleGroup: msRest.CompositeMapper
   }
 };
 
-export const ApplicationGatewayFirewallExclusion: msRest.CompositeMapper = {
+export const ApplicationGatewayFirewallExclusion: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallExclusion",
   type: {
     name: "Composite",
@@ -3634,7 +3686,7 @@ export const ApplicationGatewayFirewallExclusion: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayWebApplicationFirewallConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayWebApplicationFirewallConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayWebApplicationFirewallConfiguration",
   type: {
     name: "Composite",
@@ -3731,7 +3783,7 @@ export const ApplicationGatewayWebApplicationFirewallConfiguration: msRest.Compo
   }
 };
 
-export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = {
+export const ApplicationGatewayAutoscaleConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayAutoscaleConfiguration",
   type: {
     name: "Composite",
@@ -3760,7 +3812,7 @@ export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = 
   }
 };
 
-export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: coreHttp.CompositeMapper = {
   serializedName: "ManagedServiceIdentity_userAssignedIdentitiesValue",
   type: {
     name: "Composite",
@@ -3784,7 +3836,7 @@ export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.Composite
   }
 };
 
-export const ManagedServiceIdentity: msRest.CompositeMapper = {
+export const ManagedServiceIdentity: coreHttp.CompositeMapper = {
   serializedName: "ManagedServiceIdentity",
   type: {
     name: "Composite",
@@ -3832,7 +3884,7 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGateway: msRest.CompositeMapper = {
+export const ApplicationGateway: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGateway",
   type: {
     name: "Composite",
@@ -4113,7 +4165,7 @@ export const ApplicationGateway: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayFirewallRule: msRest.CompositeMapper = {
+export const ApplicationGatewayFirewallRule: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRule",
   type: {
     name: "Composite",
@@ -4136,7 +4188,7 @@ export const ApplicationGatewayFirewallRule: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayFirewallRuleGroup: msRest.CompositeMapper = {
+export const ApplicationGatewayFirewallRuleGroup: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRuleGroup",
   type: {
     name: "Composite",
@@ -4172,7 +4224,7 @@ export const ApplicationGatewayFirewallRuleGroup: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayFirewallRuleSet: msRest.CompositeMapper = {
+export const ApplicationGatewayFirewallRuleSet: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRuleSet",
   type: {
     name: "Composite",
@@ -4216,7 +4268,7 @@ export const ApplicationGatewayFirewallRuleSet: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayAvailableWafRuleSetsResult: msRest.CompositeMapper = {
+export const ApplicationGatewayAvailableWafRuleSetsResult: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayAvailableWafRuleSetsResult",
   type: {
     name: "Composite",
@@ -4238,7 +4290,7 @@ export const ApplicationGatewayAvailableWafRuleSetsResult: msRest.CompositeMappe
   }
 };
 
-export const ApplicationGatewayAvailableSslOptions: msRest.CompositeMapper = {
+export const ApplicationGatewayAvailableSslOptions: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayAvailableSslOptions",
   type: {
     name: "Composite",
@@ -4289,7 +4341,7 @@ export const ApplicationGatewayAvailableSslOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewaySslPredefinedPolicy: msRest.CompositeMapper = {
+export const ApplicationGatewaySslPredefinedPolicy: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewaySslPredefinedPolicy",
   type: {
     name: "Composite",
@@ -4323,7 +4375,7 @@ export const ApplicationGatewaySslPredefinedPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorDetails: msRest.CompositeMapper = {
+export const ErrorDetails: coreHttp.CompositeMapper = {
   serializedName: "ErrorDetails",
   type: {
     name: "Composite",
@@ -4351,7 +4403,7 @@ export const ErrorDetails: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorModel: msRest.CompositeMapper = {
+export const ErrorModel: coreHttp.CompositeMapper = {
   serializedName: "Error",
   type: {
     name: "Composite",
@@ -4397,7 +4449,7 @@ export const ErrorModel: msRest.CompositeMapper = {
   }
 };
 
-export const TagsObject: msRest.CompositeMapper = {
+export const TagsObject: coreHttp.CompositeMapper = {
   serializedName: "TagsObject",
   type: {
     name: "Composite",
@@ -4418,7 +4470,7 @@ export const TagsObject: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableDelegation: msRest.CompositeMapper = {
+export const AvailableDelegation: coreHttp.CompositeMapper = {
   serializedName: "AvailableDelegation",
   type: {
     name: "Composite",
@@ -4463,35 +4515,7 @@ export const AvailableDelegation: msRest.CompositeMapper = {
   }
 };
 
-export const AvailablePrivateEndpointType: msRest.CompositeMapper = {
-  serializedName: "AvailablePrivateEndpointType",
-  type: {
-    name: "Composite",
-    className: "AvailablePrivateEndpointType",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      serviceName: {
-        serializedName: "serviceName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureFirewallIPConfiguration: msRest.CompositeMapper = {
+export const AzureFirewallIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallIPConfiguration",
   type: {
     name: "Composite",
@@ -4542,7 +4566,7 @@ export const AzureFirewallIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallRCAction: msRest.CompositeMapper = {
+export const AzureFirewallRCAction: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallRCAction",
   type: {
     name: "Composite",
@@ -4558,7 +4582,7 @@ export const AzureFirewallRCAction: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallApplicationRuleProtocol: msRest.CompositeMapper = {
+export const AzureFirewallApplicationRuleProtocol: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallApplicationRuleProtocol",
   type: {
     name: "Composite",
@@ -4584,7 +4608,7 @@ export const AzureFirewallApplicationRuleProtocol: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallApplicationRule: msRest.CompositeMapper = {
+export const AzureFirewallApplicationRule: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallApplicationRule",
   type: {
     name: "Composite",
@@ -4651,7 +4675,7 @@ export const AzureFirewallApplicationRule: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallApplicationRuleCollection: msRest.CompositeMapper = {
+export const AzureFirewallApplicationRuleCollection: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallApplicationRuleCollection",
   type: {
     name: "Composite",
@@ -4710,7 +4734,7 @@ export const AzureFirewallApplicationRuleCollection: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallNatRCAction: msRest.CompositeMapper = {
+export const AzureFirewallNatRCAction: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallNatRCAction",
   type: {
     name: "Composite",
@@ -4726,7 +4750,7 @@ export const AzureFirewallNatRCAction: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallNatRule: msRest.CompositeMapper = {
+export const AzureFirewallNatRule: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallNatRule",
   type: {
     name: "Composite",
@@ -4804,7 +4828,7 @@ export const AzureFirewallNatRule: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallNatRuleCollection: msRest.CompositeMapper = {
+export const AzureFirewallNatRuleCollection: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallNatRuleCollection",
   type: {
     name: "Composite",
@@ -4863,7 +4887,7 @@ export const AzureFirewallNatRuleCollection: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallNetworkRule: msRest.CompositeMapper = {
+export const AzureFirewallNetworkRule: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallNetworkRule",
   type: {
     name: "Composite",
@@ -4929,7 +4953,7 @@ export const AzureFirewallNetworkRule: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallNetworkRuleCollection: msRest.CompositeMapper = {
+export const AzureFirewallNetworkRuleCollection: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallNetworkRuleCollection",
   type: {
     name: "Composite",
@@ -4988,7 +5012,7 @@ export const AzureFirewallNetworkRuleCollection: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewall: msRest.CompositeMapper = {
+export const AzureFirewall: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewall",
   type: {
     name: "Composite",
@@ -5077,7 +5101,7 @@ export const AzureFirewall: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallFqdnTag: msRest.CompositeMapper = {
+export const AzureFirewallFqdnTag: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallFqdnTag",
   type: {
     name: "Composite",
@@ -5109,7 +5133,7 @@ export const AzureFirewallFqdnTag: msRest.CompositeMapper = {
   }
 };
 
-export const BastionHostIPConfiguration: msRest.CompositeMapper = {
+export const BastionHostIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "BastionHostIPConfiguration",
   type: {
     name: "Composite",
@@ -5145,7 +5169,6 @@ export const BastionHostIPConfiguration: msRest.CompositeMapper = {
         }
       },
       name: {
-        readOnly: true,
         serializedName: "name",
         type: {
           name: "String"
@@ -5169,7 +5192,7 @@ export const BastionHostIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const BastionHost: msRest.CompositeMapper = {
+export const BastionHost: coreHttp.CompositeMapper = {
   serializedName: "BastionHost",
   type: {
     name: "Composite",
@@ -5211,7 +5234,7 @@ export const BastionHost: msRest.CompositeMapper = {
   }
 };
 
-export const DnsNameAvailabilityResult: msRest.CompositeMapper = {
+export const DnsNameAvailabilityResult: coreHttp.CompositeMapper = {
   serializedName: "DnsNameAvailabilityResult",
   type: {
     name: "Composite",
@@ -5227,7 +5250,7 @@ export const DnsNameAvailabilityResult: msRest.CompositeMapper = {
   }
 };
 
-export const ProtocolCustomSettingsFormat: msRest.CompositeMapper = {
+export const ProtocolCustomSettingsFormat: coreHttp.CompositeMapper = {
   serializedName: "ProtocolCustomSettingsFormat",
   type: {
     name: "Composite",
@@ -5261,7 +5284,7 @@ export const ProtocolCustomSettingsFormat: msRest.CompositeMapper = {
   }
 };
 
-export const DdosCustomPolicy: msRest.CompositeMapper = {
+export const DdosCustomPolicy: coreHttp.CompositeMapper = {
   serializedName: "DdosCustomPolicy",
   type: {
     name: "Composite",
@@ -5318,7 +5341,7 @@ export const DdosCustomPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const DdosProtectionPlan: msRest.CompositeMapper = {
+export const DdosProtectionPlan: coreHttp.CompositeMapper = {
   serializedName: "DdosProtectionPlan",
   type: {
     name: "Composite",
@@ -5400,7 +5423,7 @@ export const DdosProtectionPlan: msRest.CompositeMapper = {
   }
 };
 
-export const EndpointServiceResult: msRest.CompositeMapper = {
+export const EndpointServiceResult: coreHttp.CompositeMapper = {
   serializedName: "EndpointServiceResult",
   type: {
     name: "Composite",
@@ -5425,7 +5448,7 @@ export const EndpointServiceResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitAuthorization: msRest.CompositeMapper = {
+export const ExpressRouteCircuitAuthorization: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitAuthorization",
   type: {
     name: "Composite",
@@ -5474,7 +5497,7 @@ export const ExpressRouteCircuitAuthorization: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitPeeringConfig: msRest.CompositeMapper = {
+export const ExpressRouteCircuitPeeringConfig: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitPeeringConfig",
   type: {
     name: "Composite",
@@ -5530,7 +5553,7 @@ export const ExpressRouteCircuitPeeringConfig: msRest.CompositeMapper = {
   }
 };
 
-export const Ipv6ExpressRouteCircuitPeeringConfig: msRest.CompositeMapper = {
+export const Ipv6ExpressRouteCircuitPeeringConfig: coreHttp.CompositeMapper = {
   serializedName: "Ipv6ExpressRouteCircuitPeeringConfig",
   type: {
     name: "Composite",
@@ -5572,7 +5595,7 @@ export const Ipv6ExpressRouteCircuitPeeringConfig: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitStats: msRest.CompositeMapper = {
+export const ExpressRouteCircuitStats: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitStats",
   type: {
     name: "Composite",
@@ -5606,7 +5629,7 @@ export const ExpressRouteCircuitStats: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteConnectionId: msRest.CompositeMapper = {
+export const ExpressRouteConnectionId: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteConnectionId",
   type: {
     name: "Composite",
@@ -5623,7 +5646,7 @@ export const ExpressRouteConnectionId: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitConnection: msRest.CompositeMapper = {
+export const ExpressRouteCircuitConnection: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitConnection",
   type: {
     name: "Composite",
@@ -5693,7 +5716,7 @@ export const ExpressRouteCircuitConnection: msRest.CompositeMapper = {
   }
 };
 
-export const PeerExpressRouteCircuitConnection: msRest.CompositeMapper = {
+export const PeerExpressRouteCircuitConnection: coreHttp.CompositeMapper = {
   serializedName: "PeerExpressRouteCircuitConnection",
   type: {
     name: "Composite",
@@ -5769,7 +5792,7 @@ export const PeerExpressRouteCircuitConnection: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitPeering: msRest.CompositeMapper = {
+export const ExpressRouteCircuitPeering: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitPeering",
   type: {
     name: "Composite",
@@ -5942,7 +5965,7 @@ export const ExpressRouteCircuitPeering: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitSku: msRest.CompositeMapper = {
+export const ExpressRouteCircuitSku: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitSku",
   type: {
     name: "Composite",
@@ -5970,7 +5993,7 @@ export const ExpressRouteCircuitSku: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitServiceProviderProperties: msRest.CompositeMapper = {
+export const ExpressRouteCircuitServiceProviderProperties: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitServiceProviderProperties",
   type: {
     name: "Composite",
@@ -5998,7 +6021,7 @@ export const ExpressRouteCircuitServiceProviderProperties: msRest.CompositeMappe
   }
 };
 
-export const ExpressRouteCircuit: msRest.CompositeMapper = {
+export const ExpressRouteCircuit: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuit",
   type: {
     name: "Composite",
@@ -6122,7 +6145,7 @@ export const ExpressRouteCircuit: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitArpTable: msRest.CompositeMapper = {
+export const ExpressRouteCircuitArpTable: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitArpTable",
   type: {
     name: "Composite",
@@ -6156,7 +6179,7 @@ export const ExpressRouteCircuitArpTable: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitsArpTableListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitsArpTableListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitsArpTableListResult",
   type: {
     name: "Composite",
@@ -6184,7 +6207,7 @@ export const ExpressRouteCircuitsArpTableListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitRoutesTable: msRest.CompositeMapper = {
+export const ExpressRouteCircuitRoutesTable: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitRoutesTable",
   type: {
     name: "Composite",
@@ -6224,7 +6247,7 @@ export const ExpressRouteCircuitRoutesTable: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitsRoutesTableListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitsRoutesTableListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitsRoutesTableListResult",
   type: {
     name: "Composite",
@@ -6252,7 +6275,7 @@ export const ExpressRouteCircuitsRoutesTableListResult: msRest.CompositeMapper =
   }
 };
 
-export const ExpressRouteCircuitRoutesTableSummary: msRest.CompositeMapper = {
+export const ExpressRouteCircuitRoutesTableSummary: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitRoutesTableSummary",
   type: {
     name: "Composite",
@@ -6292,7 +6315,7 @@ export const ExpressRouteCircuitRoutesTableSummary: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitsRoutesTableSummaryListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitsRoutesTableSummaryListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitsRoutesTableSummaryListResult",
   type: {
     name: "Composite",
@@ -6320,7 +6343,7 @@ export const ExpressRouteCircuitsRoutesTableSummaryListResult: msRest.CompositeM
   }
 };
 
-export const ExpressRouteServiceProviderBandwidthsOffered: msRest.CompositeMapper = {
+export const ExpressRouteServiceProviderBandwidthsOffered: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteServiceProviderBandwidthsOffered",
   type: {
     name: "Composite",
@@ -6342,7 +6365,7 @@ export const ExpressRouteServiceProviderBandwidthsOffered: msRest.CompositeMappe
   }
 };
 
-export const ExpressRouteServiceProvider: msRest.CompositeMapper = {
+export const ExpressRouteServiceProvider: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteServiceProvider",
   type: {
     name: "Composite",
@@ -6382,7 +6405,7 @@ export const ExpressRouteServiceProvider: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCrossConnectionRoutesTableSummary: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnectionRoutesTableSummary: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnectionRoutesTableSummary",
   type: {
     name: "Composite",
@@ -6416,7 +6439,7 @@ export const ExpressRouteCrossConnectionRoutesTableSummary: msRest.CompositeMapp
   }
 };
 
-export const ExpressRouteCrossConnectionsRoutesTableSummaryListResult: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnectionsRoutesTableSummaryListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnectionsRoutesTableSummaryListResult",
   type: {
     name: "Composite",
@@ -6445,7 +6468,7 @@ export const ExpressRouteCrossConnectionsRoutesTableSummaryListResult: msRest.Co
   }
 };
 
-export const ExpressRouteCircuitReference: msRest.CompositeMapper = {
+export const ExpressRouteCircuitReference: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitReference",
   type: {
     name: "Composite",
@@ -6461,7 +6484,7 @@ export const ExpressRouteCircuitReference: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCrossConnectionPeering: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnectionPeering: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnectionPeering",
   type: {
     name: "Composite",
@@ -6585,7 +6608,7 @@ export const ExpressRouteCrossConnectionPeering: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCrossConnection: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnection: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnection",
   type: {
     name: "Composite",
@@ -6674,7 +6697,7 @@ export const ExpressRouteCrossConnection: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHubId: msRest.CompositeMapper = {
+export const VirtualHubId: coreHttp.CompositeMapper = {
   serializedName: "VirtualHubId",
   type: {
     name: "Composite",
@@ -6690,7 +6713,7 @@ export const VirtualHubId: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitPeeringId: msRest.CompositeMapper = {
+export const ExpressRouteCircuitPeeringId: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitPeeringId",
   type: {
     name: "Composite",
@@ -6706,7 +6729,7 @@ export const ExpressRouteCircuitPeeringId: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds: msRest.CompositeMapper = {
+export const ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteGatewayProperties_autoScaleConfiguration_bounds",
   type: {
     name: "Composite",
@@ -6728,7 +6751,7 @@ export const ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds: msRest.C
   }
 };
 
-export const ExpressRouteGatewayPropertiesAutoScaleConfiguration: msRest.CompositeMapper = {
+export const ExpressRouteGatewayPropertiesAutoScaleConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteGatewayProperties_autoScaleConfiguration",
   type: {
     name: "Composite",
@@ -6745,7 +6768,7 @@ export const ExpressRouteGatewayPropertiesAutoScaleConfiguration: msRest.Composi
   }
 };
 
-export const ExpressRouteConnection: msRest.CompositeMapper = {
+export const ExpressRouteConnection: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteConnection",
   type: {
     name: "Composite",
@@ -6789,7 +6812,7 @@ export const ExpressRouteConnection: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteGateway: msRest.CompositeMapper = {
+export const ExpressRouteGateway: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteGateway",
   type: {
     name: "Composite",
@@ -6841,7 +6864,7 @@ export const ExpressRouteGateway: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteGatewayList: msRest.CompositeMapper = {
+export const ExpressRouteGatewayList: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteGatewayList",
   type: {
     name: "Composite",
@@ -6863,7 +6886,7 @@ export const ExpressRouteGatewayList: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteConnectionList: msRest.CompositeMapper = {
+export const ExpressRouteConnectionList: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteConnectionList",
   type: {
     name: "Composite",
@@ -6885,7 +6908,7 @@ export const ExpressRouteConnectionList: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRoutePortsLocationBandwidths: msRest.CompositeMapper = {
+export const ExpressRoutePortsLocationBandwidths: coreHttp.CompositeMapper = {
   serializedName: "ExpressRoutePortsLocationBandwidths",
   type: {
     name: "Composite",
@@ -6909,7 +6932,7 @@ export const ExpressRoutePortsLocationBandwidths: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRoutePortsLocation: msRest.CompositeMapper = {
+export const ExpressRoutePortsLocation: coreHttp.CompositeMapper = {
   serializedName: "ExpressRoutePortsLocation",
   type: {
     name: "Composite",
@@ -6953,7 +6976,7 @@ export const ExpressRoutePortsLocation: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteLink: msRest.CompositeMapper = {
+export const ExpressRouteLink: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteLink",
   type: {
     name: "Composite",
@@ -7025,7 +7048,7 @@ export const ExpressRouteLink: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRoutePort: msRest.CompositeMapper = {
+export const ExpressRoutePort: coreHttp.CompositeMapper = {
   serializedName: "ExpressRoutePort",
   type: {
     name: "Composite",
@@ -7127,240 +7150,7 @@ export const ExpressRoutePort: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateLinkServiceIpConfiguration: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceIpConfiguration",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceIpConfiguration",
-    modelProperties: {
-      privateIPAddress: {
-        serializedName: "properties.privateIPAddress",
-        type: {
-          name: "String"
-        }
-      },
-      privateIPAllocationMethod: {
-        serializedName: "properties.privateIPAllocationMethod",
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "Subnet"
-        }
-      },
-      publicIPAddress: {
-        serializedName: "properties.publicIPAddress",
-        type: {
-          name: "Composite",
-          className: "PublicIPAddress"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      privateIPAddressVersion: {
-        serializedName: "properties.privateIPAddressVersion",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnection: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointConnection",
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnection",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceSet: msRest.CompositeMapper = {
-  serializedName: "ResourceSet",
-  type: {
-    name: "Composite",
-    className: "ResourceSet",
-    modelProperties: {
-      subscriptions: {
-        serializedName: "subscriptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServicePropertiesVisibility: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceProperties_visibility",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServicePropertiesVisibility",
-    modelProperties: {
-      ...ResourceSet.type.modelProperties
-    }
-  }
-};
-
-export const PrivateLinkServicePropertiesAutoApproval: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceProperties_autoApproval",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServicePropertiesAutoApproval",
-    modelProperties: {
-      ...ResourceSet.type.modelProperties
-    }
-  }
-};
-
-export const PrivateLinkService: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkService",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkService",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      loadBalancerFrontendIPConfigurations: {
-        serializedName: "properties.loadBalancerFrontendIPConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FrontendIPConfiguration"
-            }
-          }
-        }
-      },
-      ipConfigurations: {
-        serializedName: "properties.ipConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkServiceIpConfiguration"
-            }
-          }
-        }
-      },
-      networkInterfaces: {
-        readOnly: true,
-        serializedName: "properties.networkInterfaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkInterface"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      privateEndpointConnections: {
-        serializedName: "properties.privateEndpointConnections",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
-      },
-      visibility: {
-        serializedName: "properties.visibility",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServicePropertiesVisibility"
-        }
-      },
-      autoApproval: {
-        serializedName: "properties.autoApproval",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServicePropertiesAutoApproval"
-        }
-      },
-      fqdns: {
-        serializedName: "properties.fqdns",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      alias: {
-        readOnly: true,
-        serializedName: "properties.alias",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LoadBalancerSku: msRest.CompositeMapper = {
+export const LoadBalancerSku: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerSku",
   type: {
     name: "Composite",
@@ -7376,7 +7166,7 @@ export const LoadBalancerSku: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancingRule: msRest.CompositeMapper = {
+export const LoadBalancingRule: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancingRule",
   type: {
     name: "Composite",
@@ -7471,12 +7261,19 @@ export const LoadBalancingRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const Probe: msRest.CompositeMapper = {
+export const Probe: coreHttp.CompositeMapper = {
   serializedName: "Probe",
   type: {
     name: "Composite",
@@ -7545,12 +7342,19 @@ export const Probe: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const InboundNatPool: msRest.CompositeMapper = {
+export const InboundNatPool: coreHttp.CompositeMapper = {
   serializedName: "InboundNatPool",
   type: {
     name: "Composite",
@@ -7627,12 +7431,19 @@ export const InboundNatPool: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const OutboundRule: msRest.CompositeMapper = {
+export const OutboundRule: coreHttp.CompositeMapper = {
   serializedName: "OutboundRule",
   type: {
     name: "Composite",
@@ -7702,12 +7513,19 @@ export const OutboundRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const LoadBalancer: msRest.CompositeMapper = {
+export const LoadBalancer: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancer",
   type: {
     name: "Composite",
@@ -7827,7 +7645,7 @@ export const LoadBalancer: msRest.CompositeMapper = {
   }
 };
 
-export const NatGatewaySku: msRest.CompositeMapper = {
+export const NatGatewaySku: coreHttp.CompositeMapper = {
   serializedName: "NatGatewaySku",
   type: {
     name: "Composite",
@@ -7843,7 +7661,7 @@ export const NatGatewaySku: msRest.CompositeMapper = {
   }
 };
 
-export const NatGateway: msRest.CompositeMapper = {
+export const NatGateway: coreHttp.CompositeMapper = {
   serializedName: "NatGateway",
   type: {
     name: "Composite",
@@ -7933,7 +7751,7 @@ export const NatGateway: msRest.CompositeMapper = {
   }
 };
 
-export const AzureAsyncOperationResult: msRest.CompositeMapper = {
+export const AzureAsyncOperationResult: coreHttp.CompositeMapper = {
   serializedName: "AzureAsyncOperationResult",
   type: {
     name: "Composite",
@@ -7956,7 +7774,7 @@ export const AzureAsyncOperationResult: msRest.CompositeMapper = {
   }
 };
 
-export const EffectiveNetworkSecurityGroupAssociation: msRest.CompositeMapper = {
+export const EffectiveNetworkSecurityGroupAssociation: coreHttp.CompositeMapper = {
   serializedName: "EffectiveNetworkSecurityGroupAssociation",
   type: {
     name: "Composite",
@@ -7980,7 +7798,7 @@ export const EffectiveNetworkSecurityGroupAssociation: msRest.CompositeMapper = 
   }
 };
 
-export const EffectiveNetworkSecurityRule: msRest.CompositeMapper = {
+export const EffectiveNetworkSecurityRule: coreHttp.CompositeMapper = {
   serializedName: "EffectiveNetworkSecurityRule",
   type: {
     name: "Composite",
@@ -8110,7 +7928,7 @@ export const EffectiveNetworkSecurityRule: msRest.CompositeMapper = {
   }
 };
 
-export const EffectiveNetworkSecurityGroup: msRest.CompositeMapper = {
+export const EffectiveNetworkSecurityGroup: coreHttp.CompositeMapper = {
   serializedName: "EffectiveNetworkSecurityGroup",
   type: {
     name: "Composite",
@@ -8162,7 +7980,7 @@ export const EffectiveNetworkSecurityGroup: msRest.CompositeMapper = {
   }
 };
 
-export const EffectiveNetworkSecurityGroupListResult: msRest.CompositeMapper = {
+export const EffectiveNetworkSecurityGroupListResult: coreHttp.CompositeMapper = {
   serializedName: "EffectiveNetworkSecurityGroupListResult",
   type: {
     name: "Composite",
@@ -8191,7 +8009,7 @@ export const EffectiveNetworkSecurityGroupListResult: msRest.CompositeMapper = {
   }
 };
 
-export const EffectiveRoute: msRest.CompositeMapper = {
+export const EffectiveRoute: coreHttp.CompositeMapper = {
   serializedName: "EffectiveRoute",
   type: {
     name: "Composite",
@@ -8253,7 +8071,7 @@ export const EffectiveRoute: msRest.CompositeMapper = {
   }
 };
 
-export const EffectiveRouteListResult: msRest.CompositeMapper = {
+export const EffectiveRouteListResult: coreHttp.CompositeMapper = {
   serializedName: "EffectiveRouteListResult",
   type: {
     name: "Composite",
@@ -8282,7 +8100,7 @@ export const EffectiveRouteListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerNetworkInterfaceConfiguration: msRest.CompositeMapper = {
+export const ContainerNetworkInterfaceConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ContainerNetworkInterfaceConfiguration",
   type: {
     name: "Composite",
@@ -8343,7 +8161,7 @@ export const ContainerNetworkInterfaceConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const Container: msRest.CompositeMapper = {
+export const Container: coreHttp.CompositeMapper = {
   serializedName: "Container",
   type: {
     name: "Composite",
@@ -8354,7 +8172,7 @@ export const Container: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerNetworkInterfaceIpConfiguration: msRest.CompositeMapper = {
+export const ContainerNetworkInterfaceIpConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ContainerNetworkInterfaceIpConfiguration",
   type: {
     name: "Composite",
@@ -8390,7 +8208,7 @@ export const ContainerNetworkInterfaceIpConfiguration: msRest.CompositeMapper = 
   }
 };
 
-export const ContainerNetworkInterface: msRest.CompositeMapper = {
+export const ContainerNetworkInterface: coreHttp.CompositeMapper = {
   serializedName: "ContainerNetworkInterface",
   type: {
     name: "Composite",
@@ -8453,7 +8271,7 @@ export const ContainerNetworkInterface: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkProfile: msRest.CompositeMapper = {
+export const NetworkProfile: coreHttp.CompositeMapper = {
   serializedName: "NetworkProfile",
   type: {
     name: "Composite",
@@ -8508,7 +8326,7 @@ export const NetworkProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
+export const ErrorResponse: coreHttp.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -8525,7 +8343,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkWatcher: msRest.CompositeMapper = {
+export const NetworkWatcher: coreHttp.CompositeMapper = {
   serializedName: "NetworkWatcher",
   type: {
     name: "Composite",
@@ -8548,7 +8366,7 @@ export const NetworkWatcher: msRest.CompositeMapper = {
   }
 };
 
-export const TopologyParameters: msRest.CompositeMapper = {
+export const TopologyParameters: coreHttp.CompositeMapper = {
   serializedName: "TopologyParameters",
   type: {
     name: "Composite",
@@ -8578,7 +8396,7 @@ export const TopologyParameters: msRest.CompositeMapper = {
   }
 };
 
-export const TopologyAssociation: msRest.CompositeMapper = {
+export const TopologyAssociation: coreHttp.CompositeMapper = {
   serializedName: "TopologyAssociation",
   type: {
     name: "Composite",
@@ -8606,7 +8424,7 @@ export const TopologyAssociation: msRest.CompositeMapper = {
   }
 };
 
-export const TopologyResource: msRest.CompositeMapper = {
+export const TopologyResource: coreHttp.CompositeMapper = {
   serializedName: "TopologyResource",
   type: {
     name: "Composite",
@@ -8646,7 +8464,7 @@ export const TopologyResource: msRest.CompositeMapper = {
   }
 };
 
-export const Topology: msRest.CompositeMapper = {
+export const Topology: coreHttp.CompositeMapper = {
   serializedName: "Topology",
   type: {
     name: "Composite",
@@ -8689,7 +8507,7 @@ export const Topology: msRest.CompositeMapper = {
   }
 };
 
-export const VerificationIPFlowParameters: msRest.CompositeMapper = {
+export const VerificationIPFlowParameters: coreHttp.CompositeMapper = {
   serializedName: "VerificationIPFlowParameters",
   type: {
     name: "Composite",
@@ -8754,7 +8572,7 @@ export const VerificationIPFlowParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VerificationIPFlowResult: msRest.CompositeMapper = {
+export const VerificationIPFlowResult: coreHttp.CompositeMapper = {
   serializedName: "VerificationIPFlowResult",
   type: {
     name: "Composite",
@@ -8776,7 +8594,7 @@ export const VerificationIPFlowResult: msRest.CompositeMapper = {
   }
 };
 
-export const NextHopParameters: msRest.CompositeMapper = {
+export const NextHopParameters: coreHttp.CompositeMapper = {
   serializedName: "NextHopParameters",
   type: {
     name: "Composite",
@@ -8813,7 +8631,7 @@ export const NextHopParameters: msRest.CompositeMapper = {
   }
 };
 
-export const NextHopResult: msRest.CompositeMapper = {
+export const NextHopResult: coreHttp.CompositeMapper = {
   serializedName: "NextHopResult",
   type: {
     name: "Composite",
@@ -8841,7 +8659,7 @@ export const NextHopResult: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityGroupViewParameters: msRest.CompositeMapper = {
+export const SecurityGroupViewParameters: coreHttp.CompositeMapper = {
   serializedName: "SecurityGroupViewParameters",
   type: {
     name: "Composite",
@@ -8858,7 +8676,7 @@ export const SecurityGroupViewParameters: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceAssociation: msRest.CompositeMapper = {
+export const NetworkInterfaceAssociation: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceAssociation",
   type: {
     name: "Composite",
@@ -8887,7 +8705,7 @@ export const NetworkInterfaceAssociation: msRest.CompositeMapper = {
   }
 };
 
-export const SubnetAssociation: msRest.CompositeMapper = {
+export const SubnetAssociation: coreHttp.CompositeMapper = {
   serializedName: "SubnetAssociation",
   type: {
     name: "Composite",
@@ -8916,7 +8734,7 @@ export const SubnetAssociation: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityRuleAssociations: msRest.CompositeMapper = {
+export const SecurityRuleAssociations: coreHttp.CompositeMapper = {
   serializedName: "SecurityRuleAssociations",
   type: {
     name: "Composite",
@@ -8964,7 +8782,7 @@ export const SecurityRuleAssociations: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityGroupNetworkInterface: msRest.CompositeMapper = {
+export const SecurityGroupNetworkInterface: coreHttp.CompositeMapper = {
   serializedName: "SecurityGroupNetworkInterface",
   type: {
     name: "Composite",
@@ -8987,7 +8805,7 @@ export const SecurityGroupNetworkInterface: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityGroupViewResult: msRest.CompositeMapper = {
+export const SecurityGroupViewResult: coreHttp.CompositeMapper = {
   serializedName: "SecurityGroupViewResult",
   type: {
     name: "Composite",
@@ -9009,7 +8827,7 @@ export const SecurityGroupViewResult: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureStorageLocation: msRest.CompositeMapper = {
+export const PacketCaptureStorageLocation: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureStorageLocation",
   type: {
     name: "Composite",
@@ -9037,7 +8855,7 @@ export const PacketCaptureStorageLocation: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureFilter: msRest.CompositeMapper = {
+export const PacketCaptureFilter: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureFilter",
   type: {
     name: "Composite",
@@ -9078,7 +8896,7 @@ export const PacketCaptureFilter: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureParameters: msRest.CompositeMapper = {
+export const PacketCaptureParameters: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureParameters",
   type: {
     name: "Composite",
@@ -9136,7 +8954,7 @@ export const PacketCaptureParameters: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCapture: msRest.CompositeMapper = {
+export const PacketCapture: coreHttp.CompositeMapper = {
   serializedName: "PacketCapture",
   type: {
     name: "Composite",
@@ -9194,7 +9012,7 @@ export const PacketCapture: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureResult: msRest.CompositeMapper = {
+export const PacketCaptureResult: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureResult",
   type: {
     name: "Composite",
@@ -9279,7 +9097,7 @@ export const PacketCaptureResult: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureQueryStatusResult: msRest.CompositeMapper = {
+export const PacketCaptureQueryStatusResult: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureQueryStatusResult",
   type: {
     name: "Composite",
@@ -9330,7 +9148,7 @@ export const PacketCaptureQueryStatusResult: msRest.CompositeMapper = {
   }
 };
 
-export const TroubleshootingParameters: msRest.CompositeMapper = {
+export const TroubleshootingParameters: coreHttp.CompositeMapper = {
   serializedName: "TroubleshootingParameters",
   type: {
     name: "Composite",
@@ -9361,7 +9179,7 @@ export const TroubleshootingParameters: msRest.CompositeMapper = {
   }
 };
 
-export const QueryTroubleshootingParameters: msRest.CompositeMapper = {
+export const QueryTroubleshootingParameters: coreHttp.CompositeMapper = {
   serializedName: "QueryTroubleshootingParameters",
   type: {
     name: "Composite",
@@ -9378,7 +9196,7 @@ export const QueryTroubleshootingParameters: msRest.CompositeMapper = {
   }
 };
 
-export const TroubleshootingRecommendedActions: msRest.CompositeMapper = {
+export const TroubleshootingRecommendedActions: coreHttp.CompositeMapper = {
   serializedName: "TroubleshootingRecommendedActions",
   type: {
     name: "Composite",
@@ -9412,7 +9230,7 @@ export const TroubleshootingRecommendedActions: msRest.CompositeMapper = {
   }
 };
 
-export const TroubleshootingDetails: msRest.CompositeMapper = {
+export const TroubleshootingDetails: coreHttp.CompositeMapper = {
   serializedName: "TroubleshootingDetails",
   type: {
     name: "Composite",
@@ -9458,7 +9276,7 @@ export const TroubleshootingDetails: msRest.CompositeMapper = {
   }
 };
 
-export const TroubleshootingResult: msRest.CompositeMapper = {
+export const TroubleshootingResult: coreHttp.CompositeMapper = {
   serializedName: "TroubleshootingResult",
   type: {
     name: "Composite",
@@ -9498,7 +9316,7 @@ export const TroubleshootingResult: msRest.CompositeMapper = {
   }
 };
 
-export const RetentionPolicyParameters: msRest.CompositeMapper = {
+export const RetentionPolicyParameters: coreHttp.CompositeMapper = {
   serializedName: "RetentionPolicyParameters",
   type: {
     name: "Composite",
@@ -9522,7 +9340,7 @@ export const RetentionPolicyParameters: msRest.CompositeMapper = {
   }
 };
 
-export const FlowLogFormatParameters: msRest.CompositeMapper = {
+export const FlowLogFormatParameters: coreHttp.CompositeMapper = {
   serializedName: "FlowLogFormatParameters",
   type: {
     name: "Composite",
@@ -9545,7 +9363,7 @@ export const FlowLogFormatParameters: msRest.CompositeMapper = {
   }
 };
 
-export const FlowLogStatusParameters: msRest.CompositeMapper = {
+export const FlowLogStatusParameters: coreHttp.CompositeMapper = {
   serializedName: "FlowLogStatusParameters",
   type: {
     name: "Composite",
@@ -9562,7 +9380,7 @@ export const FlowLogStatusParameters: msRest.CompositeMapper = {
   }
 };
 
-export const TrafficAnalyticsConfigurationProperties: msRest.CompositeMapper = {
+export const TrafficAnalyticsConfigurationProperties: coreHttp.CompositeMapper = {
   serializedName: "TrafficAnalyticsConfigurationProperties",
   type: {
     name: "Composite",
@@ -9606,7 +9424,7 @@ export const TrafficAnalyticsConfigurationProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TrafficAnalyticsProperties: msRest.CompositeMapper = {
+export const TrafficAnalyticsProperties: coreHttp.CompositeMapper = {
   serializedName: "TrafficAnalyticsProperties",
   type: {
     name: "Composite",
@@ -9624,7 +9442,7 @@ export const TrafficAnalyticsProperties: msRest.CompositeMapper = {
   }
 };
 
-export const FlowLogInformation: msRest.CompositeMapper = {
+export const FlowLogInformation: coreHttp.CompositeMapper = {
   serializedName: "FlowLogInformation",
   type: {
     name: "Composite",
@@ -9676,7 +9494,7 @@ export const FlowLogInformation: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivitySource: msRest.CompositeMapper = {
+export const ConnectivitySource: coreHttp.CompositeMapper = {
   serializedName: "ConnectivitySource",
   type: {
     name: "Composite",
@@ -9699,7 +9517,7 @@ export const ConnectivitySource: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityDestination: msRest.CompositeMapper = {
+export const ConnectivityDestination: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityDestination",
   type: {
     name: "Composite",
@@ -9727,7 +9545,7 @@ export const ConnectivityDestination: msRest.CompositeMapper = {
   }
 };
 
-export const HTTPHeader: msRest.CompositeMapper = {
+export const HTTPHeader: coreHttp.CompositeMapper = {
   serializedName: "HTTPHeader",
   type: {
     name: "Composite",
@@ -9749,7 +9567,7 @@ export const HTTPHeader: msRest.CompositeMapper = {
   }
 };
 
-export const HTTPConfiguration: msRest.CompositeMapper = {
+export const HTTPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "HTTPConfiguration",
   type: {
     name: "Composite",
@@ -9788,7 +9606,7 @@ export const HTTPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ProtocolConfiguration: msRest.CompositeMapper = {
+export const ProtocolConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ProtocolConfiguration",
   type: {
     name: "Composite",
@@ -9805,7 +9623,7 @@ export const ProtocolConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityParameters: msRest.CompositeMapper = {
+export const ConnectivityParameters: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityParameters",
   type: {
     name: "Composite",
@@ -9844,7 +9662,7 @@ export const ConnectivityParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityIssue: msRest.CompositeMapper = {
+export const ConnectivityIssue: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityIssue",
   type: {
     name: "Composite",
@@ -9892,7 +9710,7 @@ export const ConnectivityIssue: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityHop: msRest.CompositeMapper = {
+export const ConnectivityHop: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityHop",
   type: {
     name: "Composite",
@@ -9955,7 +9773,7 @@ export const ConnectivityHop: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityInformation: msRest.CompositeMapper = {
+export const ConnectivityInformation: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityInformation",
   type: {
     name: "Composite",
@@ -10020,7 +9838,7 @@ export const ConnectivityInformation: msRest.CompositeMapper = {
   }
 };
 
-export const AzureReachabilityReportLocation: msRest.CompositeMapper = {
+export const AzureReachabilityReportLocation: coreHttp.CompositeMapper = {
   serializedName: "AzureReachabilityReportLocation",
   type: {
     name: "Composite",
@@ -10049,7 +9867,7 @@ export const AzureReachabilityReportLocation: msRest.CompositeMapper = {
   }
 };
 
-export const AzureReachabilityReportParameters: msRest.CompositeMapper = {
+export const AzureReachabilityReportParameters: coreHttp.CompositeMapper = {
   serializedName: "AzureReachabilityReportParameters",
   type: {
     name: "Composite",
@@ -10103,7 +9921,7 @@ export const AzureReachabilityReportParameters: msRest.CompositeMapper = {
   }
 };
 
-export const AzureReachabilityReportLatencyInfo: msRest.CompositeMapper = {
+export const AzureReachabilityReportLatencyInfo: coreHttp.CompositeMapper = {
   serializedName: "AzureReachabilityReportLatencyInfo",
   type: {
     name: "Composite",
@@ -10129,7 +9947,7 @@ export const AzureReachabilityReportLatencyInfo: msRest.CompositeMapper = {
   }
 };
 
-export const AzureReachabilityReportItem: msRest.CompositeMapper = {
+export const AzureReachabilityReportItem: coreHttp.CompositeMapper = {
   serializedName: "AzureReachabilityReportItem",
   type: {
     name: "Composite",
@@ -10163,7 +9981,7 @@ export const AzureReachabilityReportItem: msRest.CompositeMapper = {
   }
 };
 
-export const AzureReachabilityReport: msRest.CompositeMapper = {
+export const AzureReachabilityReport: coreHttp.CompositeMapper = {
   serializedName: "AzureReachabilityReport",
   type: {
     name: "Composite",
@@ -10201,7 +10019,7 @@ export const AzureReachabilityReport: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableProvidersListParameters: msRest.CompositeMapper = {
+export const AvailableProvidersListParameters: coreHttp.CompositeMapper = {
   serializedName: "AvailableProvidersListParameters",
   type: {
     name: "Composite",
@@ -10240,7 +10058,7 @@ export const AvailableProvidersListParameters: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableProvidersListCity: msRest.CompositeMapper = {
+export const AvailableProvidersListCity: coreHttp.CompositeMapper = {
   serializedName: "AvailableProvidersListCity",
   type: {
     name: "Composite",
@@ -10267,7 +10085,7 @@ export const AvailableProvidersListCity: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableProvidersListState: msRest.CompositeMapper = {
+export const AvailableProvidersListState: coreHttp.CompositeMapper = {
   serializedName: "AvailableProvidersListState",
   type: {
     name: "Composite",
@@ -10306,7 +10124,7 @@ export const AvailableProvidersListState: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableProvidersListCountry: msRest.CompositeMapper = {
+export const AvailableProvidersListCountry: coreHttp.CompositeMapper = {
   serializedName: "AvailableProvidersListCountry",
   type: {
     name: "Composite",
@@ -10345,7 +10163,7 @@ export const AvailableProvidersListCountry: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableProvidersList: msRest.CompositeMapper = {
+export const AvailableProvidersList: coreHttp.CompositeMapper = {
   serializedName: "AvailableProvidersList",
   type: {
     name: "Composite",
@@ -10368,7 +10186,7 @@ export const AvailableProvidersList: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorSource: msRest.CompositeMapper = {
+export const ConnectionMonitorSource: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorSource",
   type: {
     name: "Composite",
@@ -10391,7 +10209,7 @@ export const ConnectionMonitorSource: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorDestination: msRest.CompositeMapper = {
+export const ConnectionMonitorDestination: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorDestination",
   type: {
     name: "Composite",
@@ -10419,7 +10237,7 @@ export const ConnectionMonitorDestination: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorParameters: msRest.CompositeMapper = {
+export const ConnectionMonitorParameters: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorParameters",
   type: {
     name: "Composite",
@@ -10459,7 +10277,7 @@ export const ConnectionMonitorParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitor: msRest.CompositeMapper = {
+export const ConnectionMonitor: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitor",
   type: {
     name: "Composite",
@@ -10516,7 +10334,7 @@ export const ConnectionMonitor: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorResult: msRest.CompositeMapper = {
+export const ConnectionMonitorResult: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorResult",
   type: {
     name: "Composite",
@@ -10619,7 +10437,7 @@ export const ConnectionMonitorResult: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionStateSnapshot: msRest.CompositeMapper = {
+export const ConnectionStateSnapshot: coreHttp.CompositeMapper = {
   serializedName: "ConnectionStateSnapshot",
   type: {
     name: "Composite",
@@ -10696,7 +10514,7 @@ export const ConnectionStateSnapshot: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorQueryResult: msRest.CompositeMapper = {
+export const ConnectionMonitorQueryResult: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorQueryResult",
   type: {
     name: "Composite",
@@ -10724,7 +10542,7 @@ export const ConnectionMonitorQueryResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkConfigurationDiagnosticProfile: msRest.CompositeMapper = {
+export const NetworkConfigurationDiagnosticProfile: coreHttp.CompositeMapper = {
   serializedName: "NetworkConfigurationDiagnosticProfile",
   type: {
     name: "Composite",
@@ -10769,7 +10587,7 @@ export const NetworkConfigurationDiagnosticProfile: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkConfigurationDiagnosticParameters: msRest.CompositeMapper = {
+export const NetworkConfigurationDiagnosticParameters: coreHttp.CompositeMapper = {
   serializedName: "NetworkConfigurationDiagnosticParameters",
   type: {
     name: "Composite",
@@ -10805,7 +10623,7 @@ export const NetworkConfigurationDiagnosticParameters: msRest.CompositeMapper = 
   }
 };
 
-export const MatchedRule: msRest.CompositeMapper = {
+export const MatchedRule: coreHttp.CompositeMapper = {
   serializedName: "MatchedRule",
   type: {
     name: "Composite",
@@ -10827,7 +10645,7 @@ export const MatchedRule: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityRulesEvaluationResult: msRest.CompositeMapper = {
+export const NetworkSecurityRulesEvaluationResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkSecurityRulesEvaluationResult",
   type: {
     name: "Composite",
@@ -10873,7 +10691,7 @@ export const NetworkSecurityRulesEvaluationResult: msRest.CompositeMapper = {
   }
 };
 
-export const EvaluatedNetworkSecurityGroup: msRest.CompositeMapper = {
+export const EvaluatedNetworkSecurityGroup: coreHttp.CompositeMapper = {
   serializedName: "EvaluatedNetworkSecurityGroup",
   type: {
     name: "Composite",
@@ -10915,7 +10733,7 @@ export const EvaluatedNetworkSecurityGroup: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityGroupResult: msRest.CompositeMapper = {
+export const NetworkSecurityGroupResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkSecurityGroupResult",
   type: {
     name: "Composite",
@@ -10944,7 +10762,7 @@ export const NetworkSecurityGroupResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkConfigurationDiagnosticResult: msRest.CompositeMapper = {
+export const NetworkConfigurationDiagnosticResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkConfigurationDiagnosticResult",
   type: {
     name: "Composite",
@@ -10968,7 +10786,7 @@ export const NetworkConfigurationDiagnosticResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkConfigurationDiagnosticResponse: msRest.CompositeMapper = {
+export const NetworkConfigurationDiagnosticResponse: coreHttp.CompositeMapper = {
   serializedName: "NetworkConfigurationDiagnosticResponse",
   type: {
     name: "Composite",
@@ -10991,7 +10809,7 @@ export const NetworkConfigurationDiagnosticResponse: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
+export const OperationDisplay: coreHttp.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -11025,7 +10843,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const Availability: msRest.CompositeMapper = {
+export const Availability: coreHttp.CompositeMapper = {
   serializedName: "Availability",
   type: {
     name: "Composite",
@@ -11053,7 +10871,7 @@ export const Availability: msRest.CompositeMapper = {
   }
 };
 
-export const Dimension: msRest.CompositeMapper = {
+export const Dimension: coreHttp.CompositeMapper = {
   serializedName: "Dimension",
   type: {
     name: "Composite",
@@ -11081,7 +10899,7 @@ export const Dimension: msRest.CompositeMapper = {
   }
 };
 
-export const MetricSpecification: msRest.CompositeMapper = {
+export const MetricSpecification: coreHttp.CompositeMapper = {
   serializedName: "MetricSpecification",
   type: {
     name: "Composite",
@@ -11187,7 +11005,7 @@ export const MetricSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const LogSpecification: msRest.CompositeMapper = {
+export const LogSpecification: coreHttp.CompositeMapper = {
   serializedName: "LogSpecification",
   type: {
     name: "Composite",
@@ -11215,7 +11033,7 @@ export const LogSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const OperationPropertiesFormatServiceSpecification: msRest.CompositeMapper = {
+export const OperationPropertiesFormatServiceSpecification: coreHttp.CompositeMapper = {
   serializedName: "OperationPropertiesFormat_serviceSpecification",
   type: {
     name: "Composite",
@@ -11249,7 +11067,7 @@ export const OperationPropertiesFormatServiceSpecification: msRest.CompositeMapp
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
+export const Operation: coreHttp.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -11285,7 +11103,322 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPPrefixSku: msRest.CompositeMapper = {
+export const AvailablePrivateEndpointType: coreHttp.CompositeMapper = {
+  serializedName: "AvailablePrivateEndpointType",
+  type: {
+    name: "Composite",
+    className: "AvailablePrivateEndpointType",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resourceName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceIpConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkServiceIpConfiguration",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceIpConfiguration",
+    modelProperties: {
+      privateIPAddress: {
+        serializedName: "properties.privateIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      privateIPAllocationMethod: {
+        serializedName: "properties.privateIPAllocationMethod",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "Composite",
+          className: "Subnet"
+        }
+      },
+      publicIPAddress: {
+        serializedName: "properties.publicIPAddress",
+        type: {
+          name: "Composite",
+          className: "PublicIPAddress"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateIPAddressVersion: {
+        serializedName: "properties.privateIPAddressVersion",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: coreHttp.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSet: coreHttp.CompositeMapper = {
+  serializedName: "ResourceSet",
+  type: {
+    name: "Composite",
+    className: "ResourceSet",
+    modelProperties: {
+      subscriptions: {
+        serializedName: "subscriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServicePropertiesVisibility: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkServiceProperties_visibility",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServicePropertiesVisibility",
+    modelProperties: {
+      ...ResourceSet.type.modelProperties
+    }
+  }
+};
+
+export const PrivateLinkServicePropertiesAutoApproval: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkServiceProperties_autoApproval",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServicePropertiesAutoApproval",
+    modelProperties: {
+      ...ResourceSet.type.modelProperties
+    }
+  }
+};
+
+export const PrivateLinkService: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkService",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkService",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      loadBalancerFrontendIpConfigurations: {
+        serializedName: "properties.loadBalancerFrontendIpConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FrontendIPConfiguration"
+            }
+          }
+        }
+      },
+      ipConfigurations: {
+        serializedName: "properties.ipConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkServiceIpConfiguration"
+            }
+          }
+        }
+      },
+      networkInterfaces: {
+        readOnly: true,
+        serializedName: "properties.networkInterfaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkInterface"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      visibility: {
+        serializedName: "properties.visibility",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServicePropertiesVisibility"
+        }
+      },
+      autoApproval: {
+        serializedName: "properties.autoApproval",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServicePropertiesAutoApproval"
+        }
+      },
+      fqdns: {
+        serializedName: "properties.fqdns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      alias: {
+        readOnly: true,
+        serializedName: "properties.alias",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckPrivateLinkServiceVisibilityRequest: coreHttp.CompositeMapper = {
+  serializedName: "CheckPrivateLinkServiceVisibilityRequest",
+  type: {
+    name: "Composite",
+    className: "CheckPrivateLinkServiceVisibilityRequest",
+    modelProperties: {
+      privateLinkServiceAlias: {
+        serializedName: "privateLinkServiceAlias",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceVisibility: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkServiceVisibility",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceVisibility",
+    modelProperties: {
+      visible: {
+        serializedName: "visible",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AutoApprovedPrivateLinkService: coreHttp.CompositeMapper = {
+  serializedName: "AutoApprovedPrivateLinkService",
+  type: {
+    name: "Composite",
+    className: "AutoApprovedPrivateLinkService",
+    modelProperties: {
+      privateLinkService: {
+        serializedName: "privateLinkService",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublicIPPrefixSku: coreHttp.CompositeMapper = {
   serializedName: "PublicIPPrefixSku",
   type: {
     name: "Composite",
@@ -11301,7 +11434,7 @@ export const PublicIPPrefixSku: msRest.CompositeMapper = {
   }
 };
 
-export const ReferencedPublicIpAddress: msRest.CompositeMapper = {
+export const ReferencedPublicIpAddress: coreHttp.CompositeMapper = {
   serializedName: "ReferencedPublicIpAddress",
   type: {
     name: "Composite",
@@ -11317,7 +11450,7 @@ export const ReferencedPublicIpAddress: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPPrefix: msRest.CompositeMapper = {
+export const PublicIPPrefix: coreHttp.CompositeMapper = {
   serializedName: "PublicIPPrefix",
   type: {
     name: "Composite",
@@ -11406,7 +11539,7 @@ export const PublicIPPrefix: msRest.CompositeMapper = {
   }
 };
 
-export const RouteFilterRule: msRest.CompositeMapper = {
+export const RouteFilterRule: coreHttp.CompositeMapper = {
   serializedName: "RouteFilterRule",
   type: {
     name: "Composite",
@@ -11471,7 +11604,7 @@ export const RouteFilterRule: msRest.CompositeMapper = {
   }
 };
 
-export const PatchRouteFilterRule: msRest.CompositeMapper = {
+export const PatchRouteFilterRule: coreHttp.CompositeMapper = {
   serializedName: "PatchRouteFilterRule",
   type: {
     name: "Composite",
@@ -11531,7 +11664,7 @@ export const PatchRouteFilterRule: msRest.CompositeMapper = {
   }
 };
 
-export const RouteFilter: msRest.CompositeMapper = {
+export const RouteFilter: coreHttp.CompositeMapper = {
   serializedName: "RouteFilter",
   type: {
     name: "Composite",
@@ -11592,7 +11725,7 @@ export const RouteFilter: msRest.CompositeMapper = {
   }
 };
 
-export const PatchRouteFilter: msRest.CompositeMapper = {
+export const PatchRouteFilter: coreHttp.CompositeMapper = {
   serializedName: "PatchRouteFilter",
   type: {
     name: "Composite",
@@ -11678,7 +11811,7 @@ export const PatchRouteFilter: msRest.CompositeMapper = {
   }
 };
 
-export const BGPCommunity: msRest.CompositeMapper = {
+export const BGPCommunity: coreHttp.CompositeMapper = {
   serializedName: "BGPCommunity",
   type: {
     name: "Composite",
@@ -11729,7 +11862,7 @@ export const BGPCommunity: msRest.CompositeMapper = {
   }
 };
 
-export const BgpServiceCommunity: msRest.CompositeMapper = {
+export const BgpServiceCommunity: coreHttp.CompositeMapper = {
   serializedName: "BgpServiceCommunity",
   type: {
     name: "Composite",
@@ -11758,7 +11891,7 @@ export const BgpServiceCommunity: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceTagInformationPropertiesFormat: msRest.CompositeMapper = {
+export const ServiceTagInformationPropertiesFormat: coreHttp.CompositeMapper = {
   serializedName: "ServiceTagInformationPropertiesFormat",
   type: {
     name: "Composite",
@@ -11801,7 +11934,7 @@ export const ServiceTagInformationPropertiesFormat: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceTagInformation: msRest.CompositeMapper = {
+export const ServiceTagInformation: coreHttp.CompositeMapper = {
   serializedName: "ServiceTagInformation",
   type: {
     name: "Composite",
@@ -11833,7 +11966,7 @@ export const ServiceTagInformation: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceTagsListResult: msRest.CompositeMapper = {
+export const ServiceTagsListResult: coreHttp.CompositeMapper = {
   serializedName: "ServiceTagsListResult",
   type: {
     name: "Composite",
@@ -11891,7 +12024,7 @@ export const ServiceTagsListResult: msRest.CompositeMapper = {
   }
 };
 
-export const UsageName: msRest.CompositeMapper = {
+export const UsageName: coreHttp.CompositeMapper = {
   serializedName: "UsageName",
   type: {
     name: "Composite",
@@ -11913,7 +12046,7 @@ export const UsageName: msRest.CompositeMapper = {
   }
 };
 
-export const Usage: msRest.CompositeMapper = {
+export const Usage: coreHttp.CompositeMapper = {
   serializedName: "Usage",
   type: {
     name: "Composite",
@@ -11961,7 +12094,7 @@ export const Usage: msRest.CompositeMapper = {
   }
 };
 
-export const AddressSpace: msRest.CompositeMapper = {
+export const AddressSpace: coreHttp.CompositeMapper = {
   serializedName: "AddressSpace",
   type: {
     name: "Composite",
@@ -11982,7 +12115,7 @@ export const AddressSpace: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkPeering: msRest.CompositeMapper = {
+export const VirtualNetworkPeering: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkPeering",
   type: {
     name: "Composite",
@@ -12055,7 +12188,7 @@ export const VirtualNetworkPeering: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceNavigationLinksListResult: msRest.CompositeMapper = {
+export const ResourceNavigationLinksListResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceNavigationLinksListResult",
   type: {
     name: "Composite",
@@ -12084,7 +12217,7 @@ export const ResourceNavigationLinksListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceAssociationLinksListResult: msRest.CompositeMapper = {
+export const ServiceAssociationLinksListResult: coreHttp.CompositeMapper = {
   serializedName: "ServiceAssociationLinksListResult",
   type: {
     name: "Composite",
@@ -12113,7 +12246,7 @@ export const ServiceAssociationLinksListResult: msRest.CompositeMapper = {
   }
 };
 
-export const DhcpOptions: msRest.CompositeMapper = {
+export const DhcpOptions: coreHttp.CompositeMapper = {
   serializedName: "DhcpOptions",
   type: {
     name: "Composite",
@@ -12134,7 +12267,7 @@ export const DhcpOptions: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetwork: msRest.CompositeMapper = {
+export const VirtualNetwork: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetwork",
   type: {
     name: "Composite",
@@ -12222,7 +12355,7 @@ export const VirtualNetwork: msRest.CompositeMapper = {
   }
 };
 
-export const IPAddressAvailabilityResult: msRest.CompositeMapper = {
+export const IPAddressAvailabilityResult: coreHttp.CompositeMapper = {
   serializedName: "IPAddressAvailabilityResult",
   type: {
     name: "Composite",
@@ -12249,7 +12382,7 @@ export const IPAddressAvailabilityResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkUsageName: msRest.CompositeMapper = {
+export const VirtualNetworkUsageName: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkUsageName",
   type: {
     name: "Composite",
@@ -12273,7 +12406,7 @@ export const VirtualNetworkUsageName: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkUsage: msRest.CompositeMapper = {
+export const VirtualNetworkUsage: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkUsage",
   type: {
     name: "Composite",
@@ -12319,7 +12452,7 @@ export const VirtualNetworkUsage: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkIntentPolicy: msRest.CompositeMapper = {
+export const NetworkIntentPolicy: coreHttp.CompositeMapper = {
   serializedName: "NetworkIntentPolicy",
   type: {
     name: "Composite",
@@ -12336,7 +12469,7 @@ export const NetworkIntentPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkIntentPolicyConfiguration: msRest.CompositeMapper = {
+export const NetworkIntentPolicyConfiguration: coreHttp.CompositeMapper = {
   serializedName: "NetworkIntentPolicyConfiguration",
   type: {
     name: "Composite",
@@ -12359,7 +12492,7 @@ export const NetworkIntentPolicyConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const PrepareNetworkPoliciesRequest: msRest.CompositeMapper = {
+export const PrepareNetworkPoliciesRequest: coreHttp.CompositeMapper = {
   serializedName: "PrepareNetworkPoliciesRequest",
   type: {
     name: "Composite",
@@ -12367,12 +12500,6 @@ export const PrepareNetworkPoliciesRequest: msRest.CompositeMapper = {
     modelProperties: {
       serviceName: {
         serializedName: "serviceName",
-        type: {
-          name: "String"
-        }
-      },
-      resourceGroupName: {
-        serializedName: "resourceGroupName",
         type: {
           name: "String"
         }
@@ -12393,7 +12520,7 @@ export const PrepareNetworkPoliciesRequest: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGatewayIPConfiguration: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayIPConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayIPConfiguration",
   type: {
     name: "Composite",
@@ -12443,7 +12570,7 @@ export const VirtualNetworkGatewayIPConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGatewaySku: msRest.CompositeMapper = {
+export const VirtualNetworkGatewaySku: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewaySku",
   type: {
     name: "Composite",
@@ -12471,7 +12598,7 @@ export const VirtualNetworkGatewaySku: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientRootCertificate: msRest.CompositeMapper = {
+export const VpnClientRootCertificate: coreHttp.CompositeMapper = {
   serializedName: "VpnClientRootCertificate",
   type: {
     name: "Composite",
@@ -12508,7 +12635,7 @@ export const VpnClientRootCertificate: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientRevokedCertificate: msRest.CompositeMapper = {
+export const VpnClientRevokedCertificate: coreHttp.CompositeMapper = {
   serializedName: "VpnClientRevokedCertificate",
   type: {
     name: "Composite",
@@ -12544,7 +12671,7 @@ export const VpnClientRevokedCertificate: msRest.CompositeMapper = {
   }
 };
 
-export const IpsecPolicy: msRest.CompositeMapper = {
+export const IpsecPolicy: coreHttp.CompositeMapper = {
   serializedName: "IpsecPolicy",
   type: {
     name: "Composite",
@@ -12610,7 +12737,7 @@ export const IpsecPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientConfiguration: msRest.CompositeMapper = {
+export const VpnClientConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VpnClientConfiguration",
   type: {
     name: "Composite",
@@ -12704,7 +12831,7 @@ export const VpnClientConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const BgpSettings: msRest.CompositeMapper = {
+export const BgpSettings: coreHttp.CompositeMapper = {
   serializedName: "BgpSettings",
   type: {
     name: "Composite",
@@ -12732,7 +12859,7 @@ export const BgpSettings: msRest.CompositeMapper = {
   }
 };
 
-export const BgpPeerStatus: msRest.CompositeMapper = {
+export const BgpPeerStatus: coreHttp.CompositeMapper = {
   serializedName: "BgpPeerStatus",
   type: {
     name: "Composite",
@@ -12798,7 +12925,7 @@ export const BgpPeerStatus: msRest.CompositeMapper = {
   }
 };
 
-export const GatewayRoute: msRest.CompositeMapper = {
+export const GatewayRoute: coreHttp.CompositeMapper = {
   serializedName: "GatewayRoute",
   type: {
     name: "Composite",
@@ -12857,7 +12984,7 @@ export const GatewayRoute: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGateway: msRest.CompositeMapper = {
+export const VirtualNetworkGateway: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGateway",
   type: {
     name: "Composite",
@@ -12958,7 +13085,7 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientParameters: msRest.CompositeMapper = {
+export const VpnClientParameters: coreHttp.CompositeMapper = {
   serializedName: "VpnClientParameters",
   type: {
     name: "Composite",
@@ -12997,7 +13124,7 @@ export const VpnClientParameters: msRest.CompositeMapper = {
   }
 };
 
-export const BgpPeerStatusListResult: msRest.CompositeMapper = {
+export const BgpPeerStatusListResult: coreHttp.CompositeMapper = {
   serializedName: "BgpPeerStatusListResult",
   type: {
     name: "Composite",
@@ -13019,7 +13146,7 @@ export const BgpPeerStatusListResult: msRest.CompositeMapper = {
   }
 };
 
-export const GatewayRouteListResult: msRest.CompositeMapper = {
+export const GatewayRouteListResult: coreHttp.CompositeMapper = {
   serializedName: "GatewayRouteListResult",
   type: {
     name: "Composite",
@@ -13041,7 +13168,7 @@ export const GatewayRouteListResult: msRest.CompositeMapper = {
   }
 };
 
-export const TunnelConnectionHealth: msRest.CompositeMapper = {
+export const TunnelConnectionHealth: coreHttp.CompositeMapper = {
   serializedName: "TunnelConnectionHealth",
   type: {
     name: "Composite",
@@ -13086,7 +13213,7 @@ export const TunnelConnectionHealth: msRest.CompositeMapper = {
   }
 };
 
-export const LocalNetworkGateway: msRest.CompositeMapper = {
+export const LocalNetworkGateway: coreHttp.CompositeMapper = {
   serializedName: "LocalNetworkGateway",
   type: {
     name: "Composite",
@@ -13136,7 +13263,7 @@ export const LocalNetworkGateway: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGatewayConnection: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayConnection: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayConnection",
   type: {
     name: "Composite",
@@ -13290,7 +13417,7 @@ export const VirtualNetworkGatewayConnection: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionResetSharedKey: msRest.CompositeMapper = {
+export const ConnectionResetSharedKey: coreHttp.CompositeMapper = {
   serializedName: "ConnectionResetSharedKey",
   type: {
     name: "Composite",
@@ -13311,7 +13438,7 @@ export const ConnectionResetSharedKey: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionSharedKey: msRest.CompositeMapper = {
+export const ConnectionSharedKey: coreHttp.CompositeMapper = {
   serializedName: "ConnectionSharedKey",
   type: {
     name: "Composite",
@@ -13329,7 +13456,7 @@ export const ConnectionSharedKey: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientIPsecParameters: msRest.CompositeMapper = {
+export const VpnClientIPsecParameters: coreHttp.CompositeMapper = {
   serializedName: "VpnClientIPsecParameters",
   type: {
     name: "Composite",
@@ -13395,7 +13522,7 @@ export const VpnClientIPsecParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkConnectionGatewayReference: msRest.CompositeMapper = {
+export const VirtualNetworkConnectionGatewayReference: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkConnectionGatewayReference",
   type: {
     name: "Composite",
@@ -13412,7 +13539,7 @@ export const VirtualNetworkConnectionGatewayReference: msRest.CompositeMapper = 
   }
 };
 
-export const VirtualNetworkGatewayConnectionListEntity: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayConnectionListEntity: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayConnectionListEntity",
   type: {
     name: "Composite",
@@ -13566,7 +13693,7 @@ export const VirtualNetworkGatewayConnectionListEntity: msRest.CompositeMapper =
   }
 };
 
-export const VpnDeviceScriptParameters: msRest.CompositeMapper = {
+export const VpnDeviceScriptParameters: coreHttp.CompositeMapper = {
   serializedName: "VpnDeviceScriptParameters",
   type: {
     name: "Composite",
@@ -13594,7 +13721,7 @@ export const VpnDeviceScriptParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientConnectionHealthDetail: msRest.CompositeMapper = {
+export const VpnClientConnectionHealthDetail: coreHttp.CompositeMapper = {
   serializedName: "VpnClientConnectionHealthDetail",
   type: {
     name: "Composite",
@@ -13688,7 +13815,7 @@ export const VpnClientConnectionHealthDetail: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientConnectionHealthDetailListResult: msRest.CompositeMapper = {
+export const VpnClientConnectionHealthDetailListResult: coreHttp.CompositeMapper = {
   serializedName: "VpnClientConnectionHealthDetailListResult",
   type: {
     name: "Composite",
@@ -13710,7 +13837,7 @@ export const VpnClientConnectionHealthDetailListResult: msRest.CompositeMapper =
   }
 };
 
-export const P2SVpnServerConfigVpnClientRootCertificate: msRest.CompositeMapper = {
+export const P2SVpnServerConfigVpnClientRootCertificate: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnServerConfigVpnClientRootCertificate",
   type: {
     name: "Composite",
@@ -13747,7 +13874,7 @@ export const P2SVpnServerConfigVpnClientRootCertificate: msRest.CompositeMapper 
   }
 };
 
-export const P2SVpnServerConfigVpnClientRevokedCertificate: msRest.CompositeMapper = {
+export const P2SVpnServerConfigVpnClientRevokedCertificate: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnServerConfigVpnClientRevokedCertificate",
   type: {
     name: "Composite",
@@ -13783,7 +13910,7 @@ export const P2SVpnServerConfigVpnClientRevokedCertificate: msRest.CompositeMapp
   }
 };
 
-export const P2SVpnServerConfigRadiusServerRootCertificate: msRest.CompositeMapper = {
+export const P2SVpnServerConfigRadiusServerRootCertificate: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnServerConfigRadiusServerRootCertificate",
   type: {
     name: "Composite",
@@ -13820,7 +13947,7 @@ export const P2SVpnServerConfigRadiusServerRootCertificate: msRest.CompositeMapp
   }
 };
 
-export const P2SVpnServerConfigRadiusClientRootCertificate: msRest.CompositeMapper = {
+export const P2SVpnServerConfigRadiusClientRootCertificate: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnServerConfigRadiusClientRootCertificate",
   type: {
     name: "Composite",
@@ -13856,7 +13983,7 @@ export const P2SVpnServerConfigRadiusClientRootCertificate: msRest.CompositeMapp
   }
 };
 
-export const P2SVpnServerConfiguration: msRest.CompositeMapper = {
+export const P2SVpnServerConfiguration: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnServerConfiguration",
   type: {
     name: "Composite",
@@ -13995,7 +14122,7 @@ export const P2SVpnServerConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualWAN: msRest.CompositeMapper = {
+export const VirtualWAN: coreHttp.CompositeMapper = {
   serializedName: "VirtualWAN",
   type: {
     name: "Composite",
@@ -14087,7 +14214,7 @@ export const VirtualWAN: msRest.CompositeMapper = {
   }
 };
 
-export const DeviceProperties: msRest.CompositeMapper = {
+export const DeviceProperties: coreHttp.CompositeMapper = {
   serializedName: "DeviceProperties",
   type: {
     name: "Composite",
@@ -14115,7 +14242,108 @@ export const DeviceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const VpnSite: msRest.CompositeMapper = {
+export const VpnLinkProviderProperties: coreHttp.CompositeMapper = {
+  serializedName: "VpnLinkProviderProperties",
+  type: {
+    name: "Composite",
+    className: "VpnLinkProviderProperties",
+    modelProperties: {
+      linkProviderName: {
+        serializedName: "linkProviderName",
+        type: {
+          name: "String"
+        }
+      },
+      linkSpeedInMbps: {
+        serializedName: "linkSpeedInMbps",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VpnLinkBgpSettings: coreHttp.CompositeMapper = {
+  serializedName: "VpnLinkBgpSettings",
+  type: {
+    name: "Composite",
+    className: "VpnLinkBgpSettings",
+    modelProperties: {
+      asn: {
+        serializedName: "asn",
+        type: {
+          name: "Number"
+        }
+      },
+      bgpPeeringAddress: {
+        serializedName: "bgpPeeringAddress",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnSiteLink: coreHttp.CompositeMapper = {
+  serializedName: "VpnSiteLink",
+  type: {
+    name: "Composite",
+    className: "VpnSiteLink",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      linkProperties: {
+        serializedName: "properties.linkProperties",
+        type: {
+          name: "Composite",
+          className: "VpnLinkProviderProperties"
+        }
+      },
+      ipAddress: {
+        serializedName: "properties.ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      bgpProperties: {
+        serializedName: "properties.bgpProperties",
+        type: {
+          name: "Composite",
+          className: "VpnLinkBgpSettings"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnSite: coreHttp.CompositeMapper = {
   serializedName: "VpnSite",
   type: {
     name: "Composite",
@@ -14174,6 +14402,18 @@ export const VpnSite: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      vpnSiteLinks: {
+        serializedName: "properties.vpnSiteLinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VpnSiteLink"
+            }
+          }
+        }
+      },
       etag: {
         readOnly: true,
         serializedName: "etag",
@@ -14185,7 +14425,7 @@ export const VpnSite: msRest.CompositeMapper = {
   }
 };
 
-export const GetVpnSitesConfigurationRequest: msRest.CompositeMapper = {
+export const GetVpnSitesConfigurationRequest: coreHttp.CompositeMapper = {
   serializedName: "GetVpnSitesConfigurationRequest",
   type: {
     name: "Composite",
@@ -14213,7 +14453,7 @@ export const GetVpnSitesConfigurationRequest: msRest.CompositeMapper = {
   }
 };
 
-export const HubVirtualNetworkConnection: msRest.CompositeMapper = {
+export const HubVirtualNetworkConnection: coreHttp.CompositeMapper = {
   serializedName: "HubVirtualNetworkConnection",
   type: {
     name: "Composite",
@@ -14268,7 +14508,7 @@ export const HubVirtualNetworkConnection: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHubRoute: msRest.CompositeMapper = {
+export const VirtualHubRoute: coreHttp.CompositeMapper = {
   serializedName: "VirtualHubRoute",
   type: {
     name: "Composite",
@@ -14295,7 +14535,7 @@ export const VirtualHubRoute: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHubRouteTable: msRest.CompositeMapper = {
+export const VirtualHubRouteTable: coreHttp.CompositeMapper = {
   serializedName: "VirtualHubRouteTable",
   type: {
     name: "Composite",
@@ -14317,7 +14557,7 @@ export const VirtualHubRouteTable: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualHub: msRest.CompositeMapper = {
+export const VirtualHub: coreHttp.CompositeMapper = {
   serializedName: "VirtualHub",
   type: {
     name: "Composite",
@@ -14394,7 +14634,131 @@ export const VirtualHub: msRest.CompositeMapper = {
   }
 };
 
-export const VpnConnection: msRest.CompositeMapper = {
+export const VpnSiteLinkConnection: coreHttp.CompositeMapper = {
+  serializedName: "VpnSiteLinkConnection",
+  type: {
+    name: "Composite",
+    className: "VpnSiteLinkConnection",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      vpnSiteLink: {
+        serializedName: "properties.vpnSiteLink",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      routingWeight: {
+        serializedName: "properties.routingWeight",
+        type: {
+          name: "Number"
+        }
+      },
+      connectionStatus: {
+        serializedName: "properties.connectionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      vpnConnectionProtocolType: {
+        serializedName: "properties.vpnConnectionProtocolType",
+        type: {
+          name: "String"
+        }
+      },
+      ingressBytesTransferred: {
+        readOnly: true,
+        serializedName: "properties.ingressBytesTransferred",
+        type: {
+          name: "Number"
+        }
+      },
+      egressBytesTransferred: {
+        readOnly: true,
+        serializedName: "properties.egressBytesTransferred",
+        type: {
+          name: "Number"
+        }
+      },
+      connectionBandwidth: {
+        serializedName: "properties.connectionBandwidth",
+        type: {
+          name: "Number"
+        }
+      },
+      sharedKey: {
+        serializedName: "properties.sharedKey",
+        type: {
+          name: "String"
+        }
+      },
+      enableBgp: {
+        serializedName: "properties.enableBgp",
+        type: {
+          name: "Boolean"
+        }
+      },
+      usePolicyBasedTrafficSelectors: {
+        serializedName: "properties.usePolicyBasedTrafficSelectors",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ipsecPolicies: {
+        serializedName: "properties.ipsecPolicies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpsecPolicy"
+            }
+          }
+        }
+      },
+      enableRateLimiting: {
+        serializedName: "properties.enableRateLimiting",
+        type: {
+          name: "Boolean"
+        }
+      },
+      useLocalAzureIpAddress: {
+        serializedName: "properties.useLocalAzureIpAddress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnConnection: coreHttp.CompositeMapper = {
   serializedName: "VpnConnection",
   type: {
     name: "Composite",
@@ -14500,6 +14864,18 @@ export const VpnConnection: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      vpnLinkConnections: {
+        serializedName: "properties.vpnLinkConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VpnSiteLinkConnection"
+            }
+          }
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -14517,7 +14893,7 @@ export const VpnConnection: msRest.CompositeMapper = {
   }
 };
 
-export const VpnGateway: msRest.CompositeMapper = {
+export const VpnGateway: coreHttp.CompositeMapper = {
   serializedName: "VpnGateway",
   type: {
     name: "Composite",
@@ -14573,7 +14949,7 @@ export const VpnGateway: msRest.CompositeMapper = {
   }
 };
 
-export const VpnSiteId: msRest.CompositeMapper = {
+export const VpnSiteId: coreHttp.CompositeMapper = {
   serializedName: "VpnSiteId",
   type: {
     name: "Composite",
@@ -14590,7 +14966,7 @@ export const VpnSiteId: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualWanSecurityProvider: msRest.CompositeMapper = {
+export const VirtualWanSecurityProvider: coreHttp.CompositeMapper = {
   serializedName: "VirtualWanSecurityProvider",
   type: {
     name: "Composite",
@@ -14618,7 +14994,7 @@ export const VirtualWanSecurityProvider: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualWanSecurityProviders: msRest.CompositeMapper = {
+export const VirtualWanSecurityProviders: coreHttp.CompositeMapper = {
   serializedName: "VirtualWanSecurityProviders",
   type: {
     name: "Composite",
@@ -14640,7 +15016,7 @@ export const VirtualWanSecurityProviders: msRest.CompositeMapper = {
   }
 };
 
-export const VpnClientConnectionHealth: msRest.CompositeMapper = {
+export const VpnClientConnectionHealth: coreHttp.CompositeMapper = {
   serializedName: "VpnClientConnectionHealth",
   type: {
     name: "Composite",
@@ -14681,7 +15057,7 @@ export const VpnClientConnectionHealth: msRest.CompositeMapper = {
   }
 };
 
-export const P2SVpnGateway: msRest.CompositeMapper = {
+export const P2SVpnGateway: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnGateway",
   type: {
     name: "Composite",
@@ -14747,7 +15123,7 @@ export const P2SVpnGateway: msRest.CompositeMapper = {
   }
 };
 
-export const P2SVpnProfileParameters: msRest.CompositeMapper = {
+export const P2SVpnProfileParameters: coreHttp.CompositeMapper = {
   serializedName: "P2SVpnProfileParameters",
   type: {
     name: "Composite",
@@ -14763,7 +15139,7 @@ export const P2SVpnProfileParameters: msRest.CompositeMapper = {
   }
 };
 
-export const VpnProfileResponse: msRest.CompositeMapper = {
+export const VpnProfileResponse: coreHttp.CompositeMapper = {
   serializedName: "VpnProfileResponse",
   type: {
     name: "Composite",
@@ -14779,7 +15155,7 @@ export const VpnProfileResponse: msRest.CompositeMapper = {
   }
 };
 
-export const PolicySettings: msRest.CompositeMapper = {
+export const PolicySettings: coreHttp.CompositeMapper = {
   serializedName: "PolicySettings",
   type: {
     name: "Composite",
@@ -14801,7 +15177,7 @@ export const PolicySettings: msRest.CompositeMapper = {
   }
 };
 
-export const MatchVariable: msRest.CompositeMapper = {
+export const MatchVariable: coreHttp.CompositeMapper = {
   serializedName: "MatchVariable",
   type: {
     name: "Composite",
@@ -14824,7 +15200,7 @@ export const MatchVariable: msRest.CompositeMapper = {
   }
 };
 
-export const MatchCondition: msRest.CompositeMapper = {
+export const MatchCondition: coreHttp.CompositeMapper = {
   serializedName: "MatchCondition",
   type: {
     name: "Composite",
@@ -14883,7 +15259,7 @@ export const MatchCondition: msRest.CompositeMapper = {
   }
 };
 
-export const WebApplicationFirewallCustomRule: msRest.CompositeMapper = {
+export const WebApplicationFirewallCustomRule: coreHttp.CompositeMapper = {
   serializedName: "WebApplicationFirewallCustomRule",
   type: {
     name: "Composite",
@@ -14943,7 +15319,7 @@ export const WebApplicationFirewallCustomRule: msRest.CompositeMapper = {
   }
 };
 
-export const WebApplicationFirewallPolicy: msRest.CompositeMapper = {
+export const WebApplicationFirewallPolicy: coreHttp.CompositeMapper = {
   serializedName: "WebApplicationFirewallPolicy",
   type: {
     name: "Composite",
@@ -15006,7 +15382,7 @@ export const WebApplicationFirewallPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayListResult: msRest.CompositeMapper = {
+export const ApplicationGatewayListResult: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayListResult",
   type: {
     name: "Composite",
@@ -15034,7 +15410,7 @@ export const ApplicationGatewayListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayAvailableSslPredefinedPolicies: msRest.CompositeMapper = {
+export const ApplicationGatewayAvailableSslPredefinedPolicies: coreHttp.CompositeMapper = {
   serializedName: "ApplicationGatewayAvailableSslPredefinedPolicies",
   type: {
     name: "Composite",
@@ -15062,7 +15438,7 @@ export const ApplicationGatewayAvailableSslPredefinedPolicies: msRest.CompositeM
   }
 };
 
-export const ApplicationSecurityGroupListResult: msRest.CompositeMapper = {
+export const ApplicationSecurityGroupListResult: coreHttp.CompositeMapper = {
   serializedName: "ApplicationSecurityGroupListResult",
   type: {
     name: "Composite",
@@ -15091,7 +15467,7 @@ export const ApplicationSecurityGroupListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AvailableDelegationsResult: msRest.CompositeMapper = {
+export const AvailableDelegationsResult: coreHttp.CompositeMapper = {
   serializedName: "AvailableDelegationsResult",
   type: {
     name: "Composite",
@@ -15120,36 +15496,7 @@ export const AvailableDelegationsResult: msRest.CompositeMapper = {
   }
 };
 
-export const AvailablePrivateEndpointTypesResult: msRest.CompositeMapper = {
-  serializedName: "AvailablePrivateEndpointTypesResult",
-  type: {
-    name: "Composite",
-    className: "AvailablePrivateEndpointTypesResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AvailablePrivateEndpointType"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureFirewallListResult: msRest.CompositeMapper = {
+export const AzureFirewallListResult: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallListResult",
   type: {
     name: "Composite",
@@ -15177,7 +15524,7 @@ export const AzureFirewallListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AzureFirewallFqdnTagListResult: msRest.CompositeMapper = {
+export const AzureFirewallFqdnTagListResult: coreHttp.CompositeMapper = {
   serializedName: "AzureFirewallFqdnTagListResult",
   type: {
     name: "Composite",
@@ -15205,7 +15552,7 @@ export const AzureFirewallFqdnTagListResult: msRest.CompositeMapper = {
   }
 };
 
-export const BastionHostListResult: msRest.CompositeMapper = {
+export const BastionHostListResult: coreHttp.CompositeMapper = {
   serializedName: "BastionHostListResult",
   type: {
     name: "Composite",
@@ -15233,7 +15580,7 @@ export const BastionHostListResult: msRest.CompositeMapper = {
   }
 };
 
-export const DdosProtectionPlanListResult: msRest.CompositeMapper = {
+export const DdosProtectionPlanListResult: coreHttp.CompositeMapper = {
   serializedName: "DdosProtectionPlanListResult",
   type: {
     name: "Composite",
@@ -15262,7 +15609,7 @@ export const DdosProtectionPlanListResult: msRest.CompositeMapper = {
   }
 };
 
-export const EndpointServicesListResult: msRest.CompositeMapper = {
+export const EndpointServicesListResult: coreHttp.CompositeMapper = {
   serializedName: "EndpointServicesListResult",
   type: {
     name: "Composite",
@@ -15290,7 +15637,7 @@ export const EndpointServicesListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationListResult: msRest.CompositeMapper = {
+export const AuthorizationListResult: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationListResult",
   type: {
     name: "Composite",
@@ -15318,7 +15665,7 @@ export const AuthorizationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitPeeringListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitPeeringListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitPeeringListResult",
   type: {
     name: "Composite",
@@ -15346,7 +15693,7 @@ export const ExpressRouteCircuitPeeringListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCircuitConnectionListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitConnectionListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitConnectionListResult",
   type: {
     name: "Composite",
@@ -15374,7 +15721,7 @@ export const ExpressRouteCircuitConnectionListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PeerExpressRouteCircuitConnectionListResult: msRest.CompositeMapper = {
+export const PeerExpressRouteCircuitConnectionListResult: coreHttp.CompositeMapper = {
   serializedName: "PeerExpressRouteCircuitConnectionListResult",
   type: {
     name: "Composite",
@@ -15402,7 +15749,7 @@ export const PeerExpressRouteCircuitConnectionListResult: msRest.CompositeMapper
   }
 };
 
-export const ExpressRouteCircuitListResult: msRest.CompositeMapper = {
+export const ExpressRouteCircuitListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCircuitListResult",
   type: {
     name: "Composite",
@@ -15430,7 +15777,7 @@ export const ExpressRouteCircuitListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteServiceProviderListResult: msRest.CompositeMapper = {
+export const ExpressRouteServiceProviderListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteServiceProviderListResult",
   type: {
     name: "Composite",
@@ -15458,7 +15805,7 @@ export const ExpressRouteServiceProviderListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCrossConnectionListResult: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnectionListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnectionListResult",
   type: {
     name: "Composite",
@@ -15487,7 +15834,7 @@ export const ExpressRouteCrossConnectionListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteCrossConnectionPeeringList: msRest.CompositeMapper = {
+export const ExpressRouteCrossConnectionPeeringList: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteCrossConnectionPeeringList",
   type: {
     name: "Composite",
@@ -15516,7 +15863,7 @@ export const ExpressRouteCrossConnectionPeeringList: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRoutePortsLocationListResult: msRest.CompositeMapper = {
+export const ExpressRoutePortsLocationListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRoutePortsLocationListResult",
   type: {
     name: "Composite",
@@ -15544,7 +15891,7 @@ export const ExpressRoutePortsLocationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRoutePortListResult: msRest.CompositeMapper = {
+export const ExpressRoutePortListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRoutePortListResult",
   type: {
     name: "Composite",
@@ -15572,7 +15919,7 @@ export const ExpressRoutePortListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ExpressRouteLinkListResult: msRest.CompositeMapper = {
+export const ExpressRouteLinkListResult: coreHttp.CompositeMapper = {
   serializedName: "ExpressRouteLinkListResult",
   type: {
     name: "Composite",
@@ -15600,65 +15947,7 @@ export const ExpressRouteLinkListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateEndpointListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpoint"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServiceListResult: msRest.CompositeMapper = {
-  serializedName: "PrivateLinkServiceListResult",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkService"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LoadBalancerListResult: msRest.CompositeMapper = {
+export const LoadBalancerListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerListResult",
   type: {
     name: "Composite",
@@ -15687,7 +15976,7 @@ export const LoadBalancerListResult: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancerBackendAddressPoolListResult: msRest.CompositeMapper = {
+export const LoadBalancerBackendAddressPoolListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerBackendAddressPoolListResult",
   type: {
     name: "Composite",
@@ -15716,7 +16005,7 @@ export const LoadBalancerBackendAddressPoolListResult: msRest.CompositeMapper = 
   }
 };
 
-export const LoadBalancerFrontendIPConfigurationListResult: msRest.CompositeMapper = {
+export const LoadBalancerFrontendIPConfigurationListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerFrontendIPConfigurationListResult",
   type: {
     name: "Composite",
@@ -15745,7 +16034,7 @@ export const LoadBalancerFrontendIPConfigurationListResult: msRest.CompositeMapp
   }
 };
 
-export const InboundNatRuleListResult: msRest.CompositeMapper = {
+export const InboundNatRuleListResult: coreHttp.CompositeMapper = {
   serializedName: "InboundNatRuleListResult",
   type: {
     name: "Composite",
@@ -15774,7 +16063,7 @@ export const InboundNatRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancerLoadBalancingRuleListResult: msRest.CompositeMapper = {
+export const LoadBalancerLoadBalancingRuleListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerLoadBalancingRuleListResult",
   type: {
     name: "Composite",
@@ -15803,7 +16092,7 @@ export const LoadBalancerLoadBalancingRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancerOutboundRuleListResult: msRest.CompositeMapper = {
+export const LoadBalancerOutboundRuleListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerOutboundRuleListResult",
   type: {
     name: "Composite",
@@ -15832,7 +16121,7 @@ export const LoadBalancerOutboundRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceListResult: msRest.CompositeMapper = {
+export const NetworkInterfaceListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceListResult",
   type: {
     name: "Composite",
@@ -15861,7 +16150,7 @@ export const NetworkInterfaceListResult: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancerProbeListResult: msRest.CompositeMapper = {
+export const LoadBalancerProbeListResult: coreHttp.CompositeMapper = {
   serializedName: "LoadBalancerProbeListResult",
   type: {
     name: "Composite",
@@ -15890,7 +16179,7 @@ export const LoadBalancerProbeListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NatGatewayListResult: msRest.CompositeMapper = {
+export const NatGatewayListResult: coreHttp.CompositeMapper = {
   serializedName: "NatGatewayListResult",
   type: {
     name: "Composite",
@@ -15918,7 +16207,7 @@ export const NatGatewayListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceIPConfigurationListResult: msRest.CompositeMapper = {
+export const NetworkInterfaceIPConfigurationListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceIPConfigurationListResult",
   type: {
     name: "Composite",
@@ -15947,7 +16236,7 @@ export const NetworkInterfaceIPConfigurationListResult: msRest.CompositeMapper =
   }
 };
 
-export const NetworkInterfaceLoadBalancerListResult: msRest.CompositeMapper = {
+export const NetworkInterfaceLoadBalancerListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceLoadBalancerListResult",
   type: {
     name: "Composite",
@@ -15976,7 +16265,7 @@ export const NetworkInterfaceLoadBalancerListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceTapConfigurationListResult: msRest.CompositeMapper = {
+export const NetworkInterfaceTapConfigurationListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkInterfaceTapConfigurationListResult",
   type: {
     name: "Composite",
@@ -16005,7 +16294,7 @@ export const NetworkInterfaceTapConfigurationListResult: msRest.CompositeMapper 
   }
 };
 
-export const NetworkProfileListResult: msRest.CompositeMapper = {
+export const NetworkProfileListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkProfileListResult",
   type: {
     name: "Composite",
@@ -16033,7 +16322,7 @@ export const NetworkProfileListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityGroupListResult: msRest.CompositeMapper = {
+export const NetworkSecurityGroupListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkSecurityGroupListResult",
   type: {
     name: "Composite",
@@ -16061,7 +16350,7 @@ export const NetworkSecurityGroupListResult: msRest.CompositeMapper = {
   }
 };
 
-export const SecurityRuleListResult: msRest.CompositeMapper = {
+export const SecurityRuleListResult: coreHttp.CompositeMapper = {
   serializedName: "SecurityRuleListResult",
   type: {
     name: "Composite",
@@ -16089,7 +16378,7 @@ export const SecurityRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkWatcherListResult: msRest.CompositeMapper = {
+export const NetworkWatcherListResult: coreHttp.CompositeMapper = {
   serializedName: "NetworkWatcherListResult",
   type: {
     name: "Composite",
@@ -16111,7 +16400,7 @@ export const NetworkWatcherListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PacketCaptureListResult: msRest.CompositeMapper = {
+export const PacketCaptureListResult: coreHttp.CompositeMapper = {
   serializedName: "PacketCaptureListResult",
   type: {
     name: "Composite",
@@ -16133,7 +16422,7 @@ export const PacketCaptureListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectionMonitorListResult: msRest.CompositeMapper = {
+export const ConnectionMonitorListResult: coreHttp.CompositeMapper = {
   serializedName: "ConnectionMonitorListResult",
   type: {
     name: "Composite",
@@ -16155,7 +16444,7 @@ export const ConnectionMonitorListResult: msRest.CompositeMapper = {
   }
 };
 
-export const OperationListResult: msRest.CompositeMapper = {
+export const OperationListResult: coreHttp.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -16183,7 +16472,123 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPAddressListResult: msRest.CompositeMapper = {
+export const PrivateEndpointListResult: coreHttp.CompositeMapper = {
+  serializedName: "PrivateEndpointListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpoint"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailablePrivateEndpointTypesResult: coreHttp.CompositeMapper = {
+  serializedName: "AvailablePrivateEndpointTypesResult",
+  type: {
+    name: "Composite",
+    className: "AvailablePrivateEndpointTypesResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AvailablePrivateEndpointType"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceListResult: coreHttp.CompositeMapper = {
+  serializedName: "PrivateLinkServiceListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkService"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutoApprovedPrivateLinkServicesResult: coreHttp.CompositeMapper = {
+  serializedName: "AutoApprovedPrivateLinkServicesResult",
+  type: {
+    name: "Composite",
+    className: "AutoApprovedPrivateLinkServicesResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoApprovedPrivateLinkService"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublicIPAddressListResult: coreHttp.CompositeMapper = {
   serializedName: "PublicIPAddressListResult",
   type: {
     name: "Composite",
@@ -16211,7 +16616,7 @@ export const PublicIPAddressListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PublicIPPrefixListResult: msRest.CompositeMapper = {
+export const PublicIPPrefixListResult: coreHttp.CompositeMapper = {
   serializedName: "PublicIPPrefixListResult",
   type: {
     name: "Composite",
@@ -16239,7 +16644,7 @@ export const PublicIPPrefixListResult: msRest.CompositeMapper = {
   }
 };
 
-export const RouteFilterListResult: msRest.CompositeMapper = {
+export const RouteFilterListResult: coreHttp.CompositeMapper = {
   serializedName: "RouteFilterListResult",
   type: {
     name: "Composite",
@@ -16267,7 +16672,7 @@ export const RouteFilterListResult: msRest.CompositeMapper = {
   }
 };
 
-export const RouteFilterRuleListResult: msRest.CompositeMapper = {
+export const RouteFilterRuleListResult: coreHttp.CompositeMapper = {
   serializedName: "RouteFilterRuleListResult",
   type: {
     name: "Composite",
@@ -16295,7 +16700,7 @@ export const RouteFilterRuleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const RouteTableListResult: msRest.CompositeMapper = {
+export const RouteTableListResult: coreHttp.CompositeMapper = {
   serializedName: "RouteTableListResult",
   type: {
     name: "Composite",
@@ -16323,7 +16728,7 @@ export const RouteTableListResult: msRest.CompositeMapper = {
   }
 };
 
-export const RouteListResult: msRest.CompositeMapper = {
+export const RouteListResult: coreHttp.CompositeMapper = {
   serializedName: "RouteListResult",
   type: {
     name: "Composite",
@@ -16351,7 +16756,7 @@ export const RouteListResult: msRest.CompositeMapper = {
   }
 };
 
-export const BgpServiceCommunityListResult: msRest.CompositeMapper = {
+export const BgpServiceCommunityListResult: coreHttp.CompositeMapper = {
   serializedName: "BgpServiceCommunityListResult",
   type: {
     name: "Composite",
@@ -16379,7 +16784,7 @@ export const BgpServiceCommunityListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceEndpointPolicyListResult: msRest.CompositeMapper = {
+export const ServiceEndpointPolicyListResult: coreHttp.CompositeMapper = {
   serializedName: "ServiceEndpointPolicyListResult",
   type: {
     name: "Composite",
@@ -16408,7 +16813,7 @@ export const ServiceEndpointPolicyListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceEndpointPolicyDefinitionListResult: msRest.CompositeMapper = {
+export const ServiceEndpointPolicyDefinitionListResult: coreHttp.CompositeMapper = {
   serializedName: "ServiceEndpointPolicyDefinitionListResult",
   type: {
     name: "Composite",
@@ -16436,7 +16841,7 @@ export const ServiceEndpointPolicyDefinitionListResult: msRest.CompositeMapper =
   }
 };
 
-export const UsagesListResult: msRest.CompositeMapper = {
+export const UsagesListResult: coreHttp.CompositeMapper = {
   serializedName: "UsagesListResult",
   type: {
     name: "Composite",
@@ -16464,7 +16869,7 @@ export const UsagesListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkListResult: msRest.CompositeMapper = {
+export const VirtualNetworkListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkListResult",
   type: {
     name: "Composite",
@@ -16492,7 +16897,7 @@ export const VirtualNetworkListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkListUsageResult: msRest.CompositeMapper = {
+export const VirtualNetworkListUsageResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkListUsageResult",
   type: {
     name: "Composite",
@@ -16521,7 +16926,7 @@ export const VirtualNetworkListUsageResult: msRest.CompositeMapper = {
   }
 };
 
-export const SubnetListResult: msRest.CompositeMapper = {
+export const SubnetListResult: coreHttp.CompositeMapper = {
   serializedName: "SubnetListResult",
   type: {
     name: "Composite",
@@ -16549,7 +16954,7 @@ export const SubnetListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkPeeringListResult: msRest.CompositeMapper = {
+export const VirtualNetworkPeeringListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkPeeringListResult",
   type: {
     name: "Composite",
@@ -16577,7 +16982,7 @@ export const VirtualNetworkPeeringListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGatewayListResult: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayListResult",
   type: {
     name: "Composite",
@@ -16606,7 +17011,7 @@ export const VirtualNetworkGatewayListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkGatewayListConnectionsResult: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayListConnectionsResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayListConnectionsResult",
   type: {
     name: "Composite",
@@ -16635,7 +17040,7 @@ export const VirtualNetworkGatewayListConnectionsResult: msRest.CompositeMapper 
   }
 };
 
-export const VirtualNetworkGatewayConnectionListResult: msRest.CompositeMapper = {
+export const VirtualNetworkGatewayConnectionListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayConnectionListResult",
   type: {
     name: "Composite",
@@ -16664,7 +17069,7 @@ export const VirtualNetworkGatewayConnectionListResult: msRest.CompositeMapper =
   }
 };
 
-export const LocalNetworkGatewayListResult: msRest.CompositeMapper = {
+export const LocalNetworkGatewayListResult: coreHttp.CompositeMapper = {
   serializedName: "LocalNetworkGatewayListResult",
   type: {
     name: "Composite",
@@ -16693,7 +17098,7 @@ export const LocalNetworkGatewayListResult: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkTapListResult: msRest.CompositeMapper = {
+export const VirtualNetworkTapListResult: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkTapListResult",
   type: {
     name: "Composite",
@@ -16721,7 +17126,7 @@ export const VirtualNetworkTapListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListVirtualWANsResult: msRest.CompositeMapper = {
+export const ListVirtualWANsResult: coreHttp.CompositeMapper = {
   serializedName: "ListVirtualWANsResult",
   type: {
     name: "Composite",
@@ -16749,7 +17154,7 @@ export const ListVirtualWANsResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListVpnSitesResult: msRest.CompositeMapper = {
+export const ListVpnSitesResult: coreHttp.CompositeMapper = {
   serializedName: "ListVpnSitesResult",
   type: {
     name: "Composite",
@@ -16777,7 +17182,35 @@ export const ListVpnSitesResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListVirtualHubsResult: msRest.CompositeMapper = {
+export const ListVpnSiteLinksResult: coreHttp.CompositeMapper = {
+  serializedName: "ListVpnSiteLinksResult",
+  type: {
+    name: "Composite",
+    className: "ListVpnSiteLinksResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VpnSiteLink"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListVirtualHubsResult: coreHttp.CompositeMapper = {
   serializedName: "ListVirtualHubsResult",
   type: {
     name: "Composite",
@@ -16805,7 +17238,7 @@ export const ListVirtualHubsResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListHubVirtualNetworkConnectionsResult: msRest.CompositeMapper = {
+export const ListHubVirtualNetworkConnectionsResult: coreHttp.CompositeMapper = {
   serializedName: "ListHubVirtualNetworkConnectionsResult",
   type: {
     name: "Composite",
@@ -16833,7 +17266,7 @@ export const ListHubVirtualNetworkConnectionsResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListVpnGatewaysResult: msRest.CompositeMapper = {
+export const ListVpnGatewaysResult: coreHttp.CompositeMapper = {
   serializedName: "ListVpnGatewaysResult",
   type: {
     name: "Composite",
@@ -16861,7 +17294,7 @@ export const ListVpnGatewaysResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListVpnConnectionsResult: msRest.CompositeMapper = {
+export const ListVpnConnectionsResult: coreHttp.CompositeMapper = {
   serializedName: "ListVpnConnectionsResult",
   type: {
     name: "Composite",
@@ -16889,7 +17322,35 @@ export const ListVpnConnectionsResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListP2SVpnServerConfigurationsResult: msRest.CompositeMapper = {
+export const ListVpnSiteLinkConnectionsResult: coreHttp.CompositeMapper = {
+  serializedName: "ListVpnSiteLinkConnectionsResult",
+  type: {
+    name: "Composite",
+    className: "ListVpnSiteLinkConnectionsResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VpnSiteLinkConnection"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListP2SVpnServerConfigurationsResult: coreHttp.CompositeMapper = {
   serializedName: "ListP2SVpnServerConfigurationsResult",
   type: {
     name: "Composite",
@@ -16917,7 +17378,7 @@ export const ListP2SVpnServerConfigurationsResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListP2SVpnGatewaysResult: msRest.CompositeMapper = {
+export const ListP2SVpnGatewaysResult: coreHttp.CompositeMapper = {
   serializedName: "ListP2SVpnGatewaysResult",
   type: {
     name: "Composite",
@@ -16945,7 +17406,7 @@ export const ListP2SVpnGatewaysResult: msRest.CompositeMapper = {
   }
 };
 
-export const WebApplicationFirewallPolicyListResult: msRest.CompositeMapper = {
+export const WebApplicationFirewallPolicyListResult: coreHttp.CompositeMapper = {
   serializedName: "WebApplicationFirewallPolicyListResult",
   type: {
     name: "Composite",

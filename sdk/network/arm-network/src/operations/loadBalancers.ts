@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/loadBalancersMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class LoadBalancers {
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,loadBalancerName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class LoadBalancers {
    * @param loadBalancerName The name of the load balancer.
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, callback: msRest.ServiceCallback<Models.LoadBalancer>): void;
+  get(resourceGroupName: string, loadBalancerName: string, callback: coreHttp.ServiceCallback<Models.LoadBalancer>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, loadBalancerName: string, options: Models.LoadBalancersGetOptionalParams, callback: msRest.ServiceCallback<Models.LoadBalancer>): void;
-  get(resourceGroupName: string, loadBalancerName: string, options?: Models.LoadBalancersGetOptionalParams | msRest.ServiceCallback<Models.LoadBalancer>, callback?: msRest.ServiceCallback<Models.LoadBalancer>): Promise<Models.LoadBalancersGetResponse> {
+  get(resourceGroupName: string, loadBalancerName: string, options: Models.LoadBalancersGetOptionalParams, callback: coreHttp.ServiceCallback<Models.LoadBalancer>): void;
+  get(resourceGroupName: string, loadBalancerName: string, options?: Models.LoadBalancersGetOptionalParams | coreHttp.ServiceCallback<Models.LoadBalancer>, callback?: coreHttp.ServiceCallback<Models.LoadBalancer>): Promise<Models.LoadBalancersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, loadBalancerName: string, parameters: Models.LoadBalancer, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, loadBalancerName: string, parameters: Models.LoadBalancer, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,loadBalancerName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LoadBalancersCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,loadBalancerName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LoadBalancersUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,9 +154,9 @@ export class LoadBalancers {
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, loadBalancerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, loadBalancerName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -173,9 +173,9 @@ export class LoadBalancers {
    * @param loadBalancerName The name of the load balancer.
    * @param parameters Parameters supplied to the create or update load balancer operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, loadBalancerName: string, parameters: Models.LoadBalancer, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, loadBalancerName: string, parameters: Models.LoadBalancer, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,9 +193,9 @@ export class LoadBalancers {
    * @param loadBalancerName The name of the load balancer.
    * @param parameters Parameters supplied to update load balancer tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, loadBalancerName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class LoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoadBalancersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoadBalancersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoadBalancerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.LoadBalancerListResult>): Promise<Models.LoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class LoadBalancers {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   urlParameters: [
@@ -292,7 +292,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers",
   urlParameters: [
@@ -315,7 +315,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers",
   urlParameters: [
@@ -339,7 +339,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   urlParameters: [
@@ -364,7 +364,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   urlParameters: [
@@ -399,7 +399,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
   urlParameters: [
@@ -431,7 +431,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -452,7 +452,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

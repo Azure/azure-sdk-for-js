@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/availableDelegationsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class AvailableDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableDelegationsListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableDelegationsListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailableDelegationsListResponse>;
   /**
    * @param location The location of the subnet.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): void;
   /**
    * @param location The location of the subnet.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailableDelegationsResult>, callback?: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -60,19 +60,19 @@ export class AvailableDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableDelegationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableDelegationsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailableDelegationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailableDelegationsResult>, callback?: coreHttp.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -84,8 +84,8 @@ export class AvailableDelegations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
   urlParameters: [
@@ -109,7 +109,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

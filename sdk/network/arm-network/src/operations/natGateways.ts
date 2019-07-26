@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/natGatewaysMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class NatGateways {
    * @param resourceGroupName The name of the resource group.
    * @param natGatewayName The name of the nat gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, natGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, natGatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,natGatewayName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class NatGateways {
    * @param natGatewayName The name of the nat gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, natGatewayName: string, callback: msRest.ServiceCallback<Models.NatGateway>): void;
+  get(resourceGroupName: string, natGatewayName: string, callback: coreHttp.ServiceCallback<Models.NatGateway>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param natGatewayName The name of the nat gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, natGatewayName: string, options: Models.NatGatewaysGetOptionalParams, callback: msRest.ServiceCallback<Models.NatGateway>): void;
-  get(resourceGroupName: string, natGatewayName: string, options?: Models.NatGatewaysGetOptionalParams | msRest.ServiceCallback<Models.NatGateway>, callback?: msRest.ServiceCallback<Models.NatGateway>): Promise<Models.NatGatewaysGetResponse> {
+  get(resourceGroupName: string, natGatewayName: string, options: Models.NatGatewaysGetOptionalParams, callback: coreHttp.ServiceCallback<Models.NatGateway>): void;
+  get(resourceGroupName: string, natGatewayName: string, options?: Models.NatGatewaysGetOptionalParams | coreHttp.ServiceCallback<Models.NatGateway>, callback?: coreHttp.ServiceCallback<Models.NatGateway>): Promise<Models.NatGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, natGatewayName: string, parameters: Models.NatGateway, options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, natGatewayName: string, parameters: Models.NatGateway, options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,natGatewayName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NatGatewaysCreateOrUpdateResponse>;
   }
@@ -92,14 +92,14 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param natGatewayName The name of the nat gateway.
    * @param parameters Parameters supplied to update nat gateway tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.NatGateway>): void;
+  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, callback: coreHttp.ServiceCallback<Models.NatGateway>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param natGatewayName The name of the nat gateway.
@@ -107,8 +107,8 @@ export class NatGateways {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NatGateway>): void;
-  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NatGateway>, callback?: msRest.ServiceCallback<Models.NatGateway>): Promise<Models.NatGatewaysUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NatGateway>): void;
+  updateTags(resourceGroupName: string, natGatewayName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NatGateway>, callback?: coreHttp.ServiceCallback<Models.NatGateway>): Promise<Models.NatGatewaysUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,17 +125,17 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NatGatewayListResult>, callback?: msRest.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NatGatewayListResult>, callback?: coreHttp.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -150,19 +150,19 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NatGatewayListResult>, callback?: msRest.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NatGatewayListResult>, callback?: coreHttp.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,9 +177,9 @@ export class NatGateways {
    * @param resourceGroupName The name of the resource group.
    * @param natGatewayName The name of the nat gateway.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, natGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, natGatewayName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -196,9 +196,9 @@ export class NatGateways {
    * @param natGatewayName The name of the nat gateway.
    * @param parameters Parameters supplied to the create or update nat gateway operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, natGatewayName: string, parameters: Models.NatGateway, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, natGatewayName: string, parameters: Models.NatGateway, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -216,19 +216,19 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NatGatewayListResult>, callback?: msRest.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NatGatewayListResult>, callback?: coreHttp.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -244,19 +244,19 @@ export class NatGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.NatGatewaysListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NatGatewaysListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NatGatewaysListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NatGatewayListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NatGatewayListResult>, callback?: msRest.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NatGatewayListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NatGatewayListResult>, callback?: coreHttp.ServiceCallback<Models.NatGatewayListResult>): Promise<Models.NatGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -268,8 +268,8 @@ export class NatGateways {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   urlParameters: [
@@ -295,7 +295,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateTagsOperationSpec: msRest.OperationSpec = {
+const updateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   urlParameters: [
@@ -327,7 +327,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
   urlParameters: [
@@ -350,7 +350,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways",
   urlParameters: [
@@ -374,7 +374,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   urlParameters: [
@@ -399,7 +399,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   urlParameters: [
@@ -437,7 +437,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -458,7 +458,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

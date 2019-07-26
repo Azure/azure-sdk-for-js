@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualNetworkTapsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class VirtualNetworkTaps {
    * @param resourceGroupName The name of the resource group.
    * @param tapName The name of the virtual network tap.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, tapName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,tapName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -46,21 +46,21 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsGetResponse>
    */
-  get(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsGetResponse>;
+  get(resourceGroupName: string, tapName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param tapName The name of virtual network tap.
    * @param callback The callback
    */
-  get(resourceGroupName: string, tapName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkTap>): void;
+  get(resourceGroupName: string, tapName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTap>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param tapName The name of virtual network tap.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, tapName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTap>): void;
-  get(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTap>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTap>): Promise<Models.VirtualNetworkTapsGetResponse> {
+  get(resourceGroupName: string, tapName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTap>): void;
+  get(resourceGroupName: string, tapName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkTap>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkTap>): Promise<Models.VirtualNetworkTapsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, tapName: string, parameters: Models.VirtualNetworkTap, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, tapName: string, parameters: Models.VirtualNetworkTap, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,tapName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkTapsCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,tapName,tapParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkTapsUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,9 +154,9 @@ export class VirtualNetworkTaps {
    * @param resourceGroupName The name of the resource group.
    * @param tapName The name of the virtual network tap.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, tapName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, tapName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -173,9 +173,9 @@ export class VirtualNetworkTaps {
    * @param tapName The name of the virtual network tap.
    * @param parameters Parameters supplied to the create or update virtual network tap operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, tapName: string, parameters: Models.VirtualNetworkTap, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, tapName: string, parameters: Models.VirtualNetworkTap, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,9 +193,9 @@ export class VirtualNetworkTaps {
    * @param tapName The name of the tap.
    * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkTapListResult>): Promise<Models.VirtualNetworkTapsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class VirtualNetworkTaps {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
   urlParameters: [
@@ -291,7 +291,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps",
   urlParameters: [
@@ -314,7 +314,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps",
   urlParameters: [
@@ -338,7 +338,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
   urlParameters: [
@@ -363,7 +363,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
   urlParameters: [
@@ -398,7 +398,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
   urlParameters: [
@@ -430,7 +430,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -451,7 +451,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

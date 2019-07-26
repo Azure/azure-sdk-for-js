@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualNetworkGatewayConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -36,7 +36,7 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VirtualNetworkGatewayConnection, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VirtualNetworkGatewayConnection, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkGatewayConnectionName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayConnectionsCreateOrUpdateResponse>;
   }
@@ -48,21 +48,21 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsGetResponse>
    */
-  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse>;
+  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): void;
+  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): void;
-  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnection>): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse> {
+  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnection>): void;
+  get(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnection>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnection>): Promise<Models.VirtualNetworkGatewayConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,9 +78,9 @@ export class VirtualNetworkGatewayConnections {
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,virtualNetworkGatewayConnectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -93,7 +93,7 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,virtualNetworkGatewayConnectionName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayConnectionsUpdateTagsResponse>;
   }
@@ -109,7 +109,7 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsSetSharedKeyResponse>
    */
-  setSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionSharedKey, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsSetSharedKeyResponse> {
+  setSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionSharedKey, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsSetSharedKeyResponse> {
     return this.beginSetSharedKey(resourceGroupName,virtualNetworkGatewayConnectionName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayConnectionsSetSharedKeyResponse>;
   }
@@ -123,14 +123,14 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse>
    */
-  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse>;
+  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The virtual network gateway connection shared key
    * name.
    * @param callback The callback
    */
-  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, callback: msRest.ServiceCallback<Models.ConnectionSharedKey>): void;
+  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, callback: coreHttp.ServiceCallback<Models.ConnectionSharedKey>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The virtual network gateway connection shared key
@@ -138,8 +138,8 @@ export class VirtualNetworkGatewayConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSharedKey>): void;
-  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSharedKey>, callback?: msRest.ServiceCallback<Models.ConnectionSharedKey>): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse> {
+  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ConnectionSharedKey>): void;
+  getSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ConnectionSharedKey>, callback?: coreHttp.ServiceCallback<Models.ConnectionSharedKey>): Promise<Models.VirtualNetworkGatewayConnectionsGetSharedKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,19 +157,19 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +191,7 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsResetSharedKeyResponse>
    */
-  resetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionResetSharedKey, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsResetSharedKeyResponse> {
+  resetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionResetSharedKey, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsResetSharedKeyResponse> {
     return this.beginResetSharedKey(resourceGroupName,virtualNetworkGatewayConnectionName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayConnectionsResetSharedKeyResponse>;
   }
@@ -203,9 +203,9 @@ export class VirtualNetworkGatewayConnections {
    * @param parameters Parameters supplied to the create or update virtual network gateway connection
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VirtualNetworkGatewayConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.VirtualNetworkGatewayConnection, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -222,9 +222,9 @@ export class VirtualNetworkGatewayConnections {
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -241,9 +241,9 @@ export class VirtualNetworkGatewayConnections {
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
    * @param parameters Parameters supplied to update virtual network gateway connection tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -264,9 +264,9 @@ export class VirtualNetworkGatewayConnections {
    * @param parameters Parameters supplied to the Begin Set Virtual Network Gateway connection Shared
    * key operation throughNetwork resource provider.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginSetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionSharedKey, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionSharedKey, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -288,9 +288,9 @@ export class VirtualNetworkGatewayConnections {
    * @param parameters Parameters supplied to the begin reset virtual network gateway connection
    * shared key operation through network resource provider.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginResetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionResetSharedKey, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResetSharedKey(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: Models.ConnectionResetSharedKey, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -309,19 +309,19 @@ export class VirtualNetworkGatewayConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualNetworkGatewayConnectionListResult>): Promise<Models.VirtualNetworkGatewayConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -333,8 +333,8 @@ export class VirtualNetworkGatewayConnections {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
   urlParameters: [
@@ -359,7 +359,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getSharedKeyOperationSpec: msRest.OperationSpec = {
+const getSharedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
   urlParameters: [
@@ -384,7 +384,7 @@ const getSharedKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections",
   urlParameters: [
@@ -408,7 +408,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
   urlParameters: [
@@ -443,7 +443,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
   urlParameters: [
@@ -468,7 +468,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
   urlParameters: [
@@ -500,7 +500,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginSetSharedKeyOperationSpec: msRest.OperationSpec = {
+const beginSetSharedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
   urlParameters: [
@@ -535,7 +535,7 @@ const beginSetSharedKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginResetSharedKeyOperationSpec: msRest.OperationSpec = {
+const beginResetSharedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset",
   urlParameters: [
@@ -568,7 +568,7 @@ const beginResetSharedKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

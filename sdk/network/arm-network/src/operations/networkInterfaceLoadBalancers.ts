@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/networkInterfaceLoadBalancersMappers";
 import * as Parameters from "../models/parameters";
@@ -33,21 +33,21 @@ export class NetworkInterfaceLoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceLoadBalancersListResponse>
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceLoadBalancersListResponse>;
+  list(resourceGroupName: string, networkInterfaceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkInterfaceLoadBalancersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
+  list(resourceGroupName: string, networkInterfaceName: string, callback: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListResponse> {
+  list(resourceGroupName: string, networkInterfaceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
+  list(resourceGroupName: string, networkInterfaceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,19 +64,19 @@ export class NetworkInterfaceLoadBalancers {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceLoadBalancersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: coreHttp.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -88,8 +88,8 @@ export class NetworkInterfaceLoadBalancers {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
   urlParameters: [
@@ -114,7 +114,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

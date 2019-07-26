@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -977,6 +977,14 @@ export interface Subnet extends SubResource {
    */
   provisioningState?: string;
   /**
+   * Enable or Disable apply network policies on private end point in the subnet.
+   */
+  privateEndpointNetworkPolicies?: string;
+  /**
+   * Enable or Disable apply network policies on private link service in the subnet.
+   */
+  privateLinkServiceNetworkPolicies?: string;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -1020,6 +1028,11 @@ export interface FrontendIPConfiguration extends SubResource {
    */
   privateIPAllocationMethod?: IPAllocationMethod;
   /**
+   * It represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
+   * Possible values include: 'IPv4', 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
    * The reference of the subnet resource.
    */
   subnet?: Subnet;
@@ -1037,14 +1050,19 @@ export interface FrontendIPConfiguration extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of frontend IP configurations used by
+   * the load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
   /**
    * A list of availability zones denoting the IP allocated for the resource needs to come from.
    */
@@ -1111,19 +1129,29 @@ export interface BackendAddressPool extends SubResource {
    */
   readonly outboundRule?: SubResource;
   /**
+   * Gets outbound rules that use this backend address pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly outboundRules?: SubResource[];
+  /**
    * Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting',
    * and 'Failed'.
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of backend address pools used by the
+   * load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -1177,14 +1205,19 @@ export interface InboundNatRule extends SubResource {
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of inbound NAT rules used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -2603,24 +2636,6 @@ export interface AvailableDelegation {
 }
 
 /**
- * The information of an AvailablePrivateEndpointType.
- */
-export interface AvailablePrivateEndpointType {
-  /**
-   * A unique identifier of the AvailablePrivateEndpoint Type resource.
-   */
-  id?: string;
-  /**
-   * Resource type.
-   */
-  type?: string;
-  /**
-   * The name of the service and resource.
-   */
-  serviceName?: string;
-}
-
-/**
  * IP configuration of an Azure Firewall.
  */
 export interface AzureFirewallIPConfiguration extends SubResource {
@@ -2971,9 +2986,8 @@ export interface BastionHostIPConfiguration extends SubResource {
   /**
    * Name of the resource that is unique within a resource group. This name can be used to access
    * the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4209,135 +4223,6 @@ export interface ExpressRoutePort extends Resource {
 }
 
 /**
- * The private link service ip configuration.
- */
-export interface PrivateLinkServiceIpConfiguration {
-  /**
-   * The private IP address of the IP configuration.
-   */
-  privateIPAddress?: string;
-  /**
-   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
-   */
-  privateIPAllocationMethod?: IPAllocationMethod;
-  /**
-   * The reference of the subnet resource.
-   */
-  subnet?: Subnet;
-  /**
-   * The reference of the public IP resource.
-   */
-  publicIPAddress?: PublicIPAddress;
-  /**
-   * Gets the provisioning state of the public IP resource. Possible values are: 'Updating',
-   * 'Deleting', and 'Failed'.
-   */
-  provisioningState?: string;
-  /**
-   * Available from Api-Version 2016-03-30 onwards, it represents whether the specific
-   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4',
-   * 'IPv6'
-   */
-  privateIPAddressVersion?: IPVersion;
-  /**
-   * The name of private link service ip configuration.
-   */
-  name?: string;
-}
-
-/**
- * PrivateEndpointConnection resource.
- */
-export interface PrivateEndpointConnection extends SubResource {
-  /**
-   * The resource of private end point.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   */
-  name?: string;
-}
-
-/**
- * The base resource set for visibility and auto-approval.
- */
-export interface ResourceSet {
-  /**
-   * The list of subscriptions.
-   */
-  subscriptions?: string[];
-}
-
-/**
- * The visibility list of the private link service.
- */
-export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
-}
-
-/**
- * The auto-approval list of the private link service.
- */
-export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
-}
-
-/**
- * Private link service resource.
- */
-export interface PrivateLinkService extends Resource {
-  /**
-   * An array of references to the load balancer IP configurations.
-   */
-  loadBalancerFrontendIPConfigurations?: FrontendIPConfiguration[];
-  /**
-   * An array of references to the private link service IP configuration.
-   */
-  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
-  /**
-   * Gets an array of references to the network interfaces created for this private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private link service. Possible values are: 'Updating',
-   * 'Succeeded', and 'Failed'.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * An array of list about connections to the private endpoint.
-   */
-  privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The visibility list of the private link service.
-   */
-  visibility?: PrivateLinkServicePropertiesVisibility;
-  /**
-   * The auto-approval list of the private link service.
-   */
-  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
-  /**
-   * The list of Fqdn.
-   */
-  fqdns?: string[];
-  /**
-   * The alias of the private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alias?: string;
-  /**
-   * Gets a unique read-only string that changes whenever the resource is updated.
-   */
-  etag?: string;
-}
-
-/**
  * SKU of a load balancer.
  */
 export interface LoadBalancerSku {
@@ -4412,14 +4297,19 @@ export interface LoadBalancingRule extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of load balancing rules used by the
+   * load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -4465,14 +4355,19 @@ export interface Probe extends SubResource {
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of probes used by the load balancer.
+   * This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -4526,18 +4421,23 @@ export interface InboundNatPool extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of inbound NAT pools used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * Outbound pool of the load balancer.
+ * Outbound rule of the load balancer.
  */
 export interface OutboundRule extends SubResource {
   /**
@@ -4573,14 +4473,19 @@ export interface OutboundRule extends SubResource {
    */
   idleTimeoutInMinutes?: number;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of outbound rules used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -6633,6 +6538,187 @@ export interface Operation {
 }
 
 /**
+ * The information of an AvailablePrivateEndpointType.
+ */
+export interface AvailablePrivateEndpointType {
+  /**
+   * The name of the service and resource.
+   */
+  name?: string;
+  /**
+   * A unique identifier of the AvailablePrivateEndpoint Type resource.
+   */
+  id?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
+  /**
+   * The name of the service and resource.
+   */
+  resourceName?: string;
+}
+
+/**
+ * The private link service ip configuration.
+ */
+export interface PrivateLinkServiceIpConfiguration {
+  /**
+   * The private IP address of the IP configuration.
+   */
+  privateIPAddress?: string;
+  /**
+   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
+   */
+  privateIPAllocationMethod?: IPAllocationMethod;
+  /**
+   * The reference of the subnet resource.
+   */
+  subnet?: Subnet;
+  /**
+   * The reference of the public IP resource.
+   */
+  publicIPAddress?: PublicIPAddress;
+  /**
+   * Gets the provisioning state of the public IP resource. Possible values are: 'Updating',
+   * 'Deleting', and 'Failed'.
+   */
+  provisioningState?: string;
+  /**
+   * Available from Api-Version 2016-03-30 onwards, it represents whether the specific
+   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4',
+   * 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
+   * The name of private link service ip configuration.
+   */
+  name?: string;
+}
+
+/**
+ * PrivateEndpointConnection resource.
+ */
+export interface PrivateEndpointConnection extends SubResource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+}
+
+/**
+ * The base resource set for visibility and auto-approval.
+ */
+export interface ResourceSet {
+  /**
+   * The list of subscriptions.
+   */
+  subscriptions?: string[];
+}
+
+/**
+ * The visibility list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
+}
+
+/**
+ * The auto-approval list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
+}
+
+/**
+ * Private link service resource.
+ */
+export interface PrivateLinkService extends Resource {
+  /**
+   * An array of references to the load balancer IP configurations.
+   */
+  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
+  /**
+   * An array of references to the private link service IP configuration.
+   */
+  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /**
+   * Gets an array of references to the network interfaces created for this private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private link service. Possible values are: 'Updating',
+   * 'Succeeded', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * An array of list about connections to the private endpoint.
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The visibility list of the private link service.
+   */
+  visibility?: PrivateLinkServicePropertiesVisibility;
+  /**
+   * The auto-approval list of the private link service.
+   */
+  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+  /**
+   * The list of Fqdn.
+   */
+  fqdns?: string[];
+  /**
+   * The alias of the private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   */
+  etag?: string;
+}
+
+/**
+ * Request body of the CheckPrivateLinkServiceVisibility API service call.
+ */
+export interface CheckPrivateLinkServiceVisibilityRequest {
+  /**
+   * The alias of the private link service.
+   */
+  privateLinkServiceAlias?: string;
+}
+
+/**
+ * Response for the CheckPrivateLinkServiceVisibility API service call.
+ */
+export interface PrivateLinkServiceVisibility {
+  /**
+   * Private Link Service Visibility (True/False).
+   */
+  visible?: boolean;
+}
+
+/**
+ * The information of an AutoApprovedPrivateLinkService.
+ */
+export interface AutoApprovedPrivateLinkService {
+  /**
+   * The id of the private link service resource.
+   */
+  privateLinkService?: string;
+}
+
+/**
  * SKU of a public IP prefix.
  */
 export interface PublicIPPrefixSku {
@@ -7254,10 +7340,6 @@ export interface PrepareNetworkPoliciesRequest {
    */
   serviceName?: string;
   /**
-   * The name of the resource group where the Network Intent Policy will be stored.
-   */
-  resourceGroupName?: string;
-  /**
    * A list of NetworkIntentPolicyConfiguration.
    */
   networkIntentPolicyConfigurations?: NetworkIntentPolicyConfiguration[];
@@ -7615,7 +7697,7 @@ export interface VirtualNetworkGateway extends Resource {
   bgpSettings?: BgpSettings;
   /**
    * The reference of the address space resource which represents the custom routes address space
-   * specified by the the customer for virtual network gateway and VpnClient.
+   * specified by the customer for virtual network gateway and VpnClient.
    */
   customRoutes?: AddressSpace;
   /**
@@ -8341,6 +8423,72 @@ export interface DeviceProperties {
 }
 
 /**
+ * List of properties of a link provider.
+ */
+export interface VpnLinkProviderProperties {
+  /**
+   * Name of the link provider.
+   */
+  linkProviderName?: string;
+  /**
+   * Link speed.
+   */
+  linkSpeedInMbps?: number;
+}
+
+/**
+ * BGP settings details for a link.
+ */
+export interface VpnLinkBgpSettings {
+  /**
+   * The BGP speaker's ASN.
+   */
+  asn?: number;
+  /**
+   * The BGP peering address and BGP identifier of this BGP speaker.
+   */
+  bgpPeeringAddress?: string;
+}
+
+/**
+ * VpnSiteLink Resource.
+ */
+export interface VpnSiteLink extends SubResource {
+  /**
+   * The link provider properties.
+   */
+  linkProperties?: VpnLinkProviderProperties;
+  /**
+   * The ip-address for the vpn-site-link.
+   */
+  ipAddress?: string;
+  /**
+   * The set of bgp properties.
+   */
+  bgpProperties?: VpnLinkBgpSettings;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * VpnSite Resource.
  */
 export interface VpnSite extends Resource {
@@ -8377,6 +8525,10 @@ export interface VpnSite extends Resource {
    * IsSecuritySite flag.
    */
   isSecuritySite?: boolean;
+  /**
+   * List of all vpn site links
+   */
+  vpnSiteLinks?: VpnSiteLink[];
   /**
    * Gets a unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -8504,6 +8656,87 @@ export interface VirtualHub extends Resource {
 }
 
 /**
+ * VpnSiteLinkConnection Resource.
+ */
+export interface VpnSiteLinkConnection extends SubResource {
+  /**
+   * Id of the connected vpn site link.
+   */
+  vpnSiteLink?: SubResource;
+  /**
+   * Routing weight for vpn connection.
+   */
+  routingWeight?: number;
+  /**
+   * The connection status. Possible values include: 'Unknown', 'Connecting', 'Connected',
+   * 'NotConnected'
+   */
+  connectionStatus?: VpnConnectionStatus;
+  /**
+   * Connection protocol used for this connection. Possible values include: 'IKEv2', 'IKEv1'
+   */
+  vpnConnectionProtocolType?: VirtualNetworkGatewayConnectionProtocol;
+  /**
+   * Ingress bytes transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ingressBytesTransferred?: number;
+  /**
+   * Egress bytes transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly egressBytesTransferred?: number;
+  /**
+   * Expected bandwidth in MBPS.
+   */
+  connectionBandwidth?: number;
+  /**
+   * SharedKey for the vpn connection.
+   */
+  sharedKey?: string;
+  /**
+   * EnableBgp flag.
+   */
+  enableBgp?: boolean;
+  /**
+   * Enable policy-based traffic selectors.
+   */
+  usePolicyBasedTrafficSelectors?: boolean;
+  /**
+   * The IPSec Policies to be considered by this connection.
+   */
+  ipsecPolicies?: IpsecPolicy[];
+  /**
+   * EnableBgp flag.
+   */
+  enableRateLimiting?: boolean;
+  /**
+   * Use local azure ip to initiate connection.
+   */
+  useLocalAzureIpAddress?: boolean;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * VpnConnection Resource.
  */
 export interface VpnConnection extends SubResource {
@@ -8571,6 +8804,10 @@ export interface VpnConnection extends SubResource {
    * 'Deleting', 'Failed'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * List of all vpn site link connections to the gateway.
+   */
+  vpnLinkConnections?: VpnSiteLinkConnection[];
   /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
@@ -8869,7 +9106,7 @@ export interface WebApplicationFirewallPolicy extends Resource {
 /**
  * Optional Parameters.
  */
-export interface ApplicationGatewaysBackendHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ApplicationGatewaysBackendHealthOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
    */
@@ -8879,7 +9116,7 @@ export interface ApplicationGatewaysBackendHealthOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ApplicationGatewaysBackendHealthOnDemandOptionalParams extends msRest.RequestOptionsBase {
+export interface ApplicationGatewaysBackendHealthOnDemandOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
    */
@@ -8889,7 +9126,7 @@ export interface ApplicationGatewaysBackendHealthOnDemandOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ApplicationGatewaysBeginBackendHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ApplicationGatewaysBeginBackendHealthOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
    */
@@ -8899,7 +9136,7 @@ export interface ApplicationGatewaysBeginBackendHealthOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams extends msRest.RequestOptionsBase {
+export interface ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
    */
@@ -8909,7 +9146,7 @@ export interface ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface LoadBalancersGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8919,7 +9156,7 @@ export interface PrivateEndpointsGetOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface PrivateLinkServicesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface InboundNatRulesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8929,7 +9166,7 @@ export interface PrivateLinkServicesGetOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface LoadBalancersGetOptionalParams extends msRest.RequestOptionsBase {
+export interface NatGatewaysGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8939,7 +9176,7 @@ export interface LoadBalancersGetOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface InboundNatRulesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkInterfacesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8949,7 +9186,7 @@ export interface InboundNatRulesGetOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface NatGatewaysGetOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8959,7 +9196,7 @@ export interface NatGatewaysGetOptionalParams extends msRest.RequestOptionsBase 
 /**
  * Optional Parameters.
  */
-export interface NetworkInterfacesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8969,7 +9206,7 @@ export interface NetworkInterfacesGetOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8979,7 +9216,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptio
 /**
  * Optional Parameters.
  */
-export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkProfilesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8989,7 +9226,7 @@ export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOpti
 /**
  * Optional Parameters.
  */
-export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams extends msRest.RequestOptionsBase {
+export interface NetworkSecurityGroupsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -8999,7 +9236,7 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOption
 /**
  * Optional Parameters.
  */
-export interface NetworkProfilesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateEndpointsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9009,7 +9246,7 @@ export interface NetworkProfilesGetOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface NetworkSecurityGroupsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateLinkServicesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9019,7 +9256,7 @@ export interface NetworkSecurityGroupsGetOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface PublicIPAddressesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface PublicIPAddressesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9029,7 +9266,7 @@ export interface PublicIPAddressesGetOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends msRest.RequestOptionsBase {
+export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9039,7 +9276,7 @@ export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOption
 /**
  * Optional Parameters.
  */
-export interface PublicIPPrefixesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface PublicIPPrefixesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9049,7 +9286,7 @@ export interface PublicIPPrefixesGetOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface RouteFiltersGetOptionalParams extends msRest.RequestOptionsBase {
+export interface RouteFiltersGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced express route bgp peering resources.
    */
@@ -9059,7 +9296,7 @@ export interface RouteFiltersGetOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface RouteTablesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface RouteTablesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9069,7 +9306,7 @@ export interface RouteTablesGetOptionalParams extends msRest.RequestOptionsBase 
 /**
  * Optional Parameters.
  */
-export interface ServiceEndpointPoliciesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceEndpointPoliciesGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9079,7 +9316,7 @@ export interface ServiceEndpointPoliciesGetOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworksGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworksGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9089,7 +9326,7 @@ export interface VirtualNetworksGetOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface SubnetsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface SubnetsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9099,7 +9336,7 @@ export interface SubnetsGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkGatewaysResetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkGatewaysResetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Virtual network gateway vip address supplied to the begin reset of the active-active feature
    * enabled gateway.
@@ -9110,7 +9347,7 @@ export interface VirtualNetworkGatewaysResetOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The IP address of the peer to retrieve the status of.
    */
@@ -9120,7 +9357,7 @@ export interface VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkGatewaysBeginResetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkGatewaysBeginResetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Virtual network gateway vip address supplied to the begin reset of the active-active feature
    * enabled gateway.
@@ -9131,7 +9368,7 @@ export interface VirtualNetworkGatewaysBeginResetOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkGatewaysBeginGetBgpPeerStatusOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkGatewaysBeginGetBgpPeerStatusOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The IP address of the peer to retrieve the status of.
    */
@@ -9188,19 +9425,6 @@ export interface ApplicationSecurityGroupListResult extends Array<ApplicationSec
  * @extends Array<AvailableDelegation>
  */
 export interface AvailableDelegationsResult extends Array<AvailableDelegation> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An array of available PrivateEndpoint types.
- * @extends Array<AvailablePrivateEndpointType>
- */
-export interface AvailablePrivateEndpointTypesResult extends Array<AvailablePrivateEndpointType> {
   /**
    * The URL to get the next set of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9409,32 +9633,6 @@ export interface ExpressRouteLinkListResult extends Array<ExpressRouteLink> {
    * The URL to get the next set of results.
    */
   nextLink?: string;
-}
-
-/**
- * @interface
- * Response for the ListPrivateEndpoints API service call.
- * @extends Array<PrivateEndpoint>
- */
-export interface PrivateEndpointListResult extends Array<PrivateEndpoint> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Response for the ListPrivateLinkService API service call.
- * @extends Array<PrivateLinkService>
- */
-export interface PrivateLinkServiceListResult extends Array<PrivateLinkService> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -9664,6 +9862,59 @@ export interface OperationListResult extends Array<Operation> {
    * URL to get the next set of operation list results if there are any.
    */
   nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for the ListPrivateEndpoints API service call.
+ * @extends Array<PrivateEndpoint>
+ */
+export interface PrivateEndpointListResult extends Array<PrivateEndpoint> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An array of available PrivateEndpoint types.
+ * @extends Array<AvailablePrivateEndpointType>
+ */
+export interface AvailablePrivateEndpointTypesResult extends Array<AvailablePrivateEndpointType> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for the ListPrivateLinkService API service call.
+ * @extends Array<PrivateLinkService>
+ */
+export interface PrivateLinkServiceListResult extends Array<PrivateLinkService> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An array of private link service id that can be linked to a private end point with auto
+ * approved.
+ * @extends Array<AutoApprovedPrivateLinkService>
+ */
+export interface AutoApprovedPrivateLinkServicesResult extends Array<AutoApprovedPrivateLinkService> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -9929,6 +10180,19 @@ export interface ListVpnSitesResult extends Array<VpnSite> {
 
 /**
  * @interface
+ * Result of the request to list VpnSiteLinks. It contains a list of VpnSiteLinks and a URL
+ * nextLink to get the next set of results.
+ * @extends Array<VpnSiteLink>
+ */
+export interface ListVpnSiteLinksResult extends Array<VpnSiteLink> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list VirtualHubs. It contains a list of VirtualHubs and a URL nextLink
  * to get the next set of results.
  * @extends Array<VirtualHub>
@@ -9980,6 +10244,19 @@ export interface ListVpnConnectionsResult extends Array<VpnConnection> {
 
 /**
  * @interface
+ * Result of the request to list all vpn connections to a virtual wan vpn gateway. It contains a
+ * list of Vpn Connections and a URL nextLink to get the next set of results.
+ * @extends Array<VpnSiteLinkConnection>
+ */
+export interface ListVpnSiteLinkConnectionsResult extends Array<VpnSiteLinkConnection> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list all P2SVpnServerConfigurations associated to a VirtualWan. It
  * contains a list of P2SVpnServerConfigurations and a URL nextLink to get the next set of results.
  * @extends Array<P2SVpnServerConfiguration>
@@ -10007,7 +10284,7 @@ export interface ListP2SVpnGatewaysResult extends Array<P2SVpnGateway> {
 /**
  * @interface
  * Result of the request to list WebApplicationFirewallPolicies. It contains a list of
- * WebApplicationFirewallPolicy objects and a URL link to get the the next set of results.
+ * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
  * @extends Array<WebApplicationFirewallPolicy>
  */
 export interface WebApplicationFirewallPolicyListResult extends Array<WebApplicationFirewallPolicy> {
@@ -10033,6 +10310,14 @@ export type ApplicationGatewayProtocol = 'Http' | 'Https';
  * @enum {string}
  */
 export type IPAllocationMethod = 'Static' | 'Dynamic';
+
+/**
+ * Defines values for IPVersion.
+ * Possible values include: 'IPv4', 'IPv6'
+ * @readonly
+ * @enum {string}
+ */
+export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for SecurityRuleProtocol.
@@ -10074,14 +10359,6 @@ export type RouteNextHopType = 'VirtualNetworkGateway' | 'VnetLocal' | 'Internet
  * @enum {string}
  */
 export type PublicIPAddressSkuName = 'Basic' | 'Standard';
-
-/**
- * Defines values for IPVersion.
- * Possible values include: 'IPv4', 'IPv6'
- * @readonly
- * @enum {string}
- */
-export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for DdosSettingsProtectionCoverage.
@@ -10171,11 +10448,13 @@ export type ApplicationGatewaySslPolicyName = 'AppGwSslPolicy20150501' | 'AppGwS
  * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
  * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
- * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
+ * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
+ * 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA', 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+ * 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384'
  * @readonly
  * @enum {string}
  */
-export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA';
+export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA' | 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384';
 
 /**
  * Defines values for ApplicationGatewayCustomErrorStatusCode.
@@ -10892,7 +11171,7 @@ export type ApplicationGatewaysGetResponse = ApplicationGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10912,7 +11191,7 @@ export type ApplicationGatewaysCreateOrUpdateResponse = ApplicationGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10932,7 +11211,7 @@ export type ApplicationGatewaysUpdateTagsResponse = ApplicationGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10952,7 +11231,7 @@ export type ApplicationGatewaysListResponse = ApplicationGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10972,7 +11251,7 @@ export type ApplicationGatewaysListAllResponse = ApplicationGatewayListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10992,7 +11271,7 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11012,7 +11291,7 @@ export type ApplicationGatewaysBackendHealthOnDemandResponse = ApplicationGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11032,7 +11311,7 @@ export type ApplicationGatewaysListAvailableServerVariablesResponse = Array<stri
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11052,7 +11331,7 @@ export type ApplicationGatewaysListAvailableRequestHeadersResponse = Array<strin
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11072,7 +11351,7 @@ export type ApplicationGatewaysListAvailableResponseHeadersResponse = Array<stri
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11092,7 +11371,7 @@ export type ApplicationGatewaysListAvailableWafRuleSetsResponse = ApplicationGat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11112,7 +11391,7 @@ export type ApplicationGatewaysListAvailableSslOptionsResponse = ApplicationGate
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11132,7 +11411,7 @@ export type ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse = Appl
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11152,7 +11431,7 @@ export type ApplicationGatewaysGetSslPredefinedPolicyResponse = ApplicationGatew
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11172,7 +11451,7 @@ export type ApplicationGatewaysBeginCreateOrUpdateResponse = ApplicationGateway 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11192,7 +11471,7 @@ export type ApplicationGatewaysBeginUpdateTagsResponse = ApplicationGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11212,7 +11491,7 @@ export type ApplicationGatewaysBeginBackendHealthResponse = ApplicationGatewayBa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11232,7 +11511,7 @@ export type ApplicationGatewaysBeginBackendHealthOnDemandResponse = ApplicationG
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11252,7 +11531,7 @@ export type ApplicationGatewaysListNextResponse = ApplicationGatewayListResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11272,7 +11551,7 @@ export type ApplicationGatewaysListAllNextResponse = ApplicationGatewayListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11292,7 +11571,7 @@ export type ApplicationGatewaysListAvailableSslPredefinedPoliciesNextResponse = 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11312,7 +11591,7 @@ export type ApplicationSecurityGroupsGetResponse = ApplicationSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11332,7 +11611,7 @@ export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurit
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11352,7 +11631,7 @@ export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGro
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11372,7 +11651,7 @@ export type ApplicationSecurityGroupsListAllResponse = ApplicationSecurityGroupL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11392,7 +11671,7 @@ export type ApplicationSecurityGroupsListResponse = ApplicationSecurityGroupList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11412,7 +11691,7 @@ export type ApplicationSecurityGroupsBeginCreateOrUpdateResponse = ApplicationSe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11432,7 +11711,7 @@ export type ApplicationSecurityGroupsBeginUpdateTagsResponse = ApplicationSecuri
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11452,7 +11731,7 @@ export type ApplicationSecurityGroupsListAllNextResponse = ApplicationSecurityGr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11472,7 +11751,7 @@ export type ApplicationSecurityGroupsListNextResponse = ApplicationSecurityGroup
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11492,7 +11771,7 @@ export type AvailableDelegationsListResponse = AvailableDelegationsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11512,7 +11791,7 @@ export type AvailableDelegationsListNextResponse = AvailableDelegationsResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11532,7 +11811,7 @@ export type AvailableResourceGroupDelegationsListResponse = AvailableDelegations
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11552,7 +11831,7 @@ export type AvailableResourceGroupDelegationsListNextResponse = AvailableDelegat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11566,93 +11845,13 @@ export type AvailableResourceGroupDelegationsListNextResponse = AvailableDelegat
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type AvailablePrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AvailablePrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type AvailableResourceGroupPrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AvailableResourceGroupPrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type AzureFirewallsGetResponse = AzureFirewall & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11672,7 +11871,27 @@ export type AzureFirewallsCreateOrUpdateResponse = AzureFirewall & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureFirewall;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type AzureFirewallsUpdateTagsResponse = AzureFirewall & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11692,7 +11911,7 @@ export type AzureFirewallsListResponse = AzureFirewallListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11712,7 +11931,7 @@ export type AzureFirewallsListAllResponse = AzureFirewallListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11732,7 +11951,7 @@ export type AzureFirewallsBeginCreateOrUpdateResponse = AzureFirewall & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11752,7 +11971,7 @@ export type AzureFirewallsListNextResponse = AzureFirewallListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11772,7 +11991,7 @@ export type AzureFirewallsListAllNextResponse = AzureFirewallListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11792,7 +12011,7 @@ export type AzureFirewallFqdnTagsListAllResponse = AzureFirewallFqdnTagListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11812,7 +12031,7 @@ export type AzureFirewallFqdnTagsListAllNextResponse = AzureFirewallFqdnTagListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11832,7 +12051,7 @@ export type BastionHostsGetResponse = BastionHost & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11852,7 +12071,7 @@ export type BastionHostsCreateOrUpdateResponse = BastionHost & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11872,7 +12091,7 @@ export type BastionHostsListResponse = BastionHostListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11892,7 +12111,7 @@ export type BastionHostsListByResourceGroupResponse = BastionHostListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11912,7 +12131,7 @@ export type BastionHostsBeginCreateOrUpdateResponse = BastionHost & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11932,7 +12151,7 @@ export type BastionHostsListNextResponse = BastionHostListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11952,7 +12171,7 @@ export type BastionHostsListByResourceGroupNextResponse = BastionHostListResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11972,7 +12191,7 @@ export type CheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11992,7 +12211,7 @@ export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12012,7 +12231,7 @@ export type DdosCustomPoliciesGetResponse = DdosCustomPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12032,7 +12251,7 @@ export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12052,7 +12271,7 @@ export type DdosCustomPoliciesUpdateTagsResponse = DdosCustomPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12072,7 +12291,7 @@ export type DdosCustomPoliciesBeginCreateOrUpdateResponse = DdosCustomPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12092,7 +12311,7 @@ export type DdosCustomPoliciesBeginUpdateTagsResponse = DdosCustomPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12112,7 +12331,7 @@ export type DdosProtectionPlansGetResponse = DdosProtectionPlan & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12132,7 +12351,7 @@ export type DdosProtectionPlansCreateOrUpdateResponse = DdosProtectionPlan & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12152,7 +12371,7 @@ export type DdosProtectionPlansUpdateTagsResponse = DdosProtectionPlan & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12172,7 +12391,7 @@ export type DdosProtectionPlansListResponse = DdosProtectionPlanListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12192,7 +12411,7 @@ export type DdosProtectionPlansListByResourceGroupResponse = DdosProtectionPlanL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12212,7 +12431,7 @@ export type DdosProtectionPlansBeginCreateOrUpdateResponse = DdosProtectionPlan 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12232,7 +12451,7 @@ export type DdosProtectionPlansBeginUpdateTagsResponse = DdosProtectionPlan & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12252,7 +12471,7 @@ export type DdosProtectionPlansListNextResponse = DdosProtectionPlanListResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12272,7 +12491,7 @@ export type DdosProtectionPlansListByResourceGroupNextResponse = DdosProtectionP
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12292,7 +12511,7 @@ export type AvailableEndpointServicesListResponse = EndpointServicesListResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12312,7 +12531,7 @@ export type AvailableEndpointServicesListNextResponse = EndpointServicesListResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12332,7 +12551,7 @@ export type ExpressRouteCircuitAuthorizationsGetResponse = ExpressRouteCircuitAu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12352,7 +12571,7 @@ export type ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse = ExpressRou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12372,7 +12591,7 @@ export type ExpressRouteCircuitAuthorizationsListResponse = AuthorizationListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12392,7 +12611,7 @@ export type ExpressRouteCircuitAuthorizationsBeginCreateOrUpdateResponse = Expre
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12412,7 +12631,7 @@ export type ExpressRouteCircuitAuthorizationsListNextResponse = AuthorizationLis
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12432,7 +12651,7 @@ export type ExpressRouteCircuitPeeringsGetResponse = ExpressRouteCircuitPeering 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12452,7 +12671,7 @@ export type ExpressRouteCircuitPeeringsCreateOrUpdateResponse = ExpressRouteCirc
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12472,7 +12691,7 @@ export type ExpressRouteCircuitPeeringsListResponse = ExpressRouteCircuitPeering
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12492,7 +12711,7 @@ export type ExpressRouteCircuitPeeringsBeginCreateOrUpdateResponse = ExpressRout
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12512,7 +12731,7 @@ export type ExpressRouteCircuitPeeringsListNextResponse = ExpressRouteCircuitPee
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12532,7 +12751,7 @@ export type ExpressRouteCircuitConnectionsGetResponse = ExpressRouteCircuitConne
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12552,7 +12771,7 @@ export type ExpressRouteCircuitConnectionsCreateOrUpdateResponse = ExpressRouteC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12572,7 +12791,7 @@ export type ExpressRouteCircuitConnectionsListResponse = ExpressRouteCircuitConn
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12592,7 +12811,7 @@ export type ExpressRouteCircuitConnectionsBeginCreateOrUpdateResponse = ExpressR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12612,7 +12831,7 @@ export type ExpressRouteCircuitConnectionsListNextResponse = ExpressRouteCircuit
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12632,7 +12851,7 @@ export type PeerExpressRouteCircuitConnectionsGetResponse = PeerExpressRouteCirc
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12652,7 +12871,7 @@ export type PeerExpressRouteCircuitConnectionsListResponse = PeerExpressRouteCir
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12672,7 +12891,7 @@ export type PeerExpressRouteCircuitConnectionsListNextResponse = PeerExpressRout
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12692,7 +12911,7 @@ export type ExpressRouteCircuitsGetResponse = ExpressRouteCircuit & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12712,7 +12931,7 @@ export type ExpressRouteCircuitsCreateOrUpdateResponse = ExpressRouteCircuit & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12732,7 +12951,7 @@ export type ExpressRouteCircuitsUpdateTagsResponse = ExpressRouteCircuit & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12752,7 +12971,7 @@ export type ExpressRouteCircuitsListArpTableResponse = ExpressRouteCircuitsArpTa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12772,7 +12991,7 @@ export type ExpressRouteCircuitsListRoutesTableResponse = ExpressRouteCircuitsRo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12792,7 +13011,7 @@ export type ExpressRouteCircuitsListRoutesTableSummaryResponse = ExpressRouteCir
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12812,7 +13031,7 @@ export type ExpressRouteCircuitsGetStatsResponse = ExpressRouteCircuitStats & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12832,7 +13051,7 @@ export type ExpressRouteCircuitsGetPeeringStatsResponse = ExpressRouteCircuitSta
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12852,7 +13071,7 @@ export type ExpressRouteCircuitsListResponse = ExpressRouteCircuitListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12872,7 +13091,7 @@ export type ExpressRouteCircuitsListAllResponse = ExpressRouteCircuitListResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12892,7 +13111,7 @@ export type ExpressRouteCircuitsBeginCreateOrUpdateResponse = ExpressRouteCircui
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12912,7 +13131,7 @@ export type ExpressRouteCircuitsBeginUpdateTagsResponse = ExpressRouteCircuit & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12932,7 +13151,7 @@ export type ExpressRouteCircuitsBeginListArpTableResponse = ExpressRouteCircuits
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12952,7 +13171,7 @@ export type ExpressRouteCircuitsBeginListRoutesTableResponse = ExpressRouteCircu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12972,7 +13191,7 @@ export type ExpressRouteCircuitsBeginListRoutesTableSummaryResponse = ExpressRou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12992,7 +13211,7 @@ export type ExpressRouteCircuitsListNextResponse = ExpressRouteCircuitListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13012,7 +13231,7 @@ export type ExpressRouteCircuitsListAllNextResponse = ExpressRouteCircuitListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13032,7 +13251,7 @@ export type ExpressRouteServiceProvidersListResponse = ExpressRouteServiceProvid
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13052,7 +13271,7 @@ export type ExpressRouteServiceProvidersListNextResponse = ExpressRouteServicePr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13072,7 +13291,7 @@ export type ExpressRouteCrossConnectionsListResponse = ExpressRouteCrossConnecti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13092,7 +13311,7 @@ export type ExpressRouteCrossConnectionsListByResourceGroupResponse = ExpressRou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13112,7 +13331,7 @@ export type ExpressRouteCrossConnectionsGetResponse = ExpressRouteCrossConnectio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13132,7 +13351,7 @@ export type ExpressRouteCrossConnectionsCreateOrUpdateResponse = ExpressRouteCro
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13152,7 +13371,7 @@ export type ExpressRouteCrossConnectionsUpdateTagsResponse = ExpressRouteCrossCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13172,7 +13391,7 @@ export type ExpressRouteCrossConnectionsListArpTableResponse = ExpressRouteCircu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13192,7 +13411,7 @@ export type ExpressRouteCrossConnectionsListRoutesTableSummaryResponse = Express
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13212,7 +13431,7 @@ export type ExpressRouteCrossConnectionsListRoutesTableResponse = ExpressRouteCi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13232,7 +13451,7 @@ export type ExpressRouteCrossConnectionsBeginCreateOrUpdateResponse = ExpressRou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13252,7 +13471,7 @@ export type ExpressRouteCrossConnectionsBeginUpdateTagsResponse = ExpressRouteCr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13272,7 +13491,7 @@ export type ExpressRouteCrossConnectionsBeginListArpTableResponse = ExpressRoute
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13292,7 +13511,7 @@ export type ExpressRouteCrossConnectionsBeginListRoutesTableSummaryResponse = Ex
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13312,7 +13531,7 @@ export type ExpressRouteCrossConnectionsBeginListRoutesTableResponse = ExpressRo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13332,7 +13551,7 @@ export type ExpressRouteCrossConnectionsListNextResponse = ExpressRouteCrossConn
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13352,7 +13571,7 @@ export type ExpressRouteCrossConnectionsListByResourceGroupNextResponse = Expres
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13372,7 +13591,7 @@ export type ExpressRouteCrossConnectionPeeringsListResponse = ExpressRouteCrossC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13392,7 +13611,7 @@ export type ExpressRouteCrossConnectionPeeringsGetResponse = ExpressRouteCrossCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13412,7 +13631,7 @@ export type ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse = ExpressR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13432,7 +13651,7 @@ export type ExpressRouteCrossConnectionPeeringsBeginCreateOrUpdateResponse = Exp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13452,7 +13671,7 @@ export type ExpressRouteCrossConnectionPeeringsListNextResponse = ExpressRouteCr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13472,7 +13691,7 @@ export type ExpressRouteGatewaysListBySubscriptionResponse = ExpressRouteGateway
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13492,7 +13711,7 @@ export type ExpressRouteGatewaysListByResourceGroupResponse = ExpressRouteGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13512,7 +13731,7 @@ export type ExpressRouteGatewaysCreateOrUpdateResponse = ExpressRouteGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13532,7 +13751,7 @@ export type ExpressRouteGatewaysGetResponse = ExpressRouteGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13552,7 +13771,7 @@ export type ExpressRouteGatewaysBeginCreateOrUpdateResponse = ExpressRouteGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13572,7 +13791,7 @@ export type ExpressRouteConnectionsCreateOrUpdateResponse = ExpressRouteConnecti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13592,7 +13811,7 @@ export type ExpressRouteConnectionsGetResponse = ExpressRouteConnection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13612,7 +13831,7 @@ export type ExpressRouteConnectionsListResponse = ExpressRouteConnectionList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13632,7 +13851,7 @@ export type ExpressRouteConnectionsBeginCreateOrUpdateResponse = ExpressRouteCon
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13652,7 +13871,7 @@ export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationLi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13672,7 +13891,7 @@ export type ExpressRoutePortsLocationsGetResponse = ExpressRoutePortsLocation & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13692,7 +13911,7 @@ export type ExpressRoutePortsLocationsListNextResponse = ExpressRoutePortsLocati
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13712,7 +13931,7 @@ export type ExpressRoutePortsGetResponse = ExpressRoutePort & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13732,7 +13951,7 @@ export type ExpressRoutePortsCreateOrUpdateResponse = ExpressRoutePort & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13752,7 +13971,7 @@ export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13772,7 +13991,7 @@ export type ExpressRoutePortsListByResourceGroupResponse = ExpressRoutePortListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13792,7 +14011,7 @@ export type ExpressRoutePortsListResponse = ExpressRoutePortListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13812,7 +14031,7 @@ export type ExpressRoutePortsBeginCreateOrUpdateResponse = ExpressRoutePort & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13832,7 +14051,7 @@ export type ExpressRoutePortsBeginUpdateTagsResponse = ExpressRoutePort & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13852,7 +14071,7 @@ export type ExpressRoutePortsListByResourceGroupNextResponse = ExpressRoutePortL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13872,7 +14091,7 @@ export type ExpressRoutePortsListNextResponse = ExpressRoutePortListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13892,7 +14111,7 @@ export type ExpressRouteLinksGetResponse = ExpressRouteLink & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13912,7 +14131,7 @@ export type ExpressRouteLinksListResponse = ExpressRouteLinkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13932,7 +14151,7 @@ export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13948,291 +14167,11 @@ export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type PrivateEndpointsGetResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointsCreateOrUpdateResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointsListResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PrivateEndpointsListBySubscriptionResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointsBeginCreateOrUpdateResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateEndpointsListNextResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PrivateEndpointsListBySubscriptionNextResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkServicesGetResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateLinkServicesCreateOrUpdateResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkServicesListResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PrivateLinkServicesListBySubscriptionResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateLinkServicesBeginCreateOrUpdateResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateLinkServicesListNextResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PrivateLinkServicesListBySubscriptionNextResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
 export type LoadBalancersGetResponse = LoadBalancer & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14252,7 +14191,7 @@ export type LoadBalancersCreateOrUpdateResponse = LoadBalancer & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14272,7 +14211,7 @@ export type LoadBalancersUpdateTagsResponse = LoadBalancer & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14292,7 +14231,7 @@ export type LoadBalancersListAllResponse = LoadBalancerListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14312,7 +14251,7 @@ export type LoadBalancersListResponse = LoadBalancerListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14332,7 +14271,7 @@ export type LoadBalancersBeginCreateOrUpdateResponse = LoadBalancer & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14352,7 +14291,7 @@ export type LoadBalancersBeginUpdateTagsResponse = LoadBalancer & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14372,7 +14311,7 @@ export type LoadBalancersListAllNextResponse = LoadBalancerListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14392,7 +14331,7 @@ export type LoadBalancersListNextResponse = LoadBalancerListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14412,7 +14351,7 @@ export type LoadBalancerBackendAddressPoolsListResponse = LoadBalancerBackendAdd
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14432,7 +14371,7 @@ export type LoadBalancerBackendAddressPoolsGetResponse = BackendAddressPool & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14452,7 +14391,7 @@ export type LoadBalancerBackendAddressPoolsListNextResponse = LoadBalancerBacken
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14472,7 +14411,7 @@ export type LoadBalancerFrontendIPConfigurationsListResponse = LoadBalancerFront
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14492,7 +14431,7 @@ export type LoadBalancerFrontendIPConfigurationsGetResponse = FrontendIPConfigur
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14512,7 +14451,7 @@ export type LoadBalancerFrontendIPConfigurationsListNextResponse = LoadBalancerF
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14532,7 +14471,7 @@ export type InboundNatRulesListResponse = InboundNatRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14552,7 +14491,7 @@ export type InboundNatRulesGetResponse = InboundNatRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14572,7 +14511,7 @@ export type InboundNatRulesCreateOrUpdateResponse = InboundNatRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14592,7 +14531,7 @@ export type InboundNatRulesBeginCreateOrUpdateResponse = InboundNatRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14612,7 +14551,7 @@ export type InboundNatRulesListNextResponse = InboundNatRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14632,7 +14571,7 @@ export type LoadBalancerLoadBalancingRulesListResponse = LoadBalancerLoadBalanci
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14652,7 +14591,7 @@ export type LoadBalancerLoadBalancingRulesGetResponse = LoadBalancingRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14672,7 +14611,7 @@ export type LoadBalancerLoadBalancingRulesListNextResponse = LoadBalancerLoadBal
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14692,7 +14631,7 @@ export type LoadBalancerOutboundRulesListResponse = LoadBalancerOutboundRuleList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14712,7 +14651,7 @@ export type LoadBalancerOutboundRulesGetResponse = OutboundRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14732,7 +14671,7 @@ export type LoadBalancerOutboundRulesListNextResponse = LoadBalancerOutboundRule
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14752,7 +14691,7 @@ export type LoadBalancerNetworkInterfacesListResponse = NetworkInterfaceListResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14772,7 +14711,7 @@ export type LoadBalancerNetworkInterfacesListNextResponse = NetworkInterfaceList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14792,7 +14731,7 @@ export type LoadBalancerProbesListResponse = LoadBalancerProbeListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14812,7 +14751,7 @@ export type LoadBalancerProbesGetResponse = Probe & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14832,7 +14771,7 @@ export type LoadBalancerProbesListNextResponse = LoadBalancerProbeListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14852,7 +14791,7 @@ export type NatGatewaysGetResponse = NatGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14872,7 +14811,7 @@ export type NatGatewaysCreateOrUpdateResponse = NatGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14892,7 +14831,7 @@ export type NatGatewaysUpdateTagsResponse = NatGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14912,7 +14851,7 @@ export type NatGatewaysListAllResponse = NatGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14932,7 +14871,7 @@ export type NatGatewaysListResponse = NatGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14952,7 +14891,7 @@ export type NatGatewaysBeginCreateOrUpdateResponse = NatGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14972,7 +14911,7 @@ export type NatGatewaysListAllNextResponse = NatGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -14992,7 +14931,7 @@ export type NatGatewaysListNextResponse = NatGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15012,7 +14951,7 @@ export type NetworkInterfacesGetResponse = NetworkInterface & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15032,7 +14971,7 @@ export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterface & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15052,7 +14991,7 @@ export type NetworkInterfacesUpdateTagsResponse = NetworkInterface & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15072,7 +15011,7 @@ export type NetworkInterfacesListAllResponse = NetworkInterfaceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15092,7 +15031,7 @@ export type NetworkInterfacesListResponse = NetworkInterfaceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15112,7 +15051,7 @@ export type NetworkInterfacesGetEffectiveRouteTableResponse = EffectiveRouteList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15132,7 +15071,7 @@ export type NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse = Effect
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15152,7 +15091,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesRespon
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15172,7 +15111,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15192,7 +15131,7 @@ export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse =
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15212,7 +15151,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15232,7 +15171,7 @@ export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse = 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15252,7 +15191,7 @@ export type NetworkInterfacesBeginCreateOrUpdateResponse = NetworkInterface & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15272,7 +15211,7 @@ export type NetworkInterfacesBeginUpdateTagsResponse = NetworkInterface & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15292,7 +15231,7 @@ export type NetworkInterfacesBeginGetEffectiveRouteTableResponse = EffectiveRout
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15312,7 +15251,7 @@ export type NetworkInterfacesBeginListEffectiveNetworkSecurityGroupsResponse = E
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15332,7 +15271,7 @@ export type NetworkInterfacesListAllNextResponse = NetworkInterfaceListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15352,7 +15291,7 @@ export type NetworkInterfacesListNextResponse = NetworkInterfaceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15372,7 +15311,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15392,7 +15331,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15412,7 +15351,7 @@ export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextRespo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15432,7 +15371,7 @@ export type NetworkInterfaceIPConfigurationsListResponse = NetworkInterfaceIPCon
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15452,7 +15391,7 @@ export type NetworkInterfaceIPConfigurationsGetResponse = NetworkInterfaceIPConf
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15472,7 +15411,7 @@ export type NetworkInterfaceIPConfigurationsListNextResponse = NetworkInterfaceI
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15492,7 +15431,7 @@ export type NetworkInterfaceLoadBalancersListResponse = NetworkInterfaceLoadBala
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15512,7 +15451,7 @@ export type NetworkInterfaceLoadBalancersListNextResponse = NetworkInterfaceLoad
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15532,7 +15471,7 @@ export type NetworkInterfaceTapConfigurationsGetResponse = NetworkInterfaceTapCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15552,7 +15491,7 @@ export type NetworkInterfaceTapConfigurationsCreateOrUpdateResponse = NetworkInt
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15572,7 +15511,7 @@ export type NetworkInterfaceTapConfigurationsListResponse = NetworkInterfaceTapC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15592,7 +15531,7 @@ export type NetworkInterfaceTapConfigurationsBeginCreateOrUpdateResponse = Netwo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15612,7 +15551,7 @@ export type NetworkInterfaceTapConfigurationsListNextResponse = NetworkInterface
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15632,7 +15571,7 @@ export type NetworkProfilesGetResponse = NetworkProfile & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15652,7 +15591,7 @@ export type NetworkProfilesCreateOrUpdateResponse = NetworkProfile & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15672,7 +15611,7 @@ export type NetworkProfilesUpdateTagsResponse = NetworkProfile & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15692,7 +15631,7 @@ export type NetworkProfilesListAllResponse = NetworkProfileListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15712,7 +15651,7 @@ export type NetworkProfilesListResponse = NetworkProfileListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15732,7 +15671,7 @@ export type NetworkProfilesListAllNextResponse = NetworkProfileListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15752,7 +15691,7 @@ export type NetworkProfilesListNextResponse = NetworkProfileListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15772,7 +15711,7 @@ export type NetworkSecurityGroupsGetResponse = NetworkSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15792,7 +15731,7 @@ export type NetworkSecurityGroupsCreateOrUpdateResponse = NetworkSecurityGroup &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15812,7 +15751,7 @@ export type NetworkSecurityGroupsUpdateTagsResponse = NetworkSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15832,7 +15771,7 @@ export type NetworkSecurityGroupsListAllResponse = NetworkSecurityGroupListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15852,7 +15791,7 @@ export type NetworkSecurityGroupsListResponse = NetworkSecurityGroupListResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15872,7 +15811,7 @@ export type NetworkSecurityGroupsBeginCreateOrUpdateResponse = NetworkSecurityGr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15892,7 +15831,7 @@ export type NetworkSecurityGroupsBeginUpdateTagsResponse = NetworkSecurityGroup 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15912,7 +15851,7 @@ export type NetworkSecurityGroupsListAllNextResponse = NetworkSecurityGroupListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15932,7 +15871,7 @@ export type NetworkSecurityGroupsListNextResponse = NetworkSecurityGroupListResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15952,7 +15891,7 @@ export type SecurityRulesGetResponse = SecurityRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15972,7 +15911,7 @@ export type SecurityRulesCreateOrUpdateResponse = SecurityRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -15992,7 +15931,7 @@ export type SecurityRulesListResponse = SecurityRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16012,7 +15951,7 @@ export type SecurityRulesBeginCreateOrUpdateResponse = SecurityRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16032,7 +15971,7 @@ export type SecurityRulesListNextResponse = SecurityRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16052,7 +15991,7 @@ export type DefaultSecurityRulesListResponse = SecurityRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16072,7 +16011,7 @@ export type DefaultSecurityRulesGetResponse = SecurityRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16092,7 +16031,7 @@ export type DefaultSecurityRulesListNextResponse = SecurityRuleListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16112,7 +16051,7 @@ export type NetworkWatchersCreateOrUpdateResponse = NetworkWatcher & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16132,7 +16071,7 @@ export type NetworkWatchersGetResponse = NetworkWatcher & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16152,7 +16091,7 @@ export type NetworkWatchersUpdateTagsResponse = NetworkWatcher & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16172,7 +16111,7 @@ export type NetworkWatchersListResponse = NetworkWatcherListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16192,7 +16131,7 @@ export type NetworkWatchersListAllResponse = NetworkWatcherListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16212,7 +16151,7 @@ export type NetworkWatchersGetTopologyResponse = Topology & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16232,7 +16171,7 @@ export type NetworkWatchersVerifyIPFlowResponse = VerificationIPFlowResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16252,7 +16191,7 @@ export type NetworkWatchersGetNextHopResponse = NextHopResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16272,7 +16211,7 @@ export type NetworkWatchersGetVMSecurityRulesResponse = SecurityGroupViewResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16292,7 +16231,7 @@ export type NetworkWatchersGetTroubleshootingResponse = TroubleshootingResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16312,7 +16251,7 @@ export type NetworkWatchersGetTroubleshootingResultResponse = TroubleshootingRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16332,7 +16271,7 @@ export type NetworkWatchersSetFlowLogConfigurationResponse = FlowLogInformation 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16352,7 +16291,7 @@ export type NetworkWatchersGetFlowLogStatusResponse = FlowLogInformation & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16372,7 +16311,7 @@ export type NetworkWatchersCheckConnectivityResponse = ConnectivityInformation &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16392,7 +16331,7 @@ export type NetworkWatchersGetAzureReachabilityReportResponse = AzureReachabilit
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16412,7 +16351,7 @@ export type NetworkWatchersListAvailableProvidersResponse = AvailableProvidersLi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16432,7 +16371,7 @@ export type NetworkWatchersGetNetworkConfigurationDiagnosticResponse = NetworkCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16452,7 +16391,7 @@ export type NetworkWatchersBeginVerifyIPFlowResponse = VerificationIPFlowResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16472,7 +16411,7 @@ export type NetworkWatchersBeginGetNextHopResponse = NextHopResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16492,7 +16431,7 @@ export type NetworkWatchersBeginGetVMSecurityRulesResponse = SecurityGroupViewRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16512,7 +16451,7 @@ export type NetworkWatchersBeginGetTroubleshootingResponse = TroubleshootingResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16532,7 +16471,7 @@ export type NetworkWatchersBeginGetTroubleshootingResultResponse = Troubleshooti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16552,7 +16491,7 @@ export type NetworkWatchersBeginSetFlowLogConfigurationResponse = FlowLogInforma
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16572,7 +16511,7 @@ export type NetworkWatchersBeginGetFlowLogStatusResponse = FlowLogInformation & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16592,7 +16531,7 @@ export type NetworkWatchersBeginCheckConnectivityResponse = ConnectivityInformat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16612,7 +16551,7 @@ export type NetworkWatchersBeginGetAzureReachabilityReportResponse = AzureReacha
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16632,7 +16571,7 @@ export type NetworkWatchersBeginListAvailableProvidersResponse = AvailableProvid
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16652,7 +16591,7 @@ export type NetworkWatchersBeginGetNetworkConfigurationDiagnosticResponse = Netw
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16672,7 +16611,7 @@ export type PacketCapturesCreateResponse = PacketCaptureResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16692,7 +16631,7 @@ export type PacketCapturesGetResponse = PacketCaptureResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16712,7 +16651,7 @@ export type PacketCapturesGetStatusResponse = PacketCaptureQueryStatusResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16732,7 +16671,7 @@ export type PacketCapturesListResponse = PacketCaptureListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16752,7 +16691,7 @@ export type PacketCapturesBeginCreateResponse = PacketCaptureResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16772,7 +16711,7 @@ export type PacketCapturesBeginGetStatusResponse = PacketCaptureQueryStatusResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16792,7 +16731,7 @@ export type ConnectionMonitorsCreateOrUpdateResponse = ConnectionMonitorResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16812,7 +16751,7 @@ export type ConnectionMonitorsGetResponse = ConnectionMonitorResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16832,7 +16771,7 @@ export type ConnectionMonitorsQueryResponse = ConnectionMonitorQueryResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16852,7 +16791,7 @@ export type ConnectionMonitorsListResponse = ConnectionMonitorListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16872,7 +16811,7 @@ export type ConnectionMonitorsBeginCreateOrUpdateResponse = ConnectionMonitorRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16892,7 +16831,7 @@ export type ConnectionMonitorsBeginQueryResponse = ConnectionMonitorQueryResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16912,7 +16851,7 @@ export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16932,7 +16871,7 @@ export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16948,11 +16887,511 @@ export type OperationsListNextResponse = OperationListResult & {
 /**
  * Contains response data for the get operation.
  */
+export type PrivateEndpointsGetResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointsCreateOrUpdateResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointsListResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type PrivateEndpointsListBySubscriptionResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointsBeginCreateOrUpdateResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateEndpointsListNextResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type PrivateEndpointsListBySubscriptionNextResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AvailablePrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type AvailablePrivateEndpointTypesListByResourceGroupResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AvailablePrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type AvailablePrivateEndpointTypesListByResourceGroupNextResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkServicesGetResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateLinkServicesCreateOrUpdateResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkServicesListResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type PrivateLinkServicesListBySubscriptionResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the updatePrivateEndpointConnection operation.
+ */
+export type PrivateLinkServicesUpdatePrivateEndpointConnectionResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the checkPrivateLinkServiceVisibility operation.
+ */
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
+ * Contains response data for the checkPrivateLinkServiceVisibilityByResourceGroup operation.
+ */
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServices operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroup operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateLinkServicesBeginCreateOrUpdateResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkServicesListNextResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type PrivateLinkServicesListBySubscriptionNextResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesNext operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroupNext operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type PublicIPAddressesGetResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16972,7 +17411,7 @@ export type PublicIPAddressesCreateOrUpdateResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -16992,7 +17431,7 @@ export type PublicIPAddressesUpdateTagsResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17012,7 +17451,7 @@ export type PublicIPAddressesListAllResponse = PublicIPAddressListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17032,7 +17471,7 @@ export type PublicIPAddressesListResponse = PublicIPAddressListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17052,7 +17491,7 @@ export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17072,7 +17511,7 @@ export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesRespon
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17092,7 +17531,7 @@ export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse = 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17112,7 +17551,7 @@ export type PublicIPAddressesBeginCreateOrUpdateResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17132,7 +17571,7 @@ export type PublicIPAddressesBeginUpdateTagsResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17152,7 +17591,7 @@ export type PublicIPAddressesListAllNextResponse = PublicIPAddressListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17172,7 +17611,7 @@ export type PublicIPAddressesListNextResponse = PublicIPAddressListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17192,7 +17631,7 @@ export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17212,7 +17651,7 @@ export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17232,7 +17671,7 @@ export type PublicIPPrefixesGetResponse = PublicIPPrefix & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17252,7 +17691,7 @@ export type PublicIPPrefixesCreateOrUpdateResponse = PublicIPPrefix & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17272,7 +17711,7 @@ export type PublicIPPrefixesUpdateTagsResponse = PublicIPPrefix & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17292,7 +17731,7 @@ export type PublicIPPrefixesListAllResponse = PublicIPPrefixListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17312,7 +17751,7 @@ export type PublicIPPrefixesListResponse = PublicIPPrefixListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17332,7 +17771,7 @@ export type PublicIPPrefixesBeginCreateOrUpdateResponse = PublicIPPrefix & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17352,7 +17791,7 @@ export type PublicIPPrefixesBeginUpdateTagsResponse = PublicIPPrefix & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17372,7 +17811,7 @@ export type PublicIPPrefixesListAllNextResponse = PublicIPPrefixListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17392,7 +17831,7 @@ export type PublicIPPrefixesListNextResponse = PublicIPPrefixListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17412,7 +17851,7 @@ export type RouteFiltersGetResponse = RouteFilter & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17432,7 +17871,7 @@ export type RouteFiltersCreateOrUpdateResponse = RouteFilter & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17452,7 +17891,7 @@ export type RouteFiltersUpdateResponse = RouteFilter & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17472,7 +17911,7 @@ export type RouteFiltersListByResourceGroupResponse = RouteFilterListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17492,7 +17931,7 @@ export type RouteFiltersListResponse = RouteFilterListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17512,7 +17951,7 @@ export type RouteFiltersBeginCreateOrUpdateResponse = RouteFilter & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17532,7 +17971,7 @@ export type RouteFiltersBeginUpdateResponse = RouteFilter & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17552,7 +17991,7 @@ export type RouteFiltersListByResourceGroupNextResponse = RouteFilterListResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17572,7 +18011,7 @@ export type RouteFiltersListNextResponse = RouteFilterListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17592,7 +18031,7 @@ export type RouteFilterRulesGetResponse = RouteFilterRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17612,7 +18051,7 @@ export type RouteFilterRulesCreateOrUpdateResponse = RouteFilterRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17632,7 +18071,7 @@ export type RouteFilterRulesUpdateResponse = RouteFilterRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17652,7 +18091,7 @@ export type RouteFilterRulesListByRouteFilterResponse = RouteFilterRuleListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17672,7 +18111,7 @@ export type RouteFilterRulesBeginCreateOrUpdateResponse = RouteFilterRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17692,7 +18131,7 @@ export type RouteFilterRulesBeginUpdateResponse = RouteFilterRule & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17712,7 +18151,7 @@ export type RouteFilterRulesListByRouteFilterNextResponse = RouteFilterRuleListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17732,7 +18171,7 @@ export type RouteTablesGetResponse = RouteTable & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17752,7 +18191,7 @@ export type RouteTablesCreateOrUpdateResponse = RouteTable & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17772,7 +18211,7 @@ export type RouteTablesUpdateTagsResponse = RouteTable & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17792,7 +18231,7 @@ export type RouteTablesListResponse = RouteTableListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17812,7 +18251,7 @@ export type RouteTablesListAllResponse = RouteTableListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17832,7 +18271,7 @@ export type RouteTablesBeginCreateOrUpdateResponse = RouteTable & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17852,7 +18291,7 @@ export type RouteTablesBeginUpdateTagsResponse = RouteTable & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17872,7 +18311,7 @@ export type RouteTablesListNextResponse = RouteTableListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17892,7 +18331,7 @@ export type RouteTablesListAllNextResponse = RouteTableListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17912,7 +18351,7 @@ export type RoutesGetResponse = Route & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17932,7 +18371,7 @@ export type RoutesCreateOrUpdateResponse = Route & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17952,7 +18391,7 @@ export type RoutesListResponse = RouteListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17972,7 +18411,7 @@ export type RoutesBeginCreateOrUpdateResponse = Route & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -17992,7 +18431,7 @@ export type RoutesListNextResponse = RouteListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18012,7 +18451,7 @@ export type BgpServiceCommunitiesListResponse = BgpServiceCommunityListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18032,7 +18471,7 @@ export type BgpServiceCommunitiesListNextResponse = BgpServiceCommunityListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18052,7 +18491,7 @@ export type ServiceEndpointPoliciesGetResponse = ServiceEndpointPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18072,7 +18511,7 @@ export type ServiceEndpointPoliciesCreateOrUpdateResponse = ServiceEndpointPolic
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18092,7 +18531,7 @@ export type ServiceEndpointPoliciesUpdateResponse = ServiceEndpointPolicy & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18112,7 +18551,7 @@ export type ServiceEndpointPoliciesListResponse = ServiceEndpointPolicyListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18132,7 +18571,7 @@ export type ServiceEndpointPoliciesListByResourceGroupResponse = ServiceEndpoint
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18152,7 +18591,7 @@ export type ServiceEndpointPoliciesBeginCreateOrUpdateResponse = ServiceEndpoint
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18172,7 +18611,7 @@ export type ServiceEndpointPoliciesBeginUpdateResponse = ServiceEndpointPolicy &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18192,7 +18631,7 @@ export type ServiceEndpointPoliciesListNextResponse = ServiceEndpointPolicyListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18212,7 +18651,7 @@ export type ServiceEndpointPoliciesListByResourceGroupNextResponse = ServiceEndp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18232,7 +18671,7 @@ export type ServiceEndpointPolicyDefinitionsGetResponse = ServiceEndpointPolicyD
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18252,7 +18691,7 @@ export type ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse = ServiceEndp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18272,7 +18711,7 @@ export type ServiceEndpointPolicyDefinitionsListByResourceGroupResponse = Servic
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18292,7 +18731,7 @@ export type ServiceEndpointPolicyDefinitionsBeginCreateOrUpdateResponse = Servic
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18312,7 +18751,7 @@ export type ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse = Se
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18332,7 +18771,7 @@ export type ServiceTagsListResponse = ServiceTagsListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18352,7 +18791,7 @@ export type UsagesListResponse = UsagesListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18372,7 +18811,7 @@ export type UsagesListNextResponse = UsagesListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18392,7 +18831,7 @@ export type VirtualNetworksGetResponse = VirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18412,7 +18851,7 @@ export type VirtualNetworksCreateOrUpdateResponse = VirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18432,7 +18871,7 @@ export type VirtualNetworksUpdateTagsResponse = VirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18452,7 +18891,7 @@ export type VirtualNetworksListAllResponse = VirtualNetworkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18472,7 +18911,7 @@ export type VirtualNetworksListResponse = VirtualNetworkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18492,7 +18931,7 @@ export type VirtualNetworksCheckIPAddressAvailabilityResponse = IPAddressAvailab
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18512,7 +18951,7 @@ export type VirtualNetworksListUsageResponse = VirtualNetworkListUsageResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18532,7 +18971,7 @@ export type VirtualNetworksBeginCreateOrUpdateResponse = VirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18552,7 +18991,7 @@ export type VirtualNetworksBeginUpdateTagsResponse = VirtualNetwork & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18572,7 +19011,7 @@ export type VirtualNetworksListAllNextResponse = VirtualNetworkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18592,7 +19031,7 @@ export type VirtualNetworksListNextResponse = VirtualNetworkListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18612,7 +19051,7 @@ export type VirtualNetworksListUsageNextResponse = VirtualNetworkListUsageResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18632,7 +19071,7 @@ export type SubnetsGetResponse = Subnet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18652,7 +19091,7 @@ export type SubnetsCreateOrUpdateResponse = Subnet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18672,7 +19111,7 @@ export type SubnetsListResponse = SubnetListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18692,7 +19131,7 @@ export type SubnetsBeginCreateOrUpdateResponse = Subnet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18712,7 +19151,7 @@ export type SubnetsListNextResponse = SubnetListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18732,7 +19171,7 @@ export type ResourceNavigationLinksListResponse = ResourceNavigationLinksListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18752,7 +19191,7 @@ export type ServiceAssociationLinksListResponse = ServiceAssociationLinksListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18772,7 +19211,7 @@ export type VirtualNetworkPeeringsGetResponse = VirtualNetworkPeering & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18792,7 +19231,7 @@ export type VirtualNetworkPeeringsCreateOrUpdateResponse = VirtualNetworkPeering
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18812,7 +19251,7 @@ export type VirtualNetworkPeeringsListResponse = VirtualNetworkPeeringListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18832,7 +19271,7 @@ export type VirtualNetworkPeeringsBeginCreateOrUpdateResponse = VirtualNetworkPe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18852,7 +19291,7 @@ export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18872,7 +19311,7 @@ export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18892,7 +19331,7 @@ export type VirtualNetworkGatewaysGetResponse = VirtualNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18912,7 +19351,7 @@ export type VirtualNetworkGatewaysUpdateTagsResponse = VirtualNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18932,7 +19371,7 @@ export type VirtualNetworkGatewaysListResponse = VirtualNetworkGatewayListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18952,7 +19391,7 @@ export type VirtualNetworkGatewaysListConnectionsResponse = VirtualNetworkGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18972,7 +19411,7 @@ export type VirtualNetworkGatewaysResetResponse = VirtualNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -18997,7 +19436,7 @@ export type VirtualNetworkGatewaysGeneratevpnclientpackageResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19022,7 +19461,7 @@ export type VirtualNetworkGatewaysGenerateVpnProfileResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19047,7 +19486,7 @@ export type VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19067,7 +19506,7 @@ export type VirtualNetworkGatewaysGetBgpPeerStatusResponse = BgpPeerStatusListRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19092,7 +19531,7 @@ export type VirtualNetworkGatewaysSupportedVpnDevicesResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19112,7 +19551,7 @@ export type VirtualNetworkGatewaysGetLearnedRoutesResponse = GatewayRouteListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19132,7 +19571,7 @@ export type VirtualNetworkGatewaysGetAdvertisedRoutesResponse = GatewayRouteList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19152,7 +19591,7 @@ export type VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse = VpnClien
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19172,7 +19611,7 @@ export type VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse = VpnClien
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19197,7 +19636,7 @@ export type VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19217,7 +19656,7 @@ export type VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse = VpnClie
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19237,7 +19676,7 @@ export type VirtualNetworkGatewaysBeginCreateOrUpdateResponse = VirtualNetworkGa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19257,7 +19696,7 @@ export type VirtualNetworkGatewaysBeginUpdateTagsResponse = VirtualNetworkGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19277,7 +19716,7 @@ export type VirtualNetworkGatewaysBeginResetResponse = VirtualNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19287,6 +19726,56 @@ export type VirtualNetworkGatewaysBeginResetResponse = VirtualNetworkGateway & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VirtualNetworkGateway;
+    };
+};
+
+/**
+ * Contains response data for the beginGeneratevpnclientpackage operation.
+ */
+export type VirtualNetworkGatewaysBeginGeneratevpnclientpackageResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the beginGenerateVpnProfile operation.
+ */
+export type VirtualNetworkGatewaysBeginGenerateVpnProfileResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
     };
 };
 
@@ -19302,7 +19791,7 @@ export type VirtualNetworkGatewaysBeginGetVpnProfilePackageUrlResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19322,7 +19811,7 @@ export type VirtualNetworkGatewaysBeginGetBgpPeerStatusResponse = BgpPeerStatusL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19342,7 +19831,7 @@ export type VirtualNetworkGatewaysBeginGetLearnedRoutesResponse = GatewayRouteLi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19362,7 +19851,7 @@ export type VirtualNetworkGatewaysBeginGetAdvertisedRoutesResponse = GatewayRout
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19382,7 +19871,7 @@ export type VirtualNetworkGatewaysBeginSetVpnclientIpsecParametersResponse = Vpn
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19402,7 +19891,7 @@ export type VirtualNetworkGatewaysBeginGetVpnclientIpsecParametersResponse = Vpn
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19422,7 +19911,7 @@ export type VirtualNetworkGatewaysBeginGetVpnclientConnectionHealthResponse = Vp
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19442,7 +19931,7 @@ export type VirtualNetworkGatewaysListNextResponse = VirtualNetworkGatewayListRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19462,7 +19951,7 @@ export type VirtualNetworkGatewaysListConnectionsNextResponse = VirtualNetworkGa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19482,7 +19971,7 @@ export type VirtualNetworkGatewayConnectionsCreateOrUpdateResponse = VirtualNetw
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19502,7 +19991,7 @@ export type VirtualNetworkGatewayConnectionsGetResponse = VirtualNetworkGatewayC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19522,7 +20011,7 @@ export type VirtualNetworkGatewayConnectionsUpdateTagsResponse = VirtualNetworkG
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19542,7 +20031,7 @@ export type VirtualNetworkGatewayConnectionsSetSharedKeyResponse = ConnectionSha
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19562,7 +20051,7 @@ export type VirtualNetworkGatewayConnectionsGetSharedKeyResponse = ConnectionSha
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19582,7 +20071,7 @@ export type VirtualNetworkGatewayConnectionsListResponse = VirtualNetworkGateway
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19602,7 +20091,7 @@ export type VirtualNetworkGatewayConnectionsResetSharedKeyResponse = ConnectionR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19622,7 +20111,7 @@ export type VirtualNetworkGatewayConnectionsBeginCreateOrUpdateResponse = Virtua
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19642,7 +20131,7 @@ export type VirtualNetworkGatewayConnectionsBeginUpdateTagsResponse = VirtualNet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19662,7 +20151,7 @@ export type VirtualNetworkGatewayConnectionsBeginSetSharedKeyResponse = Connecti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19682,7 +20171,7 @@ export type VirtualNetworkGatewayConnectionsBeginResetSharedKeyResponse = Connec
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19702,7 +20191,7 @@ export type VirtualNetworkGatewayConnectionsListNextResponse = VirtualNetworkGat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19722,7 +20211,7 @@ export type LocalNetworkGatewaysCreateOrUpdateResponse = LocalNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19742,7 +20231,7 @@ export type LocalNetworkGatewaysGetResponse = LocalNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19762,7 +20251,7 @@ export type LocalNetworkGatewaysUpdateTagsResponse = LocalNetworkGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19782,7 +20271,7 @@ export type LocalNetworkGatewaysListResponse = LocalNetworkGatewayListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19802,7 +20291,7 @@ export type LocalNetworkGatewaysBeginCreateOrUpdateResponse = LocalNetworkGatewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19822,7 +20311,7 @@ export type LocalNetworkGatewaysBeginUpdateTagsResponse = LocalNetworkGateway & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19842,7 +20331,7 @@ export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19862,7 +20351,7 @@ export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19882,7 +20371,7 @@ export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19902,7 +20391,7 @@ export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19922,7 +20411,7 @@ export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19942,7 +20431,7 @@ export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapLis
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19962,7 +20451,7 @@ export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19982,7 +20471,7 @@ export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20002,7 +20491,7 @@ export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20022,7 +20511,7 @@ export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20042,7 +20531,7 @@ export type VirtualWansGetResponse = VirtualWAN & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20062,7 +20551,7 @@ export type VirtualWansCreateOrUpdateResponse = VirtualWAN & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20082,7 +20571,7 @@ export type VirtualWansUpdateTagsResponse = VirtualWAN & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20102,7 +20591,7 @@ export type VirtualWansListByResourceGroupResponse = ListVirtualWANsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20122,7 +20611,7 @@ export type VirtualWansListResponse = ListVirtualWANsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20142,7 +20631,7 @@ export type VirtualWansBeginCreateOrUpdateResponse = VirtualWAN & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20162,7 +20651,7 @@ export type VirtualWansBeginUpdateTagsResponse = VirtualWAN & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20182,7 +20671,7 @@ export type VirtualWansListByResourceGroupNextResponse = ListVirtualWANsResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20202,7 +20691,7 @@ export type VirtualWansListNextResponse = ListVirtualWANsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20222,7 +20711,7 @@ export type VpnSitesGetResponse = VpnSite & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20242,7 +20731,7 @@ export type VpnSitesCreateOrUpdateResponse = VpnSite & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20262,7 +20751,7 @@ export type VpnSitesUpdateTagsResponse = VpnSite & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20282,7 +20771,7 @@ export type VpnSitesListByResourceGroupResponse = ListVpnSitesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20302,7 +20791,7 @@ export type VpnSitesListResponse = ListVpnSitesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20322,7 +20811,7 @@ export type VpnSitesBeginCreateOrUpdateResponse = VpnSite & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20342,7 +20831,7 @@ export type VpnSitesBeginUpdateTagsResponse = VpnSite & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20362,7 +20851,7 @@ export type VpnSitesListByResourceGroupNextResponse = ListVpnSitesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20382,7 +20871,7 @@ export type VpnSitesListNextResponse = ListVpnSitesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20398,11 +20887,71 @@ export type VpnSitesListNextResponse = ListVpnSitesResult & {
 /**
  * Contains response data for the get operation.
  */
+export type VpnSiteLinksGetResponse = VpnSiteLink & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnSiteLink;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnSite operation.
+ */
+export type VpnSiteLinksListByVpnSiteResponse = ListVpnSiteLinksResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinksResult;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnSiteNext operation.
+ */
+export type VpnSiteLinksListByVpnSiteNextResponse = ListVpnSiteLinksResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinksResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type VirtualHubsGetResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20422,7 +20971,7 @@ export type VirtualHubsCreateOrUpdateResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20442,7 +20991,7 @@ export type VirtualHubsUpdateTagsResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20462,7 +21011,7 @@ export type VirtualHubsListByResourceGroupResponse = ListVirtualHubsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20482,7 +21031,7 @@ export type VirtualHubsListResponse = ListVirtualHubsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20502,7 +21051,7 @@ export type VirtualHubsBeginCreateOrUpdateResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20522,7 +21071,7 @@ export type VirtualHubsBeginUpdateTagsResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20542,7 +21091,7 @@ export type VirtualHubsListByResourceGroupNextResponse = ListVirtualHubsResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20562,7 +21111,7 @@ export type VirtualHubsListNextResponse = ListVirtualHubsResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20582,7 +21131,7 @@ export type HubVirtualNetworkConnectionsGetResponse = HubVirtualNetworkConnectio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20602,7 +21151,7 @@ export type HubVirtualNetworkConnectionsListResponse = ListHubVirtualNetworkConn
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20622,7 +21171,7 @@ export type HubVirtualNetworkConnectionsListNextResponse = ListHubVirtualNetwork
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20642,7 +21191,7 @@ export type VpnGatewaysGetResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20662,7 +21211,7 @@ export type VpnGatewaysCreateOrUpdateResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20682,7 +21231,7 @@ export type VpnGatewaysUpdateTagsResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20702,7 +21251,7 @@ export type VpnGatewaysResetResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20722,7 +21271,7 @@ export type VpnGatewaysListByResourceGroupResponse = ListVpnGatewaysResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20742,7 +21291,7 @@ export type VpnGatewaysListResponse = ListVpnGatewaysResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20762,7 +21311,7 @@ export type VpnGatewaysBeginCreateOrUpdateResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20782,7 +21331,7 @@ export type VpnGatewaysBeginUpdateTagsResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20802,7 +21351,7 @@ export type VpnGatewaysBeginResetResponse = VpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20822,7 +21371,7 @@ export type VpnGatewaysListByResourceGroupNextResponse = ListVpnGatewaysResult &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20842,7 +21391,7 @@ export type VpnGatewaysListNextResponse = ListVpnGatewaysResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20862,7 +21411,7 @@ export type VpnConnectionsGetResponse = VpnConnection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20882,7 +21431,7 @@ export type VpnConnectionsCreateOrUpdateResponse = VpnConnection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20902,7 +21451,7 @@ export type VpnConnectionsListByVpnGatewayResponse = ListVpnConnectionsResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20922,7 +21471,7 @@ export type VpnConnectionsBeginCreateOrUpdateResponse = VpnConnection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20942,7 +21491,7 @@ export type VpnConnectionsListByVpnGatewayNextResponse = ListVpnConnectionsResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20958,11 +21507,71 @@ export type VpnConnectionsListByVpnGatewayNextResponse = ListVpnConnectionsResul
 /**
  * Contains response data for the get operation.
  */
+export type VpnSiteLinkConnectionsGetResponse = VpnSiteLinkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnSiteLinkConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnConnection operation.
+ */
+export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinkConnectionsResult;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnConnectionNext operation.
+ */
+export type VpnLinkConnectionsListByVpnConnectionNextResponse = ListVpnSiteLinkConnectionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinkConnectionsResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type P2sVpnServerConfigurationsGetResponse = P2SVpnServerConfiguration & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20982,7 +21591,7 @@ export type P2sVpnServerConfigurationsCreateOrUpdateResponse = P2SVpnServerConfi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21002,7 +21611,7 @@ export type P2sVpnServerConfigurationsListByVirtualWanResponse = ListP2SVpnServe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21022,7 +21631,7 @@ export type P2sVpnServerConfigurationsBeginCreateOrUpdateResponse = P2SVpnServer
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21042,7 +21651,7 @@ export type P2sVpnServerConfigurationsListByVirtualWanNextResponse = ListP2SVpnS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21062,7 +21671,7 @@ export type P2sVpnGatewaysGetResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21082,7 +21691,7 @@ export type P2sVpnGatewaysCreateOrUpdateResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21102,7 +21711,7 @@ export type P2sVpnGatewaysUpdateTagsResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21122,7 +21731,7 @@ export type P2sVpnGatewaysListByResourceGroupResponse = ListP2SVpnGatewaysResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21142,7 +21751,7 @@ export type P2sVpnGatewaysListResponse = ListP2SVpnGatewaysResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21162,7 +21771,7 @@ export type P2sVpnGatewaysGenerateVpnProfileResponse = VpnProfileResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21182,7 +21791,7 @@ export type P2sVpnGatewaysGetP2sVpnConnectionHealthResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21202,7 +21811,7 @@ export type P2sVpnGatewaysBeginCreateOrUpdateResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21222,7 +21831,7 @@ export type P2sVpnGatewaysBeginUpdateTagsResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21242,7 +21851,7 @@ export type P2sVpnGatewaysBeginGenerateVpnProfileResponse = VpnProfileResponse &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21262,7 +21871,7 @@ export type P2sVpnGatewaysBeginGetP2sVpnConnectionHealthResponse = P2SVpnGateway
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21282,7 +21891,7 @@ export type P2sVpnGatewaysListByResourceGroupNextResponse = ListP2SVpnGatewaysRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21302,7 +21911,7 @@ export type P2sVpnGatewaysListNextResponse = ListP2SVpnGatewaysResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21322,7 +21931,7 @@ export type WebApplicationFirewallPoliciesListResponse = WebApplicationFirewallP
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21342,7 +21951,7 @@ export type WebApplicationFirewallPoliciesListAllResponse = WebApplicationFirewa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21362,7 +21971,7 @@ export type WebApplicationFirewallPoliciesGetResponse = WebApplicationFirewallPo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21382,7 +21991,7 @@ export type WebApplicationFirewallPoliciesCreateOrUpdateResponse = WebApplicatio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21402,7 +22011,7 @@ export type WebApplicationFirewallPoliciesListNextResponse = WebApplicationFirew
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -21422,7 +22031,7 @@ export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */

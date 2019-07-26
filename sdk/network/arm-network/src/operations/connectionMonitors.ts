@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/connectionMonitorsMappers";
 import * as Parameters from "../models/parameters";
@@ -36,7 +36,7 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: coreHttp.RequestOptionsBase): Promise<Models.ConnectionMonitorsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,networkWatcherName,connectionMonitorName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectionMonitorsCreateOrUpdateResponse>;
   }
@@ -49,14 +49,14 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsGetResponse>
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsGetResponse>;
+  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ConnectionMonitorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, callback: coreHttp.ServiceCallback<Models.ConnectionMonitorResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
@@ -64,8 +64,8 @@ export class ConnectionMonitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ConnectionMonitorResult>, callback?: coreHttp.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,9 +83,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,networkWatcherName,connectionMonitorName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -96,9 +96,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  stop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStop(resourceGroupName,networkWatcherName,connectionMonitorName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -109,9 +109,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  start(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  start(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginStart(resourceGroupName,networkWatcherName,connectionMonitorName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -124,7 +124,7 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsQueryResponse>
    */
-  query(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsQueryResponse> {
+  query(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ConnectionMonitorsQueryResponse> {
     return this.beginQuery(resourceGroupName,networkWatcherName,connectionMonitorName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectionMonitorsQueryResponse>;
   }
@@ -136,21 +136,21 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsListResponse>
    */
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsListResponse>;
+  list(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ConnectionMonitorsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): void;
+  list(resourceGroupName: string, networkWatcherName: string, callback: coreHttp.ServiceCallback<Models.ConnectionMonitorListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorListResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): Promise<Models.ConnectionMonitorsListResponse> {
+  list(resourceGroupName: string, networkWatcherName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ConnectionMonitorListResult>): void;
+  list(resourceGroupName: string, networkWatcherName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ConnectionMonitorListResult>, callback?: coreHttp.ServiceCallback<Models.ConnectionMonitorListResult>): Promise<Models.ConnectionMonitorsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,9 +168,9 @@ export class ConnectionMonitors {
    * @param connectionMonitorName The name of the connection monitor.
    * @param parameters Parameters that define the operation to create a connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -189,9 +189,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -209,9 +209,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -229,9 +229,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginStart(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -249,9 +249,9 @@ export class ConnectionMonitors {
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name given to the connection monitor.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginQuery(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginQuery(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -265,8 +265,8 @@ export class ConnectionMonitors {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
@@ -292,7 +292,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
   urlParameters: [
@@ -317,7 +317,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
@@ -353,7 +353,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
@@ -378,7 +378,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStopOperationSpec: msRest.OperationSpec = {
+const beginStopOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
   urlParameters: [
@@ -403,7 +403,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginStartOperationSpec: msRest.OperationSpec = {
+const beginStartOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
   urlParameters: [
@@ -428,7 +428,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginQueryOperationSpec: msRest.OperationSpec = {
+const beginQueryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
   urlParameters: [

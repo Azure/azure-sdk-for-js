@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/availablePrivateEndpointTypesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,19 +33,19 @@ export class AvailablePrivateEndpointTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailablePrivateEndpointTypesListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListResponse>;
   /**
    * @param location The location of the domain name.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
   /**
    * @param location The location of the domain name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -58,23 +58,56 @@ export class AvailablePrivateEndpointTypes {
   /**
    * Returns all of the resource types that can be linked to a Private Endpoint in this subscription
    * in this region.
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupResponse>
+   */
+  listByResourceGroup(location: string, resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupResponse>;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param callback The callback
+   */
+  listByResourceGroup(location: string, resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByResourceGroup(location: string, resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  listByResourceGroup(location: string, resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        resourceGroupName,
+        options
+      },
+      listByResourceGroupOperationSpec,
+      callback) as Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupResponse>;
+  }
+
+  /**
+   * Returns all of the resource types that can be linked to a Private Endpoint in this subscription
+   * in this region.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailablePrivateEndpointTypesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: msRest.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -83,11 +116,40 @@ export class AvailablePrivateEndpointTypes {
       listNextOperationSpec,
       callback) as Promise<Models.AvailablePrivateEndpointTypesListNextResponse>;
   }
+
+  /**
+   * Returns all of the resource types that can be linked to a Private Endpoint in this subscription
+   * in this region.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupNextResponse>
+   */
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>, callback?: coreHttp.ServiceCallback<Models.AvailablePrivateEndpointTypesResult>): Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByResourceGroupNextOperationSpec,
+      callback) as Promise<Models.AvailablePrivateEndpointTypesListByResourceGroupNextResponse>;
+  }
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
   urlParameters: [
@@ -111,7 +173,53 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

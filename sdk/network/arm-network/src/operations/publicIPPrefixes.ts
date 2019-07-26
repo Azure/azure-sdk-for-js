@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/publicIPPrefixesMappers";
 import * as Parameters from "../models/parameters";
@@ -32,9 +32,9 @@ export class PublicIPPrefixes {
    * @param resourceGroupName The name of the resource group.
    * @param publicIpPrefixName The name of the PublicIpPrefix.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, publicIpPrefixName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, publicIpPrefixName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,publicIpPrefixName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -52,15 +52,15 @@ export class PublicIPPrefixes {
    * @param publicIpPrefixName The name of the public IP prefix.
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpPrefixName: string, callback: msRest.ServiceCallback<Models.PublicIPPrefix>): void;
+  get(resourceGroupName: string, publicIpPrefixName: string, callback: coreHttp.ServiceCallback<Models.PublicIPPrefix>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param publicIpPrefixName The name of the public IP prefix.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpPrefixName: string, options: Models.PublicIPPrefixesGetOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPPrefix>): void;
-  get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams | msRest.ServiceCallback<Models.PublicIPPrefix>, callback?: msRest.ServiceCallback<Models.PublicIPPrefix>): Promise<Models.PublicIPPrefixesGetResponse> {
+  get(resourceGroupName: string, publicIpPrefixName: string, options: Models.PublicIPPrefixesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.PublicIPPrefix>): void;
+  get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams | coreHttp.ServiceCallback<Models.PublicIPPrefix>, callback?: coreHttp.ServiceCallback<Models.PublicIPPrefix>): Promise<Models.PublicIPPrefixesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.PublicIPPrefix, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.PublicIPPrefix, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,publicIpPrefixName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPPrefixesCreateOrUpdateResponse>;
   }
@@ -92,7 +92,7 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesUpdateTagsResponse> {
     return this.beginUpdateTags(resourceGroupName,publicIpPrefixName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPPrefixesUpdateTagsResponse>;
   }
@@ -102,17 +102,17 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesListAllResponse>;
+  listAll(options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesListAllResponse>;
   /**
    * @param callback The callback
    */
-  listAll(callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listAll(callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllResponse> {
+  listAll(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listAll(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -127,19 +127,19 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesListResponse>;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  list(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListResponse> {
+  list(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  list(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,9 +154,9 @@ export class PublicIPPrefixes {
    * @param resourceGroupName The name of the resource group.
    * @param publicIpPrefixName The name of the PublicIpPrefix.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, publicIpPrefixName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, publicIpPrefixName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -173,9 +173,9 @@ export class PublicIPPrefixes {
    * @param publicIpPrefixName The name of the public IP prefix.
    * @param parameters Parameters supplied to the create or update public IP prefix operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.PublicIPPrefix, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.PublicIPPrefix, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,9 +193,9 @@ export class PublicIPPrefixes {
    * @param publicIpPrefixName The name of the public IP prefix.
    * @param parameters Parameters supplied to update public IP prefix tags.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(resourceGroupName: string, publicIpPrefixName: string, parameters: Models.TagsObject, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,19 +213,19 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listAllNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listAllNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -241,19 +241,19 @@ export class PublicIPPrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPPrefixesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PublicIPPrefixesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: msRest.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>, callback?: coreHttp.ServiceCallback<Models.PublicIPPrefixListResult>): Promise<Models.PublicIPPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -265,8 +265,8 @@ export class PublicIPPrefixes {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
   urlParameters: [
@@ -292,7 +292,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllOperationSpec: msRest.OperationSpec = {
+const listAllOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes",
   urlParameters: [
@@ -315,7 +315,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes",
   urlParameters: [
@@ -339,7 +339,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
   urlParameters: [
@@ -364,7 +364,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
   urlParameters: [
@@ -399,7 +399,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+const beginUpdateTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
   urlParameters: [
@@ -431,7 +431,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAllNextOperationSpec: msRest.OperationSpec = {
+const listAllNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -452,7 +452,7 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
