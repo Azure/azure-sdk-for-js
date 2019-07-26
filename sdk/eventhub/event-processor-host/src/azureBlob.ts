@@ -81,8 +81,16 @@ export class AzureBlob {
     return this._blobService.getContent(this._containerName, this._blobPath, options);
   }
 
-  changeLease(currentLeaseId: string, proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
-    return this._blobService.changeLease(this._containerName, this._blobPath, currentLeaseId, proposedLeaseId);
+  changeLease(
+    currentLeaseId: string,
+    proposedLeaseId: string
+  ): Promise<StorageBlobService.LeaseResult> {
+    return this._blobService.changeLease(
+      this._containerName,
+      this._blobPath,
+      currentLeaseId,
+      proposedLeaseId
+    );
   }
 
   getBlobProperties(): Promise<StorageBlobService.BlobResult> {
@@ -97,7 +105,12 @@ export class AzureBlob {
     metadata: Dictionary<string>,
     options?: StorageBlobService.BlobRequestOptions
   ): Promise<StorageBlobService.BlobResult> {
-    return this._blobService.setBlobMetadata(this._containerName, this._blobPath, metadata, options);
+    return this._blobService.setBlobMetadata(
+      this._containerName,
+      this._blobPath,
+      metadata,
+      options
+    );
   }
 
   listBlobsSegmented(
@@ -106,7 +119,9 @@ export class AzureBlob {
     return this._blobService.listBlobsSegmented(this._containerName, options);
   }
 
-  acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  acquireLease(
+    options: StorageBlobService.AcquireLeaseRequestOptions
+  ): Promise<StorageBlobService.LeaseResult> {
     return this._blobService.acquireLease(this._containerName, this._blobPath, options);
   }
 

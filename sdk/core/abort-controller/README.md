@@ -23,7 +23,7 @@ pending work. The `AbortSignal` can be accessed via the `signal` property on an 
 An `AbortSignal` can also be returned directly from a static method, e.g. `AbortController.timeout(100)`.
 that is cancelled after 100 milliseconds.
 
-Calling `abort()` on the instantiated `AbortController` invokes the regiestered `abort`
+Calling `abort()` on the instantiated `AbortController` invokes the registered `abort`
 event listeners on the associated `AbortSignal`.
 Any subsequent calls to `abort()` on the same controller will have no effect.
 

@@ -3,7 +3,6 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
@@ -93,13 +92,13 @@ export class KeysClient {
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof KeysClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -153,7 +152,7 @@ export class KeysClient {
   /**
    * The authentication credentials
    */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
@@ -170,14 +169,14 @@ export class KeysClient {
    * let client = new KeysClient(url, credentials);
    * ```
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof KeysClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;

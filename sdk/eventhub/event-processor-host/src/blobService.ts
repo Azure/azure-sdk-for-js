@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { Dictionary } from "@azure/event-hubs";
-import { createBlobService, BlobService as StorageBlobService, ServiceResponse } from "azure-storage";
+import {
+  createBlobService,
+  BlobService as StorageBlobService,
+  ServiceResponse
+} from "azure-storage";
 import * as log from "./log";
 import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
@@ -89,22 +93,34 @@ export class BlobService {
     validateType("containerName", containerName, true, "string");
 
     return new Promise<CreateContainerResult>((resolve, reject) => {
-      log.blobService("[%s] Ensuring that the container '%s' exists.", this._hostName, containerName);
-      this._storageBlobService.createContainerIfNotExists(containerName, (error, result, response) => {
-        if (error) {
-          log.error(
-            "[%s] An error occurred while ensuring that the container '%s' exists: %O",
-            this._hostName,
-            containerName,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          const containerInfo = { created: result, details: response };
-          log.blobService("[%s] Result for Container '%s': %O", this._hostName, containerName, containerInfo);
-          resolve(containerInfo);
+      log.blobService(
+        "[%s] Ensuring that the container '%s' exists.",
+        this._hostName,
+        containerName
+      );
+      this._storageBlobService.createContainerIfNotExists(
+        containerName,
+        (error, result, response) => {
+          if (error) {
+            log.error(
+              "[%s] An error occurred while ensuring that the container '%s' exists: %O",
+              this._hostName,
+              containerName,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            const containerInfo = { created: result, details: response };
+            log.blobService(
+              "[%s] Result for Container '%s': %O",
+              this._hostName,
+              containerName,
+              containerInfo
+            );
+            resolve(containerInfo);
+          }
         }
-      });
+      );
     });
   }
 
@@ -122,7 +138,12 @@ export class BlobService {
           );
           reject(error);
         } else {
-          log.blobService("[%s] Does container '%s' exist -> %s.", this._hostName, containerName, result.exists);
+          log.blobService(
+            "[%s] Does container '%s' exist -> %s.",
+            this._hostName,
+            containerName,
+            result.exists
+          );
           resolve(result.exists);
         }
       });
@@ -138,7 +159,8 @@ export class BlobService {
       this._storageBlobService.doesBlobExist(containerName, blobPath, (error, result) => {
         if (error) {
           log.error(
-            "[%s] [%s] An error occurred while determining whether the blob '%s' exists in " + "container '%s': %O",
+            "[%s] [%s] An error occurred while determining whether the blob '%s' exists in " +
+              "container '%s': %O",
             this._hostName,
             partitionId,
             blobPath,
@@ -180,26 +202,33 @@ export class BlobService {
         blobPath,
         containerName
       );
-      this._storageBlobService.createBlockBlobFromText(containerName, blobPath, text, options, error => {
-        if (error) {
-          if ((error as any).statusCode === 412) {
-            // Blob already exists.
-            resolve();
+      this._storageBlobService.createBlockBlobFromText(
+        containerName,
+        blobPath,
+        text,
+        options,
+        (error) => {
+          if (error) {
+            if ((error as any).statusCode === 412) {
+              // Blob already exists.
+              resolve();
+            } else {
+              log.error(
+                "[%s] [%s] An error occurred while ensuring that blob '%s' exists in " +
+                  "container '%s': %O",
+                this._hostName,
+                partitionId,
+                blobPath,
+                containerName,
+                getStorageError(error)
+              );
+              reject(error);
+            }
           } else {
-            log.error(
-              "[%s] [%s] An error occurred while ensuring that blob '%s' exists in " + "container '%s': %O",
-              this._hostName,
-              partitionId,
-              blobPath,
-              containerName,
-              getStorageError(error)
-            );
-            reject(error);
+            resolve();
           }
-        } else {
-          resolve();
         }
-      });
+      );
     });
   }
 
@@ -224,28 +253,34 @@ export class BlobService {
         leaseId,
         blobPath
       );
-      this._storageBlobService.renewLease(containerName, blobPath, leaseId, options, (error, result) => {
-        if (error) {
-          log.error(
-            "[%s] [%s] An error occurred while renewing lease '%s' for blobPath '%s': %O.",
-            this._hostName,
-            partitionId,
-            leaseId,
-            blobPath,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] [%s] Successfully, renewed lease with leaseId: '%s' for blobPath '%s'.",
-            this._hostName,
-            partitionId,
-            leaseId,
-            blobPath
-          );
-          resolve(result);
+      this._storageBlobService.renewLease(
+        containerName,
+        blobPath,
+        leaseId,
+        options,
+        (error, result) => {
+          if (error) {
+            log.error(
+              "[%s] [%s] An error occurred while renewing lease '%s' for blobPath '%s': %O.",
+              this._hostName,
+              partitionId,
+              leaseId,
+              blobPath,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] [%s] Successfully, renewed lease with leaseId: '%s' for blobPath '%s'.",
+              this._hostName,
+              partitionId,
+              leaseId,
+              blobPath
+            );
+            resolve(result);
+          }
         }
-      });
+      );
     });
   }
 
@@ -270,28 +305,34 @@ export class BlobService {
         leaseId,
         blobPath
       );
-      this._storageBlobService.releaseLease(containerName, blobPath, leaseId, options, (error, result) => {
-        if (error) {
-          log.error(
-            "[%s] [%s] An error occurred while releasing lease '%s' for blobPath '%s': %O.",
-            this._hostName,
-            partitionId,
-            leaseId,
-            blobPath,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] [%s] Successfully, released lease with leaseId: '%s' for blobPath '%s'.",
-            this._hostName,
-            partitionId,
-            leaseId,
-            blobPath
-          );
-          resolve(result);
+      this._storageBlobService.releaseLease(
+        containerName,
+        blobPath,
+        leaseId,
+        options,
+        (error, result) => {
+          if (error) {
+            log.error(
+              "[%s] [%s] An error occurred while releasing lease '%s' for blobPath '%s': %O.",
+              this._hostName,
+              partitionId,
+              leaseId,
+              blobPath,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] [%s] Successfully, released lease with leaseId: '%s' for blobPath '%s'.",
+              this._hostName,
+              partitionId,
+              leaseId,
+              blobPath
+            );
+            resolve(result);
+          }
         }
-      });
+      );
     });
   }
 
@@ -317,28 +358,34 @@ export class BlobService {
         containerName,
         blobPath
       );
-      this._storageBlobService.createBlockBlobFromText(containerName, blobPath, text, options, (error, result) => {
-        if (error) {
-          log.error(
-            "[%s] [%s] An error occurred while updating content '%s' to blobPath '%s': %O.",
-            this._hostName,
-            partitionId,
-            text,
-            blobPath,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] [%s] Successfully, updated blob content '%s' for blobPath '%s'.",
-            this._hostName,
-            partitionId,
-            text,
-            blobPath
-          );
-          resolve(result);
+      this._storageBlobService.createBlockBlobFromText(
+        containerName,
+        blobPath,
+        text,
+        options,
+        (error, result) => {
+          if (error) {
+            log.error(
+              "[%s] [%s] An error occurred while updating content '%s' to blobPath '%s': %O.",
+              this._hostName,
+              partitionId,
+              text,
+              blobPath,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] [%s] Successfully, updated blob content '%s' for blobPath '%s'.",
+              this._hostName,
+              partitionId,
+              text,
+              blobPath
+            );
+            resolve(result);
+          }
         }
-      });
+      );
     });
   }
 
@@ -354,28 +401,38 @@ export class BlobService {
 
     return new Promise((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] [%s] Attempting to getcontent from blobPath '%s'.", this._hostName, partitionId, blobPath);
-      this._storageBlobService.getBlobToText(containerName, blobPath, options, (error, text, result) => {
-        if (error) {
-          log.error(
-            "[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",
-            this._hostName,
-            partitionId,
-            blobPath,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] [%s] Successfully, fetched blob content '%s' for blobPath '%s'.",
-            this._hostName,
-            partitionId,
-            text,
-            blobPath
-          );
-          resolve(text);
+      log.blobService(
+        "[%s] [%s] Attempting to getcontent from blobPath '%s'.",
+        this._hostName,
+        partitionId,
+        blobPath
+      );
+      this._storageBlobService.getBlobToText(
+        containerName,
+        blobPath,
+        options,
+        (error, text, result) => {
+          if (error) {
+            log.error(
+              "[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",
+              this._hostName,
+              partitionId,
+              blobPath,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] [%s] Successfully, fetched blob content '%s' for blobPath '%s'.",
+              this._hostName,
+              partitionId,
+              text,
+              blobPath
+            );
+            resolve(text);
+          }
         }
-      });
+      );
     });
   }
 
@@ -408,7 +465,8 @@ export class BlobService {
         (error, result) => {
           if (error) {
             log.error(
-              "[%s] [%s] An error occurred while changing lease '%s' to '%s' for blobPath " + "'%s': %O.",
+              "[%s] [%s] An error occurred while changing lease '%s' to '%s' for blobPath " +
+                "'%s': %O.",
               this._hostName,
               partitionId,
               currentLeaseId,
@@ -419,7 +477,8 @@ export class BlobService {
             reject(error);
           } else {
             log.blobService(
-              "[%s] [%s] Successfully, changed current lease '%s' with proposed lease " + "'%s' for blobPath '%s'.",
+              "[%s] [%s] Successfully, changed current lease '%s' with proposed lease " +
+                "'%s' for blobPath '%s'.",
               this._hostName,
               partitionId,
               currentLeaseId,
@@ -433,7 +492,10 @@ export class BlobService {
     });
   }
 
-  getBlobProperties(containerName: string, blobPath: string): Promise<StorageBlobService.BlobResult> {
+  getBlobProperties(
+    containerName: string,
+    blobPath: string
+  ): Promise<StorageBlobService.BlobResult> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
     const partitionId = path.basename(blobPath);
@@ -480,25 +542,34 @@ export class BlobService {
       };
     }
     return new Promise<StorageBlobService.ListBlobsResult>((resolve, reject) => {
-      log.blobService("[%s] Attempting to list blobs for container '%s'.", this._hostName, containerName);
-      this._storageBlobService.listBlobsSegmented(containerName, undefined as any, options!, (error, result) => {
-        if (error) {
-          log.error(
-            "[%s] An error occurred while listing blobs for container '%s': %O.",
-            this._hostName,
-            containerName,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] Successfully, received the list of blobs for container '%s'.",
-            this._hostName,
-            containerName
-          );
-          resolve(result);
+      log.blobService(
+        "[%s] Attempting to list blobs for container '%s'.",
+        this._hostName,
+        containerName
+      );
+      this._storageBlobService.listBlobsSegmented(
+        containerName,
+        undefined as any,
+        options!,
+        (error, result) => {
+          if (error) {
+            log.error(
+              "[%s] An error occurred while listing blobs for container '%s': %O.",
+              this._hostName,
+              containerName,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] Successfully, received the list of blobs for container '%s'.",
+              this._hostName,
+              containerName
+            );
+            resolve(result);
+          }
         }
-      });
+      );
     });
   }
 
@@ -559,30 +630,36 @@ export class BlobService {
         metadata,
         blobPath
       );
-      this._storageBlobService.setBlobMetadata(containerName, blobPath, metadata, options!, (error, result) => {
-        if (error) {
-          log.error(
-            "[%s] [%s] An error occurred while setting blob metadata for blobPath '%s': %O.",
-            this._hostName,
-            partitionId,
-            blobPath,
-            getStorageError(error)
-          );
-          reject(error);
-        } else {
-          log.blobService(
-            "[%s] [%s] Successfully, set the blob metadata for blobPath '%s'. " +
-              "The result is: name: %s, metadata: %o, lease: %o",
-            this._hostName,
-            partitionId,
-            blobPath,
-            result.name,
-            result.metadata,
-            result.lease
-          );
-          resolve(result);
+      this._storageBlobService.setBlobMetadata(
+        containerName,
+        blobPath,
+        metadata,
+        options!,
+        (error, result) => {
+          if (error) {
+            log.error(
+              "[%s] [%s] An error occurred while setting blob metadata for blobPath '%s': %O.",
+              this._hostName,
+              partitionId,
+              blobPath,
+              getStorageError(error)
+            );
+            reject(error);
+          } else {
+            log.blobService(
+              "[%s] [%s] Successfully, set the blob metadata for blobPath '%s'. " +
+                "The result is: name: %s, metadata: %o, lease: %o",
+              this._hostName,
+              partitionId,
+              blobPath,
+              result.name,
+              result.metadata,
+              result.lease
+            );
+            resolve(result);
+          }
         }
-      });
+      );
     });
   }
 
@@ -634,7 +711,12 @@ export class BlobService {
     const partitionId = path.basename(blobPath);
 
     return new Promise<void>((resolve, reject) => {
-      log.blobService("[%s] Attempting to delete blob for blobPath '%s'.", this._hostName, partitionId, blobPath);
+      log.blobService(
+        "[%s] Attempting to delete blob for blobPath '%s'.",
+        this._hostName,
+        partitionId,
+        blobPath
+      );
       this._storageBlobService.deleteBlobIfExists(containerName, blobPath, (error, result) => {
         if (error) {
           log.error(
@@ -675,7 +757,12 @@ export class BlobService {
           );
           reject(error);
         } else {
-          log.blobService("[%s] Deleted container '%s' ->  %s.", this._hostName, containerName, result);
+          log.blobService(
+            "[%s] Deleted container '%s' ->  %s.",
+            this._hostName,
+            containerName,
+            result
+          );
           resolve();
         }
       });

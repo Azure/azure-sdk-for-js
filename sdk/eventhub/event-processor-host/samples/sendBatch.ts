@@ -31,12 +31,12 @@ async function main(): Promise<void> {
   console.log("Sending batch events...");
 
   // Will concurrently send batched events to all the partitions.
-  const sendPromises = partitionIds.map(id => client.sendBatch(events, id));
+  const sendPromises = partitionIds.map((id) => client.sendBatch(events, id));
 
   await Promise.all(sendPromises);
   await client.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
