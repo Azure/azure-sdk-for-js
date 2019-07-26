@@ -29,11 +29,11 @@ export class CheckpointManager {
   //   this._partitionManager = partitionManager;
   // }
 
-  public async createCheckpoint(eventData: EventData): Promise<void>;
+  public async updateCheckpoint(eventData: EventData): Promise<void>;
 
-  public async createCheckpoint(offset: string, sequenceNumber: number): Promise<void>;
+  public async updateCheckpoint(offset: string, sequenceNumber: number): Promise<void>;
 
-  public async createCheckpoint(
+  public async updateCheckpoint(
     eventDataOrOffset: EventData | string,
     sequenceNumber?: number
   ): Promise<void> {}
