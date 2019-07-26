@@ -443,6 +443,10 @@ export class EventHubConsumer {
     }
   }
 
+  /**
+   *
+   * @param retryOptions Sets default values for retryOptions if it exists.
+   */
   private _initRetryOptions(
     retryOptions: RetryOptions = {}
   ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval" | "retryPolicy">> & RetryOptions {
