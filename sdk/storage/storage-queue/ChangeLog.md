@@ -37,7 +37,7 @@
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-2019.1 Version 10.1.0
+### 2019.1 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 - [Breaking] `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
@@ -48,6 +48,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
 - Exported HttpRequestBody type for who wants to implement a customized HTTP client.
 
-  2018.12 Version 10.0.0-preview
+### 2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
