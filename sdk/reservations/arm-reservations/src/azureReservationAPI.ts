@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -27,7 +27,7 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
     super(credentials, options);
     this.reservationOrder = new operations.ReservationOrder(this);
     this.reservation = new operations.Reservation(this);
@@ -48,15 +48,15 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param reservedResourceType The type of the resource for which the skus should be provided.
    * @param callback The callback
    */
-  getCatalog(subscriptionId: string, reservedResourceType: string, callback: msRest.ServiceCallback<Models.Catalog[]>): void;
+  getCatalog(subscriptionId: string, reservedResourceType: string, callback: coreHttp.ServiceCallback<Models.Catalog[]>): void;
   /**
    * @param subscriptionId Id of the subscription
    * @param reservedResourceType The type of the resource for which the skus should be provided.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCatalog(subscriptionId: string, reservedResourceType: string, options: Models.AzureReservationAPIGetCatalogOptionalParams, callback: msRest.ServiceCallback<Models.Catalog[]>): void;
-  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams | msRest.ServiceCallback<Models.Catalog[]>, callback?: msRest.ServiceCallback<Models.Catalog[]>): Promise<Models.GetCatalogResponse> {
+  getCatalog(subscriptionId: string, reservedResourceType: string, options: Models.AzureReservationAPIGetCatalogOptionalParams, callback: coreHttp.ServiceCallback<Models.Catalog[]>): void;
+  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams | coreHttp.ServiceCallback<Models.Catalog[]>, callback?: coreHttp.ServiceCallback<Models.Catalog[]>): Promise<Models.GetCatalogResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,
@@ -74,19 +74,19 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAppliedReservationListResponse>
    */
-  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAppliedReservationListResponse>;
+  getAppliedReservationList(subscriptionId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetAppliedReservationListResponse>;
   /**
    * @param subscriptionId Id of the subscription
    * @param callback The callback
    */
-  getAppliedReservationList(subscriptionId: string, callback: msRest.ServiceCallback<Models.AppliedReservations>): void;
+  getAppliedReservationList(subscriptionId: string, callback: coreHttp.ServiceCallback<Models.AppliedReservations>): void;
   /**
    * @param subscriptionId Id of the subscription
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAppliedReservationList(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppliedReservations>): void;
-  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppliedReservations>, callback?: msRest.ServiceCallback<Models.AppliedReservations>): Promise<Models.GetAppliedReservationListResponse> {
+  getAppliedReservationList(subscriptionId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AppliedReservations>): void;
+  getAppliedReservationList(subscriptionId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AppliedReservations>, callback?: coreHttp.ServiceCallback<Models.AppliedReservations>): Promise<Models.GetAppliedReservationListResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,
@@ -98,8 +98,8 @@ class AzureReservationAPI extends AzureReservationAPIContext {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getCatalogOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getCatalogOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs",
   urlParameters: [
@@ -135,7 +135,7 @@ const getCatalogOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getAppliedReservationListOperationSpec: msRest.OperationSpec = {
+const getAppliedReservationListOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations",
   urlParameters: [
