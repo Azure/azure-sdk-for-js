@@ -507,6 +507,9 @@ export class KeysClient {
           : undefined
         : undefined
     );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
     span.start();
 
     const response = await this.client.getKey(
@@ -775,6 +778,9 @@ export class KeysClient {
           : undefined
         : undefined
     );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
     span.start();
 
     const iter = this.listKeysAll(options);
