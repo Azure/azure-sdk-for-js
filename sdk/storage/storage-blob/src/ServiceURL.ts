@@ -6,6 +6,7 @@ import { ListContainersIncludeType } from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
+import { truncatedISO8061Date } from "./utils/utils.common";
 
 export interface IServiceListContainersSegmentOptions {
   /**
@@ -273,8 +274,8 @@ export class ServiceURL extends StorageURL {
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     const response = await this.serviceContext.getUserDelegationKey(
       {
-        start: start.toISOString(),
-        expiry: expiry.toISOString()
+        start: truncatedISO8061Date(start, false),
+        expiry: truncatedISO8061Date(expiry, false)
       },
       {
         abortSignal: aborter

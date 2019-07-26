@@ -214,10 +214,10 @@ describe("ServiceURL", () => {
     }
 
     const now = new Date();
+    now.setHours(now.getHours() + 1);
     const tmr = new Date();
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
-
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
     assert.notDeepStrictEqual(response.signedTid, undefined);
