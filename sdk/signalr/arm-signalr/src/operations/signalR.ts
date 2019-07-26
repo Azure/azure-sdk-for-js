@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/signalRMappers";
 import * as Parameters from "../models/parameters";
@@ -38,14 +38,14 @@ export class SignalR {
    * @param location the region
    * @param callback The callback
    */
-  checkNameAvailability(location: string, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
+  checkNameAvailability(location: string, callback: coreHttp.ServiceCallback<Models.NameAvailability>): void;
   /**
    * @param location the region
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, options: Models.SignalRCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.SignalRCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, options: Models.SignalRCheckNameAvailabilityOptionalParams, callback: coreHttp.ServiceCallback<Models.NameAvailability>): void;
+  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams | coreHttp.ServiceCallback<Models.NameAvailability>, callback?: coreHttp.ServiceCallback<Models.NameAvailability>): Promise<Models.SignalRCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -60,17 +60,17 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionResponse>;
+  listBySubscription(options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listBySubscription(callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionResponse> {
+  listBySubscription(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
+  listBySubscription(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRResourceList>, callback?: coreHttp.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -86,21 +86,21 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRResourceList>, callback?: coreHttp.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,14 +118,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListKeysResponse>
    */
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListKeysResponse>;
+  listKeys(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SignalRKeys>): void;
+  listKeys(resourceGroupName: string, resourceName: string, callback: coreHttp.ServiceCallback<Models.SignalRKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -133,8 +133,8 @@ export class SignalR {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRKeys>): void;
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRKeys>, callback?: msRest.ServiceCallback<Models.SignalRKeys>): Promise<Models.SignalRListKeysResponse> {
+  listKeys(resourceGroupName: string, resourceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRKeys>): void;
+  listKeys(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRKeys>, callback?: coreHttp.ServiceCallback<Models.SignalRKeys>): Promise<Models.SignalRListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,14 +167,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRGetResponse>;
+  get(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SignalRResource>): void;
+  get(resourceGroupName: string, resourceName: string, callback: coreHttp.ServiceCallback<Models.SignalRResource>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -182,8 +182,8 @@ export class SignalR {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResource>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResource>, callback?: msRest.ServiceCallback<Models.SignalRResource>): Promise<Models.SignalRGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRResource>): void;
+  get(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRResource>, callback?: coreHttp.ServiceCallback<Models.SignalRResource>): Promise<Models.SignalRGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,9 +213,9 @@ export class SignalR {
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,resourceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -234,15 +234,28 @@ export class SignalR {
   }
 
   /**
+   * Operation to restart a SignalR service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<coreHttp.RestResponse>
+   */
+  restart(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse> {
+    return this.beginRestart(resourceGroupName,resourceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Regenerate SignalR service access key. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginRegenerateKey(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginRegenerateKeyOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginRegenerateKey(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginRegenerateKeyOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -259,9 +272,9 @@ export class SignalR {
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginCreateOrUpdateOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -278,9 +291,9 @@ export class SignalR {
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -297,9 +310,9 @@ export class SignalR {
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginUpdateOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -311,24 +324,43 @@ export class SignalR {
   }
 
   /**
+   * Operation to restart a SignalR service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<coreArm.LROPoller>
+   */
+  beginRestart(resourceGroupName: string, resourceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      beginRestartOperationSpec,
+      options);
+  }
+
+  /**
    * Handles requests to list all resources in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRResourceList>, callback?: coreHttp.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -344,19 +376,19 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRResourceList>, callback?: coreHttp.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -368,8 +400,8 @@ export class SignalR {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const checkNameAvailabilityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
   urlParameters: [
@@ -400,7 +432,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+const listBySubscriptionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/SignalR",
   urlParameters: [
@@ -423,7 +455,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR",
   urlParameters: [
@@ -447,7 +479,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listKeysOperationSpec: msRest.OperationSpec = {
+const listKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/listKeys",
   urlParameters: [
@@ -472,9 +504,9 @@ const listKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -497,7 +529,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
+const beginRegenerateKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/regenerateKey",
   urlParameters: [
@@ -529,9 +561,9 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -562,9 +594,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -586,9 +618,9 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -619,7 +651,31 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+const beginRestartOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySubscriptionNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -640,7 +696,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
