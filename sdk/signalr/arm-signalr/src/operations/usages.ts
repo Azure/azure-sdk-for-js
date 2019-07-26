@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/usagesMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.UsagesListResponse>;
   /**
    * @param location the location like "eastus"
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.SignalRUsageList>): void;
   /**
    * @param location the location like "eastus"
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRUsageList>, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRUsageList>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRUsageList>, callback?: coreHttp.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -60,19 +60,19 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.UsagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SignalRUsageList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRUsageList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRUsageList>, callback?: msRest.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SignalRUsageList>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SignalRUsageList>, callback?: coreHttp.ServiceCallback<Models.SignalRUsageList>): Promise<Models.UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -84,8 +84,8 @@ export class Usages {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/usages",
   urlParameters: [
@@ -109,7 +109,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
