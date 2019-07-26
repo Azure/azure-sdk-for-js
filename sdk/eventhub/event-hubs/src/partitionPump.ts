@@ -45,7 +45,7 @@ export class PartitionPump {
     try {
       while (this._isReceiving) {
         const receivedEvents = await this._receiver.receiveBatch(
-          this._processorOptions.maxBatchSize!,
+          this._processorOptions.maxBatchSize || 1,
           this._processorOptions.maxWaitTime
         );
         await this._partitionProcessor.processEvents(receivedEvents);
