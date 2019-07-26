@@ -229,6 +229,55 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 ---
 
+## Setting up karma.conf.js file in the sdk
+
+### Karma.conf.js
+
+- Install and add - `plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor" ]`
+- Import recordings for playback mode - `files: ["recordings/browsers/**/*.json"]`
+- Preprocessor for converting JSON files into JS variables `preprocessors: {"recordings/browsers/**/*.json": ["json"]}`
+- Load `TEST_MODE` along with other variables `envPreprocessor: ["TEST_MODE"]`
+- jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs `reporters: [ "json-to-file"]`
+
+  ```javascript
+
+  jsonToFileReporter: {
+    filter: function(obj) {
+      if (obj.writeFile) {
+        const fs = require("fs-extra");
+        // Create the directories recursively incase they don't exist
+        try {
+          // Stripping away the filename from the file path and retaining the directory structure
+          fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+        } catch (err) {
+          if (err.code !== "EEXIST") throw err;
+        }
+        fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
+          if (err) {
+            throw err;
+          }
+        });
+      }
+      return false;
+    },
+    outputPath: "."
+  },
+
+  browserConsoleLogOptions: {
+    terminal: process.env.TEST_MODE !== "record"
+  },
+
+  ```
+
+  In browser, once the content to be recorded is ready, recordings are supposed to be sent to the appropriate karma reporter in order to generate the corresponding recording file. The way of doing this is by printing the recordings to `console.log()` and filter the console.logs with karma plugins.
+
+  Console logs with `.writeFile` property are captured and are written to a file(as test recordings). Any other console statements are captured and printed normally.
+
+  - Example - `console.warn("hello"); -> console.log({ warn: "hello" });`
+  - Example - `console.log("hello"); -> console.log({ log: "hello" });`
+
+---
+
 # More Information
 
 ## NOCK [for node tests]
@@ -246,27 +295,6 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 - Unlike Nock, Nise does not have a native record/playback feature.
 - Some Nise functions are being overwritten to enable record and playback.
 - karma.conf.js is supposed to be updated with the new Karma plugins which are required to access the disk and write/read recording files ([karma-json-to-file-reporter](https://www.npmjs.com/package/karma-json-to-file-reporter) to write and [karma-json-preprocessor](https://www.npmjs.com/package/karma-json-preprocessor) to read).
-
-  -------- TO DO -----------
-
----
-
-## Note - `console.log()` for browser tests
-
-- In browser, once the content to be recorded is ready, recordings are supposed to be sent to the appropriate karma reporter in order to generate the corresponding recording file. The way of doing this is by printing the recordings to `console.log()`. As a result, the console gets filled with lots of prints while recording.
-- To avert the issue, we came up with the following solution.
-
-  - Convert the content corresponding to any console statement into (JSON.stringify)-ed content in record mode for browser tests.
-    [Add a custom console.log() which converts all the console statements into console.log() with stringified JSON objects.]
-  - Filter the console.logs with stringified JSON objects in karma.conf.js as explained below.
-
-    Karma.conf.js
-
-    - jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs.
-    - Console logs with `.writeFile` property are captured and are written to a file(as test recordings).
-    - Any other console statements are captured and printed normally.
-    - Example - `console.warn("hello"); -> console.log({ warn: "hello" });`
-    - Example - `console.log("hello"); -> console.log({ log: "hello" });`
 
 ---
 
