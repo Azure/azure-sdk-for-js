@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -19,7 +19,9 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   factories: operations.Factories;
+  exposureControl: operations.ExposureControl;
   integrationRuntimes: operations.IntegrationRuntimes;
+  integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
   integrationRuntimeNodes: operations.IntegrationRuntimeNodes;
   linkedServices: operations.LinkedServices;
   datasets: operations.Datasets;
@@ -36,11 +38,13 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.factories = new operations.Factories(this);
+    this.exposureControl = new operations.ExposureControl(this);
     this.integrationRuntimes = new operations.IntegrationRuntimes(this);
+    this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
     this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);
     this.linkedServices = new operations.LinkedServices(this);
     this.datasets = new operations.Datasets(this);
