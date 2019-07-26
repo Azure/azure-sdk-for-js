@@ -249,3 +249,13 @@ export function isDuration(value: string): boolean {
 export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
+
+/**
+ * Determines whether the given enity is a basic/primitive type
+ * (string, number, boolean, null, undefined).
+ * @param value Any entity
+ * @return boolean - true is it is primitive type, false otherwise.
+ */
+export function isPrimitiveType(value: any): boolean {
+  return (typeof value !== "object" && typeof value !== "function") || value === null;
+}

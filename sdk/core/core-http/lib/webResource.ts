@@ -28,8 +28,10 @@ export type TransferProgressEvent = {
  */
 export interface AbortSignalLike {
   readonly aborted: boolean;
-  addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-  removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+  dispatchEvent: (event: Event) => boolean;
+  onabort: ((this: AbortSignalLike, ev: Event) => any) | null;
+  addEventListener: (type: "abort", listener: (this: AbortSignalLike, ev: Event) => any, options?: any) => void;
+  removeEventListener: (type: "abort", listener: (this: AbortSignalLike, ev: Event) => any, options?: any) => void;
 }
 
 /**
@@ -66,6 +68,7 @@ export class WebResource {
   withCredentials: boolean;
   timeout: number;
   proxySettings?: ProxySettings;
+  keepAlive?: boolean;
 
   abortSignal?: AbortSignalLike;
 
@@ -87,7 +90,8 @@ export class WebResource {
     timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
-    proxySettings?: ProxySettings) {
+    proxySettings?: ProxySettings,
+    keepAlive?: boolean) {
 
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
@@ -102,6 +106,7 @@ export class WebResource {
     this.onUploadProgress = onUploadProgress;
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
+    this.keepAlive = keepAlive;
   }
 
   /**
