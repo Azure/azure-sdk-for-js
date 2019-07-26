@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/applicationMappers";
 import * as Parameters from "../models/parameters";
@@ -27,11 +27,11 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Lists all of the applications available in the specified account.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Lists all of the applications available in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListResponse>
    */
@@ -39,13 +39,13 @@ export class Application {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ApplicationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ApplicationListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.ApplicationListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  list(options: Models.ApplicationListOptionalParams, callback: coreHttp.ServiceCallback<Models.ApplicationListResult>): void;
+  list(options?: Models.ApplicationListOptionalParams | coreHttp.ServiceCallback<Models.ApplicationListResult>, callback?: coreHttp.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -55,28 +55,28 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Gets information about the specified application.
-   * @param applicationId The ID of the application.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * Applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Gets information about the specified Application.
+   * @param applicationId The ID of the Application.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
   get(applicationId: string, options?: Models.ApplicationGetOptionalParams): Promise<Models.ApplicationGetResponse>;
   /**
-   * @param applicationId The ID of the application.
+   * @param applicationId The ID of the Application.
    * @param callback The callback
    */
-  get(applicationId: string, callback: msRest.ServiceCallback<Models.ApplicationSummary>): void;
+  get(applicationId: string, callback: coreHttp.ServiceCallback<Models.ApplicationSummary>): void;
   /**
-   * @param applicationId The ID of the application.
+   * @param applicationId The ID of the Application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationId: string, options: Models.ApplicationGetOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationSummary>): void;
-  get(applicationId: string, options?: Models.ApplicationGetOptionalParams | msRest.ServiceCallback<Models.ApplicationSummary>, callback?: msRest.ServiceCallback<Models.ApplicationSummary>): Promise<Models.ApplicationGetResponse> {
+  get(applicationId: string, options: Models.ApplicationGetOptionalParams, callback: coreHttp.ServiceCallback<Models.ApplicationSummary>): void;
+  get(applicationId: string, options?: Models.ApplicationGetOptionalParams | coreHttp.ServiceCallback<Models.ApplicationSummary>, callback?: coreHttp.ServiceCallback<Models.ApplicationSummary>): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationId,
@@ -87,11 +87,11 @@ export class Application {
   }
 
   /**
-   * This operation returns only applications and versions that are available for use on compute
-   * nodes; that is, that can be used in an application package reference. For administrator
-   * information about applications and versions that are not yet available to compute nodes, use the
-   * Azure portal or the Azure Resource Manager API.
-   * @summary Lists all of the applications available in the specified account.
+   * This operation returns only Applications and versions that are available for use on Compute
+   * Nodes; that is, that can be used in an Package reference. For administrator information about
+   * applications and versions that are not yet available to Compute Nodes, use the Azure portal or
+   * the Azure Resource Manager API.
+   * @summary Lists all of the applications available in the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListResponse>
@@ -101,14 +101,14 @@ export class Application {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApplicationListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.ApplicationListNextOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  listNext(nextPageLink: string, options: Models.ApplicationListNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ApplicationListResult>): void;
+  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams | coreHttp.ServiceCallback<Models.ApplicationListResult>, callback?: coreHttp.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -120,8 +120,8 @@ export class Application {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "applications",
   urlParameters: [
@@ -150,7 +150,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "applications/{applicationId}",
   urlParameters: [
@@ -179,7 +179,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",

@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,7 +30,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applicationId: msRest.OperationURLParameter = {
+export const applicationId: coreHttp.OperationURLParameter = {
   parameterPath: "applicationId",
   mapper: {
     required: true,
@@ -40,7 +40,7 @@ export const applicationId: msRest.OperationURLParameter = {
     }
   }
 };
-export const batchUrl: msRest.OperationURLParameter = {
+export const batchUrl: coreHttp.OperationURLParameter = {
   parameterPath: "batchUrl",
   mapper: {
     required: true,
@@ -52,7 +52,7 @@ export const batchUrl: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const clientRequestId0: msRest.OperationParameter = {
+export const clientRequestId0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListOptions",
@@ -65,7 +65,7 @@ export const clientRequestId0: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId1: msRest.OperationParameter = {
+export const clientRequestId1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationGetOptions",
@@ -78,7 +78,7 @@ export const clientRequestId1: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId10: msRest.OperationParameter = {
+export const clientRequestId10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -91,7 +91,7 @@ export const clientRequestId10: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId11: msRest.OperationParameter = {
+export const clientRequestId11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDisableAutoScaleOptions",
@@ -104,7 +104,7 @@ export const clientRequestId11: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId12: msRest.OperationParameter = {
+export const clientRequestId12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -117,7 +117,7 @@ export const clientRequestId12: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId13: msRest.OperationParameter = {
+export const clientRequestId13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEvaluateAutoScaleOptions",
@@ -130,7 +130,7 @@ export const clientRequestId13: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId14: msRest.OperationParameter = {
+export const clientRequestId14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -143,7 +143,7 @@ export const clientRequestId14: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId15: msRest.OperationParameter = {
+export const clientRequestId15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -156,7 +156,7 @@ export const clientRequestId15: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId16: msRest.OperationParameter = {
+export const clientRequestId16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolUpdatePropertiesOptions",
@@ -169,7 +169,7 @@ export const clientRequestId16: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId17: msRest.OperationParameter = {
+export const clientRequestId17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -182,7 +182,7 @@ export const clientRequestId17: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId18: msRest.OperationParameter = {
+export const clientRequestId18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsNextOptions",
@@ -195,7 +195,7 @@ export const clientRequestId18: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId19: msRest.OperationParameter = {
+export const clientRequestId19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListNextOptions",
@@ -208,7 +208,7 @@ export const clientRequestId19: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId2: msRest.OperationParameter = {
+export const clientRequestId2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListNextOptions",
@@ -221,10 +221,10 @@ export const clientRequestId2: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId20: msRest.OperationParameter = {
+export const clientRequestId20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -234,7 +234,7 @@ export const clientRequestId20: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId21: msRest.OperationParameter = {
+export const clientRequestId21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -247,10 +247,10 @@ export const clientRequestId21: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId22: msRest.OperationParameter = {
+export const clientRequestId22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -260,7 +260,7 @@ export const clientRequestId22: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId23: msRest.OperationParameter = {
+export const clientRequestId23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsNextOptions",
@@ -273,7 +273,7 @@ export const clientRequestId23: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId24: msRest.OperationParameter = {
+export const clientRequestId24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetAllLifetimeStatisticsOptions",
@@ -286,7 +286,7 @@ export const clientRequestId24: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId25: msRest.OperationParameter = {
+export const clientRequestId25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -299,7 +299,7 @@ export const clientRequestId25: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId26: msRest.OperationParameter = {
+export const clientRequestId26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -312,7 +312,7 @@ export const clientRequestId26: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId27: msRest.OperationParameter = {
+export const clientRequestId27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -325,7 +325,7 @@ export const clientRequestId27: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId28: msRest.OperationParameter = {
+export const clientRequestId28: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -338,7 +338,7 @@ export const clientRequestId28: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId29: msRest.OperationParameter = {
+export const clientRequestId29: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -351,7 +351,7 @@ export const clientRequestId29: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId3: msRest.OperationParameter = {
+export const clientRequestId3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -364,7 +364,7 @@ export const clientRequestId3: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId30: msRest.OperationParameter = {
+export const clientRequestId30: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -377,7 +377,7 @@ export const clientRequestId30: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId31: msRest.OperationParameter = {
+export const clientRequestId31: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -390,7 +390,7 @@ export const clientRequestId31: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId32: msRest.OperationParameter = {
+export const clientRequestId32: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobAddOptions",
@@ -403,7 +403,7 @@ export const clientRequestId32: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId33: msRest.OperationParameter = {
+export const clientRequestId33: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -416,7 +416,7 @@ export const clientRequestId33: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId34: msRest.OperationParameter = {
+export const clientRequestId34: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -429,7 +429,7 @@ export const clientRequestId34: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId35: msRest.OperationParameter = {
+export const clientRequestId35: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -442,7 +442,7 @@ export const clientRequestId35: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId36: msRest.OperationParameter = {
+export const clientRequestId36: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetTaskCountsOptions",
@@ -455,7 +455,7 @@ export const clientRequestId36: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId37: msRest.OperationParameter = {
+export const clientRequestId37: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListNextOptions",
@@ -468,7 +468,7 @@ export const clientRequestId37: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId38: msRest.OperationParameter = {
+export const clientRequestId38: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleNextOptions",
@@ -481,7 +481,7 @@ export const clientRequestId38: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId39: msRest.OperationParameter = {
+export const clientRequestId39: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusNextOptions",
@@ -494,7 +494,7 @@ export const clientRequestId39: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId4: msRest.OperationParameter = {
+export const clientRequestId4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetAllLifetimeStatisticsOptions",
@@ -507,7 +507,7 @@ export const clientRequestId4: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId40: msRest.OperationParameter = {
+export const clientRequestId40: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateAddOptions",
@@ -520,7 +520,7 @@ export const clientRequestId40: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId41: msRest.OperationParameter = {
+export const clientRequestId41: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -533,7 +533,7 @@ export const clientRequestId41: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId42: msRest.OperationParameter = {
+export const clientRequestId42: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateCancelDeletionOptions",
@@ -546,7 +546,7 @@ export const clientRequestId42: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId43: msRest.OperationParameter = {
+export const clientRequestId43: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateDeleteMethodOptions",
@@ -559,7 +559,7 @@ export const clientRequestId43: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId44: msRest.OperationParameter = {
+export const clientRequestId44: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateGetOptions",
@@ -572,7 +572,7 @@ export const clientRequestId44: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId45: msRest.OperationParameter = {
+export const clientRequestId45: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListNextOptions",
@@ -585,7 +585,7 @@ export const clientRequestId45: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId46: msRest.OperationParameter = {
+export const clientRequestId46: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromTaskOptions",
@@ -598,7 +598,7 @@ export const clientRequestId46: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId47: msRest.OperationParameter = {
+export const clientRequestId47: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -611,7 +611,7 @@ export const clientRequestId47: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId48: msRest.OperationParameter = {
+export const clientRequestId48: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -624,7 +624,7 @@ export const clientRequestId48: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId49: msRest.OperationParameter = {
+export const clientRequestId49: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromComputeNodeOptions",
@@ -637,7 +637,7 @@ export const clientRequestId49: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId5: msRest.OperationParameter = {
+export const clientRequestId5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolAddOptions",
@@ -650,7 +650,7 @@ export const clientRequestId5: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId50: msRest.OperationParameter = {
+export const clientRequestId50: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -663,7 +663,7 @@ export const clientRequestId50: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId51: msRest.OperationParameter = {
+export const clientRequestId51: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -676,7 +676,7 @@ export const clientRequestId51: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId52: msRest.OperationParameter = {
+export const clientRequestId52: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -689,7 +689,7 @@ export const clientRequestId52: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId53: msRest.OperationParameter = {
+export const clientRequestId53: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -702,7 +702,7 @@ export const clientRequestId53: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId54: msRest.OperationParameter = {
+export const clientRequestId54: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskNextOptions",
@@ -715,7 +715,7 @@ export const clientRequestId54: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId55: msRest.OperationParameter = {
+export const clientRequestId55: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeNextOptions",
@@ -728,7 +728,7 @@ export const clientRequestId55: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId56: msRest.OperationParameter = {
+export const clientRequestId56: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -741,7 +741,7 @@ export const clientRequestId56: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId57: msRest.OperationParameter = {
+export const clientRequestId57: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -754,7 +754,7 @@ export const clientRequestId57: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId58: msRest.OperationParameter = {
+export const clientRequestId58: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -767,7 +767,7 @@ export const clientRequestId58: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId59: msRest.OperationParameter = {
+export const clientRequestId59: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -780,7 +780,7 @@ export const clientRequestId59: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId6: msRest.OperationParameter = {
+export const clientRequestId6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -793,7 +793,7 @@ export const clientRequestId6: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId60: msRest.OperationParameter = {
+export const clientRequestId60: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -806,7 +806,7 @@ export const clientRequestId60: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId61: msRest.OperationParameter = {
+export const clientRequestId61: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -819,7 +819,7 @@ export const clientRequestId61: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId62: msRest.OperationParameter = {
+export const clientRequestId62: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -832,7 +832,7 @@ export const clientRequestId62: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId63: msRest.OperationParameter = {
+export const clientRequestId63: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -845,7 +845,7 @@ export const clientRequestId63: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId64: msRest.OperationParameter = {
+export const clientRequestId64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleAddOptions",
@@ -858,7 +858,7 @@ export const clientRequestId64: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId65: msRest.OperationParameter = {
+export const clientRequestId65: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -871,7 +871,7 @@ export const clientRequestId65: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId66: msRest.OperationParameter = {
+export const clientRequestId66: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListNextOptions",
@@ -884,7 +884,7 @@ export const clientRequestId66: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId67: msRest.OperationParameter = {
+export const clientRequestId67: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddOptions",
@@ -897,7 +897,7 @@ export const clientRequestId67: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId68: msRest.OperationParameter = {
+export const clientRequestId68: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -910,7 +910,7 @@ export const clientRequestId68: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId69: msRest.OperationParameter = {
+export const clientRequestId69: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddCollectionOptions",
@@ -923,7 +923,7 @@ export const clientRequestId69: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId7: msRest.OperationParameter = {
+export const clientRequestId7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -936,7 +936,7 @@ export const clientRequestId7: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId70: msRest.OperationParameter = {
+export const clientRequestId70: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -949,7 +949,7 @@ export const clientRequestId70: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId71: msRest.OperationParameter = {
+export const clientRequestId71: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -962,7 +962,7 @@ export const clientRequestId71: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId72: msRest.OperationParameter = {
+export const clientRequestId72: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -975,7 +975,7 @@ export const clientRequestId72: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId73: msRest.OperationParameter = {
+export const clientRequestId73: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListSubtasksOptions",
@@ -988,7 +988,7 @@ export const clientRequestId73: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId74: msRest.OperationParameter = {
+export const clientRequestId74: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -1001,7 +1001,7 @@ export const clientRequestId74: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId75: msRest.OperationParameter = {
+export const clientRequestId75: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -1014,7 +1014,7 @@ export const clientRequestId75: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId76: msRest.OperationParameter = {
+export const clientRequestId76: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListNextOptions",
@@ -1027,7 +1027,7 @@ export const clientRequestId76: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId77: msRest.OperationParameter = {
+export const clientRequestId77: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeAddUserOptions",
@@ -1040,7 +1040,7 @@ export const clientRequestId77: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId78: msRest.OperationParameter = {
+export const clientRequestId78: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDeleteUserOptions",
@@ -1053,7 +1053,7 @@ export const clientRequestId78: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId79: msRest.OperationParameter = {
+export const clientRequestId79: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUpdateUserOptions",
@@ -1066,7 +1066,7 @@ export const clientRequestId79: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId8: msRest.OperationParameter = {
+export const clientRequestId8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -1079,7 +1079,7 @@ export const clientRequestId8: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId80: msRest.OperationParameter = {
+export const clientRequestId80: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetOptions",
@@ -1092,7 +1092,7 @@ export const clientRequestId80: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId81: msRest.OperationParameter = {
+export const clientRequestId81: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeRebootOptions",
@@ -1105,7 +1105,7 @@ export const clientRequestId81: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId82: msRest.OperationParameter = {
+export const clientRequestId82: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeReimageOptions",
@@ -1118,7 +1118,7 @@ export const clientRequestId82: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId83: msRest.OperationParameter = {
+export const clientRequestId83: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDisableSchedulingOptions",
@@ -1131,7 +1131,7 @@ export const clientRequestId83: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId84: msRest.OperationParameter = {
+export const clientRequestId84: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeEnableSchedulingOptions",
@@ -1144,7 +1144,7 @@ export const clientRequestId84: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId85: msRest.OperationParameter = {
+export const clientRequestId85: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteLoginSettingsOptions",
@@ -1157,7 +1157,7 @@ export const clientRequestId85: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId86: msRest.OperationParameter = {
+export const clientRequestId86: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteDesktopOptions",
@@ -1170,7 +1170,7 @@ export const clientRequestId86: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId87: msRest.OperationParameter = {
+export const clientRequestId87: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUploadBatchServiceLogsOptions",
@@ -1183,7 +1183,7 @@ export const clientRequestId87: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId88: msRest.OperationParameter = {
+export const clientRequestId88: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -1196,7 +1196,7 @@ export const clientRequestId88: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId89: msRest.OperationParameter = {
+export const clientRequestId89: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListNextOptions",
@@ -1209,7 +1209,7 @@ export const clientRequestId89: msRest.OperationParameter = {
     }
   }
 };
-export const clientRequestId9: msRest.OperationParameter = {
+export const clientRequestId9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -1222,7 +1222,7 @@ export const clientRequestId9: msRest.OperationParameter = {
     }
   }
 };
-export const endTime: msRest.OperationQueryParameter = {
+export const endTime: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -1235,7 +1235,7 @@ export const endTime: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand0: msRest.OperationQueryParameter = {
+export const expand0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -1248,7 +1248,7 @@ export const expand0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand1: msRest.OperationQueryParameter = {
+export const expand1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -1261,7 +1261,7 @@ export const expand1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand2: msRest.OperationQueryParameter = {
+export const expand2: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -1274,7 +1274,7 @@ export const expand2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand3: msRest.OperationQueryParameter = {
+export const expand3: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -1287,7 +1287,7 @@ export const expand3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand4: msRest.OperationQueryParameter = {
+export const expand4: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -1300,7 +1300,7 @@ export const expand4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand5: msRest.OperationQueryParameter = {
+export const expand5: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -1313,7 +1313,7 @@ export const expand5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand6: msRest.OperationQueryParameter = {
+export const expand6: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -1326,7 +1326,7 @@ export const expand6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand7: msRest.OperationQueryParameter = {
+export const expand7: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -1339,7 +1339,7 @@ export const expand7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const expand8: msRest.OperationQueryParameter = {
+export const expand8: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -1352,7 +1352,7 @@ export const expand8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filePath: msRest.OperationURLParameter = {
+export const filePath: coreHttp.OperationURLParameter = {
   parameterPath: "filePath",
   mapper: {
     required: true,
@@ -1362,7 +1362,7 @@ export const filePath: msRest.OperationURLParameter = {
     }
   }
 };
-export const filter0: msRest.OperationQueryParameter = {
+export const filter0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -1375,7 +1375,7 @@ export const filter0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter1: msRest.OperationQueryParameter = {
+export const filter1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -1388,7 +1388,7 @@ export const filter1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter10: msRest.OperationQueryParameter = {
+export const filter10: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -1401,7 +1401,7 @@ export const filter10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter11: msRest.OperationQueryParameter = {
+export const filter11: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -1414,7 +1414,7 @@ export const filter11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter12: msRest.OperationQueryParameter = {
+export const filter12: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -1427,10 +1427,10 @@ export const filter12: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter2: msRest.OperationQueryParameter = {
+export const filter2: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "filter"
   ],
   mapper: {
@@ -1440,7 +1440,7 @@ export const filter2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter3: msRest.OperationQueryParameter = {
+export const filter3: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -1453,7 +1453,7 @@ export const filter3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter4: msRest.OperationQueryParameter = {
+export const filter4: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -1466,7 +1466,7 @@ export const filter4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter5: msRest.OperationQueryParameter = {
+export const filter5: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -1479,7 +1479,7 @@ export const filter5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter6: msRest.OperationQueryParameter = {
+export const filter6: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -1492,7 +1492,7 @@ export const filter6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter7: msRest.OperationQueryParameter = {
+export const filter7: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -1505,7 +1505,7 @@ export const filter7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter8: msRest.OperationQueryParameter = {
+export const filter8: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -1518,7 +1518,7 @@ export const filter8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter9: msRest.OperationQueryParameter = {
+export const filter9: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -1531,7 +1531,7 @@ export const filter9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const ifMatch0: msRest.OperationParameter = {
+export const ifMatch0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -1544,7 +1544,7 @@ export const ifMatch0: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch1: msRest.OperationParameter = {
+export const ifMatch1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -1557,7 +1557,7 @@ export const ifMatch1: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch10: msRest.OperationParameter = {
+export const ifMatch10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -1570,7 +1570,7 @@ export const ifMatch10: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch11: msRest.OperationParameter = {
+export const ifMatch11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -1583,7 +1583,7 @@ export const ifMatch11: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch12: msRest.OperationParameter = {
+export const ifMatch12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -1596,7 +1596,7 @@ export const ifMatch12: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch13: msRest.OperationParameter = {
+export const ifMatch13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -1609,7 +1609,7 @@ export const ifMatch13: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch14: msRest.OperationParameter = {
+export const ifMatch14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -1622,7 +1622,7 @@ export const ifMatch14: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch15: msRest.OperationParameter = {
+export const ifMatch15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -1635,7 +1635,7 @@ export const ifMatch15: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch16: msRest.OperationParameter = {
+export const ifMatch16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -1648,7 +1648,7 @@ export const ifMatch16: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch17: msRest.OperationParameter = {
+export const ifMatch17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -1661,7 +1661,7 @@ export const ifMatch17: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch18: msRest.OperationParameter = {
+export const ifMatch18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -1674,7 +1674,7 @@ export const ifMatch18: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch19: msRest.OperationParameter = {
+export const ifMatch19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -1687,7 +1687,7 @@ export const ifMatch19: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch2: msRest.OperationParameter = {
+export const ifMatch2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -1700,7 +1700,7 @@ export const ifMatch2: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch20: msRest.OperationParameter = {
+export const ifMatch20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -1713,7 +1713,7 @@ export const ifMatch20: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch21: msRest.OperationParameter = {
+export const ifMatch21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -1726,7 +1726,7 @@ export const ifMatch21: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch22: msRest.OperationParameter = {
+export const ifMatch22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -1739,7 +1739,7 @@ export const ifMatch22: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch23: msRest.OperationParameter = {
+export const ifMatch23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -1752,7 +1752,7 @@ export const ifMatch23: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch24: msRest.OperationParameter = {
+export const ifMatch24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -1765,7 +1765,7 @@ export const ifMatch24: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch25: msRest.OperationParameter = {
+export const ifMatch25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -1778,7 +1778,7 @@ export const ifMatch25: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch26: msRest.OperationParameter = {
+export const ifMatch26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -1791,7 +1791,7 @@ export const ifMatch26: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch27: msRest.OperationParameter = {
+export const ifMatch27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -1804,7 +1804,7 @@ export const ifMatch27: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch3: msRest.OperationParameter = {
+export const ifMatch3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -1817,7 +1817,7 @@ export const ifMatch3: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch4: msRest.OperationParameter = {
+export const ifMatch4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -1830,7 +1830,7 @@ export const ifMatch4: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch5: msRest.OperationParameter = {
+export const ifMatch5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -1843,7 +1843,7 @@ export const ifMatch5: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch6: msRest.OperationParameter = {
+export const ifMatch6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -1856,7 +1856,7 @@ export const ifMatch6: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch7: msRest.OperationParameter = {
+export const ifMatch7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -1869,7 +1869,7 @@ export const ifMatch7: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch8: msRest.OperationParameter = {
+export const ifMatch8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -1882,7 +1882,7 @@ export const ifMatch8: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch9: msRest.OperationParameter = {
+export const ifMatch9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -1895,7 +1895,7 @@ export const ifMatch9: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince0: msRest.OperationParameter = {
+export const ifModifiedSince0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -1908,7 +1908,7 @@ export const ifModifiedSince0: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince1: msRest.OperationParameter = {
+export const ifModifiedSince1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -1921,7 +1921,7 @@ export const ifModifiedSince1: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince10: msRest.OperationParameter = {
+export const ifModifiedSince10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -1934,7 +1934,7 @@ export const ifModifiedSince10: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince11: msRest.OperationParameter = {
+export const ifModifiedSince11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -1947,7 +1947,7 @@ export const ifModifiedSince11: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince12: msRest.OperationParameter = {
+export const ifModifiedSince12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -1960,7 +1960,7 @@ export const ifModifiedSince12: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince13: msRest.OperationParameter = {
+export const ifModifiedSince13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -1973,7 +1973,7 @@ export const ifModifiedSince13: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince14: msRest.OperationParameter = {
+export const ifModifiedSince14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -1986,7 +1986,7 @@ export const ifModifiedSince14: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince15: msRest.OperationParameter = {
+export const ifModifiedSince15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -1999,7 +1999,7 @@ export const ifModifiedSince15: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince16: msRest.OperationParameter = {
+export const ifModifiedSince16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -2012,7 +2012,7 @@ export const ifModifiedSince16: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince17: msRest.OperationParameter = {
+export const ifModifiedSince17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -2025,7 +2025,7 @@ export const ifModifiedSince17: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince18: msRest.OperationParameter = {
+export const ifModifiedSince18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -2038,7 +2038,7 @@ export const ifModifiedSince18: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince19: msRest.OperationParameter = {
+export const ifModifiedSince19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -2051,7 +2051,7 @@ export const ifModifiedSince19: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince2: msRest.OperationParameter = {
+export const ifModifiedSince2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -2064,7 +2064,7 @@ export const ifModifiedSince2: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince20: msRest.OperationParameter = {
+export const ifModifiedSince20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -2077,7 +2077,7 @@ export const ifModifiedSince20: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince21: msRest.OperationParameter = {
+export const ifModifiedSince21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -2090,7 +2090,7 @@ export const ifModifiedSince21: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince22: msRest.OperationParameter = {
+export const ifModifiedSince22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -2103,7 +2103,7 @@ export const ifModifiedSince22: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince23: msRest.OperationParameter = {
+export const ifModifiedSince23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -2116,7 +2116,7 @@ export const ifModifiedSince23: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince24: msRest.OperationParameter = {
+export const ifModifiedSince24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -2129,7 +2129,7 @@ export const ifModifiedSince24: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince25: msRest.OperationParameter = {
+export const ifModifiedSince25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -2142,7 +2142,7 @@ export const ifModifiedSince25: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince26: msRest.OperationParameter = {
+export const ifModifiedSince26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -2155,7 +2155,7 @@ export const ifModifiedSince26: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince27: msRest.OperationParameter = {
+export const ifModifiedSince27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -2168,7 +2168,7 @@ export const ifModifiedSince27: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince28: msRest.OperationParameter = {
+export const ifModifiedSince28: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -2181,7 +2181,7 @@ export const ifModifiedSince28: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince29: msRest.OperationParameter = {
+export const ifModifiedSince29: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -2194,7 +2194,7 @@ export const ifModifiedSince29: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince3: msRest.OperationParameter = {
+export const ifModifiedSince3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -2207,7 +2207,7 @@ export const ifModifiedSince3: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince30: msRest.OperationParameter = {
+export const ifModifiedSince30: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -2220,7 +2220,7 @@ export const ifModifiedSince30: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince31: msRest.OperationParameter = {
+export const ifModifiedSince31: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -2233,7 +2233,7 @@ export const ifModifiedSince31: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince4: msRest.OperationParameter = {
+export const ifModifiedSince4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -2246,7 +2246,7 @@ export const ifModifiedSince4: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince5: msRest.OperationParameter = {
+export const ifModifiedSince5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -2259,7 +2259,7 @@ export const ifModifiedSince5: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince6: msRest.OperationParameter = {
+export const ifModifiedSince6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -2272,7 +2272,7 @@ export const ifModifiedSince6: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince7: msRest.OperationParameter = {
+export const ifModifiedSince7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -2285,7 +2285,7 @@ export const ifModifiedSince7: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince8: msRest.OperationParameter = {
+export const ifModifiedSince8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -2298,7 +2298,7 @@ export const ifModifiedSince8: msRest.OperationParameter = {
     }
   }
 };
-export const ifModifiedSince9: msRest.OperationParameter = {
+export const ifModifiedSince9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -2311,7 +2311,7 @@ export const ifModifiedSince9: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch0: msRest.OperationParameter = {
+export const ifNoneMatch0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -2324,7 +2324,7 @@ export const ifNoneMatch0: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch1: msRest.OperationParameter = {
+export const ifNoneMatch1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -2337,7 +2337,7 @@ export const ifNoneMatch1: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch10: msRest.OperationParameter = {
+export const ifNoneMatch10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -2350,7 +2350,7 @@ export const ifNoneMatch10: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch11: msRest.OperationParameter = {
+export const ifNoneMatch11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -2363,7 +2363,7 @@ export const ifNoneMatch11: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch12: msRest.OperationParameter = {
+export const ifNoneMatch12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -2376,7 +2376,7 @@ export const ifNoneMatch12: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch13: msRest.OperationParameter = {
+export const ifNoneMatch13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -2389,7 +2389,7 @@ export const ifNoneMatch13: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch14: msRest.OperationParameter = {
+export const ifNoneMatch14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -2402,7 +2402,7 @@ export const ifNoneMatch14: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch15: msRest.OperationParameter = {
+export const ifNoneMatch15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -2415,7 +2415,7 @@ export const ifNoneMatch15: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch16: msRest.OperationParameter = {
+export const ifNoneMatch16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -2428,7 +2428,7 @@ export const ifNoneMatch16: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch17: msRest.OperationParameter = {
+export const ifNoneMatch17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -2441,7 +2441,7 @@ export const ifNoneMatch17: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch18: msRest.OperationParameter = {
+export const ifNoneMatch18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -2454,7 +2454,7 @@ export const ifNoneMatch18: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch19: msRest.OperationParameter = {
+export const ifNoneMatch19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -2467,7 +2467,7 @@ export const ifNoneMatch19: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch2: msRest.OperationParameter = {
+export const ifNoneMatch2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -2480,7 +2480,7 @@ export const ifNoneMatch2: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch20: msRest.OperationParameter = {
+export const ifNoneMatch20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -2493,7 +2493,7 @@ export const ifNoneMatch20: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch21: msRest.OperationParameter = {
+export const ifNoneMatch21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -2506,7 +2506,7 @@ export const ifNoneMatch21: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch22: msRest.OperationParameter = {
+export const ifNoneMatch22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -2519,7 +2519,7 @@ export const ifNoneMatch22: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch23: msRest.OperationParameter = {
+export const ifNoneMatch23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -2532,7 +2532,7 @@ export const ifNoneMatch23: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch24: msRest.OperationParameter = {
+export const ifNoneMatch24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -2545,7 +2545,7 @@ export const ifNoneMatch24: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch25: msRest.OperationParameter = {
+export const ifNoneMatch25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -2558,7 +2558,7 @@ export const ifNoneMatch25: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch26: msRest.OperationParameter = {
+export const ifNoneMatch26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -2571,7 +2571,7 @@ export const ifNoneMatch26: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch27: msRest.OperationParameter = {
+export const ifNoneMatch27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -2584,7 +2584,7 @@ export const ifNoneMatch27: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch3: msRest.OperationParameter = {
+export const ifNoneMatch3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -2597,7 +2597,7 @@ export const ifNoneMatch3: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch4: msRest.OperationParameter = {
+export const ifNoneMatch4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -2610,7 +2610,7 @@ export const ifNoneMatch4: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch5: msRest.OperationParameter = {
+export const ifNoneMatch5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -2623,7 +2623,7 @@ export const ifNoneMatch5: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch6: msRest.OperationParameter = {
+export const ifNoneMatch6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -2636,7 +2636,7 @@ export const ifNoneMatch6: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch7: msRest.OperationParameter = {
+export const ifNoneMatch7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -2649,7 +2649,7 @@ export const ifNoneMatch7: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch8: msRest.OperationParameter = {
+export const ifNoneMatch8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -2662,7 +2662,7 @@ export const ifNoneMatch8: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch9: msRest.OperationParameter = {
+export const ifNoneMatch9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -2675,7 +2675,7 @@ export const ifNoneMatch9: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince0: msRest.OperationParameter = {
+export const ifUnmodifiedSince0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -2688,7 +2688,7 @@ export const ifUnmodifiedSince0: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince1: msRest.OperationParameter = {
+export const ifUnmodifiedSince1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -2701,7 +2701,7 @@ export const ifUnmodifiedSince1: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince10: msRest.OperationParameter = {
+export const ifUnmodifiedSince10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -2714,7 +2714,7 @@ export const ifUnmodifiedSince10: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince11: msRest.OperationParameter = {
+export const ifUnmodifiedSince11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -2727,7 +2727,7 @@ export const ifUnmodifiedSince11: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince12: msRest.OperationParameter = {
+export const ifUnmodifiedSince12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -2740,7 +2740,7 @@ export const ifUnmodifiedSince12: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince13: msRest.OperationParameter = {
+export const ifUnmodifiedSince13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -2753,7 +2753,7 @@ export const ifUnmodifiedSince13: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince14: msRest.OperationParameter = {
+export const ifUnmodifiedSince14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -2766,7 +2766,7 @@ export const ifUnmodifiedSince14: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince15: msRest.OperationParameter = {
+export const ifUnmodifiedSince15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -2779,7 +2779,7 @@ export const ifUnmodifiedSince15: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince16: msRest.OperationParameter = {
+export const ifUnmodifiedSince16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -2792,7 +2792,7 @@ export const ifUnmodifiedSince16: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince17: msRest.OperationParameter = {
+export const ifUnmodifiedSince17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -2805,7 +2805,7 @@ export const ifUnmodifiedSince17: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince18: msRest.OperationParameter = {
+export const ifUnmodifiedSince18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -2818,7 +2818,7 @@ export const ifUnmodifiedSince18: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince19: msRest.OperationParameter = {
+export const ifUnmodifiedSince19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -2831,7 +2831,7 @@ export const ifUnmodifiedSince19: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince2: msRest.OperationParameter = {
+export const ifUnmodifiedSince2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -2844,7 +2844,7 @@ export const ifUnmodifiedSince2: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince20: msRest.OperationParameter = {
+export const ifUnmodifiedSince20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -2857,7 +2857,7 @@ export const ifUnmodifiedSince20: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince21: msRest.OperationParameter = {
+export const ifUnmodifiedSince21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -2870,7 +2870,7 @@ export const ifUnmodifiedSince21: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince22: msRest.OperationParameter = {
+export const ifUnmodifiedSince22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -2883,7 +2883,7 @@ export const ifUnmodifiedSince22: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince23: msRest.OperationParameter = {
+export const ifUnmodifiedSince23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -2896,7 +2896,7 @@ export const ifUnmodifiedSince23: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince24: msRest.OperationParameter = {
+export const ifUnmodifiedSince24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -2909,7 +2909,7 @@ export const ifUnmodifiedSince24: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince25: msRest.OperationParameter = {
+export const ifUnmodifiedSince25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -2922,7 +2922,7 @@ export const ifUnmodifiedSince25: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince26: msRest.OperationParameter = {
+export const ifUnmodifiedSince26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -2935,7 +2935,7 @@ export const ifUnmodifiedSince26: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince27: msRest.OperationParameter = {
+export const ifUnmodifiedSince27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -2948,7 +2948,7 @@ export const ifUnmodifiedSince27: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince28: msRest.OperationParameter = {
+export const ifUnmodifiedSince28: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -2961,7 +2961,7 @@ export const ifUnmodifiedSince28: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince29: msRest.OperationParameter = {
+export const ifUnmodifiedSince29: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -2974,7 +2974,7 @@ export const ifUnmodifiedSince29: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince3: msRest.OperationParameter = {
+export const ifUnmodifiedSince3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -2987,7 +2987,7 @@ export const ifUnmodifiedSince3: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince30: msRest.OperationParameter = {
+export const ifUnmodifiedSince30: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -3000,7 +3000,7 @@ export const ifUnmodifiedSince30: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince31: msRest.OperationParameter = {
+export const ifUnmodifiedSince31: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -3013,7 +3013,7 @@ export const ifUnmodifiedSince31: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince4: msRest.OperationParameter = {
+export const ifUnmodifiedSince4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -3026,7 +3026,7 @@ export const ifUnmodifiedSince4: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince5: msRest.OperationParameter = {
+export const ifUnmodifiedSince5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -3039,7 +3039,7 @@ export const ifUnmodifiedSince5: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince6: msRest.OperationParameter = {
+export const ifUnmodifiedSince6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -3052,7 +3052,7 @@ export const ifUnmodifiedSince6: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince7: msRest.OperationParameter = {
+export const ifUnmodifiedSince7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -3065,7 +3065,7 @@ export const ifUnmodifiedSince7: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince8: msRest.OperationParameter = {
+export const ifUnmodifiedSince8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -3078,7 +3078,7 @@ export const ifUnmodifiedSince8: msRest.OperationParameter = {
     }
   }
 };
-export const ifUnmodifiedSince9: msRest.OperationParameter = {
+export const ifUnmodifiedSince9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -3091,7 +3091,7 @@ export const ifUnmodifiedSince9: msRest.OperationParameter = {
     }
   }
 };
-export const jobId: msRest.OperationURLParameter = {
+export const jobId: coreHttp.OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {
     required: true,
@@ -3101,7 +3101,7 @@ export const jobId: msRest.OperationURLParameter = {
     }
   }
 };
-export const jobScheduleId: msRest.OperationURLParameter = {
+export const jobScheduleId: coreHttp.OperationURLParameter = {
   parameterPath: "jobScheduleId",
   mapper: {
     required: true,
@@ -3111,7 +3111,7 @@ export const jobScheduleId: msRest.OperationURLParameter = {
     }
   }
 };
-export const maxResults0: msRest.OperationQueryParameter = {
+export const maxResults0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "applicationListOptions",
@@ -3129,7 +3129,7 @@ export const maxResults0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults1: msRest.OperationQueryParameter = {
+export const maxResults1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -3147,7 +3147,7 @@ export const maxResults1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults10: msRest.OperationQueryParameter = {
+export const maxResults10: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -3165,7 +3165,7 @@ export const maxResults10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults11: msRest.OperationQueryParameter = {
+export const maxResults11: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -3183,7 +3183,7 @@ export const maxResults11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults12: msRest.OperationQueryParameter = {
+export const maxResults12: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -3201,7 +3201,7 @@ export const maxResults12: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults13: msRest.OperationQueryParameter = {
+export const maxResults13: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -3219,7 +3219,7 @@ export const maxResults13: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults2: msRest.OperationQueryParameter = {
+export const maxResults2: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -3237,10 +3237,10 @@ export const maxResults2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults3: msRest.OperationQueryParameter = {
+export const maxResults3: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "maxResults"
   ],
   mapper: {
@@ -3255,7 +3255,7 @@ export const maxResults3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults4: msRest.OperationQueryParameter = {
+export const maxResults4: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -3273,7 +3273,7 @@ export const maxResults4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults5: msRest.OperationQueryParameter = {
+export const maxResults5: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -3291,7 +3291,7 @@ export const maxResults5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults6: msRest.OperationQueryParameter = {
+export const maxResults6: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -3309,7 +3309,7 @@ export const maxResults6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults7: msRest.OperationQueryParameter = {
+export const maxResults7: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -3327,7 +3327,7 @@ export const maxResults7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults8: msRest.OperationQueryParameter = {
+export const maxResults8: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -3345,7 +3345,7 @@ export const maxResults8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxResults9: msRest.OperationQueryParameter = {
+export const maxResults9: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -3363,7 +3363,7 @@ export const maxResults9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -3374,7 +3374,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const nodeId: msRest.OperationURLParameter = {
+export const nodeId: coreHttp.OperationURLParameter = {
   parameterPath: "nodeId",
   mapper: {
     required: true,
@@ -3384,7 +3384,7 @@ export const nodeId: msRest.OperationURLParameter = {
     }
   }
 };
-export const ocpDate0: msRest.OperationParameter = {
+export const ocpDate0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListOptions",
@@ -3397,7 +3397,7 @@ export const ocpDate0: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate1: msRest.OperationParameter = {
+export const ocpDate1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationGetOptions",
@@ -3410,7 +3410,7 @@ export const ocpDate1: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate10: msRest.OperationParameter = {
+export const ocpDate10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -3423,7 +3423,7 @@ export const ocpDate10: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate11: msRest.OperationParameter = {
+export const ocpDate11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDisableAutoScaleOptions",
@@ -3436,7 +3436,7 @@ export const ocpDate11: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate12: msRest.OperationParameter = {
+export const ocpDate12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -3449,7 +3449,7 @@ export const ocpDate12: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate13: msRest.OperationParameter = {
+export const ocpDate13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEvaluateAutoScaleOptions",
@@ -3462,7 +3462,7 @@ export const ocpDate13: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate14: msRest.OperationParameter = {
+export const ocpDate14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -3475,7 +3475,7 @@ export const ocpDate14: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate15: msRest.OperationParameter = {
+export const ocpDate15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -3488,7 +3488,7 @@ export const ocpDate15: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate16: msRest.OperationParameter = {
+export const ocpDate16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolUpdatePropertiesOptions",
@@ -3501,7 +3501,7 @@ export const ocpDate16: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate17: msRest.OperationParameter = {
+export const ocpDate17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -3514,7 +3514,7 @@ export const ocpDate17: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate18: msRest.OperationParameter = {
+export const ocpDate18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsNextOptions",
@@ -3527,7 +3527,7 @@ export const ocpDate18: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate19: msRest.OperationParameter = {
+export const ocpDate19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListNextOptions",
@@ -3540,7 +3540,7 @@ export const ocpDate19: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate2: msRest.OperationParameter = {
+export const ocpDate2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListNextOptions",
@@ -3553,10 +3553,10 @@ export const ocpDate2: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate20: msRest.OperationParameter = {
+export const ocpDate20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3566,7 +3566,7 @@ export const ocpDate20: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate21: msRest.OperationParameter = {
+export const ocpDate21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -3579,10 +3579,10 @@ export const ocpDate21: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate22: msRest.OperationParameter = {
+export const ocpDate22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3592,7 +3592,7 @@ export const ocpDate22: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate23: msRest.OperationParameter = {
+export const ocpDate23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsNextOptions",
@@ -3605,7 +3605,7 @@ export const ocpDate23: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate24: msRest.OperationParameter = {
+export const ocpDate24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetAllLifetimeStatisticsOptions",
@@ -3618,7 +3618,7 @@ export const ocpDate24: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate25: msRest.OperationParameter = {
+export const ocpDate25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -3631,7 +3631,7 @@ export const ocpDate25: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate26: msRest.OperationParameter = {
+export const ocpDate26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -3644,7 +3644,7 @@ export const ocpDate26: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate27: msRest.OperationParameter = {
+export const ocpDate27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -3657,7 +3657,7 @@ export const ocpDate27: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate28: msRest.OperationParameter = {
+export const ocpDate28: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -3670,7 +3670,7 @@ export const ocpDate28: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate29: msRest.OperationParameter = {
+export const ocpDate29: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -3683,7 +3683,7 @@ export const ocpDate29: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate3: msRest.OperationParameter = {
+export const ocpDate3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -3696,7 +3696,7 @@ export const ocpDate3: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate30: msRest.OperationParameter = {
+export const ocpDate30: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -3709,7 +3709,7 @@ export const ocpDate30: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate31: msRest.OperationParameter = {
+export const ocpDate31: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -3722,7 +3722,7 @@ export const ocpDate31: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate32: msRest.OperationParameter = {
+export const ocpDate32: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobAddOptions",
@@ -3735,7 +3735,7 @@ export const ocpDate32: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate33: msRest.OperationParameter = {
+export const ocpDate33: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -3748,7 +3748,7 @@ export const ocpDate33: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate34: msRest.OperationParameter = {
+export const ocpDate34: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -3761,7 +3761,7 @@ export const ocpDate34: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate35: msRest.OperationParameter = {
+export const ocpDate35: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -3774,7 +3774,7 @@ export const ocpDate35: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate36: msRest.OperationParameter = {
+export const ocpDate36: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetTaskCountsOptions",
@@ -3787,7 +3787,7 @@ export const ocpDate36: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate37: msRest.OperationParameter = {
+export const ocpDate37: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListNextOptions",
@@ -3800,7 +3800,7 @@ export const ocpDate37: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate38: msRest.OperationParameter = {
+export const ocpDate38: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleNextOptions",
@@ -3813,7 +3813,7 @@ export const ocpDate38: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate39: msRest.OperationParameter = {
+export const ocpDate39: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusNextOptions",
@@ -3826,7 +3826,7 @@ export const ocpDate39: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate4: msRest.OperationParameter = {
+export const ocpDate4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetAllLifetimeStatisticsOptions",
@@ -3839,7 +3839,7 @@ export const ocpDate4: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate40: msRest.OperationParameter = {
+export const ocpDate40: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateAddOptions",
@@ -3852,7 +3852,7 @@ export const ocpDate40: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate41: msRest.OperationParameter = {
+export const ocpDate41: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -3865,7 +3865,7 @@ export const ocpDate41: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate42: msRest.OperationParameter = {
+export const ocpDate42: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateCancelDeletionOptions",
@@ -3878,7 +3878,7 @@ export const ocpDate42: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate43: msRest.OperationParameter = {
+export const ocpDate43: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateDeleteMethodOptions",
@@ -3891,7 +3891,7 @@ export const ocpDate43: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate44: msRest.OperationParameter = {
+export const ocpDate44: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateGetOptions",
@@ -3904,7 +3904,7 @@ export const ocpDate44: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate45: msRest.OperationParameter = {
+export const ocpDate45: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListNextOptions",
@@ -3917,7 +3917,7 @@ export const ocpDate45: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate46: msRest.OperationParameter = {
+export const ocpDate46: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromTaskOptions",
@@ -3930,7 +3930,7 @@ export const ocpDate46: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate47: msRest.OperationParameter = {
+export const ocpDate47: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -3943,7 +3943,7 @@ export const ocpDate47: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate48: msRest.OperationParameter = {
+export const ocpDate48: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -3956,7 +3956,7 @@ export const ocpDate48: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate49: msRest.OperationParameter = {
+export const ocpDate49: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromComputeNodeOptions",
@@ -3969,7 +3969,7 @@ export const ocpDate49: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate5: msRest.OperationParameter = {
+export const ocpDate5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolAddOptions",
@@ -3982,7 +3982,7 @@ export const ocpDate5: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate50: msRest.OperationParameter = {
+export const ocpDate50: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -3995,7 +3995,7 @@ export const ocpDate50: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate51: msRest.OperationParameter = {
+export const ocpDate51: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -4008,7 +4008,7 @@ export const ocpDate51: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate52: msRest.OperationParameter = {
+export const ocpDate52: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -4021,7 +4021,7 @@ export const ocpDate52: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate53: msRest.OperationParameter = {
+export const ocpDate53: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -4034,7 +4034,7 @@ export const ocpDate53: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate54: msRest.OperationParameter = {
+export const ocpDate54: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskNextOptions",
@@ -4047,7 +4047,7 @@ export const ocpDate54: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate55: msRest.OperationParameter = {
+export const ocpDate55: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeNextOptions",
@@ -4060,7 +4060,7 @@ export const ocpDate55: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate56: msRest.OperationParameter = {
+export const ocpDate56: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -4073,7 +4073,7 @@ export const ocpDate56: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate57: msRest.OperationParameter = {
+export const ocpDate57: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -4086,7 +4086,7 @@ export const ocpDate57: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate58: msRest.OperationParameter = {
+export const ocpDate58: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -4099,7 +4099,7 @@ export const ocpDate58: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate59: msRest.OperationParameter = {
+export const ocpDate59: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -4112,7 +4112,7 @@ export const ocpDate59: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate6: msRest.OperationParameter = {
+export const ocpDate6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -4125,7 +4125,7 @@ export const ocpDate6: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate60: msRest.OperationParameter = {
+export const ocpDate60: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -4138,7 +4138,7 @@ export const ocpDate60: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate61: msRest.OperationParameter = {
+export const ocpDate61: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -4151,7 +4151,7 @@ export const ocpDate61: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate62: msRest.OperationParameter = {
+export const ocpDate62: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -4164,7 +4164,7 @@ export const ocpDate62: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate63: msRest.OperationParameter = {
+export const ocpDate63: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -4177,7 +4177,7 @@ export const ocpDate63: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate64: msRest.OperationParameter = {
+export const ocpDate64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleAddOptions",
@@ -4190,7 +4190,7 @@ export const ocpDate64: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate65: msRest.OperationParameter = {
+export const ocpDate65: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -4203,7 +4203,7 @@ export const ocpDate65: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate66: msRest.OperationParameter = {
+export const ocpDate66: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListNextOptions",
@@ -4216,7 +4216,7 @@ export const ocpDate66: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate67: msRest.OperationParameter = {
+export const ocpDate67: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddOptions",
@@ -4229,7 +4229,7 @@ export const ocpDate67: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate68: msRest.OperationParameter = {
+export const ocpDate68: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -4242,7 +4242,7 @@ export const ocpDate68: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate69: msRest.OperationParameter = {
+export const ocpDate69: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddCollectionOptions",
@@ -4255,7 +4255,7 @@ export const ocpDate69: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate7: msRest.OperationParameter = {
+export const ocpDate7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -4268,7 +4268,7 @@ export const ocpDate7: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate70: msRest.OperationParameter = {
+export const ocpDate70: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -4281,7 +4281,7 @@ export const ocpDate70: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate71: msRest.OperationParameter = {
+export const ocpDate71: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -4294,7 +4294,7 @@ export const ocpDate71: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate72: msRest.OperationParameter = {
+export const ocpDate72: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -4307,7 +4307,7 @@ export const ocpDate72: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate73: msRest.OperationParameter = {
+export const ocpDate73: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListSubtasksOptions",
@@ -4320,7 +4320,7 @@ export const ocpDate73: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate74: msRest.OperationParameter = {
+export const ocpDate74: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -4333,7 +4333,7 @@ export const ocpDate74: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate75: msRest.OperationParameter = {
+export const ocpDate75: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -4346,7 +4346,7 @@ export const ocpDate75: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate76: msRest.OperationParameter = {
+export const ocpDate76: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListNextOptions",
@@ -4359,7 +4359,7 @@ export const ocpDate76: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate77: msRest.OperationParameter = {
+export const ocpDate77: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeAddUserOptions",
@@ -4372,7 +4372,7 @@ export const ocpDate77: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate78: msRest.OperationParameter = {
+export const ocpDate78: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDeleteUserOptions",
@@ -4385,7 +4385,7 @@ export const ocpDate78: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate79: msRest.OperationParameter = {
+export const ocpDate79: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUpdateUserOptions",
@@ -4398,7 +4398,7 @@ export const ocpDate79: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate8: msRest.OperationParameter = {
+export const ocpDate8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -4411,7 +4411,7 @@ export const ocpDate8: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate80: msRest.OperationParameter = {
+export const ocpDate80: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetOptions",
@@ -4424,7 +4424,7 @@ export const ocpDate80: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate81: msRest.OperationParameter = {
+export const ocpDate81: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeRebootOptions",
@@ -4437,7 +4437,7 @@ export const ocpDate81: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate82: msRest.OperationParameter = {
+export const ocpDate82: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeReimageOptions",
@@ -4450,7 +4450,7 @@ export const ocpDate82: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate83: msRest.OperationParameter = {
+export const ocpDate83: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDisableSchedulingOptions",
@@ -4463,7 +4463,7 @@ export const ocpDate83: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate84: msRest.OperationParameter = {
+export const ocpDate84: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeEnableSchedulingOptions",
@@ -4476,7 +4476,7 @@ export const ocpDate84: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate85: msRest.OperationParameter = {
+export const ocpDate85: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteLoginSettingsOptions",
@@ -4489,7 +4489,7 @@ export const ocpDate85: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate86: msRest.OperationParameter = {
+export const ocpDate86: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteDesktopOptions",
@@ -4502,7 +4502,7 @@ export const ocpDate86: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate87: msRest.OperationParameter = {
+export const ocpDate87: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUploadBatchServiceLogsOptions",
@@ -4515,7 +4515,7 @@ export const ocpDate87: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate88: msRest.OperationParameter = {
+export const ocpDate88: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -4528,7 +4528,7 @@ export const ocpDate88: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate89: msRest.OperationParameter = {
+export const ocpDate89: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListNextOptions",
@@ -4541,7 +4541,7 @@ export const ocpDate89: msRest.OperationParameter = {
     }
   }
 };
-export const ocpDate9: msRest.OperationParameter = {
+export const ocpDate9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -4554,7 +4554,7 @@ export const ocpDate9: msRest.OperationParameter = {
     }
   }
 };
-export const ocpRange0: msRest.OperationParameter = {
+export const ocpRange0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -4567,7 +4567,7 @@ export const ocpRange0: msRest.OperationParameter = {
     }
   }
 };
-export const ocpRange1: msRest.OperationParameter = {
+export const ocpRange1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -4580,7 +4580,7 @@ export const ocpRange1: msRest.OperationParameter = {
     }
   }
 };
-export const poolId: msRest.OperationURLParameter = {
+export const poolId: coreHttp.OperationURLParameter = {
   parameterPath: "poolId",
   mapper: {
     required: true,
@@ -4590,7 +4590,7 @@ export const poolId: msRest.OperationURLParameter = {
     }
   }
 };
-export const recursive: msRest.OperationQueryParameter = {
+export const recursive: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "recursive"
@@ -4602,7 +4602,7 @@ export const recursive: msRest.OperationQueryParameter = {
     }
   }
 };
-export const returnClientRequestId0: msRest.OperationParameter = {
+export const returnClientRequestId0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListOptions",
@@ -4616,7 +4616,7 @@ export const returnClientRequestId0: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId1: msRest.OperationParameter = {
+export const returnClientRequestId1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationGetOptions",
@@ -4630,7 +4630,7 @@ export const returnClientRequestId1: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId10: msRest.OperationParameter = {
+export const returnClientRequestId10: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -4644,7 +4644,7 @@ export const returnClientRequestId10: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId11: msRest.OperationParameter = {
+export const returnClientRequestId11: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDisableAutoScaleOptions",
@@ -4658,7 +4658,7 @@ export const returnClientRequestId11: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId12: msRest.OperationParameter = {
+export const returnClientRequestId12: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -4672,7 +4672,7 @@ export const returnClientRequestId12: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId13: msRest.OperationParameter = {
+export const returnClientRequestId13: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolEvaluateAutoScaleOptions",
@@ -4686,7 +4686,7 @@ export const returnClientRequestId13: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId14: msRest.OperationParameter = {
+export const returnClientRequestId14: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -4700,7 +4700,7 @@ export const returnClientRequestId14: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId15: msRest.OperationParameter = {
+export const returnClientRequestId15: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -4714,7 +4714,7 @@ export const returnClientRequestId15: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId16: msRest.OperationParameter = {
+export const returnClientRequestId16: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolUpdatePropertiesOptions",
@@ -4728,7 +4728,7 @@ export const returnClientRequestId16: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId17: msRest.OperationParameter = {
+export const returnClientRequestId17: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -4742,7 +4742,7 @@ export const returnClientRequestId17: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId18: msRest.OperationParameter = {
+export const returnClientRequestId18: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsNextOptions",
@@ -4756,7 +4756,7 @@ export const returnClientRequestId18: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId19: msRest.OperationParameter = {
+export const returnClientRequestId19: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListNextOptions",
@@ -4770,7 +4770,7 @@ export const returnClientRequestId19: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId2: msRest.OperationParameter = {
+export const returnClientRequestId2: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "applicationListNextOptions",
@@ -4784,10 +4784,10 @@ export const returnClientRequestId2: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId20: msRest.OperationParameter = {
+export const returnClientRequestId20: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4798,7 +4798,7 @@ export const returnClientRequestId20: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId21: msRest.OperationParameter = {
+export const returnClientRequestId21: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -4812,10 +4812,10 @@ export const returnClientRequestId21: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId22: msRest.OperationParameter = {
+export const returnClientRequestId22: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusNextOptions",
+    "accountListSupportedImagesNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4826,7 +4826,7 @@ export const returnClientRequestId22: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId23: msRest.OperationParameter = {
+export const returnClientRequestId23: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsNextOptions",
@@ -4840,7 +4840,7 @@ export const returnClientRequestId23: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId24: msRest.OperationParameter = {
+export const returnClientRequestId24: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetAllLifetimeStatisticsOptions",
@@ -4854,7 +4854,7 @@ export const returnClientRequestId24: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId25: msRest.OperationParameter = {
+export const returnClientRequestId25: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -4868,7 +4868,7 @@ export const returnClientRequestId25: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId26: msRest.OperationParameter = {
+export const returnClientRequestId26: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -4882,7 +4882,7 @@ export const returnClientRequestId26: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId27: msRest.OperationParameter = {
+export const returnClientRequestId27: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -4896,7 +4896,7 @@ export const returnClientRequestId27: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId28: msRest.OperationParameter = {
+export const returnClientRequestId28: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -4910,7 +4910,7 @@ export const returnClientRequestId28: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId29: msRest.OperationParameter = {
+export const returnClientRequestId29: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -4924,7 +4924,7 @@ export const returnClientRequestId29: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId3: msRest.OperationParameter = {
+export const returnClientRequestId3: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -4938,7 +4938,7 @@ export const returnClientRequestId3: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId30: msRest.OperationParameter = {
+export const returnClientRequestId30: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -4952,7 +4952,7 @@ export const returnClientRequestId30: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId31: msRest.OperationParameter = {
+export const returnClientRequestId31: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -4966,7 +4966,7 @@ export const returnClientRequestId31: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId32: msRest.OperationParameter = {
+export const returnClientRequestId32: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobAddOptions",
@@ -4980,7 +4980,7 @@ export const returnClientRequestId32: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId33: msRest.OperationParameter = {
+export const returnClientRequestId33: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -4994,7 +4994,7 @@ export const returnClientRequestId33: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId34: msRest.OperationParameter = {
+export const returnClientRequestId34: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -5008,7 +5008,7 @@ export const returnClientRequestId34: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId35: msRest.OperationParameter = {
+export const returnClientRequestId35: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -5022,7 +5022,7 @@ export const returnClientRequestId35: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId36: msRest.OperationParameter = {
+export const returnClientRequestId36: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobGetTaskCountsOptions",
@@ -5036,7 +5036,7 @@ export const returnClientRequestId36: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId37: msRest.OperationParameter = {
+export const returnClientRequestId37: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListNextOptions",
@@ -5050,7 +5050,7 @@ export const returnClientRequestId37: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId38: msRest.OperationParameter = {
+export const returnClientRequestId38: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleNextOptions",
@@ -5064,7 +5064,7 @@ export const returnClientRequestId38: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId39: msRest.OperationParameter = {
+export const returnClientRequestId39: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusNextOptions",
@@ -5078,7 +5078,7 @@ export const returnClientRequestId39: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId4: msRest.OperationParameter = {
+export const returnClientRequestId4: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetAllLifetimeStatisticsOptions",
@@ -5092,7 +5092,7 @@ export const returnClientRequestId4: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId40: msRest.OperationParameter = {
+export const returnClientRequestId40: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateAddOptions",
@@ -5106,7 +5106,7 @@ export const returnClientRequestId40: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId41: msRest.OperationParameter = {
+export const returnClientRequestId41: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -5120,7 +5120,7 @@ export const returnClientRequestId41: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId42: msRest.OperationParameter = {
+export const returnClientRequestId42: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateCancelDeletionOptions",
@@ -5134,7 +5134,7 @@ export const returnClientRequestId42: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId43: msRest.OperationParameter = {
+export const returnClientRequestId43: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateDeleteMethodOptions",
@@ -5148,7 +5148,7 @@ export const returnClientRequestId43: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId44: msRest.OperationParameter = {
+export const returnClientRequestId44: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateGetOptions",
@@ -5162,7 +5162,7 @@ export const returnClientRequestId44: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId45: msRest.OperationParameter = {
+export const returnClientRequestId45: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "certificateListNextOptions",
@@ -5176,7 +5176,7 @@ export const returnClientRequestId45: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId46: msRest.OperationParameter = {
+export const returnClientRequestId46: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromTaskOptions",
@@ -5190,7 +5190,7 @@ export const returnClientRequestId46: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId47: msRest.OperationParameter = {
+export const returnClientRequestId47: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -5204,7 +5204,7 @@ export const returnClientRequestId47: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId48: msRest.OperationParameter = {
+export const returnClientRequestId48: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -5218,7 +5218,7 @@ export const returnClientRequestId48: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId49: msRest.OperationParameter = {
+export const returnClientRequestId49: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromComputeNodeOptions",
@@ -5232,7 +5232,7 @@ export const returnClientRequestId49: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId5: msRest.OperationParameter = {
+export const returnClientRequestId5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolAddOptions",
@@ -5246,7 +5246,7 @@ export const returnClientRequestId5: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId50: msRest.OperationParameter = {
+export const returnClientRequestId50: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -5260,7 +5260,7 @@ export const returnClientRequestId50: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId51: msRest.OperationParameter = {
+export const returnClientRequestId51: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -5274,7 +5274,7 @@ export const returnClientRequestId51: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId52: msRest.OperationParameter = {
+export const returnClientRequestId52: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -5288,7 +5288,7 @@ export const returnClientRequestId52: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId53: msRest.OperationParameter = {
+export const returnClientRequestId53: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -5302,7 +5302,7 @@ export const returnClientRequestId53: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId54: msRest.OperationParameter = {
+export const returnClientRequestId54: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskNextOptions",
@@ -5316,7 +5316,7 @@ export const returnClientRequestId54: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId55: msRest.OperationParameter = {
+export const returnClientRequestId55: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeNextOptions",
@@ -5330,7 +5330,7 @@ export const returnClientRequestId55: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId56: msRest.OperationParameter = {
+export const returnClientRequestId56: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -5344,7 +5344,7 @@ export const returnClientRequestId56: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId57: msRest.OperationParameter = {
+export const returnClientRequestId57: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -5358,7 +5358,7 @@ export const returnClientRequestId57: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId58: msRest.OperationParameter = {
+export const returnClientRequestId58: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -5372,7 +5372,7 @@ export const returnClientRequestId58: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId59: msRest.OperationParameter = {
+export const returnClientRequestId59: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -5386,7 +5386,7 @@ export const returnClientRequestId59: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId6: msRest.OperationParameter = {
+export const returnClientRequestId6: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -5400,7 +5400,7 @@ export const returnClientRequestId6: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId60: msRest.OperationParameter = {
+export const returnClientRequestId60: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -5414,7 +5414,7 @@ export const returnClientRequestId60: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId61: msRest.OperationParameter = {
+export const returnClientRequestId61: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -5428,7 +5428,7 @@ export const returnClientRequestId61: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId62: msRest.OperationParameter = {
+export const returnClientRequestId62: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -5442,7 +5442,7 @@ export const returnClientRequestId62: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId63: msRest.OperationParameter = {
+export const returnClientRequestId63: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -5456,7 +5456,7 @@ export const returnClientRequestId63: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId64: msRest.OperationParameter = {
+export const returnClientRequestId64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleAddOptions",
@@ -5470,7 +5470,7 @@ export const returnClientRequestId64: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId65: msRest.OperationParameter = {
+export const returnClientRequestId65: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -5484,7 +5484,7 @@ export const returnClientRequestId65: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId66: msRest.OperationParameter = {
+export const returnClientRequestId66: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "jobScheduleListNextOptions",
@@ -5498,7 +5498,7 @@ export const returnClientRequestId66: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId67: msRest.OperationParameter = {
+export const returnClientRequestId67: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddOptions",
@@ -5512,7 +5512,7 @@ export const returnClientRequestId67: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId68: msRest.OperationParameter = {
+export const returnClientRequestId68: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -5526,7 +5526,7 @@ export const returnClientRequestId68: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId69: msRest.OperationParameter = {
+export const returnClientRequestId69: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskAddCollectionOptions",
@@ -5540,7 +5540,7 @@ export const returnClientRequestId69: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId7: msRest.OperationParameter = {
+export const returnClientRequestId7: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -5554,7 +5554,7 @@ export const returnClientRequestId7: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId70: msRest.OperationParameter = {
+export const returnClientRequestId70: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -5568,7 +5568,7 @@ export const returnClientRequestId70: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId71: msRest.OperationParameter = {
+export const returnClientRequestId71: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -5582,7 +5582,7 @@ export const returnClientRequestId71: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId72: msRest.OperationParameter = {
+export const returnClientRequestId72: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -5596,7 +5596,7 @@ export const returnClientRequestId72: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId73: msRest.OperationParameter = {
+export const returnClientRequestId73: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListSubtasksOptions",
@@ -5610,7 +5610,7 @@ export const returnClientRequestId73: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId74: msRest.OperationParameter = {
+export const returnClientRequestId74: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -5624,7 +5624,7 @@ export const returnClientRequestId74: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId75: msRest.OperationParameter = {
+export const returnClientRequestId75: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -5638,7 +5638,7 @@ export const returnClientRequestId75: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId76: msRest.OperationParameter = {
+export const returnClientRequestId76: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "taskListNextOptions",
@@ -5652,7 +5652,7 @@ export const returnClientRequestId76: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId77: msRest.OperationParameter = {
+export const returnClientRequestId77: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeAddUserOptions",
@@ -5666,7 +5666,7 @@ export const returnClientRequestId77: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId78: msRest.OperationParameter = {
+export const returnClientRequestId78: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDeleteUserOptions",
@@ -5680,7 +5680,7 @@ export const returnClientRequestId78: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId79: msRest.OperationParameter = {
+export const returnClientRequestId79: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUpdateUserOptions",
@@ -5694,7 +5694,7 @@ export const returnClientRequestId79: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId8: msRest.OperationParameter = {
+export const returnClientRequestId8: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -5708,7 +5708,7 @@ export const returnClientRequestId8: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId80: msRest.OperationParameter = {
+export const returnClientRequestId80: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetOptions",
@@ -5722,7 +5722,7 @@ export const returnClientRequestId80: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId81: msRest.OperationParameter = {
+export const returnClientRequestId81: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeRebootOptions",
@@ -5736,7 +5736,7 @@ export const returnClientRequestId81: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId82: msRest.OperationParameter = {
+export const returnClientRequestId82: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeReimageOptions",
@@ -5750,7 +5750,7 @@ export const returnClientRequestId82: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId83: msRest.OperationParameter = {
+export const returnClientRequestId83: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeDisableSchedulingOptions",
@@ -5764,7 +5764,7 @@ export const returnClientRequestId83: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId84: msRest.OperationParameter = {
+export const returnClientRequestId84: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeEnableSchedulingOptions",
@@ -5778,7 +5778,7 @@ export const returnClientRequestId84: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId85: msRest.OperationParameter = {
+export const returnClientRequestId85: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteLoginSettingsOptions",
@@ -5792,7 +5792,7 @@ export const returnClientRequestId85: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId86: msRest.OperationParameter = {
+export const returnClientRequestId86: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteDesktopOptions",
@@ -5806,7 +5806,7 @@ export const returnClientRequestId86: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId87: msRest.OperationParameter = {
+export const returnClientRequestId87: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeUploadBatchServiceLogsOptions",
@@ -5820,7 +5820,7 @@ export const returnClientRequestId87: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId88: msRest.OperationParameter = {
+export const returnClientRequestId88: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -5834,7 +5834,7 @@ export const returnClientRequestId88: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId89: msRest.OperationParameter = {
+export const returnClientRequestId89: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeListNextOptions",
@@ -5848,7 +5848,7 @@ export const returnClientRequestId89: msRest.OperationParameter = {
     }
   }
 };
-export const returnClientRequestId9: msRest.OperationParameter = {
+export const returnClientRequestId9: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -5862,7 +5862,7 @@ export const returnClientRequestId9: msRest.OperationParameter = {
     }
   }
 };
-export const select0: msRest.OperationQueryParameter = {
+export const select0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -5875,7 +5875,7 @@ export const select0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select1: msRest.OperationQueryParameter = {
+export const select1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -5888,7 +5888,7 @@ export const select1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select10: msRest.OperationQueryParameter = {
+export const select10: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -5901,7 +5901,7 @@ export const select10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select11: msRest.OperationQueryParameter = {
+export const select11: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -5914,7 +5914,7 @@ export const select11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select12: msRest.OperationQueryParameter = {
+export const select12: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListSubtasksOptions",
@@ -5927,7 +5927,7 @@ export const select12: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select13: msRest.OperationQueryParameter = {
+export const select13: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeGetOptions",
@@ -5940,7 +5940,7 @@ export const select13: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select14: msRest.OperationQueryParameter = {
+export const select14: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -5953,7 +5953,7 @@ export const select14: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select2: msRest.OperationQueryParameter = {
+export const select2: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -5966,7 +5966,7 @@ export const select2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select3: msRest.OperationQueryParameter = {
+export const select3: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -5979,7 +5979,7 @@ export const select3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select4: msRest.OperationQueryParameter = {
+export const select4: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -5992,7 +5992,7 @@ export const select4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select5: msRest.OperationQueryParameter = {
+export const select5: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -6005,7 +6005,7 @@ export const select5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select6: msRest.OperationQueryParameter = {
+export const select6: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -6018,7 +6018,7 @@ export const select6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select7: msRest.OperationQueryParameter = {
+export const select7: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateGetOptions",
@@ -6031,7 +6031,7 @@ export const select7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select8: msRest.OperationQueryParameter = {
+export const select8: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -6044,7 +6044,7 @@ export const select8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const select9: msRest.OperationQueryParameter = {
+export const select9: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -6057,7 +6057,7 @@ export const select9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const startTime: msRest.OperationQueryParameter = {
+export const startTime: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -6070,7 +6070,7 @@ export const startTime: msRest.OperationQueryParameter = {
     }
   }
 };
-export const taskId: msRest.OperationURLParameter = {
+export const taskId: coreHttp.OperationURLParameter = {
   parameterPath: "taskId",
   mapper: {
     required: true,
@@ -6080,7 +6080,7 @@ export const taskId: msRest.OperationURLParameter = {
     }
   }
 };
-export const thumbprint: msRest.OperationURLParameter = {
+export const thumbprint: coreHttp.OperationURLParameter = {
   parameterPath: "thumbprint",
   mapper: {
     required: true,
@@ -6090,7 +6090,7 @@ export const thumbprint: msRest.OperationURLParameter = {
     }
   }
 };
-export const thumbprintAlgorithm: msRest.OperationURLParameter = {
+export const thumbprintAlgorithm: coreHttp.OperationURLParameter = {
   parameterPath: "thumbprintAlgorithm",
   mapper: {
     required: true,
@@ -6100,7 +6100,7 @@ export const thumbprintAlgorithm: msRest.OperationURLParameter = {
     }
   }
 };
-export const timeout0: msRest.OperationQueryParameter = {
+export const timeout0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "applicationListOptions",
@@ -6114,7 +6114,7 @@ export const timeout0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout1: msRest.OperationQueryParameter = {
+export const timeout1: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "applicationGetOptions",
@@ -6128,7 +6128,7 @@ export const timeout1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout10: msRest.OperationQueryParameter = {
+export const timeout10: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolDisableAutoScaleOptions",
@@ -6142,7 +6142,7 @@ export const timeout10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout11: msRest.OperationQueryParameter = {
+export const timeout11: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolEnableAutoScaleOptions",
@@ -6156,7 +6156,7 @@ export const timeout11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout12: msRest.OperationQueryParameter = {
+export const timeout12: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolEvaluateAutoScaleOptions",
@@ -6170,7 +6170,7 @@ export const timeout12: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout13: msRest.OperationQueryParameter = {
+export const timeout13: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolResizeOptions",
@@ -6184,7 +6184,7 @@ export const timeout13: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout14: msRest.OperationQueryParameter = {
+export const timeout14: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolStopResizeOptions",
@@ -6198,7 +6198,7 @@ export const timeout14: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout15: msRest.OperationQueryParameter = {
+export const timeout15: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolUpdatePropertiesOptions",
@@ -6212,7 +6212,7 @@ export const timeout15: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout16: msRest.OperationQueryParameter = {
+export const timeout16: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolRemoveNodesOptions",
@@ -6226,10 +6226,10 @@ export const timeout16: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout17: msRest.OperationQueryParameter = {
+export const timeout17: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListNodeAgentSkusOptions",
+    "accountListSupportedImagesOptions",
     "timeout"
   ],
   mapper: {
@@ -6240,7 +6240,7 @@ export const timeout17: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout18: msRest.OperationQueryParameter = {
+export const timeout18: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "accountListPoolNodeCountsOptions",
@@ -6254,7 +6254,7 @@ export const timeout18: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout19: msRest.OperationQueryParameter = {
+export const timeout19: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobGetAllLifetimeStatisticsOptions",
@@ -6268,7 +6268,7 @@ export const timeout19: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout2: msRest.OperationQueryParameter = {
+export const timeout2: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListUsageMetricsOptions",
@@ -6282,7 +6282,7 @@ export const timeout2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout20: msRest.OperationQueryParameter = {
+export const timeout20: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobDeleteMethodOptions",
@@ -6296,7 +6296,7 @@ export const timeout20: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout21: msRest.OperationQueryParameter = {
+export const timeout21: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobGetOptions",
@@ -6310,7 +6310,7 @@ export const timeout21: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout22: msRest.OperationQueryParameter = {
+export const timeout22: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobPatchOptions",
@@ -6324,7 +6324,7 @@ export const timeout22: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout23: msRest.OperationQueryParameter = {
+export const timeout23: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobUpdateOptions",
@@ -6338,7 +6338,7 @@ export const timeout23: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout24: msRest.OperationQueryParameter = {
+export const timeout24: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobDisableOptions",
@@ -6352,7 +6352,7 @@ export const timeout24: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout25: msRest.OperationQueryParameter = {
+export const timeout25: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobEnableOptions",
@@ -6366,7 +6366,7 @@ export const timeout25: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout26: msRest.OperationQueryParameter = {
+export const timeout26: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobTerminateOptions",
@@ -6380,7 +6380,7 @@ export const timeout26: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout27: msRest.OperationQueryParameter = {
+export const timeout27: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobAddOptions",
@@ -6394,7 +6394,7 @@ export const timeout27: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout28: msRest.OperationQueryParameter = {
+export const timeout28: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListOptions",
@@ -6408,7 +6408,7 @@ export const timeout28: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout29: msRest.OperationQueryParameter = {
+export const timeout29: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListFromJobScheduleOptions",
@@ -6422,7 +6422,7 @@ export const timeout29: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout3: msRest.OperationQueryParameter = {
+export const timeout3: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolGetAllLifetimeStatisticsOptions",
@@ -6436,7 +6436,7 @@ export const timeout3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout30: msRest.OperationQueryParameter = {
+export const timeout30: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobListPreparationAndReleaseTaskStatusOptions",
@@ -6450,7 +6450,7 @@ export const timeout30: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout31: msRest.OperationQueryParameter = {
+export const timeout31: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobGetTaskCountsOptions",
@@ -6464,7 +6464,7 @@ export const timeout31: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout32: msRest.OperationQueryParameter = {
+export const timeout32: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateAddOptions",
@@ -6478,7 +6478,7 @@ export const timeout32: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout33: msRest.OperationQueryParameter = {
+export const timeout33: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateListOptions",
@@ -6492,7 +6492,7 @@ export const timeout33: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout34: msRest.OperationQueryParameter = {
+export const timeout34: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateCancelDeletionOptions",
@@ -6506,7 +6506,7 @@ export const timeout34: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout35: msRest.OperationQueryParameter = {
+export const timeout35: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateDeleteMethodOptions",
@@ -6520,7 +6520,7 @@ export const timeout35: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout36: msRest.OperationQueryParameter = {
+export const timeout36: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "certificateGetOptions",
@@ -6534,7 +6534,7 @@ export const timeout36: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout37: msRest.OperationQueryParameter = {
+export const timeout37: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromTaskOptions",
@@ -6548,7 +6548,7 @@ export const timeout37: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout38: msRest.OperationQueryParameter = {
+export const timeout38: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileGetFromTaskOptions",
@@ -6562,7 +6562,7 @@ export const timeout38: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout39: msRest.OperationQueryParameter = {
+export const timeout39: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromTaskOptions",
@@ -6576,7 +6576,7 @@ export const timeout39: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout4: msRest.OperationQueryParameter = {
+export const timeout4: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolAddOptions",
@@ -6590,7 +6590,7 @@ export const timeout4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout40: msRest.OperationQueryParameter = {
+export const timeout40: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileDeleteFromComputeNodeOptions",
@@ -6604,7 +6604,7 @@ export const timeout40: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout41: msRest.OperationQueryParameter = {
+export const timeout41: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileGetFromComputeNodeOptions",
@@ -6618,7 +6618,7 @@ export const timeout41: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout42: msRest.OperationQueryParameter = {
+export const timeout42: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileGetPropertiesFromComputeNodeOptions",
@@ -6632,7 +6632,7 @@ export const timeout42: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout43: msRest.OperationQueryParameter = {
+export const timeout43: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromTaskOptions",
@@ -6646,7 +6646,7 @@ export const timeout43: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout44: msRest.OperationQueryParameter = {
+export const timeout44: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "fileListFromComputeNodeOptions",
@@ -6660,7 +6660,7 @@ export const timeout44: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout45: msRest.OperationQueryParameter = {
+export const timeout45: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleExistsOptions",
@@ -6674,7 +6674,7 @@ export const timeout45: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout46: msRest.OperationQueryParameter = {
+export const timeout46: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleDeleteMethodOptions",
@@ -6688,7 +6688,7 @@ export const timeout46: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout47: msRest.OperationQueryParameter = {
+export const timeout47: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleGetOptions",
@@ -6702,7 +6702,7 @@ export const timeout47: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout48: msRest.OperationQueryParameter = {
+export const timeout48: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobSchedulePatchOptions",
@@ -6716,7 +6716,7 @@ export const timeout48: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout49: msRest.OperationQueryParameter = {
+export const timeout49: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleUpdateOptions",
@@ -6730,7 +6730,7 @@ export const timeout49: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout5: msRest.OperationQueryParameter = {
+export const timeout5: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolListOptions",
@@ -6744,7 +6744,7 @@ export const timeout5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout50: msRest.OperationQueryParameter = {
+export const timeout50: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleDisableOptions",
@@ -6758,7 +6758,7 @@ export const timeout50: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout51: msRest.OperationQueryParameter = {
+export const timeout51: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleEnableOptions",
@@ -6772,7 +6772,7 @@ export const timeout51: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout52: msRest.OperationQueryParameter = {
+export const timeout52: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleTerminateOptions",
@@ -6786,7 +6786,7 @@ export const timeout52: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout53: msRest.OperationQueryParameter = {
+export const timeout53: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleAddOptions",
@@ -6800,7 +6800,7 @@ export const timeout53: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout54: msRest.OperationQueryParameter = {
+export const timeout54: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "jobScheduleListOptions",
@@ -6814,7 +6814,7 @@ export const timeout54: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout55: msRest.OperationQueryParameter = {
+export const timeout55: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskAddOptions",
@@ -6828,7 +6828,7 @@ export const timeout55: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout56: msRest.OperationQueryParameter = {
+export const timeout56: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListOptions",
@@ -6842,7 +6842,7 @@ export const timeout56: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout57: msRest.OperationQueryParameter = {
+export const timeout57: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskAddCollectionOptions",
@@ -6856,7 +6856,7 @@ export const timeout57: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout58: msRest.OperationQueryParameter = {
+export const timeout58: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskDeleteMethodOptions",
@@ -6870,7 +6870,7 @@ export const timeout58: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout59: msRest.OperationQueryParameter = {
+export const timeout59: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskGetOptions",
@@ -6884,7 +6884,7 @@ export const timeout59: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout6: msRest.OperationQueryParameter = {
+export const timeout6: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolDeleteMethodOptions",
@@ -6898,7 +6898,7 @@ export const timeout6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout60: msRest.OperationQueryParameter = {
+export const timeout60: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskUpdateOptions",
@@ -6912,7 +6912,7 @@ export const timeout60: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout61: msRest.OperationQueryParameter = {
+export const timeout61: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskListSubtasksOptions",
@@ -6926,7 +6926,7 @@ export const timeout61: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout62: msRest.OperationQueryParameter = {
+export const timeout62: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskTerminateOptions",
@@ -6940,7 +6940,7 @@ export const timeout62: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout63: msRest.OperationQueryParameter = {
+export const timeout63: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "taskReactivateOptions",
@@ -6954,7 +6954,7 @@ export const timeout63: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout64: msRest.OperationQueryParameter = {
+export const timeout64: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeAddUserOptions",
@@ -6968,7 +6968,7 @@ export const timeout64: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout65: msRest.OperationQueryParameter = {
+export const timeout65: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeDeleteUserOptions",
@@ -6982,7 +6982,7 @@ export const timeout65: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout66: msRest.OperationQueryParameter = {
+export const timeout66: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeUpdateUserOptions",
@@ -6996,7 +6996,7 @@ export const timeout66: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout67: msRest.OperationQueryParameter = {
+export const timeout67: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeGetOptions",
@@ -7010,7 +7010,7 @@ export const timeout67: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout68: msRest.OperationQueryParameter = {
+export const timeout68: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeRebootOptions",
@@ -7024,7 +7024,7 @@ export const timeout68: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout69: msRest.OperationQueryParameter = {
+export const timeout69: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeReimageOptions",
@@ -7038,7 +7038,7 @@ export const timeout69: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout7: msRest.OperationQueryParameter = {
+export const timeout7: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolExistsOptions",
@@ -7052,7 +7052,7 @@ export const timeout7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout70: msRest.OperationQueryParameter = {
+export const timeout70: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeDisableSchedulingOptions",
@@ -7066,7 +7066,7 @@ export const timeout70: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout71: msRest.OperationQueryParameter = {
+export const timeout71: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeEnableSchedulingOptions",
@@ -7080,7 +7080,7 @@ export const timeout71: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout72: msRest.OperationQueryParameter = {
+export const timeout72: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteLoginSettingsOptions",
@@ -7094,7 +7094,7 @@ export const timeout72: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout73: msRest.OperationQueryParameter = {
+export const timeout73: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeGetRemoteDesktopOptions",
@@ -7108,7 +7108,7 @@ export const timeout73: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout74: msRest.OperationQueryParameter = {
+export const timeout74: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeUploadBatchServiceLogsOptions",
@@ -7122,7 +7122,7 @@ export const timeout74: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout75: msRest.OperationQueryParameter = {
+export const timeout75: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeListOptions",
@@ -7136,7 +7136,7 @@ export const timeout75: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout8: msRest.OperationQueryParameter = {
+export const timeout8: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolGetOptions",
@@ -7150,7 +7150,7 @@ export const timeout8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout9: msRest.OperationQueryParameter = {
+export const timeout9: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "poolPatchOptions",
@@ -7164,7 +7164,7 @@ export const timeout9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const userName: msRest.OperationURLParameter = {
+export const userName: coreHttp.OperationURLParameter = {
   parameterPath: "userName",
   mapper: {
     required: true,

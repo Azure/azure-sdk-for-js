@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/taskMappers";
 import * as Parameters from "../models/parameters";
@@ -27,30 +27,30 @@ export class Task {
   }
 
   /**
-   * The maximum lifetime of a task from addition to completion is 180 days. If a task has not
+   * The maximum lifetime of a Task from addition to completion is 180 days. If a Task has not
    * completed within 180 days of being added it will be terminated by the Batch service and left in
    * whatever state it was in at that time.
-   * @summary Adds a task to the specified job.
-   * @param jobId The ID of the job to which the task is to be added.
-   * @param task The task to be added.
+   * @summary Adds a Task to the specified Job.
+   * @param jobId The ID of the Job to which the Task is to be added.
+   * @param task The Task to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskAddResponse>
    */
   add(jobId: string, task: Models.TaskAddParameter, options?: Models.TaskAddOptionalParams): Promise<Models.TaskAddResponse>;
   /**
-   * @param jobId The ID of the job to which the task is to be added.
-   * @param task The task to be added.
+   * @param jobId The ID of the Job to which the Task is to be added.
+   * @param task The Task to be added.
    * @param callback The callback
    */
-  add(jobId: string, task: Models.TaskAddParameter, callback: msRest.ServiceCallback<void>): void;
+  add(jobId: string, task: Models.TaskAddParameter, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param jobId The ID of the job to which the task is to be added.
-   * @param task The task to be added.
+   * @param jobId The ID of the Job to which the Task is to be added.
+   * @param task The Task to be added.
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(jobId: string, task: Models.TaskAddParameter, options: Models.TaskAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(jobId: string, task: Models.TaskAddParameter, options?: Models.TaskAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskAddResponse> {
+  add(jobId: string, task: Models.TaskAddParameter, options: Models.TaskAddOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  add(jobId: string, task: Models.TaskAddParameter, options?: Models.TaskAddOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TaskAddResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -62,26 +62,26 @@ export class Task {
   }
 
   /**
-   * For multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to
-   * the primary task. Use the list subtasks API to retrieve information about subtasks.
-   * @summary Lists all of the tasks that are associated with the specified job.
-   * @param jobId The ID of the job.
+   * For multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to
+   * the primary Task. Use the list subtasks API to retrieve information about subtasks.
+   * @summary Lists all of the Tasks that are associated with the specified Job.
+   * @param jobId The ID of the Job.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskListResponse>
    */
   list(jobId: string, options?: Models.TaskListOptionalParams): Promise<Models.TaskListResponse>;
   /**
-   * @param jobId The ID of the job.
+   * @param jobId The ID of the Job.
    * @param callback The callback
    */
-  list(jobId: string, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
+  list(jobId: string, callback: coreHttp.ServiceCallback<Models.CloudTaskListResult>): void;
   /**
-   * @param jobId The ID of the job.
+   * @param jobId The ID of the Job.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(jobId: string, options: Models.TaskListOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
-  list(jobId: string, options?: Models.TaskListOptionalParams | msRest.ServiceCallback<Models.CloudTaskListResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
+  list(jobId: string, options: Models.TaskListOptionalParams, callback: coreHttp.ServiceCallback<Models.CloudTaskListResult>): void;
+  list(jobId: string, options?: Models.TaskListOptionalParams | coreHttp.ServiceCallback<Models.CloudTaskListResult>, callback?: coreHttp.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -92,48 +92,48 @@ export class Task {
   }
 
   /**
-   * Note that each task must have a unique ID. The Batch service may not return the results for each
-   * task in the same order the tasks were submitted in this request. If the server times out or the
+   * Note that each Task must have a unique ID. The Batch service may not return the results for each
+   * Task in the same order the Tasks were submitted in this request. If the server times out or the
    * connection is closed during the request, the request may have been partially or fully processed,
    * or not at all. In such cases, the user should re-issue the request. Note that it is up to the
    * user to correctly handle failures when re-issuing a request. For example, you should use the
-   * same task IDs during a retry so that if the prior operation succeeded, the retry will not create
-   * extra tasks unexpectedly. If the response contains any tasks which failed to add, a client can
-   * retry the request. In a retry, it is most efficient to resubmit only tasks that failed to add,
-   * and to omit tasks that were successfully added on the first attempt. The maximum lifetime of a
-   * task from addition to completion is 180 days. If a task has not completed within 180 days of
+   * same Task IDs during a retry so that if the prior operation succeeded, the retry will not create
+   * extra Tasks unexpectedly. If the response contains any Tasks which failed to add, a client can
+   * retry the request. In a retry, it is most efficient to resubmit only Tasks that failed to add,
+   * and to omit Tasks that were successfully added on the first attempt. The maximum lifetime of a
+   * Task from addition to completion is 180 days. If a Task has not completed within 180 days of
    * being added it will be terminated by the Batch service and left in whatever state it was in at
    * that time.
-   * @summary Adds a collection of tasks to the specified job.
-   * @param jobId The ID of the job to which the task collection is to be added.
-   * @param value The collection of tasks to add. The maximum count of tasks is 100. The total
+   * @summary Adds a collection of Tasks to the specified Job.
+   * @param jobId The ID of the Job to which the Task collection is to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
    * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
-   * if each task has 100's of resource files or environment variables), the request will fail with
-   * code 'RequestBodyTooLarge' and should be retried again with fewer tasks.
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskAddCollectionResponse>
    */
   addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams): Promise<Models.TaskAddCollectionResponse>;
   /**
-   * @param jobId The ID of the job to which the task collection is to be added.
-   * @param value The collection of tasks to add. The maximum count of tasks is 100. The total
+   * @param jobId The ID of the Job to which the Task collection is to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
    * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
-   * if each task has 100's of resource files or environment variables), the request will fail with
-   * code 'RequestBodyTooLarge' and should be retried again with fewer tasks.
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param callback The callback
    */
-  addCollection(jobId: string, value: Models.TaskAddParameter[], callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
+  addCollection(jobId: string, value: Models.TaskAddParameter[], callback: coreHttp.ServiceCallback<Models.TaskAddCollectionResult>): void;
   /**
-   * @param jobId The ID of the job to which the task collection is to be added.
-   * @param value The collection of tasks to add. The maximum count of tasks is 100. The total
+   * @param jobId The ID of the Job to which the Task collection is to be added.
+   * @param value The collection of Tasks to add. The maximum count of Tasks is 100. The total
    * serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example
-   * if each task has 100's of resource files or environment variables), the request will fail with
-   * code 'RequestBodyTooLarge' and should be retried again with fewer tasks.
+   * if each Task has 100's of resource files or environment variables), the request will fail with
+   * code 'RequestBodyTooLarge' and should be retried again with fewer Tasks.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCollection(jobId: string, value: Models.TaskAddParameter[], options: Models.TaskAddCollectionOptionalParams, callback: msRest.ServiceCallback<Models.TaskAddCollectionResult>): void;
-  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams | msRest.ServiceCallback<Models.TaskAddCollectionResult>, callback?: msRest.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options: Models.TaskAddCollectionOptionalParams, callback: coreHttp.ServiceCallback<Models.TaskAddCollectionResult>): void;
+  addCollection(jobId: string, value: Models.TaskAddParameter[], options?: Models.TaskAddCollectionOptionalParams | coreHttp.ServiceCallback<Models.TaskAddCollectionResult>, callback?: coreHttp.ServiceCallback<Models.TaskAddCollectionResult>): Promise<Models.TaskAddCollectionResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -145,31 +145,31 @@ export class Task {
   }
 
   /**
-   * When a task is deleted, all of the files in its directory on the compute node where it ran are
-   * also deleted (regardless of the retention time). For multi-instance tasks, the delete task
+   * When a Task is deleted, all of the files in its directory on the Compute Node where it ran are
+   * also deleted (regardless of the retention time). For multi-instance Tasks, the delete Task
    * operation applies synchronously to the primary task; subtasks and their files are then deleted
    * asynchronously in the background.
-   * @summary Deletes a task from the specified job.
-   * @param jobId The ID of the job from which to delete the task.
-   * @param taskId The ID of the task to delete.
+   * @summary Deletes a Task from the specified Job.
+   * @param jobId The ID of the Job from which to delete the Task.
+   * @param taskId The ID of the Task to delete.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskDeleteResponse>
    */
   deleteMethod(jobId: string, taskId: string, options?: Models.TaskDeleteMethodOptionalParams): Promise<Models.TaskDeleteResponse>;
   /**
-   * @param jobId The ID of the job from which to delete the task.
-   * @param taskId The ID of the task to delete.
+   * @param jobId The ID of the Job from which to delete the Task.
+   * @param taskId The ID of the Task to delete.
    * @param callback The callback
    */
-  deleteMethod(jobId: string, taskId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param jobId The ID of the job from which to delete the task.
-   * @param taskId The ID of the task to delete.
+   * @param jobId The ID of the Job from which to delete the Task.
+   * @param taskId The ID of the Task to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(jobId: string, taskId: string, options: Models.TaskDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(jobId: string, taskId: string, options?: Models.TaskDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskDeleteResponse> {
+  deleteMethod(jobId: string, taskId: string, options: Models.TaskDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(jobId: string, taskId: string, options?: Models.TaskDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TaskDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -181,29 +181,29 @@ export class Task {
   }
 
   /**
-   * For multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to
-   * the primary task. Use the list subtasks API to retrieve information about subtasks.
-   * @summary Gets information about the specified task.
-   * @param jobId The ID of the job that contains the task.
-   * @param taskId The ID of the task to get information about.
+   * For multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to
+   * the primary Task. Use the list subtasks API to retrieve information about subtasks.
+   * @summary Gets information about the specified Task.
+   * @param jobId The ID of the Job that contains the Task.
+   * @param taskId The ID of the Task to get information about.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskGetResponse>
    */
   get(jobId: string, taskId: string, options?: Models.TaskGetOptionalParams): Promise<Models.TaskGetResponse>;
   /**
-   * @param jobId The ID of the job that contains the task.
-   * @param taskId The ID of the task to get information about.
+   * @param jobId The ID of the Job that contains the Task.
+   * @param taskId The ID of the Task to get information about.
    * @param callback The callback
    */
-  get(jobId: string, taskId: string, callback: msRest.ServiceCallback<Models.CloudTask>): void;
+  get(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<Models.CloudTask>): void;
   /**
-   * @param jobId The ID of the job that contains the task.
-   * @param taskId The ID of the task to get information about.
+   * @param jobId The ID of the Job that contains the Task.
+   * @param taskId The ID of the Task to get information about.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(jobId: string, taskId: string, options: Models.TaskGetOptionalParams, callback: msRest.ServiceCallback<Models.CloudTask>): void;
-  get(jobId: string, taskId: string, options?: Models.TaskGetOptionalParams | msRest.ServiceCallback<Models.CloudTask>, callback?: msRest.ServiceCallback<Models.CloudTask>): Promise<Models.TaskGetResponse> {
+  get(jobId: string, taskId: string, options: Models.TaskGetOptionalParams, callback: coreHttp.ServiceCallback<Models.CloudTask>): void;
+  get(jobId: string, taskId: string, options?: Models.TaskGetOptionalParams | coreHttp.ServiceCallback<Models.CloudTask>, callback?: coreHttp.ServiceCallback<Models.CloudTask>): Promise<Models.TaskGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -215,27 +215,27 @@ export class Task {
   }
 
   /**
-   * Updates the properties of the specified task.
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to update.
+   * Updates the properties of the specified Task.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to update.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskUpdateResponse>
    */
   update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams): Promise<Models.TaskUpdateResponse>;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to update.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to update.
    * @param callback The callback
    */
-  update(jobId: string, taskId: string, callback: msRest.ServiceCallback<void>): void;
+  update(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to update.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(jobId: string, taskId: string, options: Models.TaskUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
+  update(jobId: string, taskId: string, options: Models.TaskUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  update(jobId: string, taskId: string, options?: Models.TaskUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TaskUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -247,28 +247,28 @@ export class Task {
   }
 
   /**
-   * If the task is not a multi-instance task then this returns an empty collection.
-   * @summary Lists all of the subtasks that are associated with the specified multi-instance task.
-   * @param jobId The ID of the job.
-   * @param taskId The ID of the task.
+   * If the Task is not a multi-instance Task then this returns an empty collection.
+   * @summary Lists all of the subtasks that are associated with the specified multi-instance Task.
+   * @param jobId The ID of the Job.
+   * @param taskId The ID of the Task.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskListSubtasksResponse>
    */
   listSubtasks(jobId: string, taskId: string, options?: Models.TaskListSubtasksOptionalParams): Promise<Models.TaskListSubtasksResponse>;
   /**
-   * @param jobId The ID of the job.
-   * @param taskId The ID of the task.
+   * @param jobId The ID of the Job.
+   * @param taskId The ID of the Task.
    * @param callback The callback
    */
-  listSubtasks(jobId: string, taskId: string, callback: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): void;
+  listSubtasks(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<Models.CloudTaskListSubtasksResult>): void;
   /**
-   * @param jobId The ID of the job.
-   * @param taskId The ID of the task.
+   * @param jobId The ID of the Job.
+   * @param taskId The ID of the Task.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSubtasks(jobId: string, taskId: string, options: Models.TaskListSubtasksOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): void;
-  listSubtasks(jobId: string, taskId: string, options?: Models.TaskListSubtasksOptionalParams | msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListSubtasksResult>): Promise<Models.TaskListSubtasksResponse> {
+  listSubtasks(jobId: string, taskId: string, options: Models.TaskListSubtasksOptionalParams, callback: coreHttp.ServiceCallback<Models.CloudTaskListSubtasksResult>): void;
+  listSubtasks(jobId: string, taskId: string, options?: Models.TaskListSubtasksOptionalParams | coreHttp.ServiceCallback<Models.CloudTaskListSubtasksResult>, callback?: coreHttp.ServiceCallback<Models.CloudTaskListSubtasksResult>): Promise<Models.TaskListSubtasksResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -280,30 +280,30 @@ export class Task {
   }
 
   /**
-   * When the task has been terminated, it moves to the completed state. For multi-instance tasks,
-   * the terminate task operation applies synchronously to the primary task; subtasks are then
+   * When the Task has been terminated, it moves to the completed state. For multi-instance Tasks,
+   * the terminate Task operation applies synchronously to the primary task; subtasks are then
    * terminated asynchronously in the background.
-   * @summary Terminates the specified task.
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to terminate.
+   * @summary Terminates the specified Task.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to terminate.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskTerminateResponse>
    */
   terminate(jobId: string, taskId: string, options?: Models.TaskTerminateOptionalParams): Promise<Models.TaskTerminateResponse>;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to terminate.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to terminate.
    * @param callback The callback
    */
-  terminate(jobId: string, taskId: string, callback: msRest.ServiceCallback<void>): void;
+  terminate(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to terminate.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to terminate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  terminate(jobId: string, taskId: string, options: Models.TaskTerminateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  terminate(jobId: string, taskId: string, options?: Models.TaskTerminateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskTerminateResponse> {
+  terminate(jobId: string, taskId: string, options: Models.TaskTerminateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  terminate(jobId: string, taskId: string, options?: Models.TaskTerminateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TaskTerminateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -315,34 +315,34 @@ export class Task {
   }
 
   /**
-   * Reactivation makes a task eligible to be retried again up to its maximum retry count. The task's
-   * state is changed to active. As the task is no longer in the completed state, any previous exit
-   * code or failure information is no longer available after reactivation. Each time a task is
-   * reactivated, its retry count is reset to 0. Reactivation will fail for tasks that are not
+   * Reactivation makes a Task eligible to be retried again up to its maximum retry count. The Task's
+   * state is changed to active. As the Task is no longer in the completed state, any previous exit
+   * code or failure information is no longer available after reactivation. Each time a Task is
+   * reactivated, its retry count is reset to 0. Reactivation will fail for Tasks that are not
    * completed or that previously completed successfully (with an exit code of 0). Additionally, it
-   * will fail if the job has completed (or is terminating or deleting).
-   * @summary Reactivates a task, allowing it to run again even if its retry count has been
+   * will fail if the Job has completed (or is terminating or deleting).
+   * @summary Reactivates a Task, allowing it to run again even if its retry count has been
    * exhausted.
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to reactivate.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to reactivate.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskReactivateResponse>
    */
   reactivate(jobId: string, taskId: string, options?: Models.TaskReactivateOptionalParams): Promise<Models.TaskReactivateResponse>;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to reactivate.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to reactivate.
    * @param callback The callback
    */
-  reactivate(jobId: string, taskId: string, callback: msRest.ServiceCallback<void>): void;
+  reactivate(jobId: string, taskId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param jobId The ID of the job containing the task.
-   * @param taskId The ID of the task to reactivate.
+   * @param jobId The ID of the Job containing the Task.
+   * @param taskId The ID of the Task to reactivate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  reactivate(jobId: string, taskId: string, options: Models.TaskReactivateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reactivate(jobId: string, taskId: string, options?: Models.TaskReactivateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TaskReactivateResponse> {
+  reactivate(jobId: string, taskId: string, options: Models.TaskReactivateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  reactivate(jobId: string, taskId: string, options?: Models.TaskReactivateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TaskReactivateResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -354,9 +354,9 @@ export class Task {
   }
 
   /**
-   * For multi-instance tasks, information such as affinityId, executionInfo and nodeInfo refer to
-   * the primary task. Use the list subtasks API to retrieve information about subtasks.
-   * @summary Lists all of the tasks that are associated with the specified job.
+   * For multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to
+   * the primary Task. Use the list subtasks API to retrieve information about subtasks.
+   * @summary Lists all of the Tasks that are associated with the specified Job.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskListResponse>
@@ -366,14 +366,14 @@ export class Task {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.CloudTaskListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.TaskListNextOptionalParams, callback: msRest.ServiceCallback<Models.CloudTaskListResult>): void;
-  listNext(nextPageLink: string, options?: Models.TaskListNextOptionalParams | msRest.ServiceCallback<Models.CloudTaskListResult>, callback?: msRest.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
+  listNext(nextPageLink: string, options: Models.TaskListNextOptionalParams, callback: coreHttp.ServiceCallback<Models.CloudTaskListResult>): void;
+  listNext(nextPageLink: string, options?: Models.TaskListNextOptionalParams | coreHttp.ServiceCallback<Models.CloudTaskListResult>, callback?: coreHttp.ServiceCallback<Models.CloudTaskListResult>): Promise<Models.TaskListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -385,8 +385,8 @@ export class Task {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const addOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const addOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/tasks",
   urlParameters: [
@@ -422,7 +422,7 @@ const addOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks",
   urlParameters: [
@@ -455,7 +455,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const addCollectionOperationSpec: msRest.OperationSpec = {
+const addCollectionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/addtaskcollection",
   urlParameters: [
@@ -494,7 +494,7 @@ const addCollectionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "jobs/{jobId}/tasks/{taskId}",
   urlParameters: [
@@ -527,7 +527,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}",
   urlParameters: [
@@ -563,7 +563,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "jobs/{jobId}/tasks/{taskId}",
   urlParameters: [
@@ -609,7 +609,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listSubtasksOperationSpec: msRest.OperationSpec = {
+const listSubtasksOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}/subtasksinfo",
   urlParameters: [
@@ -640,7 +640,7 @@ const listSubtasksOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const terminateOperationSpec: msRest.OperationSpec = {
+const terminateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/tasks/{taskId}/terminate",
   urlParameters: [
@@ -673,7 +673,7 @@ const terminateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const reactivateOperationSpec: msRest.OperationSpec = {
+const reactivateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "jobs/{jobId}/tasks/{taskId}/reactivate",
   urlParameters: [
@@ -706,7 +706,7 @@ const reactivateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
