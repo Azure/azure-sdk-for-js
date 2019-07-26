@@ -11,7 +11,8 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError
+  MessagingError,
+  RetryPolicy
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -73,7 +74,9 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> &
+  private _retryOptions: Required<
+    Pick<RetryOptions, "maxRetries" | "retryInterval" | "retryPolicy">
+  > &
     RetryOptions;
 
   /**
@@ -442,7 +445,7 @@ export class EventHubConsumer {
 
   private _initRetryOptions(
     retryOptions: RetryOptions = {}
-  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> & RetryOptions {
+  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval" | "retryPolicy">> & RetryOptions {
     const maxRetries =
       typeof retryOptions.maxRetries === "number"
         ? retryOptions.maxRetries
@@ -451,9 +454,11 @@ export class EventHubConsumer {
       typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
         ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+    const retryPolicy = retryOptions.retryPolicy
+      ? retryOptions.retryPolicy
+      : RetryPolicy.LinearRetryPolicy;
 
     const timeoutInMs = retryOptions.timeoutInMs;
-    const retryPolicy = retryOptions.retryPolicy;
     const minExponentialRetryDelayInMs = retryOptions.minExponentialRetryDelayInMs;
     const maxExponentialRetryDelayInMs = retryOptions.maxExponentialRetryDelayInMs;
 
