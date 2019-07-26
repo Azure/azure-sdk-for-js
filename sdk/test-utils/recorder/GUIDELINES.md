@@ -233,32 +233,51 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 ### Karma.conf.js
 
-- Install and add - `plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor" ]`
-- Import recordings for playback mode - `files: ["recordings/browsers/**/*.json"]`
-- Preprocessor for converting JSON files into JS variables `preprocessors: {"recordings/browsers/**/*.json": ["json"]}`
-- Load `TEST_MODE` along with other variables `envPreprocessor: ["TEST_MODE"]`
-- jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs `reporters: [ "json-to-file"]`
+- Install and add the plugins `"karma-json-to-file-reporter", "karma-json-preprocessor"`
 
   ```javascript
+  plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor"],
+  ```
+
+- Import recordings for playback mode
+  ```javascript
+  files: ["recordings/browsers/**/*.json"],
+  ```
+- Preprocessor for converting JSON files into JS variables
+  ```javascript
+  preprocessors: {"recordings/browsers/**/*.json": ["json"]};
+  ```
+- Load `TEST_MODE` along with other variables
+  ```javascript
+  envPreprocessor: ["TEST_MODE"],
+  ```
+- jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs
+
+  ```javascript
+  reporters: ["json-to-file"],
 
   jsonToFileReporter: {
     filter: function(obj) {
-      if (obj.writeFile) {
-        const fs = require("fs-extra");
-        // Create the directories recursively incase they don't exist
-        try {
-          // Stripping away the filename from the file path and retaining the directory structure
-          fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-        } catch (err) {
-          if (err.code !== "EEXIST") throw err;
-        }
-        fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-          if (err) {
-            throw err;
+      if (process.env.TEST_MODE === "record") {
+        if (obj.writeFile) {
+          const fs = require("fs-extra");
+          // Create the directories recursively incase they don't exist
+          try {
+            // Stripping away the filename from the file path and retaining the directory structure
+            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+          } catch (err) {
+            if (err.code !== "EEXIST") throw err;
           }
-        });
+          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
+            if (err) {
+              throw err;
+            }
+          });
+        } else {
+          console.log(obj);
+        }
+        return false;
       }
-      return false;
     },
     outputPath: "."
   },
