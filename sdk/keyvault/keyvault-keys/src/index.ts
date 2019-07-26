@@ -503,7 +503,7 @@ export class KeysClient {
       "getKeyMethod",
       options
         ? options.requestOptions
-          ? options.requestOptions["spanOptions"]
+          ? options.requestOptions.spanOptions
           : undefined
         : undefined
     );
@@ -771,7 +771,7 @@ export class KeysClient {
       "listKeysMethod",
       options
         ? options.requestOptions
-          ? options.requestOptions["spanOptions"]
+          ? options.requestOptions.spanOptions
           : undefined
         : undefined
     );

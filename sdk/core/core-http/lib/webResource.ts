@@ -8,9 +8,23 @@ import { generateUuid } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
+import { SpanOptions } from "@azure/core-tracing";
 
-export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
-export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
+export type HttpMethods =
+  | "GET"
+  | "PUT"
+  | "POST"
+  | "DELETE"
+  | "PATCH"
+  | "HEAD"
+  | "OPTIONS"
+  | "TRACE";
+export type HttpRequestBody =
+  | Blob
+  | string
+  | ArrayBuffer
+  | ArrayBufferView
+  | (() => NodeJS.ReadableStream);
 
 /**
  * Fired in response to upload or download progress.
@@ -19,7 +33,7 @@ export type TransferProgressEvent = {
   /**
    * The number of bytes loaded so far.
    */
-  loadedBytes: number
+  loadedBytes: number;
 };
 
 /**
@@ -28,8 +42,16 @@ export type TransferProgressEvent = {
  */
 export interface AbortSignalLike {
   readonly aborted: boolean;
-  addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-  removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+  addEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
+  removeEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
 }
 
 /**
@@ -59,9 +81,12 @@ export class WebResource {
    * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
    * be used.
    */
-  operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse);
+  operationResponseGetter?: (
+    operationSpec: OperationSpec,
+    response: HttpOperationResponse
+  ) => undefined | OperationResponse;
   formData?: any;
-  query?: { [key: string]: any; };
+  query?: { [key: string]: any };
   operationSpec?: OperationSpec;
   withCredentials: boolean;
   timeout: number;
@@ -79,20 +104,20 @@ export class WebResource {
     url?: string,
     method?: HttpMethods,
     body?: any,
-    query?: { [key: string]: any; },
-    headers?: { [key: string]: any; } | HttpHeaders,
+    query?: { [key: string]: any },
+    headers?: { [key: string]: any } | HttpHeaders,
     streamResponseBody?: boolean,
     withCredentials?: boolean,
     abortSignal?: AbortSignalLike,
     timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
-    proxySettings?: ProxySettings) {
-
+    proxySettings?: ProxySettings
+  ) {
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
     this.method = method || "GET";
-    this.headers = (headers instanceof HttpHeaders ? headers : new HttpHeaders(headers));
+    this.headers = headers instanceof HttpHeaders ? headers : new HttpHeaders(headers);
     this.body = body;
     this.query = query;
     this.formData = undefined;
@@ -133,18 +158,22 @@ export class WebResource {
     }
 
     if (options.url && options.pathTemplate) {
-      throw new Error("options.url and options.pathTemplate are mutually exclusive. Please provide exactly one of them.");
+      throw new Error(
+        "options.url and options.pathTemplate are mutually exclusive. Please provide exactly one of them."
+      );
     }
 
-
-    if ((options.pathTemplate == undefined || typeof options.pathTemplate.valueOf() !== "string") && (options.url == undefined || typeof options.url.valueOf() !== "string")) {
+    if (
+      (options.pathTemplate == undefined || typeof options.pathTemplate.valueOf() !== "string") &&
+      (options.url == undefined || typeof options.url.valueOf() !== "string")
+    ) {
       throw new Error("Please provide exactly one of options.pathTemplate or options.url.");
     }
 
     // set the url if it is provided.
     if (options.url) {
       if (typeof options.url !== "string") {
-        throw new Error("options.url must be of type \"string\".");
+        throw new Error('options.url must be of type "string".');
       }
       this.url = options.url;
     }
@@ -153,35 +182,55 @@ export class WebResource {
     if (options.method) {
       const validMethods = ["GET", "PUT", "HEAD", "DELETE", "OPTIONS", "POST", "PATCH", "TRACE"];
       if (validMethods.indexOf(options.method.toUpperCase()) === -1) {
-        throw new Error("The provided method \"" + options.method + "\" is invalid. Supported HTTP methods are: " + JSON.stringify(validMethods));
+        throw new Error(
+          'The provided method "' +
+            options.method +
+            '" is invalid. Supported HTTP methods are: ' +
+            JSON.stringify(validMethods)
+        );
       }
     }
-    this.method = (options.method.toUpperCase() as HttpMethods);
+    this.method = options.method.toUpperCase() as HttpMethods;
 
     // construct the url if path template is provided
     if (options.pathTemplate) {
       const { pathTemplate, pathParameters } = options;
       if (typeof pathTemplate !== "string") {
-        throw new Error("options.pathTemplate must be of type \"string\".");
+        throw new Error('options.pathTemplate must be of type "string".');
       }
       if (!options.baseUrl) {
         options.baseUrl = "https://management.azure.com";
       }
       const baseUrl = options.baseUrl;
-      let url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
-      const segments = url.match(/({\w*\s*\w*})/ig);
+      let url =
+        baseUrl +
+        (baseUrl.endsWith("/") ? "" : "/") +
+        (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
+      const segments = url.match(/({\w*\s*\w*})/gi);
       if (segments && segments.length) {
         if (!pathParameters) {
-          throw new Error(`pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`);
+          throw new Error(
+            `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`
+          );
         }
-        segments.forEach(function (item) {
+        segments.forEach(function(item) {
           const pathParamName = item.slice(1, -1);
           const pathParam = (pathParameters as { [key: string]: any })[pathParamName];
-          if (pathParam === null || pathParam === undefined || !(typeof pathParam === "string" || typeof pathParam === "object")) {
-            throw new Error(`pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
-              ` however, it is not present in ${pathParameters} - ${JSON.stringify(pathParameters, undefined, 2)}.` +
-              `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
-              `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`);
+          if (
+            pathParam === null ||
+            pathParam === undefined ||
+            !(typeof pathParam === "string" || typeof pathParam === "object")
+          ) {
+            throw new Error(
+              `pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
+                ` however, it is not present in ${pathParameters} - ${JSON.stringify(
+                  pathParameters,
+                  undefined,
+                  2
+                )}.` +
+                `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
+                `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
+            );
           }
 
           if (typeof pathParam.valueOf() === "string") {
@@ -190,7 +239,9 @@ export class WebResource {
 
           if (typeof pathParam.valueOf() === "object") {
             if (!pathParam.value) {
-              throw new Error(`options.pathParameters[${pathParamName}] is of type "object" but it does not contain a "value" property.`);
+              throw new Error(
+                `options.pathParameters[${pathParamName}] is of type "object" but it does not contain a "value" property.`
+              );
             }
             if (pathParam.skipUrlEncoding) {
               url = url.replace(item, pathParam.value);
@@ -207,9 +258,11 @@ export class WebResource {
     if (options.queryParameters) {
       const queryParameters = options.queryParameters;
       if (typeof queryParameters !== "object") {
-        throw new Error(`options.queryParameters must be of type object. It should be a JSON object ` +
-          `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
-          `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`);
+        throw new Error(
+          `options.queryParameters must be of type object. It should be a JSON object ` +
+            `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
+            `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
+        );
       }
       // append question mark if it is not present in the url
       if (this.url && this.url.indexOf("?") === -1) {
@@ -225,10 +278,11 @@ export class WebResource {
           if (typeof queryParam === "string") {
             queryParams.push(queryParamName + "=" + encodeURIComponent(queryParam));
             this.query[queryParamName] = encodeURIComponent(queryParam);
-          }
-          else if (typeof queryParam === "object") {
+          } else if (typeof queryParam === "object") {
             if (!queryParam.value) {
-              throw new Error(`options.queryParameters[${queryParamName}] is of type "object" but it does not contain a "value" property.`);
+              throw new Error(
+                `options.queryParameters[${queryParamName}] is of type "object" but it does not contain a "value" property.`
+              );
             }
             if (queryParam.skipUrlEncoding) {
               queryParams.push(queryParamName + "=" + queryParam.value);
@@ -239,7 +293,7 @@ export class WebResource {
             }
           }
         }
-      }// end-of-for
+      } // end-of-for
       // append the queryString
       this.url += queryParams.join("&");
     }
@@ -278,7 +332,11 @@ export class WebResource {
         }
       } else {
         if (options.serializationMapper) {
-          this.body = new Serializer(options.mappers).serialize(options.serializationMapper, options.body, "requestBody");
+          this.body = new Serializer(options.mappers).serialize(
+            options.serializationMapper,
+            options.body,
+            "requestBody"
+          );
         }
         if (!options.disableJsonStringifyOnBody) {
           this.body = JSON.stringify(options.body);
@@ -309,7 +367,8 @@ export class WebResource {
       this.abortSignal,
       this.timeout,
       this.onUploadProgress,
-      this.onDownloadProgress);
+      this.onDownloadProgress
+    );
 
     if (this.formData) {
       result.formData = this.formData;
@@ -459,6 +518,8 @@ export interface RequestOptionsBase {
    * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  spanOptions?: SpanOptions | undefined;
 
   [key: string]: any;
 }
