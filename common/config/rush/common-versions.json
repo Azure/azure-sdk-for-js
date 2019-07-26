@@ -16,6 +16,9 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    // This is required to allow for backward compatibility with Service Bus Track 1
+    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
+    "rhea-promise": "^0.1.15"
   },
   /**
    * The "rush check" command can be used to enforce that every project in the repo must specify
@@ -28,9 +31,6 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    "@azure/ms-rest-js": [
-      "^2.0.0"
-    ]
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
@@ -38,5 +38,9 @@
     // "typescript": [
     //   "~2.4.0"
     // ]
+    "@azure/ms-rest-js": ["^2.0.0"],
+    // Following is required to allow for backward compatibility with Service Bus Track 1
+    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
+    "rhea-promise": ["^0.1.15"]
   }
 }
