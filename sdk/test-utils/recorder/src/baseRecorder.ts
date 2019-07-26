@@ -14,8 +14,8 @@ import {
   isRecording
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
-import nock from "nock";
-import path from "path";
+
+let nock: any;
 
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
@@ -34,6 +34,10 @@ export function setReplacements(maps: any): void {
 }
 
 export function setEnviromentOnLoad() {
+  if (!isBrowser() && (isRecording || isPlayingBack)) {
+    nock = require("nock");
+  }
+
   if (isBrowser() && isRecording()) {
     customConsoleLog();
   }
@@ -132,6 +136,7 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public playback(filePath: string): void {
+    let path = require("path");
     this.uniqueTestInfo = require(path.resolve(
       filePath,
       "../../recordings/" + this.filepath
