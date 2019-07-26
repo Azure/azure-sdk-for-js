@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/batchAccountOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -40,7 +40,7 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountCreateResponse> {
+  create(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountCreateParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountCreateResponse> {
     return this.beginCreate(resourceGroupName,accountName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BatchAccountCreateResponse>;
   }
@@ -53,14 +53,14 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param parameters Additional parameters for account update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
+  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, callback: coreHttp.ServiceCallback<Models.BatchAccount>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -68,8 +68,8 @@ export class BatchAccountOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccount>, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccount>): void;
+  update(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountUpdateParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccount>, callback?: coreHttp.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +88,7 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountDeleteResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountDeleteResponse> {
     return this.beginDeleteMethod(resourceGroupName,accountName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BatchAccountDeleteResponse>;
   }
@@ -100,21 +100,21 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
+  get(resourceGroupName: string, accountName: string, callback: coreHttp.ServiceCallback<Models.BatchAccount>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccount>, callback?: msRest.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccount>): void;
+  get(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccount>, callback?: coreHttp.ServiceCallback<Models.BatchAccount>): Promise<Models.BatchAccountGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,17 +130,17 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountListResult>, callback?: coreHttp.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -155,19 +155,19 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountListResult>, callback?: coreHttp.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,23 +183,23 @@ export class BatchAccountOperations {
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -219,7 +219,7 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountRegenerateKeyResponse>;
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -227,7 +227,7 @@ export class BatchAccountOperations {
    * 'Secondary'
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, callback: coreHttp.ServiceCallback<Models.BatchAccountKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -236,8 +236,8 @@ export class BatchAccountOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountKeys>, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountKeys>): void;
+  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.AccountKeyType, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountKeys>, callback?: coreHttp.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,21 +260,21 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountGetKeysResponse>
    */
-  getKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountGetKeysResponse>;
+  getKeys(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountGetKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  getKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
+  getKeys(resourceGroupName: string, accountName: string, callback: coreHttp.ServiceCallback<Models.BatchAccountKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountKeys>): void;
-  getKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountKeys>, callback?: msRest.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountGetKeysResponse> {
+  getKeys(resourceGroupName: string, accountName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountKeys>): void;
+  getKeys(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountKeys>, callback?: coreHttp.ServiceCallback<Models.BatchAccountKeys>): Promise<Models.BatchAccountGetKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -296,9 +296,9 @@ export class BatchAccountOperations {
    * http://accountname.region.batch.azure.com/.
    * @param parameters Additional parameters for account creation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, parameters: Models.BatchAccountCreateParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -315,9 +315,9 @@ export class BatchAccountOperations {
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -334,19 +334,19 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountListResult>, callback?: coreHttp.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -362,19 +362,19 @@ export class BatchAccountOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchAccountListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchAccountListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BatchAccountListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchAccountListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchAccountListResult>, callback?: msRest.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchAccountListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchAccountListResult>, callback?: coreHttp.ServiceCallback<Models.BatchAccountListResult>): Promise<Models.BatchAccountListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -386,8 +386,8 @@ export class BatchAccountOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const updateOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
@@ -419,7 +419,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
@@ -444,7 +444,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Batch/batchAccounts",
   urlParameters: [
@@ -467,7 +467,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts",
   urlParameters: [
@@ -491,7 +491,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const synchronizeAutoStorageKeysOperationSpec: msRest.OperationSpec = {
+const synchronizeAutoStorageKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/syncAutoStorageKeys",
   urlParameters: [
@@ -514,7 +514,7 @@ const synchronizeAutoStorageKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const regenerateKeyOperationSpec: msRest.OperationSpec = {
+const regenerateKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys",
   urlParameters: [
@@ -548,7 +548,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getKeysOperationSpec: msRest.OperationSpec = {
+const getKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys",
   urlParameters: [
@@ -573,7 +573,7 @@ const getKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOperationSpec: msRest.OperationSpec = {
+const beginCreateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
@@ -609,7 +609,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
@@ -640,7 +640,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -661,7 +661,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

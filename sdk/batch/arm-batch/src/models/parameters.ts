@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const accountName: msRest.OperationURLParameter = {
+export const accountName: coreHttp.OperationURLParameter = {
   parameterPath: "accountName",
   mapper: {
     required: true,
@@ -35,7 +35,7 @@ export const accountName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -45,17 +45,22 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applicationId: msRest.OperationURLParameter = {
-  parameterPath: "applicationId",
+export const applicationName: coreHttp.OperationURLParameter = {
+  parameterPath: "applicationName",
   mapper: {
     required: true,
-    serializedName: "applicationId",
+    serializedName: "applicationName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-]+$/
+    },
     type: {
       name: "String"
     }
   }
 };
-export const certificateName: msRest.OperationURLParameter = {
+export const certificateName: coreHttp.OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
     required: true,
@@ -70,7 +75,7 @@ export const certificateName: msRest.OperationURLParameter = {
     }
   }
 };
-export const filter: msRest.OperationQueryParameter = {
+export const filter: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -82,7 +87,7 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const ifMatch: msRest.OperationParameter = {
+export const ifMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "ifMatch"
@@ -94,7 +99,7 @@ export const ifMatch: msRest.OperationParameter = {
     }
   }
 };
-export const ifNoneMatch: msRest.OperationParameter = {
+export const ifNoneMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "ifNoneMatch"
@@ -106,7 +111,7 @@ export const ifNoneMatch: msRest.OperationParameter = {
     }
   }
 };
-export const locationName: msRest.OperationURLParameter = {
+export const locationName: coreHttp.OperationURLParameter = {
   parameterPath: "locationName",
   mapper: {
     required: true,
@@ -116,7 +121,7 @@ export const locationName: msRest.OperationURLParameter = {
     }
   }
 };
-export const maxresults: msRest.OperationQueryParameter = {
+export const maxresults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "maxresults"
@@ -128,7 +133,7 @@ export const maxresults: msRest.OperationQueryParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -139,7 +144,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const poolName: msRest.OperationURLParameter = {
+export const poolName: coreHttp.OperationURLParameter = {
   parameterPath: "poolName",
   mapper: {
     required: true,
@@ -154,7 +159,7 @@ export const poolName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName: coreHttp.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -164,7 +169,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const select: msRest.OperationQueryParameter = {
+export const select: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "select"
@@ -176,7 +181,7 @@ export const select: msRest.OperationQueryParameter = {
     }
   }
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
@@ -186,11 +191,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const version: msRest.OperationURLParameter = {
-  parameterPath: "version",
+export const versionName: coreHttp.OperationURLParameter = {
+  parameterPath: "versionName",
   mapper: {
     required: true,
-    serializedName: "version",
+    serializedName: "versionName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_-][a-zA-Z0-9_.-]*$/
+    },
     type: {
       name: "String"
     }

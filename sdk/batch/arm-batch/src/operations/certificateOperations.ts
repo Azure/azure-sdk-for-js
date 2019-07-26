@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/certificateOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -40,15 +40,15 @@ export class CertificateOperations {
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccount(resourceGroupName: string, accountName: string, callback: coreHttp.ServiceCallback<Models.ListCertificatesResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.CertificateListByBatchAccountOptionalParams, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.CertificateListByBatchAccountOptionalParams | msRest.ServiceCallback<Models.ListCertificatesResult>, callback?: msRest.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountResponse> {
+  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.CertificateListByBatchAccountOptionalParams, callback: coreHttp.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.CertificateListByBatchAccountOptionalParams | coreHttp.ServiceCallback<Models.ListCertificatesResult>, callback?: coreHttp.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class CertificateOperations {
    * @param parameters Certificate entity to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -107,8 +107,8 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateUpdateOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
+  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateUpdateOptionalParams | coreHttp.ServiceCallback<Models.Certificate>, callback?: coreHttp.ServiceCallback<Models.Certificate>): Promise<Models.CertificateUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateDeleteResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateDeleteResponse> {
     return this.beginDeleteMethod(resourceGroupName,accountName,certificateName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CertificateDeleteResponse>;
   }
@@ -146,7 +146,7 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
+  get(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -155,7 +155,7 @@ export class CertificateOperations {
    * SHA1-a3d1c5.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  get(resourceGroupName: string, accountName: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -165,8 +165,8 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  get(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
+  get(resourceGroupName: string, accountName: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
+  get(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Certificate>, callback?: coreHttp.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCancelDeletionResponse>
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateCancelDeletionResponse>;
+  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateCancelDeletionResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -203,7 +203,7 @@ export class CertificateOperations {
    * SHA1-a3d1c5.
    * @param callback The callback
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -213,8 +213,8 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateCancelDeletionResponse> {
+  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
+  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Certificate>, callback?: coreHttp.ServiceCallback<Models.Certificate>): Promise<Models.CertificateCancelDeletionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -235,9 +235,9 @@ export class CertificateOperations {
    * SHA1-a3d1c5.
    * @param parameters Additional parameters for certificate creation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateBeginCreateOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -258,9 +258,9 @@ export class CertificateOperations {
    * thumbprint separated by a dash, and must match the certificate data in the request. For example
    * SHA1-a3d1c5.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -278,19 +278,19 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByBatchAccountNextResponse>
    */
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateListByBatchAccountNextResponse>;
+  listByBatchAccountNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateListByBatchAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccountNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListCertificatesResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListCertificatesResult>, callback?: msRest.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountNextResponse> {
+  listByBatchAccountNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccountNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListCertificatesResult>, callback?: coreHttp.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -302,8 +302,8 @@ export class CertificateOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByBatchAccountOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByBatchAccountOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
   urlParameters: [
@@ -331,7 +331,7 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
@@ -366,7 +366,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
@@ -393,7 +393,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const cancelDeletionOperationSpec: msRest.OperationSpec = {
+const cancelDeletionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
   urlParameters: [
@@ -420,7 +420,7 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOperationSpec: msRest.OperationSpec = {
+const beginCreateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
@@ -456,7 +456,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
@@ -488,7 +488,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByBatchAccountNextOperationSpec: msRest.OperationSpec = {
+const listByBatchAccountNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

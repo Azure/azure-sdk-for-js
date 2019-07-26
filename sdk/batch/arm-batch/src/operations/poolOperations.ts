@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/poolOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -40,15 +40,15 @@ export class PoolOperations {
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
+  listByBatchAccount(resourceGroupName: string, accountName: string, callback: coreHttp.ServiceCallback<Models.ListPoolsResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.PoolListByBatchAccountOptionalParams, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PoolListByBatchAccountOptionalParams | msRest.ServiceCallback<Models.ListPoolsResult>, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountResponse> {
+  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.PoolListByBatchAccountOptionalParams, callback: coreHttp.ServiceCallback<Models.ListPoolsResult>): void;
+  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PoolListByBatchAccountOptionalParams | coreHttp.ServiceCallback<Models.ListPoolsResult>, callback?: coreHttp.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +92,7 @@ export class PoolOperations {
    * updated, any property not supplied will be unchanged.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, callback: msRest.ServiceCallback<Models.Pool>): void;
+  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, callback: coreHttp.ServiceCallback<Models.Pool>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -102,8 +102,8 @@ export class PoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options: Models.PoolUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Pool>): void;
-  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolUpdateOptionalParams | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options: Models.PoolUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Pool>): void;
+  update(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolUpdateOptionalParams | coreHttp.ServiceCallback<Models.Pool>, callback?: coreHttp.ServiceCallback<Models.Pool>): Promise<Models.PoolUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolDeleteResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PoolDeleteResponse> {
     return this.beginDeleteMethod(resourceGroupName,accountName,poolName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolDeleteResponse>;
   }
@@ -137,14 +137,14 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolGetResponse>;
+  get(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PoolGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param poolName The pool name. This must be unique within the account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.Pool>): void;
+  get(resourceGroupName: string, accountName: string, poolName: string, callback: coreHttp.ServiceCallback<Models.Pool>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -152,8 +152,8 @@ export class PoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolGetResponse> {
+  get(resourceGroupName: string, accountName: string, poolName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Pool>): void;
+  get(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Pool>, callback?: coreHttp.ServiceCallback<Models.Pool>): Promise<Models.PoolGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,14 +173,14 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolDisableAutoScaleResponse>
    */
-  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolDisableAutoScaleResponse>;
+  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PoolDisableAutoScaleResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param poolName The pool name. This must be unique within the account.
    * @param callback The callback
    */
-  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.Pool>): void;
+  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, callback: coreHttp.ServiceCallback<Models.Pool>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -188,8 +188,8 @@ export class PoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolDisableAutoScaleResponse> {
+  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Pool>): void;
+  disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Pool>, callback?: coreHttp.ServiceCallback<Models.Pool>): Promise<Models.PoolDisableAutoScaleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,14 +215,14 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolStopResizeResponse>
    */
-  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolStopResizeResponse>;
+  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PoolStopResizeResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param poolName The pool name. This must be unique within the account.
    * @param callback The callback
    */
-  stopResize(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.Pool>): void;
+  stopResize(resourceGroupName: string, accountName: string, poolName: string, callback: coreHttp.ServiceCallback<Models.Pool>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -230,8 +230,8 @@ export class PoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  stopResize(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pool>): void;
-  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolStopResizeResponse> {
+  stopResize(resourceGroupName: string, accountName: string, poolName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Pool>): void;
+  stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Pool>, callback?: coreHttp.ServiceCallback<Models.Pool>): Promise<Models.PoolStopResizeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -250,9 +250,9 @@ export class PoolOperations {
    * @param poolName The pool name. This must be unique within the account.
    * @param parameters Additional parameters for pool creation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolBeginCreateOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -271,9 +271,9 @@ export class PoolOperations {
    * @param accountName The name of the Batch account.
    * @param poolName The pool name. This must be unique within the account.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -291,19 +291,19 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListByBatchAccountNextResponse>
    */
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolListByBatchAccountNextResponse>;
+  listByBatchAccountNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PoolListByBatchAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
+  listByBatchAccountNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListPoolsResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListPoolsResult>): void;
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPoolsResult>, callback?: msRest.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountNextResponse> {
+  listByBatchAccountNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListPoolsResult>): void;
+  listByBatchAccountNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListPoolsResult>, callback?: coreHttp.ServiceCallback<Models.ListPoolsResult>): Promise<Models.PoolListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -315,8 +315,8 @@ export class PoolOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByBatchAccountOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByBatchAccountOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools",
   urlParameters: [
@@ -344,7 +344,7 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
@@ -379,7 +379,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
@@ -406,7 +406,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const disableAutoScaleOperationSpec: msRest.OperationSpec = {
+const disableAutoScaleOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale",
   urlParameters: [
@@ -433,7 +433,7 @@ const disableAutoScaleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const stopResizeOperationSpec: msRest.OperationSpec = {
+const stopResizeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize",
   urlParameters: [
@@ -460,7 +460,7 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOperationSpec: msRest.OperationSpec = {
+const beginCreateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
@@ -496,7 +496,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
@@ -528,7 +528,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByBatchAccountNextOperationSpec: msRest.OperationSpec = {
+const listByBatchAccountNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

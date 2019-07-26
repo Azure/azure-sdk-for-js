@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -32,7 +32,7 @@ class BatchManagementClient extends BatchManagementClientContext {
    * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BatchManagementClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.BatchManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.batchAccount = new operations.BatchAccountOperations(this);
     this.applicationPackage = new operations.ApplicationPackageOperations(this);

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/locationMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationGetQuotasResponse>
    */
-  getQuotas(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationGetQuotasResponse>;
+  getQuotas(locationName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LocationGetQuotasResponse>;
   /**
    * @param locationName The region for which to retrieve Batch service quotas.
    * @param callback The callback
    */
-  getQuotas(locationName: string, callback: msRest.ServiceCallback<Models.BatchLocationQuota>): void;
+  getQuotas(locationName: string, callback: coreHttp.ServiceCallback<Models.BatchLocationQuota>): void;
   /**
    * @param locationName The region for which to retrieve Batch service quotas.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getQuotas(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchLocationQuota>): void;
-  getQuotas(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchLocationQuota>, callback?: msRest.ServiceCallback<Models.BatchLocationQuota>): Promise<Models.LocationGetQuotasResponse> {
+  getQuotas(locationName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BatchLocationQuota>): void;
+  getQuotas(locationName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BatchLocationQuota>, callback?: coreHttp.ServiceCallback<Models.BatchLocationQuota>): Promise<Models.LocationGetQuotasResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -61,21 +61,21 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(locationName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationCheckNameAvailabilityResponse>;
+  checkNameAvailability(locationName: string, name: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LocationCheckNameAvailabilityResponse>;
   /**
    * @param locationName The desired region for the name check.
    * @param name The name to check for availability
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, name: string, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(locationName: string, name: string, callback: coreHttp.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
   /**
    * @param locationName The desired region for the name check.
    * @param name The name to check for availability
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(locationName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
+  checkNameAvailability(locationName: string, name: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(locationName: string, name: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: coreHttp.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -88,8 +88,8 @@ export class Location {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getQuotasOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getQuotasOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas",
   urlParameters: [
@@ -113,7 +113,7 @@ const getQuotasOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+const checkNameAvailabilityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability",
   urlParameters: [
