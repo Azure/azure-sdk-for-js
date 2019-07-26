@@ -58,7 +58,6 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/core-http"],
     output: {
       file: "browser/azure-template.js",
       format: "umd",
