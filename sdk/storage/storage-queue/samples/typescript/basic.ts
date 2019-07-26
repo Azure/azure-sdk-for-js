@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -37,23 +37,11 @@ async function main() {
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: {
-      maxTries: 4
-    }, // Retry options
-    telemetry: {
-      value: "BasicSample/V11.0.0"
-    } // Customized telemetry string
-  });
-
   // List queues
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   console.log(`List queues`);

@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";

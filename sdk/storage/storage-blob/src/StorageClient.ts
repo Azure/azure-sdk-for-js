@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { StorageClientContext } from "./generated/lib/storageClientContext";
+import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { escapeURLPath } from "./utils/utils.common";
 

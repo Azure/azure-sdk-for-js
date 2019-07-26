@@ -13,11 +13,11 @@ import {
   isNode
 } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
-import { BlockBlob } from "./generated/lib/operations";
-import { BlobHTTPHeaders } from "./generated/lib/models";
+import { BlockBlob } from "./generated/src/operations";
+import { BlobHTTPHeaders } from "./generated/src/models";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";

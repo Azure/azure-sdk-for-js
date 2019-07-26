@@ -1,7 +1,8 @@
 import * as assert from "assert";
-
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+
+import { AbortSignal } from "@azure/abort-controller";
+import { isNode } from "@azure/core-http";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
@@ -37,6 +38,13 @@ describe("BlobClient", () => {
   it("download with with default parameters", async () => {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    const aborter = new AbortController();
+    const result = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
   });
 
   it("download all parameters set", async () => {

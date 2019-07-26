@@ -4,7 +4,7 @@
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { ListQueuesIncludeType } from "./generated/lib/models/index";
+import { ListQueuesIncludeType } from "./generated/lib/models";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import * as Models from "./generated/lib/models";
-import { Directory } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { Directory } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -144,6 +144,81 @@ export interface DirectorySetMetadataOptions {
    *
    * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure Directory - List Handles Segment.
+ *
+ * @export
+ * @interface DirectoryListHandlesSegmentOptions
+ */
+export interface DirectoryListHandlesSegmentOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryListHandlesSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   *
+   * @type {number}
+   * @memberof DirectoryListHandlesSegmentOptions
+   */
+  maxresults?: number;
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   *
+   * @type {boolean}
+   * @memberof DirectoryListHandlesSegmentOptions
+   */
+  recursive?: boolean;
+}
+
+/**
+ * Options to configure Directory - Force Close Handles Segment.
+ *
+ * @export
+ * @interface DirectoryForceCloseHandlesSegmentOptions
+ */
+export interface DirectoryForceCloseHandlesSegmentOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryForceCloseHandlesSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   *
+   * @type {boolean}
+   * @memberof DirectoryForceCloseHandlesSegmentOptions
+   */
+  recursive?: boolean;
+}
+
+/**
+ * Options to configure Directory - Force Close Handles.
+ *
+ * @export
+ * @interface DirectoryForceCloseHandlesOptions
+ */
+export interface DirectoryForceCloseHandlesOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryForceCloseHandlesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -588,6 +663,96 @@ export class DirectoryClient extends StorageClient {
       abortSignal: aborter,
       marker,
       ...options
+    });
+  }
+
+  /**
+   * Lists handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {DirectoryListHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.DirectoryListHandlesResponse>}
+   * @memberof DirectoryClient
+   */
+  public async listHandlesSegment(
+    marker?: string,
+    options: DirectoryListHandlesSegmentOptions = {}
+  ): Promise<Models.DirectoryListHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    marker = marker === "" ? undefined : marker;
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if ((response.handleList as any) === "") {
+      response.handleList = undefined;
+    }
+    return response;
+  }
+  /**
+   * Force close all handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will
+   *                          be closed with the next force close handles operation.
+   *                          The operation returns a marker value within the response
+   *                          body if there are more handles to close. The marker value
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryClient
+   */
+  public async forceCloseHandlesSegment(
+    marker?: string,
+    options: DirectoryForceCloseHandlesSegmentOptions = {}
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+  }
+
+  /**
+   * Force close a specific handle for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @param {DirectoryForceCloseHandlesOptions} [options={}]
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryClient
+   */
+  public async forceCloseHandle(
+    handleId: string,
+    options: DirectoryForceCloseHandlesOptions = {}
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    if (handleId === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleId, {
+      abortSignal: aborter
     });
   }
 }

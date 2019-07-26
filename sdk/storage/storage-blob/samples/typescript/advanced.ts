@@ -46,7 +46,11 @@ async function main() {
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "AdvancedSample V1.0.0" } // Customized telemetry string
+    telemetry: { value: "AdvancedSample V1.0.0" }, // Customized telemetry string
+    keepAliveOptions: {
+      // Keep alive is enabled by default, disable keep alive by setting false
+      enable: false
+    }
   });
 
   const blobServiceClient = new BlobServiceClient(

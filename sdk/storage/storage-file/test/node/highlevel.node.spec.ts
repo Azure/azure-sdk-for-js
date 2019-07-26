@@ -1,4 +1,5 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
@@ -7,7 +8,6 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { ShareClient, DirectoryClient, FileClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.common";
 import { record } from "../utils/recorder";
-import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
@@ -216,6 +216,47 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
+  });
+
+  it("fileClient.downloadToBuffer should success when downloading a range inside file", async () => {
+    await fileClient.create(8);
+    await fileClient.uploadRange("aaaabbbb", 0, 8);
+
+    const buf = Buffer.alloc(4);
+    await fileClient.downloadToBuffer(buf, 4, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await fileClient.downloadToBuffer(buf, 3, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await fileClient.downloadToBuffer(buf, 2, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await fileClient.downloadToBuffer(buf, 1, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
+
+    await fileClient.downloadToBuffer(buf, 0, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
   it("downloadToBuffer should abort", async () => {

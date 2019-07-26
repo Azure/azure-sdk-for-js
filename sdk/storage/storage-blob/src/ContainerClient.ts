@@ -8,9 +8,9 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
-import { Container } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { Container } from "./generated/src/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";

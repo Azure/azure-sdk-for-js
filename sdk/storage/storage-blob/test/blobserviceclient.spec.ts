@@ -2,7 +2,12 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  getAlternateBSU,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  getTokenBSU
+} from "./utils";
 import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -402,5 +407,33 @@ describe("BlobServiceClient", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+  });
+
+  it("getUserDelegationKey should work", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    const response = await serviceURLWithToken.getUserDelegationKey(now, tmr);
+    assert.notDeepStrictEqual(response.value, undefined);
+    assert.notDeepStrictEqual(response.signedVersion, undefined);
+    assert.notDeepStrictEqual(response.signedTid, undefined);
+    assert.notDeepStrictEqual(response.signedStart, undefined);
+    assert.notDeepStrictEqual(response.signedService, undefined);
+    assert.notDeepStrictEqual(response.signedOid, undefined);
+    assert.notDeepStrictEqual(response.signedExpiry, undefined);
   });
 });

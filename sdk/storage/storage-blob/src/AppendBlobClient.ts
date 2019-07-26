@@ -9,10 +9,10 @@ import {
   isNode
 } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
-import { AppendBlob } from "./generated/lib/operations";
+import { AppendBlob } from "./generated/src/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
@@ -96,6 +96,40 @@ export interface AppendBlobAppendBlockOptions {
    * @memberof AppendBlobAppendBlockOptions
    */
   transactionalContentMD5?: Uint8Array;
+}
+
+export interface AppendBlobAppendBlockFromURLOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when appending append blob blocks.
+   *
+   * @type {AppendBlobAccessConditions}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  accessConditions?: AppendBlobAccessConditions;
+  /**
+   * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  /**
+   * A Uint8Array holding the MD5 hash of the source block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
 }
 
 /**
@@ -299,7 +333,7 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
    * @param {HttpRequestBody} body Data to be appended.
-   * @param {number} contentLength Number of bytes to be appended.
+   * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
@@ -318,6 +352,49 @@ export class AppendBlobClient extends BlobClient {
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5
+    });
+  }
+
+  /**
+   * The Append Block operation commits a new block of data to the end of an existing append blob
+   * where the contents are read from a source url.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} sourceURL
+   *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
+   *                 be authenticated via Shared Key. However, if the source is a blob in another account, the source blob
+   *                 must either be public or must be authenticated via a shared access signature. If the source blob is
+   *                 public, no authentication is required to perform the operation.
+   * @param {number} sourceOffset Offset in source to be appended
+   * @param {number} count Number of bytes to be appended as a block
+   * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
+   * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
+   * @memberof AppendBlobURL
+   */
+  public async appendBlockFromURL(
+    sourceURL: string,
+    sourceOffset: number,
+    count: number,
+    options: AppendBlobAppendBlockFromURLOptions = {}
+  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+    options.accessConditions = options.accessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+
+    return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+      abortSignal: aborter,
+      sourceRange: rangeToString({ offset: sourceOffset, count }),
+      sourceContentMD5: options.sourceContentMD5,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      sourceModifiedAccessConditions: {
+        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+      }
     });
   }
 }

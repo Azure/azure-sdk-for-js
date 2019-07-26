@@ -1,10 +1,12 @@
+import * as dotenv from "dotenv";
 import * as assert from "assert";
+import { AbortController } from "@azure/abort-controller";
 import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
@@ -48,6 +50,39 @@ describe("RetryPolicy", () => {
 
     const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter < 2) {
+        injectCounter++;
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
+      }
+    });
+
+    const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectShareClient = new ShareClient(shareClient.url, pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+
+    let hasError = false;
+    try {
+      // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
+      // happens between 2 requests
+      await injectShareClient.setMetadata(metadata, {
+        abortSignal: AbortController.timeout(2 * 1000)
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    assert.ok(hasError);
   });
 
   it("Retry Policy should fail when requests always fail with 500", async () => {

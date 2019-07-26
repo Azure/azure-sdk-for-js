@@ -254,7 +254,40 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(buf));
   });
 
-  it("downloadToBuffer should abort", async () => {
+  it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
+    await blockBlobClient.upload("aaaabbbb", 8);
+
+    const buf = Buffer.alloc(4);
+    await blockBlobClient.downloadToBuffer(buf, 4, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await blockBlobClient.downloadToBuffer(buf, 3, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await blockBlobClient.downloadToBuffer(buf, 2, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await blockBlobClient.downloadToBuffer(buf, 1, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
+  });
+
+  it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 

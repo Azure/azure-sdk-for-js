@@ -1,11 +1,12 @@
 import * as crypto from "crypto";
+import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
+import { SimpleTokenCredential } from "@azure/core-http";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { getUniqueName } from "./testutils.common";
-import * as dotenv from "dotenv";
 import { newPipeline } from "../../src/Pipeline";
 import {
   generateAccountSASQueryParameters,
@@ -15,6 +16,7 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
+
 dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
@@ -44,6 +46,31 @@ export function getGenericBSU(
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export function getTokenBSU(): BlobServiceClient {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+
+  let accountName: string | undefined;
+  let accountToken: string | undefined;
+
+  accountName = process.env[accountNameEnvVar];
+  accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountName || !accountToken || accountName === "" || accountToken === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountTokenEnvVar} environment variables not specified.`
+    );
+  }
+
+  const credentials = new SimpleTokenCredential(accountToken);
+  const pipeline = newPipeline(credentials, {
+    // Enable logger when debugging
+    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  });
+  const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 

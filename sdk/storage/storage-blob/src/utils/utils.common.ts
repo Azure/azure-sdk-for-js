@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
@@ -336,6 +337,39 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
     blockIDPrefix +
     padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @export
+ * @param {number} timeInMs
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
+ */
+export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+  return new Promise((resolve, reject) => {
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 /**

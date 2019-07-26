@@ -12,10 +12,15 @@
 # /sdk/core/
 
 # Service teams
-# /sdk/eventhub/
-# /sdk/identity/
-# /sdk/keyvault/
-# /sdk/storage/
+/sdk/eventhub/ @chradek @shivangireja
+/sdk/servicebus/ @ramya-rao-a @shivangireja
+
+/sdk/identity/ @daviwil
+/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
+
+# Management Plane
+/**/*Management*.ts @yaohaizh
 
 ###########
 # Eng Sys

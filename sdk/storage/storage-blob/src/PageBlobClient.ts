@@ -9,10 +9,10 @@ import {
   isNode
 } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
-import { PageBlob } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -257,6 +257,40 @@ export interface PageBlobStartCopyIncrementalOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+export interface PageBlobUploadPagesFromURLOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when updating sequence number.
+   *
+   * @type {PageBlobAccessConditions}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  accessConditions?: PageBlobAccessConditions;
+  /**
+   * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  /**
+   * A Uint8Array holding the MD5 hash of the source block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
+}
+
 /**
  * PageBlobClient defines a set of operations applicable to page blobs.
  *
@@ -454,7 +488,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {HttpRequestBody} body Data to upload
    * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of body, also how many bytes to be uploaded
+   * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {PageBlobUploadPagesOptions} [options] Options to the Page Blob Upload Pages operation.
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>} Response data for the Page Blob Upload Pages operation.
    * @memberof PageBlobClient
@@ -476,6 +510,53 @@ export class PageBlobClient extends BlobClient {
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
       transactionalContentMD5: options.transactionalContentMD5
     });
+  }
+
+  /**
+   * The Upload Pages operation writes a range of pages to a page blob where the
+   * contents are read from a URL.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
+   * @param {number} destOffset Offset of destination page blob
+   * @param {number} count Number of bytes to be uploaded from source page blob
+   * @param {PageBlobUploadPagesFromURLOptions} [options={}]
+   * @returns {Promise<Models.PageBlobUploadPagesFromURLResponse>}
+   * @memberof PageBlobClient
+   */
+  public async uploadPagesFromURL(
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number,
+    options: PageBlobUploadPagesFromURLOptions = {}
+  ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    options.accessConditions = options.accessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+
+    return this.pageBlobContext.uploadPagesFromURL(
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      rangeToString({ offset: destOffset, count }),
+      {
+        abortSignal: aborter,
+        sourceContentMD5: options.sourceContentMD5,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        }
+      }
+    );
   }
 
   /**

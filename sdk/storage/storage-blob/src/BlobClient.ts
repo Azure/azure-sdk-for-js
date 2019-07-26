@@ -8,10 +8,10 @@ import {
   isTokenCredential
 } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { Blob } from "./generated/lib/operations";
+import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -429,6 +429,44 @@ export interface BlobAbortCopyFromURLOptions {
    * @memberof BlobAbortCopyFromURLOptions
    */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+}
+
+/**
+ * Options to configure Blob - synchronous Copy From URL operation.
+ *
+ * @export
+ * @interface BlobSyncCopyFromURLOptions
+ */
+export interface BlobSyncCopyFromURLOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * A collection of key-value string pair to associate with the snapshot.
+   *
+   * @type {Metadata}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Conditions to meet for the destination blob when copying from a URL to the blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -968,7 +1006,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Copies a blob to a destination within the storage account.
+   * Asynchronously copies a blob to a destination within the storage account.
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
    * Beginning with version 2015-02-21, the source for a Copy Blob operation can be
@@ -1005,7 +1043,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Aborts a pending Copy Blob operation, and leaves a destination blob with zero
+   * Aborts a pending asynchronous Copy Blob operation, and leaves a destination blob with zero
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
@@ -1022,6 +1060,38 @@ export class BlobClient extends StorageClient {
     return this.blobContext.abortCopyFromURL(copyId, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
+    });
+  }
+
+  /**
+   * The synchronous Copy From URL operation copies a blob or an internet resource to a new blob. It will not
+   * return a response until the copy is complete.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
+   *
+   * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
+   * @param {BlobSyncCopyFromURLOptions} [options={}]
+   * @returns {Promise<Models.BlobCopyFromURLResponse>}
+   * @memberof BlobURL
+   */
+  public async syncCopyFromURL(
+    copySource: string,
+    options: BlobSyncCopyFromURLOptions = {}
+  ): Promise<Models.BlobCopyFromURLResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+
+    return this.blobContext.copyFromURL(copySource, {
+      abortSignal: aborter,
+      metadata: options.metadata,
+      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      sourceModifiedAccessConditions: {
+        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+      }
     });
   }
 
@@ -1059,8 +1129,8 @@ export class BlobClient extends StorageClient {
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {number} offset From which position of the block blob to download
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+   * @param {number} offset From which position of the block blob to download(in bytes)
+   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
    * @returns {Promise<void>}
    */
@@ -1113,7 +1183,11 @@ export class BlobClient extends StorageClient {
     const batch = new Batch(options.parallelism);
     for (let off = offset; off < offset + count; off = off + options.blockSize) {
       batch.addOperation(async () => {
-        const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+        // Exclusive chunk end position
+        let chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+        if (off + options.blockSize! < chunkEnd) {
+          chunkEnd = off + options.blockSize!;
+        }
         const response = await this.download(off, chunkEnd - off + 1, {
           abortSignal: options.abortSignal,
           blobAccessConditions: options.blobAccessConditions,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Models from "./generated/lib/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
-import { Service } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";

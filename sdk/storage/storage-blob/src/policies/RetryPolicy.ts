@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import {
+  AbortSignalLike,
   BaseRequestPolicy,
-  delay,
   HttpOperationResponse,
   HttpPipelineLogLevel,
   RequestPolicy,
@@ -15,7 +15,7 @@ import {
 
 import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
-import { setURLHost, setURLParameter } from "../utils/utils.common";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -58,6 +58,8 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   secondaryHost: "",
   tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
+
+const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -200,7 +202,7 @@ export class RetryPolicy extends BaseRequestPolicy {
       }
     }
 
-    await this.delay(isPrimaryRetry, attempt);
+    await this.delay(isPrimaryRetry, attempt, request.abortSignal);
     return await this.attemptSendRequest(request, secondaryHas404, ++attempt);
   }
 
@@ -247,7 +249,7 @@ export class RetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code && err.code.toUpperCase().includes(retriableError))
+          (err.code && err.code.toString().toUpperCase().includes(retriableError))
         ) {
           this.logf(
             HttpPipelineLogLevel.INFO,
@@ -301,10 +303,11 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @private
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
+   * @param {AbortSignalLike} [abortSignal]
    * @returns
    * @memberof RetryPolicy
    */
-  private async delay(isPrimaryRetry: boolean, attempt: number) {
+  private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {
@@ -324,6 +327,6 @@ export class RetryPolicy extends BaseRequestPolicy {
     }
 
     this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Delay for ${delayTimeInMs}ms`);
-    return delay(delayTimeInMs);
+    return delay(delayTimeInMs, abortSignal, RETRY_ABORT_ERROR);
   }
 }

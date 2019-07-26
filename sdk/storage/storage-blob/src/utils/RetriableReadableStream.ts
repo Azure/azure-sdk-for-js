@@ -48,6 +48,8 @@ export interface RetriableReadableStreamOptions {
   doInjectErrorOnce?: boolean;
 }
 
+const ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -67,6 +69,10 @@ export class RetriableReadableStream extends Readable {
   private maxRetryRequests: number;
   private progress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
+  private abortHandler = () => {
+    this.source.pause();
+    this.emit("error", ABORT_ERROR);
+  };
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -98,10 +104,7 @@ export class RetriableReadableStream extends Readable {
     this.progress = options.progress;
     this.options = options;
 
-    this.aborter.addEventListener("abort", () => {
-      this.source.pause();
-      this.emit("error", new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR));
-    });
+    this.aborter.addEventListener("abort", this.abortHandler);
 
     this.setSourceDataHandler();
     this.setSourceEndHandler();
@@ -145,6 +148,7 @@ export class RetriableReadableStream extends Readable {
       //   }, dest end : ${this.end}`
       // );
       if (this.offset - 1 === this.end) {
+        this.aborter.removeEventListener("abort", this.abortHandler);
         this.push(null);
       } else if (this.offset <= this.end) {
         // console.log(

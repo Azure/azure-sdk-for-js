@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, newPipeline, SharedKeyCredential, HttpPipelineLogLevel } from "../../src"; // Change to "@azure/storage-queue" in your package
+import {
+  QueueServiceClient,
+  newPipeline,
+  SharedKeyCredential,
+  HttpPipelineLogLevel
+} from "../../src"; // Change to "@azure/storage-queue" in your package
 
 class ConsoleHttpPipelineLogger {
   minimumLogLevel: any;
@@ -47,7 +52,11 @@ async function main() {
     }, // Retry options
     telemetry: {
       value: "BasicSample V10.0.0"
-    } // Customized telemetry string
+    }, // Customized telemetry string
+    keepAliveOptions: {
+      // Keep alive is enabled by default, disable keep alive by setting false
+      enable: false
+    }
   });
 
   const queueServiceClient = new QueueServiceClient(

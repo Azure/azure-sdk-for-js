@@ -6,7 +6,9 @@ import {
   PageBlobClient,
   SharedKeyCredential,
   ContainerClient,
-  BlobClient
+  BlobClient,
+  generateBlobSASQueryParameters,
+  BlobSASPermissions
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -109,6 +111,43 @@ describe("PageBlobClient Node.js only", () => {
 
     const pageBlobProperties = await destPageBlobClient.getProperties();
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
+  });
+
+  it("uploadPagesFromURL", async () => {
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+    // Get a SAS for blobURL
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512);
+    await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 512, 512, 512);
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
   it("can be created with a url and a credential", async () => {

@@ -25,6 +25,7 @@ import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
+import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -164,7 +165,13 @@ export interface NewPipelineOptions {
    * @memberof NewPipelineOptions
    */
   retryOptions?: RetryOptions;
-
+  /**
+   * Keep alive configurations. Default keep-alive is enabled.
+   *
+   * @type {KeepAliveOptions}
+   * @memberof NewPipelineOptions
+   */
+  keepAliveOptions?: KeepAliveOptions;
   /**
    * Configures the HTTP pipeline logger.
    *
@@ -198,6 +205,7 @@ export function newPipeline(
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
+    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.telemetry),
     new UniqueRequestIDPolicyFactory(),
     new BrowserPolicyFactory(),

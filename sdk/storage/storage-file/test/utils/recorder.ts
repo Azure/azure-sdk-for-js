@@ -1,10 +1,12 @@
+import * as dotenv from "dotenv";
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
+
 import { getUniqueName, isBrowser } from "../utils";
 import { delay as restDelay } from "@azure/core-http";
 import { blobToString } from "./index.browser";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 let nock: any;
@@ -106,6 +108,12 @@ const skip = [
   "browsers/fileclient/recording_download_should_update_progress_and_abort_successfully.json",
   // Unknown reason (recording throws an error, but file is generated and playback works)
   "browsers/fileclient/recording_uploadrange_with_progress_event.json",
+  // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel/recording_uploadfiletoazurefile_should_abort_for_large_data.js",
+  // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel/recording_uploadfiletoazurefile_should_abort_for_small_data.js",
+  // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel/recording_uploadstreamtoazurefile_should_abort.js",
   // Progress
   "node/fileclient/recording_download_should_update_progress_and_abort_successfully.js",
   // Progress, Size (15MB), Tempfile

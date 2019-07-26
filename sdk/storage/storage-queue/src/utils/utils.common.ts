@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
@@ -208,6 +208,39 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
   return withMilliseconds
     ? dateString.substring(0, dateString.length - 1) + "0000" + "Z"
     : dateString.substring(0, dateString.length - 5) + "Z";
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @export
+ * @param {number} timeInMs
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
+ */
+export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+  return new Promise((resolve, reject) => {
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 /**

@@ -3,6 +3,7 @@ import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient } from "../src";
 import { record } from "./utils/recorder";
+import { DirectoryForceCloseHandlesResponse } from "../src/generated/src/models";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
@@ -260,7 +261,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    let iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    const iter = await rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind == "file") {
@@ -435,5 +436,46 @@ describe("DirectoryClient", () => {
       assert.ok((error.statusCode as number) === 404);
     }
     await subDirClient.delete();
+  });
+
+  it("listHandles should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    const result = await dirClient.listHandlesSegment(undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: DirectoryForceCloseHandlesResponse = await dirClient.forceCloseHandlesSegment(
+        marker,
+        {
+          recursive: true
+        }
+      );
+      marker = response.marker;
+    } while (marker);
+  });
+
+  it("forceCloseHandle should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+
+    const result = await dirClient.listHandlesSegment(undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
   });
 });

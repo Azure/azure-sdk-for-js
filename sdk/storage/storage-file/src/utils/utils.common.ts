@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
 
@@ -257,9 +258,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
   querySubStrings = querySubStrings.filter((value: string) => {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
-    return (
-      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual && lastIndexOfEqual < value.length - 1
-    );
+    return indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual;
   });
 
   const queries: { [key: string]: string } = {};
@@ -311,6 +310,39 @@ export function base64encode(content: string): string {
  */
 export function base64decode(encodedString: string): string {
   return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @export
+ * @param {number} timeInMs
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
+ */
+export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+  return new Promise((resolve, reject) => {
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 /**

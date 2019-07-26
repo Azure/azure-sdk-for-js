@@ -4,6 +4,8 @@
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
+export { RetryPolicyType } from "./policies/RetryPolicy";
+
 /**
  * Retry options interface.
  *

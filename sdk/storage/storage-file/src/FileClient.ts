@@ -5,8 +5,8 @@ import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import * as Models from "./generated/lib/models";
-import { File } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
 import { FileHTTPHeaders, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -341,6 +341,47 @@ export interface FileClearRangeOptions {
 }
 
 /**
+ * Options to configure File - File List Handles Segment.
+ *
+ * @export
+ * @interface FileListHandlesSegmentOptions
+ */
+export interface FileListHandlesSegmentOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileClearRangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   *
+   * @type {number}
+   * @memberof FileListHandlesSegmentOptions
+   */
+  maxresults?: number;
+}
+
+/**
+ * Options to configure File - File Force Close Handles Options.
+ *
+ * @export
+ * @interface FileForceCloseHandlesOptions
+ */
+export interface FileForceCloseHandlesOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileForceCloseHandlesOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+/**
  * Option interface for FileClient.uploadStream().
  *
  * @export
@@ -586,7 +627,7 @@ export class FileClient extends StorageClient {
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.create(size, {
       abortSignal: aborter,
-      ...options.fileHTTPHeaders,
+      fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
   }
@@ -737,7 +778,7 @@ export class FileClient extends StorageClient {
     const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
-      ...fileHTTPHeaders
+      fileHTTPHeaders
     });
   }
 
@@ -1179,8 +1220,12 @@ export class FileClient extends StorageClient {
     const batch = new Batch(options.parallelism);
     for (let off = offset; off < offset + count; off = off + options.rangeSize) {
       batch.addOperation(async () => {
-        const chunkEnd = off + options.rangeSize! < count! ? off + options.rangeSize! : count!;
-        const response = await this.download(off, chunkEnd - off + 1, {
+        // Exclusive chunk end position
+        let chunkEnd = offset + count!;
+        if (off + options.rangeSize! < chunkEnd) {
+          chunkEnd = off + options.rangeSize!;
+        }
+        const response = await this.download(off, chunkEnd - off, {
           abortSignal: aborter,
           maxRetryRequests: options.maxRetryRequestsPerRange
         });
@@ -1308,5 +1353,89 @@ export class FileClient extends StorageClient {
     // The stream is no longer accessible so setting it to undefined.
     (response as any).fileDownloadStream = undefined;
     return response;
+  }
+
+  /**
+   * Lists handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {FileListHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.FileListHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async listHandlesSegment(
+    marker?: string,
+    options: FileListHandlesSegmentOptions = {}
+  ): Promise<Models.FileListHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    marker = marker === "" ? undefined : marker;
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if ((response.handleList as any) === "") {
+      response.handleList = undefined;
+    }
+    return response;
+  }
+
+  /**
+   * Force close all handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will
+   *                          be closed with the next force close handles operation.
+   *                          The operation returns a marker value within the response
+   *                          body if there are more handles to close. The marker value
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandlesSegment(
+    marker?: string,
+    options: FileForceCloseHandlesOptions = {}
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker
+    });
+  }
+
+  /**
+   * Force close a specific handle for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandle(
+    handleId: string,
+    options: FileForceCloseHandlesOptions = {}
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
+    if (handleId === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleId, {
+      abortSignal: aborter
+    });
   }
 }

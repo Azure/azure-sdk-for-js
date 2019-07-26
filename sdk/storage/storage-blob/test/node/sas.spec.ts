@@ -212,7 +212,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob", async () => {
+  it("generateBlobSASQueryParameters should work for blob with previous API version", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -255,6 +255,117 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+
+    const properties = await blobClientwithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for blob", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const properties = await blobClientwithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for blob snapshot", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const response = await blobClient.createSnapshot();
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now,
+        snapshotTime: response.snapshot
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");

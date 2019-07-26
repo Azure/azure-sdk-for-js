@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { StorageClientContext } from "./generated/lib/storageClientContext";
+import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { escapeURLPath } from "./utils/utils.common";
-
+import { SERVICE_VERSION } from "./utils/constants";
 /**
  * A StorageClient represents a base client class for ServiceClient, ContainerClient and etc.
  *
@@ -52,6 +52,7 @@ export abstract class StorageClient {
 
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
+      SERVICE_VERSION,
       this.url,
       pipeline.toServiceClientOptions()
     );

@@ -3,8 +3,8 @@
 
 import { HttpResponse, isNode } from "@azure/core-http";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
-import * as Models from "./generated/lib/models";
-import { Share } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -258,6 +258,25 @@ export interface ShareCreateSnapshotOptions {
    */
   metadata?: { [propertyName: string]: string };
 }
+
+/**
+ * Response - Share Get Statistics Operation.
+ *
+ * @export
+ * @interface ShareGetStatisticsResponse
+ */
+export type ShareGetStatisticsResponse = Models.ShareGetStatisticsResponse & {
+  /**
+   * @deprecated shareUsage is going to be deprecated. Please use ShareUsageBytes instead.
+   *
+   * The approximate size of the data stored on the share, rounded up to the nearest gigabyte. Note
+   * that this value may not include all recently created or recently resized files.
+   *
+   * @type {number}
+   * @memberof ShareGetStatisticsResponse
+   */
+  shareUsage: number;
+};
 
 /**
  * A ShareClient represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
@@ -703,15 +722,16 @@ export class ShareClient extends StorageClient {
    * Retrieves statistics related to the share.
    *
    * @param {ShareGetStatisticsOptions} [option] Options to Share Get Statistics operation.
-   * @returns {Promise<Models.ShareGetStatisticsResponse>} Response data for the Share Get Statistics operation.
+   * @returns {Promise<ShareGetStatisticsResponse>} Response data for the Share Get Statistics operation.
    * @memberof ShareClient
    */
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
-  ): Promise<Models.ShareGetStatisticsResponse> {
+  ): Promise<ShareGetStatisticsResponse> {
     const aborter = options.abortSignal || AbortSignal.none;
-    return this.context.getStatistics({
-      abortSignal: aborter
-    });
+    const response = await this.context.getStatistics({ abortSignal: aborter });
+
+    const GBBytes = 1024 * 1024 * 1024;
+    return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
   }
 }

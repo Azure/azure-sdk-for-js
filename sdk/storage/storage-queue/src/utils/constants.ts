@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export const SDK_VERSION: string = "12.0.0-preview.2";
-export const SERVICE_VERSION: string = "2018-03-28";
+export const SERVICE_VERSION: string = "2018-11-09";
 
 export const URLConstants = {
   Parameters: {

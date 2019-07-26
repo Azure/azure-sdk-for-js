@@ -5,6 +5,7 @@ import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient, FileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
+import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -261,6 +262,16 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
+  it("download should not have aborted error after download finishes", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+
+    const aborter = new AbortController();
+    const result = await fileClient.download(0, undefined, { abortSignal: aborter.signal });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
+  });
+
   it("download all parameters set", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
@@ -310,5 +321,47 @@ describe("FileClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("listHandles should work", async () => {
+    await fileClient.create(10);
+
+    const result = await fileClient.listHandlesSegment(undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: FileForceCloseHandlesResponse = await fileClient.forceCloseHandlesSegment(
+        marker
+      );
+      marker = response.marker;
+    } while (marker);
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle
+
+    const result = await fileClient.listHandlesSegment(undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirClient.forceCloseHandle(handle.handleId);
+    }
   });
 });
