@@ -1,6 +1,12 @@
 # Breaking Changes
 
-2019.07 Version 12.0.0-preview.1
+### 2019.08
+
+- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  [`AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.]
+
+### 2019.07 Version 12.0.0-preview.1
 
 - Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
@@ -19,7 +25,7 @@
 - `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
 - Blob/Container member methods that manage leases are removed. A new type `LeaseClient` is added to manage leases.
 
-2019.1 Version 10.1.0
+### 2019.1 Version 10.1.0
 
 - Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 - `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
