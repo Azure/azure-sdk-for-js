@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -19,6 +19,9 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   availabilitySets: operations.AvailabilitySets;
+  proximityPlacementGroups: operations.ProximityPlacementGroups;
+  dedicatedHostGroups: operations.DedicatedHostGroups;
+  dedicatedHosts: operations.DedicatedHosts;
   virtualMachineExtensionImages: operations.VirtualMachineExtensionImages;
   virtualMachineExtensions: operations.VirtualMachineExtensions;
   virtualMachineImages: operations.VirtualMachineImages;
@@ -29,7 +32,6 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSets: operations.VirtualMachineScaleSets;
   virtualMachineScaleSetExtensions: operations.VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: operations.VirtualMachineScaleSetRollingUpgrades;
-  virtualMachineScaleSet: operations.VirtualMachineScaleSetOperations;
   virtualMachineScaleSetVMs: operations.VirtualMachineScaleSetVMs;
   logAnalytics: operations.LogAnalytics;
   virtualMachineRunCommands: operations.VirtualMachineRunCommands;
@@ -48,10 +50,13 @@ class ComputeManagementClient extends ComputeManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.availabilitySets = new operations.AvailabilitySets(this);
+    this.proximityPlacementGroups = new operations.ProximityPlacementGroups(this);
+    this.dedicatedHostGroups = new operations.DedicatedHostGroups(this);
+    this.dedicatedHosts = new operations.DedicatedHosts(this);
     this.virtualMachineExtensionImages = new operations.VirtualMachineExtensionImages(this);
     this.virtualMachineExtensions = new operations.VirtualMachineExtensions(this);
     this.virtualMachineImages = new operations.VirtualMachineImages(this);
@@ -62,7 +67,6 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSets = new operations.VirtualMachineScaleSets(this);
     this.virtualMachineScaleSetExtensions = new operations.VirtualMachineScaleSetExtensions(this);
     this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(this);
-    this.virtualMachineScaleSet = new operations.VirtualMachineScaleSetOperations(this);
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);

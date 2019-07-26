@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineSizesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,19 +33,19 @@ export class VirtualMachineSizes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineSizesListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineSizesListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineSizesListResponse>;
   /**
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
   /**
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.VirtualMachineSizesListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: coreHttp.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.VirtualMachineSizesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -57,8 +57,8 @@ export class VirtualMachineSizes {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes",
   urlParameters: [

@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -157,6 +157,11 @@ export interface AvailabilitySet extends Resource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -197,6 +202,11 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -205,6 +215,241 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    * Sku of the availability set
    */
   sku?: Sku;
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroup extends Resource {
+  /**
+   * Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br>
+   * **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br>
+   * **Ultra** : For future use. Possible values include: 'Standard', 'Ultra'
+   */
+  proximityPlacementGroupType?: ProximityPlacementGroupType;
+  /**
+   * A list of references to all virtual machines in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResource[];
+  /**
+   * A list of references to all virtual machine scale sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachineScaleSets?: SubResource[];
+  /**
+   * A list of references to all availability sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly availabilitySets?: SubResource[];
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroupUpdate extends UpdateResource {
+}
+
+/**
+ * An interface representing SubResourceReadOnly.
+ */
+export interface SubResourceReadOnly extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * Specifies information about the dedicated host group that the dedicated hosts should be assigned
+ * to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation
+ * time. An existing dedicated host cannot be added to another dedicated host group.
+ */
+export interface DedicatedHostGroup extends Resource {
+  /**
+   * Number of fault domains that the host group can span.
+   */
+  platformFaultDomainCount: number;
+  /**
+   * A list of references to all dedicated hosts in the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * Availability Zone to use for this host group. Only single zone is supported. The zone can be
+   * assigned only during creation. If not provided, the group supports all zones in the region. If
+   * provided, enforces each host in the group to be in the same zone.
+   */
+  zones?: string[];
+}
+
+/**
+ * Specifies information about the dedicated host group that the dedicated host should be assigned
+ * to. Only tags may be updated.
+ */
+export interface DedicatedHostGroupUpdate extends UpdateResource {
+  /**
+   * Number of fault domains that the host group can span.
+   */
+  platformFaultDomainCount: number;
+  /**
+   * A list of references to all dedicated hosts in the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * Availability Zone to use for this host group. Only single zone is supported. The zone can be
+   * assigned only during creation. If not provided, the group supports all zones in the region. If
+   * provided, enforces each host in the group to be in the same zone.
+   */
+  zones?: string[];
+}
+
+/**
+ * Represents the dedicated host unutilized capacity in terms of a specific VM size.
+ */
+export interface DedicatedHostAllocatableVM {
+  /**
+   * VM size in terms of which the unutilized capacity is represented.
+   */
+  vmSize?: string;
+  /**
+   * Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity.
+   */
+  count?: number;
+}
+
+/**
+ * Dedicated host unutilized capacity.
+ */
+export interface DedicatedHostAvailableCapacity {
+  /**
+   * The unutilized capacity of the dedicated host represented in terms of each VM size that is
+   * allowed to be deployed to the dedicated host.
+   */
+  allocatableVMs?: DedicatedHostAllocatableVM[];
+}
+
+/**
+ * The instance view of a dedicated host.
+ */
+export interface DedicatedHostInstanceView {
+  /**
+   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assetId?: string;
+  /**
+   * Unutilized capacity of the dedicated host.
+   */
+  availableCapacity?: DedicatedHostAvailableCapacity;
+  /**
+   * The resource status information.
+   */
+  statuses?: InstanceViewStatus[];
+}
+
+/**
+ * Specifies information about the Dedicated host.
+ */
+export interface DedicatedHost extends Resource {
+  /**
+   * Fault domain of the dedicated host within a dedicated host group.
+   */
+  platformFaultDomain?: number;
+  /**
+   * Specifies whether the dedicated host should be replaced automatically in case of a failure.
+   * The value is defaulted to 'true' when not provided.
+   */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not
+   * change throughout the lifetime of the host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /**
+   * Specifies the software license type that will be applied to the VMs deployed on the dedicated
+   * host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid**
+   * <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**. Possible values include:
+   * 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+   */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The dedicated host instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
+  /**
+   * SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be
+   * set. List Microsoft.Compute SKUs for a list of possible values.
+   */
+  sku: Sku;
+}
+
+/**
+ * Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType
+ * may be updated.
+ */
+export interface DedicatedHostUpdate extends UpdateResource {
+  /**
+   * Fault domain of the dedicated host within a dedicated host group.
+   */
+  platformFaultDomain?: number;
+  /**
+   * Specifies whether the dedicated host should be replaced automatically in case of a failure.
+   * The value is defaulted to 'true' when not provided.
+   */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not
+   * change throughout the lifetime of the host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /**
+   * Specifies the software license type that will be applied to the VMs deployed on the dedicated
+   * host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid**
+   * <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**. Possible values include:
+   * 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+   */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The dedicated host instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
 }
 
 /**
@@ -466,6 +711,10 @@ export interface VirtualMachineImage extends VirtualMachineImageResource {
   osDiskImage?: OSDiskImage;
   dataDiskImages?: DataDiskImage[];
   automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
+  /**
+   * Possible values include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -505,7 +754,8 @@ export interface Usage {
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * Specifies whether to reimage temp disk. Default value: false.
+   * Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage
+   * parameter is only supported for VM/VMSS with Ephemeral OS disk.
    */
   tempDisk?: boolean;
 }
@@ -863,6 +1113,11 @@ export interface DataDisk {
    * The managed disk parameters.
    */
   managedDisk?: ManagedDiskParameters;
+  /**
+   * Specifies whether the data disk is in process of detachment from the
+   * VirtualMachine/VirtualMachineScaleset
+   */
+  toBeDetached?: boolean;
 }
 
 /**
@@ -974,7 +1229,9 @@ export interface WindowsConfiguration {
    */
   provisionVMAgent?: boolean;
   /**
-   * Indicates whether virtual machine is enabled for automatic updates.
+   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
+   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
+   * will take effect on OS reprovisioning.
    */
   enableAutomaticUpdates?: boolean;
   /**
@@ -1391,6 +1648,11 @@ export interface VirtualMachineInstanceView {
    */
   osVersion?: string;
   /**
+   * Specifies the HyperVGeneration Type associated with a resource. Possible values include: 'V1',
+   * 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationType;
+  /**
    * The Remote desktop certificate thumbprint.
    */
   rdpThumbPrint?: string;
@@ -1471,6 +1733,16 @@ export interface VirtualMachine extends Resource {
    * VM cannot be added to an availability set.
    */
   availabilitySet?: SubResource;
+  /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies information about the dedicated host that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2018-10-01.
+   */
+  host?: SubResource;
   /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1562,6 +1834,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   availabilitySet?: SubResource;
   /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies information about the dedicated host that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2018-10-01.
+   */
+  host?: SubResource;
+  /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1602,8 +1884,11 @@ export interface VirtualMachineUpdate extends UpdateResource {
  */
 export interface AutomaticOSUpgradePolicy {
   /**
-   * Whether OS upgrades should automatically be applied to scale set instances in a rolling
-   * fashion when a newer version of the image becomes available. Default value is false.
+   * Indicates whether OS upgrades should automatically be applied to scale set instances in a
+   * rolling fashion when a newer version of the OS image becomes available. Default value is
+   * false. <br><br> If this is set to true for Windows based scale sets,
+   * [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+   * is automatically set to false and cannot be set to true.
    */
   enableAutomaticOSUpgrade?: boolean;
   /**
@@ -1794,6 +2079,11 @@ export interface Image extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -1813,6 +2103,11 @@ export interface ImageUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -2421,17 +2716,6 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 }
 
 /**
- * An interface representing SubResourceReadOnly.
- */
-export interface SubResourceReadOnly extends BaseResource {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
  * Describes a Virtual Machine Scale Set Extension.
  */
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
@@ -2504,12 +2788,6 @@ export interface VirtualMachineScaleSetVMProfile {
    * Specifies the storage settings for the virtual machine disks.
    */
   storageProfile?: VirtualMachineScaleSetStorageProfile;
-  /**
-   * Specifies additional capabilities enabled or disabled on the virtual machine in the scale set.
-   * For instance: whether the virtual machine has the capability to support attaching managed data
-   * disks with UltraSSD_LRS storage account type.
-   */
-  additionalCapabilities?: AdditionalCapabilities;
   /**
    * Specifies properties of the network interfaces of the virtual machines in the scale set.
    */
@@ -2635,6 +2913,17 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   platformFaultDomainCount?: number;
   /**
+   * Specifies information about the proximity placement group that the virtual machine scale set
+   * should be assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
+  /**
    * The identity of the virtual machine scale set, if configured.
    */
   identity?: VirtualMachineScaleSetIdentity;
@@ -2691,6 +2980,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * machines.
    */
   singlePlacementGroup?: boolean;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
   /**
    * The identity of the virtual machine scale set, if configured.
    */
@@ -3541,6 +3836,22 @@ export interface ResourceSkuCapabilities {
 }
 
 /**
+ * Describes The zonal capabilities of a SKU.
+ */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+/**
  * An interface representing ResourceSkuRestrictionInfo.
  */
 export interface ResourceSkuRestrictionInfo {
@@ -3597,6 +3908,11 @@ export interface ResourceSkuLocationInfo {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly zones?: string[];
+  /**
+   * Details of capabilities available to a SKU in specific zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
 }
 
 /**
@@ -4151,10 +4467,15 @@ export interface GalleryImage extends Resource {
    */
   osType: OperatingSystemTypes;
   /**
-   * The allowed values for OS State are 'Generalized'. Possible values include: 'Generalized',
-   * 'Specialized'
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
    */
   osState: OperatingSystemStateTypes;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
   /**
    * The end of life date of the gallery Image Definition. This property can be used for
    * decommissioning purposes. This property is updatable.
@@ -4182,7 +4503,6 @@ export interface GalleryArtifactPublishingProfileBase {
    * updatable.
    */
   targetRegions?: TargetRegion[];
-  source: GalleryArtifactSource;
 }
 
 /**
@@ -4217,6 +4537,17 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
 }
 
 /**
+ * The gallery artifact version source.
+ */
+export interface GalleryArtifactVersionSource {
+  /**
+   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
+   * image.
+   */
+  id: string;
+}
+
+/**
  * This is the disk image base class.
  */
 export interface GalleryDiskImage {
@@ -4228,9 +4559,9 @@ export interface GalleryDiskImage {
   /**
    * The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'. Possible
    * values include: 'None', 'ReadOnly', 'ReadWrite'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly hostCaching?: HostCaching;
+  hostCaching?: HostCaching;
+  source?: GalleryArtifactVersionSource;
 }
 
 /**
@@ -4247,24 +4578,20 @@ export interface GalleryDataDiskImage extends GalleryDiskImage {
    * This property specifies the logical unit number of the data disk. This value is used to
    * identify data disks within the Virtual Machine and therefore must be unique for each data disk
    * attached to the Virtual Machine.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly lun?: number;
+  lun: number;
 }
 
 /**
- * This is the storage profile of a gallery Image Version.
+ * This is the storage profile of a Gallery Image Version.
  */
 export interface GalleryImageVersionStorageProfile {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly osDiskImage?: GalleryOSDiskImage;
+  source?: GalleryArtifactVersionSource;
+  osDiskImage?: GalleryOSDiskImage;
   /**
    * A list of data disk images.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataDiskImages?: GalleryDataDiskImage[];
+  dataDiskImages?: GalleryDataDiskImage[];
 }
 
 /**
@@ -4315,7 +4642,7 @@ export interface ReplicationStatus {
  * Specifies information about the gallery Image Version that you want to create or update.
  */
 export interface GalleryImageVersion extends Resource {
-  publishingProfile: GalleryImageVersionPublishingProfile;
+  publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
    * The current state of the gallery Image Version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
@@ -4323,10 +4650,7 @@ export interface GalleryImageVersion extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageProfile?: GalleryImageVersionStorageProfile;
+  storageProfile: GalleryImageVersionStorageProfile;
   /**
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -4351,23 +4675,6 @@ export interface TargetRegion {
    * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
    */
   storageAccountType?: StorageAccountType;
-}
-
-/**
- * The managed artifact.
- */
-export interface ManagedArtifact {
-  /**
-   * The managed artifact id.
-   */
-  id: string;
-}
-
-/**
- * The source image from which the Image Version is going to be created.
- */
-export interface GalleryArtifactSource {
-  managedImage: ManagedArtifact;
 }
 
 /**
@@ -4583,51 +4890,7 @@ export interface ContainerService extends Resource {
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation.
-   */
-  filter?: string;
-  top?: number;
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The expand expression to apply on the operation.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineExtensionsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The expand expression to apply on the operation.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineImagesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation.
-   */
-  filter?: string;
-  top?: number;
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface DedicatedHostsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'instanceView'
    */
@@ -4637,51 +4900,19 @@ export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface VirtualMachinesPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
-   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
-   * if not specified. Default value: false.
+   * The filter to apply on the operation.
    */
-  skipShutdown?: boolean;
+  filter?: string;
+  top?: number;
+  orderby?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface VirtualMachinesReimageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the Reimage Virtual Machine operation.
-   */
-  parameters?: VirtualMachineReimageParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachinesBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
-   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
-   * if not specified. Default value: false.
-   */
-  skipShutdown?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachinesBeginReimageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the Reimage Virtual Machine operation.
-   */
-  parameters?: VirtualMachineReimageParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ImagesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineExtensionsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -4691,179 +4922,7 @@ export interface ImagesGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsDeallocateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsPowerOffOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-  /**
-   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
-   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
-   * if not specified. Default value: false.
-   */
-  skipShutdown?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsRestartOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsStartOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsRedeployOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsReimageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters for Reimaging VM ScaleSet.
-   */
-  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsReimageAllOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-  /**
-   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
-   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
-   * if not specified. Default value: false.
-   */
-  skipShutdown?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginRestartOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginStartOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters for Reimaging VM ScaleSet.
-   */
-  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of virtual machine instance IDs from the VM scale set.
-   */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineExtensionsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -4873,7 +4932,265 @@ export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineImagesListOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation.
+   */
+  filter?: string;
+  top?: number;
+  orderby?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesGetOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
+   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
+   * if not specified. Default value: false.
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesReimageOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Parameters supplied to the Reimage Virtual Machine operation.
+   */
+  parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesBeginPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
+   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
+   * if not specified. Default value: false.
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesBeginReimageOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Parameters supplied to the Reimage Virtual Machine operation.
+   */
+  parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ImagesGetOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsDeallocateOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  /**
+   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
+   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
+   * if not specified. Default value: false.
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsRestartOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsStartOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsRedeployOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsReimageOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Parameters for Reimaging VM ScaleSet.
+   */
+  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsReimageAllOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  /**
+   * The parameter to request non-graceful VM shutdown. True value for this flag indicates
+   * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
+   * if not specified. Default value: false.
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginRestartOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginStartOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Parameters for Reimaging VM ScaleSet.
+   */
+  vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A list of virtual machine instance IDs from the VM scale set.
+   */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetVMsReimageOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters for the Reimaging Virtual machine in ScaleSet.
    */
@@ -4883,7 +5200,7 @@ export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply to the operation.
    */
@@ -4901,7 +5218,7 @@ export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The parameter to request non-graceful VM shutdown. True value for this flag indicates
    * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
@@ -4913,7 +5230,7 @@ export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters for the Reimaging Virtual machine in ScaleSet.
    */
@@ -4923,7 +5240,7 @@ export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The parameter to request non-graceful VM shutdown. True value for this flag indicates
    * non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false
@@ -4935,7 +5252,7 @@ export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface GalleryImageVersionsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface GalleryImageVersionsGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
    */
@@ -4976,6 +5293,44 @@ export interface AvailabilitySetListResult extends Array<AvailabilitySet> {
  * @extends Array<VirtualMachineSize>
  */
 export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {
+}
+
+/**
+ * @interface
+ * The List Proximity Placement Group operation response.
+ * @extends Array<ProximityPlacementGroup>
+ */
+export interface ProximityPlacementGroupListResult extends Array<ProximityPlacementGroup> {
+  /**
+   * The URI to fetch the next page of proximity placement groups.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Dedicated Host Group with resource group response.
+ * @extends Array<DedicatedHostGroup>
+ */
+export interface DedicatedHostGroupListResult extends Array<DedicatedHostGroup> {
+  /**
+   * The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to
+   * fetch the next page of Dedicated Host Groups.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list dedicated host operation response.
+ * @extends Array<DedicatedHost>
+ */
+export interface DedicatedHostListResult extends Array<DedicatedHost> {
+  /**
+   * The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the
+   * next page of dedicated hosts.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -5110,13 +5465,13 @@ export interface RunCommandListResult extends Array<RunCommandDocumentBase> {
 
 /**
  * @interface
- * The Compute List Skus operation response.
+ * The List Resource Skus operation response.
  * @extends Array<ResourceSku>
  */
 export interface ResourceSkusResult extends Array<ResourceSku> {
   /**
-   * The uri to fetch the next page of Compute Skus. Call ListNext() with this to fetch the next
-   * page of VMSS Skus.
+   * The URI to fetch the next page of Resource Skus. Call ListNext() with this URI to fetch the
+   * next page of Resource Skus
    */
   nextLink?: string;
 }
@@ -5199,6 +5554,14 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
 }
 
 /**
+ * Defines values for HyperVGenerationTypes.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationTypes = 'V1' | 'V2';
+
+/**
  * Defines values for StatusLevelTypes.
  * Possible values include: 'Info', 'Warning', 'Error'
  * @readonly
@@ -5213,6 +5576,22 @@ export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
  * @enum {string}
  */
 export type AvailabilitySetSkuTypes = 'Classic' | 'Aligned';
+
+/**
+ * Defines values for ProximityPlacementGroupType.
+ * Possible values include: 'Standard', 'Ultra'
+ * @readonly
+ * @enum {string}
+ */
+export type ProximityPlacementGroupType = 'Standard' | 'Ultra';
+
+/**
+ * Defines values for DedicatedHostLicenseTypes.
+ * Possible values include: 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+ * @readonly
+ * @enum {string}
+ */
+export type DedicatedHostLicenseTypes = 'None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual';
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -5343,6 +5722,14 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @enum {string}
  */
 export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'MaintenanceAborted' | 'MaintenanceCompleted';
+
+/**
+ * Defines values for HyperVGenerationType.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationType = 'V1' | 'V2';
 
 /**
  * Defines values for UpgradeMode.
@@ -5608,7 +5995,7 @@ export type OperationsListResponse = ComputeOperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5628,7 +6015,7 @@ export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5648,7 +6035,7 @@ export type AvailabilitySetsUpdateResponse = AvailabilitySet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5668,7 +6055,7 @@ export type AvailabilitySetsGetResponse = AvailabilitySet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5688,7 +6075,7 @@ export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5708,7 +6095,7 @@ export type AvailabilitySetsListResponse = AvailabilitySetListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5728,7 +6115,7 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5748,7 +6135,7 @@ export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5768,7 +6155,7 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5782,13 +6169,433 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DedicatedHostGroupsGetResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DedicatedHostsUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DedicatedHostsGetResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the listByHostGroup operation.
+ */
+export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DedicatedHostsBeginCreateOrUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type DedicatedHostsBeginUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the listByHostGroupNext operation.
+ */
+export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5808,7 +6615,7 @@ export type VirtualMachineExtensionImagesListTypesResponse = Array<VirtualMachin
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5828,7 +6635,7 @@ export type VirtualMachineExtensionImagesListVersionsResponse = Array<VirtualMac
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5848,7 +6655,7 @@ export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExten
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5868,7 +6675,7 @@ export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5888,7 +6695,7 @@ export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5908,7 +6715,7 @@ export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5928,7 +6735,7 @@ export type VirtualMachineExtensionsBeginCreateOrUpdateResponse = VirtualMachine
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5948,7 +6755,7 @@ export type VirtualMachineExtensionsBeginUpdateResponse = VirtualMachineExtensio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5968,7 +6775,7 @@ export type VirtualMachineImagesGetResponse = VirtualMachineImage & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -5988,7 +6795,7 @@ export type VirtualMachineImagesListResponse = Array<VirtualMachineImageResource
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6008,7 +6815,7 @@ export type VirtualMachineImagesListOffersResponse = Array<VirtualMachineImageRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6028,7 +6835,7 @@ export type VirtualMachineImagesListPublishersResponse = Array<VirtualMachineIma
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6048,7 +6855,7 @@ export type VirtualMachineImagesListSkusResponse = Array<VirtualMachineImageReso
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6068,7 +6875,7 @@ export type UsageListResponse = ListUsagesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6088,7 +6895,7 @@ export type UsageListNextResponse = ListUsagesResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6108,7 +6915,7 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6128,7 +6935,7 @@ export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6148,7 +6955,7 @@ export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6168,7 +6975,7 @@ export type VirtualMachinesUpdateResponse = VirtualMachine & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6188,7 +6995,7 @@ export type VirtualMachinesGetResponse = VirtualMachine & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6208,7 +7015,7 @@ export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6228,7 +7035,7 @@ export type VirtualMachinesListResponse = VirtualMachineListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6248,7 +7055,7 @@ export type VirtualMachinesListAllResponse = VirtualMachineListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6268,7 +7075,7 @@ export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListRe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6288,7 +7095,7 @@ export type VirtualMachinesRunCommandResponse = RunCommandResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6308,7 +7115,7 @@ export type VirtualMachinesBeginCaptureResponse = VirtualMachineCaptureResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6328,7 +7135,7 @@ export type VirtualMachinesBeginCreateOrUpdateResponse = VirtualMachine & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6348,7 +7155,7 @@ export type VirtualMachinesBeginUpdateResponse = VirtualMachine & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6368,7 +7175,7 @@ export type VirtualMachinesBeginRunCommandResponse = RunCommandResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6388,7 +7195,7 @@ export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6408,7 +7215,7 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6428,7 +7235,7 @@ export type VirtualMachinesListAllNextResponse = VirtualMachineListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6448,7 +7255,7 @@ export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6468,7 +7275,7 @@ export type ImagesCreateOrUpdateResponse = Image & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6488,7 +7295,7 @@ export type ImagesUpdateResponse = Image & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6508,7 +7315,7 @@ export type ImagesGetResponse = Image & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6528,7 +7335,7 @@ export type ImagesListByResourceGroupResponse = ImageListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6548,7 +7355,7 @@ export type ImagesListResponse = ImageListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6568,7 +7375,7 @@ export type ImagesBeginCreateOrUpdateResponse = Image & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6588,7 +7395,7 @@ export type ImagesBeginUpdateResponse = Image & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6608,7 +7415,7 @@ export type ImagesListByResourceGroupNextResponse = ImageListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6628,7 +7435,7 @@ export type ImagesListNextResponse = ImageListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6648,7 +7455,7 @@ export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6668,7 +7475,7 @@ export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6688,7 +7495,7 @@ export type VirtualMachineScaleSetsGetResponse = VirtualMachineScaleSet & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6708,7 +7515,7 @@ export type VirtualMachineScaleSetsGetInstanceViewResponse = VirtualMachineScale
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6728,7 +7535,7 @@ export type VirtualMachineScaleSetsListResponse = VirtualMachineScaleSetListResu
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6748,7 +7555,7 @@ export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListW
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6768,7 +7575,7 @@ export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6788,7 +7595,7 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6808,7 +7615,7 @@ export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomai
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6828,7 +7635,7 @@ export type VirtualMachineScaleSetsBeginCreateOrUpdateResponse = VirtualMachineS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6848,7 +7655,7 @@ export type VirtualMachineScaleSetsBeginUpdateResponse = VirtualMachineScaleSet 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6868,7 +7675,7 @@ export type VirtualMachineScaleSetsListNextResponse = VirtualMachineScaleSetList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6888,7 +7695,7 @@ export type VirtualMachineScaleSetsListAllNextResponse = VirtualMachineScaleSetL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6908,7 +7715,7 @@ export type VirtualMachineScaleSetsListSkusNextResponse = VirtualMachineScaleSet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6928,7 +7735,7 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMach
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6948,7 +7755,7 @@ export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMach
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6968,7 +7775,7 @@ export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -6988,7 +7795,7 @@ export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7008,7 +7815,7 @@ export type VirtualMachineScaleSetExtensionsBeginCreateOrUpdateResponse = Virtua
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7028,7 +7835,7 @@ export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineSca
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7048,7 +7855,7 @@ export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7068,7 +7875,7 @@ export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7088,7 +7895,7 @@ export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7108,7 +7915,7 @@ export type VirtualMachineScaleSetVMsGetInstanceViewResponse = VirtualMachineSca
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7128,7 +7935,7 @@ export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7148,7 +7955,7 @@ export type VirtualMachineScaleSetVMsRunCommandResponse = RunCommandResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7168,7 +7975,7 @@ export type VirtualMachineScaleSetVMsBeginUpdateResponse = VirtualMachineScaleSe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7188,7 +7995,7 @@ export type VirtualMachineScaleSetVMsBeginRunCommandResponse = RunCommandResult 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7208,7 +8015,7 @@ export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVM
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7228,7 +8035,7 @@ export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7248,7 +8055,7 @@ export type LogAnalyticsExportThrottledRequestsResponse = LogAnalyticsOperationR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7268,7 +8075,7 @@ export type LogAnalyticsBeginExportRequestRateByIntervalResponse = LogAnalyticsO
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7288,7 +8095,7 @@ export type LogAnalyticsBeginExportThrottledRequestsResponse = LogAnalyticsOpera
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7308,7 +8115,7 @@ export type VirtualMachineRunCommandsListResponse = RunCommandListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7328,7 +8135,7 @@ export type VirtualMachineRunCommandsGetResponse = RunCommandDocument & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7348,7 +8155,7 @@ export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7368,7 +8175,7 @@ export type ResourceSkusListResponse = ResourceSkusResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7388,7 +8195,7 @@ export type ResourceSkusListNextResponse = ResourceSkusResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7408,7 +8215,7 @@ export type DisksCreateOrUpdateResponse = Disk & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7428,7 +8235,7 @@ export type DisksUpdateResponse = Disk & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7448,7 +8255,7 @@ export type DisksGetResponse = Disk & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7468,7 +8275,7 @@ export type DisksListByResourceGroupResponse = DiskList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7488,7 +8295,7 @@ export type DisksListResponse = DiskList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7508,7 +8315,7 @@ export type DisksGrantAccessResponse = AccessUri & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7528,7 +8335,7 @@ export type DisksBeginCreateOrUpdateResponse = Disk & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7548,7 +8355,7 @@ export type DisksBeginUpdateResponse = Disk & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7568,7 +8375,7 @@ export type DisksBeginGrantAccessResponse = AccessUri & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7588,7 +8395,7 @@ export type DisksListByResourceGroupNextResponse = DiskList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7608,7 +8415,7 @@ export type DisksListNextResponse = DiskList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7628,7 +8435,7 @@ export type SnapshotsCreateOrUpdateResponse = Snapshot & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7648,7 +8455,7 @@ export type SnapshotsUpdateResponse = Snapshot & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7668,7 +8475,7 @@ export type SnapshotsGetResponse = Snapshot & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7688,7 +8495,7 @@ export type SnapshotsListByResourceGroupResponse = SnapshotList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7708,7 +8515,7 @@ export type SnapshotsListResponse = SnapshotList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7728,7 +8535,7 @@ export type SnapshotsGrantAccessResponse = AccessUri & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7748,7 +8555,7 @@ export type SnapshotsBeginCreateOrUpdateResponse = Snapshot & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7768,7 +8575,7 @@ export type SnapshotsBeginUpdateResponse = Snapshot & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7788,7 +8595,7 @@ export type SnapshotsBeginGrantAccessResponse = AccessUri & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7808,7 +8615,7 @@ export type SnapshotsListByResourceGroupNextResponse = SnapshotList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7828,7 +8635,7 @@ export type SnapshotsListNextResponse = SnapshotList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7848,7 +8655,7 @@ export type GalleriesCreateOrUpdateResponse = Gallery & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7868,7 +8675,7 @@ export type GalleriesGetResponse = Gallery & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7888,7 +8695,7 @@ export type GalleriesListByResourceGroupResponse = GalleryList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7908,7 +8715,7 @@ export type GalleriesListResponse = GalleryList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7928,7 +8735,7 @@ export type GalleriesBeginCreateOrUpdateResponse = Gallery & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7948,7 +8755,7 @@ export type GalleriesListByResourceGroupNextResponse = GalleryList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7968,7 +8775,7 @@ export type GalleriesListNextResponse = GalleryList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7988,7 +8795,7 @@ export type GalleryImagesCreateOrUpdateResponse = GalleryImage & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8008,7 +8815,7 @@ export type GalleryImagesGetResponse = GalleryImage & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8028,7 +8835,7 @@ export type GalleryImagesListByGalleryResponse = GalleryImageList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8048,7 +8855,7 @@ export type GalleryImagesBeginCreateOrUpdateResponse = GalleryImage & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8068,7 +8875,7 @@ export type GalleryImagesListByGalleryNextResponse = GalleryImageList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8088,7 +8895,7 @@ export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8108,7 +8915,7 @@ export type GalleryImageVersionsGetResponse = GalleryImageVersion & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8128,7 +8935,7 @@ export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersion
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8148,7 +8955,7 @@ export type GalleryImageVersionsBeginCreateOrUpdateResponse = GalleryImageVersio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8168,7 +8975,7 @@ export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVer
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8188,7 +8995,7 @@ export type ContainerServicesListResponse = ContainerServiceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8208,7 +9015,7 @@ export type ContainerServicesCreateOrUpdateResponse = ContainerService & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8228,7 +9035,7 @@ export type ContainerServicesGetResponse = ContainerService & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8248,7 +9055,7 @@ export type ContainerServicesListByResourceGroupResponse = ContainerServiceListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8268,7 +9075,7 @@ export type ContainerServicesBeginCreateOrUpdateResponse = ContainerService & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8288,7 +9095,7 @@ export type ContainerServicesListNextResponse = ContainerServiceListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8308,7 +9115,7 @@ export type ContainerServicesListByResourceGroupNextResponse = ContainerServiceL
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */

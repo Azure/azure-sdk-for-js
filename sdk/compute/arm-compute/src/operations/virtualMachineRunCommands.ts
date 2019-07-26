@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineRunCommandsMappers";
 import * as Parameters from "../models/parameters";
@@ -32,19 +32,19 @@ export class VirtualMachineRunCommands {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineRunCommandsListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsListResponse>;
+  list(location: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsListResponse>;
   /**
    * @param location The location upon which run commands is queried.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
+  list(location: string, callback: coreHttp.ServiceCallback<Models.RunCommandListResult>): void;
   /**
    * @param location The location upon which run commands is queried.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandListResult>, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListResponse> {
+  list(location: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RunCommandListResult>): void;
+  list(location: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RunCommandListResult>, callback?: coreHttp.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -61,21 +61,21 @@ export class VirtualMachineRunCommands {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineRunCommandsGetResponse>
    */
-  get(location: string, commandId: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsGetResponse>;
+  get(location: string, commandId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsGetResponse>;
   /**
    * @param location The location upon which run commands is queried.
    * @param commandId The command id.
    * @param callback The callback
    */
-  get(location: string, commandId: string, callback: msRest.ServiceCallback<Models.RunCommandDocument>): void;
+  get(location: string, commandId: string, callback: coreHttp.ServiceCallback<Models.RunCommandDocument>): void;
   /**
    * @param location The location upon which run commands is queried.
    * @param commandId The command id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(location: string, commandId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandDocument>): void;
-  get(location: string, commandId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandDocument>, callback?: msRest.ServiceCallback<Models.RunCommandDocument>): Promise<Models.VirtualMachineRunCommandsGetResponse> {
+  get(location: string, commandId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RunCommandDocument>): void;
+  get(location: string, commandId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RunCommandDocument>, callback?: coreHttp.ServiceCallback<Models.RunCommandDocument>): Promise<Models.VirtualMachineRunCommandsGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -92,19 +92,19 @@ export class VirtualMachineRunCommands {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineRunCommandsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.VirtualMachineRunCommandsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.RunCommandListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunCommandListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunCommandListResult>, callback?: msRest.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RunCommandListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RunCommandListResult>, callback?: coreHttp.ServiceCallback<Models.RunCommandListResult>): Promise<Models.VirtualMachineRunCommandsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -116,8 +116,8 @@ export class VirtualMachineRunCommands {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands",
   urlParameters: [
@@ -141,7 +141,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}",
   urlParameters: [
@@ -166,7 +166,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
