@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimeNodesMappers";
 import * as Parameters from "../models/parameters";
@@ -35,7 +35,7 @@ export class IntegrationRuntimeNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeNodesGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesGetResponse>;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -43,7 +43,7 @@ export class IntegrationRuntimeNodes {
    * @param nodeName The integration runtime node name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -52,8 +52,8 @@ export class IntegrationRuntimeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,9 +73,9 @@ export class IntegrationRuntimeNodes {
    * @param integrationRuntimeName The integration runtime name.
    * @param nodeName The integration runtime node name.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -83,7 +83,7 @@ export class IntegrationRuntimeNodes {
    * @param nodeName The integration runtime node name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -92,8 +92,8 @@ export class IntegrationRuntimeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +117,7 @@ export class IntegrationRuntimeNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeNodesUpdateResponse>
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesUpdateResponse>;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -127,7 +127,7 @@ export class IntegrationRuntimeNodes {
    * node.
    * @param callback The callback
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, callback: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -138,8 +138,8 @@ export class IntegrationRuntimeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesUpdateResponse> {
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: coreHttp.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class IntegrationRuntimeNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse>
    */
-  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse>;
+  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -170,7 +170,7 @@ export class IntegrationRuntimeNodes {
    * @param nodeName The integration runtime node name.
    * @param callback The callback
    */
-  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
+  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -179,8 +179,8 @@ export class IntegrationRuntimeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
-  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse> {
+  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
+  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>, callback?: coreHttp.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,8 +195,8 @@ export class IntegrationRuntimeNodes {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   urlParameters: [
@@ -223,7 +223,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   urlParameters: [
@@ -249,7 +249,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   urlParameters: [
@@ -283,7 +283,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getIpAddressOperationSpec: msRest.OperationSpec = {
+const getIpAddressOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
   urlParameters: [
