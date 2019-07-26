@@ -3,6 +3,12 @@ import { Span } from "../../interfaces/span";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 
 export class NoOpTracePlugin implements Tracer {
+  private _tracer: any;
+
+  public constructor(tracer: any) {
+    this._tracer = tracer;
+  }
+
   getCurrentSpan(): Span {
     throw new Error("Method not implemented.");
   }

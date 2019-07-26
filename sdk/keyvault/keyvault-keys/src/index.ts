@@ -192,7 +192,7 @@ export class KeysClient {
 
     this.pipeline.requestPolicyFactories;
 
-    this.client = new KeyVaultClient(credential, this.pipeline);    
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -499,11 +499,13 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
-    const span:Span = TracerProxy.getTracer().startSpan( 
-      "getKeyMethod", 
-      options ? 
-        options.requestOptions ? options.requestOptions["spanOptions"] : undefined
-      : undefined
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "getKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions["spanOptions"]
+          : undefined
+        : undefined
     );
     span.start();
 
@@ -515,7 +517,7 @@ export class KeysClient {
     );
 
     span.end();
-    
+
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -765,11 +767,13 @@ export class KeysClient {
   public listKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    const span:Span = TracerProxy.getTracer().startSpan( 
-      "listKeysMethod", 
-      options ? 
-        options.requestOptions ? options.requestOptions["spanOptions"] : undefined
-      : undefined
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "listKeysMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions["spanOptions"]
+          : undefined
+        : undefined
     );
     span.start();
 

@@ -6,7 +6,7 @@
     "target": "es5",
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "strict": true,
