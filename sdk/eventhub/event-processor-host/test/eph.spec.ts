@@ -48,7 +48,7 @@ describe("EPH", function(): void {
         }
       );
       const context = host["_context"];
-      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.0.0 ";
+      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.1.0 ";
       context.userAgent.should.include(uaPrefix);
       context.userAgent.should.include(`NODE-VERSION ${process.version}; ${os.type()} ${os.release()}`);
       const ehc: EventHubClient = context.getEventHubClient();
@@ -71,7 +71,7 @@ describe("EPH", function(): void {
         }
       );
       const context = host["_context"];
-      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.0.0 ";
+      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.1.0 ";
       context.userAgent.should.startWith(uaPrefix);
       context.userAgent.should.endWith(customua);
       const ehc: EventHubClient = context.getEventHubClient();
