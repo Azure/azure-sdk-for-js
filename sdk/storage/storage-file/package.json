@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file",
   "sdk-type": "client",
-  "version": "12.0.0-preview.1",
+  "version": "12.0.0-preview.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -78,8 +78,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.0.0-preview.1",
-    "@azure/core-paging": "^1.0.0-preview.1",
+    "@azure/core-http": "1.0.0-preview.2",
+    "@azure/core-paging": "1.0.0-preview.1",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
@@ -138,8 +138,8 @@
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-uglify": "^6.0.0",
-    "rollup-plugin-visualizer": "^1.0.0",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^2.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",

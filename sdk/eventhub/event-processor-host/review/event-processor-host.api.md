@@ -5,13 +5,13 @@
 ```ts
 
 import { aadEventHubsAudience } from '@azure/event-hubs';
-import { ApplicationTokenCredentials } from 'ms-rest-azure';
+import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import AsyncLock from 'async-lock';
 import { BlobService as BlobService_2 } from 'azure-storage';
 import { ClientOptionsBase } from '@azure/event-hubs';
 import { DataTransformer } from '@azure/event-hubs';
 import { delay } from '@azure/event-hubs';
-import { DeviceTokenCredentials } from 'ms-rest-azure';
+import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { Dictionary } from '@azure/event-hubs';
 import { EventData } from '@azure/event-hubs';
 import { EventHubClient } from '@azure/event-hubs';
@@ -20,11 +20,11 @@ import { EventHubPartitionRuntimeInformation } from '@azure/event-hubs';
 import { EventHubRuntimeInformation } from '@azure/event-hubs';
 import { EventPosition } from '@azure/event-hubs';
 import { MessagingError } from '@azure/event-hubs';
-import { MSITokenCredentials } from 'ms-rest-azure';
+import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
 import { OnError } from '@azure/event-hubs';
 import { ServiceResponse } from 'azure-storage';
 import { TokenProvider } from '@azure/event-hubs';
-import { UserTokenCredentials } from 'ms-rest-azure';
+import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 
 export { aadEventHubsAudience }
 

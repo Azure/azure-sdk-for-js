@@ -4,7 +4,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const isNode = !!process && !!process.version && !!process.versions && !!process.versions.node;
+export const isNode =
+  !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 export enum EnvVarKeys {
   EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",

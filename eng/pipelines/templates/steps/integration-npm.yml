@@ -1,0 +1,30 @@
+parameters:
+  PackagePath: ""
+  PreIntegrationSteps: ""
+  TestType: ""
+  EnvVars: []
+
+steps:
+  - script: |
+      npm install
+    displayName: "Install dependencies"
+    workingDirectory: "${{parameters.PackagePath}}"
+
+  - script: |
+      npm run build
+    displayName: "Build libraries"
+    workingDirectory: "${{parameters.PackagePath}}"
+
+  - script: |
+      npm run build:test
+    displayName: "Build test assets"
+    workingDirectory: "${{parameters.PackagePath}}"
+
+  - ${{if ne(parameters.PreIntegrationSteps, '')}}:
+    - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
+
+  - script: |
+      npm run integration-test:${{parameters.TestType}}
+    displayName: "Integration test libraries"
+    workingDirectory: "${{parameters.PackagePath}}"
+    env: ${{parameters.EnvVars}}

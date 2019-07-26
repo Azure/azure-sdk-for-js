@@ -78,7 +78,7 @@ describe("MsRestUserAgentPolicy", () => {
 
     it("should contain runtime information", async () => {
       const userAgent = await getUserAgent();
-      userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
+      userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
     });
 
     it("should have operating system information at the third place", async () => {
@@ -149,7 +149,7 @@ describe("MsRestUserAgentPolicy", () => {
 
       it("should contain runtime information", async () => {
         const userAgent = await getUserAgent();
-        userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
+        userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
       });
 
       it("should have operating system information at the second place", async () => {
