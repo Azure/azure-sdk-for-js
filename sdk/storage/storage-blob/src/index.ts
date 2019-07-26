@@ -1,6 +1,6 @@
 import { RestError } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/src/models";
+import * as Models from "./generated/src/models";
 
 export * from "./Aborter";
 export * from "./AccountSASPermissions";

@@ -1,6 +1,6 @@
 import { HttpResponse } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/src/models";
+import * as Models from "./generated/src/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/src/models";
 import { Service } from "./generated/src/operations";

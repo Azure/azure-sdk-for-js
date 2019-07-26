@@ -75,7 +75,7 @@ Playback mode is for offline mock test, which doesn't require a storage account,
 
 `export TEST_MODE=playback`
 
-Record tests for next playback. Recording is necessary adding or updating test cases:
+Record tests for next playback. Recording is necessary after adding or updating test cases:
 
 `export TEST_MODE=record`
 

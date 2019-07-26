@@ -1,9 +1,9 @@
 import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerURL } from "./ContainerURL";
+import * as Models from "./generated/src/models";
 import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
@@ -597,7 +597,7 @@ export class BlobURL extends StorageURL {
   }
 
   /**
-   * Aborts a pending asynchronously Copy Blob operation, and leaves a destination blob with zero
+   * Aborts a pending asynchronous Copy Blob operation, and leaves a destination blob with zero
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
@@ -650,7 +650,7 @@ export class BlobURL extends StorageURL {
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
         sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
       }
-    })
+    });
   }
 
   /**

@@ -1,9 +1,9 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
+import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
@@ -191,7 +191,7 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of body, also number of bytes to be uploaded
+   * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
@@ -216,7 +216,7 @@ export class PageBlobURL extends BlobURL {
   }
 
   /**
-   * The Upload Pages operation writes a range of pages to a page blob where the 
+   * The Upload Pages operation writes a range of pages to a page blob where the
    * contents are read from a URL.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
    *
@@ -240,7 +240,7 @@ export class PageBlobURL extends BlobURL {
   ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
-    
+
     return this.pageBlobContext.uploadPagesFromURL(
       sourceURL,
       rangeToString({ offset: sourceOffset, count }),

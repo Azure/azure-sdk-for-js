@@ -1,9 +1,9 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
+import * as Models from "./generated/src/models";
 import { AppendBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
 import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
@@ -160,7 +160,7 @@ export class AppendBlobURL extends BlobURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
-   * @param {number} contentLength Length of body in bytes
+   * @param {number} contentLength Length of the body in bytes
    * @param {IAppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobURL
