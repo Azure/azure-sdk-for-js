@@ -15,7 +15,7 @@ const packageName = "@azure/keyvault-certificates";
 const packageVersion = "0.0.1";
 
 export class KeyVaultClientContext extends coreArm.AzureServiceClient {
-  credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
+  credentials: coreHttp.TokenCredential;
   apiVersion?: string;
 
   /**
@@ -23,7 +23,7 @@ export class KeyVaultClientContext extends coreArm.AzureServiceClient {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }

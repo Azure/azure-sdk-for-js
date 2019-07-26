@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/lmazuel/swagger-to-sdk/master/swagger_to_sdk_config.schema.json",
+  "$schema": "https://openapistorageprod.blob.core.windows.net/sdkautomation/prod/schemas/swagger_to_sdk_config.schema.json",
   "meta": {
     "autorest_options": {
       "typescript": "",
@@ -9,7 +9,7 @@
     },
     "advanced_options": {
       "clone_dir": "./azure-sdk-for-js",
-      "create_sdk_pull_requests": false,
+      "create_sdk_pull_requests": true,
       "sdk_generation_pull_request_base": "integration_branch"
     },
     "version": "0.2.0"

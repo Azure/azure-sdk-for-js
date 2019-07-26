@@ -1,20 +1,17 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
 import { FileURL, ShareURL } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
-import {
-  downloadAzureFileToBuffer,
-  uploadFileToAzureFile,
-  uploadStreamToAzureFile
-} from "../../src/highlevel.node";
-import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
+import { downloadAzureFileToBuffer, uploadFileToAzureFile, uploadStreamToAzureFile } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
 import { record } from "../utils/recorder";
-import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+
+dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -238,6 +235,47 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadAzureFileToBuffer should success when downloading a range inside file", async () => {
+    await fileURL.create(Aborter.none, 8);
+    await fileURL.uploadRange(Aborter.none, "aaaabbbb", 0, 8);
+
+    const buf = Buffer.alloc(4);
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 4, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 3, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 2, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 1, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
   it("downloadAzureFileToBuffer should abort", async () => {

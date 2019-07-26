@@ -6,16 +6,25 @@
 ###########
 
 # Catch all
-# /sdk/ @ramya-rao-a
+/sdk/ @ramya-rao-a
 
 # Core
-# /sdk/core/
+/sdk/core/abort-controller/ @daviwil
+/sdk/core/core-amqp/ @ramya-rao-a
+/sdk/core/core-auth/ @daviwil
+/sdk/core/core-http/ @daviwil
+/sdk/core/core-paging/ @daviwil
 
 # Service teams
-# /sdk/eventhub/
-# /sdk/identity/
-# /sdk/keyvault/
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru
+/sdk/eventhub/ @chradek @shivangireja
+/sdk/servicebus/ @ramya-rao-a @shivangireja
+
+/sdk/identity/ @daviwil
+/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
+
+# Management Plane
+/**/*Management*.ts @michaeljqzq
 
 ###########
 # Eng Sys
