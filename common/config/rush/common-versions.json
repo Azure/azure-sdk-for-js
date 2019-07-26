@@ -4,7 +4,6 @@
  */
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/common-versions.schema.json",
-
   /**
    * A table that specifies a "preferred version" for a dependency package. The "preferred version"
    * is typically used to hold an indirect dependency back to a specific version, however generally
@@ -21,7 +20,6 @@
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
     "rhea-promise": "^0.1.15"
   },
-
   /**
    * The "rush check" command can be used to enforce that every project in the repo must specify
    * the same SemVer range for a given dependency.  However, sometimes exceptions are needed.
@@ -33,6 +31,9 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
+    "@azure/ms-rest-js": [
+      "^2.0.0"
+    ]
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):

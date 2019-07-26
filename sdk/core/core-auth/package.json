@@ -6,8 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/index.js",
-    "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
+    "./dist/index.js": "./browser/core-auth.js"
   },
   "types": "types/core-auth.d.ts",
   "scripts": {
@@ -57,7 +56,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-auth",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "tslib": "^1.9.3"
   },

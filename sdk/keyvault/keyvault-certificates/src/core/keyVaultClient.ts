@@ -21,7 +21,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
     super(credentials, options);
   }
 
