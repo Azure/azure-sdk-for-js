@@ -9,7 +9,7 @@
 export {
   discriminators,
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  GraphError,
+  OAuth2PermissionGrant,
+  OAuth2PermissionGrantListResult
 } from "../models/mappers";
