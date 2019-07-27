@@ -1,8 +1,9 @@
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
+import { AbortController } from "@azure/abort-controller";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { Aborter, ShareClient, DirectoryClient, FileClient } from "../src";
+import { ShareClient, DirectoryClient, FileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
 dotenv.config({ path: "../.env" });
 
@@ -282,7 +283,7 @@ describe("FileClient", () => {
 
     let eventTriggered = false;
     try {
-      const aborter = Aborter.none;
+      const aborter = new AbortController();
       const result = await fileClient.download(0, undefined, {
         progress: () => {
           eventTriggered = true;
