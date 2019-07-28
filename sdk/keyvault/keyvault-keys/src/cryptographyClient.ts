@@ -25,6 +25,8 @@ import {
 } from "./core/keyVaultBase";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import * as crypto from "crypto";
+const keyto = require("@trust/keyto");
 
 export class CryptographyClient {
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
@@ -58,7 +60,21 @@ export class CryptographyClient {
       let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
       return result.result!;
     } else {
-      throw new Error("Local crypto not yet supported");
+      switch (algorithm) {
+        case "RSA1_5": {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          console.log("<<Locally encrypted>>");
+
+          let padded: any = { key: keyPEM, type: "public", padding: (<any>crypto).constants.RSA_PKCS1_PADDING };
+          const decrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
+          return decrypted
+        }; break;
+        default: {
+          throw new Error("Local crypto not yet supported for this algorithm");
+        }
+      }
+
     }
   }
 
@@ -113,7 +129,7 @@ export class CryptographyClient {
       let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
       return result.result!;
     } else {
-      throw new Error("Local crypto not yet supported");
+      throw new Error("Sign algorithm does not have local support, yet");
     }
   }
 
@@ -127,7 +143,7 @@ export class CryptographyClient {
       const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
       return response.value ? response.value : false;
     } else {
-      throw new Error("Local crypto not yet supported");
+      throw new Error("Verify does not have local support, yet");
     }
   }
 
@@ -140,14 +156,39 @@ export class CryptographyClient {
   }
 
   public async verifyData(
-    _data: Uint8Array,
-    _signature: Uint8Array,
-    _algorithm: JsonWebKeySignatureAlgorithm,
-    _options?: RequestOptions
+    data: Uint8Array,
+    signature: Uint8Array,
+    algorithm: JsonWebKeySignatureAlgorithm,
+    options?: RequestOptions
   ): Promise<boolean> {
-    throw new Error("INCOMPLETE: Needs hash/digest function");
-  }
 
+    switch (algorithm) {
+      case ("RS256"): {
+        if (this.name && this.version) {
+          let hash = crypto.createHash("sha256");
+
+          hash.update(Buffer.from(data));
+          let digest = hash.digest();
+          let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
+          return result.value!;
+        } else {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          console.log("<<Locally verified>>");
+          const verifier = crypto.createVerify("SHA256");
+          verifier.update(Buffer.from(data));
+          verifier.end();
+
+          return verifier.verify(keyPEM, Buffer.from(signature));
+        }
+      }; break;
+      default: {
+        throw new Error("INCOMPLETE: Needs hash/digest function");
+      }
+    }
+
+
+  }
   public static getDefaultPipeline(
     credential: ServiceClientCredentials | TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
@@ -242,7 +283,7 @@ export class CryptographyClient {
   constructor(
     url: string,
     key: string | JsonWebKey, // keyUrl or JsonWebKey
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
@@ -252,7 +293,6 @@ export class CryptographyClient {
     } else {
       this.pipeline = pipelineOrOptions;
     }
-    // this.pipeline.requestPolicyFactories;
     this.client = new KeyVaultClient(credential, this.pipeline);
     this.key = key;
 
