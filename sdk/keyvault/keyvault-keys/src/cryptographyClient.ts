@@ -67,8 +67,15 @@ export class CryptographyClient {
           console.log("<<Locally encrypted>>");
 
           let padded: any = { key: keyPEM, type: "public", padding: (<any>crypto).constants.RSA_PKCS1_PADDING };
-          const decrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-          return decrypted
+          const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
+          return encrypted;
+        }; break;
+        case "RSA-OAEP": {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+          console.log("<<Locally encrypted>>");
+
+          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
+          return encrypted;
         }; break;
         default: {
           throw new Error("Local crypto not yet supported for this algorithm");

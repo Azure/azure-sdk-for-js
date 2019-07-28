@@ -47,6 +47,12 @@ async function main(): Promise<void> {
   const decrypt = await remoteCryptoClient.decrypt(encrypt, "RSA1_5");
   console.log("decrypt: ", decrypt.toString());
 
+  const encrypt2 = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA-OAEP");
+  console.log("encrypt2 result: ", encrypt2);
+
+  const decrypt2 = await remoteCryptoClient.decrypt(encrypt2, "RSA-OAEP");
+  console.log("decrypt2: ", decrypt2.toString());
+
   await client.deleteKey(keyName);
 }
 main().catch((err) => {
