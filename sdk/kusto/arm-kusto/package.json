@@ -2,11 +2,11 @@
   "name": "@azure/arm-kusto",
   "author": "Microsoft Corporation",
   "description": "KustoManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.0",
     "@azure/ms-rest-js": "^2.0.3",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "keywords": [
     "node",

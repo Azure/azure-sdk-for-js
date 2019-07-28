@@ -652,7 +652,7 @@ export const Trigger: msRest.CompositeMapper = {
       serializedName: "kind",
       clientName: "kind"
     },
-    uberParent: "Trigger",
+    uberParent: "BaseResource",
     className: "Trigger",
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
@@ -777,7 +777,7 @@ export const Role: msRest.CompositeMapper = {
       serializedName: "kind",
       clientName: "kind"
     },
-    uberParent: "Role",
+    uberParent: "BaseResource",
     className: "Role",
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
