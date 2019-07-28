@@ -22,8 +22,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   applicationSecurityGroups: operations.ApplicationSecurityGroups;
   availableDelegations: operations.AvailableDelegations;
   availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
-  availablePrivateEndpointTypes: operations.AvailablePrivateEndpointTypes;
-  availableResourceGroupPrivateEndpointTypes: operations.AvailableResourceGroupPrivateEndpointTypes;
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
   bastionHosts: operations.BastionHosts;
@@ -43,8 +41,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRoutePortsLocations: operations.ExpressRoutePortsLocations;
   expressRoutePorts: operations.ExpressRoutePorts;
   expressRouteLinks: operations.ExpressRouteLinks;
-  privateEndpoints: operations.PrivateEndpoints;
-  privateLinkServices: operations.PrivateLinkServices;
   loadBalancers: operations.LoadBalancers;
   loadBalancerBackendAddressPools: operations.LoadBalancerBackendAddressPools;
   loadBalancerFrontendIPConfigurations: operations.LoadBalancerFrontendIPConfigurations;
@@ -66,6 +62,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   packetCaptures: operations.PacketCaptures;
   connectionMonitors: operations.ConnectionMonitors;
   operations: operations.Operations;
+  privateEndpoints: operations.PrivateEndpoints;
+  availablePrivateEndpointTypes: operations.AvailablePrivateEndpointTypes;
+  privateLinkServices: operations.PrivateLinkServices;
   publicIPAddresses: operations.PublicIPAddresses;
   publicIPPrefixes: operations.PublicIPPrefixes;
   routeFilters: operations.RouteFilters;
@@ -88,11 +87,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualWans: operations.VirtualWans;
   vpnSites: operations.VpnSites;
+  vpnSiteLinks: operations.VpnSiteLinks;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
   virtualHubs: operations.VirtualHubs;
   hubVirtualNetworkConnections: operations.HubVirtualNetworkConnections;
   vpnGateways: operations.VpnGateways;
   vpnConnections: operations.VpnConnections;
+  vpnSiteLinkConnections: operations.VpnSiteLinkConnections;
+  vpnLinkConnections: operations.VpnLinkConnections;
   p2sVpnServerConfigurations: operations.P2sVpnServerConfigurations;
   p2sVpnGateways: operations.P2sVpnGateways;
   webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
@@ -110,8 +112,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.applicationSecurityGroups = new operations.ApplicationSecurityGroups(this);
     this.availableDelegations = new operations.AvailableDelegations(this);
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
-    this.availablePrivateEndpointTypes = new operations.AvailablePrivateEndpointTypes(this);
-    this.availableResourceGroupPrivateEndpointTypes = new operations.AvailableResourceGroupPrivateEndpointTypes(this);
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
     this.bastionHosts = new operations.BastionHosts(this);
@@ -131,8 +131,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRoutePortsLocations = new operations.ExpressRoutePortsLocations(this);
     this.expressRoutePorts = new operations.ExpressRoutePorts(this);
     this.expressRouteLinks = new operations.ExpressRouteLinks(this);
-    this.privateEndpoints = new operations.PrivateEndpoints(this);
-    this.privateLinkServices = new operations.PrivateLinkServices(this);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
     this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
@@ -154,6 +152,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.packetCaptures = new operations.PacketCaptures(this);
     this.connectionMonitors = new operations.ConnectionMonitors(this);
     this.operations = new operations.Operations(this);
+    this.privateEndpoints = new operations.PrivateEndpoints(this);
+    this.availablePrivateEndpointTypes = new operations.AvailablePrivateEndpointTypes(this);
+    this.privateLinkServices = new operations.PrivateLinkServices(this);
     this.publicIPAddresses = new operations.PublicIPAddresses(this);
     this.publicIPPrefixes = new operations.PublicIPPrefixes(this);
     this.routeFilters = new operations.RouteFilters(this);
@@ -176,11 +177,14 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualWans = new operations.VirtualWans(this);
     this.vpnSites = new operations.VpnSites(this);
+    this.vpnSiteLinks = new operations.VpnSiteLinks(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);
     this.virtualHubs = new operations.VirtualHubs(this);
     this.hubVirtualNetworkConnections = new operations.HubVirtualNetworkConnections(this);
     this.vpnGateways = new operations.VpnGateways(this);
     this.vpnConnections = new operations.VpnConnections(this);
+    this.vpnSiteLinkConnections = new operations.VpnSiteLinkConnections(this);
+    this.vpnLinkConnections = new operations.VpnLinkConnections(this);
     this.p2sVpnServerConfigurations = new operations.P2sVpnServerConfigurations(this);
     this.p2sVpnGateways = new operations.P2sVpnGateways(this);
     this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
