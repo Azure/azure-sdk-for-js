@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/certificateMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Certificate {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.CertificateCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.CertificateListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.CertificateListByServiceOptionalParams | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificateListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.CertificateListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.CertificateListByServiceOptionalParams | coreHttp.ServiceCallback<Models.CertificateCollection>, callback?: coreHttp.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificateListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class Certificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -75,7 +75,7 @@ export class Certificate {
    * Management service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,8 +84,8 @@ export class Certificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, certificateId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CertificateGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class Certificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, certificateId: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
+  get(resourceGroupName: string, serviceName: string, certificateId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -114,7 +114,7 @@ export class Certificate {
    * Management service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, certificateId: string, callback: msRest.ServiceCallback<Models.CertificateContract>): void;
+  get(resourceGroupName: string, serviceName: string, certificateId: string, callback: coreHttp.ServiceCallback<Models.CertificateContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -123,8 +123,8 @@ export class Certificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, certificateId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateContract>): void;
-  get(resourceGroupName: string, serviceName: string, certificateId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateContract>, callback?: msRest.ServiceCallback<Models.CertificateContract>): Promise<Models.CertificateGetResponse> {
+  get(resourceGroupName: string, serviceName: string, certificateId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateContract>): void;
+  get(resourceGroupName: string, serviceName: string, certificateId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateContract>, callback?: coreHttp.ServiceCallback<Models.CertificateContract>): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +155,7 @@ export class Certificate {
    * @param parameters Create or Update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.CertificateContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: coreHttp.ServiceCallback<Models.CertificateContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -165,8 +165,8 @@ export class Certificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateContract>, callback?: msRest.ServiceCallback<Models.CertificateContract>): Promise<Models.CertificateCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, certificateId: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.CertificateContract>, callback?: coreHttp.ServiceCallback<Models.CertificateContract>): Promise<Models.CertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,9 +188,9 @@ export class Certificate {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -200,7 +200,7 @@ export class Certificate {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -211,8 +211,8 @@ export class Certificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, certificateId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,19 +231,19 @@ export class Certificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CertificateListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.CertificateCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificateListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateCollection>, callback?: coreHttp.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificateListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -255,8 +255,8 @@ export class Certificate {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates",
   urlParameters: [
@@ -284,7 +284,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   urlParameters: [
@@ -310,7 +310,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   urlParameters: [
@@ -337,7 +337,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   urlParameters: [
@@ -376,7 +376,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   urlParameters: [
@@ -402,7 +402,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
