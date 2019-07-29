@@ -53,13 +53,7 @@ export class CryptographyClient {
     _authenticationData?: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    // TODO: How do we distinguish between doing a service call or encrypting locally?
-    // TODO: How do we derive the remote key from a JWK object?
-
-    if (this.name && this.version) {
-      let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
-      return result.result!;
-    } else {
+    if (typeof this.key !== "string") {
       switch (algorithm) {
         case "RSA1_5": {
           let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
@@ -69,20 +63,20 @@ export class CryptographyClient {
           let padded: any = { key: keyPEM, type: "public", padding: (<any>crypto).constants.RSA_PKCS1_PADDING };
           const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
           return encrypted;
-        }; break;
+        };
         case "RSA-OAEP": {
           let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
           console.log("<<Locally encrypted>>");
 
           const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
           return encrypted;
-        }; break;
-        default: {
-          throw new Error("Local crypto not yet supported for this algorithm");
-        }
+        };
       }
-
     }
+
+    // Default to the service
+    let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
+    return result.result!;
   }
 
   public async decrypt(
@@ -93,12 +87,9 @@ export class CryptographyClient {
     _authenticationTag?: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    if (this.name && this.version) {
-      let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
-      return result.result!;
-    } else {
-      throw new Error("Local crypto not yet supported");
-    }
+    // Default to the service
+    let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
+    return result.result!;
   }
 
   public async wrapKey(
@@ -106,12 +97,9 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    if (this.name && this.version) {
-      let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
-      return result.result!;
-    } else {
-      throw new Error("Local crypto not yet supported");
-    }
+    // Default to the service
+    let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
+    return result.result!;
   }
 
   public async unwrapKey(
@@ -119,12 +107,9 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    if (this.name && this.version) {
-      let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
-      return result.result!;
-    } else {
-      throw new Error("Local crypto not yet supported");
-    }
+    // Default to the service
+    let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
+    return result.result!;
   }
 
   public async sign(
@@ -132,12 +117,9 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    if (this.name && this.version) {
-      let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
-      return result.result!;
-    } else {
-      throw new Error("Sign algorithm does not have local support, yet");
-    }
+    // Default to the service
+    let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
+    return result.result!;
   }
 
   public async verify(
@@ -146,20 +128,23 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    if (this.name && this.version) {
-      const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-      return response.value ? response.value : false;
-    } else {
-      throw new Error("Verify does not have local support, yet");
-    }
+    // Default to the service
+    const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
+    return response.value ? response.value : false;
   }
 
   public async signData(
-    _data: Uint8Array,
-    _algorithm: JsonWebKeySignatureAlgorithm,
-    _options?: RequestOptions
+    data: Uint8Array,
+    algorithm: JsonWebKeySignatureAlgorithm,
+    options?: RequestOptions
   ): Promise<Uint8Array> {
-    throw new Error("INCOMPLETE: Needs hash/digest function");
+    // Default to the service
+    let hash = crypto.createHash("sha256");
+
+    hash.update(Buffer.from(data));
+    let digest = hash.digest();
+    let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
+    return result.result!;
   }
 
   public async verifyData(
@@ -169,16 +154,9 @@ export class CryptographyClient {
     options?: RequestOptions
   ): Promise<boolean> {
 
-    switch (algorithm) {
-      case ("RS256"): {
-        if (this.name && this.version) {
-          let hash = crypto.createHash("sha256");
-
-          hash.update(Buffer.from(data));
-          let digest = hash.digest();
-          let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-          return result.value!;
-        } else {
+    if (this.key !== "string") {
+      switch (algorithm) {
+        case ("RS256"): {
           let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
           console.log("<<Locally verified>>");
@@ -187,15 +165,19 @@ export class CryptographyClient {
           verifier.end();
 
           return verifier.verify(keyPEM, Buffer.from(signature));
-        }
-      }; break;
-      default: {
-        throw new Error("INCOMPLETE: Needs hash/digest function");
+        };
       }
     }
 
+    // Default to the service
+    let hash = crypto.createHash("sha256");
 
+    hash.update(Buffer.from(data));
+    let digest = hash.digest();
+    let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
+    return result.value!;
   }
+
   public static getDefaultPipeline(
     credential: ServiceClientCredentials | TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
@@ -280,12 +262,12 @@ export class CryptographyClient {
   /**
    * Name of the key the client represents
    */
-  private name: string | undefined;
+  private name: string;
 
   /**
    * Version of the key the client represents
    */
-  private version: string | undefined;
+  private version: string;
 
   constructor(
     url: string,
@@ -303,19 +285,22 @@ export class CryptographyClient {
     this.client = new KeyVaultClient(credential, this.pipeline);
     this.key = key;
 
+    let parsed;
     if (typeof this.key === "string") {
-      let parsed = parseKeyvaultIdentifier("keys", this.key);
-
-      if (parsed.name == "") {
-        throw new Error("Could not find 'name' of key in key URL");
-      }
-
-      if (!parsed.version || parsed.version == "") {
-        throw new Error("Could not find 'version' of key in key URL");
-      }
-
-      this.name = parsed.name;
-      this.version = parsed.version;
+      parsed = parseKeyvaultIdentifier("keys", this.key);
+    } else {
+      parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
     }
+
+    if (parsed.name == "") {
+      throw new Error("Could not find 'name' of key in key URL");
+    }
+
+    if (!parsed.version || parsed.version == "") {
+      throw new Error("Could not find 'version' of key in key URL");
+    }
+
+    this.name = parsed.name;
+    this.version = parsed.version;
   }
 }
