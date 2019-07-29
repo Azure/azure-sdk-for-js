@@ -8,8 +8,8 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 const config = {
   input: "./esm/dataFactoryManagementClient.js",
   external: [
-    "@azure/core-http",
-    "@azure/core-arm"
+    "@azure/ms-rest-js",
+    "@azure/ms-rest-azure-js"
   ],
   output: {
     file: "./dist/arm-datafactory.js",

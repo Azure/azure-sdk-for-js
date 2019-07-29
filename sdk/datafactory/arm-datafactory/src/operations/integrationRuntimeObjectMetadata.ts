@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimeObjectMetadataMappers";
 import * as Parameters from "../models/parameters";
@@ -35,7 +35,7 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>
    */
-  refresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
+  refresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
     return this.beginRefresh(resourceGroupName,factoryName,integrationRuntimeName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   }
@@ -56,7 +56,7 @@ export class IntegrationRuntimeObjectMetadata {
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: coreHttp.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -64,8 +64,8 @@ export class IntegrationRuntimeObjectMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams, callback: coreHttp.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams | coreHttp.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: coreHttp.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,9 +83,9 @@ export class IntegrationRuntimeObjectMetadata {
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param [options] The optional parameters
-   * @returns Promise<coreArm.LROPoller>
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
+  beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -99,8 +99,8 @@ export class IntegrationRuntimeObjectMetadata {
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers);
-const getOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers);
+const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   urlParameters: [
@@ -133,7 +133,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const beginRefreshOperationSpec: coreHttp.OperationSpec = {
+const beginRefreshOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   urlParameters: [
