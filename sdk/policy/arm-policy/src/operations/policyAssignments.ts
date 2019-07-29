@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/policyAssignmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -40,7 +40,7 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsDeleteMethodResponse>
    */
-  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
+  deleteMethod(scope: string, policyAssignmentName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -50,7 +50,7 @@ export class PolicyAssignments {
    * @param policyAssignmentName The name of the policy assignment to delete.
    * @param callback The callback
    */
-  deleteMethod(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteMethod(scope: string, policyAssignmentName: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -61,8 +61,8 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
+  deleteMethod(scope: string, policyAssignmentName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteMethod(scope: string, policyAssignmentName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -88,7 +88,7 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsCreateResponse>
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateResponse>;
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -99,7 +99,7 @@ export class PolicyAssignments {
    * @param parameters Parameters for the policy assignment.
    * @param callback The callback
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -111,8 +111,8 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -137,7 +137,7 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsGetResponse>
    */
-  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetResponse>;
+  get(scope: string, policyAssignmentName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -147,7 +147,7 @@ export class PolicyAssignments {
    * @param policyAssignmentName The name of the policy assignment to get.
    * @param callback The callback
    */
-  get(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  get(scope: string, policyAssignmentName: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -158,8 +158,8 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
+  get(scope: string, policyAssignmentName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  get(scope: string, policyAssignmentName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -179,9 +179,8 @@ export class PolicyAssignments {
    * contained within the resource group. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource group, which is everything in the
    * unfiltered list except those applied to resources contained within the resource group. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource group and assign the policy definition whose id is
-   * {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource group.
    * @summary Retrieves all policy assignments that apply to a resource group.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param [options] The optional parameters
@@ -192,14 +191,14 @@ export class PolicyAssignments {
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
+  listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,11 +217,11 @@ export class PolicyAssignments {
    * resources contained within the resource. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource, which is everything in the
    * unfiltered list except those applied to resources contained within the resource. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource and assign the policy definition whose id is {value}.
-   * Three parameters plus the resource name are used to identify a specific resource. If the
-   * resource is not part of a parent resource (the more common case), the parent resource path
-   * should not be provided (or provided as ''). For example a web app could be specified as
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource. Three
+   * parameters plus the resource name are used to identify a specific resource. If the resource is
+   * not part of a parent resource (the more common case), the parent resource path should not be
+   * provided (or provided as ''). For example a web app could be specified as
    * ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} ==
    * 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all
    * parameters should be provided. For example a virtual machine DNS name could be specified as
@@ -254,7 +253,7 @@ export class PolicyAssignments {
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the
@@ -266,8 +265,8 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -290,8 +289,8 @@ export class PolicyAssignments {
    * contained within the subscription. If $filter=atScope() is provided, the returned list includes
    * all policy assignments that apply to the subscription, which is everything in the unfiltered
    * list except those applied to objects contained within the subscription. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the subscription and assign the policy definition whose id is {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    * @summary Retrieves all policy assignments that apply to a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListResponse>
@@ -300,13 +299,13 @@ export class PolicyAssignments {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PolicyAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  list(options?: Models.PolicyAssignmentsListOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
+  list(options: Models.PolicyAssignmentsListOptionalParams, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  list(options?: Models.PolicyAssignmentsListOptionalParams | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -329,21 +328,21 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsDeleteByIdResponse>
    */
-  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
+  deleteById(policyAssignmentId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param callback The callback
    */
-  deleteById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteById(policyAssignmentId: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
+  deleteById(policyAssignmentId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteById(policyAssignmentId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -371,14 +370,14 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsCreateByIdResponse>
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to create. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param parameters Parameters for policy assignment.
    * @param callback The callback
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to create. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
@@ -386,8 +385,8 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -412,21 +411,21 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsGetByIdResponse>
    */
-  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetByIdResponse>;
+  getById(policyAssignmentId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to get. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param callback The callback
    */
-  getById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  getById(policyAssignmentId: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to get. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
+  getById(policyAssignmentId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignment>): void;
+  getById(policyAssignmentId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignment>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -445,27 +444,26 @@ export class PolicyAssignments {
    * contained within the resource group. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource group, which is everything in the
    * unfiltered list except those applied to resources contained within the resource group. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource group and assign the policy definition whose id is
-   * {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource group.
    * @summary Retrieves all policy assignments that apply to a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -484,11 +482,11 @@ export class PolicyAssignments {
    * resources contained within the resource. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource, which is everything in the
    * unfiltered list except those applied to resources contained within the resource. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource and assign the policy definition whose id is {value}.
-   * Three parameters plus the resource name are used to identify a specific resource. If the
-   * resource is not part of a parent resource (the more common case), the parent resource path
-   * should not be provided (or provided as ''). For example a web app could be specified as
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource. Three
+   * parameters plus the resource name are used to identify a specific resource. If the resource is
+   * not part of a parent resource (the more common case), the parent resource path should not be
+   * provided (or provided as ''). For example a web app could be specified as
    * ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} ==
    * 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all
    * parameters should be provided. For example a virtual machine DNS name could be specified as
@@ -503,19 +501,19 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
+  listForResourceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
+  listForResourceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -534,26 +532,26 @@ export class PolicyAssignments {
    * contained within the subscription. If $filter=atScope() is provided, the returned list includes
    * all policy assignments that apply to the subscription, which is everything in the unfiltered
    * list except those applied to objects contained within the subscription. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the subscription and assign the policy definition whose id is {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    * @summary Retrieves all policy assignments that apply to a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.PolicyAssignmentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: coreHttp.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -565,8 +563,8 @@ export class PolicyAssignments {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   urlParameters: [
@@ -591,7 +589,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   urlParameters: [
@@ -622,7 +620,7 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   urlParameters: [
@@ -646,7 +644,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listForResourceGroupOperationSpec: msRest.OperationSpec = {
+const listForResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
   urlParameters: [
@@ -671,7 +669,7 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listForResourceOperationSpec: msRest.OperationSpec = {
+const listForResourceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
   urlParameters: [
@@ -700,7 +698,7 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
   urlParameters: [
@@ -724,7 +722,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteByIdOperationSpec: msRest.OperationSpec = {
+const deleteByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{policyAssignmentId}",
   urlParameters: [
@@ -748,7 +746,7 @@ const deleteByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createByIdOperationSpec: msRest.OperationSpec = {
+const createByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{policyAssignmentId}",
   urlParameters: [
@@ -778,7 +776,7 @@ const createByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getByIdOperationSpec: msRest.OperationSpec = {
+const getByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{policyAssignmentId}",
   urlParameters: [
@@ -801,7 +799,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listForResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listForResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -822,7 +820,7 @@ const listForResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listForResourceNextOperationSpec: msRest.OperationSpec = {
+const listForResourceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -843,7 +841,7 @@ const listForResourceNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

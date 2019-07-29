@@ -9,14 +9,14 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/arm-policy";
 const packageVersion = "1.0.2";
 
-export class PolicyClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class PolicyClientContext extends coreArm.AzureServiceClient {
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
 
@@ -26,7 +26,7 @@ export class PolicyClientContext extends msRestAzure.AzureServiceClient {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -38,13 +38,13 @@ export class PolicyClientContext extends msRestAzure.AzureServiceClient {
       options = {};
     }
     if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2018-05-01';
+    this.apiVersion = '2019-01-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

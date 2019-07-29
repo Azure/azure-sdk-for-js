@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -135,10 +135,9 @@ export interface PolicyDefinition extends BaseResource {
    */
   policyType?: PolicyType;
   /**
-   * The policy definition mode. Possible values are NotSpecified, Indexed, and All. Possible
-   * values include: 'NotSpecified', 'Indexed', 'All'
+   * The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data.
    */
-  mode?: PolicyMode;
+  mode?: string;
   /**
    * The display name of the policy definition.
    */
@@ -239,7 +238,7 @@ export interface PolicySetDefinition extends BaseResource {
 /**
  * Optional Parameters.
  */
-export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyAssignmentsListForResourceGroupOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
    * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
@@ -250,7 +249,7 @@ export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyAssignmentsListForResourceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
    * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
@@ -261,7 +260,7 @@ export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface PolicyAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyAssignmentsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
    * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
@@ -329,21 +328,13 @@ export type ResourceIdentityType = 'SystemAssigned' | 'None';
 export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom';
 
 /**
- * Defines values for PolicyMode.
- * Possible values include: 'NotSpecified', 'Indexed', 'All'
- * @readonly
- * @enum {string}
- */
-export type PolicyMode = 'NotSpecified' | 'Indexed' | 'All';
-
-/**
  * Contains response data for the deleteMethod operation.
  */
 export type PolicyAssignmentsDeleteMethodResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -363,7 +354,7 @@ export type PolicyAssignmentsCreateResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -383,7 +374,7 @@ export type PolicyAssignmentsGetResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -403,7 +394,7 @@ export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentList
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -423,7 +414,7 @@ export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -443,7 +434,7 @@ export type PolicyAssignmentsListResponse = PolicyAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -463,7 +454,7 @@ export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -483,7 +474,7 @@ export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -503,7 +494,7 @@ export type PolicyAssignmentsGetByIdResponse = PolicyAssignment & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -523,7 +514,7 @@ export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignment
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -543,7 +534,7 @@ export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListR
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -563,7 +554,7 @@ export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -583,7 +574,7 @@ export type PolicyDefinitionsCreateOrUpdateResponse = PolicyDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -603,7 +594,7 @@ export type PolicyDefinitionsGetResponse = PolicyDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -623,7 +614,7 @@ export type PolicyDefinitionsGetBuiltInResponse = PolicyDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -643,7 +634,7 @@ export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicyDef
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -663,7 +654,7 @@ export type PolicyDefinitionsGetAtManagementGroupResponse = PolicyDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -683,7 +674,7 @@ export type PolicyDefinitionsListResponse = PolicyDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -703,7 +694,7 @@ export type PolicyDefinitionsListBuiltInResponse = PolicyDefinitionListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -723,7 +714,7 @@ export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionLis
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -743,7 +734,7 @@ export type PolicyDefinitionsListNextResponse = PolicyDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -763,7 +754,7 @@ export type PolicyDefinitionsListBuiltInNextResponse = PolicyDefinitionListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -783,7 +774,7 @@ export type PolicyDefinitionsListByManagementGroupNextResponse = PolicyDefinitio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -803,7 +794,7 @@ export type PolicySetDefinitionsCreateOrUpdateResponse = PolicySetDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -823,7 +814,7 @@ export type PolicySetDefinitionsGetResponse = PolicySetDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -843,7 +834,7 @@ export type PolicySetDefinitionsGetBuiltInResponse = PolicySetDefinition & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -863,7 +854,7 @@ export type PolicySetDefinitionsListResponse = PolicySetDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -883,7 +874,7 @@ export type PolicySetDefinitionsListBuiltInResponse = PolicySetDefinitionListRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -903,7 +894,7 @@ export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse = Policy
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -923,7 +914,7 @@ export type PolicySetDefinitionsGetAtManagementGroupResponse = PolicySetDefiniti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -943,7 +934,7 @@ export type PolicySetDefinitionsListByManagementGroupResponse = PolicySetDefinit
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -963,7 +954,7 @@ export type PolicySetDefinitionsListNextResponse = PolicySetDefinitionListResult
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -983,7 +974,7 @@ export type PolicySetDefinitionsListBuiltInNextResponse = PolicySetDefinitionLis
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -1003,7 +994,7 @@ export type PolicySetDefinitionsListByManagementGroupNextResponse = PolicySetDef
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
