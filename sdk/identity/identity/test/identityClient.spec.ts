@@ -41,6 +41,10 @@ describe("IdentityClient", function () {
       () => { new IdentityClient({ authorityHost: "http://totallyinsecure.lol" }) },
       Error,
       "The authorityHost address must use the 'https' protocol.");
+    assert.throws(
+      () => { new IdentityClient({ authorityHost: "httpsomg.com" }) },
+      Error,
+      "The authorityHost address must use the 'https' protocol.");
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
