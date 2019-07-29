@@ -7,6 +7,7 @@ dependencies:
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
+  '@azure/ms-rest-js': 2.0.3
   '@azure/ms-rest-nodeauth': 0.9.3
   '@microsoft/api-extractor': 7.3.4
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
@@ -2174,8 +2175,8 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist/3.2.8:
     dependencies:
-      caniuse-lite: 1.0.30000985
-      electron-to-chromium: 1.3.201
+      caniuse-lite: 1.0.30000986
+      electron-to-chromium: 1.3.203
     dev: false
     hasBin: true
     resolution:
@@ -2351,10 +2352,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-  /caniuse-lite/1.0.30000985:
+  /caniuse-lite/1.0.30000986:
     dev: false
     resolution:
-      integrity: sha512-1ngiwkgqAYPG0JSSUp3PUDGPKKY59EK7NrGGX+VOxaKCNzRbNc7uXMny+c3VJfZxtoK3wSImTvG9T9sXiTw2+w==
+      integrity: sha512-pM+LnkoAX0+QnIH3tpW5EnkmfpEoqOD8FAcoBvsl3Xh6DXkgctiCxeCbXphP/k3XJtJzm+zOAJbi6U6IVkpWZQ==
   /caseless/0.12.0:
     dev: false
     resolution:
@@ -3224,10 +3225,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.201:
+  /electron-to-chromium/1.3.203:
     dev: false
     resolution:
-      integrity: sha512-aCTPIfY1Jvuam5b6vuWRjt1F8i4kY7zX0Qtpu5SNd6l1zjuxU9fDNpbM4o6+oJsra+TMD2o7D20GnkSIgpTr9w==
+      integrity: sha512-Z1FjJKEBhYrCNmnususVk8khiBabVI/bSJB/295V4ghVt4MFmtbP+mXgRZLQZinEBI469U6FtiGgpXnlLs6qiQ==
   /elliptic/6.5.0:
     dependencies:
       bn.js: 4.11.8
@@ -7266,14 +7267,14 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
-  /pupa/2.0.0:
+  /pupa/2.0.1:
     dependencies:
       escape-goat: 2.1.0
     dev: false
     engines:
       node: '>=8'
     resolution:
-      integrity: sha512-xxy6mj9KTirR7fpsdXrIaC4oUb/uvFfchrC4K3RFxYLQ/G05RlhJIKFF2ayCQnNaFI+fOxGWzEVUhYMXHNljeQ==
+      integrity: sha512-hEJH0s8PXLY/cdXh66tNEQGndDrIKNqNC5xmrysZy3i5C3oEoLna7YAOad+7u125+zH1HNXUmGEkrhb3c2VriA==
   /puppeteer/1.19.0:
     dependencies:
       debug: 4.1.1
@@ -7901,7 +7902,7 @@ packages:
     dependencies:
       mkdirp: 0.5.1
       open: 6.4.0
-      pupa: 2.0.0
+      pupa: 2.0.1
       rollup: 1.17.0
       source-map: 0.7.3
     dev: false
@@ -10686,7 +10687,6 @@ packages:
     version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.13
       '@microsoft/api-extractor': 7.3.4
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
@@ -10733,7 +10733,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-sI0jpLfbroFiHzPvYDjMrrIveRCsLhD5kuNJoAlJi7dBmdUF9t1x9UraEYF6Br45IIWvH2H0OdwXkQBE+L5Tgw==
+      integrity: sha512-aCJAMfdHDb3AD+e4HRiGpK0k0J17hCxw9MbtTZiFmGn65a+yA2M9yEDtF2bAoVCGlM9CjzWzLLUPBdyoNiSevw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10761,7 +10761,6 @@ packages:
       integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10771,6 +10770,7 @@ specifiers:
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
+  '@azure/ms-rest-js': ^2.0.0
   '@azure/ms-rest-nodeauth': ^0.9.2
   '@microsoft/api-extractor': ^7.1.5
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
