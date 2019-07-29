@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/loggerMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Logger {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.LoggerCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.LoggerListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.LoggerListByServiceOptionalParams | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.LoggerListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.LoggerCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.LoggerListByServiceOptionalParams | coreHttp.ServiceCallback<Models.LoggerCollection>, callback?: coreHttp.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,14 +66,14 @@ export class Logger {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoggerGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options?: msRest.RequestOptionsBase): Promise<Models.LoggerGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoggerGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,8 +81,8 @@ export class Logger {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.LoggerGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, loggerId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.LoggerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,14 +102,14 @@ export class Logger {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoggerGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, loggerId: string, options?: msRest.RequestOptionsBase): Promise<Models.LoggerGetResponse>;
+  get(resourceGroupName: string, serviceName: string, loggerId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoggerGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, loggerId: string, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
+  get(resourceGroupName: string, serviceName: string, loggerId: string, callback: coreHttp.ServiceCallback<Models.LoggerContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -117,8 +117,8 @@ export class Logger {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, loggerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
-  get(resourceGroupName: string, serviceName: string, loggerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerContract>, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerGetResponse> {
+  get(resourceGroupName: string, serviceName: string, loggerId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoggerContract>): void;
+  get(resourceGroupName: string, serviceName: string, loggerId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoggerContract>, callback?: coreHttp.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +147,7 @@ export class Logger {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, callback: coreHttp.ServiceCallback<Models.LoggerContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +156,8 @@ export class Logger {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, options: Models.LoggerCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, options?: Models.LoggerCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.LoggerContract>, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, options: Models.LoggerCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.LoggerContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerContract, options?: Models.LoggerCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.LoggerContract>, callback?: coreHttp.ServiceCallback<Models.LoggerContract>): Promise<Models.LoggerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,9 +179,9 @@ export class Logger {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -191,7 +191,7 @@ export class Logger {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,8 +202,8 @@ export class Logger {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, loggerId: string, parameters: Models.LoggerUpdateContract, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,9 +225,9 @@ export class Logger {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options?: Models.LoggerDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options?: Models.LoggerDeleteMethodOptionalParams): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -236,7 +236,7 @@ export class Logger {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -246,8 +246,8 @@ export class Logger {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options: Models.LoggerDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options?: Models.LoggerDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options: Models.LoggerDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, loggerId: string, ifMatch: string, options?: Models.LoggerDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,19 +266,19 @@ export class Logger {
    * @param [options] The optional parameters
    * @returns Promise<Models.LoggerListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LoggerListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.LoggerListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.LoggerCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LoggerCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LoggerCollection>, callback?: coreHttp.ServiceCallback<Models.LoggerCollection>): Promise<Models.LoggerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -290,8 +290,8 @@ export class Logger {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers",
   urlParameters: [
@@ -319,7 +319,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   urlParameters: [
@@ -345,7 +345,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   urlParameters: [
@@ -372,7 +372,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   urlParameters: [
@@ -411,7 +411,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   urlParameters: [
@@ -443,7 +443,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   urlParameters: [
@@ -470,7 +470,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/userSubscriptionMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class UserSubscription {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, callback: coreHttp.ServiceCallback<Models.SubscriptionCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +49,8 @@ export class UserSubscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserSubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserSubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
+  list(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserSubscriptionListOptionalParams, callback: coreHttp.ServiceCallback<Models.SubscriptionCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserSubscriptionListOptionalParams | coreHttp.ServiceCallback<Models.SubscriptionCollection>, callback?: coreHttp.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,19 +68,19 @@ export class UserSubscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserSubscriptionListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UserSubscriptionListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.UserSubscriptionListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SubscriptionCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SubscriptionCollection>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SubscriptionCollection>, callback?: coreHttp.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -92,8 +92,8 @@ export class UserSubscription {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
   urlParameters: [
@@ -122,7 +122,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

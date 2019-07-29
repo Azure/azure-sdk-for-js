@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/apiVersionSetMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class ApiVersionSet {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.ApiVersionSetListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.ApiVersionSetListByServiceOptionalParams | msRest.ServiceCallback<Models.ApiVersionSetCollection>, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.ApiVersionSetListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.ApiVersionSetListByServiceOptionalParams | coreHttp.ServiceCallback<Models.ApiVersionSetCollection>, callback?: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class ApiVersionSet {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiVersionSetGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiVersionSetGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiVersionSetGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -75,7 +75,7 @@ export class ApiVersionSet {
    * service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,8 +84,8 @@ export class ApiVersionSet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiVersionSetGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, versionSetId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ApiVersionSetGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class ApiVersionSet {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiVersionSetGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiVersionSetGetResponse>;
+  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiVersionSetGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -114,7 +114,7 @@ export class ApiVersionSet {
    * service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, versionSetId: string, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
+  get(resourceGroupName: string, serviceName: string, versionSetId: string, callback: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -123,8 +123,8 @@ export class ApiVersionSet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, versionSetId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
-  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiVersionSetContract>, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetGetResponse> {
+  get(resourceGroupName: string, serviceName: string, versionSetId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): void;
+  get(resourceGroupName: string, serviceName: string, versionSetId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiVersionSetContract>, callback?: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +155,7 @@ export class ApiVersionSet {
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, callback: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -165,8 +165,8 @@ export class ApiVersionSet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options: Models.ApiVersionSetCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ApiVersionSetContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options?: Models.ApiVersionSetCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ApiVersionSetContract>, callback?: msRest.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options: Models.ApiVersionSetCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetContract, options?: Models.ApiVersionSetCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.ApiVersionSetContract>, callback?: coreHttp.ServiceCallback<Models.ApiVersionSetContract>): Promise<Models.ApiVersionSetCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,9 +189,9 @@ export class ApiVersionSet {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +202,7 @@ export class ApiVersionSet {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +214,8 @@ export class ApiVersionSet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, versionSetId: string, parameters: Models.ApiVersionSetUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,9 +238,9 @@ export class ApiVersionSet {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -250,7 +250,7 @@ export class ApiVersionSet {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -261,8 +261,8 @@ export class ApiVersionSet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, versionSetId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -281,19 +281,19 @@ export class ApiVersionSet {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiVersionSetListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiVersionSetListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiVersionSetListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiVersionSetCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiVersionSetCollection>, callback?: msRest.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiVersionSetCollection>, callback?: coreHttp.ServiceCallback<Models.ApiVersionSetCollection>): Promise<Models.ApiVersionSetListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -305,8 +305,8 @@ export class ApiVersionSet {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
   urlParameters: [
@@ -334,7 +334,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   urlParameters: [
@@ -360,7 +360,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   urlParameters: [
@@ -387,7 +387,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   urlParameters: [
@@ -426,7 +426,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   urlParameters: [
@@ -458,7 +458,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   urlParameters: [
@@ -484,7 +484,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
