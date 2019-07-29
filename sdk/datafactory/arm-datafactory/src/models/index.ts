@@ -416,7 +416,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -472,7 +472,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | AzureMariaDBTableDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -3633,6 +3633,45 @@ export interface MarketoLinkedService {
 }
 
 /**
+ * Azure Database for MariaDB linked service.
+ */
+export interface AzureMariaDBLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureMariaDB";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString?: any;
+  /**
+   * The Azure key vault secret reference of password in connection string.
+   */
+  pwd?: AzureKeyVaultSecretReference;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
  * MariaDB server linked service.
  */
 export interface MariaDBLinkedService {
@@ -3659,11 +3698,24 @@ export interface MariaDBLinkedService {
   /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
-  connectionString?: any;
+  host: any;
   /**
    * The Azure key vault secret reference of password in connection string.
    */
-  pwd?: AzureKeyVaultSecretReference;
+  port?: any;
+  /**
+   * The user name that you use to access Jira Service.
+   */
+  username: any;
+  /**
+   * The password corresponding to the user name that you provided in the username field.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
+   * true.
+   */
+  useEncryptedEndpoints?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -3761,11 +3813,15 @@ export interface JiraLinkedService {
   /**
    * The user name that you use to access Jira Service.
    */
-  username: any;
+  clientSecret?: SecretBaseUnion;
   /**
    * The password corresponding to the user name that you provided in the username field.
    */
-  password?: SecretBaseUnion;
+  accessToken?: SecretBaseUnion;
+  /**
+   * The refresh token obtained when initially authenticating your OAuth integration.
+   */
+  refreshToken?: SecretBaseUnion;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -3895,7 +3951,7 @@ export interface HubspotLinkedService {
   /**
    * The client ID associated with your Hubspot application.
    */
-  clientId: any;
+  host: any;
   /**
    * The client secret associated with your Hubspot application.
    */
@@ -3912,17 +3968,22 @@ export interface HubspotLinkedService {
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
    */
-  useEncryptedEndpoints?: any;
+  enableSsl?: any;
   /**
    * Specifies whether to require the host name in the server's certificate to match the host name
    * of the server when connecting over SSL. The default value is true.
    */
-  useHostVerification?: any;
+  trustedCertPath?: any;
   /**
    * Specifies whether to verify the identity of the server when connecting over SSL. The default
    * value is true.
    */
-  usePeerVerification?: any;
+  allowHostNameCNMismatch?: any;
+  /**
+   * Specifies whether to allow self-signed certificates from the server. The default value is
+   * false.
+   */
+  allowSelfSignedServerCert?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -4347,19 +4408,19 @@ export interface CouchbaseLinkedService {
   /**
    * The integration runtime reference.
    */
-  connectVia?: IntegrationRuntimeReference;
+  accessKeyId: any;
   /**
    * Linked service description.
    */
-  description?: string;
+  secretKey?: SecretBaseUnion;
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  useEncryptedEndpoints?: any;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  useHostVerification?: any;
   /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4410,7 +4471,7 @@ export interface ConcurLinkedService {
   /**
    * The password corresponding to the user name that you provided in the username field.
    */
-  password?: SecretBaseUnion;
+  authenticationType?: SapHanaAuthenticationType;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -4541,6 +4602,16 @@ export interface AmazonMWSLinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * If true, connect to the FTP server over SSL/TLS channel. Default value is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  enableSsl?: any;
+  /**
+   * If true, validate the FTP server SSL certificate when connect over SSL/TLS channel. Default
+   * value is true. Type: boolean (or Expression with resultType boolean).
+   */
+  enableServerCertificateValidation?: any;
 }
 
 /**
@@ -4593,6 +4664,11 @@ export interface SapHanaLinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * If true, validate the HTTPS server SSL certificate. Default value is true. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  enableServerCertificateValidation?: any;
 }
 
 /**
@@ -4645,7 +4721,11 @@ export interface SapBWLinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  annotations?: any[];
+  /**
+   * Custom linked service properties.
+   */
+  typeProperties: any;
 }
 
 /**
@@ -4774,7 +4854,7 @@ export interface FtpServerLinkedService {
   /**
    * Password to logon the FTP server.
    */
-  password?: SecretBaseUnion;
+  serviceUrl?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -4820,7 +4900,7 @@ export interface HttpLinkedService {
    * The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression
    * with resultType string).
    */
-  url: any;
+  authenticationType: RestServiceAuthenticationType;
   /**
    * The authentication type to be used to connect to the HTTP server. Possible values include:
    * 'Basic', 'Anonymous', 'Digest', 'Windows', 'ClientCertificate'
@@ -4872,19 +4952,19 @@ export interface AzureSearchLinkedService {
   /**
    * The integration runtime reference.
    */
-  connectVia?: IntegrationRuntimeReference;
+  servicePrincipalId?: any;
   /**
    * Linked service description.
    */
-  description?: string;
+  servicePrincipalKey?: SecretBaseUnion;
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  tenant?: any;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  aadResourceId?: any;
   /**
    * URL for Azure Search service. Type: string (or Expression with resultType string).
    */
@@ -5079,16 +5159,16 @@ export interface RestServiceLinkedService {
   /**
    * The application's client ID used in AadServicePrincipal authentication type.
    */
-  servicePrincipalId?: any;
+  password?: SecretBaseUnion;
   /**
    * The application's key used in AadServicePrincipal authentication type.
    */
-  servicePrincipalKey?: SecretBaseUnion;
+  securityToken?: SecretBaseUnion;
   /**
    * The tenant information (domain name or tenant ID) used in AadServicePrincipal authentication
    * type under which your application resides.
    */
-  tenant?: any;
+  extendedProperties?: any;
   /**
    * The resource you are requesting authorization to use.
    */
@@ -5198,7 +5278,7 @@ export interface SapEccLinkedService {
   /**
    * The password for Basic authentication.
    */
-  password?: SecretBaseUnion;
+  servicePrincipalKey: SecretBaseUnion;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Either encryptedCredential or username/password must
@@ -5320,19 +5400,19 @@ export interface SalesforceLinkedService {
   /**
    * The integration runtime reference.
    */
-  connectVia?: IntegrationRuntimeReference;
+  servicePrincipalId?: any;
   /**
    * Linked service description.
    */
-  description?: string;
+  servicePrincipalKey?: SecretBaseUnion;
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  tenant?: any;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  accountName?: any;
   /**
    * The URL of Salesforce instance. Default is 'https://login.salesforce.com'. To copy data from
    * sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for
@@ -5406,7 +5486,7 @@ export interface Office365LinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  database: any;
 }
 
 /**
@@ -5462,7 +5542,7 @@ export interface AzureBlobFSLinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  database: any;
 }
 
 /**
@@ -5615,15 +5695,23 @@ export interface MongoDbLinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  authenticationType: "WebLinkedServiceTypeProperties";
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  url: any;
+}
+
+/**
+ * A WebLinkedService that uses client certificate based authentication to communicate with an HTTP
+ * endpoint. This scheme follows mutual authentication; the server must also provide valid
+ * credentials to the client.
+ */
+export interface WebClientCertificateAuthentication {
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  authenticationType: "ClientCertificate";
   /**
    * The IP address or server name of the MongoDB server. Type: string (or Expression with
    * resultType string).
@@ -5671,7 +5759,7 @@ export interface MongoDbLinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  url: any;
 }
 
 /**
@@ -5723,7 +5811,7 @@ export interface CassandraLinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  typeProperties: WebLinkedServiceTypePropertiesUnion;
 }
 
 /**
@@ -5890,7 +5978,7 @@ export interface ODataLinkedService {
    * Specify the application id of your application registered in Azure Active Directory. Type:
    * string (or Expression with resultType string).
    */
-  servicePrincipalId?: any;
+  authenticationType?: any;
   /**
    * Specify the resource you are requesting authorization to use Directory. Type: string (or
    * Expression with resultType string).
@@ -5905,7 +5993,7 @@ export interface ODataLinkedService {
    * Specify the secret of your application registered in Azure Active Directory. Type: string (or
    * Expression with resultType string).
    */
-  servicePrincipalKey?: SecretBaseUnion;
+  encryptedCredential?: any;
   /**
    * Specify the base64 encoded certificate of your application registered in Azure Active
    * Directory. Type: string (or Expression with resultType string).
@@ -5920,7 +6008,7 @@ export interface ODataLinkedService {
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
-  encryptedCredential?: any;
+  password?: SecretBaseUnion;
 }
 
 /**
@@ -6261,7 +6349,7 @@ export interface Db2LinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  type: "Db2";
   /**
    * Parameters for linked service.
    */
@@ -6312,7 +6400,7 @@ export interface SybaseLinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  username?: any;
   /**
    * Parameters for linked service.
    */
@@ -6371,11 +6459,11 @@ export interface PostgreSqlLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  authenticationType?: SybaseAuthenticationType;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  username?: any;
   /**
    * The connection string.
    */
@@ -6523,7 +6611,7 @@ export interface FileServerLinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  type: "Oracle";
   /**
    * Parameters for linked service.
    */
@@ -6570,11 +6658,11 @@ export interface HDInsightLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  host: any;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  userId?: any;
   /**
    * HDInsight cluster URI. Type: string (or Expression with resultType string).
    */
@@ -6630,11 +6718,11 @@ export interface CommonDataServiceForAppsLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  hcatalogLinkedServiceName?: LinkedServiceReference;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  encryptedCredential?: any;
   /**
    * The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data
    * Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises
@@ -6705,11 +6793,11 @@ export interface DynamicsCrmLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  authenticationType: DynamicsAuthenticationType;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  username: any;
   /**
    * The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and
    * 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with
@@ -6779,11 +6867,11 @@ export interface DynamicsLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  authenticationType: DynamicsAuthenticationType;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  username: any;
   /**
    * The deployment type of the Dynamics instance. 'Online' for Dynamics Online and
    * 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or Expression with
@@ -6851,11 +6939,11 @@ export interface CosmosDbLinkedService {
   /**
    * Parameters for linked service.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  authenticationType: any;
   /**
    * List of tags that can be used for describing the linked service.
    */
-  annotations?: any[];
+  username: any;
   /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -6917,7 +7005,7 @@ export interface AzureBatchLinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  type: "AzureKeyVault";
   /**
    * Parameters for linked service.
    */
@@ -6968,7 +7056,7 @@ export interface AzureSqlMILinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  type: "AzureBatch";
   /**
    * Parameters for linked service.
    */
@@ -7021,7 +7109,7 @@ export interface AzureSqlDatabaseLinkedService {
   /**
    * Linked service description.
    */
-  description?: string;
+  poolName: any;
   /**
    * Parameters for linked service.
    */
@@ -7339,7 +7427,7 @@ export interface GoogleAdWordsObjectDataset {
    * Columns that define the structure of the dataset. Type: array (or Expression with resultType
    * array), itemType: DatasetDataElement.
    */
-  structure?: any;
+  parameters?: { [propertyName: string]: ParameterSpecification };
   /**
    * Columns that define the physical type schema of the dataset. Type: array (or Expression with
    * resultType array), itemType: DatasetSchemaDataElement.
@@ -7348,23 +7436,28 @@ export interface GoogleAdWordsObjectDataset {
   /**
    * Linked service reference.
    */
-  linkedServiceName: LinkedServiceReference;
+  annotations?: any[];
   /**
    * Parameters for dataset.
    */
-  parameters?: { [propertyName: string]: ParameterSpecification };
+  connectionString?: any;
   /**
    * List of tags that can be used for describing the Dataset.
    */
-  annotations?: any[];
+  accountKey?: AzureKeyVaultSecretReference;
   /**
    * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
    */
-  folder?: DatasetFolder;
+  sasUri?: any;
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
-  tableName?: any;
+  sasToken?: AzureKeyVaultSecretReference;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: string;
 }
 
 /**
@@ -7453,7 +7546,7 @@ export interface OracleServiceCloudObjectDataset {
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
-  tableName?: any;
+  table?: any;
 }
 
 /**
@@ -7541,7 +7634,7 @@ export interface ResponsysObjectDataset {
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
-  tableName?: any;
+  path: any;
 }
 
 /**
@@ -7627,9 +7720,17 @@ export interface VerticaTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Vertica. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Vertica. Type: string (or Expression with resultType string).
+   */
+  verticaTableDatasetSchema?: any;
 }
 
 /**
@@ -7847,9 +7948,17 @@ export interface SparkObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Spark. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Spark. Type: string (or Expression with resultType string).
+   */
+  sparkObjectDatasetSchema?: any;
 }
 
 /**
@@ -8023,9 +8132,17 @@ export interface PrestoObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Presto. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Presto. Type: string (or Expression with resultType string).
+   */
+  prestoObjectDatasetSchema?: any;
 }
 
 /**
@@ -8067,9 +8184,17 @@ export interface PhoenixObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Phoenix. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Phoenix. Type: string (or Expression with resultType string).
+   */
+  phoenixObjectDatasetSchema?: any;
 }
 
 /**
@@ -8124,6 +8249,50 @@ export interface MarketoObjectDataset {
    * Polymorphic Discriminator
    */
   type: "MarketoObject";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The table name. Type: string (or Expression with resultType string).
+   */
+  tableName?: any;
+}
+
+/**
+ * Azure Database for MariaDB dataset.
+ */
+export interface AzureMariaDBTableDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureMariaDBTable";
   /**
    * Dataset description.
    */
@@ -8331,9 +8500,17 @@ export interface ImpalaObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Impala. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Impala. Type: string (or Expression with resultType string).
+   */
+  impalaObjectDatasetSchema?: any;
 }
 
 /**
@@ -8419,9 +8596,17 @@ export interface HiveObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Hive. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Hive. Type: string (or Expression with resultType string).
+   */
+  hiveObjectDatasetSchema?: any;
 }
 
 /**
@@ -8507,9 +8692,17 @@ export interface GreenplumTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of Greenplum. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of Greenplum. Type: string (or Expression with resultType string).
+   */
+  greenplumTableDatasetSchema?: any;
 }
 
 /**
@@ -8551,9 +8744,17 @@ export interface GoogleBigQueryObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using database + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Google BigQuery. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The database name of the Google BigQuery. Type: string (or Expression with resultType string).
+   */
+  dataset?: any;
 }
 
 /**
@@ -8639,9 +8840,17 @@ export interface DrillTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Drill. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Drill. Type: string (or Expression with resultType string).
+   */
+  drillTableDatasetSchema?: any;
 }
 
 /**
@@ -9173,7 +9382,7 @@ export interface AzureSearchIndexDataset {
   /**
    * Dataset description.
    */
-  description?: string;
+  structure?: any;
   /**
    * Columns that define the structure of the dataset. Type: array (or Expression with resultType
    * array), itemType: DatasetDataElement.
@@ -9404,9 +9613,18 @@ export interface SqlServerTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The schema name of the SQL Server dataset. Type: string (or Expression with resultType
+   * string).
+   */
+  sqlServerTableDatasetSchema?: any;
+  /**
+   * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -10086,10 +10304,19 @@ export interface OracleTableDataset {
    */
   folder?: DatasetFolder;
   /**
+   * This property will be retired. Please consider using schema + table properties instead.
+   */
+  tableName?: any;
+  /**
+   * The schema name of the on-premises Oracle database. Type: string (or Expression with
+   * resultType string).
+   */
+  oracleTableDatasetSchema?: any;
+  /**
    * The table name of the on-premises Oracle database. Type: string (or Expression with resultType
    * string).
    */
-  tableName?: any;
+  table?: any;
 }
 
 /**
@@ -10812,10 +11039,19 @@ export interface AzureSqlDWTableDataset {
    */
   folder?: DatasetFolder;
   /**
+   * This property will be retired. Please consider using schema + table properties instead.
+   */
+  tableName?: any;
+  /**
+   * The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
+   * string).
+   */
+  azureSqlDWTableDatasetSchema?: any;
+  /**
    * The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
    * string).
    */
-  tableName?: any;
+  table?: any;
 }
 
 /**
@@ -10911,9 +11147,18 @@ export interface AzureSqlTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The schema name of the Azure SQL database. Type: string (or Expression with resultType
+   * string).
+   */
+  azureSqlTableDatasetSchema?: any;
+  /**
+   * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -11986,7 +12231,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | TeradataSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlMISource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceServiceCloudSource | SalesforceSource | ODataSource | SybaseSource | PostgreSqlSource | MySqlSource | OdbcSource | Db2Source | MicrosoftAccessSource | InformixSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | BinarySource | DelimitedTextSource | ParquetSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | AzureMariaDBSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | TeradataSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlMISource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceServiceCloudSource | SalesforceSource | ODataSource | SybaseSource | PostgreSqlSource | MySqlSource | OdbcSource | Db2Source | MicrosoftAccessSource | InformixSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | BinarySource | DelimitedTextSource | ParquetSource;
 
 /**
  * A copy activity source.
@@ -12585,6 +12830,34 @@ export interface MarketoSource {
 }
 
 /**
+ * A copy activity Azure MariaDB source.
+ */
+export interface AzureMariaDBSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureMariaDBSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * A query to retrieve data from source. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
  * A copy activity MariaDB server source.
  */
 export interface MariaDBSource {
@@ -13123,6 +13396,30 @@ export interface Office365Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * The groups containing all the users. Type: array of strings (or Expression with resultType
+   * array of strings).
+   */
+  allowedGroups?: any;
+  /**
+   * The user scope uri. Type: string (or Expression with resultType string).
+   */
+  userScopeFilterUri?: any;
+  /**
+   * The Column to apply the <paramref name="StartTime"/> and <paramref name="EndTime"/>. Type:
+   * string (or Expression with resultType string).
+   */
+  dateFilterColumn?: any;
+  /**
+   * Start time of the requested range for this dataset. Type: string (or Expression with
+   * resultType string).
+   */
+  startTime?: any;
+  /**
+   * End time of the requested range for thsi dataset. Type: string (or Expression with resultType
+   * string).
+   */
+  endTime?: any;
 }
 
 /**
@@ -13846,6 +14143,26 @@ export interface RestSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
+   * with resultType string).
+   */
+  requestMethod?: any;
+  /**
+   * The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression
+   * with resultType string).
+   */
+  requestBody?: any;
+  /**
+   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
+   * with resultType string).
+   */
+  additionalHeaders?: any;
+  /**
+   * The pagination rules to compose next page requests. Type: string (or Expression with
+   * resultType string).
+   */
+  paginationRules?: any;
+  /**
    * The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the
    * timeout to read response data. Default value: 00:01:40. Type: string (or Expression with
    * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -13968,6 +14285,17 @@ export interface SapOpenHubSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * Whether to exclude the records of the last request. The default value is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  excludeLastRequest?: any;
+  /**
+   * The ID of request for delta loading. Once it is set, only data with requestId larger than the
+   * value of this property will be retrieved. The default value is 0. Type: integer (or Expression
+   * with resultType integer ).
+   */
+  baseRequestId?: any;
 }
 
 /**
@@ -14334,6 +14662,24 @@ export interface InformixSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
+  maxConcurrentConnections?: any;
+  /**
+   * Database query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity source for Microsoft Access.
+ */
+export interface MicrosoftAccessSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MicrosoftAccessSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14343,6 +14689,24 @@ export interface InformixSource {
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Database query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity source for various relational databases.
+ */
+export interface RelationalSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "RelationalSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
   /**
@@ -14390,16 +14754,6 @@ export interface CommonDataServiceForAppsSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
-  /**
-   * Source retry wait. Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sourceRetryWait?: any;
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
   maxConcurrentConnections?: any;
   /**
    * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
@@ -14431,10 +14785,62 @@ export interface DynamicsCrmSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
+   * Apps (online & on-premises). Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity Dynamics CRM source.
+ */
+export interface DynamicsCrmSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DynamicsCrmSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online &
+   * on-premises). Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity Document Database Collection source.
+ */
+export interface DocumentDbCollectionSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DocumentDbCollectionSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
   query?: any;
+  /**
+   * Nested properties separator. Type: string (or Expression with resultType string).
+   */
+  nestingSeparator?: any;
 }
 
 /**
@@ -14463,7 +14869,21 @@ export interface DynamicsSource {
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
-  query?: any;
+  maxConcurrentConnections?: any;
+  /**
+   * Treat empty as null. Type: boolean (or Expression with resultType boolean).
+   */
+  treatEmptyAsNull?: any;
+  /**
+   * Number of header lines to skip from each blob. Type: integer (or Expression with resultType
+   * integer).
+   */
+  skipHeaderLineCount?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
 }
 
 /**
@@ -14547,12 +14967,12 @@ export interface AzureTableSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  wildcardFileName?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  enablePartitionDiscovery?: boolean;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14921,12 +15341,12 @@ export interface DelimitedTextSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  name: string;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  description?: string;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14953,12 +15373,12 @@ export interface ParquetSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  linkedServiceName?: LinkedServiceReference;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  policy?: ActivityPolicy;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -18809,8 +19229,8 @@ export interface FactoriesGetOptionalParams extends coreHttp.RequestOptionsBase 
  */
 export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * ETag of the integration runtime entity. Should only be specified for update, for which it
-   * should match existing entity or can be * for unconditional update.
+   * ETag of the factory entity. Should only be specified for get. If the ETag matches the existing
+   * entity tag, or if * was provided, then no content will be returned.
    */
   ifMatch?: string;
 }
@@ -18819,6 +19239,17 @@ export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreHtt
  * Optional Parameters.
  */
 export interface IntegrationRuntimesGetOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the integration runtime entity. Should only be specified for get. If the ETag matches
    * the existing entity tag, or if * was provided, then no content will be returned.
@@ -18829,7 +19260,7 @@ export interface IntegrationRuntimesGetOptionalParams extends coreHttp.RequestOp
 /**
  * Optional Parameters.
  */
-export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends coreHttp.RequestOptionsBase {
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The parameters for getting a SSIS object metadata.
    */
@@ -19816,7 +20247,7 @@ export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19876,7 +20307,7 @@ export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19896,7 +20327,7 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20176,7 +20607,7 @@ export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadata
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20196,7 +20627,7 @@ export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataList
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20216,7 +20647,7 @@ export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMet
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */

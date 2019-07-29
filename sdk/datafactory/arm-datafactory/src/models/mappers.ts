@@ -1369,7 +1369,7 @@ export const GitHubAccessTokenResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const UserAccessPolicy: coreHttp.CompositeMapper = {
+export const UserAccessPolicy: msRest.CompositeMapper = {
   serializedName: "UserAccessPolicy",
   type: {
     name: "Composite",
@@ -1409,7 +1409,7 @@ export const UserAccessPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccessPolicyResponse: coreHttp.CompositeMapper = {
+export const AccessPolicyResponse: msRest.CompositeMapper = {
   serializedName: "AccessPolicyResponse",
   type: {
     name: "Composite",
@@ -1438,7 +1438,7 @@ export const AccessPolicyResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineReference: coreHttp.CompositeMapper = {
+export const PipelineReference: msRest.CompositeMapper = {
   serializedName: "PipelineReference",
   type: {
     name: "Composite",
@@ -2466,7 +2466,7 @@ export const Operation: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetSsisObjectMetadataRequest: coreHttp.CompositeMapper = {
+export const GetSsisObjectMetadataRequest: msRest.CompositeMapper = {
   serializedName: "GetSsisObjectMetadataRequest",
   type: {
     name: "Composite",
@@ -2482,7 +2482,7 @@ export const GetSsisObjectMetadataRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisObjectMetadataStatusResponse: coreHttp.CompositeMapper = {
+export const SsisObjectMetadataStatusResponse: msRest.CompositeMapper = {
   serializedName: "SsisObjectMetadataStatusResponse",
   type: {
     name: "Composite",
@@ -2516,7 +2516,7 @@ export const SsisObjectMetadataStatusResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExposureControlRequest: coreHttp.CompositeMapper = {
+export const ExposureControlRequest: msRest.CompositeMapper = {
   serializedName: "ExposureControlRequest",
   type: {
     name: "Composite",
@@ -2538,7 +2538,7 @@ export const ExposureControlRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExposureControlResponse: coreHttp.CompositeMapper = {
+export const ExposureControlResponse: msRest.CompositeMapper = {
   serializedName: "ExposureControlResponse",
   type: {
     name: "Composite",
@@ -2562,7 +2562,7 @@ export const ExposureControlResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DependencyReference: coreHttp.CompositeMapper = {
+export const DependencyReference: msRest.CompositeMapper = {
   serializedName: "DependencyReference",
   type: {
     name: "Composite",
@@ -3128,7 +3128,7 @@ export const ScheduleTrigger: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFunctionLinkedService: coreHttp.CompositeMapper = {
+export const AzureFunctionLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureFunction",
   type: {
     name: "Composite",
@@ -3162,7 +3162,7 @@ export const AzureFunctionLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureDataExplorer",
   type: {
     name: "Composite",
@@ -3212,7 +3212,7 @@ export const AzureDataExplorerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableLinkedService: coreHttp.CompositeMapper = {
+export const SapTableLinkedService: msRest.CompositeMapper = {
   serializedName: "SapTable",
   type: {
     name: "Composite",
@@ -3323,7 +3323,7 @@ export const SapTableLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsLinkedService: coreHttp.CompositeMapper = {
+export const GoogleAdWordsLinkedService: msRest.CompositeMapper = {
   serializedName: "GoogleAdWords",
   type: {
     name: "Composite",
@@ -3410,7 +3410,7 @@ export const GoogleAdWordsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudLinkedService: coreHttp.CompositeMapper = {
+export const OracleServiceCloudLinkedService: msRest.CompositeMapper = {
   serializedName: "OracleServiceCloud",
   type: {
     name: "Composite",
@@ -3470,7 +3470,7 @@ export const OracleServiceCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsAXLinkedService: msRest.CompositeMapper = {
   serializedName: "DynamicsAX",
   type: {
     name: "Composite",
@@ -3526,7 +3526,7 @@ export const DynamicsAXLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysLinkedService: coreHttp.CompositeMapper = {
+export const ResponsysLinkedService: msRest.CompositeMapper = {
   serializedName: "Responsys",
   type: {
     name: "Composite",
@@ -3585,7 +3585,7 @@ export const ResponsysLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDatabricksLinkedService: coreHttp.CompositeMapper = {
+export const AzureDatabricksLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureDatabricks",
   type: {
     name: "Composite",
@@ -3612,7 +3612,8 @@ export const AzureDatabricksLinkedService: coreHttp.CompositeMapper = {
       existingClusterId: {
         serializedName: "typeProperties.existingClusterId",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       newClusterVersion: {
@@ -3695,7 +3696,7 @@ export const AzureDatabricksLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeAnalyticsLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataLakeAnalyticsLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeAnalytics",
   type: {
     name: "Composite",
@@ -3760,7 +3761,7 @@ export const AzureDataLakeAnalyticsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ScriptAction: coreHttp.CompositeMapper = {
+export const ScriptAction: msRest.CompositeMapper = {
   serializedName: "ScriptAction",
   type: {
     name: "Composite",
@@ -3797,7 +3798,7 @@ export const ScriptAction: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
+export const HDInsightOnDemandLinkedService: msRest.CompositeMapper = {
   serializedName: "HDInsightOnDemand",
   type: {
     name: "Composite",
@@ -3853,7 +3854,7 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.servicePrincipalKey",
         type: {
           name: "Composite",
-          className: "SecretBase"
+          className: "LinkedServiceReference"
         }
       },
       tenant: {
@@ -3873,7 +3874,8 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
       clusterNamePrefix: {
         serializedName: "typeProperties.clusterNamePrefix",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       clusterUserName: {
@@ -3924,13 +3926,20 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
       clusterType: {
         serializedName: "typeProperties.clusterType",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
         }
       },
       sparkVersion: {
         serializedName: "typeProperties.sparkVersion",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "LinkedServiceReference"
         }
       },
       coreConfiguration: {
@@ -4034,7 +4043,7 @@ export const HDInsightOnDemandLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudLinkedService: msRest.CompositeMapper = {
   serializedName: "SalesforceMarketingCloud",
   type: {
     name: "Composite",
@@ -4086,7 +4095,7 @@ export const SalesforceMarketingCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaLinkedService: coreHttp.CompositeMapper = {
+export const NetezzaLinkedService: msRest.CompositeMapper = {
   serializedName: "Netezza",
   type: {
     name: "Composite",
@@ -4119,7 +4128,7 @@ export const NetezzaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaLinkedService: coreHttp.CompositeMapper = {
+export const VerticaLinkedService: msRest.CompositeMapper = {
   serializedName: "Vertica",
   type: {
     name: "Composite",
@@ -4152,7 +4161,7 @@ export const VerticaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoLinkedService: coreHttp.CompositeMapper = {
+export const ZohoLinkedService: msRest.CompositeMapper = {
   serializedName: "Zoho",
   type: {
     name: "Composite",
@@ -4161,9 +4170,8 @@ export const ZohoLinkedService: coreHttp.CompositeMapper = {
     className: "ZohoLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
-      endpoint: {
-        required: true,
-        serializedName: "typeProperties.endpoint",
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
         type: {
           name: "Object"
         }
@@ -4171,8 +4179,7 @@ export const ZohoLinkedService: coreHttp.CompositeMapper = {
       accessToken: {
         serializedName: "typeProperties.accessToken",
         type: {
-          name: "Composite",
-          className: "SecretBase"
+          name: "Object"
         }
       },
       useEncryptedEndpoints: {
@@ -4204,7 +4211,7 @@ export const ZohoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroLinkedService: coreHttp.CompositeMapper = {
+export const XeroLinkedService: msRest.CompositeMapper = {
   serializedName: "Xero",
   type: {
     name: "Composite",
@@ -4263,7 +4270,7 @@ export const XeroLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareLinkedService: coreHttp.CompositeMapper = {
+export const SquareLinkedService: msRest.CompositeMapper = {
   serializedName: "Square",
   type: {
     name: "Composite",
@@ -4329,7 +4336,7 @@ export const SquareLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkLinkedService: coreHttp.CompositeMapper = {
+export const SparkLinkedService: msRest.CompositeMapper = {
   serializedName: "Spark",
   type: {
     name: "Composite",
@@ -4431,7 +4438,7 @@ export const SparkLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShopifyLinkedService: coreHttp.CompositeMapper = {
+export const ShopifyLinkedService: msRest.CompositeMapper = {
   serializedName: "Shopify",
   type: {
     name: "Composite",
@@ -4483,7 +4490,7 @@ export const ShopifyLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowLinkedService: coreHttp.CompositeMapper = {
+export const ServiceNowLinkedService: msRest.CompositeMapper = {
   serializedName: "ServiceNow",
   type: {
     name: "Composite",
@@ -4561,7 +4568,7 @@ export const ServiceNowLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksLinkedService: coreHttp.CompositeMapper = {
+export const QuickBooksLinkedService: msRest.CompositeMapper = {
   serializedName: "QuickBooks",
   type: {
     name: "Composite",
@@ -4632,7 +4639,7 @@ export const QuickBooksLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoLinkedService: coreHttp.CompositeMapper = {
+export const PrestoLinkedService: msRest.CompositeMapper = {
   serializedName: "Presto",
   type: {
     name: "Composite",
@@ -4735,7 +4742,7 @@ export const PrestoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoenixLinkedService: coreHttp.CompositeMapper = {
+export const PhoenixLinkedService: msRest.CompositeMapper = {
   serializedName: "Phoenix",
   type: {
     name: "Composite",
@@ -4824,7 +4831,7 @@ export const PhoenixLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PaypalLinkedService: coreHttp.CompositeMapper = {
+export const PaypalLinkedService: msRest.CompositeMapper = {
   serializedName: "Paypal",
   type: {
     name: "Composite",
@@ -4883,7 +4890,7 @@ export const PaypalLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoLinkedService: coreHttp.CompositeMapper = {
+export const MarketoLinkedService: msRest.CompositeMapper = {
   serializedName: "Marketo",
   type: {
     name: "Composite",
@@ -4910,7 +4917,7 @@ export const MarketoLinkedService: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.clientSecret",
         type: {
           name: "Composite",
-          className: "SecretBase"
+          className: "AzureKeyVaultSecretReference"
         }
       },
       useEncryptedEndpoints: {
@@ -4928,7 +4935,8 @@ export const MarketoLinkedService: coreHttp.CompositeMapper = {
       usePeerVerification: {
         serializedName: "typeProperties.usePeerVerification",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -4942,7 +4950,40 @@ export const MarketoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBLinkedService: coreHttp.CompositeMapper = {
+export const AzureMariaDBLinkedService: msRest.CompositeMapper = {
+  serializedName: "AzureMariaDB",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "AzureMariaDBLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      pwd: {
+        serializedName: "typeProperties.pwd",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const MariaDBLinkedService: msRest.CompositeMapper = {
   serializedName: "MariaDB",
   type: {
     name: "Composite",
@@ -4975,7 +5016,7 @@ export const MariaDBLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoLinkedService: coreHttp.CompositeMapper = {
+export const MagentoLinkedService: msRest.CompositeMapper = {
   serializedName: "Magento",
   type: {
     name: "Composite",
@@ -5027,7 +5068,7 @@ export const MagentoLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraLinkedService: coreHttp.CompositeMapper = {
+export const JiraLinkedService: msRest.CompositeMapper = {
   serializedName: "Jira",
   type: {
     name: "Composite",
@@ -5092,7 +5133,7 @@ export const JiraLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaLinkedService: coreHttp.CompositeMapper = {
+export const ImpalaLinkedService: msRest.CompositeMapper = {
   serializedName: "Impala",
   type: {
     name: "Composite",
@@ -5175,7 +5216,7 @@ export const ImpalaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HubspotLinkedService: coreHttp.CompositeMapper = {
+export const HubspotLinkedService: msRest.CompositeMapper = {
   serializedName: "Hubspot",
   type: {
     name: "Composite",
@@ -5241,7 +5282,7 @@ export const HubspotLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveLinkedService: coreHttp.CompositeMapper = {
+export const HiveLinkedService: msRest.CompositeMapper = {
   serializedName: "Hive",
   type: {
     name: "Composite",
@@ -5360,7 +5401,7 @@ export const HiveLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HBaseLinkedService: coreHttp.CompositeMapper = {
+export const HBaseLinkedService: msRest.CompositeMapper = {
   serializedName: "HBase",
   type: {
     name: "Composite",
@@ -5443,7 +5484,7 @@ export const HBaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumLinkedService: coreHttp.CompositeMapper = {
+export const GreenplumLinkedService: msRest.CompositeMapper = {
   serializedName: "Greenplum",
   type: {
     name: "Composite",
@@ -5476,7 +5517,7 @@ export const GreenplumLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleBigQueryLinkedService: coreHttp.CompositeMapper = {
+export const GoogleBigQueryLinkedService: msRest.CompositeMapper = {
   serializedName: "GoogleBigQuery",
   type: {
     name: "Composite",
@@ -5567,7 +5608,7 @@ export const GoogleBigQueryLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const EloquaLinkedService: coreHttp.CompositeMapper = {
+export const EloquaLinkedService: msRest.CompositeMapper = {
   serializedName: "Eloqua",
   type: {
     name: "Composite",
@@ -5626,7 +5667,7 @@ export const EloquaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillLinkedService: coreHttp.CompositeMapper = {
+export const DrillLinkedService: msRest.CompositeMapper = {
   serializedName: "Drill",
   type: {
     name: "Composite",
@@ -5659,7 +5700,7 @@ export const DrillLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CouchbaseLinkedService: coreHttp.CompositeMapper = {
+export const CouchbaseLinkedService: msRest.CompositeMapper = {
   serializedName: "Couchbase",
   type: {
     name: "Composite",
@@ -5692,7 +5733,7 @@ export const CouchbaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurLinkedService: coreHttp.CompositeMapper = {
+export const ConcurLinkedService: msRest.CompositeMapper = {
   serializedName: "Concur",
   type: {
     name: "Composite",
@@ -5751,7 +5792,7 @@ export const ConcurLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlLinkedService: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlLinkedService: msRest.CompositeMapper = {
   serializedName: "AzurePostgreSql",
   type: {
     name: "Composite",
@@ -5784,7 +5825,7 @@ export const AzurePostgreSqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSLinkedService: coreHttp.CompositeMapper = {
+export const AmazonMWSLinkedService: msRest.CompositeMapper = {
   serializedName: "AmazonMWS",
   type: {
     name: "Composite",
@@ -5864,7 +5905,7 @@ export const AmazonMWSLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaLinkedService: coreHttp.CompositeMapper = {
+export const SapHanaLinkedService: msRest.CompositeMapper = {
   serializedName: "SapHana",
   type: {
     name: "Composite",
@@ -5916,7 +5957,7 @@ export const SapHanaLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapBWLinkedService: coreHttp.CompositeMapper = {
+export const SapBWLinkedService: msRest.CompositeMapper = {
   serializedName: "SapBW",
   type: {
     name: "Composite",
@@ -5970,7 +6011,7 @@ export const SapBWLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpServerLinkedService: coreHttp.CompositeMapper = {
+export const SftpServerLinkedService: msRest.CompositeMapper = {
   serializedName: "Sftp",
   type: {
     name: "Composite",
@@ -6054,7 +6095,7 @@ export const SftpServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpServerLinkedService: coreHttp.CompositeMapper = {
+export const FtpServerLinkedService: msRest.CompositeMapper = {
   serializedName: "FtpServer",
   type: {
     name: "Composite",
@@ -6118,7 +6159,7 @@ export const FtpServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpLinkedService: coreHttp.CompositeMapper = {
+export const HttpLinkedService: msRest.CompositeMapper = {
   serializedName: "HttpServer",
   type: {
     name: "Composite",
@@ -6182,7 +6223,7 @@ export const HttpLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchLinkedService: coreHttp.CompositeMapper = {
+export const AzureSearchLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSearch",
   type: {
     name: "Composite",
@@ -6216,7 +6257,7 @@ export const AzureSearchLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomDataSourceLinkedService: coreHttp.CompositeMapper = {
+export const CustomDataSourceLinkedService: msRest.CompositeMapper = {
   serializedName: "CustomDataSource",
   type: {
     name: "Composite",
@@ -6237,7 +6278,7 @@ export const CustomDataSourceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonRedshiftLinkedService: coreHttp.CompositeMapper = {
+export const AmazonRedshiftLinkedService: msRest.CompositeMapper = {
   serializedName: "AmazonRedshift",
   type: {
     name: "Composite",
@@ -6290,7 +6331,7 @@ export const AmazonRedshiftLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3LinkedService: coreHttp.CompositeMapper = {
+export const AmazonS3LinkedService: msRest.CompositeMapper = {
   serializedName: "AmazonS3",
   type: {
     name: "Composite",
@@ -6329,7 +6370,7 @@ export const AmazonS3LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestServiceLinkedService: coreHttp.CompositeMapper = {
+export const RestServiceLinkedService: msRest.CompositeMapper = {
   serializedName: "RestService",
   type: {
     name: "Composite",
@@ -6338,9 +6379,9 @@ export const RestServiceLinkedService: coreHttp.CompositeMapper = {
     className: "RestServiceLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
-      url: {
+      server: {
         required: true,
-        serializedName: "typeProperties.url",
+        serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
@@ -6374,7 +6415,7 @@ export const RestServiceLinkedService: coreHttp.CompositeMapper = {
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       servicePrincipalKey: {
@@ -6407,7 +6448,7 @@ export const RestServiceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapOpenHubLinkedService: coreHttp.CompositeMapper = {
+export const SapOpenHubLinkedService: msRest.CompositeMapper = {
   serializedName: "SapOpenHub",
   type: {
     name: "Composite",
@@ -6440,7 +6481,8 @@ export const SapOpenHubLinkedService: coreHttp.CompositeMapper = {
       language: {
         serializedName: "typeProperties.language",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       userName: {
@@ -6467,7 +6509,7 @@ export const SapOpenHubLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccLinkedService: coreHttp.CompositeMapper = {
+export const SapEccLinkedService: msRest.CompositeMapper = {
   serializedName: "SapEcc",
   type: {
     name: "Composite",
@@ -6496,6 +6538,13 @@ export const SapEccLinkedService: coreHttp.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      securityToken: {
+        serializedName: "typeProperties.securityToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -6507,7 +6556,7 @@ export const SapEccLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerLinkedService: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerLinkedService: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomer",
   type: {
     name: "Composite",
@@ -6529,8 +6578,9 @@ export const SapCloudForCustomerLinkedService: coreHttp.CompositeMapper = {
           name: "Object"
         }
       },
-      password: {
-        serializedName: "typeProperties.password",
+      servicePrincipalKey: {
+        required: true,
+        serializedName: "typeProperties.servicePrincipalKey",
         type: {
           name: "Composite",
           className: "SecretBase"
@@ -6547,7 +6597,7 @@ export const SapCloudForCustomerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudLinkedService: msRest.CompositeMapper = {
   serializedName: "SalesforceServiceCloud",
   type: {
     name: "Composite",
@@ -6599,7 +6649,7 @@ export const SalesforceServiceCloudLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceLinkedService: coreHttp.CompositeMapper = {
+export const SalesforceLinkedService: msRest.CompositeMapper = {
   serializedName: "Salesforce",
   type: {
     name: "Composite",
@@ -6645,7 +6695,7 @@ export const SalesforceLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365LinkedService: coreHttp.CompositeMapper = {
+export const Office365LinkedService: msRest.CompositeMapper = {
   serializedName: "Office365",
   type: {
     name: "Composite",
@@ -6694,7 +6744,7 @@ export const Office365LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
+export const AzureBlobFSLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureBlobFS",
   type: {
     name: "Composite",
@@ -6713,7 +6763,7 @@ export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
       accountKey: {
         serializedName: "typeProperties.accountKey",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       servicePrincipalId: {
@@ -6734,11 +6784,39 @@ export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
+      }
+    }
+  }
+};
+
+export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
+  serializedName: "Anonymous",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: WebLinkedServiceTypeProperties.type.polymorphicDiscriminator,
+    uberParent: "WebLinkedServiceTypeProperties",
+    className: "WebAnonymousAuthentication",
+    modelProperties: {
+      ...WebLinkedServiceTypeProperties.type.modelProperties
+    }
+  }
+};
+
+export const WebLinkedService: coreHttp.CompositeMapper = {
+  serializedName: "Web",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "WebLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      typeProperties: {
+        required: true,
+        serializedName: "typeProperties",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "WebLinkedServiceTypeProperties"
         }
       }
     },
@@ -6746,7 +6824,7 @@ export const AzureBlobFSLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStore",
   type: {
     name: "Composite",
@@ -6765,7 +6843,7 @@ export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       servicePrincipalKey: {
@@ -6778,7 +6856,8 @@ export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
       tenant: {
         serializedName: "typeProperties.tenant",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       accountName: {
@@ -6810,7 +6889,7 @@ export const AzureDataLakeStoreLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiLinkedService: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiLinkedService: msRest.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApi",
   type: {
     name: "Composite",
@@ -6819,9 +6898,9 @@ export const CosmosDbMongoDbApiLinkedService: coreHttp.CompositeMapper = {
     className: "CosmosDbMongoDbApiLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
-      connectionString: {
+      url: {
         required: true,
-        serializedName: "typeProperties.connectionString",
+        serializedName: "typeProperties.url",
         type: {
           name: "Object"
         }
@@ -6838,7 +6917,7 @@ export const CosmosDbMongoDbApiLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2LinkedService: coreHttp.CompositeMapper = {
+export const MongoDbV2LinkedService: msRest.CompositeMapper = {
   serializedName: "MongoDbV2",
   type: {
     name: "Composite",
@@ -6860,13 +6939,20 @@ export const MongoDbV2LinkedService: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
   }
 };
 
-export const MongoDbLinkedService: coreHttp.CompositeMapper = {
+export const MongoDbLinkedService: msRest.CompositeMapper = {
   serializedName: "MongoDb",
   type: {
     name: "Composite",
@@ -6892,7 +6978,8 @@ export const MongoDbLinkedService: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.databaseName",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       username: {
@@ -6943,7 +7030,7 @@ export const MongoDbLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraLinkedService: coreHttp.CompositeMapper = {
+export const CassandraLinkedService: msRest.CompositeMapper = {
   serializedName: "Cassandra",
   type: {
     name: "Composite",
@@ -6984,6 +7071,13 @@ export const CassandraLinkedService: coreHttp.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -6995,7 +7089,7 @@ export const CassandraLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebLinkedServiceTypeProperties: coreHttp.CompositeMapper = {
+export const WebLinkedServiceTypeProperties: msRest.CompositeMapper = {
   serializedName: "WebLinkedServiceTypeProperties",
   type: {
     name: "Composite",
@@ -7024,7 +7118,7 @@ export const WebLinkedServiceTypeProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
+export const WebClientCertificateAuthentication: msRest.CompositeMapper = {
   serializedName: "ClientCertificate",
   type: {
     name: "Composite",
@@ -7053,7 +7147,7 @@ export const WebClientCertificateAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebBasicAuthentication: coreHttp.CompositeMapper = {
+export const WebBasicAuthentication: msRest.CompositeMapper = {
   serializedName: "Basic",
   type: {
     name: "Composite",
@@ -7081,7 +7175,7 @@ export const WebBasicAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
+export const WebAnonymousAuthentication: msRest.CompositeMapper = {
   serializedName: "Anonymous",
   type: {
     name: "Composite",
@@ -7094,7 +7188,7 @@ export const WebAnonymousAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebLinkedService: coreHttp.CompositeMapper = {
+export const WebLinkedService: msRest.CompositeMapper = {
   serializedName: "Web",
   type: {
     name: "Composite",
@@ -7116,7 +7210,7 @@ export const WebLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const ODataLinkedService: coreHttp.CompositeMapper = {
+export const ODataLinkedService: msRest.CompositeMapper = {
   serializedName: "OData",
   type: {
     name: "Composite",
@@ -7207,7 +7301,7 @@ export const ODataLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsLinkedService: coreHttp.CompositeMapper = {
+export const HdfsLinkedService: msRest.CompositeMapper = {
   serializedName: "Hdfs",
   type: {
     name: "Composite",
@@ -7253,7 +7347,7 @@ export const HdfsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessLinkedService: coreHttp.CompositeMapper = {
+export const MicrosoftAccessLinkedService: msRest.CompositeMapper = {
   serializedName: "MicrosoftAccess",
   type: {
     name: "Composite",
@@ -7306,7 +7400,7 @@ export const MicrosoftAccessLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixLinkedService: coreHttp.CompositeMapper = {
+export const InformixLinkedService: msRest.CompositeMapper = {
   serializedName: "Informix",
   type: {
     name: "Composite",
@@ -7359,7 +7453,7 @@ export const InformixLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcLinkedService: coreHttp.CompositeMapper = {
+export const OdbcLinkedService: msRest.CompositeMapper = {
   serializedName: "Odbc",
   type: {
     name: "Composite",
@@ -7372,13 +7466,15 @@ export const OdbcLinkedService: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.connectionString",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       authenticationType: {
         serializedName: "typeProperties.authenticationType",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
         }
       },
       credential: {
@@ -7412,7 +7508,7 @@ export const OdbcLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLLinkedService: coreHttp.CompositeMapper = {
+export const AzureMLLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureML",
   type: {
     name: "Composite",
@@ -7472,7 +7568,7 @@ export const AzureMLLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataLinkedService: coreHttp.CompositeMapper = {
+export const TeradataLinkedService: msRest.CompositeMapper = {
   serializedName: "Teradata",
   type: {
     name: "Composite",
@@ -7523,7 +7619,7 @@ export const TeradataLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const Db2LinkedService: coreHttp.CompositeMapper = {
+export const Db2LinkedService: msRest.CompositeMapper = {
   serializedName: "Db2",
   type: {
     name: "Composite",
@@ -7576,7 +7672,7 @@ export const Db2LinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SybaseLinkedService: coreHttp.CompositeMapper = {
+export const SybaseLinkedService: msRest.CompositeMapper = {
   serializedName: "Sybase",
   type: {
     name: "Composite",
@@ -7635,7 +7731,7 @@ export const SybaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlLinkedService: coreHttp.CompositeMapper = {
+export const PostgreSqlLinkedService: msRest.CompositeMapper = {
   serializedName: "PostgreSql",
   type: {
     name: "Composite",
@@ -7670,7 +7766,7 @@ export const PostgreSqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlLinkedService: coreHttp.CompositeMapper = {
+export const MySqlLinkedService: msRest.CompositeMapper = {
   serializedName: "MySql",
   type: {
     name: "Composite",
@@ -7705,7 +7801,7 @@ export const MySqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlLinkedService: coreHttp.CompositeMapper = {
+export const AzureMySqlLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureMySql",
   type: {
     name: "Composite",
@@ -7739,7 +7835,7 @@ export const AzureMySqlLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleLinkedService: coreHttp.CompositeMapper = {
+export const OracleLinkedService: msRest.CompositeMapper = {
   serializedName: "Oracle",
   type: {
     name: "Composite",
@@ -7765,7 +7861,8 @@ export const OracleLinkedService: coreHttp.CompositeMapper = {
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       }
     },
@@ -7773,7 +7870,7 @@ export const OracleLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerLinkedService: coreHttp.CompositeMapper = {
+export const FileServerLinkedService: msRest.CompositeMapper = {
   serializedName: "FileServer",
   type: {
     name: "Composite",
@@ -7786,7 +7883,8 @@ export const FileServerLinkedService: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.host",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "LinkedServiceReference"
         }
       },
       userId: {
@@ -7813,7 +7911,7 @@ export const FileServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightLinkedService: coreHttp.CompositeMapper = {
+export const HDInsightLinkedService: msRest.CompositeMapper = {
   serializedName: "HDInsight",
   type: {
     name: "Composite",
@@ -7879,7 +7977,7 @@ export const HDInsightLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsLinkedService: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsLinkedService: msRest.CompositeMapper = {
   serializedName: "CommonDataServiceForApps",
   type: {
     name: "Composite",
@@ -7951,7 +8049,7 @@ export const CommonDataServiceForAppsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsCrmLinkedService: msRest.CompositeMapper = {
   serializedName: "DynamicsCrm",
   type: {
     name: "Composite",
@@ -8023,7 +8121,7 @@ export const DynamicsCrmLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsLinkedService: coreHttp.CompositeMapper = {
+export const DynamicsLinkedService: msRest.CompositeMapper = {
   serializedName: "Dynamics",
   type: {
     name: "Composite",
@@ -8095,7 +8193,7 @@ export const DynamicsLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbLinkedService: coreHttp.CompositeMapper = {
+export const CosmosDbLinkedService: msRest.CompositeMapper = {
   serializedName: "CosmosDb",
   type: {
     name: "Composite",
@@ -8129,7 +8227,7 @@ export const CosmosDbLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureKeyVaultLinkedService: coreHttp.CompositeMapper = {
+export const AzureKeyVaultLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureKeyVault",
   type: {
     name: "Composite",
@@ -8150,7 +8248,7 @@ export const AzureKeyVaultLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBatchLinkedService: coreHttp.CompositeMapper = {
+export const AzureBatchLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureBatch",
   type: {
     name: "Composite",
@@ -8207,7 +8305,7 @@ export const AzureBatchLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlMILinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlMILinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSqlMI",
   type: {
     name: "Composite",
@@ -8260,7 +8358,7 @@ export const AzureSqlMILinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDatabaseLinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSqlDatabase",
   type: {
     name: "Composite",
@@ -8313,7 +8411,7 @@ export const AzureSqlDatabaseLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerLinkedService: coreHttp.CompositeMapper = {
+export const SqlServerLinkedService: msRest.CompositeMapper = {
   serializedName: "SqlServer",
   type: {
     name: "Composite",
@@ -8353,7 +8451,7 @@ export const SqlServerLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDWLinkedService: coreHttp.CompositeMapper = {
+export const AzureSqlDWLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSqlDW",
   type: {
     name: "Composite",
@@ -8406,7 +8504,7 @@ export const AzureSqlDWLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureTableStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureTableStorage",
   type: {
     name: "Composite",
@@ -8452,7 +8550,7 @@ export const AzureTableStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureBlobStorage",
   type: {
     name: "Composite",
@@ -8477,7 +8575,8 @@ export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
       sasUri: {
         serializedName: "typeProperties.sasUri",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       sasToken: {
@@ -8496,7 +8595,8 @@ export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference"
         }
       },
       servicePrincipalKey: {
@@ -8509,7 +8609,8 @@ export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
       tenant: {
         serializedName: "typeProperties.tenant",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -8523,7 +8624,7 @@ export const AzureBlobStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureStorageLinkedService: coreHttp.CompositeMapper = {
+export const AzureStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureStorage",
   type: {
     name: "Composite",
@@ -8569,7 +8670,7 @@ export const AzureStorageLinkedService: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsObjectDataset: coreHttp.CompositeMapper = {
+export const GoogleAdWordsObjectDataset: msRest.CompositeMapper = {
   serializedName: "GoogleAdWordsObject",
   type: {
     name: "Composite",
@@ -8589,7 +8690,7 @@ export const GoogleAdWordsObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerTableDataset: coreHttp.CompositeMapper = {
+export const AzureDataExplorerTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureDataExplorerTable",
   type: {
     name: "Composite",
@@ -8609,7 +8710,7 @@ export const AzureDataExplorerTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudObjectDataset: coreHttp.CompositeMapper = {
+export const OracleServiceCloudObjectDataset: msRest.CompositeMapper = {
   serializedName: "OracleServiceCloudObject",
   type: {
     name: "Composite",
@@ -8629,7 +8730,7 @@ export const OracleServiceCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXResourceDataset: coreHttp.CompositeMapper = {
+export const DynamicsAXResourceDataset: msRest.CompositeMapper = {
   serializedName: "DynamicsAXResource",
   type: {
     name: "Composite",
@@ -8650,7 +8751,7 @@ export const DynamicsAXResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysObjectDataset: coreHttp.CompositeMapper = {
+export const ResponsysObjectDataset: msRest.CompositeMapper = {
   serializedName: "ResponsysObject",
   type: {
     name: "Composite",
@@ -8670,7 +8771,7 @@ export const ResponsysObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudObjectDataset: msRest.CompositeMapper = {
   serializedName: "SalesforceMarketingCloudObject",
   type: {
     name: "Composite",
@@ -8690,7 +8791,7 @@ export const SalesforceMarketingCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaTableDataset: coreHttp.CompositeMapper = {
+export const VerticaTableDataset: msRest.CompositeMapper = {
   serializedName: "VerticaTable",
   type: {
     name: "Composite",
@@ -8704,13 +8805,25 @@ export const VerticaTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      verticaTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const NetezzaTableDataset: coreHttp.CompositeMapper = {
+export const NetezzaTableDataset: msRest.CompositeMapper = {
   serializedName: "NetezzaTable",
   type: {
     name: "Composite",
@@ -8730,7 +8843,7 @@ export const NetezzaTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoObjectDataset: coreHttp.CompositeMapper = {
+export const ZohoObjectDataset: msRest.CompositeMapper = {
   serializedName: "ZohoObject",
   type: {
     name: "Composite",
@@ -8750,7 +8863,7 @@ export const ZohoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroObjectDataset: coreHttp.CompositeMapper = {
+export const XeroObjectDataset: msRest.CompositeMapper = {
   serializedName: "XeroObject",
   type: {
     name: "Composite",
@@ -8770,7 +8883,7 @@ export const XeroObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareObjectDataset: coreHttp.CompositeMapper = {
+export const SquareObjectDataset: msRest.CompositeMapper = {
   serializedName: "SquareObject",
   type: {
     name: "Composite",
@@ -8790,7 +8903,7 @@ export const SquareObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkObjectDataset: coreHttp.CompositeMapper = {
+export const SparkObjectDataset: msRest.CompositeMapper = {
   serializedName: "SparkObject",
   type: {
     name: "Composite",
@@ -8804,13 +8917,25 @@ export const SparkObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      sparkObjectDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const ShopifyObjectDataset: coreHttp.CompositeMapper = {
+export const ShopifyObjectDataset: msRest.CompositeMapper = {
   serializedName: "ShopifyObject",
   type: {
     name: "Composite",
@@ -8830,7 +8955,7 @@ export const ShopifyObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowObjectDataset: coreHttp.CompositeMapper = {
+export const ServiceNowObjectDataset: msRest.CompositeMapper = {
   serializedName: "ServiceNowObject",
   type: {
     name: "Composite",
@@ -8850,7 +8975,7 @@ export const ServiceNowObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksObjectDataset: coreHttp.CompositeMapper = {
+export const QuickBooksObjectDataset: msRest.CompositeMapper = {
   serializedName: "QuickBooksObject",
   type: {
     name: "Composite",
@@ -8870,7 +8995,7 @@ export const QuickBooksObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoObjectDataset: coreHttp.CompositeMapper = {
+export const PrestoObjectDataset: msRest.CompositeMapper = {
   serializedName: "PrestoObject",
   type: {
     name: "Composite",
@@ -8884,13 +9009,25 @@ export const PrestoObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      prestoObjectDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const PhoenixObjectDataset: coreHttp.CompositeMapper = {
+export const PhoenixObjectDataset: msRest.CompositeMapper = {
   serializedName: "PhoenixObject",
   type: {
     name: "Composite",
@@ -8904,13 +9041,25 @@ export const PhoenixObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      phoenixObjectDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const PaypalObjectDataset: coreHttp.CompositeMapper = {
+export const PaypalObjectDataset: msRest.CompositeMapper = {
   serializedName: "PaypalObject",
   type: {
     name: "Composite",
@@ -8930,7 +9079,7 @@ export const PaypalObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoObjectDataset: coreHttp.CompositeMapper = {
+export const MarketoObjectDataset: msRest.CompositeMapper = {
   serializedName: "MarketoObject",
   type: {
     name: "Composite",
@@ -8950,7 +9099,27 @@ export const MarketoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBTableDataset: coreHttp.CompositeMapper = {
+export const AzureMariaDBTableDataset: msRest.CompositeMapper = {
+  serializedName: "AzureMariaDBTable",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "AzureMariaDBTableDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      tableName: {
+        serializedName: "typeProperties.tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const MariaDBTableDataset: msRest.CompositeMapper = {
   serializedName: "MariaDBTable",
   type: {
     name: "Composite",
@@ -8970,7 +9139,7 @@ export const MariaDBTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoObjectDataset: coreHttp.CompositeMapper = {
+export const MagentoObjectDataset: msRest.CompositeMapper = {
   serializedName: "MagentoObject",
   type: {
     name: "Composite",
@@ -8990,7 +9159,7 @@ export const MagentoObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraObjectDataset: coreHttp.CompositeMapper = {
+export const JiraObjectDataset: msRest.CompositeMapper = {
   serializedName: "JiraObject",
   type: {
     name: "Composite",
@@ -9010,7 +9179,7 @@ export const JiraObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaObjectDataset: coreHttp.CompositeMapper = {
+export const ImpalaObjectDataset: msRest.CompositeMapper = {
   serializedName: "ImpalaObject",
   type: {
     name: "Composite",
@@ -9024,13 +9193,25 @@ export const ImpalaObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      impalaObjectDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const HubspotObjectDataset: coreHttp.CompositeMapper = {
+export const HubspotObjectDataset: msRest.CompositeMapper = {
   serializedName: "HubspotObject",
   type: {
     name: "Composite",
@@ -9050,7 +9231,7 @@ export const HubspotObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveObjectDataset: coreHttp.CompositeMapper = {
+export const HiveObjectDataset: msRest.CompositeMapper = {
   serializedName: "HiveObject",
   type: {
     name: "Composite",
@@ -9064,13 +9245,25 @@ export const HiveObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      hiveObjectDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const HBaseObjectDataset: coreHttp.CompositeMapper = {
+export const HBaseObjectDataset: msRest.CompositeMapper = {
   serializedName: "HBaseObject",
   type: {
     name: "Composite",
@@ -9090,7 +9283,7 @@ export const HBaseObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumTableDataset: coreHttp.CompositeMapper = {
+export const GreenplumTableDataset: msRest.CompositeMapper = {
   serializedName: "GreenplumTable",
   type: {
     name: "Composite",
@@ -9104,13 +9297,25 @@ export const GreenplumTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      greenplumTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const GoogleBigQueryObjectDataset: coreHttp.CompositeMapper = {
+export const GoogleBigQueryObjectDataset: msRest.CompositeMapper = {
   serializedName: "GoogleBigQueryObject",
   type: {
     name: "Composite",
@@ -9124,13 +9329,25 @@ export const GoogleBigQueryObjectDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      dataset: {
+        serializedName: "typeProperties.dataset",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const EloquaObjectDataset: coreHttp.CompositeMapper = {
+export const EloquaObjectDataset: msRest.CompositeMapper = {
   serializedName: "EloquaObject",
   type: {
     name: "Composite",
@@ -9150,7 +9367,7 @@ export const EloquaObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillTableDataset: coreHttp.CompositeMapper = {
+export const DrillTableDataset: msRest.CompositeMapper = {
   serializedName: "DrillTable",
   type: {
     name: "Composite",
@@ -9164,13 +9381,25 @@ export const DrillTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      drillTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const CouchbaseTableDataset: coreHttp.CompositeMapper = {
+export const CouchbaseTableDataset: msRest.CompositeMapper = {
   serializedName: "CouchbaseTable",
   type: {
     name: "Composite",
@@ -9190,7 +9419,7 @@ export const CouchbaseTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurObjectDataset: coreHttp.CompositeMapper = {
+export const ConcurObjectDataset: msRest.CompositeMapper = {
   serializedName: "ConcurObject",
   type: {
     name: "Composite",
@@ -9210,7 +9439,7 @@ export const ConcurObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlTableDataset: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlTableDataset: msRest.CompositeMapper = {
   serializedName: "AzurePostgreSqlTable",
   type: {
     name: "Composite",
@@ -9234,7 +9463,7 @@ export const AzurePostgreSqlTableDataset: coreHttp.CompositeMapper = {
       azurePostgreSqlTableDatasetSchema: {
         serializedName: "typeProperties.schema",
         type: {
-          name: "Object"
+          name: "String"
         }
       }
     },
@@ -9242,7 +9471,7 @@ export const AzurePostgreSqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSObjectDataset: coreHttp.CompositeMapper = {
+export const AmazonMWSObjectDataset: msRest.CompositeMapper = {
   serializedName: "AmazonMWSObject",
   type: {
     name: "Composite",
@@ -9262,7 +9491,7 @@ export const AmazonMWSObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetCompression: coreHttp.CompositeMapper = {
+export const DatasetCompression: msRest.CompositeMapper = {
   serializedName: "DatasetCompression",
   type: {
     name: "Composite",
@@ -9289,7 +9518,7 @@ export const DatasetCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetZipDeflateCompression: coreHttp.CompositeMapper = {
+export const DatasetZipDeflateCompression: msRest.CompositeMapper = {
   serializedName: "ZipDeflate",
   type: {
     name: "Composite",
@@ -9309,7 +9538,7 @@ export const DatasetZipDeflateCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetDeflateCompression: coreHttp.CompositeMapper = {
+export const DatasetDeflateCompression: msRest.CompositeMapper = {
   serializedName: "Deflate",
   type: {
     name: "Composite",
@@ -9329,7 +9558,7 @@ export const DatasetDeflateCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetGZipCompression: coreHttp.CompositeMapper = {
+export const DatasetGZipCompression: msRest.CompositeMapper = {
   serializedName: "GZip",
   type: {
     name: "Composite",
@@ -9349,7 +9578,7 @@ export const DatasetGZipCompression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetBZip2Compression: coreHttp.CompositeMapper = {
+export const DatasetBZip2Compression: msRest.CompositeMapper = {
   serializedName: "BZip2",
   type: {
     name: "Composite",
@@ -9363,7 +9592,7 @@ export const DatasetBZip2Compression: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetStorageFormat: coreHttp.CompositeMapper = {
+export const DatasetStorageFormat: msRest.CompositeMapper = {
   serializedName: "DatasetStorageFormat",
   type: {
     name: "Composite",
@@ -9386,11 +9615,10 @@ export const DatasetStorageFormat: coreHttp.CompositeMapper = {
           name: "Object"
         }
       },
-      type: {
-        required: true,
-        serializedName: "type",
+      nullValue: {
+        serializedName: "nullValue",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -9402,7 +9630,7 @@ export const DatasetStorageFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetFormat: coreHttp.CompositeMapper = {
+export const ParquetFormat: msRest.CompositeMapper = {
   serializedName: "ParquetFormat",
   type: {
     name: "Composite",
@@ -9416,7 +9644,7 @@ export const ParquetFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const OrcFormat: coreHttp.CompositeMapper = {
+export const OrcFormat: msRest.CompositeMapper = {
   serializedName: "OrcFormat",
   type: {
     name: "Composite",
@@ -9430,7 +9658,7 @@ export const OrcFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const AvroFormat: coreHttp.CompositeMapper = {
+export const AvroFormat: msRest.CompositeMapper = {
   serializedName: "AvroFormat",
   type: {
     name: "Composite",
@@ -9444,7 +9672,7 @@ export const AvroFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonFormat: coreHttp.CompositeMapper = {
+export const JsonFormat: msRest.CompositeMapper = {
   serializedName: "JsonFormat",
   type: {
     name: "Composite",
@@ -9482,13 +9710,37 @@ export const JsonFormat: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      format: {
+        serializedName: "typeProperties.format",
+        type: {
+          name: "Composite",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compression: {
+        serializedName: "typeProperties.compression",
+        type: {
+          name: "Composite",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: DatasetStorageFormat.type.additionalProperties
   }
 };
 
-export const TextFormat: coreHttp.CompositeMapper = {
+export const TextFormat: msRest.CompositeMapper = {
   serializedName: "TextFormat",
   type: {
     name: "Composite",
@@ -9556,7 +9808,7 @@ export const TextFormat: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpDataset: coreHttp.CompositeMapper = {
+export const HttpDataset: msRest.CompositeMapper = {
   serializedName: "HttpFile",
   type: {
     name: "Composite",
@@ -9618,7 +9870,7 @@ export const HttpDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchIndexDataset: coreHttp.CompositeMapper = {
+export const AzureSearchIndexDataset: msRest.CompositeMapper = {
   serializedName: "AzureSearchIndex",
   type: {
     name: "Composite",
@@ -9639,7 +9891,7 @@ export const AzureSearchIndexDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebTableDataset: coreHttp.CompositeMapper = {
+export const WebTableDataset: msRest.CompositeMapper = {
   serializedName: "WebTable",
   type: {
     name: "Composite",
@@ -9666,7 +9918,7 @@ export const WebTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableResourceDataset: coreHttp.CompositeMapper = {
+export const SapTableResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapTableResource",
   type: {
     name: "Composite",
@@ -9687,7 +9939,7 @@ export const SapTableResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestResourceDataset: coreHttp.CompositeMapper = {
+export const RestResourceDataset: msRest.CompositeMapper = {
   serializedName: "RestResource",
   type: {
     name: "Composite",
@@ -9731,7 +9983,7 @@ export const RestResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerTableDataset: coreHttp.CompositeMapper = {
+export const SqlServerTableDataset: msRest.CompositeMapper = {
   serializedName: "SqlServerTable",
   type: {
     name: "Composite",
@@ -9745,13 +9997,25 @@ export const SqlServerTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      sqlServerTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const SapOpenHubTableDataset: coreHttp.CompositeMapper = {
+export const SapOpenHubTableDataset: msRest.CompositeMapper = {
   serializedName: "SapOpenHubTable",
   type: {
     name: "Composite",
@@ -9784,7 +10048,7 @@ export const SapOpenHubTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapHanaTableDataset: coreHttp.CompositeMapper = {
+export const SapHanaTableDataset: msRest.CompositeMapper = {
   serializedName: "SapHanaTable",
   type: {
     name: "Composite",
@@ -9810,7 +10074,7 @@ export const SapHanaTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccResourceDataset: coreHttp.CompositeMapper = {
+export const SapEccResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapEccResource",
   type: {
     name: "Composite",
@@ -9831,7 +10095,7 @@ export const SapEccResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerResourceDataset: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomerResource",
   type: {
     name: "Composite",
@@ -9852,7 +10116,7 @@ export const SapCloudForCustomerResourceDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudObjectDataset: msRest.CompositeMapper = {
   serializedName: "SalesforceServiceCloudObject",
   type: {
     name: "Composite",
@@ -9872,7 +10136,7 @@ export const SalesforceServiceCloudObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceObjectDataset: coreHttp.CompositeMapper = {
+export const SalesforceObjectDataset: msRest.CompositeMapper = {
   serializedName: "SalesforceObject",
   type: {
     name: "Composite",
@@ -9892,7 +10156,7 @@ export const SalesforceObjectDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessTableDataset: coreHttp.CompositeMapper = {
+export const MicrosoftAccessTableDataset: msRest.CompositeMapper = {
   serializedName: "MicrosoftAccessTable",
   type: {
     name: "Composite",
@@ -9912,7 +10176,7 @@ export const MicrosoftAccessTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlTableDataset: coreHttp.CompositeMapper = {
+export const PostgreSqlTableDataset: msRest.CompositeMapper = {
   serializedName: "PostgreSqlTable",
   type: {
     name: "Composite",
@@ -9932,7 +10196,7 @@ export const PostgreSqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlTableDataset: coreHttp.CompositeMapper = {
+export const MySqlTableDataset: msRest.CompositeMapper = {
   serializedName: "MySqlTable",
   type: {
     name: "Composite",
@@ -9952,7 +10216,7 @@ export const MySqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcTableDataset: coreHttp.CompositeMapper = {
+export const OdbcTableDataset: msRest.CompositeMapper = {
   serializedName: "OdbcTable",
   type: {
     name: "Composite",
@@ -9972,7 +10236,7 @@ export const OdbcTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixTableDataset: coreHttp.CompositeMapper = {
+export const InformixTableDataset: msRest.CompositeMapper = {
   serializedName: "InformixTable",
   type: {
     name: "Composite",
@@ -9992,7 +10256,7 @@ export const InformixTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const RelationalTableDataset: coreHttp.CompositeMapper = {
+export const RelationalTableDataset: msRest.CompositeMapper = {
   serializedName: "RelationalTable",
   type: {
     name: "Composite",
@@ -10012,7 +10276,7 @@ export const RelationalTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlTableDataset: coreHttp.CompositeMapper = {
+export const AzureMySqlTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureMySqlTable",
   type: {
     name: "Composite",
@@ -10032,7 +10296,7 @@ export const AzureMySqlTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataTableDataset: coreHttp.CompositeMapper = {
+export const TeradataTableDataset: msRest.CompositeMapper = {
   serializedName: "TeradataTable",
   type: {
     name: "Composite",
@@ -10058,7 +10322,7 @@ export const TeradataTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleTableDataset: coreHttp.CompositeMapper = {
+export const OracleTableDataset: msRest.CompositeMapper = {
   serializedName: "OracleTable",
   type: {
     name: "Composite",
@@ -10072,13 +10336,37 @@ export const OracleTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      oracleTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      },
+      compression: {
+        serializedName: "typeProperties.compression",
+        type: {
+          name: "Composite",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const ODataResourceDataset: coreHttp.CompositeMapper = {
+export const ODataResourceDataset: msRest.CompositeMapper = {
   serializedName: "ODataResource",
   type: {
     name: "Composite",
@@ -10092,13 +10380,106 @@ export const ODataResourceDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      executionCredential: {
+        serializedName: "typeProperties.executionCredential",
+        type: {
+          name: "Composite",
+          className: "SSISExecutionCredential"
+        }
+      },
+      connectVia: {
+        required: true,
+        serializedName: "typeProperties.connectVia",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeReference"
+        }
+      },
+      projectParameters: {
+        serializedName: "typeProperties.projectParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionParameter"
+            }
+          }
+        }
+      },
+      packageParameters: {
+        serializedName: "typeProperties.packageParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionParameter"
+            }
+          }
+        }
+      },
+      projectConnectionManagers: {
+        serializedName: "typeProperties.projectConnectionManagers",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "SSISExecutionParameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      packageConnectionManagers: {
+        serializedName: "typeProperties.packageConnectionManagers",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "SSISExecutionParameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      propertyOverrides: {
+        serializedName: "typeProperties.propertyOverrides",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISPropertyOverride"
+            }
+          }
+        }
+      },
+      logLocation: {
+        serializedName: "typeProperties.logLocation",
+        type: {
+          name: "Composite",
+          className: "SSISLogLocation"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const CosmosDbMongoDbApiCollectionDataset: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiCollectionDataset: msRest.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiCollection",
   type: {
     name: "Composite",
@@ -10119,7 +10500,7 @@ export const CosmosDbMongoDbApiCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2CollectionDataset: coreHttp.CompositeMapper = {
+export const MongoDbV2CollectionDataset: msRest.CompositeMapper = {
   serializedName: "MongoDbV2Collection",
   type: {
     name: "Composite",
@@ -10140,7 +10521,7 @@ export const MongoDbV2CollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbCollectionDataset: coreHttp.CompositeMapper = {
+export const MongoDbCollectionDataset: msRest.CompositeMapper = {
   serializedName: "MongoDbCollection",
   type: {
     name: "Composite",
@@ -10153,7 +10534,12 @@ export const MongoDbCollectionDataset: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.collectionName",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -10161,7 +10547,7 @@ export const MongoDbCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileShareDataset: coreHttp.CompositeMapper = {
+export const FileShareDataset: msRest.CompositeMapper = {
   serializedName: "FileShare",
   type: {
     name: "Composite",
@@ -10229,7 +10615,7 @@ export const FileShareDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365Dataset: coreHttp.CompositeMapper = {
+export const Office365Dataset: msRest.CompositeMapper = {
   serializedName: "Office365Table",
   type: {
     name: "Composite",
@@ -10256,7 +10642,7 @@ export const Office365Dataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSDataset: coreHttp.CompositeMapper = {
+export const AzureBlobFSDataset: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSFile",
   type: {
     name: "Composite",
@@ -10268,13 +10654,24 @@ export const AzureBlobFSDataset: coreHttp.CompositeMapper = {
       folderPath: {
         serializedName: "typeProperties.folderPath",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
         }
       },
       fileName: {
         serializedName: "typeProperties.fileName",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       format: {
@@ -10306,7 +10703,7 @@ export const AzureBlobFSDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreDataset: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreFile",
   type: {
     name: "Composite",
@@ -10324,7 +10721,7 @@ export const AzureDataLakeStoreDataset: coreHttp.CompositeMapper = {
       fileName: {
         serializedName: "typeProperties.fileName",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       format: {
@@ -10356,7 +10753,7 @@ export const AzureDataLakeStoreDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsEntityDataset: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsEntityDataset: msRest.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsEntity",
   type: {
     name: "Composite",
@@ -10376,7 +10773,7 @@ export const CommonDataServiceForAppsEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmEntityDataset: coreHttp.CompositeMapper = {
+export const DynamicsCrmEntityDataset: msRest.CompositeMapper = {
   serializedName: "DynamicsCrmEntity",
   type: {
     name: "Composite",
@@ -10396,7 +10793,7 @@ export const DynamicsCrmEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsEntityDataset: coreHttp.CompositeMapper = {
+export const DynamicsEntityDataset: msRest.CompositeMapper = {
   serializedName: "DynamicsEntity",
   type: {
     name: "Composite",
@@ -10408,7 +10805,8 @@ export const DynamicsEntityDataset: coreHttp.CompositeMapper = {
       entityName: {
         serializedName: "typeProperties.entityName",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "LinkedServiceReference"
         }
       }
     },
@@ -10416,7 +10814,7 @@ export const DynamicsEntityDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionDataset: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionDataset: msRest.CompositeMapper = {
   serializedName: "DocumentDbCollection",
   type: {
     name: "Composite",
@@ -10429,7 +10827,12 @@ export const DocumentDbCollectionDataset: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.collectionName",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -10437,7 +10840,7 @@ export const DocumentDbCollectionDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomDataset: coreHttp.CompositeMapper = {
+export const CustomDataset: msRest.CompositeMapper = {
   serializedName: "CustomDataset",
   type: {
     name: "Composite",
@@ -10457,7 +10860,7 @@ export const CustomDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraTableDataset: coreHttp.CompositeMapper = {
+export const CassandraTableDataset: msRest.CompositeMapper = {
   serializedName: "CassandraTable",
   type: {
     name: "Composite",
@@ -10483,7 +10886,7 @@ export const CassandraTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlDWTableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlDWTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureSqlDWTable",
   type: {
     name: "Composite",
@@ -10497,13 +10900,25 @@ export const AzureSqlDWTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      azureSqlDWTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const AzureSqlMITableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlMITableDataset: msRest.CompositeMapper = {
   serializedName: "AzureSqlMITable",
   type: {
     name: "Composite",
@@ -10535,7 +10950,7 @@ export const AzureSqlMITableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlTableDataset: coreHttp.CompositeMapper = {
+export const AzureSqlTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureSqlTable",
   type: {
     name: "Composite",
@@ -10549,13 +10964,25 @@ export const AzureSqlTableDataset: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      azureSqlTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Dataset.type.additionalProperties
   }
 };
 
-export const AzureTableDataset: coreHttp.CompositeMapper = {
+export const AzureTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureTable",
   type: {
     name: "Composite",
@@ -10576,7 +11003,7 @@ export const AzureTableDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobDataset: coreHttp.CompositeMapper = {
+export const AzureBlobDataset: msRest.CompositeMapper = {
   serializedName: "AzureBlob",
   type: {
     name: "Composite",
@@ -10644,7 +11071,7 @@ export const AzureBlobDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatasetLocation: coreHttp.CompositeMapper = {
+export const DatasetLocation: msRest.CompositeMapper = {
   serializedName: "DatasetLocation",
   type: {
     name: "Composite",
@@ -10678,7 +11105,7 @@ export const DatasetLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsLocation: coreHttp.CompositeMapper = {
+export const HdfsLocation: msRest.CompositeMapper = {
   serializedName: "HdfsLocation",
   type: {
     name: "Composite",
@@ -10690,7 +11117,7 @@ export const HdfsLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpServerLocation: coreHttp.CompositeMapper = {
+export const HttpServerLocation: msRest.CompositeMapper = {
   serializedName: "HttpServerLocation",
   type: {
     name: "Composite",
@@ -10708,7 +11135,7 @@ export const HttpServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpLocation: coreHttp.CompositeMapper = {
+export const SftpLocation: msRest.CompositeMapper = {
   serializedName: "SftpLocation",
   type: {
     name: "Composite",
@@ -10720,7 +11147,7 @@ export const SftpLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpServerLocation: coreHttp.CompositeMapper = {
+export const FtpServerLocation: msRest.CompositeMapper = {
   serializedName: "FtpServerLocation",
   type: {
     name: "Composite",
@@ -10732,7 +11159,7 @@ export const FtpServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerLocation: coreHttp.CompositeMapper = {
+export const FileServerLocation: msRest.CompositeMapper = {
   serializedName: "FileServerLocation",
   type: {
     name: "Composite",
@@ -10744,7 +11171,7 @@ export const FileServerLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3Location: coreHttp.CompositeMapper = {
+export const AmazonS3Location: msRest.CompositeMapper = {
   serializedName: "AmazonS3Location",
   type: {
     name: "Composite",
@@ -10768,7 +11195,7 @@ export const AmazonS3Location: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreLocation: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreLocation: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreLocation",
   type: {
     name: "Composite",
@@ -10780,7 +11207,7 @@ export const AzureDataLakeStoreLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSLocation: coreHttp.CompositeMapper = {
+export const AzureBlobFSLocation: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSLocation",
   type: {
     name: "Composite",
@@ -10798,7 +11225,7 @@ export const AzureBlobFSLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageLocation: coreHttp.CompositeMapper = {
+export const AzureBlobStorageLocation: msRest.CompositeMapper = {
   serializedName: "AzureBlobStorageLocation",
   type: {
     name: "Composite",
@@ -10816,7 +11243,7 @@ export const AzureBlobStorageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinaryDataset: coreHttp.CompositeMapper = {
+export const BinaryDataset: msRest.CompositeMapper = {
   serializedName: "Binary",
   type: {
     name: "Composite",
@@ -10855,7 +11282,7 @@ export const BinaryDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextDataset: coreHttp.CompositeMapper = {
+export const DelimitedTextDataset: msRest.CompositeMapper = {
   serializedName: "DelimitedText",
   type: {
     name: "Composite",
@@ -10936,7 +11363,7 @@ export const DelimitedTextDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetDataset: coreHttp.CompositeMapper = {
+export const ParquetDataset: msRest.CompositeMapper = {
   serializedName: "Parquet",
   type: {
     name: "Composite",
@@ -10969,7 +11396,7 @@ export const ParquetDataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3Dataset: coreHttp.CompositeMapper = {
+export const AmazonS3Dataset: msRest.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
     name: "Composite",
@@ -11044,7 +11471,7 @@ export const AmazonS3Dataset: coreHttp.CompositeMapper = {
   }
 };
 
-export const ActivityPolicy: coreHttp.CompositeMapper = {
+export const ActivityPolicy: msRest.CompositeMapper = {
   serializedName: "ActivityPolicy",
   type: {
     name: "Composite",
@@ -11093,7 +11520,7 @@ export const ActivityPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecutionActivity: coreHttp.CompositeMapper = {
+export const ExecutionActivity: msRest.CompositeMapper = {
   serializedName: "Execution",
   type: {
     name: "Composite",
@@ -11126,7 +11553,7 @@ export const ExecutionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureFunctionActivity: coreHttp.CompositeMapper = {
+export const AzureFunctionActivity: msRest.CompositeMapper = {
   serializedName: "AzureFunctionActivity",
   type: {
     name: "Composite",
@@ -11166,7 +11593,7 @@ export const AzureFunctionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
+export const DatabricksSparkPythonActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksSparkPython",
   type: {
     name: "Composite",
@@ -11214,7 +11641,7 @@ export const DatabricksSparkPythonActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
+export const DatabricksSparkJarActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksSparkJar",
   type: {
     name: "Composite",
@@ -11262,7 +11689,7 @@ export const DatabricksSparkJarActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DatabricksNotebookActivity: coreHttp.CompositeMapper = {
+export const DatabricksNotebookActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksNotebook",
   type: {
     name: "Composite",
@@ -11310,7 +11737,7 @@ export const DatabricksNotebookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataLakeAnalyticsUSQLActivity: coreHttp.CompositeMapper = {
+export const DataLakeAnalyticsUSQLActivity: msRest.CompositeMapper = {
   serializedName: "DataLakeAnalyticsU-SQL",
   type: {
     name: "Composite",
@@ -11375,7 +11802,7 @@ export const DataLakeAnalyticsUSQLActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLUpdateResourceActivity: coreHttp.CompositeMapper = {
+export const AzureMLUpdateResourceActivity: msRest.CompositeMapper = {
   serializedName: "AzureMLUpdateResource",
   type: {
     name: "Composite",
@@ -11412,7 +11839,7 @@ export const AzureMLUpdateResourceActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLWebServiceFile: coreHttp.CompositeMapper = {
+export const AzureMLWebServiceFile: msRest.CompositeMapper = {
   serializedName: "AzureMLWebServiceFile",
   type: {
     name: "Composite",
@@ -11438,7 +11865,7 @@ export const AzureMLWebServiceFile: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMLBatchExecutionActivity: coreHttp.CompositeMapper = {
+export const AzureMLBatchExecutionActivity: msRest.CompositeMapper = {
   serializedName: "AzureMLBatchExecution",
   type: {
     name: "Composite",
@@ -11487,7 +11914,7 @@ export const AzureMLBatchExecutionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const GetMetadataActivity: coreHttp.CompositeMapper = {
+export const GetMetadataActivity: msRest.CompositeMapper = {
   serializedName: "GetMetadata",
   type: {
     name: "Composite",
@@ -11521,7 +11948,7 @@ export const GetMetadataActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebActivityAuthentication: coreHttp.CompositeMapper = {
+export const WebActivityAuthentication: msRest.CompositeMapper = {
   serializedName: "WebActivityAuthentication",
   type: {
     name: "Composite",
@@ -11564,7 +11991,7 @@ export const WebActivityAuthentication: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebActivity: coreHttp.CompositeMapper = {
+export const WebActivity: msRest.CompositeMapper = {
   serializedName: "WebActivity",
   type: {
     name: "Composite",
@@ -11635,7 +12062,7 @@ export const WebActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedshiftUnloadSettings: coreHttp.CompositeMapper = {
+export const RedshiftUnloadSettings: msRest.CompositeMapper = {
   serializedName: "RedshiftUnloadSettings",
   type: {
     name: "Composite",
@@ -11661,7 +12088,7 @@ export const RedshiftUnloadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopySource: coreHttp.CompositeMapper = {
+export const CopySource: msRest.CompositeMapper = {
   serializedName: "CopySource",
   type: {
     name: "Composite",
@@ -11706,7 +12133,7 @@ export const CopySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonRedshiftSource: coreHttp.CompositeMapper = {
+export const AmazonRedshiftSource: msRest.CompositeMapper = {
   serializedName: "AmazonRedshiftSource",
   type: {
     name: "Composite",
@@ -11733,7 +12160,7 @@ export const AmazonRedshiftSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleAdWordsSource: coreHttp.CompositeMapper = {
+export const GoogleAdWordsSource: msRest.CompositeMapper = {
   serializedName: "GoogleAdWordsSource",
   type: {
     name: "Composite",
@@ -11753,7 +12180,7 @@ export const GoogleAdWordsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleServiceCloudSource: coreHttp.CompositeMapper = {
+export const OracleServiceCloudSource: msRest.CompositeMapper = {
   serializedName: "OracleServiceCloudSource",
   type: {
     name: "Composite",
@@ -11773,7 +12200,7 @@ export const OracleServiceCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsAXSource: coreHttp.CompositeMapper = {
+export const DynamicsAXSource: msRest.CompositeMapper = {
   serializedName: "DynamicsAXSource",
   type: {
     name: "Composite",
@@ -11793,7 +12220,7 @@ export const DynamicsAXSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResponsysSource: coreHttp.CompositeMapper = {
+export const ResponsysSource: msRest.CompositeMapper = {
   serializedName: "ResponsysSource",
   type: {
     name: "Composite",
@@ -11813,7 +12240,7 @@ export const ResponsysSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceMarketingCloudSource: coreHttp.CompositeMapper = {
+export const SalesforceMarketingCloudSource: msRest.CompositeMapper = {
   serializedName: "SalesforceMarketingCloudSource",
   type: {
     name: "Composite",
@@ -11833,7 +12260,7 @@ export const SalesforceMarketingCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const VerticaSource: coreHttp.CompositeMapper = {
+export const VerticaSource: msRest.CompositeMapper = {
   serializedName: "VerticaSource",
   type: {
     name: "Composite",
@@ -11853,7 +12280,7 @@ export const VerticaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaPartitionSettings: coreHttp.CompositeMapper = {
+export const NetezzaPartitionSettings: msRest.CompositeMapper = {
   serializedName: "NetezzaPartitionSettings",
   type: {
     name: "Composite",
@@ -11881,7 +12308,7 @@ export const NetezzaPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const NetezzaSource: coreHttp.CompositeMapper = {
+export const NetezzaSource: msRest.CompositeMapper = {
   serializedName: "NetezzaSource",
   type: {
     name: "Composite",
@@ -11914,7 +12341,7 @@ export const NetezzaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ZohoSource: coreHttp.CompositeMapper = {
+export const ZohoSource: msRest.CompositeMapper = {
   serializedName: "ZohoSource",
   type: {
     name: "Composite",
@@ -11934,7 +12361,7 @@ export const ZohoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const XeroSource: coreHttp.CompositeMapper = {
+export const XeroSource: msRest.CompositeMapper = {
   serializedName: "XeroSource",
   type: {
     name: "Composite",
@@ -11954,7 +12381,7 @@ export const XeroSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SquareSource: coreHttp.CompositeMapper = {
+export const SquareSource: msRest.CompositeMapper = {
   serializedName: "SquareSource",
   type: {
     name: "Composite",
@@ -11974,7 +12401,7 @@ export const SquareSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SparkSource: coreHttp.CompositeMapper = {
+export const SparkSource: msRest.CompositeMapper = {
   serializedName: "SparkSource",
   type: {
     name: "Composite",
@@ -11994,7 +12421,7 @@ export const SparkSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShopifySource: coreHttp.CompositeMapper = {
+export const ShopifySource: msRest.CompositeMapper = {
   serializedName: "ShopifySource",
   type: {
     name: "Composite",
@@ -12014,7 +12441,7 @@ export const ShopifySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceNowSource: coreHttp.CompositeMapper = {
+export const ServiceNowSource: msRest.CompositeMapper = {
   serializedName: "ServiceNowSource",
   type: {
     name: "Composite",
@@ -12034,7 +12461,7 @@ export const ServiceNowSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const QuickBooksSource: coreHttp.CompositeMapper = {
+export const QuickBooksSource: msRest.CompositeMapper = {
   serializedName: "QuickBooksSource",
   type: {
     name: "Composite",
@@ -12054,7 +12481,7 @@ export const QuickBooksSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PrestoSource: coreHttp.CompositeMapper = {
+export const PrestoSource: msRest.CompositeMapper = {
   serializedName: "PrestoSource",
   type: {
     name: "Composite",
@@ -12074,7 +12501,7 @@ export const PrestoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoenixSource: coreHttp.CompositeMapper = {
+export const PhoenixSource: msRest.CompositeMapper = {
   serializedName: "PhoenixSource",
   type: {
     name: "Composite",
@@ -12094,7 +12521,7 @@ export const PhoenixSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PaypalSource: coreHttp.CompositeMapper = {
+export const PaypalSource: msRest.CompositeMapper = {
   serializedName: "PaypalSource",
   type: {
     name: "Composite",
@@ -12114,7 +12541,7 @@ export const PaypalSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MarketoSource: coreHttp.CompositeMapper = {
+export const MarketoSource: msRest.CompositeMapper = {
   serializedName: "MarketoSource",
   type: {
     name: "Composite",
@@ -12134,7 +12561,27 @@ export const MarketoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MariaDBSource: coreHttp.CompositeMapper = {
+export const AzureMariaDBSource: msRest.CompositeMapper = {
+  serializedName: "AzureMariaDBSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "AzureMariaDBSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const MariaDBSource: msRest.CompositeMapper = {
   serializedName: "MariaDBSource",
   type: {
     name: "Composite",
@@ -12154,7 +12601,7 @@ export const MariaDBSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MagentoSource: coreHttp.CompositeMapper = {
+export const MagentoSource: msRest.CompositeMapper = {
   serializedName: "MagentoSource",
   type: {
     name: "Composite",
@@ -12174,7 +12621,7 @@ export const MagentoSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const JiraSource: coreHttp.CompositeMapper = {
+export const JiraSource: msRest.CompositeMapper = {
   serializedName: "JiraSource",
   type: {
     name: "Composite",
@@ -12194,7 +12641,7 @@ export const JiraSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImpalaSource: coreHttp.CompositeMapper = {
+export const ImpalaSource: msRest.CompositeMapper = {
   serializedName: "ImpalaSource",
   type: {
     name: "Composite",
@@ -12214,7 +12661,7 @@ export const ImpalaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HubspotSource: coreHttp.CompositeMapper = {
+export const HubspotSource: msRest.CompositeMapper = {
   serializedName: "HubspotSource",
   type: {
     name: "Composite",
@@ -12234,7 +12681,7 @@ export const HubspotSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HiveSource: coreHttp.CompositeMapper = {
+export const HiveSource: msRest.CompositeMapper = {
   serializedName: "HiveSource",
   type: {
     name: "Composite",
@@ -12254,7 +12701,7 @@ export const HiveSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HBaseSource: coreHttp.CompositeMapper = {
+export const HBaseSource: msRest.CompositeMapper = {
   serializedName: "HBaseSource",
   type: {
     name: "Composite",
@@ -12274,7 +12721,7 @@ export const HBaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GreenplumSource: coreHttp.CompositeMapper = {
+export const GreenplumSource: msRest.CompositeMapper = {
   serializedName: "GreenplumSource",
   type: {
     name: "Composite",
@@ -12294,7 +12741,7 @@ export const GreenplumSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const GoogleBigQuerySource: coreHttp.CompositeMapper = {
+export const GoogleBigQuerySource: msRest.CompositeMapper = {
   serializedName: "GoogleBigQuerySource",
   type: {
     name: "Composite",
@@ -12314,7 +12761,7 @@ export const GoogleBigQuerySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const EloquaSource: coreHttp.CompositeMapper = {
+export const EloquaSource: msRest.CompositeMapper = {
   serializedName: "EloquaSource",
   type: {
     name: "Composite",
@@ -12334,7 +12781,7 @@ export const EloquaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DrillSource: coreHttp.CompositeMapper = {
+export const DrillSource: msRest.CompositeMapper = {
   serializedName: "DrillSource",
   type: {
     name: "Composite",
@@ -12354,7 +12801,7 @@ export const DrillSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CouchbaseSource: coreHttp.CompositeMapper = {
+export const CouchbaseSource: msRest.CompositeMapper = {
   serializedName: "CouchbaseSource",
   type: {
     name: "Composite",
@@ -12374,7 +12821,7 @@ export const CouchbaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConcurSource: coreHttp.CompositeMapper = {
+export const ConcurSource: msRest.CompositeMapper = {
   serializedName: "ConcurSource",
   type: {
     name: "Composite",
@@ -12394,7 +12841,7 @@ export const ConcurSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlSource: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlSource: msRest.CompositeMapper = {
   serializedName: "AzurePostgreSqlSource",
   type: {
     name: "Composite",
@@ -12414,7 +12861,7 @@ export const AzurePostgreSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonMWSSource: coreHttp.CompositeMapper = {
+export const AmazonMWSSource: msRest.CompositeMapper = {
   serializedName: "AmazonMWSSource",
   type: {
     name: "Composite",
@@ -12434,7 +12881,7 @@ export const AmazonMWSSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpSource: coreHttp.CompositeMapper = {
+export const HttpSource: msRest.CompositeMapper = {
   serializedName: "HttpSource",
   type: {
     name: "Composite",
@@ -12454,7 +12901,7 @@ export const HttpSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSSource: coreHttp.CompositeMapper = {
+export const AzureBlobFSSource: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSSource",
   type: {
     name: "Composite",
@@ -12486,7 +12933,7 @@ export const AzureBlobFSSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreSource: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreSource: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreSource",
   type: {
     name: "Composite",
@@ -12506,7 +12953,7 @@ export const AzureDataLakeStoreSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const Office365Source: coreHttp.CompositeMapper = {
+export const Office365Source: msRest.CompositeMapper = {
   serializedName: "Office365Source",
   type: {
     name: "Composite",
@@ -12514,13 +12961,43 @@ export const Office365Source: coreHttp.CompositeMapper = {
     uberParent: "CopySource",
     className: "Office365Source",
     modelProperties: {
-      ...CopySource.type.modelProperties
+      ...CopySource.type.modelProperties,
+      allowedGroups: {
+        serializedName: "allowedGroups",
+        type: {
+          name: "Object"
+        }
+      },
+      userScopeFilterUri: {
+        serializedName: "userScopeFilterUri",
+        type: {
+          name: "Object"
+        }
+      },
+      dateFilterColumn: {
+        serializedName: "dateFilterColumn",
+        type: {
+          name: "Object"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "Object"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "Object"
+        }
+      }
     },
     additionalProperties: CopySource.type.additionalProperties
   }
 };
 
-export const MongoDbCursorMethodsProperties: coreHttp.CompositeMapper = {
+export const MongoDbCursorMethodsProperties: msRest.CompositeMapper = {
   serializedName: "MongoDbCursorMethodsProperties",
   type: {
     name: "Composite",
@@ -12559,7 +13036,7 @@ export const MongoDbCursorMethodsProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiSource: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiSource: msRest.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiSource",
   type: {
     name: "Composite",
@@ -12597,7 +13074,7 @@ export const CosmosDbMongoDbApiSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbV2Source: coreHttp.CompositeMapper = {
+export const MongoDbV2Source: msRest.CompositeMapper = {
   serializedName: "MongoDbV2Source",
   type: {
     name: "Composite",
@@ -12635,7 +13112,7 @@ export const MongoDbV2Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const MongoDbSource: coreHttp.CompositeMapper = {
+export const MongoDbSource: msRest.CompositeMapper = {
   serializedName: "MongoDbSource",
   type: {
     name: "Composite",
@@ -12655,7 +13132,7 @@ export const MongoDbSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CassandraSource: coreHttp.CompositeMapper = {
+export const CassandraSource: msRest.CompositeMapper = {
   serializedName: "CassandraSource",
   type: {
     name: "Composite",
@@ -12681,7 +13158,7 @@ export const CassandraSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSource: coreHttp.CompositeMapper = {
+export const WebSource: msRest.CompositeMapper = {
   serializedName: "WebSource",
   type: {
     name: "Composite",
@@ -12695,7 +13172,7 @@ export const WebSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataPartitionSettings: coreHttp.CompositeMapper = {
+export const TeradataPartitionSettings: msRest.CompositeMapper = {
   serializedName: "TeradataPartitionSettings",
   type: {
     name: "Composite",
@@ -12723,7 +13200,7 @@ export const TeradataPartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const TeradataSource: coreHttp.CompositeMapper = {
+export const TeradataSource: msRest.CompositeMapper = {
   serializedName: "TeradataSource",
   type: {
     name: "Composite",
@@ -12756,7 +13233,7 @@ export const TeradataSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OraclePartitionSettings: coreHttp.CompositeMapper = {
+export const OraclePartitionSettings: msRest.CompositeMapper = {
   serializedName: "OraclePartitionSettings",
   type: {
     name: "Composite",
@@ -12790,7 +13267,7 @@ export const OraclePartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleSource: coreHttp.CompositeMapper = {
+export const OracleSource: msRest.CompositeMapper = {
   serializedName: "OracleSource",
   type: {
     name: "Composite",
@@ -12829,7 +13306,7 @@ export const OracleSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerSource: coreHttp.CompositeMapper = {
+export const AzureDataExplorerSource: msRest.CompositeMapper = {
   serializedName: "AzureDataExplorerSource",
   type: {
     name: "Composite",
@@ -12862,7 +13339,7 @@ export const AzureDataExplorerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureMySqlSource: coreHttp.CompositeMapper = {
+export const AzureMySqlSource: msRest.CompositeMapper = {
   serializedName: "AzureMySqlSource",
   type: {
     name: "Composite",
@@ -12882,7 +13359,7 @@ export const AzureMySqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DistcpSettings: coreHttp.CompositeMapper = {
+export const DistcpSettings: msRest.CompositeMapper = {
   serializedName: "DistcpSettings",
   type: {
     name: "Composite",
@@ -12912,7 +13389,7 @@ export const DistcpSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsSource: coreHttp.CompositeMapper = {
+export const HdfsSource: msRest.CompositeMapper = {
   serializedName: "HdfsSource",
   type: {
     name: "Composite",
@@ -12939,7 +13416,7 @@ export const HdfsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileSystemSource: coreHttp.CompositeMapper = {
+export const FileSystemSource: msRest.CompositeMapper = {
   serializedName: "FileSystemSource",
   type: {
     name: "Composite",
@@ -12959,7 +13436,7 @@ export const FileSystemSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlDWSource: coreHttp.CompositeMapper = {
+export const SqlDWSource: msRest.CompositeMapper = {
   serializedName: "SqlDWSource",
   type: {
     name: "Composite",
@@ -12991,7 +13468,7 @@ export const SqlDWSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoredProcedureParameter: coreHttp.CompositeMapper = {
+export const StoredProcedureParameter: msRest.CompositeMapper = {
   serializedName: "StoredProcedureParameter",
   type: {
     name: "Composite",
@@ -13013,7 +13490,7 @@ export const StoredProcedureParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlMISource: coreHttp.CompositeMapper = {
+export const SqlMISource: msRest.CompositeMapper = {
   serializedName: "SqlMISource",
   type: {
     name: "Composite",
@@ -13057,7 +13534,7 @@ export const SqlMISource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlSource: coreHttp.CompositeMapper = {
+export const AzureSqlSource: msRest.CompositeMapper = {
   serializedName: "AzureSqlSource",
   type: {
     name: "Composite",
@@ -13101,7 +13578,7 @@ export const AzureSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerSource: coreHttp.CompositeMapper = {
+export const SqlServerSource: msRest.CompositeMapper = {
   serializedName: "SqlServerSource",
   type: {
     name: "Composite",
@@ -13145,7 +13622,7 @@ export const SqlServerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlSource: coreHttp.CompositeMapper = {
+export const SqlSource: msRest.CompositeMapper = {
   serializedName: "SqlSource",
   type: {
     name: "Composite",
@@ -13183,7 +13660,7 @@ export const SqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const RestSource: coreHttp.CompositeMapper = {
+export const RestSource: msRest.CompositeMapper = {
   serializedName: "RestSource",
   type: {
     name: "Composite",
@@ -13192,6 +13669,30 @@ export const RestSource: coreHttp.CompositeMapper = {
     className: "RestSource",
     modelProperties: {
       ...CopySource.type.modelProperties,
+      requestMethod: {
+        serializedName: "requestMethod",
+        type: {
+          name: "Object"
+        }
+      },
+      requestBody: {
+        serializedName: "requestBody",
+        type: {
+          name: "Object"
+        }
+      },
+      additionalHeaders: {
+        serializedName: "additionalHeaders",
+        type: {
+          name: "Object"
+        }
+      },
+      paginationRules: {
+        serializedName: "paginationRules",
+        type: {
+          name: "Object"
+        }
+      },
       httpRequestTimeout: {
         serializedName: "httpRequestTimeout",
         type: {
@@ -13209,7 +13710,7 @@ export const RestSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTablePartitionSettings: coreHttp.CompositeMapper = {
+export const SapTablePartitionSettings: msRest.CompositeMapper = {
   serializedName: "SapTablePartitionSettings",
   type: {
     name: "Composite",
@@ -13243,7 +13744,7 @@ export const SapTablePartitionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapTableSource: coreHttp.CompositeMapper = {
+export const SapTableSource: msRest.CompositeMapper = {
   serializedName: "SapTableSource",
   type: {
     name: "Composite",
@@ -13306,7 +13807,7 @@ export const SapTableSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapOpenHubSource: coreHttp.CompositeMapper = {
+export const SapOpenHubSource: msRest.CompositeMapper = {
   serializedName: "SapOpenHubSource",
   type: {
     name: "Composite",
@@ -13314,13 +13815,25 @@ export const SapOpenHubSource: coreHttp.CompositeMapper = {
     uberParent: "CopySource",
     className: "SapOpenHubSource",
     modelProperties: {
-      ...CopySource.type.modelProperties
+      ...CopySource.type.modelProperties,
+      excludeLastRequest: {
+        serializedName: "excludeLastRequest",
+        type: {
+          name: "Object"
+        }
+      },
+      baseRequestId: {
+        serializedName: "baseRequestId",
+        type: {
+          name: "Object"
+        }
+      }
     },
     additionalProperties: CopySource.type.additionalProperties
   }
 };
 
-export const SapHanaSource: coreHttp.CompositeMapper = {
+export const SapHanaSource: msRest.CompositeMapper = {
   serializedName: "SapHanaSource",
   type: {
     name: "Composite",
@@ -13346,7 +13859,7 @@ export const SapHanaSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapEccSource: coreHttp.CompositeMapper = {
+export const SapEccSource: msRest.CompositeMapper = {
   serializedName: "SapEccSource",
   type: {
     name: "Composite",
@@ -13366,7 +13879,7 @@ export const SapEccSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerSource: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerSource: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomerSource",
   type: {
     name: "Composite",
@@ -13386,7 +13899,7 @@ export const SapCloudForCustomerSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudSource: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudSource: msRest.CompositeMapper = {
   serializedName: "SalesforceServiceCloudSource",
   type: {
     name: "Composite",
@@ -13412,7 +13925,7 @@ export const SalesforceServiceCloudSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceSource: coreHttp.CompositeMapper = {
+export const SalesforceSource: msRest.CompositeMapper = {
   serializedName: "SalesforceSource",
   type: {
     name: "Composite",
@@ -13438,7 +13951,7 @@ export const SalesforceSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ODataSource: coreHttp.CompositeMapper = {
+export const ODataSource: msRest.CompositeMapper = {
   serializedName: "ODataSource",
   type: {
     name: "Composite",
@@ -13458,7 +13971,7 @@ export const ODataSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const SybaseSource: coreHttp.CompositeMapper = {
+export const SybaseSource: msRest.CompositeMapper = {
   serializedName: "SybaseSource",
   type: {
     name: "Composite",
@@ -13478,7 +13991,7 @@ export const SybaseSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const PostgreSqlSource: coreHttp.CompositeMapper = {
+export const PostgreSqlSource: msRest.CompositeMapper = {
   serializedName: "PostgreSqlSource",
   type: {
     name: "Composite",
@@ -13498,7 +14011,7 @@ export const PostgreSqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MySqlSource: coreHttp.CompositeMapper = {
+export const MySqlSource: msRest.CompositeMapper = {
   serializedName: "MySqlSource",
   type: {
     name: "Composite",
@@ -13518,7 +14031,7 @@ export const MySqlSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcSource: coreHttp.CompositeMapper = {
+export const OdbcSource: msRest.CompositeMapper = {
   serializedName: "OdbcSource",
   type: {
     name: "Composite",
@@ -13538,7 +14051,7 @@ export const OdbcSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const Db2Source: coreHttp.CompositeMapper = {
+export const Db2Source: msRest.CompositeMapper = {
   serializedName: "Db2Source",
   type: {
     name: "Composite",
@@ -13558,7 +14071,7 @@ export const Db2Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessSource: coreHttp.CompositeMapper = {
+export const MicrosoftAccessSource: msRest.CompositeMapper = {
   serializedName: "MicrosoftAccessSource",
   type: {
     name: "Composite",
@@ -13578,7 +14091,7 @@ export const MicrosoftAccessSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixSource: coreHttp.CompositeMapper = {
+export const InformixSource: msRest.CompositeMapper = {
   serializedName: "InformixSource",
   type: {
     name: "Composite",
@@ -13598,7 +14111,7 @@ export const InformixSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const RelationalSource: coreHttp.CompositeMapper = {
+export const RelationalSource: msRest.CompositeMapper = {
   serializedName: "RelationalSource",
   type: {
     name: "Composite",
@@ -13618,7 +14131,7 @@ export const RelationalSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsSource: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsSource: msRest.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsSource",
   type: {
     name: "Composite",
@@ -13638,7 +14151,7 @@ export const CommonDataServiceForAppsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmSource: coreHttp.CompositeMapper = {
+export const DynamicsCrmSource: msRest.CompositeMapper = {
   serializedName: "DynamicsCrmSource",
   type: {
     name: "Composite",
@@ -13658,7 +14171,7 @@ export const DynamicsCrmSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsSource: coreHttp.CompositeMapper = {
+export const DynamicsSource: msRest.CompositeMapper = {
   serializedName: "DynamicsSource",
   type: {
     name: "Composite",
@@ -13678,7 +14191,7 @@ export const DynamicsSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionSource: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionSource: msRest.CompositeMapper = {
   serializedName: "DocumentDbCollectionSource",
   type: {
     name: "Composite",
@@ -13704,7 +14217,7 @@ export const DocumentDbCollectionSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobSource: coreHttp.CompositeMapper = {
+export const BlobSource: msRest.CompositeMapper = {
   serializedName: "BlobSource",
   type: {
     name: "Composite",
@@ -13736,7 +14249,7 @@ export const BlobSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableSource: coreHttp.CompositeMapper = {
+export const AzureTableSource: msRest.CompositeMapper = {
   serializedName: "AzureTableSource",
   type: {
     name: "Composite",
@@ -13762,7 +14275,7 @@ export const AzureTableSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoreReadSettings: coreHttp.CompositeMapper = {
+export const StoreReadSettings: msRest.CompositeMapper = {
   serializedName: "StoreReadSettings",
   type: {
     name: "Composite",
@@ -13790,7 +14303,7 @@ export const StoreReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const HdfsReadSettings: coreHttp.CompositeMapper = {
+export const HdfsReadSettings: msRest.CompositeMapper = {
   serializedName: "HdfsReadSettings",
   type: {
     name: "Composite",
@@ -13845,7 +14358,7 @@ export const HdfsReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpReadSettings: coreHttp.CompositeMapper = {
+export const HttpReadSettings: msRest.CompositeMapper = {
   serializedName: "HttpReadSettings",
   type: {
     name: "Composite",
@@ -13881,7 +14394,7 @@ export const HttpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SftpReadSettings: coreHttp.CompositeMapper = {
+export const SftpReadSettings: msRest.CompositeMapper = {
   serializedName: "SftpReadSettings",
   type: {
     name: "Composite",
@@ -13923,7 +14436,7 @@ export const SftpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FtpReadSettings: coreHttp.CompositeMapper = {
+export const FtpReadSettings: msRest.CompositeMapper = {
   serializedName: "FtpReadSettings",
   type: {
     name: "Composite",
@@ -13959,7 +14472,7 @@ export const FtpReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerReadSettings: coreHttp.CompositeMapper = {
+export const FileServerReadSettings: msRest.CompositeMapper = {
   serializedName: "FileServerReadSettings",
   type: {
     name: "Composite",
@@ -14007,7 +14520,7 @@ export const FileServerReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AmazonS3ReadSettings: coreHttp.CompositeMapper = {
+export const AmazonS3ReadSettings: msRest.CompositeMapper = {
   serializedName: "AmazonS3ReadSettings",
   type: {
     name: "Composite",
@@ -14061,7 +14574,7 @@ export const AmazonS3ReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreReadSettings: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreReadSettings: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreReadSettings",
   type: {
     name: "Composite",
@@ -14109,7 +14622,7 @@ export const AzureDataLakeStoreReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSReadSettings: coreHttp.CompositeMapper = {
+export const AzureBlobFSReadSettings: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSReadSettings",
   type: {
     name: "Composite",
@@ -14157,7 +14670,7 @@ export const AzureBlobFSReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageReadSettings: coreHttp.CompositeMapper = {
+export const AzureBlobStorageReadSettings: msRest.CompositeMapper = {
   serializedName: "AzureBlobStorageReadSettings",
   type: {
     name: "Composite",
@@ -14205,7 +14718,7 @@ export const AzureBlobStorageReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinarySource: coreHttp.CompositeMapper = {
+export const BinarySource: msRest.CompositeMapper = {
   serializedName: "BinarySource",
   type: {
     name: "Composite",
@@ -14231,7 +14744,7 @@ export const BinarySource: coreHttp.CompositeMapper = {
   }
 };
 
-export const FormatReadSettings: coreHttp.CompositeMapper = {
+export const FormatReadSettings: msRest.CompositeMapper = {
   serializedName: "FormatReadSettings",
   type: {
     name: "Composite",
@@ -14253,7 +14766,7 @@ export const FormatReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextReadSettings: coreHttp.CompositeMapper = {
+export const DelimitedTextReadSettings: msRest.CompositeMapper = {
   serializedName: "DelimitedTextReadSettings",
   type: {
     name: "Composite",
@@ -14271,7 +14784,7 @@ export const DelimitedTextReadSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextSource: coreHttp.CompositeMapper = {
+export const DelimitedTextSource: msRest.CompositeMapper = {
   serializedName: "DelimitedTextSource",
   type: {
     name: "Composite",
@@ -14305,7 +14818,7 @@ export const DelimitedTextSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetSource: coreHttp.CompositeMapper = {
+export const ParquetSource: msRest.CompositeMapper = {
   serializedName: "ParquetSource",
   type: {
     name: "Composite",
@@ -14331,7 +14844,7 @@ export const ParquetSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const LookupActivity: coreHttp.CompositeMapper = {
+export const LookupActivity: msRest.CompositeMapper = {
   serializedName: "Lookup",
   type: {
     name: "Composite",
@@ -14373,7 +14886,7 @@ export const LookupActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerCommandActivity: coreHttp.CompositeMapper = {
+export const AzureDataExplorerCommandActivity: msRest.CompositeMapper = {
   serializedName: "AzureDataExplorerCommand",
   type: {
     name: "Composite",
@@ -14400,7 +14913,7 @@ export const AzureDataExplorerCommandActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogStorageSettings: coreHttp.CompositeMapper = {
+export const LogStorageSettings: msRest.CompositeMapper = {
   serializedName: "LogStorageSettings",
   type: {
     name: "Composite",
@@ -14430,7 +14943,7 @@ export const LogStorageSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeleteActivity: coreHttp.CompositeMapper = {
+export const DeleteActivity: msRest.CompositeMapper = {
   serializedName: "Delete",
   type: {
     name: "Composite",
@@ -14486,7 +14999,7 @@ export const DeleteActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerStoredProcedureActivity: coreHttp.CompositeMapper = {
+export const SqlServerStoredProcedureActivity: msRest.CompositeMapper = {
   serializedName: "SqlServerStoredProcedure",
   type: {
     name: "Composite",
@@ -14519,7 +15032,7 @@ export const SqlServerStoredProcedureActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
+export const CustomActivityReferenceObject: msRest.CompositeMapper = {
   serializedName: "CustomActivityReferenceObject",
   type: {
     name: "Composite",
@@ -14553,7 +15066,7 @@ export const CustomActivityReferenceObject: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomActivity: coreHttp.CompositeMapper = {
+export const CustomActivity: msRest.CompositeMapper = {
   serializedName: "Custom",
   type: {
     name: "Composite",
@@ -14611,7 +15124,7 @@ export const CustomActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISAccessCredential: coreHttp.CompositeMapper = {
+export const SSISAccessCredential: msRest.CompositeMapper = {
   serializedName: "SSISAccessCredential",
   type: {
     name: "Composite",
@@ -14643,7 +15156,7 @@ export const SSISAccessCredential: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISLogLocation: coreHttp.CompositeMapper = {
+export const SSISLogLocation: msRest.CompositeMapper = {
   serializedName: "SSISLogLocation",
   type: {
     name: "Composite",
@@ -14682,7 +15195,7 @@ export const SSISLogLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISPropertyOverride: coreHttp.CompositeMapper = {
+export const SSISPropertyOverride: msRest.CompositeMapper = {
   serializedName: "SSISPropertyOverride",
   type: {
     name: "Composite",
@@ -14705,7 +15218,7 @@ export const SSISPropertyOverride: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISExecutionParameter: coreHttp.CompositeMapper = {
+export const SSISExecutionParameter: msRest.CompositeMapper = {
   serializedName: "SSISExecutionParameter",
   type: {
     name: "Composite",
@@ -14722,7 +15235,7 @@ export const SSISExecutionParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISExecutionCredential: coreHttp.CompositeMapper = {
+export const SSISExecutionCredential: msRest.CompositeMapper = {
   serializedName: "SSISExecutionCredential",
   type: {
     name: "Composite",
@@ -14754,7 +15267,7 @@ export const SSISExecutionCredential: coreHttp.CompositeMapper = {
   }
 };
 
-export const SSISPackageLocation: coreHttp.CompositeMapper = {
+export const SSISPackageLocation: msRest.CompositeMapper = {
   serializedName: "SSISPackageLocation",
   type: {
     name: "Composite",
@@ -14797,7 +15310,7 @@ export const SSISPackageLocation: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecuteSSISPackageActivity: coreHttp.CompositeMapper = {
+export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
   serializedName: "ExecuteSSISPackage",
   type: {
     name: "Composite",
@@ -14930,7 +15443,7 @@ export const ExecuteSSISPackageActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightSparkActivity: coreHttp.CompositeMapper = {
+export const HDInsightSparkActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightSpark",
   type: {
     name: "Composite",
@@ -15005,7 +15518,7 @@ export const HDInsightSparkActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
+export const HDInsightStreamingActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightStreaming",
   type: {
     name: "Composite",
@@ -15123,7 +15636,7 @@ export const HDInsightStreamingActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
+export const HDInsightMapReduceActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightMapReduce",
   type: {
     name: "Composite",
@@ -15209,7 +15722,7 @@ export const HDInsightMapReduceActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightPigActivity: coreHttp.CompositeMapper = {
+export const HDInsightPigActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightPig",
   type: {
     name: "Composite",
@@ -15250,7 +15763,19 @@ export const HDInsightPigActivity: coreHttp.CompositeMapper = {
       scriptPath: {
         serializedName: "typeProperties.scriptPath",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      defines: {
+        serializedName: "typeProperties.defines",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       scriptLinkedService: {
@@ -15276,7 +15801,7 @@ export const HDInsightPigActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
+export const HDInsightHiveActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightHive",
   type: {
     name: "Composite",
@@ -15360,7 +15885,7 @@ export const HDInsightHiveActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedirectIncompatibleRowSettings: coreHttp.CompositeMapper = {
+export const RedirectIncompatibleRowSettings: msRest.CompositeMapper = {
   serializedName: "RedirectIncompatibleRowSettings",
   type: {
     name: "Composite",
@@ -15388,7 +15913,7 @@ export const RedirectIncompatibleRowSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const StagingSettings: coreHttp.CompositeMapper = {
+export const StagingSettings: msRest.CompositeMapper = {
   serializedName: "StagingSettings",
   type: {
     name: "Composite",
@@ -15424,7 +15949,7 @@ export const StagingSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopySink: coreHttp.CompositeMapper = {
+export const CopySink: msRest.CompositeMapper = {
   serializedName: "CopySink",
   type: {
     name: "Composite",
@@ -15481,7 +16006,7 @@ export const CopySink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CosmosDbMongoDbApiSink: coreHttp.CompositeMapper = {
+export const CosmosDbMongoDbApiSink: msRest.CompositeMapper = {
   serializedName: "CosmosDbMongoDbApiSink",
   type: {
     name: "Composite",
@@ -15501,7 +16026,7 @@ export const CosmosDbMongoDbApiSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceServiceCloudSink: coreHttp.CompositeMapper = {
+export const SalesforceServiceCloudSink: msRest.CompositeMapper = {
   serializedName: "SalesforceServiceCloudSink",
   type: {
     name: "Composite",
@@ -15533,7 +16058,7 @@ export const SalesforceServiceCloudSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SalesforceSink: coreHttp.CompositeMapper = {
+export const SalesforceSink: msRest.CompositeMapper = {
   serializedName: "SalesforceSink",
   type: {
     name: "Composite",
@@ -15565,7 +16090,7 @@ export const SalesforceSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataExplorerSink: coreHttp.CompositeMapper = {
+export const AzureDataExplorerSink: msRest.CompositeMapper = {
   serializedName: "AzureDataExplorerSink",
   type: {
     name: "Composite",
@@ -15597,7 +16122,7 @@ export const AzureDataExplorerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommonDataServiceForAppsSink: coreHttp.CompositeMapper = {
+export const CommonDataServiceForAppsSink: msRest.CompositeMapper = {
   serializedName: "CommonDataServiceForAppsSink",
   type: {
     name: "Composite",
@@ -15626,7 +16151,7 @@ export const CommonDataServiceForAppsSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsCrmSink: coreHttp.CompositeMapper = {
+export const DynamicsCrmSink: msRest.CompositeMapper = {
   serializedName: "DynamicsCrmSink",
   type: {
     name: "Composite",
@@ -15655,7 +16180,7 @@ export const DynamicsCrmSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DynamicsSink: coreHttp.CompositeMapper = {
+export const DynamicsSink: msRest.CompositeMapper = {
   serializedName: "DynamicsSink",
   type: {
     name: "Composite",
@@ -15684,7 +16209,7 @@ export const DynamicsSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const MicrosoftAccessSink: coreHttp.CompositeMapper = {
+export const MicrosoftAccessSink: msRest.CompositeMapper = {
   serializedName: "MicrosoftAccessSink",
   type: {
     name: "Composite",
@@ -15704,7 +16229,7 @@ export const MicrosoftAccessSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const InformixSink: coreHttp.CompositeMapper = {
+export const InformixSink: msRest.CompositeMapper = {
   serializedName: "InformixSink",
   type: {
     name: "Composite",
@@ -15724,7 +16249,7 @@ export const InformixSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const OdbcSink: coreHttp.CompositeMapper = {
+export const OdbcSink: msRest.CompositeMapper = {
   serializedName: "OdbcSink",
   type: {
     name: "Composite",
@@ -15744,7 +16269,7 @@ export const OdbcSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSearchIndexSink: coreHttp.CompositeMapper = {
+export const AzureSearchIndexSink: msRest.CompositeMapper = {
   serializedName: "AzureSearchIndexSink",
   type: {
     name: "Composite",
@@ -15764,7 +16289,7 @@ export const AzureSearchIndexSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSSink: coreHttp.CompositeMapper = {
+export const AzureBlobFSSink: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSSink",
   type: {
     name: "Composite",
@@ -15784,7 +16309,7 @@ export const AzureBlobFSSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreSink: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreSink: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreSink",
   type: {
     name: "Composite",
@@ -15810,7 +16335,7 @@ export const AzureDataLakeStoreSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const OracleSink: coreHttp.CompositeMapper = {
+export const OracleSink: msRest.CompositeMapper = {
   serializedName: "OracleSink",
   type: {
     name: "Composite",
@@ -15830,7 +16355,7 @@ export const OracleSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolybaseSettings: coreHttp.CompositeMapper = {
+export const PolybaseSettings: msRest.CompositeMapper = {
   serializedName: "PolybaseSettings",
   type: {
     name: "Composite",
@@ -15869,7 +16394,7 @@ export const PolybaseSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlDWSink: coreHttp.CompositeMapper = {
+export const SqlDWSink: msRest.CompositeMapper = {
   serializedName: "SqlDWSink",
   type: {
     name: "Composite",
@@ -15907,7 +16432,7 @@ export const SqlDWSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlMISink: coreHttp.CompositeMapper = {
+export const SqlMISink: msRest.CompositeMapper = {
   serializedName: "SqlMISink",
   type: {
     name: "Composite",
@@ -15925,7 +16450,7 @@ export const SqlMISink: coreHttp.CompositeMapper = {
       sqlWriterTableType: {
         serializedName: "sqlWriterTableType",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       preCopyScript: {
@@ -15957,7 +16482,7 @@ export const SqlMISink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureSqlSink: coreHttp.CompositeMapper = {
+export const AzureSqlSink: msRest.CompositeMapper = {
   serializedName: "AzureSqlSink",
   type: {
     name: "Composite",
@@ -15987,8 +16512,9 @@ export const AzureSqlSink: coreHttp.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "PolybaseSettings",
+          additionalProperties: {
             type: {
               name: "Composite",
               className: "StoredProcedureParameter"
@@ -16007,7 +16533,7 @@ export const AzureSqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlServerSink: coreHttp.CompositeMapper = {
+export const SqlServerSink: msRest.CompositeMapper = {
   serializedName: "SqlServerSink",
   type: {
     name: "Composite",
@@ -16057,7 +16583,7 @@ export const SqlServerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SqlSink: coreHttp.CompositeMapper = {
+export const SqlSink: msRest.CompositeMapper = {
   serializedName: "SqlSink",
   type: {
     name: "Composite",
@@ -16107,7 +16633,7 @@ export const SqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const DocumentDbCollectionSink: coreHttp.CompositeMapper = {
+export const DocumentDbCollectionSink: msRest.CompositeMapper = {
   serializedName: "DocumentDbCollectionSink",
   type: {
     name: "Composite",
@@ -16127,13 +16653,19 @@ export const DocumentDbCollectionSink: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      storedProcedureTableTypeParameterName: {
+        serializedName: "storedProcedureTableTypeParameterName",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: CopySink.type.additionalProperties
   }
 };
 
-export const FileSystemSink: coreHttp.CompositeMapper = {
+export const FileSystemSink: msRest.CompositeMapper = {
   serializedName: "FileSystemSink",
   type: {
     name: "Composite",
@@ -16153,7 +16685,7 @@ export const FileSystemSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobSink: coreHttp.CompositeMapper = {
+export const BlobSink: msRest.CompositeMapper = {
   serializedName: "BlobSink",
   type: {
     name: "Composite",
@@ -16191,7 +16723,7 @@ export const BlobSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const BinarySink: coreHttp.CompositeMapper = {
+export const BinarySink: msRest.CompositeMapper = {
   serializedName: "BinarySink",
   type: {
     name: "Composite",
@@ -16217,7 +16749,7 @@ export const BinarySink: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoreWriteSettings: coreHttp.CompositeMapper = {
+export const StoreWriteSettings: msRest.CompositeMapper = {
   serializedName: "StoreWriteSettings",
   type: {
     name: "Composite",
@@ -16227,7 +16759,7 @@ export const StoreWriteSettings: coreHttp.CompositeMapper = {
         required: true,
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       maxConcurrentConnections: {
@@ -16241,6 +16773,12 @@ export const StoreWriteSettings: coreHttp.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      storedProcedureTableTypeParameterName: {
+        serializedName: "storedProcedureTableTypeParameterName",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: {
@@ -16251,7 +16789,7 @@ export const StoreWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileServerWriteSettings: coreHttp.CompositeMapper = {
+export const FileServerWriteSettings: msRest.CompositeMapper = {
   serializedName: "FileServerWriteSettings",
   type: {
     name: "Composite",
@@ -16263,7 +16801,7 @@ export const FileServerWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStoreWriteSettings: coreHttp.CompositeMapper = {
+export const AzureDataLakeStoreWriteSettings: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreWriteSettings",
   type: {
     name: "Composite",
@@ -16275,7 +16813,7 @@ export const AzureDataLakeStoreWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobFSWriteSettings: coreHttp.CompositeMapper = {
+export const AzureBlobFSWriteSettings: msRest.CompositeMapper = {
   serializedName: "AzureBlobFSWriteSettings",
   type: {
     name: "Composite",
@@ -16287,7 +16825,7 @@ export const AzureBlobFSWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureBlobStorageWriteSettings: coreHttp.CompositeMapper = {
+export const AzureBlobStorageWriteSettings: msRest.CompositeMapper = {
   serializedName: "AzureBlobStorageWriteSettings",
   type: {
     name: "Composite",
@@ -16299,7 +16837,7 @@ export const AzureBlobStorageWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParquetSink: coreHttp.CompositeMapper = {
+export const ParquetSink: msRest.CompositeMapper = {
   serializedName: "ParquetSink",
   type: {
     name: "Composite",
@@ -16325,7 +16863,7 @@ export const ParquetSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureTableSink: coreHttp.CompositeMapper = {
+export const AzureTableSink: msRest.CompositeMapper = {
   serializedName: "AzureTableSink",
   type: {
     name: "Composite",
@@ -16363,7 +16901,7 @@ export const AzureTableSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureQueueSink: coreHttp.CompositeMapper = {
+export const AzureQueueSink: msRest.CompositeMapper = {
   serializedName: "AzureQueueSink",
   type: {
     name: "Composite",
@@ -16377,7 +16915,7 @@ export const AzureQueueSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const SapCloudForCustomerSink: coreHttp.CompositeMapper = {
+export const SapCloudForCustomerSink: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomerSink",
   type: {
     name: "Composite",
@@ -16397,7 +16935,7 @@ export const SapCloudForCustomerSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzurePostgreSqlSink: coreHttp.CompositeMapper = {
+export const AzurePostgreSqlSink: msRest.CompositeMapper = {
   serializedName: "AzurePostgreSqlSink",
   type: {
     name: "Composite",
@@ -16417,29 +16955,19 @@ export const AzurePostgreSqlSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const FormatWriteSettings: coreHttp.CompositeMapper = {
+export const FormatWriteSettings: msRest.CompositeMapper = {
   serializedName: "FormatWriteSettings",
   type: {
     name: "Composite",
     className: "FormatWriteSettings",
     modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
+      ...StoreWriteSettings.type.modelProperties
     },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
+    additionalProperties: StoreWriteSettings.type.additionalProperties
   }
 };
 
-export const DelimitedTextWriteSettings: coreHttp.CompositeMapper = {
+export const DelimitedTextWriteSettings: msRest.CompositeMapper = {
   serializedName: "DelimitedTextWriteSettings",
   type: {
     name: "Composite",
@@ -16464,7 +16992,7 @@ export const DelimitedTextWriteSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const DelimitedTextSink: coreHttp.CompositeMapper = {
+export const DelimitedTextSink: msRest.CompositeMapper = {
   serializedName: "DelimitedTextSink",
   type: {
     name: "Composite",
@@ -16498,7 +17026,7 @@ export const DelimitedTextSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const CopyActivity: coreHttp.CompositeMapper = {
+export const CopyActivity: msRest.CompositeMapper = {
   serializedName: "Copy",
   type: {
     name: "Composite",
@@ -16638,7 +17166,7 @@ export const CopyActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ControlActivity: coreHttp.CompositeMapper = {
+export const ControlActivity: msRest.CompositeMapper = {
   serializedName: "Container",
   type: {
     name: "Composite",
@@ -16652,7 +17180,7 @@ export const ControlActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebHookActivity: coreHttp.CompositeMapper = {
+export const WebHookActivity: msRest.CompositeMapper = {
   serializedName: "WebHook",
   type: {
     name: "Composite",
@@ -16667,20 +17195,47 @@ export const WebHookActivity: coreHttp.CompositeMapper = {
         serializedName: "typeProperties.method",
         defaultValue: 'POST',
         type: {
-          name: "String"
+          name: "Object"
+        }
+      },
+      fileExtension: {
+        required: true,
+        serializedName: "fileExtension",
+        type: {
+          name: "Object"
         }
       },
       url: {
         required: true,
         serializedName: "typeProperties.url",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "StoreWriteSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      formatSettings: {
+        serializedName: "formatSettings",
+        type: {
+          name: "Composite",
+          className: "DelimitedTextWriteSettings",
+          additionalProperties: FormatWriteSettings.type.additionalProperties
         }
       },
       timeout: {
         serializedName: "typeProperties.timeout",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CopySource",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       headers: {
@@ -16707,7 +17262,7 @@ export const WebHookActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const AppendVariableActivity: coreHttp.CompositeMapper = {
+export const AppendVariableActivity: msRest.CompositeMapper = {
   serializedName: "AppendVariable",
   type: {
     name: "Composite",
@@ -16733,7 +17288,7 @@ export const AppendVariableActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const SetVariableActivity: coreHttp.CompositeMapper = {
+export const SetVariableActivity: msRest.CompositeMapper = {
   serializedName: "SetVariable",
   type: {
     name: "Composite",
@@ -16759,7 +17314,7 @@ export const SetVariableActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const FilterActivity: coreHttp.CompositeMapper = {
+export const FilterActivity: msRest.CompositeMapper = {
   serializedName: "Filter",
   type: {
     name: "Composite",
@@ -16791,7 +17346,7 @@ export const FilterActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ValidationActivity: coreHttp.CompositeMapper = {
+export const ValidationActivity: msRest.CompositeMapper = {
   serializedName: "Validation",
   type: {
     name: "Composite",
@@ -16821,7 +17376,8 @@ export const ValidationActivity: coreHttp.CompositeMapper = {
       childItems: {
         serializedName: "typeProperties.childItems",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "Expression"
         }
       },
       dataset: {
@@ -16838,7 +17394,7 @@ export const ValidationActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const UntilActivity: coreHttp.CompositeMapper = {
+export const UntilActivity: msRest.CompositeMapper = {
   serializedName: "Until",
   type: {
     name: "Composite",
@@ -16885,7 +17441,7 @@ export const UntilActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const WaitActivity: coreHttp.CompositeMapper = {
+export const WaitActivity: msRest.CompositeMapper = {
   serializedName: "Wait",
   type: {
     name: "Composite",
@@ -16906,7 +17462,7 @@ export const WaitActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ForEachActivity: coreHttp.CompositeMapper = {
+export const ForEachActivity: msRest.CompositeMapper = {
   serializedName: "ForEach",
   type: {
     name: "Composite",
@@ -16955,6 +17511,29 @@ export const ForEachActivity: coreHttp.CompositeMapper = {
               }
             }
           }
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const IfConditionActivity: msRest.CompositeMapper = {
+  serializedName: "IfCondition",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "IfConditionActivity",
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      expression: {
+        required: true,
+        serializedName: "typeProperties.expression",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
         }
       }
     },
@@ -17019,7 +17598,7 @@ export const IfConditionActivity: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExecutePipelineActivity: coreHttp.CompositeMapper = {
+export const ExecutePipelineActivity: msRest.CompositeMapper = {
   serializedName: "ExecutePipeline",
   type: {
     name: "Composite",
@@ -17054,12 +17633,11 @@ export const ExecutePipelineActivity: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       }
-    },
-    additionalProperties: Activity.type.additionalProperties
+    }
   }
 };
 
-export const LinkedIntegrationRuntime: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntime: msRest.CompositeMapper = {
   serializedName: "LinkedIntegrationRuntime",
   type: {
     name: "Composite",
@@ -17069,7 +17647,7 @@ export const LinkedIntegrationRuntime: coreHttp.CompositeMapper = {
         readOnly: true,
         serializedName: "name",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
       subscriptionId: {
@@ -17104,7 +17682,7 @@ export const LinkedIntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const SelfHostedIntegrationRuntimeNode: coreHttp.CompositeMapper = {
+export const SelfHostedIntegrationRuntimeNode: msRest.CompositeMapper = {
   serializedName: "SelfHostedIntegrationRuntimeNode",
   type: {
     name: "Composite",
@@ -17250,7 +17828,7 @@ export const SelfHostedIntegrationRuntimeNode: coreHttp.CompositeMapper = {
   }
 };
 
-export const SelfHostedIntegrationRuntimeStatus: coreHttp.CompositeMapper = {
+export const SelfHostedIntegrationRuntimeStatus: msRest.CompositeMapper = {
   serializedName: "SelfHosted",
   type: {
     name: "Composite",
@@ -17401,7 +17979,7 @@ export const SelfHostedIntegrationRuntimeStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntimeOperationResult: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntimeOperationResult: msRest.CompositeMapper = {
   serializedName: "ManagedIntegrationRuntimeOperationResult",
   type: {
     name: "Composite",
@@ -17463,7 +18041,7 @@ export const ManagedIntegrationRuntimeOperationResult: coreHttp.CompositeMapper 
   }
 };
 
-export const ManagedIntegrationRuntimeError: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntimeError: msRest.CompositeMapper = {
   serializedName: "ManagedIntegrationRuntimeError",
   type: {
     name: "Composite",
@@ -17511,7 +18089,7 @@ export const ManagedIntegrationRuntimeError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntimeNode: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntimeNode: msRest.CompositeMapper = {
   serializedName: "ManagedIntegrationRuntimeNode",
   type: {
     name: "Composite",
@@ -17557,7 +18135,7 @@ export const ManagedIntegrationRuntimeNode: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntimeStatus: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntimeStatus: msRest.CompositeMapper = {
   serializedName: "Managed",
   type: {
     name: "Composite",
@@ -17570,7 +18148,7 @@ export const ManagedIntegrationRuntimeStatus: coreHttp.CompositeMapper = {
         readOnly: true,
         serializedName: "typeProperties.createTime",
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       nodes: {
@@ -17627,7 +18205,7 @@ export const ManagedIntegrationRuntimeStatus: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedIntegrationRuntimeType: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeType: msRest.CompositeMapper = {
   serializedName: "LinkedIntegrationRuntimeType",
   type: {
     name: "Composite",
@@ -17649,7 +18227,7 @@ export const LinkedIntegrationRuntimeType: coreHttp.CompositeMapper = {
   }
 };
 
-export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeRbacAuthorization: msRest.CompositeMapper = {
   serializedName: "RBAC",
   type: {
     name: "Composite",
@@ -17669,7 +18247,7 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreHttp.CompositeMapper
   }
 };
 
-export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper = {
+export const LinkedIntegrationRuntimeKeyAuthorization: msRest.CompositeMapper = {
   serializedName: "Key",
   type: {
     name: "Composite",
@@ -17690,7 +18268,7 @@ export const LinkedIntegrationRuntimeKeyAuthorization: coreHttp.CompositeMapper 
   }
 };
 
-export const SelfHostedIntegrationRuntime: coreHttp.CompositeMapper = {
+export const SelfHostedIntegrationRuntime: msRest.CompositeMapper = {
   serializedName: "SelfHosted",
   type: {
     name: "Composite",
@@ -17711,7 +18289,7 @@ export const SelfHostedIntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityReference: coreHttp.CompositeMapper = {
+export const EntityReference: msRest.CompositeMapper = {
   serializedName: "EntityReference",
   type: {
     name: "Composite",
@@ -17720,7 +18298,18 @@ export const EntityReference: coreHttp.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeNode",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
         }
       },
       referenceName: {
@@ -17733,7 +18322,7 @@ export const EntityReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeDataProxyProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeDataProxyProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeDataProxyProperties",
   type: {
     name: "Composite",
@@ -17763,7 +18352,7 @@ export const IntegrationRuntimeDataProxyProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeCustomSetupScriptProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeCustomSetupScriptProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeCustomSetupScriptProperties",
   type: {
     name: "Composite",
@@ -17786,7 +18375,7 @@ export const IntegrationRuntimeCustomSetupScriptProperties: coreHttp.CompositeMa
   }
 };
 
-export const IntegrationRuntimeSsisCatalogInfo: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeSsisCatalogInfo: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeSsisCatalogInfo",
   type: {
     name: "Composite",
@@ -17806,6 +18395,23 @@ export const IntegrationRuntimeSsisCatalogInfo: coreHttp.CompositeMapper = {
         },
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeDataProxyProperties: coreHttp.CompositeMapper = {
+  serializedName: "IntegrationRuntimeDataProxyProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeDataProxyProperties",
+    modelProperties: {
+      connectVia: {
+        serializedName: "connectVia",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
         }
       },
       catalogAdminPassword: {
@@ -17830,7 +18436,7 @@ export const IntegrationRuntimeSsisCatalogInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeSsisProperties",
   type: {
     name: "Composite",
@@ -17851,7 +18457,8 @@ export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
       licenseType: {
         serializedName: "licenseType",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "IntegrationRuntimeCustomSetupScriptProperties"
         }
       },
       customSetupScriptProperties: {
@@ -17883,7 +18490,7 @@ export const IntegrationRuntimeSsisProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeVNetProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeVNetProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeVNetProperties",
   type: {
     name: "Composite",
@@ -17910,7 +18517,7 @@ export const IntegrationRuntimeVNetProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeComputeProperties: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeComputeProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeComputeProperties",
   type: {
     name: "Composite",
@@ -17967,7 +18574,7 @@ export const IntegrationRuntimeComputeProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntime: coreHttp.CompositeMapper = {
+export const ManagedIntegrationRuntime: msRest.CompositeMapper = {
   serializedName: "Managed",
   type: {
     name: "Composite",
@@ -18012,7 +18619,7 @@ export const ManagedIntegrationRuntime: coreHttp.CompositeMapper = {
   }
 };
 
-export const IntegrationRuntimeNodeIpAddress: coreHttp.CompositeMapper = {
+export const IntegrationRuntimeNodeIpAddress: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeNodeIpAddress",
   type: {
     name: "Composite",
@@ -18029,7 +18636,7 @@ export const IntegrationRuntimeNodeIpAddress: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisVariable: coreHttp.CompositeMapper = {
+export const SsisVariable: msRest.CompositeMapper = {
   serializedName: "SsisVariable",
   type: {
     name: "Composite",
@@ -18081,7 +18688,7 @@ export const SsisVariable: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisObjectMetadata: coreHttp.CompositeMapper = {
+export const SsisObjectMetadata: msRest.CompositeMapper = {
   serializedName: "SsisObjectMetadata",
   type: {
     name: "Composite",
@@ -18121,7 +18728,7 @@ export const SsisObjectMetadata: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisEnvironment: coreHttp.CompositeMapper = {
+export const SsisEnvironment: msRest.CompositeMapper = {
   serializedName: "Environment",
   type: {
     name: "Composite",
@@ -18152,7 +18759,7 @@ export const SsisEnvironment: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisParameter: coreHttp.CompositeMapper = {
+export const SsisParameter: msRest.CompositeMapper = {
   serializedName: "SsisParameter",
   type: {
     name: "Composite",
@@ -18234,7 +18841,7 @@ export const SsisParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisPackage: coreHttp.CompositeMapper = {
+export const SsisPackage: msRest.CompositeMapper = {
   serializedName: "Package",
   type: {
     name: "Composite",
@@ -18277,7 +18884,7 @@ export const SsisPackage: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisEnvironmentReference: coreHttp.CompositeMapper = {
+export const SsisEnvironmentReference: msRest.CompositeMapper = {
   serializedName: "SsisEnvironmentReference",
   type: {
     name: "Composite",
@@ -18311,7 +18918,7 @@ export const SsisEnvironmentReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisProject: coreHttp.CompositeMapper = {
+export const SsisProject: msRest.CompositeMapper = {
   serializedName: "Project",
   type: {
     name: "Composite",
@@ -18360,7 +18967,7 @@ export const SsisProject: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisFolder: coreHttp.CompositeMapper = {
+export const SsisFolder: msRest.CompositeMapper = {
   serializedName: "Folder",
   type: {
     name: "Composite",
@@ -18373,7 +18980,7 @@ export const SsisFolder: coreHttp.CompositeMapper = {
   }
 };
 
-export const SsisObjectMetadataListResponse: coreHttp.CompositeMapper = {
+export const SsisObjectMetadataListResponse: msRest.CompositeMapper = {
   serializedName: "SsisObjectMetadataListResponse",
   type: {
     name: "Composite",
@@ -18889,6 +19496,7 @@ export const discriminators = {
   'LinkedService.Phoenix' : PhoenixLinkedService,
   'LinkedService.Paypal' : PaypalLinkedService,
   'LinkedService.Marketo' : MarketoLinkedService,
+  'LinkedService.AzureMariaDB' : AzureMariaDBLinkedService,
   'LinkedService.MariaDB' : MariaDBLinkedService,
   'LinkedService.Magento' : MagentoLinkedService,
   'LinkedService.Jira' : JiraLinkedService,
@@ -18978,6 +19586,7 @@ export const discriminators = {
   'Dataset.PhoenixObject' : PhoenixObjectDataset,
   'Dataset.PaypalObject' : PaypalObjectDataset,
   'Dataset.MarketoObject' : MarketoObjectDataset,
+  'Dataset.AzureMariaDBTable' : AzureMariaDBTableDataset,
   'Dataset.MariaDBTable' : MariaDBTableDataset,
   'Dataset.MagentoObject' : MagentoObjectDataset,
   'Dataset.JiraObject' : JiraObjectDataset,
@@ -19076,6 +19685,7 @@ export const discriminators = {
   'CopySource.PhoenixSource' : PhoenixSource,
   'CopySource.PaypalSource' : PaypalSource,
   'CopySource.MarketoSource' : MarketoSource,
+  'CopySource.AzureMariaDBSource' : AzureMariaDBSource,
   'CopySource.MariaDBSource' : MariaDBSource,
   'CopySource.MagentoSource' : MagentoSource,
   'CopySource.JiraSource' : JiraSource,

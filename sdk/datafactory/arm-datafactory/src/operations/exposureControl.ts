@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/exposureControlMappers";
 import * as Parameters from "../models/parameters";
@@ -33,21 +33,21 @@ export class ExposureControl {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExposureControlGetFeatureValueResponse>
    */
-  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureValueResponse>;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureValueResponse>;
   /**
    * @param locationId The location identifier.
    * @param exposureControlRequest The exposure control request.
    * @param callback The callback
    */
-  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, callback: coreHttp.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
   /**
    * @param locationId The location identifier.
    * @param exposureControlRequest The exposure control request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExposureControlResponse>): void;
-  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExposureControlResponse>, callback?: coreHttp.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureValueResponse> {
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValue(locationId: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureValueResponse> {
     return this.client.sendOperationRequest(
       {
         locationId,
@@ -66,14 +66,14 @@ export class ExposureControl {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExposureControlGetFeatureValueByFactoryResponse>
    */
-  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureValueByFactoryResponse>;
+  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExposureControlGetFeatureValueByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param exposureControlRequest The exposure control request.
    * @param callback The callback
    */
-  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, callback: coreHttp.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -81,8 +81,8 @@ export class ExposureControl {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ExposureControlResponse>): void;
-  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ExposureControlResponse>, callback?: coreHttp.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureValueByFactoryResponse> {
+  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExposureControlResponse>): void;
+  getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: Models.ExposureControlRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExposureControlResponse>, callback?: msRest.ServiceCallback<Models.ExposureControlResponse>): Promise<Models.ExposureControlGetFeatureValueByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,8 +96,8 @@ export class ExposureControl {
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers);
-const getFeatureValueOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers);
+const getFeatureValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue",
   urlParameters: [
@@ -128,7 +128,7 @@ const getFeatureValueOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getFeatureValueByFactoryOperationSpec: coreHttp.OperationSpec = {
+const getFeatureValueByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue",
   urlParameters: [
