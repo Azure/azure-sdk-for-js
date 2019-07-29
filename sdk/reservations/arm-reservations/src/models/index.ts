@@ -133,11 +133,93 @@ export interface ReservationMergeProperties {
 }
 
 /**
+ * Properties specific to each reserved resource type. Not required if not applicable.
+ */
+export interface PurchaseRequestPropertiesReservedResourceProperties {
+  /**
+   * Possible values include: 'On', 'Off'
+   */
+  instanceFlexibility?: InstanceFlexibility;
+}
+
+/**
+ * An interface representing PurchaseRequest.
+ */
+export interface PurchaseRequest {
+  sku?: SkuName;
+  /**
+   * The Azure Region where the reserved resource lives.
+   */
+  location?: string;
+  /**
+   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
+   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
+   */
+  reservedResourceType?: ReservedResourceType;
+  billingScopeId?: string;
+  /**
+   * Possible values include: 'P1Y', 'P3Y'
+   */
+  term?: ReservationTerm;
+  quantity?: number;
+  /**
+   * Friendly name of the Reservation
+   */
+  displayName?: string;
+  /**
+   * Possible values include: 'Single', 'Shared'
+   */
+  appliedScopeType?: AppliedScopeType;
+  appliedScopes?: string[];
+  renew?: boolean;
+  /**
+   * Properties specific to each reserved resource type. Not required if not applicable.
+   */
+  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
+}
+
+/**
+ * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
+ * not included. This is locked price 30 days before expiry.
+ */
+export interface RenewPropertiesResponsePricingCurrencyTotal {
+  currencyCode?: string;
+  amount?: number;
+}
+
+/**
+ * Currency and amount that customer will be charged in customer's local currency for renewal
+ * purchase. Tax is not included.
+ */
+export interface RenewPropertiesResponseBillingCurrencyTotal {
+  currencyCode?: string;
+  amount?: number;
+}
+
+/**
+ * An interface representing RenewPropertiesResponse.
+ */
+export interface RenewPropertiesResponse {
+  purchaseProperties?: PurchaseRequest;
+  /**
+   * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
+   * not included. This is locked price 30 days before expiry.
+   */
+  pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
+  /**
+   * Currency and amount that customer will be charged in customer's local currency for renewal
+   * purchase. Tax is not included.
+   */
+  billingCurrencyTotal?: RenewPropertiesResponseBillingCurrencyTotal;
+}
+
+/**
  * An interface representing ReservationProperties.
  */
 export interface ReservationProperties {
   /**
-   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb'
+   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
+   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
    */
   reservedResourceType?: ReservedResourceType;
   /**
@@ -178,6 +260,25 @@ export interface ReservationProperties {
   extendedStatusInfo?: ExtendedStatusInfo;
   splitProperties?: ReservationSplitProperties;
   mergeProperties?: ReservationMergeProperties;
+  billingScopeId?: string;
+  renew?: boolean;
+  /**
+   * Reservation Id of the reservation from which this reservation is renewed. Format of the
+   * resource Id is
+   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
+   */
+  renewSource?: string;
+  /**
+   * Reservation Id of the reservation which is purchased because of renew. Format of the resource
+   * Id is
+   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
+   */
+  renewDestination?: string;
+  renewProperties?: RenewPropertiesResponse;
+  /**
+   * Possible values include: 'P1Y', 'P3Y'
+   */
+  term?: ReservationTerm;
 }
 
 /**
@@ -315,13 +416,10 @@ export interface CalculatePriceResponse {
 }
 
 /**
- * Properties specific to each reserved resource type. Not required if not applicable.
+ * An interface representing PatchPropertiesRenewProperties.
  */
-export interface PurchaseRequestPropertiesReservedResourceProperties {
-  /**
-   * Possible values include: 'On', 'Off'
-   */
-  instanceFlexibility?: InstanceFlexibility;
+export interface PatchPropertiesRenewProperties {
+  purchaseProperties?: PurchaseRequest;
 }
 
 /**
@@ -333,40 +431,6 @@ export interface MergeRequest {
    * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
    */
   sources?: string[];
-}
-
-/**
- * An interface representing PurchaseRequest.
- */
-export interface PurchaseRequest {
-  sku?: SkuName;
-  /**
-   * The Azure Region where the reserved resource lives.
-   */
-  location?: string;
-  /**
-   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb'
-   */
-  reservedResourceType?: ReservedResourceType;
-  billingScopeId?: string;
-  /**
-   * Possible values include: 'P1Y', 'P3Y'
-   */
-  term?: ReservationTerm;
-  quantity?: number;
-  /**
-   * Friendly name of the Reservation
-   */
-  displayName?: string;
-  /**
-   * Possible values include: 'Single', 'Shared'
-   */
-  appliedScopeType?: AppliedScopeType;
-  appliedScopes?: string[];
-  /**
-   * Properties specific to each reserved resource type. Not required if not applicable.
-   */
-  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
 }
 
 /**
@@ -386,6 +450,8 @@ export interface Patch {
    * Name of the Reservation
    */
   name?: string;
+  renew?: boolean;
+  renewProperties?: PatchPropertiesRenewProperties;
 }
 
 /**
@@ -503,6 +569,16 @@ export interface AzureReservationAPIGetCatalogOptionalParams extends msRest.Requ
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ReservationGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Supported value of this query is renewProperties
+   */
+  expand?: string;
+}
+
+/**
  * An interface representing AzureReservationAPIOptions.
  */
 export interface AzureReservationAPIOptions extends AzureServiceClientOptions {
@@ -590,11 +666,12 @@ export type ReservationTerm = 'P1Y' | 'P3Y';
 
 /**
  * Defines values for ReservedResourceType.
- * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb'
+ * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
+ * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
  * @readonly
  * @enum {string}
  */
-export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb';
+export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat' | 'SqlDataWarehouse' | 'VMwareCloudSimple' | 'RedHatOsa';
 
 /**
  * Defines values for InstanceFlexibility.
