@@ -325,9 +325,9 @@ export class ManagementClient extends LinkEntity {
         timeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions) / 1000,
         delayInSeconds:
           options.retryOptions &&
-          options.retryOptions.retryInterval &&
-          options.retryOptions.retryInterval >= 0
-            ? options.retryOptions.retryInterval / 1000
+          options.retryOptions.delayInMs &&
+          options.retryOptions.delayInMs >= 0
+            ? options.retryOptions.delayInMs / 1000
             : undefined
       };
       return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
