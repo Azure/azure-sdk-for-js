@@ -54,9 +54,6 @@ export class PartitionPump {
           this._processorOptions.maxBatchSize || 1,
           this._processorOptions.maxWaitTimeInSeconds
         );
-        if (typeof this._partitionProcessor.processEvents !== "function") {
-          throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
-        }
         await this._partitionProcessor.processEvents(receivedEvents);
       }
     } catch (err) {
