@@ -74,10 +74,7 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<
-    Pick<RetryOptions, "maxRetries" | "retryInterval" | "retryPolicy">
-  > &
-    RetryOptions;
+  private _retryOptions: RetryOptions;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -143,7 +140,7 @@ export class EventHubConsumer {
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
-    this._retryOptions = this._initRetryOptions(this._receiverOptions.retryOptions);
+    this._retryOptions = this._receiverOptions.retryOptions || {};
     this._baseConsumer = new EventHubReceiver(
       context,
       consumerGroup,
@@ -441,39 +438,6 @@ export class EventHubConsumer {
     } finally {
       this._isClosed = true;
     }
-  }
-
-  /**
-   *
-   * @param retryOptions Sets default values for retryOptions if it exists.
-   */
-  private _initRetryOptions(
-    retryOptions: RetryOptions = {}
-  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval" | "retryPolicy">> & RetryOptions {
-    const maxRetries =
-      typeof retryOptions.maxRetries === "number"
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
-    const retryInterval =
-      typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
-        ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-    const retryPolicy = retryOptions.retryPolicy
-      ? retryOptions.retryPolicy
-      : RetryPolicy.LinearRetryPolicy;
-
-    const timeoutInMs = retryOptions.timeoutInMs;
-    const minExponentialRetryDelayInMs = retryOptions.minExponentialRetryDelayInMs;
-    const maxExponentialRetryDelayInMs = retryOptions.maxExponentialRetryDelayInMs;
-
-    return {
-      maxRetries,
-      retryInterval,
-      timeoutInMs,
-      retryPolicy,
-      minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs
-    };
   }
 
   private _throwIfAlreadyReceiving(): void {
