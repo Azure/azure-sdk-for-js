@@ -53,20 +53,12 @@ async function main() {
       maxWaitTime: 20
     }
   );
-  try {
-    await eph.start();
-  } catch (err) {
-    console.log(`Error encountered while starting EPH: ${err.message}`);
-  }
+  await eph.start();
   // after 10 seconds, stop processing
   await delay(2000);
 
-  try {
-    await eph.stop();
-    await client.close();
-  } catch (err) {
-    console.log("Error occurred", err);
-  }
+  await eph.stop();
+  await client.close();
 }
 
 main().catch((err) => {

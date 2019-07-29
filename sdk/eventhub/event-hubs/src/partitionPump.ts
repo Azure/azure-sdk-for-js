@@ -51,21 +51,23 @@ export class PartitionPump {
         await this._partitionProcessor.processEvents(receivedEvents);
       }
     } catch (err) {
+      this._isReceiving = false;
+      this._receiver.close();
       await this._partitionProcessor.processError(err);
       log.partitionPump("An error occurred while receiving events.", err);
     }
   }
 
   async stop(): Promise<void> {
-    if (this._receiver && this._isReceiving) {
-      this._isReceiving = false;
-      try {
+    this._isReceiving = false;
+    try {
+      if (this._receiver) {
         this._receiver.close();
-        await this._partitionProcessor.close!("Stopped processing");
-      } catch (err) {
-        log.partitionPump("An error occurred while closing the receiver.", err);
-        throw err;
       }
+      await this._partitionProcessor.close!("Stopped processing");
+    } catch (err) {
+      log.partitionPump("An error occurred while closing the receiver.", err);
+      throw err;
     }
   }
 }

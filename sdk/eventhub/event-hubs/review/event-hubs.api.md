@@ -146,6 +146,16 @@ export class EventPosition {
     sequenceNumber?: number;
     }
 
+// @public
+export class EventProcessor {
+    // Warning: (ae-forgotten-export) The symbol "PartitionProcessorFactory" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PartitionManager" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "EventProcessorOptions" needs to be exported by the entry point index.d.ts
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    start(): Promise<void>;
+    stop(): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -153,6 +163,16 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface PartitionContext {
+    // (undocumented)
+    readonly consumerGroupName: string;
+    // (undocumented)
+    readonly eventHubName: string;
+    // (undocumented)
+    readonly partitionId: string;
+}
 
 // @public
 export interface PartitionProperties {
