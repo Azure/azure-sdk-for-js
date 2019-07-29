@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Describes the error if the operation is not successful.
+ * Describes the format of Error response.
  */
 export interface ErrorResponse {
   /**
@@ -26,22 +26,22 @@ export interface ErrorResponse {
 }
 
 /**
- * The ID of the canceled subscription
+ * Canceled Subscription Id
  */
 export interface CanceledSubscriptionId {
   /**
-   * The ID of the canceled subscription
+   * Canceled Subscription Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: string;
 }
 
 /**
- * The ID of the subscriptions that is being renamed
+ * Renamed Subscription Id
  */
 export interface RenamedSubscriptionId {
   /**
-   * The ID of the subscriptions that is being renamed
+   * Renamed Subscription Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly value?: string;
@@ -59,7 +59,7 @@ export interface EnabledSubscriptionId {
 }
 
 /**
- * The new name of the subscription.
+ * New name of the subscription.
  */
 export interface SubscriptionName {
   /**
@@ -113,6 +113,111 @@ export interface OperationListResult {
    * URL to get the next set of operation list results if there are any.
    */
   nextLink?: string;
+}
+
+/**
+ * The created subscription object.
+ */
+export interface SubscriptionCreationResult {
+  /**
+   * The link to the new subscription.
+   */
+  subscriptionLink?: string;
+}
+
+/**
+ * Active Directory Principal for subscription creation delegated permission
+ */
+export interface AdPrincipal {
+  /**
+   * Object id of the Principal
+   */
+  objectId: string;
+}
+
+/**
+ * Subscription Creation Parameters required to create a new Azure subscription.
+ */
+export interface ModernSubscriptionCreationParameters {
+  /**
+   * The display name of the subscription.
+   */
+  displayName?: string;
+  /**
+   * The ARM id of the billing profile.
+   */
+  billingProfileId?: string;
+  /**
+   * The commerce id of the sku.
+   */
+  skuId?: string;
+  /**
+   * optional customer cost center
+   */
+  costCenter?: string;
+  /**
+   * rbac owner of the subscription
+   */
+  owner?: AdPrincipal;
+  /**
+   * Additional, untyped parameters to support custom subscription creation scenarios.
+   */
+  additionalParameters?: { [propertyName: string]: any };
+}
+
+/**
+ * status of the subscription POST operation.
+ */
+export interface SubscriptionOperation {
+  /**
+   * The operation Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Status of the pending subscription
+   */
+  status?: string;
+  /**
+   * Status Detail of the pending subscription
+   */
+  statusDetail?: string;
+}
+
+/**
+ * A list of pending subscription operations.
+ */
+export interface SubscriptionOperationListResult {
+  /**
+   * A list of pending SubscriptionOperations
+   */
+  value?: SubscriptionOperation[];
+}
+
+/**
+ * Subscription Creation Parameters required to create a new Azure subscription.
+ */
+export interface SubscriptionCreationParameters {
+  /**
+   * The display name of the subscription.
+   */
+  displayName?: string;
+  /**
+   * The list of principals that should be granted Owner access on the subscription. Principals
+   * should be of type User, Service Principal or Security Group.
+   */
+  owners?: AdPrincipal[];
+  /**
+   * The offer type of the subscription. For example, MS-AZR-0017P (EnterpriseAgreement) and
+   * MS-AZR-0148P (EnterpriseAgreement devTest) are available. Only valid when creating a
+   * subscription in a enrollment account scope. Possible values include: 'MS-AZR-0017P',
+   * 'MS-AZR-0148P'
+   */
+  offerType?: OfferType;
+  /**
+   * Additional, untyped parameters to support custom subscription creation scenarios.
+   */
+  additionalParameters?: { [propertyName: string]: any };
 }
 
 /**
@@ -237,6 +342,51 @@ export interface SubscriptionClientOptions extends AzureServiceClientOptions {
 }
 
 /**
+ * Defines headers for Get operation.
+ */
+export interface SubscriptionOperationGetHeaders {
+  /**
+   * The URL where the status of the asynchronous operation can be checked.
+   */
+  location: string;
+  /**
+   * The amount of delay to use while the status of the operation is checked. The value is
+   * expressed in seconds.
+   */
+  retryAfter: number;
+}
+
+/**
+ * Defines headers for CreateSubscription operation.
+ */
+export interface SubscriptionFactoryCreateSubscriptionHeaders {
+  /**
+   * GET this URL to retrieve the status of the asynchronous operation.
+   */
+  location: string;
+  /**
+   * The amount of delay to use while the status of the operation is checked. The value is
+   * expressed in seconds.
+   */
+  retryAfter: number;
+}
+
+/**
+ * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
+ */
+export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders {
+  /**
+   * GET this URL to retrieve the status of the asynchronous operation.
+   */
+  location: string;
+  /**
+   * The amount of delay to use while the status of the operation is checked. The value is
+   * expressed in seconds.
+   */
+  retryAfter: string;
+}
+
+/**
  * @interface
  * Location list operation response.
  * @extends Array<Location>
@@ -283,26 +433,6 @@ export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 
  * @enum {string}
  */
 export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
 
 /**
  * Contains response data for the cancel operation.
@@ -441,6 +571,121 @@ export type SubscriptionsListNextResponse = SubscriptionListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SubscriptionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SubscriptionOperationGetResponse = SubscriptionCreationResult & SubscriptionOperationGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionOperationGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
+
+/**
+ * Contains response data for the createSubscription operation.
+ */
+export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionFactoryCreateSubscriptionHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
+
+/**
+ * Contains response data for the createSubscriptionInEnrollmentAccount operation.
+ */
+export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SubscriptionOperationsListResponse = SubscriptionOperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionOperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
     };
 };
 

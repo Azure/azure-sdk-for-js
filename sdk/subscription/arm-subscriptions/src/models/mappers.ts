@@ -158,8 +158,8 @@ export const OperationListResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "OperationListResult",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      subscriptionName: {
+        serializedName: "subscriptionName",
         type: {
           name: "Sequence",
           element: {
@@ -174,6 +174,187 @@ export const OperationListResult: msRest.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionCreationResult: msRest.CompositeMapper = {
+  serializedName: "SubscriptionCreationResult",
+  type: {
+    name: "Composite",
+    className: "SubscriptionCreationResult",
+    modelProperties: {
+      subscriptionLink: {
+        serializedName: "subscriptionLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AdPrincipal: msRest.CompositeMapper = {
+  serializedName: "AdPrincipal",
+  type: {
+    name: "Composite",
+    className: "AdPrincipal",
+    modelProperties: {
+      objectId: {
+        required: true,
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModernSubscriptionCreationParameters: msRest.CompositeMapper = {
+  serializedName: "ModernSubscriptionCreationParameters",
+  type: {
+    name: "Composite",
+    className: "ModernSubscriptionCreationParameters",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      billingProfileId: {
+        serializedName: "billingProfileId",
+        type: {
+          name: "String"
+        }
+      },
+      skuId: {
+        serializedName: "skuId",
+        type: {
+          name: "String"
+        }
+      },
+      costCenter: {
+        serializedName: "costCenter",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "owner",
+        type: {
+          name: "Composite",
+          className: "AdPrincipal"
+        }
+      },
+      additionalParameters: {
+        serializedName: "additionalParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionOperation: msRest.CompositeMapper = {
+  serializedName: "SubscriptionOperation",
+  type: {
+    name: "Composite",
+    className: "SubscriptionOperation",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetail: {
+        serializedName: "statusDetail",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionOperationListResult: msRest.CompositeMapper = {
+  serializedName: "SubscriptionOperationListResult",
+  type: {
+    name: "Composite",
+    className: "SubscriptionOperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubscriptionOperation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionCreationParameters: msRest.CompositeMapper = {
+  serializedName: "SubscriptionCreationParameters",
+  type: {
+    name: "Composite",
+    className: "SubscriptionCreationParameters",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      owners: {
+        serializedName: "owners",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdPrincipal"
+            }
+          }
+        }
+      },
+      offerType: {
+        serializedName: "offerType",
+        type: {
+          name: "String"
+        }
+      },
+      additionalParameters: {
+        serializedName: "additionalParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
@@ -342,6 +523,72 @@ export const TenantIdDescription: msRest.CompositeMapper = {
       tenantId: {
         readOnly: true,
         serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionOperationGetHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionoperation-get-headers",
+  type: {
+    name: "Composite",
+    className: "SubscriptionOperationGetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionFactoryCreateSubscriptionHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionfactory-createsubscription-headers",
+  type: {
+    name: "Composite",
+    className: "SubscriptionFactoryCreateSubscriptionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionfactory-createsubscriptioninenrollmentaccount-headers",
+  type: {
+    name: "Composite",
+    className: "SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
           name: "String"
         }

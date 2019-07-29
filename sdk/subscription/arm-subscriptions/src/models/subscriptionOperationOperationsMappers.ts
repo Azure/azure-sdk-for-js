@@ -7,11 +7,7 @@
  */
 
 export {
-  AdPrincipal,
-  ErrorResponse,
-  ModernSubscriptionCreationParameters,
-  SubscriptionCreationParameters,
+  CloudError,
   SubscriptionCreationResult,
-  SubscriptionFactoryCreateSubscriptionHeaders,
-  SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
+  SubscriptionOperationGetHeaders
 } from "../models/mappers";
