@@ -290,14 +290,14 @@ export class Factories {
    * @param [options] The optional parameters
    * @returns Promise<Models.FactoriesGetDataPlaneAccessResponse>
    */
-  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: coreHttp.RequestOptionsBase): Promise<Models.FactoriesGetDataPlaneAccessResponse>;
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase): Promise<Models.FactoriesGetDataPlaneAccessResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param policy Data Plane user access policy definition.
    * @param callback The callback
    */
-  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, callback: coreHttp.ServiceCallback<Models.AccessPolicyResponse>): void;
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -305,8 +305,8 @@ export class Factories {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AccessPolicyResponse>): void;
-  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AccessPolicyResponse>, callback?: coreHttp.ServiceCallback<Models.AccessPolicyResponse>): Promise<Models.FactoriesGetDataPlaneAccessResponse> {
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResponse>, callback?: msRest.ServiceCallback<Models.AccessPolicyResponse>): Promise<Models.FactoriesGetDataPlaneAccessResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -603,7 +603,7 @@ const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getDataPlaneAccessOperationSpec: coreHttp.OperationSpec = {
+const getDataPlaneAccessOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess",
   urlParameters: [
@@ -635,7 +635,7 @@ const getDataPlaneAccessOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

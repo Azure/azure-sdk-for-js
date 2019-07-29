@@ -99,7 +99,7 @@ export const integrationRuntimeName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const isRecovery: coreHttp.OperationQueryParameter = {
+export const isRecovery: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "isRecovery"
@@ -111,7 +111,7 @@ export const isRecovery: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const isRecursive: coreHttp.OperationQueryParameter = {
+export const isRecursive: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "isRecursive"
@@ -241,7 +241,7 @@ export const runId: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const startActivityName: coreHttp.OperationQueryParameter = {
+export const startActivityName: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "startActivityName"
@@ -253,7 +253,7 @@ export const startActivityName: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const subscriptionId: coreHttp.OperationURLParameter = {
+export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
