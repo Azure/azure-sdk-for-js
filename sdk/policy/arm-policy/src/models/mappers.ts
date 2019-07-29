@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
-import * as coreHttp from "@azure/core-http";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const PolicySku: coreHttp.CompositeMapper = {
+export const PolicySku: msRest.CompositeMapper = {
   serializedName: "PolicySku",
   type: {
     name: "Composite",
@@ -35,7 +35,7 @@ export const PolicySku: coreHttp.CompositeMapper = {
   }
 };
 
-export const Identity: coreHttp.CompositeMapper = {
+export const Identity: msRest.CompositeMapper = {
   serializedName: "Identity",
   type: {
     name: "Composite",
@@ -69,7 +69,7 @@ export const Identity: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyAssignment: coreHttp.CompositeMapper = {
+export const PolicyAssignment: msRest.CompositeMapper = {
   serializedName: "PolicyAssignment",
   type: {
     name: "Composite",
@@ -167,7 +167,7 @@ export const PolicyAssignment: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: msRest.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -195,7 +195,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyDefinition: coreHttp.CompositeMapper = {
+export const PolicyDefinition: msRest.CompositeMapper = {
   serializedName: "PolicyDefinition",
   type: {
     name: "Composite",
@@ -268,7 +268,7 @@ export const PolicyDefinition: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyDefinitionReference: coreHttp.CompositeMapper = {
+export const PolicyDefinitionReference: msRest.CompositeMapper = {
   serializedName: "PolicyDefinitionReference",
   type: {
     name: "Composite",
@@ -290,7 +290,7 @@ export const PolicyDefinitionReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicySetDefinition: coreHttp.CompositeMapper = {
+export const PolicySetDefinition: msRest.CompositeMapper = {
   serializedName: "PolicySetDefinition",
   type: {
     name: "Composite",
@@ -364,7 +364,7 @@ export const PolicySetDefinition: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyAssignmentListResult: coreHttp.CompositeMapper = {
+export const PolicyAssignmentListResult: msRest.CompositeMapper = {
   serializedName: "PolicyAssignmentListResult",
   type: {
     name: "Composite",
@@ -392,7 +392,7 @@ export const PolicyAssignmentListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyDefinitionListResult: coreHttp.CompositeMapper = {
+export const PolicyDefinitionListResult: msRest.CompositeMapper = {
   serializedName: "PolicyDefinitionListResult",
   type: {
     name: "Composite",
@@ -420,7 +420,7 @@ export const PolicyDefinitionListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicySetDefinitionListResult: coreHttp.CompositeMapper = {
+export const PolicySetDefinitionListResult: msRest.CompositeMapper = {
   serializedName: "PolicySetDefinitionListResult",
   type: {
     name: "Composite",

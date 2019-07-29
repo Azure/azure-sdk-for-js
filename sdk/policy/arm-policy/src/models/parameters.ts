@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/ms-rest-js";
 
-export const acceptLanguage: coreHttp.OperationParameter = {
+export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: coreHttp.OperationParameter = {
     }
   }
 };
-export const apiVersion: coreHttp.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,7 +30,7 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const filter0: coreHttp.OperationQueryParameter = {
+export const filter0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -43,7 +43,7 @@ export const filter0: coreHttp.OperationQueryParameter = {
   },
   skipEncoding: true
 };
-export const filter1: coreHttp.OperationQueryParameter = {
+export const filter1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
@@ -55,7 +55,7 @@ export const filter1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const managementGroupId: coreHttp.OperationURLParameter = {
+export const managementGroupId: msRest.OperationURLParameter = {
   parameterPath: "managementGroupId",
   mapper: {
     required: true,
@@ -65,7 +65,7 @@ export const managementGroupId: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: coreHttp.OperationURLParameter = {
+export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -76,7 +76,7 @@ export const nextPageLink: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const parentResourcePath: coreHttp.OperationURLParameter = {
+export const parentResourcePath: msRest.OperationURLParameter = {
   parameterPath: "parentResourcePath",
   mapper: {
     required: true,
@@ -87,7 +87,7 @@ export const parentResourcePath: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const policyAssignmentId: coreHttp.OperationURLParameter = {
+export const policyAssignmentId: msRest.OperationURLParameter = {
   parameterPath: "policyAssignmentId",
   mapper: {
     required: true,
@@ -98,7 +98,7 @@ export const policyAssignmentId: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const policyAssignmentName: coreHttp.OperationURLParameter = {
+export const policyAssignmentName: msRest.OperationURLParameter = {
   parameterPath: "policyAssignmentName",
   mapper: {
     required: true,
@@ -108,7 +108,7 @@ export const policyAssignmentName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const policyDefinitionName: coreHttp.OperationURLParameter = {
+export const policyDefinitionName: msRest.OperationURLParameter = {
   parameterPath: "policyDefinitionName",
   mapper: {
     required: true,
@@ -118,7 +118,7 @@ export const policyDefinitionName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const policySetDefinitionName: coreHttp.OperationURLParameter = {
+export const policySetDefinitionName: msRest.OperationURLParameter = {
   parameterPath: "policySetDefinitionName",
   mapper: {
     required: true,
@@ -128,7 +128,7 @@ export const policySetDefinitionName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: coreHttp.OperationURLParameter = {
+export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -143,7 +143,7 @@ export const resourceGroupName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const resourceName: coreHttp.OperationURLParameter = {
+export const resourceName: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     required: true,
@@ -153,7 +153,7 @@ export const resourceName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const resourceProviderNamespace: coreHttp.OperationURLParameter = {
+export const resourceProviderNamespace: msRest.OperationURLParameter = {
   parameterPath: "resourceProviderNamespace",
   mapper: {
     required: true,
@@ -163,7 +163,7 @@ export const resourceProviderNamespace: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const resourceType: coreHttp.OperationURLParameter = {
+export const resourceType: msRest.OperationURLParameter = {
   parameterPath: "resourceType",
   mapper: {
     required: true,
@@ -174,7 +174,7 @@ export const resourceType: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const scope: coreHttp.OperationURLParameter = {
+export const scope: msRest.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
@@ -185,7 +185,7 @@ export const scope: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const subscriptionId: coreHttp.OperationURLParameter = {
+export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
