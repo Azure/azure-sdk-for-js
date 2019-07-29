@@ -68,8 +68,8 @@ export interface OnMessage {
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;

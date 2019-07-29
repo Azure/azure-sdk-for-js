@@ -17,11 +17,17 @@ async function main(): Promise<void> {
   const client = new KeysClient(url, credential);
 
   let keyName = "localWorkKey";
+  let ecKeyName = "localECWorkKey";
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
+  let myECKey = await client.createKey(ecKeyName, "EC");
+
   const remoteCryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
   const localCryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
+
+  const remoteECCryptoClient = new CryptographyClient(url, myECKey.keyMaterial!.kid!, credential);
+  const localECCryptoClient = new CryptographyClient(url, myECKey.keyMaterial!.kid!, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
@@ -31,29 +37,39 @@ async function main(): Promise<void> {
   let digest = hash.digest();
   console.log("digest: ", digest);
 
-  const signature = await remoteCryptoClient.sign(digest, "RS256");
+  const signature = await remoteECCryptoClient.sign(digest, "ES256");
   console.log("sign result: ", signature);
 
-  const verifyResult1 = await remoteCryptoClient.verify(digest, signature, "RS256");
+  const verifyResult1 = await remoteECCryptoClient.verify(digest, signature, "ES256");
   console.log("remote verify result: ", verifyResult1);
 
-  const verifyResult2 = await localCryptoClient.verifyData(Buffer.from(signatureValue), signature, "RS256");
+  const verifyResult2 = await localECCryptoClient.verifyData(Buffer.from(signatureValue), signature, "ES256");
   console.log("local verify result: ", verifyResult2);
 
-  // Encrypt and decrypt
-  const encrypt = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA1_5");
-  console.log("encrypt result: ", encrypt);
+  // const signature = await remoteCryptoClient.sign(digest, "RS256");
+  // console.log("sign result: ", signature);
 
-  const decrypt = await remoteCryptoClient.decrypt(encrypt, "RSA1_5");
-  console.log("decrypt: ", decrypt.toString());
+  // const verifyResult1 = await remoteCryptoClient.verify(digest, signature, "RS256");
+  // console.log("remote verify result: ", verifyResult1);
 
-  const encrypt2 = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA-OAEP");
-  console.log("encrypt2 result: ", encrypt2);
+  // const verifyResult2 = await localCryptoClient.verifyData(Buffer.from(signatureValue), signature, "RS256");
+  // console.log("local verify result: ", verifyResult2);
 
-  const decrypt2 = await remoteCryptoClient.decrypt(encrypt2, "RSA-OAEP");
-  console.log("decrypt2: ", decrypt2.toString());
+  // // Encrypt and decrypt
+  // const encrypt = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA1_5");
+  // console.log("encrypt result: ", encrypt);
+
+  // const decrypt = await remoteCryptoClient.decrypt(encrypt, "RSA1_5");
+  // console.log("decrypt: ", decrypt.toString());
+
+  // const encrypt2 = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA-OAEP");
+  // console.log("encrypt2 result: ", encrypt2);
+
+  // const decrypt2 = await remoteCryptoClient.decrypt(encrypt2, "RSA-OAEP");
+  // console.log("decrypt2: ", decrypt2.toString());
 
   await client.deleteKey(keyName);
+  await client.deleteKey(ecKeyName);
 }
 main().catch((err) => {
   console.log("error code: ", err.code);

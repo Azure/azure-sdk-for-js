@@ -61,7 +61,7 @@ export class CryptographyClient {
         case "RSA1_5": {
           let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          let padded: any = { key: keyPEM, type: "public", padding: constants.RSA_PKCS1_PADDING };
+          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
           const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
           return encrypted;
         };
