@@ -10,14 +10,8 @@ import {
 class EventProcessorHost {
   async processEvents(events: EventData[]) {
     for (const event of events) {
-      console.log("Receive", event.body);
+      console.log("Received event", event.body);
     }
-    // try {
-    //   // checkpoint using the last event in the batch
-    //      await checkpointContext.checkpoint(events[events.length - 1]);
-    // } catch (err) {
-    //   console.error(`Encountered an error while checkpointing on: ${err.message}`);
-    // }
   }
 
   async processError(error: Error) {
