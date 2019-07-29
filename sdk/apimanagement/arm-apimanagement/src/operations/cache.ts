@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/cacheMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Cache {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.CacheCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.CacheCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.CacheListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.CacheCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.CacheListByServiceOptionalParams | msRest.ServiceCallback<Models.CacheCollection>, callback?: msRest.ServiceCallback<Models.CacheCollection>): Promise<Models.CacheListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.CacheListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.CacheCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.CacheListByServiceOptionalParams | coreHttp.ServiceCallback<Models.CacheCollection>, callback?: coreHttp.ServiceCallback<Models.CacheCollection>): Promise<Models.CacheListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +67,7 @@ export class Cache {
    * @param [options] The optional parameters
    * @returns Promise<Models.CacheGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options?: msRest.RequestOptionsBase): Promise<Models.CacheGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CacheGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -75,7 +75,7 @@ export class Cache {
    * valid Azure region identifier).
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,8 +84,8 @@ export class Cache {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CacheGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, cacheId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CacheGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class Cache {
    * @param [options] The optional parameters
    * @returns Promise<Models.CacheGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, cacheId: string, options?: msRest.RequestOptionsBase): Promise<Models.CacheGetResponse>;
+  get(resourceGroupName: string, serviceName: string, cacheId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CacheGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -114,7 +114,7 @@ export class Cache {
    * valid Azure region identifier).
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, cacheId: string, callback: msRest.ServiceCallback<Models.CacheContract>): void;
+  get(resourceGroupName: string, serviceName: string, cacheId: string, callback: coreHttp.ServiceCallback<Models.CacheContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -123,8 +123,8 @@ export class Cache {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, cacheId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CacheContract>): void;
-  get(resourceGroupName: string, serviceName: string, cacheId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CacheContract>, callback?: msRest.ServiceCallback<Models.CacheContract>): Promise<Models.CacheGetResponse> {
+  get(resourceGroupName: string, serviceName: string, cacheId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CacheContract>): void;
+  get(resourceGroupName: string, serviceName: string, cacheId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CacheContract>, callback?: coreHttp.ServiceCallback<Models.CacheContract>): Promise<Models.CacheGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +155,7 @@ export class Cache {
    * @param parameters Create or Update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, callback: msRest.ServiceCallback<Models.CacheContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, callback: coreHttp.ServiceCallback<Models.CacheContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -165,8 +165,8 @@ export class Cache {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, options: Models.CacheCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CacheContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, options?: Models.CacheCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CacheContract>, callback?: msRest.ServiceCallback<Models.CacheContract>): Promise<Models.CacheCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, options: Models.CacheCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.CacheContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheContract, options?: Models.CacheCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.CacheContract>, callback?: coreHttp.ServiceCallback<Models.CacheContract>): Promise<Models.CacheCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,9 +189,9 @@ export class Cache {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +202,7 @@ export class Cache {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +214,8 @@ export class Cache {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, cacheId: string, parameters: Models.CacheUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,9 +238,9 @@ export class Cache {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -250,7 +250,7 @@ export class Cache {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -261,8 +261,8 @@ export class Cache {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -281,19 +281,19 @@ export class Cache {
    * @param [options] The optional parameters
    * @returns Promise<Models.CacheListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CacheListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.CacheListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CacheCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.CacheCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CacheCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CacheCollection>, callback?: msRest.ServiceCallback<Models.CacheCollection>): Promise<Models.CacheListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CacheCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CacheCollection>, callback?: coreHttp.ServiceCallback<Models.CacheCollection>): Promise<Models.CacheListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -305,8 +305,8 @@ export class Cache {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches",
   urlParameters: [
@@ -333,7 +333,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   urlParameters: [
@@ -359,7 +359,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   urlParameters: [
@@ -386,7 +386,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   urlParameters: [
@@ -425,7 +425,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   urlParameters: [
@@ -457,7 +457,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   urlParameters: [
@@ -483,7 +483,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

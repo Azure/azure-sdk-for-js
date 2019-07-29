@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/apiManagementServiceMappers";
 import * as Parameters from "../models/parameters";
@@ -38,7 +38,7 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceRestoreResponse>
    */
-  restore(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceRestoreResponse> {
+  restore(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceRestoreResponse> {
     return this.beginRestore(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceRestoreResponse>;
   }
@@ -52,7 +52,7 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceBackupResponse>
    */
-  backup(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceBackupResponse> {
+  backup(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceBackupResponse> {
     return this.beginBackup(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceBackupResponse>;
   }
@@ -66,7 +66,7 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceResource, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceResource, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceCreateOrUpdateResponse>;
   }
@@ -79,7 +79,7 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceUpdateResponse> {
+  update(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceUpdateResponse> {
     return this.beginUpdate(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceUpdateResponse>;
   }
@@ -91,21 +91,21 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceGetResponse>;
+  get(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ApiManagementServiceResource>): void;
+  get(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceResource>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceResource>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceResource>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceResource>): Promise<Models.ApiManagementServiceGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceResource>): void;
+  get(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceResource>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceResource>): Promise<Models.ApiManagementServiceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +123,7 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceDeleteMethodResponse> {
     return this.beginDeleteMethod(resourceGroupName,serviceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceDeleteMethodResponse>;
   }
@@ -134,19 +134,19 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,17 +161,17 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -187,21 +187,21 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceGetSsoTokenResponse>
    */
-  getSsoToken(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceGetSsoTokenResponse>;
+  getSsoToken(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceGetSsoTokenResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getSsoToken(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): void;
+  getSsoToken(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSsoToken(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): void;
-  getSsoToken(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): Promise<Models.ApiManagementServiceGetSsoTokenResponse> {
+  getSsoToken(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): void;
+  getSsoToken(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceGetSsoTokenResult>): Promise<Models.ApiManagementServiceGetSsoTokenResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,19 +218,19 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse>;
+  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse>;
   /**
    * @param parameters Parameters supplied to the CheckNameAvailability operation.
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): void;
+  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): void;
   /**
    * @param parameters Parameters supplied to the CheckNameAvailability operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): void;
-  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse> {
+  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): void;
+  checkNameAvailability(parameters: Models.ApiManagementServiceCheckNameAvailabilityParameters, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceNameAvailabilityResult>): Promise<Models.ApiManagementServiceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -262,9 +262,9 @@ export class ApiManagementService {
    * @param parameters Parameters supplied to the Restore API Management service from backup
    * operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginRestore(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestore(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -283,9 +283,9 @@ export class ApiManagementService {
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginBackup(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginBackup(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceBackupRestoreParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -304,9 +304,9 @@ export class ApiManagementService {
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceResource, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -324,9 +324,9 @@ export class ApiManagementService {
    * @param serviceName The name of the API Management service.
    * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -343,9 +343,9 @@ export class ApiManagementService {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -362,9 +362,9 @@ export class ApiManagementService {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginApplyNetworkConfigurationUpdates(resourceGroupName: string, serviceName: string, options?: Models.ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginApplyNetworkConfigurationUpdates(resourceGroupName: string, serviceName: string, options?: Models.ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -381,19 +381,19 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -409,19 +409,19 @@ export class ApiManagementService {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: msRest.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>, callback?: coreHttp.ServiceCallback<Models.ApiManagementServiceListResult>): Promise<Models.ApiManagementServiceListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -433,8 +433,8 @@ export class ApiManagementService {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   urlParameters: [
@@ -459,7 +459,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service",
   urlParameters: [
@@ -483,7 +483,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service",
   urlParameters: [
@@ -506,7 +506,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getSsoTokenOperationSpec: msRest.OperationSpec = {
+const getSsoTokenOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken",
   urlParameters: [
@@ -531,7 +531,7 @@ const getSsoTokenOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+const checkNameAvailabilityOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability",
   urlParameters: [
@@ -561,7 +561,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginRestoreOperationSpec: msRest.OperationSpec = {
+const beginRestoreOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
   urlParameters: [
@@ -594,7 +594,7 @@ const beginRestoreOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginBackupOperationSpec: msRest.OperationSpec = {
+const beginBackupOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup",
   urlParameters: [
@@ -627,7 +627,7 @@ const beginBackupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const beginCreateOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   urlParameters: [
@@ -663,7 +663,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   urlParameters: [
@@ -696,7 +696,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+const beginDeleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   urlParameters: [
@@ -723,7 +723,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginApplyNetworkConfigurationUpdatesOperationSpec: msRest.OperationSpec = {
+const beginApplyNetworkConfigurationUpdatesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
   urlParameters: [
@@ -756,7 +756,7 @@ const beginApplyNetworkConfigurationUpdatesOperationSpec: msRest.OperationSpec =
   serializer
 };
 
-const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -777,7 +777,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

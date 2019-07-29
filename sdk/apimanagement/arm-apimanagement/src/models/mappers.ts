@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ErrorFieldContract: msRest.CompositeMapper = {
+export const ErrorFieldContract: coreHttp.CompositeMapper = {
   serializedName: "ErrorFieldContract",
   type: {
     name: "Composite",
@@ -40,7 +40,7 @@ export const ErrorFieldContract: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponseBody: msRest.CompositeMapper = {
+export const ErrorResponseBody: coreHttp.CompositeMapper = {
   serializedName: "ErrorResponseBody",
   type: {
     name: "Composite",
@@ -74,7 +74,7 @@ export const ErrorResponseBody: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
+export const ErrorResponse: coreHttp.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -108,7 +108,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const RegionContract: msRest.CompositeMapper = {
+export const RegionContract: coreHttp.CompositeMapper = {
   serializedName: "RegionContract",
   type: {
     name: "Composite",
@@ -137,7 +137,7 @@ export const RegionContract: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
+export const Resource: coreHttp.CompositeMapper = {
   serializedName: "Resource",
   type: {
     name: "Composite",
@@ -168,7 +168,7 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
-export const ApiExportResultValue: msRest.CompositeMapper = {
+export const ApiExportResultValue: coreHttp.CompositeMapper = {
   serializedName: "ApiExportResult_value",
   type: {
     name: "Composite",
@@ -184,7 +184,7 @@ export const ApiExportResultValue: msRest.CompositeMapper = {
   }
 };
 
-export const ApiExportResult: msRest.CompositeMapper = {
+export const ApiExportResult: coreHttp.CompositeMapper = {
   serializedName: "ApiExportResult",
   type: {
     name: "Composite",
@@ -213,7 +213,7 @@ export const ApiExportResult: msRest.CompositeMapper = {
   }
 };
 
-export const ProductEntityBaseParameters: msRest.CompositeMapper = {
+export const ProductEntityBaseParameters: coreHttp.CompositeMapper = {
   serializedName: "ProductEntityBaseParameters",
   type: {
     name: "Composite",
@@ -267,7 +267,7 @@ export const ProductEntityBaseParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ProductTagResourceContractProperties: msRest.CompositeMapper = {
+export const ProductTagResourceContractProperties: coreHttp.CompositeMapper = {
   serializedName: "ProductTagResourceContractProperties",
   type: {
     name: "Composite",
@@ -295,7 +295,7 @@ export const ProductTagResourceContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const OperationTagResourceContractProperties: msRest.CompositeMapper = {
+export const OperationTagResourceContractProperties: coreHttp.CompositeMapper = {
   serializedName: "OperationTagResourceContractProperties",
   type: {
     name: "Composite",
@@ -360,7 +360,7 @@ export const OperationTagResourceContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionKeyParameterNamesContract: msRest.CompositeMapper = {
+export const SubscriptionKeyParameterNamesContract: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionKeyParameterNamesContract",
   type: {
     name: "Composite",
@@ -382,7 +382,7 @@ export const SubscriptionKeyParameterNamesContract: msRest.CompositeMapper = {
   }
 };
 
-export const OpenIdAuthenticationSettingsContract: msRest.CompositeMapper = {
+export const OpenIdAuthenticationSettingsContract: coreHttp.CompositeMapper = {
   serializedName: "OpenIdAuthenticationSettingsContract",
   type: {
     name: "Composite",
@@ -409,7 +409,7 @@ export const OpenIdAuthenticationSettingsContract: msRest.CompositeMapper = {
   }
 };
 
-export const OAuth2AuthenticationSettingsContract: msRest.CompositeMapper = {
+export const OAuth2AuthenticationSettingsContract: coreHttp.CompositeMapper = {
   serializedName: "OAuth2AuthenticationSettingsContract",
   type: {
     name: "Composite",
@@ -431,7 +431,7 @@ export const OAuth2AuthenticationSettingsContract: msRest.CompositeMapper = {
   }
 };
 
-export const AuthenticationSettingsContract: msRest.CompositeMapper = {
+export const AuthenticationSettingsContract: coreHttp.CompositeMapper = {
   serializedName: "AuthenticationSettingsContract",
   type: {
     name: "Composite",
@@ -461,7 +461,7 @@ export const AuthenticationSettingsContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetContractDetails: msRest.CompositeMapper = {
+export const ApiVersionSetContractDetails: coreHttp.CompositeMapper = {
   serializedName: "ApiVersionSetContractDetails",
   type: {
     name: "Composite",
@@ -507,7 +507,7 @@ export const ApiVersionSetContractDetails: msRest.CompositeMapper = {
   }
 };
 
-export const ApiCreateOrUpdatePropertiesWsdlSelector: msRest.CompositeMapper = {
+export const ApiCreateOrUpdatePropertiesWsdlSelector: coreHttp.CompositeMapper = {
   serializedName: "ApiCreateOrUpdateProperties_wsdlSelector",
   type: {
     name: "Composite",
@@ -529,7 +529,7 @@ export const ApiCreateOrUpdatePropertiesWsdlSelector: msRest.CompositeMapper = {
   }
 };
 
-export const ApiEntityBaseContract: msRest.CompositeMapper = {
+export const ApiEntityBaseContract: coreHttp.CompositeMapper = {
   serializedName: "ApiEntityBaseContract",
   type: {
     name: "Composite",
@@ -627,7 +627,7 @@ export const ApiEntityBaseContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiContractProperties: msRest.CompositeMapper = {
+export const ApiContractProperties: coreHttp.CompositeMapper = {
   serializedName: "ApiContractProperties",
   type: {
     name: "Composite",
@@ -697,7 +697,7 @@ export const ApiContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ApiTagResourceContractProperties: msRest.CompositeMapper = {
+export const ApiTagResourceContractProperties: coreHttp.CompositeMapper = {
   serializedName: "ApiTagResourceContractProperties",
   type: {
     name: "Composite",
@@ -759,7 +759,7 @@ export const ApiTagResourceContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TagTagResourceContractProperties: msRest.CompositeMapper = {
+export const TagTagResourceContractProperties: coreHttp.CompositeMapper = {
   serializedName: "TagTagResourceContractProperties",
   type: {
     name: "Composite",
@@ -785,7 +785,7 @@ export const TagTagResourceContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TagResourceContract: msRest.CompositeMapper = {
+export const TagResourceContract: coreHttp.CompositeMapper = {
   serializedName: "TagResourceContract",
   type: {
     name: "Composite",
@@ -824,7 +824,7 @@ export const TagResourceContract: msRest.CompositeMapper = {
   }
 };
 
-export const TagContract: msRest.CompositeMapper = {
+export const TagContract: coreHttp.CompositeMapper = {
   serializedName: "TagContract",
   type: {
     name: "Composite",
@@ -846,7 +846,7 @@ export const TagContract: msRest.CompositeMapper = {
   }
 };
 
-export const TagDescriptionContract: msRest.CompositeMapper = {
+export const TagDescriptionContract: coreHttp.CompositeMapper = {
   serializedName: "TagDescriptionContract",
   type: {
     name: "Composite",
@@ -888,7 +888,7 @@ export const TagDescriptionContract: msRest.CompositeMapper = {
   }
 };
 
-export const TagDescriptionCreateParameters: msRest.CompositeMapper = {
+export const TagDescriptionCreateParameters: coreHttp.CompositeMapper = {
   serializedName: "TagDescriptionCreateParameters",
   type: {
     name: "Composite",
@@ -919,7 +919,7 @@ export const TagDescriptionCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const IssueAttachmentContract: msRest.CompositeMapper = {
+export const IssueAttachmentContract: coreHttp.CompositeMapper = {
   serializedName: "IssueAttachmentContract",
   type: {
     name: "Composite",
@@ -951,7 +951,7 @@ export const IssueAttachmentContract: msRest.CompositeMapper = {
   }
 };
 
-export const IssueCommentContract: msRest.CompositeMapper = {
+export const IssueCommentContract: coreHttp.CompositeMapper = {
   serializedName: "IssueCommentContract",
   type: {
     name: "Composite",
@@ -982,7 +982,7 @@ export const IssueCommentContract: msRest.CompositeMapper = {
   }
 };
 
-export const IssueContractBaseProperties: msRest.CompositeMapper = {
+export const IssueContractBaseProperties: coreHttp.CompositeMapper = {
   serializedName: "IssueContractBaseProperties",
   type: {
     name: "Composite",
@@ -1010,7 +1010,7 @@ export const IssueContractBaseProperties: msRest.CompositeMapper = {
   }
 };
 
-export const IssueUpdateContract: msRest.CompositeMapper = {
+export const IssueUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "IssueUpdateContract",
   type: {
     name: "Composite",
@@ -1056,7 +1056,7 @@ export const IssueUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const IssueContract: msRest.CompositeMapper = {
+export const IssueContract: coreHttp.CompositeMapper = {
   serializedName: "IssueContract",
   type: {
     name: "Composite",
@@ -1106,7 +1106,7 @@ export const IssueContract: msRest.CompositeMapper = {
   }
 };
 
-export const BodyDiagnosticSettings: msRest.CompositeMapper = {
+export const BodyDiagnosticSettings: coreHttp.CompositeMapper = {
   serializedName: "BodyDiagnosticSettings",
   type: {
     name: "Composite",
@@ -1125,7 +1125,7 @@ export const BodyDiagnosticSettings: msRest.CompositeMapper = {
   }
 };
 
-export const HttpMessageDiagnostic: msRest.CompositeMapper = {
+export const HttpMessageDiagnostic: coreHttp.CompositeMapper = {
   serializedName: "HttpMessageDiagnostic",
   type: {
     name: "Composite",
@@ -1153,7 +1153,7 @@ export const HttpMessageDiagnostic: msRest.CompositeMapper = {
   }
 };
 
-export const PipelineDiagnosticSettings: msRest.CompositeMapper = {
+export const PipelineDiagnosticSettings: coreHttp.CompositeMapper = {
   serializedName: "PipelineDiagnosticSettings",
   type: {
     name: "Composite",
@@ -1177,7 +1177,7 @@ export const PipelineDiagnosticSettings: msRest.CompositeMapper = {
   }
 };
 
-export const SamplingSettings: msRest.CompositeMapper = {
+export const SamplingSettings: coreHttp.CompositeMapper = {
   serializedName: "SamplingSettings",
   type: {
     name: "Composite",
@@ -1203,7 +1203,7 @@ export const SamplingSettings: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticContract: msRest.CompositeMapper = {
+export const DiagnosticContract: coreHttp.CompositeMapper = {
   serializedName: "DiagnosticContract",
   type: {
     name: "Composite",
@@ -1254,7 +1254,7 @@ export const DiagnosticContract: msRest.CompositeMapper = {
   }
 };
 
-export const SchemaContract: msRest.CompositeMapper = {
+export const SchemaContract: coreHttp.CompositeMapper = {
   serializedName: "SchemaContract",
   type: {
     name: "Composite",
@@ -1278,7 +1278,7 @@ export const SchemaContract: msRest.CompositeMapper = {
   }
 };
 
-export const SchemaCreateOrUpdateContract: msRest.CompositeMapper = {
+export const SchemaCreateOrUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "SchemaCreateOrUpdateContract",
   type: {
     name: "Composite",
@@ -1302,7 +1302,7 @@ export const SchemaCreateOrUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const PolicyContract: msRest.CompositeMapper = {
+export const PolicyContract: coreHttp.CompositeMapper = {
   serializedName: "PolicyContract",
   type: {
     name: "Composite",
@@ -1327,7 +1327,7 @@ export const PolicyContract: msRest.CompositeMapper = {
   }
 };
 
-export const PolicyCollection: msRest.CompositeMapper = {
+export const PolicyCollection: coreHttp.CompositeMapper = {
   serializedName: "PolicyCollection",
   type: {
     name: "Composite",
@@ -1355,7 +1355,7 @@ export const PolicyCollection: msRest.CompositeMapper = {
   }
 };
 
-export const ProductContract: msRest.CompositeMapper = {
+export const ProductContract: coreHttp.CompositeMapper = {
   serializedName: "ProductContract",
   type: {
     name: "Composite",
@@ -1421,7 +1421,7 @@ export const ProductContract: msRest.CompositeMapper = {
   }
 };
 
-export const ParameterContract: msRest.CompositeMapper = {
+export const ParameterContract: coreHttp.CompositeMapper = {
   serializedName: "ParameterContract",
   type: {
     name: "Composite",
@@ -1474,7 +1474,7 @@ export const ParameterContract: msRest.CompositeMapper = {
   }
 };
 
-export const RepresentationContract: msRest.CompositeMapper = {
+export const RepresentationContract: coreHttp.CompositeMapper = {
   serializedName: "RepresentationContract",
   type: {
     name: "Composite",
@@ -1521,7 +1521,7 @@ export const RepresentationContract: msRest.CompositeMapper = {
   }
 };
 
-export const ResponseContract: msRest.CompositeMapper = {
+export const ResponseContract: coreHttp.CompositeMapper = {
   serializedName: "ResponseContract",
   type: {
     name: "Composite",
@@ -1568,7 +1568,7 @@ export const ResponseContract: msRest.CompositeMapper = {
   }
 };
 
-export const RequestContract: msRest.CompositeMapper = {
+export const RequestContract: coreHttp.CompositeMapper = {
   serializedName: "RequestContract",
   type: {
     name: "Composite",
@@ -1620,7 +1620,7 @@ export const RequestContract: msRest.CompositeMapper = {
   }
 };
 
-export const OperationEntityBaseContract: msRest.CompositeMapper = {
+export const OperationEntityBaseContract: coreHttp.CompositeMapper = {
   serializedName: "OperationEntityBaseContract",
   type: {
     name: "Composite",
@@ -1676,7 +1676,7 @@ export const OperationEntityBaseContract: msRest.CompositeMapper = {
   }
 };
 
-export const OperationUpdateContract: msRest.CompositeMapper = {
+export const OperationUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "OperationUpdateContract",
   type: {
     name: "Composite",
@@ -1758,7 +1758,7 @@ export const OperationUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const OperationContract: msRest.CompositeMapper = {
+export const OperationContract: coreHttp.CompositeMapper = {
   serializedName: "OperationContract",
   type: {
     name: "Composite",
@@ -1844,7 +1844,7 @@ export const OperationContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiReleaseContract: msRest.CompositeMapper = {
+export const ApiReleaseContract: coreHttp.CompositeMapper = {
   serializedName: "ApiReleaseContract",
   type: {
     name: "Composite",
@@ -1881,7 +1881,7 @@ export const ApiReleaseContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiRevisionContract: msRest.CompositeMapper = {
+export const ApiRevisionContract: coreHttp.CompositeMapper = {
   serializedName: "ApiRevisionContract",
   type: {
     name: "Composite",
@@ -1954,7 +1954,7 @@ export const ApiRevisionContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiUpdateContract: msRest.CompositeMapper = {
+export const ApiUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "ApiUpdateContract",
   type: {
     name: "Composite",
@@ -2097,7 +2097,7 @@ export const ApiUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiContract: msRest.CompositeMapper = {
+export const ApiContract: coreHttp.CompositeMapper = {
   serializedName: "ApiContract",
   type: {
     name: "Composite",
@@ -2255,7 +2255,7 @@ export const ApiContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiCreateOrUpdateParameter: msRest.CompositeMapper = {
+export const ApiCreateOrUpdateParameter: coreHttp.CompositeMapper = {
   serializedName: "ApiCreateOrUpdateParameter",
   type: {
     name: "Composite",
@@ -2437,7 +2437,7 @@ export const ApiCreateOrUpdateParameter: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetEntityBase: msRest.CompositeMapper = {
+export const ApiVersionSetEntityBase: coreHttp.CompositeMapper = {
   serializedName: "ApiVersionSetEntityBase",
   type: {
     name: "Composite",
@@ -2473,7 +2473,7 @@ export const ApiVersionSetEntityBase: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetUpdateParameters: msRest.CompositeMapper = {
+export const ApiVersionSetUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "ApiVersionSetUpdateParameters",
   type: {
     name: "Composite",
@@ -2525,7 +2525,7 @@ export const ApiVersionSetUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetContract: msRest.CompositeMapper = {
+export const ApiVersionSetContract: coreHttp.CompositeMapper = {
   serializedName: "ApiVersionSetContract",
   type: {
     name: "Composite",
@@ -2580,7 +2580,7 @@ export const ApiVersionSetContract: msRest.CompositeMapper = {
   }
 };
 
-export const TokenBodyParameterContract: msRest.CompositeMapper = {
+export const TokenBodyParameterContract: coreHttp.CompositeMapper = {
   serializedName: "TokenBodyParameterContract",
   type: {
     name: "Composite",
@@ -2604,7 +2604,7 @@ export const TokenBodyParameterContract: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerContractBaseProperties: msRest.CompositeMapper = {
+export const AuthorizationServerContractBaseProperties: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationServerContractBaseProperties",
   type: {
     name: "Composite",
@@ -2711,7 +2711,7 @@ export const AuthorizationServerContractBaseProperties: msRest.CompositeMapper =
   }
 };
 
-export const AuthorizationServerUpdateContract: msRest.CompositeMapper = {
+export const AuthorizationServerUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationServerUpdateContract",
   type: {
     name: "Composite",
@@ -2858,7 +2858,7 @@ export const AuthorizationServerUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerContract: msRest.CompositeMapper = {
+export const AuthorizationServerContract: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationServerContract",
   type: {
     name: "Composite",
@@ -3010,7 +3010,7 @@ export const AuthorizationServerContract: msRest.CompositeMapper = {
   }
 };
 
-export const BackendReconnectContract: msRest.CompositeMapper = {
+export const BackendReconnectContract: coreHttp.CompositeMapper = {
   serializedName: "BackendReconnectContract",
   type: {
     name: "Composite",
@@ -3027,7 +3027,7 @@ export const BackendReconnectContract: msRest.CompositeMapper = {
   }
 };
 
-export const BackendTlsProperties: msRest.CompositeMapper = {
+export const BackendTlsProperties: coreHttp.CompositeMapper = {
   serializedName: "BackendTlsProperties",
   type: {
     name: "Composite",
@@ -3051,7 +3051,7 @@ export const BackendTlsProperties: msRest.CompositeMapper = {
   }
 };
 
-export const BackendProxyContract: msRest.CompositeMapper = {
+export const BackendProxyContract: coreHttp.CompositeMapper = {
   serializedName: "BackendProxyContract",
   type: {
     name: "Composite",
@@ -3084,7 +3084,7 @@ export const BackendProxyContract: msRest.CompositeMapper = {
   }
 };
 
-export const BackendAuthorizationHeaderCredentials: msRest.CompositeMapper = {
+export const BackendAuthorizationHeaderCredentials: coreHttp.CompositeMapper = {
   serializedName: "BackendAuthorizationHeaderCredentials",
   type: {
     name: "Composite",
@@ -3116,7 +3116,7 @@ export const BackendAuthorizationHeaderCredentials: msRest.CompositeMapper = {
   }
 };
 
-export const BackendCredentialsContract: msRest.CompositeMapper = {
+export const BackendCredentialsContract: coreHttp.CompositeMapper = {
   serializedName: "BackendCredentialsContract",
   type: {
     name: "Composite",
@@ -3179,7 +3179,7 @@ export const BackendCredentialsContract: msRest.CompositeMapper = {
   }
 };
 
-export const X509CertificateName: msRest.CompositeMapper = {
+export const X509CertificateName: coreHttp.CompositeMapper = {
   serializedName: "X509CertificateName",
   type: {
     name: "Composite",
@@ -3201,7 +3201,7 @@ export const X509CertificateName: msRest.CompositeMapper = {
   }
 };
 
-export const BackendServiceFabricClusterProperties: msRest.CompositeMapper = {
+export const BackendServiceFabricClusterProperties: coreHttp.CompositeMapper = {
   serializedName: "BackendServiceFabricClusterProperties",
   type: {
     name: "Composite",
@@ -3259,7 +3259,7 @@ export const BackendServiceFabricClusterProperties: msRest.CompositeMapper = {
   }
 };
 
-export const BackendProperties: msRest.CompositeMapper = {
+export const BackendProperties: coreHttp.CompositeMapper = {
   serializedName: "BackendProperties",
   type: {
     name: "Composite",
@@ -3276,7 +3276,7 @@ export const BackendProperties: msRest.CompositeMapper = {
   }
 };
 
-export const BackendBaseParameters: msRest.CompositeMapper = {
+export const BackendBaseParameters: coreHttp.CompositeMapper = {
   serializedName: "BackendBaseParameters",
   type: {
     name: "Composite",
@@ -3344,7 +3344,7 @@ export const BackendBaseParameters: msRest.CompositeMapper = {
   }
 };
 
-export const BackendUpdateParameters: msRest.CompositeMapper = {
+export const BackendUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "BackendUpdateParameters",
   type: {
     name: "Composite",
@@ -3428,7 +3428,7 @@ export const BackendUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const BackendContract: msRest.CompositeMapper = {
+export const BackendContract: coreHttp.CompositeMapper = {
   serializedName: "BackendContract",
   type: {
     name: "Composite",
@@ -3515,7 +3515,7 @@ export const BackendContract: msRest.CompositeMapper = {
   }
 };
 
-export const CacheUpdateParameters: msRest.CompositeMapper = {
+export const CacheUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "CacheUpdateParameters",
   type: {
     name: "Composite",
@@ -3552,7 +3552,7 @@ export const CacheUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const CacheContract: msRest.CompositeMapper = {
+export const CacheContract: coreHttp.CompositeMapper = {
   serializedName: "CacheContract",
   type: {
     name: "Composite",
@@ -3591,7 +3591,7 @@ export const CacheContract: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateContract: msRest.CompositeMapper = {
+export const CertificateContract: coreHttp.CompositeMapper = {
   serializedName: "CertificateContract",
   type: {
     name: "Composite",
@@ -3623,7 +3623,7 @@ export const CertificateContract: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
+export const CertificateCreateOrUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "CertificateCreateOrUpdateParameters",
   type: {
     name: "Composite",
@@ -3647,7 +3647,7 @@ export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSku: msRest.CompositeMapper = {
+export const ResourceSku: coreHttp.CompositeMapper = {
   serializedName: "ResourceSku",
   type: {
     name: "Composite",
@@ -3663,7 +3663,7 @@ export const ResourceSku: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuCapacity: msRest.CompositeMapper = {
+export const ResourceSkuCapacity: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuCapacity",
   type: {
     name: "Composite",
@@ -3701,7 +3701,7 @@ export const ResourceSkuCapacity: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuResult: msRest.CompositeMapper = {
+export const ResourceSkuResult: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuResult",
   type: {
     name: "Composite",
@@ -3734,7 +3734,7 @@ export const ResourceSkuResult: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateInformation: msRest.CompositeMapper = {
+export const CertificateInformation: coreHttp.CompositeMapper = {
   serializedName: "CertificateInformation",
   type: {
     name: "Composite",
@@ -3765,7 +3765,7 @@ export const CertificateInformation: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateConfiguration: msRest.CompositeMapper = {
+export const CertificateConfiguration: coreHttp.CompositeMapper = {
   serializedName: "CertificateConfiguration",
   type: {
     name: "Composite",
@@ -3801,7 +3801,7 @@ export const CertificateConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const HostnameConfiguration: msRest.CompositeMapper = {
+export const HostnameConfiguration: coreHttp.CompositeMapper = {
   serializedName: "HostnameConfiguration",
   type: {
     name: "Composite",
@@ -3864,7 +3864,7 @@ export const HostnameConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkConfiguration: msRest.CompositeMapper = {
+export const VirtualNetworkConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualNetworkConfiguration",
   type: {
     name: "Composite",
@@ -3897,7 +3897,7 @@ export const VirtualNetworkConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceSkuProperties: msRest.CompositeMapper = {
+export const ApiManagementServiceSkuProperties: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceSkuProperties",
   type: {
     name: "Composite",
@@ -3920,7 +3920,7 @@ export const ApiManagementServiceSkuProperties: msRest.CompositeMapper = {
   }
 };
 
-export const AdditionalLocation: msRest.CompositeMapper = {
+export const AdditionalLocation: coreHttp.CompositeMapper = {
   serializedName: "AdditionalLocation",
   type: {
     name: "Composite",
@@ -3983,7 +3983,7 @@ export const AdditionalLocation: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceBackupRestoreParameters: msRest.CompositeMapper = {
+export const ApiManagementServiceBackupRestoreParameters: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceBackupRestoreParameters",
   type: {
     name: "Composite",
@@ -4021,7 +4021,7 @@ export const ApiManagementServiceBackupRestoreParameters: msRest.CompositeMapper
   }
 };
 
-export const ApiManagementServiceBaseProperties: msRest.CompositeMapper = {
+export const ApiManagementServiceBaseProperties: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceBaseProperties",
   type: {
     name: "Composite",
@@ -4188,7 +4188,7 @@ export const ApiManagementServiceBaseProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceIdentity: msRest.CompositeMapper = {
+export const ApiManagementServiceIdentity: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceIdentity",
   type: {
     name: "Composite",
@@ -4221,7 +4221,7 @@ export const ApiManagementServiceIdentity: msRest.CompositeMapper = {
   }
 };
 
-export const ApimResource: msRest.CompositeMapper = {
+export const ApimResource: coreHttp.CompositeMapper = {
   serializedName: "ApimResource",
   type: {
     name: "Composite",
@@ -4263,7 +4263,7 @@ export const ApimResource: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceResource: msRest.CompositeMapper = {
+export const ApiManagementServiceResource: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceResource",
   type: {
     name: "Composite",
@@ -4480,7 +4480,7 @@ export const ApiManagementServiceResource: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceUpdateParameters: msRest.CompositeMapper = {
+export const ApiManagementServiceUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceUpdateParameters",
   type: {
     name: "Composite",
@@ -4687,7 +4687,7 @@ export const ApiManagementServiceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceGetSsoTokenResult: msRest.CompositeMapper = {
+export const ApiManagementServiceGetSsoTokenResult: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceGetSsoTokenResult",
   type: {
     name: "Composite",
@@ -4703,7 +4703,7 @@ export const ApiManagementServiceGetSsoTokenResult: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceCheckNameAvailabilityParameters: msRest.CompositeMapper = {
+export const ApiManagementServiceCheckNameAvailabilityParameters: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceCheckNameAvailabilityParameters",
   type: {
     name: "Composite",
@@ -4720,7 +4720,7 @@ export const ApiManagementServiceCheckNameAvailabilityParameters: msRest.Composi
   }
 };
 
-export const ApiManagementServiceNameAvailabilityResult: msRest.CompositeMapper = {
+export const ApiManagementServiceNameAvailabilityResult: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceNameAvailabilityResult",
   type: {
     name: "Composite",
@@ -4755,7 +4755,7 @@ export const ApiManagementServiceNameAvailabilityResult: msRest.CompositeMapper 
   }
 };
 
-export const ApiManagementServiceApplyNetworkConfigurationParameters: msRest.CompositeMapper = {
+export const ApiManagementServiceApplyNetworkConfigurationParameters: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceApplyNetworkConfigurationParameters",
   type: {
     name: "Composite",
@@ -4771,7 +4771,7 @@ export const ApiManagementServiceApplyNetworkConfigurationParameters: msRest.Com
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
+export const OperationDisplay: coreHttp.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -4805,7 +4805,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const Operation: msRest.CompositeMapper = {
+export const Operation: coreHttp.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -4840,7 +4840,7 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const EmailTemplateParametersContractProperties: msRest.CompositeMapper = {
+export const EmailTemplateParametersContractProperties: coreHttp.CompositeMapper = {
   serializedName: "EmailTemplateParametersContractProperties",
   type: {
     name: "Composite",
@@ -4882,7 +4882,7 @@ export const EmailTemplateParametersContractProperties: msRest.CompositeMapper =
   }
 };
 
-export const EmailTemplateUpdateParameters: msRest.CompositeMapper = {
+export const EmailTemplateUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "EmailTemplateUpdateParameters",
   type: {
     name: "Composite",
@@ -4935,7 +4935,7 @@ export const EmailTemplateUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const EmailTemplateContract: msRest.CompositeMapper = {
+export const EmailTemplateContract: coreHttp.CompositeMapper = {
   serializedName: "EmailTemplateContract",
   type: {
     name: "Composite",
@@ -4998,7 +4998,7 @@ export const EmailTemplateContract: msRest.CompositeMapper = {
   }
 };
 
-export const UserIdentityContract: msRest.CompositeMapper = {
+export const UserIdentityContract: coreHttp.CompositeMapper = {
   serializedName: "UserIdentityContract",
   type: {
     name: "Composite",
@@ -5020,7 +5020,7 @@ export const UserIdentityContract: msRest.CompositeMapper = {
   }
 };
 
-export const UserEntityBaseParameters: msRest.CompositeMapper = {
+export const UserEntityBaseParameters: coreHttp.CompositeMapper = {
   serializedName: "UserEntityBaseParameters",
   type: {
     name: "Composite",
@@ -5055,7 +5055,7 @@ export const UserEntityBaseParameters: msRest.CompositeMapper = {
   }
 };
 
-export const GroupContractProperties: msRest.CompositeMapper = {
+export const GroupContractProperties: coreHttp.CompositeMapper = {
   serializedName: "GroupContractProperties",
   type: {
     name: "Composite",
@@ -5109,7 +5109,7 @@ export const GroupContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const UserContract: msRest.CompositeMapper = {
+export const UserContract: coreHttp.CompositeMapper = {
   serializedName: "UserContract",
   type: {
     name: "Composite",
@@ -5182,7 +5182,7 @@ export const UserContract: msRest.CompositeMapper = {
   }
 };
 
-export const GroupUpdateParameters: msRest.CompositeMapper = {
+export const GroupUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "GroupUpdateParameters",
   type: {
     name: "Composite",
@@ -5225,7 +5225,7 @@ export const GroupUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const GroupContract: msRest.CompositeMapper = {
+export const GroupContract: coreHttp.CompositeMapper = {
   serializedName: "GroupContract",
   type: {
     name: "Composite",
@@ -5280,7 +5280,7 @@ export const GroupContract: msRest.CompositeMapper = {
   }
 };
 
-export const GroupCreateParameters: msRest.CompositeMapper = {
+export const GroupCreateParameters: coreHttp.CompositeMapper = {
   serializedName: "GroupCreateParameters",
   type: {
     name: "Composite",
@@ -5324,7 +5324,7 @@ export const GroupCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderBaseParameters: msRest.CompositeMapper = {
+export const IdentityProviderBaseParameters: coreHttp.CompositeMapper = {
   serializedName: "IdentityProviderBaseParameters",
   type: {
     name: "Composite",
@@ -5396,7 +5396,7 @@ export const IdentityProviderBaseParameters: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderUpdateParameters: msRest.CompositeMapper = {
+export const IdentityProviderUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "IdentityProviderUpdateParameters",
   type: {
     name: "Composite",
@@ -5486,7 +5486,7 @@ export const IdentityProviderUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderContract: msRest.CompositeMapper = {
+export const IdentityProviderContract: coreHttp.CompositeMapper = {
   serializedName: "IdentityProviderContract",
   type: {
     name: "Composite",
@@ -5579,7 +5579,7 @@ export const IdentityProviderContract: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerUpdateContract: msRest.CompositeMapper = {
+export const LoggerUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "LoggerUpdateContract",
   type: {
     name: "Composite",
@@ -5618,7 +5618,7 @@ export const LoggerUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerContract: msRest.CompositeMapper = {
+export const LoggerContract: coreHttp.CompositeMapper = {
   serializedName: "LoggerContract",
   type: {
     name: "Composite",
@@ -5669,7 +5669,7 @@ export const LoggerContract: msRest.CompositeMapper = {
   }
 };
 
-export const ConnectivityStatusContract: msRest.CompositeMapper = {
+export const ConnectivityStatusContract: coreHttp.CompositeMapper = {
   serializedName: "ConnectivityStatusContract",
   type: {
     name: "Composite",
@@ -5716,7 +5716,7 @@ export const ConnectivityStatusContract: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkStatusContract: msRest.CompositeMapper = {
+export const NetworkStatusContract: coreHttp.CompositeMapper = {
   serializedName: "NetworkStatusContract",
   type: {
     name: "Composite",
@@ -5751,7 +5751,7 @@ export const NetworkStatusContract: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkStatusContractByLocation: msRest.CompositeMapper = {
+export const NetworkStatusContractByLocation: coreHttp.CompositeMapper = {
   serializedName: "NetworkStatusContractByLocation",
   type: {
     name: "Composite",
@@ -5777,7 +5777,7 @@ export const NetworkStatusContractByLocation: msRest.CompositeMapper = {
   }
 };
 
-export const RecipientEmailContract: msRest.CompositeMapper = {
+export const RecipientEmailContract: coreHttp.CompositeMapper = {
   serializedName: "RecipientEmailContract",
   type: {
     name: "Composite",
@@ -5794,7 +5794,7 @@ export const RecipientEmailContract: msRest.CompositeMapper = {
   }
 };
 
-export const RecipientEmailCollection: msRest.CompositeMapper = {
+export const RecipientEmailCollection: coreHttp.CompositeMapper = {
   serializedName: "RecipientEmailCollection",
   type: {
     name: "Composite",
@@ -5822,7 +5822,7 @@ export const RecipientEmailCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RecipientUserContract: msRest.CompositeMapper = {
+export const RecipientUserContract: coreHttp.CompositeMapper = {
   serializedName: "RecipientUserContract",
   type: {
     name: "Composite",
@@ -5839,7 +5839,7 @@ export const RecipientUserContract: msRest.CompositeMapper = {
   }
 };
 
-export const RecipientUserCollection: msRest.CompositeMapper = {
+export const RecipientUserCollection: coreHttp.CompositeMapper = {
   serializedName: "RecipientUserCollection",
   type: {
     name: "Composite",
@@ -5867,7 +5867,7 @@ export const RecipientUserCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RecipientsContractProperties: msRest.CompositeMapper = {
+export const RecipientsContractProperties: coreHttp.CompositeMapper = {
   serializedName: "RecipientsContractProperties",
   type: {
     name: "Composite",
@@ -5899,7 +5899,7 @@ export const RecipientsContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const NotificationContract: msRest.CompositeMapper = {
+export const NotificationContract: coreHttp.CompositeMapper = {
   serializedName: "NotificationContract",
   type: {
     name: "Composite",
@@ -5934,7 +5934,7 @@ export const NotificationContract: msRest.CompositeMapper = {
   }
 };
 
-export const OpenidConnectProviderUpdateContract: msRest.CompositeMapper = {
+export const OpenidConnectProviderUpdateContract: coreHttp.CompositeMapper = {
   serializedName: "OpenidConnectProviderUpdateContract",
   type: {
     name: "Composite",
@@ -5977,7 +5977,7 @@ export const OpenidConnectProviderUpdateContract: msRest.CompositeMapper = {
   }
 };
 
-export const OpenidConnectProviderContract: msRest.CompositeMapper = {
+export const OpenidConnectProviderContract: coreHttp.CompositeMapper = {
   serializedName: "OpenidConnectProviderContract",
   type: {
     name: "Composite",
@@ -6024,7 +6024,7 @@ export const OpenidConnectProviderContract: msRest.CompositeMapper = {
   }
 };
 
-export const PolicySnippetContract: msRest.CompositeMapper = {
+export const PolicySnippetContract: coreHttp.CompositeMapper = {
   serializedName: "PolicySnippetContract",
   type: {
     name: "Composite",
@@ -6062,7 +6062,7 @@ export const PolicySnippetContract: msRest.CompositeMapper = {
   }
 };
 
-export const PolicySnippetsCollection: msRest.CompositeMapper = {
+export const PolicySnippetsCollection: coreHttp.CompositeMapper = {
   serializedName: "PolicySnippetsCollection",
   type: {
     name: "Composite",
@@ -6084,7 +6084,7 @@ export const PolicySnippetsCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RegistrationDelegationSettingsProperties: msRest.CompositeMapper = {
+export const RegistrationDelegationSettingsProperties: coreHttp.CompositeMapper = {
   serializedName: "RegistrationDelegationSettingsProperties",
   type: {
     name: "Composite",
@@ -6100,7 +6100,7 @@ export const RegistrationDelegationSettingsProperties: msRest.CompositeMapper = 
   }
 };
 
-export const SubscriptionsDelegationSettingsProperties: msRest.CompositeMapper = {
+export const SubscriptionsDelegationSettingsProperties: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionsDelegationSettingsProperties",
   type: {
     name: "Composite",
@@ -6116,7 +6116,7 @@ export const SubscriptionsDelegationSettingsProperties: msRest.CompositeMapper =
   }
 };
 
-export const PortalDelegationSettings: msRest.CompositeMapper = {
+export const PortalDelegationSettings: coreHttp.CompositeMapper = {
   serializedName: "PortalDelegationSettings",
   type: {
     name: "Composite",
@@ -6153,7 +6153,7 @@ export const PortalDelegationSettings: msRest.CompositeMapper = {
   }
 };
 
-export const TermsOfServiceProperties: msRest.CompositeMapper = {
+export const TermsOfServiceProperties: coreHttp.CompositeMapper = {
   serializedName: "TermsOfServiceProperties",
   type: {
     name: "Composite",
@@ -6181,7 +6181,7 @@ export const TermsOfServiceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const PortalSignupSettings: msRest.CompositeMapper = {
+export const PortalSignupSettings: coreHttp.CompositeMapper = {
   serializedName: "PortalSignupSettings",
   type: {
     name: "Composite",
@@ -6205,7 +6205,7 @@ export const PortalSignupSettings: msRest.CompositeMapper = {
   }
 };
 
-export const PortalSigninSettings: msRest.CompositeMapper = {
+export const PortalSigninSettings: coreHttp.CompositeMapper = {
   serializedName: "PortalSigninSettings",
   type: {
     name: "Composite",
@@ -6222,7 +6222,7 @@ export const PortalSigninSettings: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionContract: msRest.CompositeMapper = {
+export const SubscriptionContract: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionContract",
   type: {
     name: "Composite",
@@ -6336,7 +6336,7 @@ export const SubscriptionContract: msRest.CompositeMapper = {
   }
 };
 
-export const ProductUpdateParameters: msRest.CompositeMapper = {
+export const ProductUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "ProductUpdateParameters",
   type: {
     name: "Composite",
@@ -6400,7 +6400,7 @@ export const ProductUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyEntityBaseParameters: msRest.CompositeMapper = {
+export const PropertyEntityBaseParameters: coreHttp.CompositeMapper = {
   serializedName: "PropertyEntityBaseParameters",
   type: {
     name: "Composite",
@@ -6430,7 +6430,7 @@ export const PropertyEntityBaseParameters: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyUpdateParameters: msRest.CompositeMapper = {
+export const PropertyUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "PropertyUpdateParameters",
   type: {
     name: "Composite",
@@ -6481,7 +6481,7 @@ export const PropertyUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyContract: msRest.CompositeMapper = {
+export const PropertyContract: coreHttp.CompositeMapper = {
   serializedName: "PropertyContract",
   type: {
     name: "Composite",
@@ -6535,7 +6535,7 @@ export const PropertyContract: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaCounterValueContractProperties: msRest.CompositeMapper = {
+export const QuotaCounterValueContractProperties: coreHttp.CompositeMapper = {
   serializedName: "QuotaCounterValueContractProperties",
   type: {
     name: "Composite",
@@ -6557,7 +6557,7 @@ export const QuotaCounterValueContractProperties: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaCounterContract: msRest.CompositeMapper = {
+export const QuotaCounterContract: coreHttp.CompositeMapper = {
   serializedName: "QuotaCounterContract",
   type: {
     name: "Composite",
@@ -6608,7 +6608,7 @@ export const QuotaCounterContract: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaCounterCollection: msRest.CompositeMapper = {
+export const QuotaCounterCollection: coreHttp.CompositeMapper = {
   serializedName: "QuotaCounterCollection",
   type: {
     name: "Composite",
@@ -6642,7 +6642,7 @@ export const QuotaCounterCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RequestReportRecordContract: msRest.CompositeMapper = {
+export const RequestReportRecordContract: coreHttp.CompositeMapper = {
   serializedName: "RequestReportRecordContract",
   type: {
     name: "Composite",
@@ -6762,7 +6762,7 @@ export const RequestReportRecordContract: msRest.CompositeMapper = {
   }
 };
 
-export const ReportRecordContract: msRest.CompositeMapper = {
+export const ReportRecordContract: coreHttp.CompositeMapper = {
   serializedName: "ReportRecordContract",
   type: {
     name: "Composite",
@@ -6930,7 +6930,7 @@ export const ReportRecordContract: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionUpdateParameters: msRest.CompositeMapper = {
+export const SubscriptionUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionUpdateParameters",
   type: {
     name: "Composite",
@@ -7010,7 +7010,7 @@ export const SubscriptionUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionCreateParameters: msRest.CompositeMapper = {
+export const SubscriptionCreateParameters: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionCreateParameters",
   type: {
     name: "Composite",
@@ -7084,7 +7084,7 @@ export const SubscriptionCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const TagCreateUpdateParameters: msRest.CompositeMapper = {
+export const TagCreateUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "TagCreateUpdateParameters",
   type: {
     name: "Composite",
@@ -7105,7 +7105,7 @@ export const TagCreateUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const TenantConfigurationSyncStateContract: msRest.CompositeMapper = {
+export const TenantConfigurationSyncStateContract: coreHttp.CompositeMapper = {
   serializedName: "TenantConfigurationSyncStateContract",
   type: {
     name: "Composite",
@@ -7157,7 +7157,7 @@ export const TenantConfigurationSyncStateContract: msRest.CompositeMapper = {
   }
 };
 
-export const OperationResultLogItemContract: msRest.CompositeMapper = {
+export const OperationResultLogItemContract: coreHttp.CompositeMapper = {
   serializedName: "OperationResultLogItemContract",
   type: {
     name: "Composite",
@@ -7185,7 +7185,7 @@ export const OperationResultLogItemContract: msRest.CompositeMapper = {
   }
 };
 
-export const OperationResultContract: msRest.CompositeMapper = {
+export const OperationResultContract: coreHttp.CompositeMapper = {
   serializedName: "OperationResultContract",
   type: {
     name: "Composite",
@@ -7251,7 +7251,7 @@ export const OperationResultContract: msRest.CompositeMapper = {
   }
 };
 
-export const DeployConfigurationParameters: msRest.CompositeMapper = {
+export const DeployConfigurationParameters: coreHttp.CompositeMapper = {
   serializedName: "DeployConfigurationParameters",
   type: {
     name: "Composite",
@@ -7274,7 +7274,7 @@ export const DeployConfigurationParameters: msRest.CompositeMapper = {
   }
 };
 
-export const SaveConfigurationParameter: msRest.CompositeMapper = {
+export const SaveConfigurationParameter: coreHttp.CompositeMapper = {
   serializedName: "SaveConfigurationParameter",
   type: {
     name: "Composite",
@@ -7297,7 +7297,7 @@ export const SaveConfigurationParameter: msRest.CompositeMapper = {
   }
 };
 
-export const AccessInformationContract: msRest.CompositeMapper = {
+export const AccessInformationContract: coreHttp.CompositeMapper = {
   serializedName: "AccessInformationContract",
   type: {
     name: "Composite",
@@ -7331,7 +7331,7 @@ export const AccessInformationContract: msRest.CompositeMapper = {
   }
 };
 
-export const AccessInformationUpdateParameters: msRest.CompositeMapper = {
+export const AccessInformationUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "AccessInformationUpdateParameters",
   type: {
     name: "Composite",
@@ -7347,7 +7347,7 @@ export const AccessInformationUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const UserTokenResult: msRest.CompositeMapper = {
+export const UserTokenResult: coreHttp.CompositeMapper = {
   serializedName: "UserTokenResult",
   type: {
     name: "Composite",
@@ -7363,7 +7363,7 @@ export const UserTokenResult: msRest.CompositeMapper = {
   }
 };
 
-export const UserTokenParameters: msRest.CompositeMapper = {
+export const UserTokenParameters: coreHttp.CompositeMapper = {
   serializedName: "UserTokenParameters",
   type: {
     name: "Composite",
@@ -7392,7 +7392,7 @@ export const UserTokenParameters: msRest.CompositeMapper = {
   }
 };
 
-export const GenerateSsoUrlResult: msRest.CompositeMapper = {
+export const GenerateSsoUrlResult: coreHttp.CompositeMapper = {
   serializedName: "GenerateSsoUrlResult",
   type: {
     name: "Composite",
@@ -7408,7 +7408,7 @@ export const GenerateSsoUrlResult: msRest.CompositeMapper = {
   }
 };
 
-export const UserUpdateParameters: msRest.CompositeMapper = {
+export const UserUpdateParameters: coreHttp.CompositeMapper = {
   serializedName: "UserUpdateParameters",
   type: {
     name: "Composite",
@@ -7479,7 +7479,7 @@ export const UserUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const UserCreateParameters: msRest.CompositeMapper = {
+export const UserCreateParameters: coreHttp.CompositeMapper = {
   serializedName: "UserCreateParameters",
   type: {
     name: "Composite",
@@ -7559,7 +7559,7 @@ export const UserCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ApiRevisionInfoContract: msRest.CompositeMapper = {
+export const ApiRevisionInfoContract: coreHttp.CompositeMapper = {
   serializedName: "ApiRevisionInfoContract",
   type: {
     name: "Composite",
@@ -7600,7 +7600,7 @@ export const ApiRevisionInfoContract: msRest.CompositeMapper = {
   }
 };
 
-export const QuotaCounterValueContract: msRest.CompositeMapper = {
+export const QuotaCounterValueContract: coreHttp.CompositeMapper = {
   serializedName: "QuotaCounterValueContract",
   type: {
     name: "Composite",
@@ -7622,7 +7622,7 @@ export const QuotaCounterValueContract: msRest.CompositeMapper = {
   }
 };
 
-export const ApiGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "api-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7638,7 +7638,7 @@ export const ApiGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiGetHeaders: msRest.CompositeMapper = {
+export const ApiGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "api-get-headers",
   type: {
     name: "Composite",
@@ -7654,7 +7654,7 @@ export const ApiGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "api-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7670,7 +7670,7 @@ export const ApiCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiReleaseGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiReleaseGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apirelease-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7686,7 +7686,7 @@ export const ApiReleaseGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiReleaseGetHeaders: msRest.CompositeMapper = {
+export const ApiReleaseGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apirelease-get-headers",
   type: {
     name: "Composite",
@@ -7702,7 +7702,7 @@ export const ApiReleaseGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiReleaseCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiReleaseCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apirelease-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7718,7 +7718,7 @@ export const ApiReleaseCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiOperationGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperation-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7734,7 +7734,7 @@ export const ApiOperationGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationGetHeaders: msRest.CompositeMapper = {
+export const ApiOperationGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperation-get-headers",
   type: {
     name: "Composite",
@@ -7750,7 +7750,7 @@ export const ApiOperationGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiOperationCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperation-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7766,7 +7766,7 @@ export const ApiOperationCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiOperationPolicyGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperationpolicy-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7782,7 +7782,7 @@ export const ApiOperationPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationPolicyGetHeaders: msRest.CompositeMapper = {
+export const ApiOperationPolicyGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperationpolicy-get-headers",
   type: {
     name: "Composite",
@@ -7798,7 +7798,7 @@ export const ApiOperationPolicyGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiOperationPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiOperationPolicyCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apioperationpolicy-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7814,7 +7814,7 @@ export const ApiOperationPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetEntityStateByOperationHeaders: msRest.CompositeMapper = {
+export const TagGetEntityStateByOperationHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getentitystatebyoperation-headers",
   type: {
     name: "Composite",
@@ -7830,7 +7830,7 @@ export const TagGetEntityStateByOperationHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetByOperationHeaders: msRest.CompositeMapper = {
+export const TagGetByOperationHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getbyoperation-headers",
   type: {
     name: "Composite",
@@ -7846,7 +7846,7 @@ export const TagGetByOperationHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiPolicyGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apipolicy-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7862,7 +7862,7 @@ export const ApiPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiPolicyGetHeaders: msRest.CompositeMapper = {
+export const ApiPolicyGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apipolicy-get-headers",
   type: {
     name: "Composite",
@@ -7878,7 +7878,7 @@ export const ApiPolicyGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiPolicyCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apipolicy-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7894,7 +7894,7 @@ export const ApiPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiSchemaGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiSchemaGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apischema-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7910,7 +7910,7 @@ export const ApiSchemaGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiSchemaGetHeaders: msRest.CompositeMapper = {
+export const ApiSchemaGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apischema-get-headers",
   type: {
     name: "Composite",
@@ -7926,7 +7926,7 @@ export const ApiSchemaGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiSchemaCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiSchemaCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apischema-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7942,7 +7942,7 @@ export const ApiSchemaCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiDiagnosticGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiDiagnosticGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apidiagnostic-getentitytag-headers",
   type: {
     name: "Composite",
@@ -7958,7 +7958,7 @@ export const ApiDiagnosticGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiDiagnosticGetHeaders: msRest.CompositeMapper = {
+export const ApiDiagnosticGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apidiagnostic-get-headers",
   type: {
     name: "Composite",
@@ -7974,7 +7974,7 @@ export const ApiDiagnosticGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiDiagnosticCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiDiagnosticCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apidiagnostic-createorupdate-headers",
   type: {
     name: "Composite",
@@ -7990,7 +7990,7 @@ export const ApiDiagnosticCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiIssueGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissue-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8006,7 +8006,7 @@ export const ApiIssueGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueGetHeaders: msRest.CompositeMapper = {
+export const ApiIssueGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissue-get-headers",
   type: {
     name: "Composite",
@@ -8022,7 +8022,7 @@ export const ApiIssueGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiIssueCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissue-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8038,7 +8038,7 @@ export const ApiIssueCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueCommentGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiIssueCommentGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissuecomment-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8054,7 +8054,7 @@ export const ApiIssueCommentGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueCommentGetHeaders: msRest.CompositeMapper = {
+export const ApiIssueCommentGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissuecomment-get-headers",
   type: {
     name: "Composite",
@@ -8070,7 +8070,7 @@ export const ApiIssueCommentGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueCommentCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiIssueCommentCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissuecomment-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8086,7 +8086,7 @@ export const ApiIssueCommentCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueAttachmentGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiIssueAttachmentGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissueattachment-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8102,7 +8102,7 @@ export const ApiIssueAttachmentGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueAttachmentGetHeaders: msRest.CompositeMapper = {
+export const ApiIssueAttachmentGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissueattachment-get-headers",
   type: {
     name: "Composite",
@@ -8118,7 +8118,7 @@ export const ApiIssueAttachmentGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiIssueAttachmentCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiIssueAttachmentCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiissueattachment-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8134,7 +8134,7 @@ export const ApiIssueAttachmentCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiTagDescriptionGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiTagDescriptionGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apitagdescription-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8150,7 +8150,7 @@ export const ApiTagDescriptionGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiTagDescriptionGetHeaders: msRest.CompositeMapper = {
+export const ApiTagDescriptionGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apitagdescription-get-headers",
   type: {
     name: "Composite",
@@ -8166,7 +8166,7 @@ export const ApiTagDescriptionGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiTagDescriptionCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiTagDescriptionCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apitagdescription-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8182,7 +8182,7 @@ export const ApiTagDescriptionCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetEntityStateByApiHeaders: msRest.CompositeMapper = {
+export const TagGetEntityStateByApiHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getentitystatebyapi-headers",
   type: {
     name: "Composite",
@@ -8198,7 +8198,7 @@ export const TagGetEntityStateByApiHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetByApiHeaders: msRest.CompositeMapper = {
+export const TagGetByApiHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getbyapi-headers",
   type: {
     name: "Composite",
@@ -8214,7 +8214,7 @@ export const TagGetByApiHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagAssignToApiHeaders: msRest.CompositeMapper = {
+export const TagAssignToApiHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-assigntoapi-headers",
   type: {
     name: "Composite",
@@ -8230,7 +8230,7 @@ export const TagAssignToApiHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ApiVersionSetGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiversionset-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8246,7 +8246,7 @@ export const ApiVersionSetGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetGetHeaders: msRest.CompositeMapper = {
+export const ApiVersionSetGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiversionset-get-headers",
   type: {
     name: "Composite",
@@ -8262,7 +8262,7 @@ export const ApiVersionSetGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ApiVersionSetCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "apiversionset-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8278,7 +8278,7 @@ export const ApiVersionSetCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerGetEntityTagHeaders: msRest.CompositeMapper = {
+export const AuthorizationServerGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "authorizationserver-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8294,7 +8294,7 @@ export const AuthorizationServerGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerGetHeaders: msRest.CompositeMapper = {
+export const AuthorizationServerGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "authorizationserver-get-headers",
   type: {
     name: "Composite",
@@ -8310,7 +8310,7 @@ export const AuthorizationServerGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const AuthorizationServerCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "authorizationserver-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8326,7 +8326,7 @@ export const AuthorizationServerCreateOrUpdateHeaders: msRest.CompositeMapper = 
   }
 };
 
-export const BackendGetEntityTagHeaders: msRest.CompositeMapper = {
+export const BackendGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "backend-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8342,7 +8342,7 @@ export const BackendGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const BackendGetHeaders: msRest.CompositeMapper = {
+export const BackendGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "backend-get-headers",
   type: {
     name: "Composite",
@@ -8358,7 +8358,7 @@ export const BackendGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const BackendCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const BackendCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "backend-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8374,7 +8374,7 @@ export const BackendCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CacheGetEntityTagHeaders: msRest.CompositeMapper = {
+export const CacheGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "cache-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8390,7 +8390,7 @@ export const CacheGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CacheGetHeaders: msRest.CompositeMapper = {
+export const CacheGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "cache-get-headers",
   type: {
     name: "Composite",
@@ -8406,7 +8406,7 @@ export const CacheGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CacheCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const CacheCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "cache-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8422,7 +8422,7 @@ export const CacheCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateGetEntityTagHeaders: msRest.CompositeMapper = {
+export const CertificateGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8438,7 +8438,7 @@ export const CertificateGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateGetHeaders: msRest.CompositeMapper = {
+export const CertificateGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-get-headers",
   type: {
     name: "Composite",
@@ -8454,7 +8454,7 @@ export const CertificateGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const CertificateCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8470,7 +8470,7 @@ export const CertificateCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticGetEntityTagHeaders: msRest.CompositeMapper = {
+export const DiagnosticGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "diagnostic-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8486,7 +8486,7 @@ export const DiagnosticGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticGetHeaders: msRest.CompositeMapper = {
+export const DiagnosticGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "diagnostic-get-headers",
   type: {
     name: "Composite",
@@ -8502,7 +8502,7 @@ export const DiagnosticGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const DiagnosticCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "diagnostic-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8518,7 +8518,7 @@ export const DiagnosticCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const EmailTemplateGetEntityTagHeaders: msRest.CompositeMapper = {
+export const EmailTemplateGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "emailtemplate-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8534,7 +8534,7 @@ export const EmailTemplateGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const EmailTemplateGetHeaders: msRest.CompositeMapper = {
+export const EmailTemplateGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "emailtemplate-get-headers",
   type: {
     name: "Composite",
@@ -8550,7 +8550,7 @@ export const EmailTemplateGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const GroupGetEntityTagHeaders: msRest.CompositeMapper = {
+export const GroupGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "group-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8566,7 +8566,7 @@ export const GroupGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const GroupGetHeaders: msRest.CompositeMapper = {
+export const GroupGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "group-get-headers",
   type: {
     name: "Composite",
@@ -8582,7 +8582,7 @@ export const GroupGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const GroupCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const GroupCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "group-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8598,7 +8598,7 @@ export const GroupCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderGetEntityTagHeaders: msRest.CompositeMapper = {
+export const IdentityProviderGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "identityprovider-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8614,7 +8614,7 @@ export const IdentityProviderGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderGetHeaders: msRest.CompositeMapper = {
+export const IdentityProviderGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "identityprovider-get-headers",
   type: {
     name: "Composite",
@@ -8630,7 +8630,7 @@ export const IdentityProviderGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const IdentityProviderCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "identityprovider-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8646,7 +8646,7 @@ export const IdentityProviderCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const IssueGetHeaders: msRest.CompositeMapper = {
+export const IssueGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "issue-get-headers",
   type: {
     name: "Composite",
@@ -8662,7 +8662,7 @@ export const IssueGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerGetEntityTagHeaders: msRest.CompositeMapper = {
+export const LoggerGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "logger-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8678,7 +8678,7 @@ export const LoggerGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerGetHeaders: msRest.CompositeMapper = {
+export const LoggerGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "logger-get-headers",
   type: {
     name: "Composite",
@@ -8694,7 +8694,7 @@ export const LoggerGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const LoggerCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "logger-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8710,7 +8710,7 @@ export const LoggerCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const OpenIdConnectProviderGetEntityTagHeaders: msRest.CompositeMapper = {
+export const OpenIdConnectProviderGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "openidconnectprovider-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8726,7 +8726,7 @@ export const OpenIdConnectProviderGetEntityTagHeaders: msRest.CompositeMapper = 
   }
 };
 
-export const OpenIdConnectProviderGetHeaders: msRest.CompositeMapper = {
+export const OpenIdConnectProviderGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "openidconnectprovider-get-headers",
   type: {
     name: "Composite",
@@ -8742,7 +8742,7 @@ export const OpenIdConnectProviderGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const OpenIdConnectProviderCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const OpenIdConnectProviderCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "openidconnectprovider-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8758,7 +8758,7 @@ export const OpenIdConnectProviderCreateOrUpdateHeaders: msRest.CompositeMapper 
   }
 };
 
-export const PolicyGetEntityTagHeaders: msRest.CompositeMapper = {
+export const PolicyGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "policy-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8774,7 +8774,7 @@ export const PolicyGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PolicyGetHeaders: msRest.CompositeMapper = {
+export const PolicyGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "policy-get-headers",
   type: {
     name: "Composite",
@@ -8790,7 +8790,7 @@ export const PolicyGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const PolicyCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "policy-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8806,7 +8806,7 @@ export const PolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SignInSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
+export const SignInSettingsGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "signinsettings-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8822,7 +8822,7 @@ export const SignInSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SignInSettingsGetHeaders: msRest.CompositeMapper = {
+export const SignInSettingsGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "signinsettings-get-headers",
   type: {
     name: "Composite",
@@ -8838,7 +8838,7 @@ export const SignInSettingsGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SignUpSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
+export const SignUpSettingsGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "signupsettings-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8854,7 +8854,7 @@ export const SignUpSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SignUpSettingsGetHeaders: msRest.CompositeMapper = {
+export const SignUpSettingsGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "signupsettings-get-headers",
   type: {
     name: "Composite",
@@ -8870,7 +8870,7 @@ export const SignUpSettingsGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DelegationSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
+export const DelegationSettingsGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "delegationsettings-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8886,7 +8886,7 @@ export const DelegationSettingsGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DelegationSettingsGetHeaders: msRest.CompositeMapper = {
+export const DelegationSettingsGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "delegationsettings-get-headers",
   type: {
     name: "Composite",
@@ -8902,7 +8902,7 @@ export const DelegationSettingsGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ProductGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "product-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8918,7 +8918,7 @@ export const ProductGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductGetHeaders: msRest.CompositeMapper = {
+export const ProductGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "product-get-headers",
   type: {
     name: "Composite",
@@ -8934,7 +8934,7 @@ export const ProductGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ProductCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "product-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8950,7 +8950,7 @@ export const ProductCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
+export const ProductPolicyGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "productpolicy-getentitytag-headers",
   type: {
     name: "Composite",
@@ -8966,7 +8966,7 @@ export const ProductPolicyGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductPolicyGetHeaders: msRest.CompositeMapper = {
+export const ProductPolicyGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "productpolicy-get-headers",
   type: {
     name: "Composite",
@@ -8982,7 +8982,7 @@ export const ProductPolicyGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ProductPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const ProductPolicyCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "productpolicy-createorupdate-headers",
   type: {
     name: "Composite",
@@ -8998,7 +8998,7 @@ export const ProductPolicyCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetEntityStateByProductHeaders: msRest.CompositeMapper = {
+export const TagGetEntityStateByProductHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getentitystatebyproduct-headers",
   type: {
     name: "Composite",
@@ -9014,7 +9014,7 @@ export const TagGetEntityStateByProductHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetByProductHeaders: msRest.CompositeMapper = {
+export const TagGetByProductHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getbyproduct-headers",
   type: {
     name: "Composite",
@@ -9030,7 +9030,7 @@ export const TagGetByProductHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyGetEntityTagHeaders: msRest.CompositeMapper = {
+export const PropertyGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "property-getentitytag-headers",
   type: {
     name: "Composite",
@@ -9046,7 +9046,7 @@ export const PropertyGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyGetHeaders: msRest.CompositeMapper = {
+export const PropertyGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "property-get-headers",
   type: {
     name: "Composite",
@@ -9062,7 +9062,7 @@ export const PropertyGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const PropertyCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "property-createorupdate-headers",
   type: {
     name: "Composite",
@@ -9078,7 +9078,7 @@ export const PropertyCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionGetEntityTagHeaders: msRest.CompositeMapper = {
+export const SubscriptionGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "subscription-getentitytag-headers",
   type: {
     name: "Composite",
@@ -9094,7 +9094,7 @@ export const SubscriptionGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionGetHeaders: msRest.CompositeMapper = {
+export const SubscriptionGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "subscription-get-headers",
   type: {
     name: "Composite",
@@ -9110,7 +9110,7 @@ export const SubscriptionGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const SubscriptionCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "subscription-createorupdate-headers",
   type: {
     name: "Composite",
@@ -9126,7 +9126,7 @@ export const SubscriptionCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetEntityStateHeaders: msRest.CompositeMapper = {
+export const TagGetEntityStateHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-getentitystate-headers",
   type: {
     name: "Composite",
@@ -9142,7 +9142,7 @@ export const TagGetEntityStateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagGetHeaders: msRest.CompositeMapper = {
+export const TagGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-get-headers",
   type: {
     name: "Composite",
@@ -9158,7 +9158,7 @@ export const TagGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TagCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const TagCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "tag-createorupdate-headers",
   type: {
     name: "Composite",
@@ -9174,7 +9174,7 @@ export const TagCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TenantAccessGetEntityTagHeaders: msRest.CompositeMapper = {
+export const TenantAccessGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "tenantaccess-getentitytag-headers",
   type: {
     name: "Composite",
@@ -9190,7 +9190,7 @@ export const TenantAccessGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TenantAccessGetHeaders: msRest.CompositeMapper = {
+export const TenantAccessGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "tenantaccess-get-headers",
   type: {
     name: "Composite",
@@ -9206,7 +9206,7 @@ export const TenantAccessGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TenantAccessGitGetHeaders: msRest.CompositeMapper = {
+export const TenantAccessGitGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "tenantaccessgit-get-headers",
   type: {
     name: "Composite",
@@ -9222,7 +9222,7 @@ export const TenantAccessGitGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const UserGetEntityTagHeaders: msRest.CompositeMapper = {
+export const UserGetEntityTagHeaders: coreHttp.CompositeMapper = {
   serializedName: "user-getentitytag-headers",
   type: {
     name: "Composite",
@@ -9238,7 +9238,7 @@ export const UserGetEntityTagHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const UserGetHeaders: msRest.CompositeMapper = {
+export const UserGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "user-get-headers",
   type: {
     name: "Composite",
@@ -9254,7 +9254,7 @@ export const UserGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const UserCreateOrUpdateHeaders: msRest.CompositeMapper = {
+export const UserCreateOrUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "user-createorupdate-headers",
   type: {
     name: "Composite",
@@ -9270,7 +9270,7 @@ export const UserCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApiCollection: msRest.CompositeMapper = {
+export const ApiCollection: coreHttp.CompositeMapper = {
   serializedName: "ApiCollection",
   type: {
     name: "Composite",
@@ -9300,7 +9300,7 @@ export const ApiCollection: msRest.CompositeMapper = {
   }
 };
 
-export const TagResourceCollection: msRest.CompositeMapper = {
+export const TagResourceCollection: coreHttp.CompositeMapper = {
   serializedName: "TagResourceCollection",
   type: {
     name: "Composite",
@@ -9328,7 +9328,7 @@ export const TagResourceCollection: msRest.CompositeMapper = {
   }
 };
 
-export const ApiRevisionCollection: msRest.CompositeMapper = {
+export const ApiRevisionCollection: coreHttp.CompositeMapper = {
   serializedName: "ApiRevisionCollection",
   type: {
     name: "Composite",
@@ -9358,7 +9358,7 @@ export const ApiRevisionCollection: msRest.CompositeMapper = {
   }
 };
 
-export const ApiReleaseCollection: msRest.CompositeMapper = {
+export const ApiReleaseCollection: coreHttp.CompositeMapper = {
   serializedName: "ApiReleaseCollection",
   type: {
     name: "Composite",
@@ -9388,7 +9388,7 @@ export const ApiReleaseCollection: msRest.CompositeMapper = {
   }
 };
 
-export const OperationCollection: msRest.CompositeMapper = {
+export const OperationCollection: coreHttp.CompositeMapper = {
   serializedName: "OperationCollection",
   type: {
     name: "Composite",
@@ -9418,7 +9418,7 @@ export const OperationCollection: msRest.CompositeMapper = {
   }
 };
 
-export const TagCollection: msRest.CompositeMapper = {
+export const TagCollection: coreHttp.CompositeMapper = {
   serializedName: "TagCollection",
   type: {
     name: "Composite",
@@ -9446,7 +9446,7 @@ export const TagCollection: msRest.CompositeMapper = {
   }
 };
 
-export const ProductCollection: msRest.CompositeMapper = {
+export const ProductCollection: coreHttp.CompositeMapper = {
   serializedName: "ProductCollection",
   type: {
     name: "Composite",
@@ -9474,7 +9474,7 @@ export const ProductCollection: msRest.CompositeMapper = {
   }
 };
 
-export const SchemaCollection: msRest.CompositeMapper = {
+export const SchemaCollection: coreHttp.CompositeMapper = {
   serializedName: "SchemaCollection",
   type: {
     name: "Composite",
@@ -9504,7 +9504,7 @@ export const SchemaCollection: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticCollection: msRest.CompositeMapper = {
+export const DiagnosticCollection: coreHttp.CompositeMapper = {
   serializedName: "DiagnosticCollection",
   type: {
     name: "Composite",
@@ -9532,7 +9532,7 @@ export const DiagnosticCollection: msRest.CompositeMapper = {
   }
 };
 
-export const IssueCollection: msRest.CompositeMapper = {
+export const IssueCollection: coreHttp.CompositeMapper = {
   serializedName: "IssueCollection",
   type: {
     name: "Composite",
@@ -9562,7 +9562,7 @@ export const IssueCollection: msRest.CompositeMapper = {
   }
 };
 
-export const IssueCommentCollection: msRest.CompositeMapper = {
+export const IssueCommentCollection: coreHttp.CompositeMapper = {
   serializedName: "IssueCommentCollection",
   type: {
     name: "Composite",
@@ -9592,7 +9592,7 @@ export const IssueCommentCollection: msRest.CompositeMapper = {
   }
 };
 
-export const IssueAttachmentCollection: msRest.CompositeMapper = {
+export const IssueAttachmentCollection: coreHttp.CompositeMapper = {
   serializedName: "IssueAttachmentCollection",
   type: {
     name: "Composite",
@@ -9622,7 +9622,7 @@ export const IssueAttachmentCollection: msRest.CompositeMapper = {
   }
 };
 
-export const TagDescriptionCollection: msRest.CompositeMapper = {
+export const TagDescriptionCollection: coreHttp.CompositeMapper = {
   serializedName: "TagDescriptionCollection",
   type: {
     name: "Composite",
@@ -9650,7 +9650,7 @@ export const TagDescriptionCollection: msRest.CompositeMapper = {
   }
 };
 
-export const ApiVersionSetCollection: msRest.CompositeMapper = {
+export const ApiVersionSetCollection: coreHttp.CompositeMapper = {
   serializedName: "ApiVersionSetCollection",
   type: {
     name: "Composite",
@@ -9678,7 +9678,7 @@ export const ApiVersionSetCollection: msRest.CompositeMapper = {
   }
 };
 
-export const AuthorizationServerCollection: msRest.CompositeMapper = {
+export const AuthorizationServerCollection: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationServerCollection",
   type: {
     name: "Composite",
@@ -9712,7 +9712,7 @@ export const AuthorizationServerCollection: msRest.CompositeMapper = {
   }
 };
 
-export const BackendCollection: msRest.CompositeMapper = {
+export const BackendCollection: coreHttp.CompositeMapper = {
   serializedName: "BackendCollection",
   type: {
     name: "Composite",
@@ -9740,7 +9740,7 @@ export const BackendCollection: msRest.CompositeMapper = {
   }
 };
 
-export const CacheCollection: msRest.CompositeMapper = {
+export const CacheCollection: coreHttp.CompositeMapper = {
   serializedName: "CacheCollection",
   type: {
     name: "Composite",
@@ -9768,7 +9768,7 @@ export const CacheCollection: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateCollection: msRest.CompositeMapper = {
+export const CertificateCollection: coreHttp.CompositeMapper = {
   serializedName: "CertificateCollection",
   type: {
     name: "Composite",
@@ -9796,7 +9796,7 @@ export const CertificateCollection: msRest.CompositeMapper = {
   }
 };
 
-export const OperationListResult: msRest.CompositeMapper = {
+export const OperationListResult: coreHttp.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -9824,7 +9824,7 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSkuResults: msRest.CompositeMapper = {
+export const ResourceSkuResults: coreHttp.CompositeMapper = {
   serializedName: "ResourceSkuResults",
   type: {
     name: "Composite",
@@ -9853,7 +9853,7 @@ export const ResourceSkuResults: msRest.CompositeMapper = {
   }
 };
 
-export const ApiManagementServiceListResult: msRest.CompositeMapper = {
+export const ApiManagementServiceListResult: coreHttp.CompositeMapper = {
   serializedName: "ApiManagementServiceListResult",
   type: {
     name: "Composite",
@@ -9882,7 +9882,7 @@ export const ApiManagementServiceListResult: msRest.CompositeMapper = {
   }
 };
 
-export const EmailTemplateCollection: msRest.CompositeMapper = {
+export const EmailTemplateCollection: coreHttp.CompositeMapper = {
   serializedName: "EmailTemplateCollection",
   type: {
     name: "Composite",
@@ -9910,7 +9910,7 @@ export const EmailTemplateCollection: msRest.CompositeMapper = {
   }
 };
 
-export const GroupCollection: msRest.CompositeMapper = {
+export const GroupCollection: coreHttp.CompositeMapper = {
   serializedName: "GroupCollection",
   type: {
     name: "Composite",
@@ -9938,7 +9938,7 @@ export const GroupCollection: msRest.CompositeMapper = {
   }
 };
 
-export const UserCollection: msRest.CompositeMapper = {
+export const UserCollection: coreHttp.CompositeMapper = {
   serializedName: "UserCollection",
   type: {
     name: "Composite",
@@ -9966,7 +9966,7 @@ export const UserCollection: msRest.CompositeMapper = {
   }
 };
 
-export const IdentityProviderList: msRest.CompositeMapper = {
+export const IdentityProviderList: coreHttp.CompositeMapper = {
   serializedName: "IdentityProviderList",
   type: {
     name: "Composite",
@@ -9994,7 +9994,7 @@ export const IdentityProviderList: msRest.CompositeMapper = {
   }
 };
 
-export const LoggerCollection: msRest.CompositeMapper = {
+export const LoggerCollection: coreHttp.CompositeMapper = {
   serializedName: "LoggerCollection",
   type: {
     name: "Composite",
@@ -10028,7 +10028,7 @@ export const LoggerCollection: msRest.CompositeMapper = {
   }
 };
 
-export const NotificationCollection: msRest.CompositeMapper = {
+export const NotificationCollection: coreHttp.CompositeMapper = {
   serializedName: "NotificationCollection",
   type: {
     name: "Composite",
@@ -10056,7 +10056,7 @@ export const NotificationCollection: msRest.CompositeMapper = {
   }
 };
 
-export const OpenIdConnectProviderCollection: msRest.CompositeMapper = {
+export const OpenIdConnectProviderCollection: coreHttp.CompositeMapper = {
   serializedName: "OpenIdConnectProviderCollection",
   type: {
     name: "Composite",
@@ -10084,7 +10084,7 @@ export const OpenIdConnectProviderCollection: msRest.CompositeMapper = {
   }
 };
 
-export const SubscriptionCollection: msRest.CompositeMapper = {
+export const SubscriptionCollection: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionCollection",
   type: {
     name: "Composite",
@@ -10112,7 +10112,7 @@ export const SubscriptionCollection: msRest.CompositeMapper = {
   }
 };
 
-export const PropertyCollection: msRest.CompositeMapper = {
+export const PropertyCollection: coreHttp.CompositeMapper = {
   serializedName: "PropertyCollection",
   type: {
     name: "Composite",
@@ -10140,7 +10140,7 @@ export const PropertyCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RegionListResult: msRest.CompositeMapper = {
+export const RegionListResult: coreHttp.CompositeMapper = {
   serializedName: "RegionListResult",
   type: {
     name: "Composite",
@@ -10174,7 +10174,7 @@ export const RegionListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ReportCollection: msRest.CompositeMapper = {
+export const ReportCollection: coreHttp.CompositeMapper = {
   serializedName: "ReportCollection",
   type: {
     name: "Composite",
@@ -10208,7 +10208,7 @@ export const ReportCollection: msRest.CompositeMapper = {
   }
 };
 
-export const RequestReportCollection: msRest.CompositeMapper = {
+export const RequestReportCollection: coreHttp.CompositeMapper = {
   serializedName: "RequestReportCollection",
   type: {
     name: "Composite",
@@ -10236,7 +10236,7 @@ export const RequestReportCollection: msRest.CompositeMapper = {
   }
 };
 
-export const UserIdentityCollection: msRest.CompositeMapper = {
+export const UserIdentityCollection: coreHttp.CompositeMapper = {
   serializedName: "UserIdentityCollection",
   type: {
     name: "Composite",

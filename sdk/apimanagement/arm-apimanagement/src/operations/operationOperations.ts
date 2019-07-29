@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/operationOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class OperationOperations {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTags(resourceGroupName: string, serviceName: string, apiId: string, callback: coreHttp.ServiceCallback<Models.TagResourceCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +52,8 @@ export class OperationOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options: Models.OperationListByTagsOptionalParams, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsResponse> {
+  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options: Models.OperationListByTagsOptionalParams, callback: coreHttp.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams | coreHttp.ServiceCallback<Models.TagResourceCollection>, callback?: coreHttp.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -71,19 +71,19 @@ export class OperationOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationListByTagsNextResponse>
    */
-  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationListByTagsNextResponse>;
+  listByTagsNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.OperationListByTagsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTagsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTagsNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.TagResourceCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTagsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsNextResponse> {
+  listByTagsNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTagsNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TagResourceCollection>, callback?: coreHttp.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -95,8 +95,8 @@ export class OperationOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByTagsOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags",
   urlParameters: [
@@ -126,7 +126,7 @@ const listByTagsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByTagsNextOperationSpec: msRest.OperationSpec = {
+const listByTagsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
