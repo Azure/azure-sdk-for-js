@@ -5405,7 +5405,7 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   path: "keys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -6512,7 +6512,7 @@ const getDeletedStorageAccountsOperationSpec: coreHttp.OperationSpec = {
   path: "deletedstorage",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageListResult

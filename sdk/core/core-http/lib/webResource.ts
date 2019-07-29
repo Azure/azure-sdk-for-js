@@ -8,7 +8,6 @@ import { generateUuid } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
-import { SpanOptions } from "@azure/core-tracing";
 
 export type HttpMethods =
   | "GET"
@@ -519,7 +518,7 @@ export interface RequestOptionsBase {
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
-  spanOptions?: SpanOptions | undefined;
+  spanOptions?: any;
 
   [key: string]: any;
 }

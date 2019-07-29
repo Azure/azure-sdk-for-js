@@ -31,6 +31,16 @@ export const spanOptions: coreHttp.OperationParameter = {
   }
 };
 
+export const spanOptionsV2: coreHttp.OperationParameter = {
+  parameterPath: ["options", "spanOptions"],
+  mapper: {
+    serializedName: "span-options",
+    type: {
+      name: "Object"
+    }
+  }
+};
+
 export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
