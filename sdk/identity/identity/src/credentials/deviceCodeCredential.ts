@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError } from "../client/errors";
 
 /**
@@ -47,6 +47,7 @@ export class DeviceCodeCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
+ private lastTokenResponse: TokenResponse | null = null;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -101,8 +102,8 @@ export class DeviceCodeCredential implements TokenCredential {
   private async pollForToken(
     deviceCodeResponse: DeviceCodeResponse,
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    let accessToken: AccessToken | null = null;
+  ): Promise<TokenResponse | null> {
+    let tokenResponse: TokenResponse | null = null;
 
     const webResource = this.identityClient.createWebResource({
       url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
@@ -121,7 +122,7 @@ export class DeviceCodeCredential implements TokenCredential {
       abortSignal: options && options.abortSignal
     });
 
-    while (accessToken === null) {
+    while (tokenResponse === null) {
       try {
         await delay(deviceCodeResponse.interval * 1000);
 
@@ -130,7 +131,7 @@ export class DeviceCodeCredential implements TokenCredential {
           return null;
         }
 
-        accessToken = await this.identityClient.sendTokenRequest(webResource);
+        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
       } catch (err) {
         if (err instanceof AuthenticationError) {
           switch (err.errorResponse.error) {
@@ -149,7 +150,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
     }
 
-    return accessToken;
+    return tokenResponse;
   }
 
   /**
@@ -166,15 +167,37 @@ export class DeviceCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-    const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, options);
+    let tokenResponse: TokenResponse | null = null;
+    let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
+    if (scopeString.indexOf("offline_access") < 0) {
+      scopeString += " offline_access";
+    }
 
-    this.userPromptCallback({
-      userCode: deviceCodeResponse.user_code,
-      verificationUri: deviceCodeResponse.verification_uri,
-      message: deviceCodeResponse.message
-    });
+    // Try to use the refresh token first
+    if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
+      tokenResponse = await this.identityClient.refreshAccessToken(
+        this.tenantId,
+        this.clientId,
+        scopeString,
+        this.lastTokenResponse.refreshToken,
+        undefined, // clientSecret not needed for device code auth
+        undefined,
+        options);
+    }
 
-    return this.pollForToken(deviceCodeResponse, options);
+    if (tokenResponse === null) {
+      const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, options);
+
+      this.userPromptCallback({
+        userCode: deviceCodeResponse.user_code,
+        verificationUri: deviceCodeResponse.verification_uri,
+        message: deviceCodeResponse.message
+      });
+
+      tokenResponse = await this.pollForToken(deviceCodeResponse, options);
+    }
+
+    this.lastTokenResponse = tokenResponse;
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

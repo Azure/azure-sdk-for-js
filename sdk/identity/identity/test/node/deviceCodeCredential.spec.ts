@@ -57,6 +57,40 @@ describe("DeviceCodeCredential", function () {
     }
   });
 
+  it("refreshes the access token on subsequent getToken requests", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
+      ]
+    });
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      details => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await credential.getToken("scope");
+    const refreshedToken = await credential.getToken("scope");
+
+    if (refreshedToken === null) {
+      assert.fail("getToken did not return a refreshed AccessToken")
+    } else {
+      // Basic verification that a refresh request was made with the
+      // refresh_token returned by the previous request
+      const refreshRequest = mockHttpClient.requests[2];
+      assert.ok(
+        refreshRequest.body.indexOf(`grant_type=refresh_token`) > -1,
+        "Request does not contain refresh_token grant type");
+      assert.ok(
+        refreshRequest.body.indexOf(`refresh_token=ABC123`) > -1,
+        "Request does not contain refresh token");
+    }
+  });
+
   it("throws an AuthenticationError when the user declines the authorization flow", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
