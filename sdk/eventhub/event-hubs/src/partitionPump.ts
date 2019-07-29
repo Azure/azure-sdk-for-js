@@ -7,6 +7,7 @@ import { PartitionContext } from "./partitionContext";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { EventHubConsumer } from "./receiver";
+import { AbortController } from "@azure/abort-controller";
 
 export class PartitionPump {
   private _partitionContext: PartitionContext;
@@ -15,6 +16,7 @@ export class PartitionPump {
   private _processorOptions: EventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
   private _isReceiving: boolean = false;
+  private _abortController: AbortController;
 
   constructor(
     eventHubClient: EventHubClient,
@@ -27,12 +29,10 @@ export class PartitionPump {
     this._partitionContext = partitionContext;
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
+    this._abortController = new AbortController();
   }
 
   async start(partitionId: string): Promise<void> {
-    if (typeof this._partitionProcessor.initialize !== "function") {
-      throw new TypeError("'initialize' must be of type 'function'.");
-    }
     if (this._partitionProcessor.initialize) {
       await this._partitionProcessor.initialize();
     }
@@ -52,7 +52,8 @@ export class PartitionPump {
       while (this._isReceiving) {
         const receivedEvents = await this._receiver.receiveBatch(
           this._processorOptions.maxBatchSize || 1,
-          this._processorOptions.maxWaitTimeInSeconds
+          this._processorOptions.maxWaitTimeInSeconds,
+          this._abortController.signal
         );
         await this._partitionProcessor.processEvents(receivedEvents);
       }
@@ -76,9 +77,7 @@ export class PartitionPump {
       if (this._receiver) {
         this._receiver.close();
       }
-      if (typeof this._partitionProcessor.close !== "function") {
-        throw new TypeError("'close' must be of type 'function'.");
-      }
+      this._abortController.abort();
       if (this._partitionProcessor.close) {
         await this._partitionProcessor.close(reason);
       }

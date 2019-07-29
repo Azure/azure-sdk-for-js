@@ -114,6 +114,19 @@ export class EventProcessor {
       partitionContext,
       new CheckpointManager()
     );
+    if (partitionProcessor.initialize && typeof partitionProcessor.initialize !== "function") {
+      throw new TypeError("'initialize' must be of type 'function'.");
+    }
+    if (typeof partitionProcessor.processEvents !== "function") {
+      throw new TypeError("'processEvents' is required and must be of type 'function'.");
+    }
+    if (typeof partitionProcessor.processError !== "function") {
+      throw new TypeError("'processError' is required and must be of type 'function'.");
+    }
+    if (partitionProcessor.close && typeof partitionProcessor.close !== "function") {
+      throw new TypeError("'close' must be of type 'function'.");
+    }
+
     this._partitionPump = new PartitionPump(
       this._eventHubClient,
       partitionContext,
