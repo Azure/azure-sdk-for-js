@@ -9,7 +9,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
@@ -43,14 +43,13 @@ import { LeaseClient } from "./LeaseClient";
  */
 export interface BlobDownloadOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobDownloadOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Optional. The version string of the snapshot to download.
    *
@@ -105,14 +104,13 @@ export interface BlobDownloadOptions {
  */
 export interface BlobGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobGetPropertiesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting blob properties.
    *
@@ -130,14 +128,13 @@ export interface BlobGetPropertiesOptions {
  */
 export interface BlobDeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobDeleteOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when deleting blobs.
    *
@@ -164,14 +161,13 @@ export interface BlobDeleteOptions {
  */
 export interface BlobUndeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobUndeleteOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -182,14 +178,13 @@ export interface BlobUndeleteOptions {
  */
 export interface BlobSetHTTPHeadersOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobSetHTTPHeadersOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting blob HTTP headers.
    *
@@ -207,14 +202,13 @@ export interface BlobSetHTTPHeadersOptions {
  */
 export interface BlobSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobSetMetadataOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting blob metadata.
    *
@@ -232,14 +226,13 @@ export interface BlobSetMetadataOptions {
  */
 export interface BlobAcquireLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobAcquireLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when acquiring the lease of a blob.
    *
@@ -257,14 +250,13 @@ export interface BlobAcquireLeaseOptions {
  */
 export interface BlobReleaseLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobReleaseLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when releasing the lease of a blob.
    *
@@ -282,14 +274,13 @@ export interface BlobReleaseLeaseOptions {
  */
 export interface BlobRenewLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobRenewLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when renewing the lease of a blob.
    *
@@ -307,14 +298,13 @@ export interface BlobRenewLeaseOptions {
  */
 export interface BlobChangeLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobChangeLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease of a blob.
    *
@@ -332,14 +322,13 @@ export interface BlobChangeLeaseOptions {
  */
 export interface BlobBreakLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobBreakLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when breaking the lease of a blob.
    *
@@ -357,14 +346,13 @@ export interface BlobBreakLeaseOptions {
  */
 export interface BlobCreateSnapshotOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobCreateSnapshotOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the snapshot.
    *
@@ -389,14 +377,13 @@ export interface BlobCreateSnapshotOptions {
  */
 export interface BlobStartCopyFromURLOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobStartCopyFromURLOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the blob that are being copied.
    *
@@ -428,14 +415,13 @@ export interface BlobStartCopyFromURLOptions {
  */
 export interface BlobAbortCopyFromURLOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobAbortCopyFromURLOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -454,14 +440,13 @@ export interface BlobAbortCopyFromURLOptions {
  */
 export interface BlobSetTierOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlobSetTierOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -480,14 +465,13 @@ export interface BlobSetTierOptions {
  */
 export interface DownloadFromBlobOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof DownloadFromBlobOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 
   /**
    * blockSize is the data every request trying to download.
@@ -727,7 +711,7 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
       options.blobAccessConditions.modifiedAccessConditions || {};
@@ -819,7 +803,7 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.getProperties({
       abortSignal: aborter,
@@ -840,7 +824,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
       abortSignal: aborter,
@@ -861,9 +845,9 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.undelete({
-      abortSignal: aborter || Aborter.none
+      abortSignal: aborter || AbortSignal.none
     });
   }
 
@@ -885,7 +869,7 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
@@ -912,7 +896,7 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
       abortSignal: aborter,
@@ -944,7 +928,7 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.createSnapshot({
       abortSignal: aborter,
@@ -973,7 +957,7 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
@@ -1005,7 +989,7 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.abortCopyFromURL(copyId, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
@@ -1029,7 +1013,7 @@ export class BlobClient extends StorageClient {
     tier: Models.AccessTier,
     options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return await this.blobContext.setTier(tier, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions

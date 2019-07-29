@@ -14,7 +14,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/lib/operations";
 import { BlobHTTPHeaders } from "./generated/lib/models";
@@ -48,14 +48,13 @@ import { Batch } from "./utils/Batch";
  */
 export interface BlockBlobUploadOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlockBlobUploadOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when uploading to the block blob.
    *
@@ -93,14 +92,13 @@ export interface BlockBlobUploadOptions {
  */
 export interface BlockBlobStageBlockOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlockBlobStageBlockOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -134,14 +132,13 @@ export interface BlockBlobStageBlockOptions {
  */
 export interface BlockBlobStageBlockFromURLOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlockBlobStageBlockFromURLOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Specifies the bytes of the source Blob/File to upload.
    * If not specified, the entire content is uploaded as a single block.
@@ -177,14 +174,13 @@ export interface BlockBlobStageBlockFromURLOptions {
  */
 export interface BlockBlobCommitBlockListOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlockBlobCommitBlockListOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when committing the block list.
    *
@@ -222,14 +218,13 @@ export interface BlockBlobCommitBlockListOptions {
  */
 export interface BlockBlobGetBlockListOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof BlockBlobGetBlockListOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -248,14 +243,13 @@ export interface BlockBlobGetBlockListOptions {
  */
 export interface UploadStreamToBlockBlobOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof IUploadToBlockBlobOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 
   /**
    * Blob HTTP Headers.
@@ -296,14 +290,13 @@ export interface UploadStreamToBlockBlobOptions {
  */
 export interface UploadToBlockBlobOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof IUploadToBlockBlobOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 
   /**
    * Destination block blob size in bytes.
@@ -547,7 +540,7 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.upload(body, contentLength, {
       abortSignal: aborter,
@@ -577,7 +570,7 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
@@ -615,7 +608,7 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
@@ -641,7 +634,7 @@ export class BlockBlobClient extends BlobClient {
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
@@ -670,7 +663,7 @@ export class BlockBlobClient extends BlobClient {
     listType: Models.BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const res = await this.blockBlobContext.getBlockList(listType, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions

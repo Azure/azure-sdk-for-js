@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
@@ -30,14 +30,13 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface PageBlobCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when creating a page blob.
    *
@@ -77,14 +76,13 @@ export interface PageBlobCreateOptions {
  */
 export interface PageBlobUploadPagesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobUploadPagesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when uploading pages.
    *
@@ -117,14 +115,13 @@ export interface PageBlobUploadPagesOptions {
  */
 export interface PageBlobClearPagesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobClearPagesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when clearing pages.
    *
@@ -142,14 +139,13 @@ export interface PageBlobClearPagesOptions {
  */
 export interface PageBlobGetPageRangesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobGetPageRangesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting page ranges.
    *
@@ -167,14 +163,13 @@ export interface PageBlobGetPageRangesOptions {
  */
 export interface PageBlobGetPageRangesDiffOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobGetPageRangesDiffOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when getting page ranges diff.
    *
@@ -199,14 +194,13 @@ export interface PageBlobGetPageRangesDiffOptions {
  */
 export interface PageBlobResizeOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobResizeOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when resizing a page blob.
    *
@@ -224,14 +218,13 @@ export interface PageBlobResizeOptions {
  */
 export interface PageBlobUpdateSequenceNumberOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobUpdateSequenceNumberOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when updating sequence number.
    *
@@ -249,14 +242,13 @@ export interface PageBlobUpdateSequenceNumberOptions {
  */
 export interface PageBlobStartCopyIncrementalOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof PageBlobStartCopyIncrementalOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when startting copy incremental operation.
    *
@@ -415,7 +407,7 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.create(0, size, {
       abortSignal: aborter,
@@ -444,7 +436,7 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.uploadPages(body, count, {
       abortSignal: aborter,
@@ -472,7 +464,7 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.clearPages(0, {
       abortSignal: aborter,
@@ -498,7 +490,7 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRanges({
       abortSignal: aborter,
@@ -525,7 +517,7 @@ export class PageBlobClient extends BlobClient {
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRangesDiff({
       abortSignal: aborter,
@@ -549,7 +541,7 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobResizeOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.resize(size, {
       abortSignal: aborter,
@@ -573,7 +565,7 @@ export class PageBlobClient extends BlobClient {
     sequenceNumber?: number,
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
       abortSignal: aborter,
@@ -601,7 +593,7 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.pageBlobContext.copyIncremental(copySource, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions

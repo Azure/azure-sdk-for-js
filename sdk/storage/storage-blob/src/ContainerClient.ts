@@ -9,7 +9,7 @@ import {
   isNode
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -43,14 +43,13 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
  */
 export interface ContainerCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the container.
    *
@@ -77,14 +76,13 @@ export interface ContainerCreateOptions {
  */
 export interface ContainerGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerGetPropertiesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -103,14 +101,13 @@ export interface ContainerGetPropertiesOptions {
  */
 export interface ContainerDeleteMethodOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerDeleteMethodOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when deleting the container.
    *
@@ -128,14 +125,13 @@ export interface ContainerDeleteMethodOptions {
  */
 export interface ContainerSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerSetMetadataOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -154,14 +150,13 @@ export interface ContainerSetMetadataOptions {
  */
 export interface ContainerGetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerGetAccessPolicyOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
@@ -233,14 +228,13 @@ export declare type ContainerGetAccessPolicyResponse = {
  */
 export interface ContainerSetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerSetAccessPolicyOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when setting the access policy.
    *
@@ -258,14 +252,13 @@ export interface ContainerSetAccessPolicyOptions {
  */
 export interface ContainerAcquireLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerAcquireLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when acquiring the lease.
    *
@@ -283,14 +276,13 @@ export interface ContainerAcquireLeaseOptions {
  */
 export interface ContainerReleaseLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerReleaseLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when releasing the lease.
    *
@@ -308,14 +300,13 @@ export interface ContainerReleaseLeaseOptions {
  */
 export interface ContainerRenewLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerRenewLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when renewing the lease.
    *
@@ -333,14 +324,13 @@ export interface ContainerRenewLeaseOptions {
  */
 export interface ContainerBreakLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerBreakLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when breaking the lease.
    *
@@ -358,14 +348,13 @@ export interface ContainerBreakLeaseOptions {
  */
 export interface ContainerChangeLeaseOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerChangeLeaseOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease.
    *
@@ -382,14 +371,13 @@ export interface ContainerChangeLeaseOptions {
  */
 interface ContainerListBlobsSegmentOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerListBlobsSegmentOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only containers
    * whose name begins with the specified prefix.
@@ -420,14 +408,13 @@ interface ContainerListBlobsSegmentOptions {
  */
 export interface ContainerListBlobsOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ContainerListBlobsOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only containers
    * whose name begins with the specified prefix.
@@ -564,7 +551,7 @@ export class ContainerClient extends StorageClient {
     options: ContainerCreateOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
     if (!options.abortSignal) {
-      options.abortSignal = Aborter.none;
+      options.abortSignal = AbortSignal.none;
     }
     // Spread operator in destructuring assignments,
     // this will filter out unwanted properties from the response object into result object
@@ -642,7 +629,7 @@ export class ContainerClient extends StorageClient {
       options.leaseAccessConditions = {};
     }
 
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
 
     return this.containerContext.getProperties({
       abortSignal: aborter,
@@ -662,7 +649,7 @@ export class ContainerClient extends StorageClient {
   public async delete(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
 
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
@@ -713,7 +700,7 @@ export class ContainerClient extends StorageClient {
     metadata?: Metadata,
     options: ContainerSetMetadataOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
 
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
@@ -767,7 +754,7 @@ export class ContainerClient extends StorageClient {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
     }
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
 
     const response = await this.containerContext.getAccessPolicy({
       abortSignal: aborter,
@@ -820,7 +807,7 @@ export class ContainerClient extends StorageClient {
     containerAcl?: SignedIdentifier[],
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     options.containerAccessConditions = options.containerAccessConditions || {};
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of containerAcl || []) {
@@ -927,7 +914,7 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.containerContext.listBlobFlatSegment({
       abortSignal: aborter,
       marker,
@@ -953,7 +940,7 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.containerContext.listBlobHierarchySegment(delimiter, {
       abortSignal: aborter,
       marker,

@@ -3,7 +3,7 @@
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
 import * as Models from "../src/generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/lib/operations";
 import { StorageClientContext } from "./generated/lib/storageClient";
@@ -74,14 +74,13 @@ export type LeaseOperationResponse = Lease & {
  */
 export interface LeaseOperationOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof LeaseOperationOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Conditions to meet when changing the lease.
    *
@@ -164,7 +163,7 @@ export class LeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.acquireLease({
       abortSignal: aborter,
       duration,
@@ -188,7 +187,7 @@ export class LeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this._containerOrBlobOperation.changeLease(
       this._leaseId,
       proposedLeaseId,
@@ -213,7 +212,7 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
@@ -231,7 +230,7 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.renewLease(this._leaseId, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
@@ -256,7 +255,7 @@ export class LeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const operationOptions = {
       abortSignal: aborter,
       breakPeriod,
