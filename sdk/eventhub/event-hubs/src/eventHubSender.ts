@@ -398,8 +398,8 @@ export class EventHubSender extends LinkEntity {
             operationType: RetryOperationType.senderLink,
             maxRetries: retryOptions.maxRetries,
             delayInSeconds:
-              typeof retryOptions.delayInMs === "number" && retryOptions.delayInMs > 0
-                ? retryOptions.delayInMs / 1000
+              typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
+                ? retryOptions.retryInterval / 1000
                 : Constants.defaultDelayBetweenOperationRetriesInSeconds,
             retryPolicy: retryOptions.retryPolicy,
             minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
@@ -569,9 +569,8 @@ export class EventHubSender extends LinkEntity {
 
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The send operation on the Sender "${
-              this.name
-            }" with ` + `address "${this.address}" has been cancelled by the user.`;
+            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
@@ -746,8 +745,8 @@ export class EventHubSender extends LinkEntity {
 
     const maxRetries = retryOptions.maxRetries;
     const delayInSeconds =
-      retryOptions.delayInMs && retryOptions.delayInMs >= 0
-        ? retryOptions.delayInMs / 1000
+      retryOptions.retryInterval && retryOptions.retryInterval >= 0
+        ? retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
