@@ -101,6 +101,24 @@ export class CryptographyClient {
   ): Promise<Uint8Array> {
     await this.fetchFullKeyIfPossible();
 
+    if (typeof this.key !== "string") {
+      switch (algorithm) {
+        case "RSA1_5": {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+          const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
+          return encrypted;
+        };
+        case "RSA-OAEP": {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
+          return encrypted;
+        };
+      }
+    }
+
     // Default to the service
     let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
     return result.result!;
@@ -151,7 +169,28 @@ export class CryptographyClient {
     await this.fetchFullKeyIfPossible();
 
     // Default to the service
-    let hash = crypto.createHash("sha256");
+    let hash;
+    switch (algorithm) {
+      case ("ES256"):
+      case ("ES256K"):
+      case ("PS256"):
+      case ("RS256"): {
+        hash = crypto.createHash("sha256");
+      } break;
+      case ("ES384"):
+      case ("PS384"):
+      case ("RS384"): {
+        hash = crypto.createHash("sha384");
+      } break;
+      case ("ES512"):
+      case ("PS512"):
+      case ("RS512"): {
+        hash = crypto.createHash("sha512");
+      } break;
+      default: {
+        throw new Error("Unsupported verify algorithm");
+      }
+    } 
 
     hash.update(Buffer.from(data));
     let digest = hash.digest();
@@ -172,8 +211,25 @@ export class CryptographyClient {
         case ("RS256"): {
           let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          console.log("<<Locally verified>>");
           const verifier = crypto.createVerify("SHA256");
+          verifier.update(Buffer.from(data));
+          verifier.end();
+
+          return verifier.verify(keyPEM, Buffer.from(signature));
+        };
+        case ("RS384"): {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          const verifier = crypto.createVerify("SHA384");
+          verifier.update(Buffer.from(data));
+          verifier.end();
+
+          return verifier.verify(keyPEM, Buffer.from(signature));
+        };
+        case ("RS512"): {
+          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+
+          const verifier = crypto.createVerify("SHA512");
           verifier.update(Buffer.from(data));
           verifier.end();
 
@@ -182,8 +238,28 @@ export class CryptographyClient {
       }
     }
 
-    // Default to the service
-    let hash = crypto.createHash("sha256");
+    let hash;
+    switch (algorithm) {
+      case ("ES256"):
+      case ("ES256K"):
+      case ("PS256"):
+      case ("RS256"): {
+        hash = crypto.createHash("sha256");
+      } break;
+      case ("ES384"):
+      case ("PS384"):
+      case ("RS384"): {
+        hash = crypto.createHash("sha384");
+      } break;
+      case ("ES512"):
+      case ("PS512"):
+      case ("RS512"): {
+        hash = crypto.createHash("sha512");
+      } break;
+      default: {
+        throw new Error("Unsupported verify algorithm");
+      }
+    } 
 
     hash.update(Buffer.from(data));
     let digest = hash.digest();
