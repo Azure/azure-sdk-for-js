@@ -179,9 +179,8 @@ export class PolicyAssignments {
    * contained within the resource group. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource group, which is everything in the
    * unfiltered list except those applied to resources contained within the resource group. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource group and assign the policy definition whose id is
-   * {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource group.
    * @summary Retrieves all policy assignments that apply to a resource group.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param [options] The optional parameters
@@ -218,11 +217,11 @@ export class PolicyAssignments {
    * resources contained within the resource. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource, which is everything in the
    * unfiltered list except those applied to resources contained within the resource. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource and assign the policy definition whose id is {value}.
-   * Three parameters plus the resource name are used to identify a specific resource. If the
-   * resource is not part of a parent resource (the more common case), the parent resource path
-   * should not be provided (or provided as ''). For example a web app could be specified as
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource. Three
+   * parameters plus the resource name are used to identify a specific resource. If the resource is
+   * not part of a parent resource (the more common case), the parent resource path should not be
+   * provided (or provided as ''). For example a web app could be specified as
    * ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} ==
    * 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all
    * parameters should be provided. For example a virtual machine DNS name could be specified as
@@ -290,8 +289,8 @@ export class PolicyAssignments {
    * contained within the subscription. If $filter=atScope() is provided, the returned list includes
    * all policy assignments that apply to the subscription, which is everything in the unfiltered
    * list except those applied to objects contained within the subscription. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the subscription and assign the policy definition whose id is {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    * @summary Retrieves all policy assignments that apply to a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListResponse>
@@ -445,9 +444,8 @@ export class PolicyAssignments {
    * contained within the resource group. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource group, which is everything in the
    * unfiltered list except those applied to resources contained within the resource group. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource group and assign the policy definition whose id is
-   * {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource group.
    * @summary Retrieves all policy assignments that apply to a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -484,11 +482,11 @@ export class PolicyAssignments {
    * resources contained within the resource. If $filter=atScope() is provided, the returned list
    * includes all policy assignments that apply to the resource, which is everything in the
    * unfiltered list except those applied to resources contained within the resource. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the resource and assign the policy definition whose id is {value}.
-   * Three parameters plus the resource name are used to identify a specific resource. If the
-   * resource is not part of a parent resource (the more common case), the parent resource path
-   * should not be provided (or provided as ''). For example a web app could be specified as
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value} that apply to the resource. Three
+   * parameters plus the resource name are used to identify a specific resource. If the resource is
+   * not part of a parent resource (the more common case), the parent resource path should not be
+   * provided (or provided as ''). For example a web app could be specified as
    * ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} ==
    * 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all
    * parameters should be provided. For example a virtual machine DNS name could be specified as
@@ -534,8 +532,8 @@ export class PolicyAssignments {
    * contained within the subscription. If $filter=atScope() is provided, the returned list includes
    * all policy assignments that apply to the subscription, which is everything in the unfiltered
    * list except those applied to objects contained within the subscription. If
-   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
-   * assignments that apply to the subscription and assign the policy definition whose id is {value}.
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    * @summary Retrieves all policy assignments that apply to a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
