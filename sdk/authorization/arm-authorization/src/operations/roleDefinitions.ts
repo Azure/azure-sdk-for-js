@@ -233,7 +233,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.roleDefinitionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -257,7 +257,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.roleDefinitionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -281,7 +281,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.roleDefinitionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -312,7 +312,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -335,7 +335,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
     Parameters.roleId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

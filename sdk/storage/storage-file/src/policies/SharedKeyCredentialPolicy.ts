@@ -1,4 +1,5 @@
 import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
+
 import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";

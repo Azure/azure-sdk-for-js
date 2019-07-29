@@ -283,14 +283,20 @@ export namespace HostContext {
           ctxt.connectionConfig.host,
           ctxt.eventHubPath,
           ctxt.tokenProvider,
-          { userAgent: ctxt.userAgent }
+          {
+            userAgent: ctxt.userAgent,
+            webSocket: options && options.webSocket,
+            webSocketConstructorOptions: options && options.webSocketConstructorOptions
+          }
         );
       } else {
         return EventHubClient.createFromConnectionString(
           ctxt.eventHubConnectionString,
           ctxt.eventHubPath,
           {
-            userAgent: ctxt.userAgent
+            userAgent: ctxt.userAgent,
+            webSocket: options && options.webSocket,
+            webSocketConstructorOptions: options && options.webSocketConstructorOptions
           }
         );
       }

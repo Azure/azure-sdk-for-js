@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
+import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientOptions, TokenCredential, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
 import { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
 import { LROPollState } from "./lroPollStrategy";
 import * as Constants from "./util/constants";
@@ -27,8 +27,7 @@ export interface AzureServiceClientOptions extends ServiceClientOptions {
  * Initializes a new instance of the AzureServiceClient class.
  * @constructor
  *
- * @param {ServiceClientCredentials | TokenCredential} credentials - ApplicationTokenCredentials,
- * UserTokenCredentials, or TokenCredential object used for authentication.
+ * @param {TokenCredential} credentials - The TokenCredential used for authentication.
  * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
  */
 export class AzureServiceClient extends ServiceClient {
@@ -38,7 +37,7 @@ export class AzureServiceClient extends ServiceClient {
    */
   public longRunningOperationRetryTimeout?: number;
 
-  constructor(credentials: ServiceClientCredentials | TokenCredential, options?: AzureServiceClientOptions) {
+  constructor(credentials: TokenCredential, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
 
     // For convenience, if the credentials have an associated AzureEnvironment,

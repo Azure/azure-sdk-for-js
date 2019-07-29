@@ -1,6 +1,7 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+
 import { Aborter } from "./Aborter";
+import * as Models from "./generated/lib/models";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { QueueURL } from "./QueueURL";
