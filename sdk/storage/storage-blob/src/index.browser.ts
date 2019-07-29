@@ -5,8 +5,6 @@ import { RestError } from "@azure/core-http";
 
 import * as Models from "../src/generated/lib/models";
 
-export * from "./Aborter";
-
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
