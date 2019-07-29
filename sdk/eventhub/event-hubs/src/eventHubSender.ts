@@ -398,9 +398,9 @@ export class EventHubSender extends LinkEntity {
             operationType: RetryOperationType.senderLink,
             maxRetries: retryOptions.maxRetries,
             delayInSeconds:
-              typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
+              typeof retryOptions.retryInterval === "number"
                 ? retryOptions.retryInterval / 1000
-                : Constants.defaultDelayBetweenOperationRetriesInSeconds,
+                : undefined,
             retryPolicy: retryOptions.retryPolicy,
             minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
             maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
@@ -745,9 +745,9 @@ export class EventHubSender extends LinkEntity {
 
     const maxRetries = retryOptions.maxRetries;
     const delayInSeconds =
-      retryOptions.retryInterval && retryOptions.retryInterval >= 0
+      typeof retryOptions.retryInterval === "number"
         ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+        : undefined;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,

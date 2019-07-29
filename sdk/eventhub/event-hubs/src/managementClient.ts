@@ -303,8 +303,13 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike; requestName?: string }
+    options: {
+      retryOptions?: RetryOptions;
+      abortSignal?: AbortSignalLike;
+      requestName?: string;
+    } = {}
   ): Promise<any> {
+    const retryOptions = options.retryOptions || {};
     try {
       log.mgmt(
         "[%s] Acquiring lock to get the management req res link.",
@@ -319,15 +324,13 @@ export class ManagementClient extends LinkEntity {
       }
 
       const sendRequestOptions: SendRequestOptions = {
-        maxRetries: options.retryOptions && options.retryOptions.maxRetries,
+        maxRetries: retryOptions.maxRetries,
         abortSignal: options.abortSignal,
         requestName: options.requestName,
-        timeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions) / 1000,
+        timeoutInSeconds: getRetryAttemptTimeoutInMs(retryOptions) / 1000,
         delayInSeconds:
-          options.retryOptions &&
-          options.retryOptions.retryInterval &&
-          options.retryOptions.retryInterval >= 0
-            ? options.retryOptions.retryInterval / 1000
+          typeof retryOptions.retryInterval === "number"
+            ? retryOptions.retryInterval / 1000
             : undefined
       };
       return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
