@@ -472,7 +472,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SapBwCubeDataset | SybaseTableDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -9603,6 +9603,90 @@ export interface SapCloudForCustomerResourceDataset {
 }
 
 /**
+ * The SAP BW cube dataset.
+ */
+export interface SapBwCubeDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapBwCube";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+}
+
+/**
+ * The Sybase table dataset.
+ */
+export interface SybaseTableDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SybaseTable";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The Sybase table name. Type: string (or Expression with resultType string).
+   */
+  tableName?: any;
+}
+
+/**
  * The Salesforce Service Cloud object dataset.
  */
 export interface SalesforceServiceCloudObjectDataset {
@@ -11986,7 +12070,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | TeradataSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlMISource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceServiceCloudSource | SalesforceSource | ODataSource | SybaseSource | PostgreSqlSource | MySqlSource | OdbcSource | Db2Source | MicrosoftAccessSource | InformixSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | BinarySource | DelimitedTextSource | ParquetSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | TeradataSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlMISource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceServiceCloudSource | SalesforceSource | ODataSource | SapBwSource | SybaseSource | PostgreSqlSource | MySqlSource | OdbcSource | Db2Source | MicrosoftAccessSource | InformixSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | BinarySource | DelimitedTextSource | ParquetSource;
 
 /**
  * A copy activity source.
@@ -14156,6 +14240,34 @@ export interface ODataSource {
 }
 
 /**
+ * A copy activity source for SapBW server via MDX.
+ */
+export interface SapBwSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapBwSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * MDX query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
  * A copy activity source for Sybase databases.
  */
 export interface SybaseSource {
@@ -14250,6 +14362,24 @@ export interface OdbcSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
+  maxConcurrentConnections?: any;
+  /**
+   * Database query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity source for Microsoft Access.
+ */
+export interface MicrosoftAccessSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MicrosoftAccessSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14278,6 +14408,24 @@ export interface Db2Source {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
+  maxConcurrentConnections?: any;
+  /**
+   * Database query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity source for various relational databases.
+ */
+export interface RelationalSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "RelationalSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14303,6 +14451,25 @@ export interface MicrosoftAccessSource {
    * Polymorphic Discriminator
    */
   type: "MicrosoftAccessSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
+   * Apps (online & on-premises). Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity Dynamics CRM source.
+ */
+export interface DynamicsCrmSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DynamicsCrmSource";
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
@@ -14377,6 +14544,10 @@ export interface RelationalSource {
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
+  /**
+   * Nested properties separator. Type: string (or Expression with resultType string).
+   */
+  nestingSeparator?: any;
 }
 
 /**
@@ -14434,7 +14605,21 @@ export interface DynamicsCrmSource {
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
-  query?: any;
+  maxConcurrentConnections?: any;
+  /**
+   * Treat empty as null. Type: boolean (or Expression with resultType boolean).
+   */
+  treatEmptyAsNull?: any;
+  /**
+   * Number of header lines to skip from each blob. Type: integer (or Expression with resultType
+   * integer).
+   */
+  skipHeaderLineCount?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
 }
 
 /**
@@ -14547,12 +14732,12 @@ export interface AzureTableSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  wildcardFileName?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  enablePartitionDiscovery?: boolean;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14921,12 +15106,12 @@ export interface DelimitedTextSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  name: string;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  description?: string;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14953,12 +15138,12 @@ export interface ParquetSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  linkedServiceName?: LinkedServiceReference;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  policy?: ActivityPolicy;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -18809,8 +18994,8 @@ export interface FactoriesGetOptionalParams extends coreHttp.RequestOptionsBase 
  */
 export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * ETag of the integration runtime entity. Should only be specified for update, for which it
-   * should match existing entity or can be * for unconditional update.
+   * ETag of the factory entity. Should only be specified for get. If the ETag matches the existing
+   * entity tag, or if * was provided, then no content will be returned.
    */
   ifMatch?: string;
 }
@@ -18819,6 +19004,17 @@ export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreHtt
  * Optional Parameters.
  */
 export interface IntegrationRuntimesGetOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the integration runtime entity. Should only be specified for get. If the ETag matches
    * the existing entity tag, or if * was provided, then no content will be returned.
@@ -18829,7 +19025,7 @@ export interface IntegrationRuntimesGetOptionalParams extends coreHttp.RequestOp
 /**
  * Optional Parameters.
  */
-export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends coreHttp.RequestOptionsBase {
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The parameters for getting a SSIS object metadata.
    */
@@ -19816,7 +20012,7 @@ export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19876,7 +20072,7 @@ export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -19896,7 +20092,7 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20176,7 +20372,7 @@ export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadata
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20196,7 +20392,7 @@ export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataList
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20216,7 +20412,7 @@ export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMet
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */

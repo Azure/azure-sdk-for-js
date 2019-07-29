@@ -26,8 +26,8 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { DataFactoryManagementClient, DataFactoryManagementModels, DataFactoryManagementMappers } from "@azure/arm-datafactory";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
