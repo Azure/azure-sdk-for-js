@@ -112,7 +112,7 @@ export class EventHubConsumer {
    * @readonly
    */
   get ownerLevel(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.ownerLevel;
+    return this._receiverOptions.ownerLevel;
   }
 
   /**
