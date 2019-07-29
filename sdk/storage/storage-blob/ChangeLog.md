@@ -1,6 +1,12 @@
 # Changelog
 
-2019.07 Version 12.0.0-preview.1
+### 2019.08
+
+- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+
+### 2019.07 Version 12.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
   BlobURL, BlockBlobURL, ContainerURL, ServiceURL, StorageURL to BlobClient, BlockBlobClient, ContainerClient, BlobServiceClient, StorageClient respectively.
@@ -18,7 +24,7 @@
   - Please refer to the samples for async iterators in the `samples` folder.
 - [Breaking]  Methods that list segments(`listBlobFlatSegment()` and `listContainersSegment()`) are no longer exposed in public api.
 - [Breaking]  High level convenience functions are moved into clients as their instance member function.
-	- `uploadFileToBlockBlob()`, `uploadStreamToBlockBlob()` and `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and  `BlockBlobClient.uploadBrowserData()` respectively
+  - `uploadFileToBlockBlob()`, `uploadStreamToBlockBlob()` and `uploadBrowserDataToBlockBlob()` -> `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and `BlockBlobClient.uploadBrowserData()` respectively
   - `downloadBlobToBuffer()` -> `BlobClient.downloadToBuffer()`
 - [Breaking] `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 - [Breaking] `TokenCredential` has been renamed to `RawTokenCredential` to make way for the new `@azure/identity` library's `TokenCredential` interface.
@@ -36,7 +42,7 @@
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-2018.12 10.3.0
+### 2018.12 10.3.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new BlobURL(url, pipeline)`.
@@ -49,7 +55,7 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexcepted ending.
 - Fixed an issue that when body is string with special characters, `BlockBlobULR.upload` will fail to upload.
 
-2018.11 10.2.0-preview
+### 2018.11 10.2.0-preview
 
 - [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 - [Breaking] For `setMetadata()` and `setHTTPHeaders()`, `metadata` and `blobHTTPHeaders` are moved from `options` into top level parameter list.
@@ -63,7 +69,7 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed a bug that `timeout` parameter should use second as unit instead of millisecond.
 - Added stream retry when `BlobURL.download` response stream unexcepted ends.
 
-2018.09 10.1.0-preview
+### 2018.09 10.1.0-preview
 
 - Fixed sharedkey authentication error when blob names have spaces.
 - Updated samples in readme and sample folder to fix undefined headers.
@@ -82,6 +88,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
   - `String.prototype.includes`
 - [Breaking] `Aborter.None` is renamed to `Aborter.none` for JavaScript naming conventions.
 
-2018.09 Version 10.0.0-preview
+### 2018.09 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
