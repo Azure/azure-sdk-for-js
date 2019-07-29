@@ -335,6 +335,15 @@ export interface SapMonitor extends Resource {
    */
   hanaDbPassword?: string;
   /**
+   * KeyVault URL link to the password for the HANA database.
+   */
+  hanaDbPasswordKeyVaultUrl?: string;
+  /**
+   * MSI ID passed by customer which has access to customer's KeyVault and to be assigned to the
+   * Collector VM.
+   */
+  hanaDbCredentialsMsiId?: string;
+  /**
    * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
