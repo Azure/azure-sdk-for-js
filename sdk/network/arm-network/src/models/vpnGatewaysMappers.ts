@@ -195,7 +195,11 @@ export {
   VpnClientRootCertificate,
   VpnConnection,
   VpnGateway,
+  VpnLinkBgpSettings,
+  VpnLinkProviderProperties,
   VpnSite,
+  VpnSiteLink,
+  VpnSiteLinkConnection,
   WebApplicationFirewallCustomRule,
   WebApplicationFirewallPolicy
 } from "../models/mappers";

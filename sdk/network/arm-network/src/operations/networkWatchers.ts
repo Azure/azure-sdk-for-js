@@ -314,7 +314,7 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define a resource to query flow log and traffic analytics
-   * (optional)  status.
+   * (optional) status.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkWatchersGetFlowLogStatusResponse>
    */
@@ -520,7 +520,7 @@ export class NetworkWatchers {
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define a resource to query flow log and traffic analytics
-   * (optional)  status.
+   * (optional) status.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

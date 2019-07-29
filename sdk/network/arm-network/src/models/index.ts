@@ -977,6 +977,14 @@ export interface Subnet extends SubResource {
    */
   provisioningState?: string;
   /**
+   * Enable or Disable apply network policies on private end point in the subnet.
+   */
+  privateEndpointNetworkPolicies?: string;
+  /**
+   * Enable or Disable apply network policies on private link service in the subnet.
+   */
+  privateLinkServiceNetworkPolicies?: string;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -1020,6 +1028,11 @@ export interface FrontendIPConfiguration extends SubResource {
    */
   privateIPAllocationMethod?: IPAllocationMethod;
   /**
+   * It represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
+   * Possible values include: 'IPv4', 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
    * The reference of the subnet resource.
    */
   subnet?: Subnet;
@@ -1037,14 +1050,19 @@ export interface FrontendIPConfiguration extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of frontend IP configurations used by
+   * the load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
   /**
    * A list of availability zones denoting the IP allocated for the resource needs to come from.
    */
@@ -1111,19 +1129,29 @@ export interface BackendAddressPool extends SubResource {
    */
   readonly outboundRule?: SubResource;
   /**
+   * Gets outbound rules that use this backend address pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly outboundRules?: SubResource[];
+  /**
    * Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting',
    * and 'Failed'.
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of backend address pools used by the
+   * load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -1177,14 +1205,19 @@ export interface InboundNatRule extends SubResource {
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of inbound NAT rules used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -2603,24 +2636,6 @@ export interface AvailableDelegation {
 }
 
 /**
- * The information of an AvailablePrivateEndpointType.
- */
-export interface AvailablePrivateEndpointType {
-  /**
-   * A unique identifier of the AvailablePrivateEndpoint Type resource.
-   */
-  id?: string;
-  /**
-   * Resource type.
-   */
-  type?: string;
-  /**
-   * The name of the service and resource.
-   */
-  serviceName?: string;
-}
-
-/**
  * IP configuration of an Azure Firewall.
  */
 export interface AzureFirewallIPConfiguration extends SubResource {
@@ -2971,9 +2986,8 @@ export interface BastionHostIPConfiguration extends SubResource {
   /**
    * Name of the resource that is unique within a resource group. This name can be used to access
    * the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4209,135 +4223,6 @@ export interface ExpressRoutePort extends Resource {
 }
 
 /**
- * The private link service ip configuration.
- */
-export interface PrivateLinkServiceIpConfiguration {
-  /**
-   * The private IP address of the IP configuration.
-   */
-  privateIPAddress?: string;
-  /**
-   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
-   */
-  privateIPAllocationMethod?: IPAllocationMethod;
-  /**
-   * The reference of the subnet resource.
-   */
-  subnet?: Subnet;
-  /**
-   * The reference of the public IP resource.
-   */
-  publicIPAddress?: PublicIPAddress;
-  /**
-   * Gets the provisioning state of the public IP resource. Possible values are: 'Updating',
-   * 'Deleting', and 'Failed'.
-   */
-  provisioningState?: string;
-  /**
-   * Available from Api-Version 2016-03-30 onwards, it represents whether the specific
-   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4',
-   * 'IPv6'
-   */
-  privateIPAddressVersion?: IPVersion;
-  /**
-   * The name of private link service ip configuration.
-   */
-  name?: string;
-}
-
-/**
- * PrivateEndpointConnection resource.
- */
-export interface PrivateEndpointConnection extends SubResource {
-  /**
-   * The resource of private end point.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   */
-  name?: string;
-}
-
-/**
- * The base resource set for visibility and auto-approval.
- */
-export interface ResourceSet {
-  /**
-   * The list of subscriptions.
-   */
-  subscriptions?: string[];
-}
-
-/**
- * The visibility list of the private link service.
- */
-export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
-}
-
-/**
- * The auto-approval list of the private link service.
- */
-export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
-}
-
-/**
- * Private link service resource.
- */
-export interface PrivateLinkService extends Resource {
-  /**
-   * An array of references to the load balancer IP configurations.
-   */
-  loadBalancerFrontendIPConfigurations?: FrontendIPConfiguration[];
-  /**
-   * An array of references to the private link service IP configuration.
-   */
-  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
-  /**
-   * Gets an array of references to the network interfaces created for this private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private link service. Possible values are: 'Updating',
-   * 'Succeeded', and 'Failed'.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * An array of list about connections to the private endpoint.
-   */
-  privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The visibility list of the private link service.
-   */
-  visibility?: PrivateLinkServicePropertiesVisibility;
-  /**
-   * The auto-approval list of the private link service.
-   */
-  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
-  /**
-   * The list of Fqdn.
-   */
-  fqdns?: string[];
-  /**
-   * The alias of the private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alias?: string;
-  /**
-   * Gets a unique read-only string that changes whenever the resource is updated.
-   */
-  etag?: string;
-}
-
-/**
  * SKU of a load balancer.
  */
 export interface LoadBalancerSku {
@@ -4412,14 +4297,19 @@ export interface LoadBalancingRule extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of load balancing rules used by the
+   * load balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -4465,14 +4355,19 @@ export interface Probe extends SubResource {
    */
   provisioningState?: string;
   /**
-   * Gets name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * Gets name of the resource that is unique within the set of probes used by the load balancer.
+   * This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -4526,18 +4421,23 @@ export interface InboundNatPool extends SubResource {
    */
   provisioningState?: string;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of inbound NAT pools used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * Outbound pool of the load balancer.
+ * Outbound rule of the load balancer.
  */
 export interface OutboundRule extends SubResource {
   /**
@@ -4573,14 +4473,19 @@ export interface OutboundRule extends SubResource {
    */
   idleTimeoutInMinutes?: number;
   /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
+   * The name of the resource that is unique within the set of outbound rules used by the load
+   * balancer. This name can be used to access the resource.
    */
   name?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    */
   etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -6633,6 +6538,187 @@ export interface Operation {
 }
 
 /**
+ * The information of an AvailablePrivateEndpointType.
+ */
+export interface AvailablePrivateEndpointType {
+  /**
+   * The name of the service and resource.
+   */
+  name?: string;
+  /**
+   * A unique identifier of the AvailablePrivateEndpoint Type resource.
+   */
+  id?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
+  /**
+   * The name of the service and resource.
+   */
+  resourceName?: string;
+}
+
+/**
+ * The private link service ip configuration.
+ */
+export interface PrivateLinkServiceIpConfiguration {
+  /**
+   * The private IP address of the IP configuration.
+   */
+  privateIPAddress?: string;
+  /**
+   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
+   */
+  privateIPAllocationMethod?: IPAllocationMethod;
+  /**
+   * The reference of the subnet resource.
+   */
+  subnet?: Subnet;
+  /**
+   * The reference of the public IP resource.
+   */
+  publicIPAddress?: PublicIPAddress;
+  /**
+   * Gets the provisioning state of the public IP resource. Possible values are: 'Updating',
+   * 'Deleting', and 'Failed'.
+   */
+  provisioningState?: string;
+  /**
+   * Available from Api-Version 2016-03-30 onwards, it represents whether the specific
+   * ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4',
+   * 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
+   * The name of private link service ip configuration.
+   */
+  name?: string;
+}
+
+/**
+ * PrivateEndpointConnection resource.
+ */
+export interface PrivateEndpointConnection extends SubResource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+}
+
+/**
+ * The base resource set for visibility and auto-approval.
+ */
+export interface ResourceSet {
+  /**
+   * The list of subscriptions.
+   */
+  subscriptions?: string[];
+}
+
+/**
+ * The visibility list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
+}
+
+/**
+ * The auto-approval list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
+}
+
+/**
+ * Private link service resource.
+ */
+export interface PrivateLinkService extends Resource {
+  /**
+   * An array of references to the load balancer IP configurations.
+   */
+  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
+  /**
+   * An array of references to the private link service IP configuration.
+   */
+  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /**
+   * Gets an array of references to the network interfaces created for this private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private link service. Possible values are: 'Updating',
+   * 'Succeeded', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * An array of list about connections to the private endpoint.
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The visibility list of the private link service.
+   */
+  visibility?: PrivateLinkServicePropertiesVisibility;
+  /**
+   * The auto-approval list of the private link service.
+   */
+  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+  /**
+   * The list of Fqdn.
+   */
+  fqdns?: string[];
+  /**
+   * The alias of the private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   */
+  etag?: string;
+}
+
+/**
+ * Request body of the CheckPrivateLinkServiceVisibility API service call.
+ */
+export interface CheckPrivateLinkServiceVisibilityRequest {
+  /**
+   * The alias of the private link service.
+   */
+  privateLinkServiceAlias?: string;
+}
+
+/**
+ * Response for the CheckPrivateLinkServiceVisibility API service call.
+ */
+export interface PrivateLinkServiceVisibility {
+  /**
+   * Private Link Service Visibility (True/False).
+   */
+  visible?: boolean;
+}
+
+/**
+ * The information of an AutoApprovedPrivateLinkService.
+ */
+export interface AutoApprovedPrivateLinkService {
+  /**
+   * The id of the private link service resource.
+   */
+  privateLinkService?: string;
+}
+
+/**
  * SKU of a public IP prefix.
  */
 export interface PublicIPPrefixSku {
@@ -7254,10 +7340,6 @@ export interface PrepareNetworkPoliciesRequest {
    */
   serviceName?: string;
   /**
-   * The name of the resource group where the Network Intent Policy will be stored.
-   */
-  resourceGroupName?: string;
-  /**
    * A list of NetworkIntentPolicyConfiguration.
    */
   networkIntentPolicyConfigurations?: NetworkIntentPolicyConfiguration[];
@@ -7615,7 +7697,7 @@ export interface VirtualNetworkGateway extends Resource {
   bgpSettings?: BgpSettings;
   /**
    * The reference of the address space resource which represents the custom routes address space
-   * specified by the the customer for virtual network gateway and VpnClient.
+   * specified by the customer for virtual network gateway and VpnClient.
    */
   customRoutes?: AddressSpace;
   /**
@@ -8341,6 +8423,72 @@ export interface DeviceProperties {
 }
 
 /**
+ * List of properties of a link provider.
+ */
+export interface VpnLinkProviderProperties {
+  /**
+   * Name of the link provider.
+   */
+  linkProviderName?: string;
+  /**
+   * Link speed.
+   */
+  linkSpeedInMbps?: number;
+}
+
+/**
+ * BGP settings details for a link.
+ */
+export interface VpnLinkBgpSettings {
+  /**
+   * The BGP speaker's ASN.
+   */
+  asn?: number;
+  /**
+   * The BGP peering address and BGP identifier of this BGP speaker.
+   */
+  bgpPeeringAddress?: string;
+}
+
+/**
+ * VpnSiteLink Resource.
+ */
+export interface VpnSiteLink extends SubResource {
+  /**
+   * The link provider properties.
+   */
+  linkProperties?: VpnLinkProviderProperties;
+  /**
+   * The ip-address for the vpn-site-link.
+   */
+  ipAddress?: string;
+  /**
+   * The set of bgp properties.
+   */
+  bgpProperties?: VpnLinkBgpSettings;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * VpnSite Resource.
  */
 export interface VpnSite extends Resource {
@@ -8377,6 +8525,10 @@ export interface VpnSite extends Resource {
    * IsSecuritySite flag.
    */
   isSecuritySite?: boolean;
+  /**
+   * List of all vpn site links
+   */
+  vpnSiteLinks?: VpnSiteLink[];
   /**
    * Gets a unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -8504,6 +8656,87 @@ export interface VirtualHub extends Resource {
 }
 
 /**
+ * VpnSiteLinkConnection Resource.
+ */
+export interface VpnSiteLinkConnection extends SubResource {
+  /**
+   * Id of the connected vpn site link.
+   */
+  vpnSiteLink?: SubResource;
+  /**
+   * Routing weight for vpn connection.
+   */
+  routingWeight?: number;
+  /**
+   * The connection status. Possible values include: 'Unknown', 'Connecting', 'Connected',
+   * 'NotConnected'
+   */
+  connectionStatus?: VpnConnectionStatus;
+  /**
+   * Connection protocol used for this connection. Possible values include: 'IKEv2', 'IKEv1'
+   */
+  vpnConnectionProtocolType?: VirtualNetworkGatewayConnectionProtocol;
+  /**
+   * Ingress bytes transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ingressBytesTransferred?: number;
+  /**
+   * Egress bytes transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly egressBytesTransferred?: number;
+  /**
+   * Expected bandwidth in MBPS.
+   */
+  connectionBandwidth?: number;
+  /**
+   * SharedKey for the vpn connection.
+   */
+  sharedKey?: string;
+  /**
+   * EnableBgp flag.
+   */
+  enableBgp?: boolean;
+  /**
+   * Enable policy-based traffic selectors.
+   */
+  usePolicyBasedTrafficSelectors?: boolean;
+  /**
+   * The IPSec Policies to be considered by this connection.
+   */
+  ipsecPolicies?: IpsecPolicy[];
+  /**
+   * EnableBgp flag.
+   */
+  enableRateLimiting?: boolean;
+  /**
+   * Use local azure ip to initiate connection.
+   */
+  useLocalAzureIpAddress?: boolean;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * VpnConnection Resource.
  */
 export interface VpnConnection extends SubResource {
@@ -8571,6 +8804,10 @@ export interface VpnConnection extends SubResource {
    * 'Deleting', 'Failed'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * List of all vpn site link connections to the gateway.
+   */
+  vpnLinkConnections?: VpnSiteLinkConnection[];
   /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
@@ -8909,26 +9146,6 @@ export interface ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PrivateLinkServicesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Expands referenced resources.
-   */
-  expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
 export interface LoadBalancersGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
@@ -9010,6 +9227,26 @@ export interface NetworkProfilesGetOptionalParams extends msRest.RequestOptionsB
  * Optional Parameters.
  */
 export interface NetworkSecurityGroupsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrivateEndpointsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrivateLinkServicesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -9188,19 +9425,6 @@ export interface ApplicationSecurityGroupListResult extends Array<ApplicationSec
  * @extends Array<AvailableDelegation>
  */
 export interface AvailableDelegationsResult extends Array<AvailableDelegation> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An array of available PrivateEndpoint types.
- * @extends Array<AvailablePrivateEndpointType>
- */
-export interface AvailablePrivateEndpointTypesResult extends Array<AvailablePrivateEndpointType> {
   /**
    * The URL to get the next set of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9409,32 +9633,6 @@ export interface ExpressRouteLinkListResult extends Array<ExpressRouteLink> {
    * The URL to get the next set of results.
    */
   nextLink?: string;
-}
-
-/**
- * @interface
- * Response for the ListPrivateEndpoints API service call.
- * @extends Array<PrivateEndpoint>
- */
-export interface PrivateEndpointListResult extends Array<PrivateEndpoint> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Response for the ListPrivateLinkService API service call.
- * @extends Array<PrivateLinkService>
- */
-export interface PrivateLinkServiceListResult extends Array<PrivateLinkService> {
-  /**
-   * The URL to get the next set of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -9664,6 +9862,59 @@ export interface OperationListResult extends Array<Operation> {
    * URL to get the next set of operation list results if there are any.
    */
   nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for the ListPrivateEndpoints API service call.
+ * @extends Array<PrivateEndpoint>
+ */
+export interface PrivateEndpointListResult extends Array<PrivateEndpoint> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An array of available PrivateEndpoint types.
+ * @extends Array<AvailablePrivateEndpointType>
+ */
+export interface AvailablePrivateEndpointTypesResult extends Array<AvailablePrivateEndpointType> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for the ListPrivateLinkService API service call.
+ * @extends Array<PrivateLinkService>
+ */
+export interface PrivateLinkServiceListResult extends Array<PrivateLinkService> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An array of private link service id that can be linked to a private end point with auto
+ * approved.
+ * @extends Array<AutoApprovedPrivateLinkService>
+ */
+export interface AutoApprovedPrivateLinkServicesResult extends Array<AutoApprovedPrivateLinkService> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -9929,6 +10180,19 @@ export interface ListVpnSitesResult extends Array<VpnSite> {
 
 /**
  * @interface
+ * Result of the request to list VpnSiteLinks. It contains a list of VpnSiteLinks and a URL
+ * nextLink to get the next set of results.
+ * @extends Array<VpnSiteLink>
+ */
+export interface ListVpnSiteLinksResult extends Array<VpnSiteLink> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list VirtualHubs. It contains a list of VirtualHubs and a URL nextLink
  * to get the next set of results.
  * @extends Array<VirtualHub>
@@ -9980,6 +10244,19 @@ export interface ListVpnConnectionsResult extends Array<VpnConnection> {
 
 /**
  * @interface
+ * Result of the request to list all vpn connections to a virtual wan vpn gateway. It contains a
+ * list of Vpn Connections and a URL nextLink to get the next set of results.
+ * @extends Array<VpnSiteLinkConnection>
+ */
+export interface ListVpnSiteLinkConnectionsResult extends Array<VpnSiteLinkConnection> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list all P2SVpnServerConfigurations associated to a VirtualWan. It
  * contains a list of P2SVpnServerConfigurations and a URL nextLink to get the next set of results.
  * @extends Array<P2SVpnServerConfiguration>
@@ -10007,7 +10284,7 @@ export interface ListP2SVpnGatewaysResult extends Array<P2SVpnGateway> {
 /**
  * @interface
  * Result of the request to list WebApplicationFirewallPolicies. It contains a list of
- * WebApplicationFirewallPolicy objects and a URL link to get the the next set of results.
+ * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
  * @extends Array<WebApplicationFirewallPolicy>
  */
 export interface WebApplicationFirewallPolicyListResult extends Array<WebApplicationFirewallPolicy> {
@@ -10033,6 +10310,14 @@ export type ApplicationGatewayProtocol = 'Http' | 'Https';
  * @enum {string}
  */
 export type IPAllocationMethod = 'Static' | 'Dynamic';
+
+/**
+ * Defines values for IPVersion.
+ * Possible values include: 'IPv4', 'IPv6'
+ * @readonly
+ * @enum {string}
+ */
+export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for SecurityRuleProtocol.
@@ -10074,14 +10359,6 @@ export type RouteNextHopType = 'VirtualNetworkGateway' | 'VnetLocal' | 'Internet
  * @enum {string}
  */
 export type PublicIPAddressSkuName = 'Basic' | 'Standard';
-
-/**
- * Defines values for IPVersion.
- * Possible values include: 'IPv4', 'IPv6'
- * @readonly
- * @enum {string}
- */
-export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for DdosSettingsProtectionCoverage.
@@ -10171,11 +10448,13 @@ export type ApplicationGatewaySslPolicyName = 'AppGwSslPolicy20150501' | 'AppGwS
  * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
  * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
- * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
+ * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
+ * 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA', 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+ * 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384'
  * @readonly
  * @enum {string}
  */
-export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA';
+export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA' | 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384';
 
 /**
  * Defines values for ApplicationGatewayCustomErrorStatusCode.
@@ -11566,86 +11845,6 @@ export type AvailableResourceGroupDelegationsListNextResponse = AvailableDelegat
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type AvailablePrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AvailablePrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type AvailableResourceGroupPrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AvailableResourceGroupPrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrivateEndpointTypesResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type AzureFirewallsGetResponse = AzureFirewall & {
@@ -11669,6 +11868,26 @@ export type AzureFirewallsGetResponse = AzureFirewall & {
  * Contains response data for the createOrUpdate operation.
  */
 export type AzureFirewallsCreateOrUpdateResponse = AzureFirewall & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureFirewall;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type AzureFirewallsUpdateTagsResponse = AzureFirewall & {
   /**
    * The underlying HTTP response.
    */
@@ -13942,286 +14161,6 @@ export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ExpressRouteLinkListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointsGetResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointsCreateOrUpdateResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointsListResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PrivateEndpointsListBySubscriptionResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointsBeginCreateOrUpdateResponse = PrivateEndpoint & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpoint;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateEndpointsListNextResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PrivateEndpointsListBySubscriptionNextResponse = PrivateEndpointListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkServicesGetResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateLinkServicesCreateOrUpdateResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkServicesListResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PrivateLinkServicesListBySubscriptionResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateLinkServicesBeginCreateOrUpdateResponse = PrivateLinkService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkService;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateLinkServicesListNextResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PrivateLinkServicesListBySubscriptionNextResponse = PrivateLinkServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkServiceListResult;
     };
 };
 
@@ -16948,6 +16887,506 @@ export type OperationsListNextResponse = OperationListResult & {
 /**
  * Contains response data for the get operation.
  */
+export type PrivateEndpointsGetResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointsCreateOrUpdateResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointsListResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type PrivateEndpointsListBySubscriptionResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointsBeginCreateOrUpdateResponse = PrivateEndpoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpoint;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateEndpointsListNextResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type PrivateEndpointsListBySubscriptionNextResponse = PrivateEndpointListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AvailablePrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type AvailablePrivateEndpointTypesListByResourceGroupResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AvailablePrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type AvailablePrivateEndpointTypesListByResourceGroupNextResponse = AvailablePrivateEndpointTypesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailablePrivateEndpointTypesResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkServicesGetResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateLinkServicesCreateOrUpdateResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkServicesListResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type PrivateLinkServicesListBySubscriptionResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the updatePrivateEndpointConnection operation.
+ */
+export type PrivateLinkServicesUpdatePrivateEndpointConnectionResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the checkPrivateLinkServiceVisibility operation.
+ */
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
+ * Contains response data for the checkPrivateLinkServiceVisibilityByResourceGroup operation.
+ */
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServices operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroup operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateLinkServicesBeginCreateOrUpdateResponse = PrivateLinkService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkService;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkServicesListNextResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type PrivateLinkServicesListBySubscriptionNextResponse = PrivateLinkServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesNext operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroupNext operation.
+ */
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse = AutoApprovedPrivateLinkServicesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoApprovedPrivateLinkServicesResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type PublicIPAddressesGetResponse = PublicIPAddress & {
   /**
    * The underlying HTTP response.
@@ -19291,6 +19730,56 @@ export type VirtualNetworkGatewaysBeginResetResponse = VirtualNetworkGateway & {
 };
 
 /**
+ * Contains response data for the beginGeneratevpnclientpackage operation.
+ */
+export type VirtualNetworkGatewaysBeginGeneratevpnclientpackageResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the beginGenerateVpnProfile operation.
+ */
+export type VirtualNetworkGatewaysBeginGenerateVpnProfileResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
  * Contains response data for the beginGetVpnProfilePackageUrl operation.
  */
 export type VirtualNetworkGatewaysBeginGetVpnProfilePackageUrlResponse = {
@@ -20398,6 +20887,66 @@ export type VpnSitesListNextResponse = ListVpnSitesResult & {
 /**
  * Contains response data for the get operation.
  */
+export type VpnSiteLinksGetResponse = VpnSiteLink & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnSiteLink;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnSite operation.
+ */
+export type VpnSiteLinksListByVpnSiteResponse = ListVpnSiteLinksResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinksResult;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnSiteNext operation.
+ */
+export type VpnSiteLinksListByVpnSiteNextResponse = ListVpnSiteLinksResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinksResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type VirtualHubsGetResponse = VirtualHub & {
   /**
    * The underlying HTTP response.
@@ -20952,6 +21501,66 @@ export type VpnConnectionsListByVpnGatewayNextResponse = ListVpnConnectionsResul
        * The response body as parsed JSON or XML
        */
       parsedBody: ListVpnConnectionsResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VpnSiteLinkConnectionsGetResponse = VpnSiteLinkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnSiteLinkConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnConnection operation.
+ */
+export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinkConnectionsResult;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnConnectionNext operation.
+ */
+export type VpnLinkConnectionsListByVpnConnectionNextResponse = ListVpnSiteLinkConnectionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnSiteLinkConnectionsResult;
     };
 };
 
