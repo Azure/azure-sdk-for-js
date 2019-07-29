@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-04-01',
+    defaultValue: '2019-06-01',
     type: {
       name: "String"
     }
@@ -283,6 +283,16 @@ export const ipConfigurationName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ipConfigurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const linkConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "linkConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "linkConnectionName",
     type: {
       name: "String"
     }
@@ -785,6 +795,16 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const vpnSiteLinkName: msRest.OperationURLParameter = {
+  parameterPath: "vpnSiteLinkName",
+  mapper: {
+    required: true,
+    serializedName: "vpnSiteLinkName",
     type: {
       name: "String"
     }
