@@ -191,10 +191,10 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
+    delayInMs?: number;
     maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
     minExponentialRetryDelayInMs?: number;
-    retryInterval?: number;
     retryPolicy?: RetryPolicy;
     timeoutInMs?: number;
 }
