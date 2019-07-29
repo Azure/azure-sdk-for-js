@@ -94,14 +94,6 @@ export function delay(milliseconds: number): Promise<void> | null {
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
  */
 const skip = [
-  // Abort
-  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_father_aborter_calls_abort.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_after_father_aborter_timeout.json",
-  // Abort
-  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // There's no reason to record it because all highlevel browser tests are being skipped
   "browsers/highlevel/recording_before_all_hook.json",
   // Character, Size (30MB), Tempfile
