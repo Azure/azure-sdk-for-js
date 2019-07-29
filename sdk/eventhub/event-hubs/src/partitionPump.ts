@@ -61,7 +61,7 @@ export class PartitionPump {
       this._isReceiving = false;
       try {
         if (this._receiver) {
-          this._receiver.close();
+          await this._receiver.close();
         }
         await this._partitionProcessor.processError(err);
         log.error("An error occurred while receiving events.", err);
@@ -75,7 +75,7 @@ export class PartitionPump {
     this._isReceiving = false;
     try {
       if (this._receiver) {
-        this._receiver.close();
+        await this._receiver.close();
       }
       this._abortController.abort();
       if (this._partitionProcessor.close) {
