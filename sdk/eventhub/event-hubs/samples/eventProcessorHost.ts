@@ -5,11 +5,9 @@ import {
   delay,
   EventProcessor,
   PartitionContext
-} from "../src";
+} from "@azure/event-hubs";
 
-class TestEventProcessor {
-  constructor(partitionId: string) {}
-
+class EventProcessorHost {
   async processEvents(events: EventData[]) {
     for (const event of events) {
       console.log("Receive", event.body);
@@ -35,11 +33,15 @@ class TestEventProcessor {
   }
 }
 
+// Define connection string and related Event Hubs entity name here
+const connectionString = "";
+const eventHubName = "";
+
 async function main() {
-  const client = new EventHubClient("connectionString", "eventHubName");
+  const client = new EventHubClient(connectionString, eventHubName);
 
   const eventProcessorFactory = (context: PartitionContext) => {
-    return new TestEventProcessor(context.partitionId);
+    return new EventProcessorHost();
   };
 
   const eph = new EventProcessor(
@@ -54,8 +56,8 @@ async function main() {
     }
   );
   await eph.start();
-  // after 10 seconds, stop processing
-  await delay(10000);
+  // after 2 seconds, stop processing
+  await delay(2000);
 
   await eph.stop();
   await client.close();
