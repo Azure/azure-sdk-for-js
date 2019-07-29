@@ -400,7 +400,10 @@ export class EventHubSender extends LinkEntity {
             delayInSeconds:
               typeof retryOptions.delayInMs === "number" && retryOptions.delayInMs > 0
                 ? retryOptions.delayInMs / 1000
-                : Constants.defaultDelayBetweenOperationRetriesInSeconds
+                : Constants.defaultDelayBetweenOperationRetriesInSeconds,
+            retryPolicy: retryOptions.retryPolicy,
+            minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
           };
 
           return retry<void>(config);
