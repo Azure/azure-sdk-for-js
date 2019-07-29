@@ -5266,7 +5266,7 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/create",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   requestBody: {
     parameterPath: {
       kty: "kty",
@@ -5326,7 +5326,7 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle

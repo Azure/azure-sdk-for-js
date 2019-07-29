@@ -254,12 +254,23 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span: Span = TracerProxy.getTracer().startSpan(
+        "createKeyMethod",
+        options.requestOptions ? options.requestOptions.spanOptions : undefined
+      );
+      if (options.requestOptions && options.requestOptions.spanOptions) {
+        options.requestOptions.spanOptions.parent = span;
+      }
+      span.start();
+
       const response = await this.client.createKey(
         this.vaultBaseUrl,
         name,
         keyType,
         unflattenedOptions
       );
+
+      span.end();
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, options);
@@ -424,11 +435,28 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "deleteKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+
+    span.start();
+
     const response = await this.client.deleteKey(
       this.vaultBaseUrl,
       name,
       options ? options.requestOptions : {}
     );
+
+    span.end();
     return this.getKeyFromKeyBundle(response);
   }
 
