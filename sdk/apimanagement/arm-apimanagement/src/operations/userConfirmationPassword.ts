@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/userConfirmationPasswordMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
@@ -31,16 +31,16 @@ export class UserConfirmationPassword {
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  send(resourceGroupName: string, serviceName: string, userId: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<void>): void;
+  send(resourceGroupName: string, serviceName: string, userId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -48,8 +48,8 @@ export class UserConfirmationPassword {
    * @param options The optional parameters
    * @param callback The callback
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  send(resourceGroupName: string, serviceName: string, userId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  send(resourceGroupName: string, serviceName: string, userId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,8 +63,8 @@ export class UserConfirmationPassword {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const sendOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const sendOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
   urlParameters: [

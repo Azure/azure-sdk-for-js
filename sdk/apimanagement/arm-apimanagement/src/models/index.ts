@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export { BaseResource, CloudError };
 
@@ -2355,13 +2355,31 @@ export interface ApiManagementServiceBaseProperties {
    */
   additionalLocations?: AdditionalLocation[];
   /**
-   * Custom properties of the API Management service. Setting
+   * Custom properties of the API Management service.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
-   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
+   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
+   * just TLS 1.1.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * TLS 1.0 on an API Management service.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable
+   * any of next ciphers by using settings
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+   * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+   * TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256,
+   * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
+   * For example,
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
+   * The default value is `true` for them.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2505,13 +2523,31 @@ export interface ApiManagementServiceResource extends ApimResource {
    */
   additionalLocations?: AdditionalLocation[];
   /**
-   * Custom properties of the API Management service. Setting
+   * Custom properties of the API Management service.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
-   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
+   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
+   * just TLS 1.1.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * TLS 1.0 on an API Management service.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable
+   * any of next ciphers by using settings
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+   * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+   * TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256,
+   * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
+   * For example,
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
+   * The default value is `true` for them.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2639,13 +2675,31 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    */
   additionalLocations?: AdditionalLocation[];
   /**
-   * Custom properties of the API Management service. Setting
+   * Custom properties of the API Management service.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
-   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
+   * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
+   * just TLS 1.1.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * TLS 1.0 on an API Management service.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends.</br>Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable
+   * any of next ciphers by using settings
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`:
+   * TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+   * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+   * TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256,
+   * TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA.
+   * For example,
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`.
+   * The default value is `true` for them.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -4407,7 +4461,7 @@ export interface QuotaCounterValueContract {
 /**
  * Optional Parameters.
  */
-export interface ApiListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4440,7 +4494,7 @@ export interface ApiListByServiceOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface ApiCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4451,7 +4505,7 @@ export interface ApiCreateOrUpdateOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ApiDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Delete all revisions of the Api.
    */
@@ -4461,7 +4515,7 @@ export interface ApiDeleteMethodOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface ApiListByTagsOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiListByTagsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * | Field       | Supported operators    | Supported functions               |
    * |-------------|------------------------|-----------------------------------|
@@ -4492,7 +4546,7 @@ export interface ApiListByTagsOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ApiBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiBeginCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4503,7 +4557,7 @@ export interface ApiBeginCreateOrUpdateOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface ApiRevisionListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiRevisionListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| apiRevision | filter |
@@ -4523,7 +4577,7 @@ export interface ApiRevisionListByServiceOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface ApiReleaseListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiReleaseListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| notes | filter | ge, le,
@@ -4543,7 +4597,7 @@ export interface ApiReleaseListByServiceOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface ApiReleaseCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiReleaseCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4554,7 +4608,7 @@ export interface ApiReleaseCreateOrUpdateOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface ApiOperationListByApiOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiOperationListByApiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4583,7 +4637,7 @@ export interface ApiOperationListByApiOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface ApiOperationCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiOperationCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4594,7 +4648,7 @@ export interface ApiOperationCreateOrUpdateOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface ApiOperationPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiOperationPolicyGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
    */
@@ -4604,7 +4658,7 @@ export interface ApiOperationPolicyGetOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4615,7 +4669,7 @@ export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface TagListByOperationOptionalParams extends msRest.RequestOptionsBase {
+export interface TagListByOperationOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter |
@@ -4636,7 +4690,7 @@ export interface TagListByOperationOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface TagListByApiOptionalParams extends msRest.RequestOptionsBase {
+export interface TagListByApiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter |
@@ -4657,7 +4711,7 @@ export interface TagListByApiOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface TagListByProductOptionalParams extends msRest.RequestOptionsBase {
+export interface TagListByProductOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter |
@@ -4678,7 +4732,7 @@ export interface TagListByProductOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface TagListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface TagListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4703,7 +4757,7 @@ export interface TagListByServiceOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface TagCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface TagCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4714,7 +4768,7 @@ export interface TagCreateOrUpdateOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ApiProductListByApisOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiProductListByApisOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter |
@@ -4734,7 +4788,7 @@ export interface ApiProductListByApisOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ApiPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiPolicyGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
    */
@@ -4744,7 +4798,7 @@ export interface ApiPolicyGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ApiPolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiPolicyCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4755,7 +4809,7 @@ export interface ApiPolicyCreateOrUpdateOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface ApiSchemaListByApiOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiSchemaListByApiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter |
@@ -4775,7 +4829,7 @@ export interface ApiSchemaListByApiOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface ApiSchemaCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiSchemaCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4786,7 +4840,7 @@ export interface ApiSchemaCreateOrUpdateOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface ApiSchemaDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiSchemaDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * If true removes all references to the schema before deleting it.
    */
@@ -4796,7 +4850,7 @@ export interface ApiSchemaDeleteMethodOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface ApiDiagnosticListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiDiagnosticListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4816,7 +4870,7 @@ export interface ApiDiagnosticListByServiceOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface ApiDiagnosticCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiDiagnosticCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4827,7 +4881,7 @@ export interface ApiDiagnosticCreateOrUpdateOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4853,7 +4907,7 @@ export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface ApiIssueGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Expand the comment attachments.
    */
@@ -4863,7 +4917,7 @@ export interface ApiIssueGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ApiIssueCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4874,7 +4928,7 @@ export interface ApiIssueCreateOrUpdateOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface ApiIssueCommentListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueCommentListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4895,7 +4949,7 @@ export interface ApiIssueCommentListByServiceOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface ApiIssueCommentCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueCommentCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4906,7 +4960,7 @@ export interface ApiIssueCommentCreateOrUpdateOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface ApiIssueAttachmentListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueAttachmentListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -4927,7 +4981,7 @@ export interface ApiIssueAttachmentListByServiceOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface ApiIssueAttachmentCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueAttachmentCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4938,7 +4992,7 @@ export interface ApiIssueAttachmentCreateOrUpdateOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ApiTagDescriptionListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiTagDescriptionListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter |
@@ -4959,7 +5013,7 @@ export interface ApiTagDescriptionListByServiceOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface ApiTagDescriptionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiTagDescriptionCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -4970,7 +5024,7 @@ export interface ApiTagDescriptionCreateOrUpdateOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface OperationListByTagsOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationListByTagsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5000,7 +5054,7 @@ export interface OperationListByTagsOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface ApiVersionSetListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiVersionSetListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>
@@ -5019,7 +5073,7 @@ export interface ApiVersionSetListByServiceOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface ApiVersionSetCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiVersionSetCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5030,7 +5084,7 @@ export interface ApiVersionSetCreateOrUpdateOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface AuthorizationServerListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface AuthorizationServerListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5051,7 +5105,7 @@ export interface AuthorizationServerListByServiceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface AuthorizationServerCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface AuthorizationServerCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5062,7 +5116,7 @@ export interface AuthorizationServerCreateOrUpdateOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface BackendListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface BackendListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5084,7 +5138,7 @@ export interface BackendListByServiceOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface BackendCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface BackendCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5095,7 +5149,7 @@ export interface BackendCreateOrUpdateOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface BackendReconnectOptionalParams extends msRest.RequestOptionsBase {
+export interface BackendReconnectOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Reconnect request parameters.
    */
@@ -5105,7 +5159,7 @@ export interface BackendReconnectOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface CacheListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface CacheListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5119,7 +5173,7 @@ export interface CacheListByServiceOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface CacheCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface CacheCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5130,7 +5184,7 @@ export interface CacheCreateOrUpdateOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface CertificateListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface CertificateListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5153,7 +5207,7 @@ export interface CertificateListByServiceOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface CertificateCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface CertificateCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5164,7 +5218,7 @@ export interface CertificateCreateOrUpdateOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters supplied to the Apply Network Configuration operation. If the parameters are empty,
    * all the regions in which the Api Management service is deployed will be updated sequentially
@@ -5176,7 +5230,7 @@ export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalPar
 /**
  * Optional Parameters.
  */
-export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Parameters supplied to the Apply Network Configuration operation. If the parameters are empty,
    * all the regions in which the Api Management service is deployed will be updated sequentially
@@ -5188,7 +5242,7 @@ export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOption
 /**
  * Optional Parameters.
  */
-export interface DiagnosticListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface DiagnosticListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5208,7 +5262,7 @@ export interface DiagnosticListByServiceOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface DiagnosticCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface DiagnosticCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5219,7 +5273,7 @@ export interface DiagnosticCreateOrUpdateOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface EmailTemplateListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface EmailTemplateListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5239,7 +5293,7 @@ export interface EmailTemplateListByServiceOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface EmailTemplateCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface EmailTemplateCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5250,7 +5304,7 @@ export interface EmailTemplateCreateOrUpdateOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface GroupListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface GroupListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5273,7 +5327,7 @@ export interface GroupListByServiceOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface GroupCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface GroupCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5284,7 +5338,7 @@ export interface GroupCreateOrUpdateOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface GroupUserListOptionalParams extends msRest.RequestOptionsBase {
+export interface GroupUserListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5309,7 +5363,7 @@ export interface GroupUserListOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface IdentityProviderCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface IdentityProviderCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5320,7 +5374,7 @@ export interface IdentityProviderCreateOrUpdateOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface IssueListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface IssueListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5345,7 +5399,7 @@ export interface IssueListByServiceOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface LoggerListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface LoggerListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5368,7 +5422,7 @@ export interface LoggerListByServiceOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface LoggerCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface LoggerCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5379,7 +5433,7 @@ export interface LoggerCreateOrUpdateOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface LoggerDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface LoggerDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Force deletion even if diagnostic is attached.
    */
@@ -5389,7 +5443,7 @@ export interface LoggerDeleteMethodOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface NotificationListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface NotificationListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5403,7 +5457,7 @@ export interface NotificationListByServiceOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface NotificationCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface NotificationCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5414,7 +5468,7 @@ export interface NotificationCreateOrUpdateOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface OpenIdConnectProviderListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface OpenIdConnectProviderListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5435,7 +5489,7 @@ export interface OpenIdConnectProviderListByServiceOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5446,7 +5500,7 @@ export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface PolicyGetOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
    */
@@ -5456,7 +5510,7 @@ export interface PolicyGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface PolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5467,7 +5521,7 @@ export interface PolicyCreateOrUpdateOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface PolicySnippetListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicySnippetListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Policy scope. Possible values include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
    */
@@ -5477,7 +5531,7 @@ export interface PolicySnippetListByServiceOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface SignInSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SignInSettingsCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5488,7 +5542,7 @@ export interface SignInSettingsCreateOrUpdateOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface SignUpSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SignUpSettingsCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5499,7 +5553,7 @@ export interface SignUpSettingsCreateOrUpdateOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface DelegationSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface DelegationSettingsCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5510,7 +5564,7 @@ export interface DelegationSettingsCreateOrUpdateOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ProductListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5543,7 +5597,7 @@ export interface ProductListByServiceOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ProductCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5554,7 +5608,7 @@ export interface ProductCreateOrUpdateOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface ProductDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Delete existing subscriptions associated with the product or not.
    */
@@ -5564,7 +5618,7 @@ export interface ProductDeleteMethodOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface ProductListByTagsOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductListByTagsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5592,7 +5646,7 @@ export interface ProductListByTagsOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ProductApiListByProductOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductApiListByProductOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5617,7 +5671,7 @@ export interface ProductApiListByProductOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface ProductGroupListByProductOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductGroupListByProductOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5638,7 +5692,7 @@ export interface ProductGroupListByProductOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface ProductSubscriptionsListOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductSubscriptionsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5665,7 +5719,7 @@ export interface ProductSubscriptionsListOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface ProductPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductPolicyGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
    */
@@ -5675,7 +5729,7 @@ export interface ProductPolicyGetOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface ProductPolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ProductPolicyCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5686,7 +5740,7 @@ export interface ProductPolicyCreateOrUpdateOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface PropertyListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface PropertyListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le,
@@ -5707,7 +5761,7 @@ export interface PropertyListByServiceOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface PropertyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface PropertyCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5718,7 +5772,7 @@ export interface PropertyCreateOrUpdateOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface ReportsListByApiOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByApiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5736,7 +5790,7 @@ export interface ReportsListByApiOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface ReportsListByUserOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByUserOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5754,7 +5808,7 @@ export interface ReportsListByUserOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ReportsListByOperationOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByOperationOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5772,7 +5826,7 @@ export interface ReportsListByOperationOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface ReportsListByProductOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByProductOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5790,7 +5844,7 @@ export interface ReportsListByProductOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ReportsListByGeoOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByGeoOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5804,25 +5858,7 @@ export interface ReportsListByGeoOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface ReportsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Number of records to return.
-   */
-  top?: number;
-  /**
-   * Number of records to skip.
-   */
-  skip?: number;
-  /**
-   * OData order by query option.
-   */
-  orderby?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ReportsListByTimeOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListBySubscriptionOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5840,7 +5876,25 @@ export interface ReportsListByTimeOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ReportsListByRequestOptionalParams extends msRest.RequestOptionsBase {
+export interface ReportsListByTimeOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Number of records to return.
+   */
+  top?: number;
+  /**
+   * Number of records to skip.
+   */
+  skip?: number;
+  /**
+   * OData order by query option.
+   */
+  orderby?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ReportsListByRequestOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5854,7 +5908,7 @@ export interface ReportsListByRequestOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface SubscriptionListOptionalParams extends msRest.RequestOptionsBase {
+export interface SubscriptionListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5881,7 +5935,7 @@ export interface SubscriptionListOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface SubscriptionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SubscriptionCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Notify change in Subscription State.
    * - If false, do not send any email notification for change of state of subscription
@@ -5898,7 +5952,7 @@ export interface SubscriptionCreateOrUpdateOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface SubscriptionUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SubscriptionUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Notify change in Subscription State.
    * - If false, do not send any email notification for change of state of subscription
@@ -5910,7 +5964,7 @@ export interface SubscriptionUpdateOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface TagResourceListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface TagResourceListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| aid | filter | ge, le,
@@ -5942,7 +5996,7 @@ export interface TagResourceListByServiceOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface UserListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface UserListByServiceOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5972,7 +6026,7 @@ export interface UserListByServiceOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface UserCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface UserCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -5983,7 +6037,7 @@ export interface UserCreateOrUpdateOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface UserDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface UserDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Whether to delete user's subscription or not.
    */
@@ -5997,7 +6051,7 @@ export interface UserDeleteMethodOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface UserGroupListOptionalParams extends msRest.RequestOptionsBase {
+export interface UserGroupListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -6019,7 +6073,7 @@ export interface UserGroupListOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface UserSubscriptionListOptionalParams extends msRest.RequestOptionsBase {
+export interface UserSubscriptionListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -7943,7 +7997,7 @@ export type ApiListByServiceResponse = ApiCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -7963,7 +8017,7 @@ export type ApiGetEntityTagResponse = ApiGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -7978,7 +8032,7 @@ export type ApiGetResponse = ApiContract & ApiGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8003,7 +8057,7 @@ export type ApiCreateOrUpdateResponse = ApiContract & ApiCreateOrUpdateHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8028,7 +8082,7 @@ export type ApiListByTagsResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8048,7 +8102,7 @@ export type ApiListByServiceNextResponse = ApiCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8068,7 +8122,7 @@ export type ApiListByTagsNextResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8088,7 +8142,7 @@ export type ApiRevisionListByServiceResponse = ApiRevisionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8108,7 +8162,7 @@ export type ApiRevisionListByServiceNextResponse = ApiRevisionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8128,7 +8182,7 @@ export type ApiReleaseListByServiceResponse = ApiReleaseCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8148,7 +8202,7 @@ export type ApiReleaseGetEntityTagResponse = ApiReleaseGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8163,7 +8217,7 @@ export type ApiReleaseGetResponse = ApiReleaseContract & ApiReleaseGetHeaders & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8188,7 +8242,7 @@ export type ApiReleaseCreateOrUpdateResponse = ApiReleaseContract & ApiReleaseCr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8213,7 +8267,7 @@ export type ApiReleaseListByServiceNextResponse = ApiReleaseCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8233,7 +8287,7 @@ export type ApiOperationListByApiResponse = OperationCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8253,7 +8307,7 @@ export type ApiOperationGetEntityTagResponse = ApiOperationGetEntityTagHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8268,7 +8322,7 @@ export type ApiOperationGetResponse = OperationContract & ApiOperationGetHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8293,7 +8347,7 @@ export type ApiOperationCreateOrUpdateResponse = OperationContract & ApiOperatio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8318,7 +8372,7 @@ export type ApiOperationListByApiNextResponse = OperationCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8338,7 +8392,7 @@ export type ApiOperationPolicyListByOperationResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8358,7 +8412,7 @@ export type ApiOperationPolicyGetEntityTagResponse = ApiOperationPolicyGetEntity
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8373,7 +8427,7 @@ export type ApiOperationPolicyGetResponse = PolicyContract & ApiOperationPolicyG
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8398,7 +8452,7 @@ export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & ApiOpera
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8423,7 +8477,7 @@ export type TagListByOperationResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8443,7 +8497,7 @@ export type TagGetEntityStateByOperationResponse = TagGetEntityStateByOperationH
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8458,7 +8512,7 @@ export type TagGetByOperationResponse = TagContract & TagGetByOperationHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8483,7 +8537,7 @@ export type TagAssignToOperationResponse = TagContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8503,7 +8557,7 @@ export type TagListByApiResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8523,7 +8577,7 @@ export type TagGetEntityStateByApiResponse = TagGetEntityStateByApiHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8538,7 +8592,7 @@ export type TagGetByApiResponse = TagContract & TagGetByApiHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8563,7 +8617,7 @@ export type TagAssignToApiResponse = TagContract & TagAssignToApiHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8588,7 +8642,7 @@ export type TagListByProductResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8608,7 +8662,7 @@ export type TagGetEntityStateByProductResponse = TagGetEntityStateByProductHeade
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8623,7 +8677,7 @@ export type TagGetByProductResponse = TagContract & TagGetByProductHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8648,7 +8702,7 @@ export type TagAssignToProductResponse = TagContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8668,7 +8722,7 @@ export type TagListByServiceResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8688,7 +8742,7 @@ export type TagGetEntityStateResponse = TagGetEntityStateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8703,7 +8757,7 @@ export type TagGetResponse = TagContract & TagGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8728,7 +8782,7 @@ export type TagCreateOrUpdateResponse = TagContract & TagCreateOrUpdateHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8753,7 +8807,7 @@ export type TagListByOperationNextResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8773,7 +8827,7 @@ export type TagListByApiNextResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8793,7 +8847,7 @@ export type TagListByProductNextResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8813,7 +8867,7 @@ export type TagListByServiceNextResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8833,7 +8887,7 @@ export type ApiProductListByApisResponse = ProductCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8853,7 +8907,7 @@ export type ApiProductListByApisNextResponse = ProductCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8873,7 +8927,7 @@ export type ApiPolicyListByApiResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8893,7 +8947,7 @@ export type ApiPolicyGetEntityTagResponse = ApiPolicyGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8908,7 +8962,7 @@ export type ApiPolicyGetResponse = PolicyContract & ApiPolicyGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8933,7 +8987,7 @@ export type ApiPolicyCreateOrUpdateResponse = PolicyContract & ApiPolicyCreateOr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8958,7 +9012,7 @@ export type ApiSchemaListByApiResponse = SchemaCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -8978,7 +9032,7 @@ export type ApiSchemaGetEntityTagResponse = ApiSchemaGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8993,7 +9047,7 @@ export type ApiSchemaGetResponse = SchemaContract & ApiSchemaGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9018,7 +9072,7 @@ export type ApiSchemaCreateOrUpdateResponse = SchemaContract & ApiSchemaCreateOr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9043,7 +9097,7 @@ export type ApiSchemaListByApiNextResponse = SchemaCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9063,7 +9117,7 @@ export type ApiDiagnosticListByServiceResponse = DiagnosticCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9083,7 +9137,7 @@ export type ApiDiagnosticGetEntityTagResponse = ApiDiagnosticGetEntityTagHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9098,7 +9152,7 @@ export type ApiDiagnosticGetResponse = DiagnosticContract & ApiDiagnosticGetHead
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9123,7 +9177,7 @@ export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract & ApiDiagno
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9148,7 +9202,7 @@ export type ApiDiagnosticListByServiceNextResponse = DiagnosticCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9168,7 +9222,7 @@ export type ApiIssueListByServiceResponse = IssueCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9188,7 +9242,7 @@ export type ApiIssueGetEntityTagResponse = ApiIssueGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9203,7 +9257,7 @@ export type ApiIssueGetResponse = IssueContract & ApiIssueGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9228,7 +9282,7 @@ export type ApiIssueCreateOrUpdateResponse = IssueContract & ApiIssueCreateOrUpd
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9253,7 +9307,7 @@ export type ApiIssueListByServiceNextResponse = IssueCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9273,7 +9327,7 @@ export type ApiIssueCommentListByServiceResponse = IssueCommentCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9293,7 +9347,7 @@ export type ApiIssueCommentGetEntityTagResponse = ApiIssueCommentGetEntityTagHea
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9308,7 +9362,7 @@ export type ApiIssueCommentGetResponse = IssueCommentContract & ApiIssueCommentG
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9333,7 +9387,7 @@ export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract & ApiIs
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9358,7 +9412,7 @@ export type ApiIssueCommentListByServiceNextResponse = IssueCommentCollection & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9378,7 +9432,7 @@ export type ApiIssueAttachmentListByServiceResponse = IssueAttachmentCollection 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9398,7 +9452,7 @@ export type ApiIssueAttachmentGetEntityTagResponse = ApiIssueAttachmentGetEntity
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9413,7 +9467,7 @@ export type ApiIssueAttachmentGetResponse = IssueAttachmentContract & ApiIssueAt
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9438,7 +9492,7 @@ export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9463,7 +9517,7 @@ export type ApiIssueAttachmentListByServiceNextResponse = IssueAttachmentCollect
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9483,7 +9537,7 @@ export type ApiTagDescriptionListByServiceResponse = TagDescriptionCollection & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9503,7 +9557,7 @@ export type ApiTagDescriptionGetEntityTagResponse = ApiTagDescriptionGetEntityTa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9518,7 +9572,7 @@ export type ApiTagDescriptionGetResponse = TagDescriptionContract & ApiTagDescri
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9543,7 +9597,7 @@ export type ApiTagDescriptionCreateOrUpdateResponse = TagDescriptionContract & A
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9568,7 +9622,7 @@ export type ApiTagDescriptionListByServiceNextResponse = TagDescriptionCollectio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9588,7 +9642,7 @@ export type OperationListByTagsResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9608,7 +9662,7 @@ export type OperationListByTagsNextResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9628,7 +9682,7 @@ export type ApiVersionSetListByServiceResponse = ApiVersionSetCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9648,7 +9702,7 @@ export type ApiVersionSetGetEntityTagResponse = ApiVersionSetGetEntityTagHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9663,7 +9717,7 @@ export type ApiVersionSetGetResponse = ApiVersionSetContract & ApiVersionSetGetH
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9688,7 +9742,7 @@ export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract & ApiVer
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9713,7 +9767,7 @@ export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9733,7 +9787,7 @@ export type AuthorizationServerListByServiceResponse = AuthorizationServerCollec
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9753,7 +9807,7 @@ export type AuthorizationServerGetEntityTagResponse = AuthorizationServerGetEnti
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9768,7 +9822,7 @@ export type AuthorizationServerGetResponse = AuthorizationServerContract & Autho
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9793,7 +9847,7 @@ export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9818,7 +9872,7 @@ export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9838,7 +9892,7 @@ export type BackendListByServiceResponse = BackendCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9858,7 +9912,7 @@ export type BackendGetEntityTagResponse = BackendGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9873,7 +9927,7 @@ export type BackendGetResponse = BackendContract & BackendGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9898,7 +9952,7 @@ export type BackendCreateOrUpdateResponse = BackendContract & BackendCreateOrUpd
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9923,7 +9977,7 @@ export type BackendListByServiceNextResponse = BackendCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9943,7 +9997,7 @@ export type CacheListByServiceResponse = CacheCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -9963,7 +10017,7 @@ export type CacheGetEntityTagResponse = CacheGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9978,7 +10032,7 @@ export type CacheGetResponse = CacheContract & CacheGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10003,7 +10057,7 @@ export type CacheCreateOrUpdateResponse = CacheContract & CacheCreateOrUpdateHea
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10028,7 +10082,7 @@ export type CacheListByServiceNextResponse = CacheCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10048,7 +10102,7 @@ export type CertificateListByServiceResponse = CertificateCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10068,7 +10122,7 @@ export type CertificateGetEntityTagResponse = CertificateGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10083,7 +10137,7 @@ export type CertificateGetResponse = CertificateContract & CertificateGetHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10108,7 +10162,7 @@ export type CertificateCreateOrUpdateResponse = CertificateContract & Certificat
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10133,7 +10187,7 @@ export type CertificateListByServiceNextResponse = CertificateCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10153,7 +10207,7 @@ export type ApiManagementOperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10173,7 +10227,7 @@ export type ApiManagementOperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10193,7 +10247,7 @@ export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10213,7 +10267,7 @@ export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = Resou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10233,7 +10287,7 @@ export type ApiManagementServiceRestoreResponse = ApiManagementServiceResource &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10253,7 +10307,7 @@ export type ApiManagementServiceBackupResponse = ApiManagementServiceResource & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10273,7 +10327,7 @@ export type ApiManagementServiceCreateOrUpdateResponse = ApiManagementServiceRes
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10293,7 +10347,7 @@ export type ApiManagementServiceUpdateResponse = ApiManagementServiceResource & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10313,7 +10367,7 @@ export type ApiManagementServiceGetResponse = ApiManagementServiceResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10333,7 +10387,7 @@ export type ApiManagementServiceDeleteMethodResponse = ApiManagementServiceResou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10353,7 +10407,7 @@ export type ApiManagementServiceListByResourceGroupResponse = ApiManagementServi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10373,7 +10427,7 @@ export type ApiManagementServiceListResponse = ApiManagementServiceListResult & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10393,7 +10447,7 @@ export type ApiManagementServiceGetSsoTokenResponse = ApiManagementServiceGetSso
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10413,7 +10467,7 @@ export type ApiManagementServiceCheckNameAvailabilityResponse = ApiManagementSer
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10433,7 +10487,7 @@ export type ApiManagementServiceApplyNetworkConfigurationUpdatesResponse = ApiMa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10453,7 +10507,7 @@ export type ApiManagementServiceBeginRestoreResponse = ApiManagementServiceResou
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10473,7 +10527,7 @@ export type ApiManagementServiceBeginBackupResponse = ApiManagementServiceResour
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10493,7 +10547,7 @@ export type ApiManagementServiceBeginCreateOrUpdateResponse = ApiManagementServi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10513,7 +10567,7 @@ export type ApiManagementServiceBeginUpdateResponse = ApiManagementServiceResour
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10533,7 +10587,7 @@ export type ApiManagementServiceBeginDeleteMethodResponse = ApiManagementService
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10553,7 +10607,7 @@ export type ApiManagementServiceBeginApplyNetworkConfigurationUpdatesResponse = 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10573,7 +10627,7 @@ export type ApiManagementServiceListByResourceGroupNextResponse = ApiManagementS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10593,7 +10647,7 @@ export type ApiManagementServiceListNextResponse = ApiManagementServiceListResul
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10613,7 +10667,7 @@ export type DiagnosticListByServiceResponse = DiagnosticCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10633,7 +10687,7 @@ export type DiagnosticGetEntityTagResponse = DiagnosticGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10648,7 +10702,7 @@ export type DiagnosticGetResponse = DiagnosticContract & DiagnosticGetHeaders & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10673,7 +10727,7 @@ export type DiagnosticCreateOrUpdateResponse = DiagnosticContract & DiagnosticCr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10698,7 +10752,7 @@ export type DiagnosticListByServiceNextResponse = DiagnosticCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10718,7 +10772,7 @@ export type EmailTemplateListByServiceResponse = EmailTemplateCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10738,7 +10792,7 @@ export type EmailTemplateGetEntityTagResponse = EmailTemplateGetEntityTagHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10753,7 +10807,7 @@ export type EmailTemplateGetResponse = EmailTemplateContract & EmailTemplateGetH
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10778,7 +10832,7 @@ export type EmailTemplateCreateOrUpdateResponse = EmailTemplateContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10798,7 +10852,7 @@ export type EmailTemplateListByServiceNextResponse = EmailTemplateCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10818,7 +10872,7 @@ export type GroupListByServiceResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10838,7 +10892,7 @@ export type GroupGetEntityTagResponse = GroupGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10853,7 +10907,7 @@ export type GroupGetResponse = GroupContract & GroupGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10878,7 +10932,7 @@ export type GroupCreateOrUpdateResponse = GroupContract & GroupCreateOrUpdateHea
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10903,7 +10957,7 @@ export type GroupListByServiceNextResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10923,7 +10977,7 @@ export type GroupUserListResponse = UserCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10948,7 +11002,7 @@ export type GroupUserCheckEntityExistsResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10968,7 +11022,7 @@ export type GroupUserCreateResponse = UserContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -10988,7 +11042,7 @@ export type GroupUserListNextResponse = UserCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11008,7 +11062,7 @@ export type IdentityProviderListByServiceResponse = IdentityProviderList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11028,7 +11082,7 @@ export type IdentityProviderGetEntityTagResponse = IdentityProviderGetEntityTagH
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11043,7 +11097,7 @@ export type IdentityProviderGetResponse = IdentityProviderContract & IdentityPro
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11068,7 +11122,7 @@ export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11093,7 +11147,7 @@ export type IdentityProviderListByServiceNextResponse = IdentityProviderList & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11113,7 +11167,7 @@ export type IssueListByServiceResponse = IssueCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11133,7 +11187,7 @@ export type IssueGetResponse = IssueContract & IssueGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11158,7 +11212,7 @@ export type IssueListByServiceNextResponse = IssueCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11178,7 +11232,7 @@ export type LoggerListByServiceResponse = LoggerCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11198,7 +11252,7 @@ export type LoggerGetEntityTagResponse = LoggerGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11213,7 +11267,7 @@ export type LoggerGetResponse = LoggerContract & LoggerGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11238,7 +11292,7 @@ export type LoggerCreateOrUpdateResponse = LoggerContract & LoggerCreateOrUpdate
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11263,7 +11317,7 @@ export type LoggerListByServiceNextResponse = LoggerCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11283,7 +11337,7 @@ export type NetworkStatusListByServiceResponse = Array<NetworkStatusContractByLo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11303,7 +11357,7 @@ export type NetworkStatusListByLocationResponse = NetworkStatusContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11323,7 +11377,7 @@ export type NotificationListByServiceResponse = NotificationCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11343,7 +11397,7 @@ export type NotificationGetResponse = NotificationContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11363,7 +11417,7 @@ export type NotificationCreateOrUpdateResponse = NotificationContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11383,7 +11437,7 @@ export type NotificationListByServiceNextResponse = NotificationCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11403,7 +11457,7 @@ export type NotificationRecipientUserListByNotificationResponse = RecipientUserC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11428,7 +11482,7 @@ export type NotificationRecipientUserCheckEntityExistsResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11448,7 +11502,7 @@ export type NotificationRecipientUserCreateOrUpdateResponse = RecipientUserContr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11468,7 +11522,7 @@ export type NotificationRecipientEmailListByNotificationResponse = RecipientEmai
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11493,7 +11547,7 @@ export type NotificationRecipientEmailCheckEntityExistsResponse = {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11513,7 +11567,7 @@ export type NotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailCon
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11533,7 +11587,7 @@ export type OpenIdConnectProviderListByServiceResponse = OpenIdConnectProviderCo
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11553,7 +11607,7 @@ export type OpenIdConnectProviderGetEntityTagResponse = OpenIdConnectProviderGet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11568,7 +11622,7 @@ export type OpenIdConnectProviderGetResponse = OpenidConnectProviderContract & O
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11593,7 +11647,7 @@ export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderC
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11618,7 +11672,7 @@ export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProvid
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11638,7 +11692,7 @@ export type PolicyListByServiceResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11658,7 +11712,7 @@ export type PolicyGetEntityTagResponse = PolicyGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11673,7 +11727,7 @@ export type PolicyGetResponse = PolicyContract & PolicyGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11698,7 +11752,7 @@ export type PolicyCreateOrUpdateResponse = PolicyContract & PolicyCreateOrUpdate
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11723,7 +11777,7 @@ export type PolicySnippetListByServiceResponse = PolicySnippetsCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11743,7 +11797,7 @@ export type SignInSettingsGetEntityTagResponse = SignInSettingsGetEntityTagHeade
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11758,7 +11812,7 @@ export type SignInSettingsGetResponse = PortalSigninSettings & SignInSettingsGet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11783,7 +11837,7 @@ export type SignInSettingsCreateOrUpdateResponse = PortalSigninSettings & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11803,7 +11857,7 @@ export type SignUpSettingsGetEntityTagResponse = SignUpSettingsGetEntityTagHeade
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11818,7 +11872,7 @@ export type SignUpSettingsGetResponse = PortalSignupSettings & SignUpSettingsGet
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11843,7 +11897,7 @@ export type SignUpSettingsCreateOrUpdateResponse = PortalSignupSettings & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11863,7 +11917,7 @@ export type DelegationSettingsGetEntityTagResponse = DelegationSettingsGetEntity
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11878,7 +11932,7 @@ export type DelegationSettingsGetResponse = PortalDelegationSettings & Delegatio
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11903,7 +11957,7 @@ export type DelegationSettingsCreateOrUpdateResponse = PortalDelegationSettings 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11923,7 +11977,7 @@ export type ProductListByServiceResponse = ProductCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -11943,7 +11997,7 @@ export type ProductGetEntityTagResponse = ProductGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11958,7 +12012,7 @@ export type ProductGetResponse = ProductContract & ProductGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11983,7 +12037,7 @@ export type ProductCreateOrUpdateResponse = ProductContract & ProductCreateOrUpd
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12008,7 +12062,7 @@ export type ProductListByTagsResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12028,7 +12082,7 @@ export type ProductListByServiceNextResponse = ProductCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12048,7 +12102,7 @@ export type ProductListByTagsNextResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12068,7 +12122,7 @@ export type ProductApiListByProductResponse = ApiCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12088,7 +12142,7 @@ export type ProductApiCreateOrUpdateResponse = ApiContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12108,7 +12162,7 @@ export type ProductApiListByProductNextResponse = ApiCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12128,7 +12182,7 @@ export type ProductGroupListByProductResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12148,7 +12202,7 @@ export type ProductGroupCreateOrUpdateResponse = GroupContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12168,7 +12222,7 @@ export type ProductGroupListByProductNextResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12188,7 +12242,7 @@ export type ProductSubscriptionsListResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12208,7 +12262,7 @@ export type ProductSubscriptionsListNextResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12228,7 +12282,7 @@ export type ProductPolicyListByProductResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12248,7 +12302,7 @@ export type ProductPolicyGetEntityTagResponse = ProductPolicyGetEntityTagHeaders
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12263,7 +12317,7 @@ export type ProductPolicyGetResponse = PolicyContract & ProductPolicyGetHeaders 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12288,7 +12342,7 @@ export type ProductPolicyCreateOrUpdateResponse = PolicyContract & ProductPolicy
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12313,7 +12367,7 @@ export type PropertyListByServiceResponse = PropertyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12333,7 +12387,7 @@ export type PropertyGetEntityTagResponse = PropertyGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12348,7 +12402,7 @@ export type PropertyGetResponse = PropertyContract & PropertyGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12373,7 +12427,7 @@ export type PropertyCreateOrUpdateResponse = PropertyContract & PropertyCreateOr
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12398,7 +12452,7 @@ export type PropertyListByServiceNextResponse = PropertyCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12418,7 +12472,7 @@ export type QuotaByCounterKeysListByServiceResponse = QuotaCounterCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12438,7 +12492,7 @@ export type QuotaByPeriodKeysGetResponse = QuotaCounterContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12458,7 +12512,7 @@ export type RegionListByServiceResponse = RegionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12478,7 +12532,7 @@ export type RegionListByServiceNextResponse = RegionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12498,7 +12552,7 @@ export type ReportsListByApiResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12518,7 +12572,7 @@ export type ReportsListByUserResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12538,7 +12592,7 @@ export type ReportsListByOperationResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12558,7 +12612,7 @@ export type ReportsListByProductResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12578,7 +12632,7 @@ export type ReportsListByGeoResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12598,7 +12652,7 @@ export type ReportsListBySubscriptionResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12618,7 +12672,7 @@ export type ReportsListByTimeResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12638,7 +12692,7 @@ export type ReportsListByRequestResponse = RequestReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12658,7 +12712,7 @@ export type ReportsListByApiNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12678,7 +12732,7 @@ export type ReportsListByUserNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12698,7 +12752,7 @@ export type ReportsListByOperationNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12718,7 +12772,7 @@ export type ReportsListByProductNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12738,7 +12792,7 @@ export type ReportsListByGeoNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12758,7 +12812,7 @@ export type ReportsListBySubscriptionNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12778,7 +12832,7 @@ export type ReportsListByTimeNextResponse = ReportCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12798,7 +12852,7 @@ export type SubscriptionListResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12818,7 +12872,7 @@ export type SubscriptionGetEntityTagResponse = SubscriptionGetEntityTagHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12833,7 +12887,7 @@ export type SubscriptionGetResponse = SubscriptionContract & SubscriptionGetHead
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12858,7 +12912,7 @@ export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & Subscrip
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12883,7 +12937,7 @@ export type SubscriptionListNextResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12903,7 +12957,7 @@ export type TagResourceListByServiceResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12923,7 +12977,7 @@ export type TagResourceListByServiceNextResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -12943,7 +12997,7 @@ export type TenantAccessGetEntityTagResponse = TenantAccessGetEntityTagHeaders &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12958,7 +13012,7 @@ export type TenantAccessGetResponse = AccessInformationContract & TenantAccessGe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12983,7 +13037,7 @@ export type TenantAccessGitGetResponse = AccessInformationContract & TenantAcces
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13008,7 +13062,7 @@ export type TenantConfigurationDeployResponse = OperationResultContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13028,7 +13082,7 @@ export type TenantConfigurationSaveResponse = OperationResultContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13048,7 +13102,7 @@ export type TenantConfigurationValidateResponse = OperationResultContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13068,7 +13122,7 @@ export type TenantConfigurationGetSyncStateResponse = TenantConfigurationSyncSta
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13088,7 +13142,7 @@ export type TenantConfigurationBeginDeployResponse = OperationResultContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13108,7 +13162,7 @@ export type TenantConfigurationBeginSaveResponse = OperationResultContract & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13128,7 +13182,7 @@ export type TenantConfigurationBeginValidateResponse = OperationResultContract &
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13148,7 +13202,7 @@ export type UserListByServiceResponse = UserCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13168,7 +13222,7 @@ export type UserGetEntityTagResponse = UserGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13183,7 +13237,7 @@ export type UserGetResponse = UserContract & UserGetHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13208,7 +13262,7 @@ export type UserCreateOrUpdateResponse = UserContract & UserCreateOrUpdateHeader
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13233,7 +13287,7 @@ export type UserGenerateSsoUrlResponse = GenerateSsoUrlResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13253,7 +13307,7 @@ export type UserGetSharedAccessTokenResponse = UserTokenResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13273,7 +13327,7 @@ export type UserListByServiceNextResponse = UserCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13293,7 +13347,7 @@ export type UserGroupListResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13313,7 +13367,7 @@ export type UserGroupListNextResponse = GroupCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13333,7 +13387,7 @@ export type UserSubscriptionListResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13353,7 +13407,7 @@ export type UserSubscriptionListNextResponse = SubscriptionCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13373,7 +13427,7 @@ export type UserIdentitiesListResponse = UserIdentityCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13393,7 +13447,7 @@ export type UserIdentitiesListNextResponse = UserIdentityCollection & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -13413,7 +13467,7 @@ export type ApiExportGetResponse = ApiExportResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The response body as text (string format)
        */

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/policySnippetMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class PolicySnippet {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.PolicySnippetsCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicySnippetsCollection>, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.PolicySnippetsCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams | coreHttp.ServiceCallback<Models.PolicySnippetsCollection>, callback?: coreHttp.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,8 +60,8 @@ export class PolicySnippet {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets",
   urlParameters: [

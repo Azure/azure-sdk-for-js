@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/notificationMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class Notification {
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.NotificationCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.NotificationListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.NotificationListByServiceOptionalParams | msRest.ServiceCallback<Models.NotificationCollection>, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.NotificationListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.NotificationCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.NotificationListByServiceOptionalParams | coreHttp.ServiceCallback<Models.NotificationCollection>, callback?: coreHttp.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +69,7 @@ export class Notification {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase): Promise<Models.NotificationGetResponse>;
+  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: coreHttp.RequestOptionsBase): Promise<Models.NotificationGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -79,7 +79,7 @@ export class Notification {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
+  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: coreHttp.ServiceCallback<Models.NotificationContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -90,8 +90,8 @@ export class Notification {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
-  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationContract>, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationGetResponse> {
+  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NotificationContract>): void;
+  get(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NotificationContract>, callback?: coreHttp.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class Notification {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: coreHttp.ServiceCallback<Models.NotificationContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -135,8 +135,8 @@ export class Notification {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: Models.NotificationCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.NotificationContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: Models.NotificationCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.NotificationContract>, callback?: msRest.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: Models.NotificationCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.NotificationContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: Models.NotificationCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.NotificationContract>, callback?: coreHttp.ServiceCallback<Models.NotificationContract>): Promise<Models.NotificationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,19 +154,19 @@ export class Notification {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.NotificationListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.NotificationCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationCollection>, callback?: msRest.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.NotificationCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.NotificationCollection>, callback?: coreHttp.ServiceCallback<Models.NotificationCollection>): Promise<Models.NotificationListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -178,8 +178,8 @@ export class Notification {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications",
   urlParameters: [
@@ -206,7 +206,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
   urlParameters: [
@@ -232,7 +232,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
   urlParameters: [
@@ -259,7 +259,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

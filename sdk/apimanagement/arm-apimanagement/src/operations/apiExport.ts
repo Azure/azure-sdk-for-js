@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/apiExportMappers";
 import * as Parameters from "../models/parameters";
@@ -38,7 +38,7 @@ export class ApiExport {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiExportGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: msRest.RequestOptionsBase): Promise<Models.ApiExportGetResponse>;
+  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiExportGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -48,7 +48,7 @@ export class ApiExport {
    * for 5 minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, callback: msRest.ServiceCallback<Models.ApiExportResult>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, callback: coreHttp.ServiceCallback<Models.ApiExportResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -59,8 +59,8 @@ export class ApiExport {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiExportResult>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiExportResult>, callback?: msRest.ServiceCallback<Models.ApiExportResult>): Promise<Models.ApiExportGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ApiExportResult>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, format: Models.ExportFormat, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ApiExportResult>, callback?: coreHttp.ServiceCallback<Models.ApiExportResult>): Promise<Models.ApiExportGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -75,8 +75,8 @@ export class ApiExport {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
   urlParameters: [

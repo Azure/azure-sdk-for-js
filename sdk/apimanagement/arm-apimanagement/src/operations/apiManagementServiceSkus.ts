@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/apiManagementServiceSkusMappers";
 import * as Parameters from "../models/parameters";
@@ -34,21 +34,21 @@ export class ApiManagementServiceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
+  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.ResourceSkuResults>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>, callback?: msRest.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse> {
+  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceSkuResults>, callback?: coreHttp.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,19 +66,19 @@ export class ApiManagementServiceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>
    */
-  listAvailableServiceSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
+  listAvailableServiceSkusNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAvailableServiceSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkusNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ResourceSkuResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableServiceSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
-  listAvailableServiceSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>, callback?: msRest.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
+  listAvailableServiceSkusNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkusNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ResourceSkuResults>, callback?: coreHttp.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -90,8 +90,8 @@ export class ApiManagementServiceSkus {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listAvailableServiceSkusOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listAvailableServiceSkusOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
   urlParameters: [
@@ -116,7 +116,7 @@ const listAvailableServiceSkusOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAvailableServiceSkusNextOperationSpec: msRest.OperationSpec = {
+const listAvailableServiceSkusNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/tenantAccessMappers";
 import * as Parameters from "../models/parameters";
@@ -33,21 +33,21 @@ export class TenantAccess {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantAccessGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantAccessGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TenantAccessGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.TenantAccessGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,21 +65,21 @@ export class TenantAccess {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantAccessGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGetResponse>;
+  get(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantAccessGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  get(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.AccessInformationContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AccessInformationContract>): void;
+  get(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AccessInformationContract>, callback?: coreHttp.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,9 +98,9 @@ export class TenantAccess {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -109,7 +109,7 @@ export class TenantAccess {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -119,8 +119,8 @@ export class TenantAccess {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, parameters: Models.AccessInformationUpdateParameters, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,23 +138,23 @@ export class TenantAccess {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,23 +170,23 @@ export class TenantAccess {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,8 +199,8 @@ export class TenantAccess {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   urlParameters: [
@@ -226,7 +226,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   urlParameters: [
@@ -253,7 +253,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   urlParameters: [
@@ -285,7 +285,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
+const regeneratePrimaryKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regeneratePrimaryKey",
   urlParameters: [
@@ -309,7 +309,7 @@ const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
+const regenerateSecondaryKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regenerateSecondaryKey",
   urlParameters: [

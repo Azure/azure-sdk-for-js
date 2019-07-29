@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/apiDiagnosticMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class ApiDiagnostic {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, callback: coreHttp.ServiceCallback<Models.DiagnosticCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +49,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiDiagnosticListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiDiagnosticListByServiceOptionalParams, callback: coreHttp.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams | coreHttp.ServiceCallback<Models.DiagnosticCollection>, callback?: coreHttp.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -72,7 +72,7 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiDiagnosticGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,7 +81,7 @@ export class ApiDiagnostic {
    * instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -91,8 +91,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticGetResponse>;
+  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiDiagnosticGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -124,7 +124,7 @@ export class ApiDiagnostic {
    * instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: coreHttp.ServiceCallback<Models.DiagnosticContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -134,8 +134,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DiagnosticContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DiagnosticContract>, callback?: coreHttp.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ export class ApiDiagnostic {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, callback: coreHttp.ServiceCallback<Models.DiagnosticContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -180,8 +180,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options: Models.ApiDiagnosticCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options: Models.ApiDiagnosticCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.DiagnosticContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.DiagnosticContract>, callback?: coreHttp.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -206,9 +206,9 @@ export class ApiDiagnostic {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -220,7 +220,7 @@ export class ApiDiagnostic {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -233,8 +233,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -259,9 +259,9 @@ export class ApiDiagnostic {
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -272,7 +272,7 @@ export class ApiDiagnostic {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -284,8 +284,8 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -305,19 +305,19 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ApiDiagnosticListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.DiagnosticCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DiagnosticCollection>, callback?: coreHttp.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -329,8 +329,8 @@ export class ApiDiagnostic {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listByServiceOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics",
   urlParameters: [
@@ -359,7 +359,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityTagOperationSpec: msRest.OperationSpec = {
+const getEntityTagOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
@@ -386,7 +386,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
@@ -414,7 +414,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
@@ -454,7 +454,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
@@ -487,7 +487,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
@@ -514,7 +514,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

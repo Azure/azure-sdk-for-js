@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/groupUserMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class GroupUser {
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, groupId: string, callback: msRest.ServiceCallback<Models.UserCollection>): void;
+  list(resourceGroupName: string, serviceName: string, groupId: string, callback: coreHttp.ServiceCallback<Models.UserCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +49,8 @@ export class GroupUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, groupId: string, options: Models.GroupUserListOptionalParams, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  list(resourceGroupName: string, serviceName: string, groupId: string, options?: Models.GroupUserListOptionalParams | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListResponse> {
+  list(resourceGroupName: string, serviceName: string, groupId: string, options: Models.GroupUserListOptionalParams, callback: coreHttp.ServiceCallback<Models.UserCollection>): void;
+  list(resourceGroupName: string, serviceName: string, groupId: string, options?: Models.GroupUserListOptionalParams | coreHttp.ServiceCallback<Models.UserCollection>, callback?: coreHttp.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -71,7 +71,7 @@ export class GroupUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserCheckEntityExistsResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCheckEntityExistsResponse>;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GroupUserCheckEntityExistsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -79,7 +79,7 @@ export class GroupUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: coreHttp.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -88,8 +88,8 @@ export class GroupUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<boolean>, callback?: coreHttp.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class GroupUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserCreateResponse>
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCreateResponse>;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GroupUserCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -119,7 +119,7 @@ export class GroupUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<Models.UserContract>): void;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: coreHttp.ServiceCallback<Models.UserContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -128,8 +128,8 @@ export class GroupUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.UserContract>): void;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.UserContract>, callback?: coreHttp.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,9 +149,9 @@ export class GroupUser {
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -159,7 +159,7 @@ export class GroupUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -168,8 +168,8 @@ export class GroupUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,19 +188,19 @@ export class GroupUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GroupUserListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UserCollection>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.UserCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.UserCollection>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.UserCollection>, callback?: coreHttp.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -212,8 +212,8 @@ export class GroupUser {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users",
   urlParameters: [
@@ -242,7 +242,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const checkEntityExistsOperationSpec: msRest.OperationSpec = {
+const checkEntityExistsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
@@ -268,7 +268,7 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
@@ -298,7 +298,7 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
@@ -324,7 +324,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
