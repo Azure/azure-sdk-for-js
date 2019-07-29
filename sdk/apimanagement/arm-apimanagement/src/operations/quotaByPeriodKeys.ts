@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/quotaByPeriodKeysMappers";
 import * as Parameters from "../models/parameters";
@@ -39,7 +39,7 @@ export class QuotaByPeriodKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.QuotaByPeriodKeysGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options?: msRest.RequestOptionsBase): Promise<Models.QuotaByPeriodKeysGetResponse>;
+  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options?: coreHttp.RequestOptionsBase): Promise<Models.QuotaByPeriodKeysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -50,7 +50,7 @@ export class QuotaByPeriodKeys {
    * @param quotaPeriodKey Quota period key identifier.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, callback: msRest.ServiceCallback<Models.QuotaCounterContract>): void;
+  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, callback: coreHttp.ServiceCallback<Models.QuotaCounterContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -62,8 +62,8 @@ export class QuotaByPeriodKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QuotaCounterContract>): void;
-  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QuotaCounterContract>, callback?: msRest.ServiceCallback<Models.QuotaCounterContract>): Promise<Models.QuotaByPeriodKeysGetResponse> {
+  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.QuotaCounterContract>): void;
+  get(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.QuotaCounterContract>, callback?: coreHttp.ServiceCallback<Models.QuotaCounterContract>): Promise<Models.QuotaByPeriodKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,9 +87,9 @@ export class QuotaByPeriodKeys {
    * @param quotaPeriodKey Quota period key identifier.
    * @param parameters The value of the Quota counter to be applied on the specified period.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<coreHttp.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -101,7 +101,7 @@ export class QuotaByPeriodKeys {
    * @param parameters The value of the Quota counter to be applied on the specified period.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -114,8 +114,8 @@ export class QuotaByPeriodKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, quotaPeriodKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,8 +131,8 @@ export class QuotaByPeriodKeys {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
   urlParameters: [
@@ -159,7 +159,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
   urlParameters: [

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 import * as Models from "../models";
 import * as Mappers from "../models/tenantConfigurationMappers";
 import * as Parameters from "../models/parameters";
@@ -36,7 +36,7 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationDeployResponse>
    */
-  deploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationDeployResponse> {
+  deploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantConfigurationDeployResponse> {
     return this.beginDeploy(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationDeployResponse>;
   }
@@ -50,7 +50,7 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationSaveResponse>
    */
-  save(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationSaveResponse> {
+  save(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantConfigurationSaveResponse> {
     return this.beginSave(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationSaveResponse>;
   }
@@ -64,7 +64,7 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationValidateResponse>
    */
-  validate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationValidateResponse> {
+  validate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantConfigurationValidateResponse> {
     return this.beginValidate(resourceGroupName,serviceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationValidateResponse>;
   }
@@ -77,21 +77,21 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationGetSyncStateResponse>
    */
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationGetSyncStateResponse>;
+  getSyncState(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.TenantConfigurationGetSyncStateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getSyncState(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
+  getSyncState(resourceGroupName: string, serviceName: string, callback: coreHttp.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSyncState(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
+  getSyncState(resourceGroupName: string, serviceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
+  getSyncState(resourceGroupName: string, serviceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.TenantConfigurationSyncStateContract>, callback?: coreHttp.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,9 +109,9 @@ export class TenantConfiguration {
    * @param serviceName The name of the API Management service.
    * @param parameters Deploy Configuration parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginDeploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -130,9 +130,9 @@ export class TenantConfiguration {
    * @param serviceName The name of the API Management service.
    * @param parameters Save Configuration parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginSave(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSave(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,9 +151,9 @@ export class TenantConfiguration {
    * @param serviceName The name of the API Management service.
    * @param parameters Validate Configuration parameters.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<coreArm.LROPoller>
    */
-  beginValidate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginValidate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -167,8 +167,8 @@ export class TenantConfiguration {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const getSyncStateOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const getSyncStateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState",
   urlParameters: [
@@ -194,7 +194,7 @@ const getSyncStateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeployOperationSpec: msRest.OperationSpec = {
+const beginDeployOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy",
   urlParameters: [
@@ -228,7 +228,7 @@ const beginDeployOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginSaveOperationSpec: msRest.OperationSpec = {
+const beginSaveOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save",
   urlParameters: [
@@ -262,7 +262,7 @@ const beginSaveOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginValidateOperationSpec: msRest.OperationSpec = {
+const beginValidateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate",
   urlParameters: [
