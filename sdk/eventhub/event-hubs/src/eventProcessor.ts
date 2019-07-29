@@ -67,7 +67,7 @@ export interface PartitionManager {
 export interface EventProcessorOptions {
   initialEventPosition?: EventPosition;
   maxBatchSize?: number;
-  maxWaitTime?: number;
+  maxWaitTimeInSeconds?: number;
 }
 
 /**
@@ -79,7 +79,7 @@ export class EventProcessor {
   private _eventHubClient: EventHubClient;
   private _partitionProcessorFactory: PartitionProcessorFactory;
   private _processorOptions: EventProcessorOptions;
-  private _partitionPump: PartitionPump | undefined;
+  private _partitionPump?: PartitionPump;
 
   constructor(
     consumerGroupName: string,
@@ -112,7 +112,7 @@ export class EventProcessor {
     };
     const partitionProcessor = this._partitionProcessorFactory(
       partitionContext,
-      "checkpointManager" as any
+      new CheckpointManager()
     );
     this._partitionPump = new PartitionPump(
       this._eventHubClient,
@@ -120,7 +120,7 @@ export class EventProcessor {
       partitionProcessor,
       this._processorOptions
     );
-    this._partitionPump.start(partitionIds[0]);
+    await this._partitionPump.start(partitionIds[0]);
   }
 
   /**
@@ -129,7 +129,7 @@ export class EventProcessor {
    */
   async stop(): Promise<void> {
     if (this._partitionPump) {
-      this._partitionPump.stop();
+      await this._partitionPump.stop("Stopped processing");
     }
   }
 }

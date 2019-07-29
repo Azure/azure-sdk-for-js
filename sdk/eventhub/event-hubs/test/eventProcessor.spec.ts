@@ -18,7 +18,7 @@ import {
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("Event processor Host", function(): void {
+describe("Event Processor", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -40,35 +40,34 @@ describe("Event processor Host", function(): void {
   });
 
   describe("Partition processor", function(): void {
-    const receivedEvents: EventData[] = [];
-    let isinitializeCalled = false;
-    let isCloseCalled = false;
-    class TestEventProcessor {
-      async initialize() {
-        isinitializeCalled = true;
-        debug(`Started processing`);
-      }
-      async processEvents(events: EventData[]) {
-        for (const event of events) {
-          receivedEvents.push(event);
-          debug("Received event", event.body);
+    it("should call methods on a PartitionProcessor ", async function(): Promise<void> {
+      const receivedEvents: EventData[] = [];
+      let isinitializeCalled = false;
+      let isCloseCalled = false;
+      class TestEventProcessor {
+        async initialize() {
+          isinitializeCalled = true;
+          debug(`Started processing`);
+        }
+        async processEvents(events: EventData[]) {
+          for (const event of events) {
+            receivedEvents.push(event);
+            debug("Received event", event.body);
+          }
+        }
+
+        async processError(error: Error) {
+          debug(`Encountered an error: ${error.message}`);
+        }
+
+        async close() {
+          isCloseCalled = true;
+          debug(`Stopped processing`);
         }
       }
-
-      async processError(error: Error) {
-        debug(`Encountered an error: ${error.message}`);
-      }
-
-      async close() {
-        isCloseCalled = true;
-        debug(`Stopped processing`);
-      }
-    }
-    const eventProcessorFactory = (context: PartitionContext) => {
-      return new TestEventProcessor();
-    };
-
-    it("should call methods on a PartitionProcessor ", async function(): Promise<void> {
+      const eventProcessorFactory = (context: PartitionContext) => {
+        return new TestEventProcessor();
+      };
       const partitionInfo = await client.getPartitionProperties("0");
       const eph = new EventProcessor(
         "$Default",
@@ -80,15 +79,15 @@ describe("Event processor Host", function(): void {
             partitionInfo.lastEnqueuedSequenceNumber
           ),
           maxBatchSize: 1,
-          maxWaitTime: 5
+          maxWaitTimeInSeconds: 5
         }
       );
       const producer = client.createProducer({ partitionId: "0" });
       await producer.send({ body: "Hello world!!!" });
 
       await eph.start();
-      // after 10 seconds, stop processing
-      await delay(1000);
+      // after 2 seconds, stop processing
+      await delay(2000);
       await eph.stop();
       await producer.close();
       isinitializeCalled.should.equal(true);

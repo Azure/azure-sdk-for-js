@@ -30,43 +30,63 @@ export class PartitionPump {
   }
 
   async start(partitionId: string): Promise<void> {
-    await this._partitionProcessor.initialize!();
-    await this._receiveEvents(partitionId);
+    if (typeof this._partitionProcessor.initialize !== "function") {
+      throw new TypeError("'initialize' must be of type 'function'.");
+    }
+    if (this._partitionProcessor.initialize) {
+      await this._partitionProcessor.initialize();
+    }
+    this._receiveEvents(partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
     this._isReceiving = true;
-    this._receiver = await this._eventHubClient.createConsumer(
-      this._partitionContext.consumerGroupName,
-      partitionId,
-      this._processorOptions.initialEventPosition || EventPosition.earliest()
-    );
     try {
+      this._receiver = await this._eventHubClient.createConsumer(
+        this._partitionContext.consumerGroupName,
+        partitionId,
+        this._processorOptions.initialEventPosition || EventPosition.earliest()
+      );
+
       while (this._isReceiving) {
         const receivedEvents = await this._receiver.receiveBatch(
           this._processorOptions.maxBatchSize || 1,
-          this._processorOptions.maxWaitTime
+          this._processorOptions.maxWaitTimeInSeconds
         );
+        if (typeof this._partitionProcessor.processEvents !== "function") {
+          throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
+        }
         await this._partitionProcessor.processEvents(receivedEvents);
       }
     } catch (err) {
       this._isReceiving = false;
-      this._receiver.close();
-      await this._partitionProcessor.processError(err);
-      log.partitionPump("An error occurred while receiving events.", err);
+      try {
+        if (this._receiver) {
+          this._receiver.close();
+        }
+        await this._partitionProcessor.processError(err);
+        log.error("An error occurred while receiving events.", err);
+      } catch (err) {
+        log.error("An error occurred while closing the receiver", err);
+      }
     }
   }
 
-  async stop(): Promise<void> {
+  async stop(reason: string): Promise<void> {
     this._isReceiving = false;
     try {
       if (this._receiver) {
         this._receiver.close();
       }
-      await this._partitionProcessor.close!("Stopped processing");
+      if (typeof this._partitionProcessor.close !== "function") {
+        throw new TypeError("'close' must be of type 'function'.");
+      }
+      if (this._partitionProcessor.close) {
+        await this._partitionProcessor.close(reason);
+      }
     } catch (err) {
-      log.partitionPump("An error occurred while closing the receiver.", err);
+      log.error("An error occurred while closing the receiver.", err);
       throw err;
     }
   }

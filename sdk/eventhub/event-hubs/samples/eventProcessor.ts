@@ -39,14 +39,14 @@ async function main() {
   };
 
   const eph = new EventProcessor(
-    "$Default",
+    EventHubClient.defaultConsumerGroupName,
     client,
     eventProcessorFactory,
     "partitionManager" as any,
     {
       initialEventPosition: EventPosition.earliest(),
       maxBatchSize: 10,
-      maxWaitTime: 20
+      maxWaitTimeInSeconds: 20
     }
   );
   await eph.start();
