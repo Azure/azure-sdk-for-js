@@ -154,25 +154,6 @@ export namespace HostContext {
     }
   }
 
-  function _eitherLeaseManagerOrleaseDurationAndRenewal(options: EventProcessorHostOptions): void {
-    validateType("options", options, true, "object");
-    const leaseManager = options.leaseManager;
-    const leaseDuration = options.leaseDuration;
-    const leaseRenewInterval = options.leaseRenewInterval;
-    if (leaseManager) {
-      if (leaseDuration || leaseRenewInterval) {
-        throw new Error(
-          "Either provide ('leaseDuration' and 'leaseRenewInterval') or " +
-            "provide 'leaseManager'."
-        );
-      }
-    } else if (!(leaseDuration && leaseRenewInterval)) {
-      throw new Error(
-        "Either provide ('leaseDuration' and 'leaseRenewInterval') or " + "provide 'leaseManager'."
-      );
-    }
-  }
-
   function _createBase(hostName: string, options: EventProcessorHostOptions): BaseHostContext {
     validateType("hostName", hostName, true, "string");
 
@@ -213,7 +194,6 @@ export namespace HostContext {
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
-    _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
     if (options.leaseManager) {
       options.leaseDuration = options.leaseManager.leaseDuration;
