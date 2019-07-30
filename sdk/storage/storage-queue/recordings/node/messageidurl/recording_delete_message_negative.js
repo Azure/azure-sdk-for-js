@@ -1,77 +1,77 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue156029723825801077"}
+module.exports.testInfo = {"queue":"queue156404670133202032"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156029723825801077')
+  .put('/queue156404670133202032')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '151cf02e-2003-0076-19b0-20fe2d000000',
+  '6c84b5db-9003-00cc-33ca-425a23000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 23:53:57 GMT',
+  'Thu, 25 Jul 2019 09:21:23 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .post('/queue156029723825801077/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
+  .post('/queue156404670133202032/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
   .query(true)
-  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>4e61d032-a4a8-4230-85a0-5b2c5a14f40a</MessageId><InsertionTime>Tue, 11 Jun 2019 23:53:58 GMT</InsertionTime><ExpirationTime>Tue, 18 Jun 2019 23:53:58 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAKsHf77Ag1QE=</PopReceipt><TimeNextVisible>Tue, 11 Jun 2019 23:53:58 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
+  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>f908df80-1b7d-4e06-9104-8aef0d298c5d</MessageId><InsertionTime>Thu, 25 Jul 2019 09:21:23 GMT</InsertionTime><ExpirationTime>Thu, 01 Aug 2019 09:21:23 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAINLyU8pC1QE=</PopReceipt><TimeNextVisible>Thu, 25 Jul 2019 09:21:23 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '9b8945ab-3003-00c8-6eb0-20eba6000000',
+  'dc59ce4d-6003-00bf-50ca-422ae0000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 23:53:58 GMT',
+  'Thu, 25 Jul 2019 09:21:23 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156029723825801077/messages/4e61d032-a4a8-4230-85a0-5b2c5a14f40a')
+  .delete('/queue156404670133202032/messages/f908df80-1b7d-4e06-9104-8aef0d298c5d')
   .query(true)
-  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:a0d19ff1-c003-00dd-6bb0-20293f000000\nTime:2019-06-11T23:53:59.1662071Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>", [ 'Content-Length',
+  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:24ddf101-1003-00b0-4dca-42c716000000\nTime:2019-07-25T09:21:23.9175857Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>", [ 'Content-Length',
   '417',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a0d19ff1-c003-00dd-6bb0-20293f000000',
+  '24ddf101-1003-00b0-4dca-42c716000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-error-code',
   'InvalidQueryParameterValue',
   'Date',
-  'Tue, 11 Jun 2019 23:53:58 GMT',
+  'Thu, 25 Jul 2019 09:21:23 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156029723825801077')
+  .delete('/queue156404670133202032')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f806fa62-9003-0009-6db0-20601f000000',
+  '869b70ee-9003-004f-15ca-42fa8e000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 23:53:59 GMT',
+  'Thu, 25 Jul 2019 09:21:23 GMT',
   'Connection',
   'close' ]);
 

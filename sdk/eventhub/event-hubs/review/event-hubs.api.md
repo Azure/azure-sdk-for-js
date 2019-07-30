@@ -13,14 +13,21 @@ import { delay } from '@azure/core-amqp';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { OnAmqpEvent } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
+import { RetryPolicy } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export interface BatchOptions {
+    abortSignal?: AbortSignalLike;
+    maxSizeInBytes?: number;
+    partitionKey?: string;
+}
 
 export { DataTransformer }
 
@@ -34,6 +41,19 @@ export interface EventData {
     properties?: {
         [key: string]: any;
     };
+}
+
+// @public
+export class EventDataBatch {
+    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
+    constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
+    readonly batchMessage: Buffer | undefined;
+    readonly count: number;
+    readonly partitionKey: string | undefined;
+    readonly sizeInBytes: number;
+    tryAdd(eventData: EventData): boolean;
 }
 
 // @public
@@ -63,8 +83,6 @@ export interface EventHubClientOptions {
 
 // @public
 export class EventHubConsumer {
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
-    // 
     // @internal
     constructor(context: ConnectionContext, consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions);
     close(): Promise<void>;
@@ -89,8 +107,9 @@ export class EventHubProducer {
     // @internal
     constructor(context: ConnectionContext, options?: EventHubProducerOptions);
     close(): Promise<void>;
+    createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly isClosed: boolean;
-    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
+    send(eventData: EventData | EventData[] | EventDataBatch, options?: SendOptions): Promise<void>;
     }
 
 // @public
@@ -128,6 +147,16 @@ export class EventPosition {
     sequenceNumber?: number;
     }
 
+// @public
+export class EventProcessor {
+    // Warning: (ae-forgotten-export) The symbol "PartitionProcessorFactory" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PartitionManager" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "EventProcessorOptions" needs to be exported by the entry point index.d.ts
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    start(): Promise<void>;
+    stop(): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -135,6 +164,16 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface PartitionContext {
+    // (undocumented)
+    readonly consumerGroupName: string;
+    // (undocumented)
+    readonly eventHubName: string;
+    // (undocumented)
+    readonly partitionId: string;
+}
 
 // @public
 export interface PartitionProperties {
@@ -172,8 +211,11 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
+    maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
+    minExponentialRetryDelayInMs?: number;
     retryInterval?: number;
+    retryPolicy?: RetryPolicy;
     timeoutInMs?: number;
 }
 

@@ -10,7 +10,8 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   isTokenCredential,
-  Constants
+  Constants,
+  RetryPolicy
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -40,24 +41,28 @@ export interface RetryOptions {
    * A minimum value of 60 seconds will be used if a value not greater than this is provided.
    */
   timeoutInMs?: number;
-  // /**
-  //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
-  //  * Not applicable, when `isExponential` is set to `false`.
-  //  */
-  // maxRetryInterval?: number;
-  // /**
-  //  * Boolean denoting if the `retryInterval` should be incremented exponentially between
-  //  * retries or kept the same.
-  //  */
-  // isExponential?: boolean;
+  /**
+   * @property {RetryPolicy} [retryPolicy] Denotes which retry policy to apply. If undefined, defaults to `LinearRetryPolicy`
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
+   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
+   */
+  maxExponentialRetryDelayInMs?: number;
+  /**
+   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay between retries
+   * to use. Applicable only when performing exponential retry.
+   */
+  minExponentialRetryDelayInMs?: number;
 }
 
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
-      typeof retryOptions.timeoutInMs !== "number" ||
-      !isFinite(retryOptions.timeoutInMs) ||
-      retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
+    typeof retryOptions.timeoutInMs !== "number" ||
+    !isFinite(retryOptions.timeoutInMs) ||
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
       ? Constants.defaultOperationTimeoutInSeconds * 1000
       : retryOptions.timeoutInMs;
   return timeoutInMs;
@@ -94,6 +99,30 @@ export interface SendOptions {
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
   partitionKey?: string | null;
+  /**
+   * @property
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The set of options to configure the createBatch operation on the `EventProducer`.
+ */
+export interface BatchOptions {
+  /**
+   * @property
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string;
+  /**
+   * @property
+   * The maximum size allowed for the batch.
+   */
+  maxSizeInBytes?: number;
   /**
    * @property
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -324,6 +353,12 @@ export class EventHubClient {
    * @returns Promise<void>
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     return new EventHubProducer(this._context, options);
   }
@@ -352,6 +387,12 @@ export class EventHubClient {
     eventPosition: EventPosition,
     options?: EventHubConsumerOptions
   ): EventHubConsumer {
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);

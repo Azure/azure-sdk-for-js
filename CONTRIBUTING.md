@@ -168,7 +168,7 @@ Generally speaking, the following commands are roughly equivalent:
 | NPM command                          | Rush command                         | Rush command effect                                              |
 | ------------------------------------ | ------------------------------------ | ---------------------------------------------------------------- |
 | `npm install`                        | `rush update`                        | Install dependencies for all projects in the Rush workspace      |
-| `npm install --save[-dev] <package>` | `rush add -p <package> [--dev]`      | Add or update a dependency in the current project                |
+| `npm install --save[-dev] <package>` | `rush add -p <package> --caret [--dev]`      | Add or update a dependency in the current project                |
 | `npm build`                          | `rush [re]build`                     | Build all projects in the Rush workspace                         |
 |                                      | `rush [re]build -t <package>`        | Build named project and any projects it depends on               |
 |                                      | `rushx build`                        | Build the current project only                                   |

@@ -1,5 +1,5 @@
-export const SDK_VERSION: string = "10.1.0";
-export const SERVICE_VERSION: string = "2018-03-28";
+export const SDK_VERSION: string = "10.2.0";
+export const SERVICE_VERSION: string = "2018-11-09";
 
 export const FILE_MAX_SIZE_BYTES: number = 1024 * 1024 * 1024 * 1024; // 1TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB

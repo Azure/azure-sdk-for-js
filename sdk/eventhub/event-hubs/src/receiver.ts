@@ -3,13 +3,18 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./eventHubClient";
-import { OnMessage, OnError } from "./eventHubReceiver";
+import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
+import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
-import { Constants } from "@azure/core-amqp";
-import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
-import { BatchingReceiver } from "./batchingReceiver";
-import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  RetryConfig,
+  Constants,
+  RetryOperationType,
+  retry,
+  MessagingError
+} from "@azure/core-amqp";
+import { ReceiveHandler } from "./receiveHandler";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed } from "./util/error";
 import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
@@ -43,6 +48,7 @@ export interface EventIteratorOptions {
  * @class
  */
 export class EventHubConsumer {
+  private _baseConsumer?: EventHubReceiver;
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -52,18 +58,22 @@ export class EventHubConsumer {
    */
   private _consumerGroup: string;
   /**
-   * @property The event position in the partition at which to start receiving messages.
-   */
-  private _eventPosition: EventPosition;
-  /**
    * @property Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-
+  /**
+   * @property The identifier of the Event Hub partition that this consumer is associated with.
+   * Events will be read only from this partition.
+   */
   private _partitionId: string;
+  /**
+   * @property The set of options to configure the behavior of an EventHubConsumer.
+   */
   private _receiverOptions: EventHubConsumerOptions;
-  private _streamingReceiver: StreamingReceiver | undefined;
-  private _batchingReceiver: BatchingReceiver | undefined;
+  /**
+   * @property The set of retry options to configure the receiveBatch operation.
+   */
+  private _retryOptions: RetryOptions;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -102,7 +112,7 @@ export class EventHubConsumer {
    * @readonly
    */
   get ownerLevel(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.ownerLevel;
+    return this._receiverOptions.ownerLevel;
   }
 
   /**
@@ -110,17 +120,7 @@ export class EventHubConsumer {
    * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
    */
   get isReceivingMessages(): boolean {
-    if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
-      return true;
-    }
-    if (
-      this._batchingReceiver &&
-      this._batchingReceiver.isOpen() &&
-      this._batchingReceiver.isReceivingMessages
-    ) {
-      return true;
-    }
-    return false;
+    return Boolean(this._baseConsumer && this._baseConsumer.isReceivingMessages);
   }
 
   /**
@@ -138,8 +138,15 @@ export class EventHubConsumer {
     this._context = context;
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
-    this._eventPosition = eventPosition;
     this._receiverOptions = options || {};
+    this._retryOptions = this._receiverOptions.retryOptions || {};
+    this._baseConsumer = new EventHubReceiver(
+      context,
+      consumerGroup,
+      partitionId,
+      eventPosition,
+      options
+    );
   }
   /**
    * Starts the consumer by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
@@ -160,25 +167,57 @@ export class EventHubConsumer {
   receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    const baseConsumer = this._baseConsumer!;
+
     if (typeof onMessage !== "function") {
       throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
     }
     if (typeof onError !== "function") {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
-    const checkpoint = this.getCheckpoint();
-    if (checkpoint) {
-      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
+
+    // return immediately if the abortSignal is already aborted.
+    if (abortSignal && abortSignal.aborted) {
+      onError(new AbortError("The receive operation has been cancelled by the user."));
+      // close this receiver when user triggers a cancellation.
+      this.close().catch(() => {}); // no-op close error handler
+      return new ReceiveHandler(baseConsumer);
     }
-    this._streamingReceiver = StreamingReceiver.create(
-      this._context,
-      this.consumerGroup,
-      this.partitionId,
-      this._eventPosition,
-      this._receiverOptions
+
+    const wrappedOnError = (error: Error) => {
+      // ignore retryable errors
+      if ((error as MessagingError).retryable) {
+        return;
+      }
+
+      log.error(
+        "[%s] Since the error is not retryable, we let the user know about it by calling the user's error handler.",
+        this._context.connectionId
+      );
+
+      if (error.name === "AbortError") {
+        // close this receiver when user triggers a cancellation.
+        this.close().catch(() => {}); // no-op close error handler
+      }
+      onError(error);
+    };
+
+    const onAbort = () => {
+      if (this._baseConsumer) {
+        this._baseConsumer.abort();
+      }
+    };
+
+    baseConsumer.registerHandlers(
+      onMessage,
+      wrappedOnError,
+      Constants.defaultPrefetchCount,
+      true,
+      abortSignal,
+      onAbort
     );
-    this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    return this._streamingReceiver.receive(onMessage, onError, abortSignal);
+
+    return new ReceiveHandler(baseConsumer);
   }
 
   /**
@@ -192,14 +231,11 @@ export class EventHubConsumer {
    * @param [options] A set of options to apply to an event iterator.
    */
   async *getEventIterator(
-    options?: EventIteratorOptions
+    options: EventIteratorOptions = {}
   ): AsyncIterableIterator<ReceivedEventData> {
-    if (!options) {
-      options = {};
-    }
-
     const maxMessageCount = 1;
     const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+
     while (true) {
       const currentBatch = await this.receiveBatch(
         maxMessageCount,
@@ -232,61 +268,154 @@ export class EventHubConsumer {
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
+    maxWaitTimeInSeconds: number = 60,
     abortSignal?: AbortSignalLike
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    const checkpoint = this.getCheckpoint();
-    if (checkpoint) {
-      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
-    }
-    if (!this._batchingReceiver || !this._batchingReceiver.isOpen()) {
-      this._batchingReceiver = BatchingReceiver.create(
-        this._context,
-        this.consumerGroup,
-        this.partitionId,
-        this._eventPosition,
-        this._receiverOptions
-      );
-    } else if (this._batchingReceiver.checkpoint < checkpoint!) {
-      await this._batchingReceiver.close();
-      this._batchingReceiver = BatchingReceiver.create(
-        this._context,
-        this.consumerGroup,
-        this.partitionId,
-        this._eventPosition,
-        this._receiverOptions
-      );
-    }
 
-    let result: ReceivedEventData[] = [];
-    try {
-      result = await this._batchingReceiver.receive(
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        this._receiverOptions.retryOptions,
-        abortSignal
-      );
-      if (result.length < maxMessageCount) {
-        // we are now re-using the same receiver link between multiple calls to receiveBatch() or the iterator on the receiver.
-        // This can result in the receiver link having pending credits if a receiveBatch() call asking for m events returned n events where n < m.
-        // Since Event Hubs doesnt support the drain feature yet, this can result in the receiver link receiving events when the user is not expecting it to.
-        // Hence closing the link when result.length < maxMessageCount
-        await this._batchingReceiver.close();
-      }
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._context.connectionId,
-        this._batchingReceiver.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-      throw err;
-    }
-    return result;
+    // store events across multiple retries
+    const receivedEvents: ReceivedEventData[] = [];
+
+    const retrieveEvents = (): Promise<ReceivedEventData[]> => {
+      return new Promise(async (resolve, reject) => {
+        // if this consumer was closed, _baseConsumer might be undefined.
+        // resolve the operation's promise with the events collected thus far in case
+        // the promise hasn't already been resolved.
+        if (!this._baseConsumer) {
+          return resolve(receivedEvents);
+        }
+
+        let timer: any;
+        const logOnAbort = (): void => {
+          const baseConsumer = this._baseConsumer;
+          const name = baseConsumer && baseConsumer.name;
+          const address = baseConsumer && baseConsumer.address;
+          const desc: string =
+            `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
+            `address "${address}" has been cancelled by the user.`;
+          log.error(desc);
+        };
+
+        const rejectOnAbort = async (): Promise<void> => {
+          logOnAbort();
+          try {
+            await this.close();
+          } finally {
+            return reject(new AbortError("The receive operation has been cancelled by the user."));
+          }
+        };
+
+        // operation has been cancelled, so exit immediately
+        if (abortSignal && abortSignal.aborted) {
+          return await rejectOnAbort();
+        }
+
+        // updates the prefetch count so that the baseConsumer adds
+        // the correct number of credits to receive the same number of events.
+        const prefetchCount = Math.max(maxMessageCount - receivedEvents.length, 0);
+        if (prefetchCount === 0) {
+          return resolve(receivedEvents);
+        }
+
+        log.batching(
+          "[%s] Receiver '%s', setting the prefetch count to %d.",
+          this._context.connectionId,
+          this._baseConsumer && this._baseConsumer.name,
+          prefetchCount
+        );
+
+        const cleanUpBeforeReturn = (): void => {
+          if (this._baseConsumer) {
+            this._baseConsumer.clearHandlers();
+          }
+          clearTimeout(timer);
+        };
+
+        const onAbort = (): void => {
+          clearTimeout(timer);
+          rejectOnAbort();
+        };
+
+        this._baseConsumer.registerHandlers(
+          (eventData) => {
+            receivedEvents.push(eventData);
+
+            // resolve the operation's promise after the requested
+            // number of events are received.
+            if (receivedEvents.length === maxMessageCount) {
+              log.batching(
+                "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
+                this._context.connectionId,
+                this._baseConsumer && this._baseConsumer.name,
+                receivedEvents.length,
+                maxWaitTimeInSeconds
+              );
+              cleanUpBeforeReturn();
+              resolve(receivedEvents);
+            }
+          },
+          (err) => {
+            cleanUpBeforeReturn();
+            if (err.name === "AbortError") {
+              rejectOnAbort();
+            } else {
+              reject(err);
+            }
+          },
+          maxMessageCount - receivedEvents.length,
+          false,
+          abortSignal,
+          onAbort
+        );
+
+        const addTimeout = (): void => {
+          const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          log.batching(
+            msg,
+            this._context.connectionId,
+            maxWaitTimeInSeconds,
+            this._baseConsumer && this._baseConsumer.name
+          );
+
+          // resolve the operation's promise after the requested
+          // max number of seconds have passed.
+          timer = setTimeout(() => {
+            log.batching(
+              "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
+              this._context.connectionId,
+              this._baseConsumer && this._baseConsumer.name,
+              receivedEvents.length,
+              maxWaitTimeInSeconds
+            );
+            cleanUpBeforeReturn();
+            resolve(receivedEvents);
+          }, maxWaitTimeInSeconds * 1000);
+        };
+
+        addTimeout();
+        if (abortSignal && !abortSignal.aborted) {
+          abortSignal.addEventListener("abort", onAbort);
+        }
+      });
+    };
+
+    const retryOptions = this._retryOptions;
+    const config: RetryConfig<ReceivedEventData[]> = {
+      connectionHost: this._context.config.host,
+      connectionId: this._context.connectionId,
+      delayInSeconds:
+        typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
+          ? retryOptions.retryInterval / 1000
+          : Constants.defaultDelayBetweenOperationRetriesInSeconds,
+      operation: retrieveEvents,
+      operationType: RetryOperationType.receiveMessage,
+      maxRetries: retryOptions.maxRetries,
+      retryPolicy: retryOptions.retryPolicy,
+      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+    };
+    return retry<ReceivedEventData[]>(config);
   }
 
   /**
@@ -301,49 +430,16 @@ export class EventHubConsumer {
   async close(): Promise<void> {
     try {
       if (this._context.connection && this._context.connection.isOpen()) {
-        // Close the streaming receiver.
-        if (this._streamingReceiver) {
-          await this._streamingReceiver.close();
-          this._streamingReceiver = undefined;
-        }
-
-        // Close the batching receiver.
-        if (this._batchingReceiver) {
-          await this._batchingReceiver.close();
-          this._batchingReceiver = undefined;
+        if (this._baseConsumer) {
+          await this._baseConsumer.close();
+          this._baseConsumer = void 0;
         }
       }
     } catch (err) {
-      log.error(
-        "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.connectionId,
-        this._context.config.entityPath,
-        err
-      );
       throw err;
     } finally {
       this._isClosed = true;
     }
-  }
-
-  private getCheckpoint(): number | undefined {
-    if (!this._streamingReceiver && !this._batchingReceiver) {
-      return;
-    }
-    let lastBatchingReceiverSequenceNum: number = -1;
-    let lastStreamingReceiverSequenceNum: number = -1;
-    if (this._batchingReceiver) {
-      lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
-    }
-    if (this._streamingReceiver) {
-      lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
-    }
-
-    const checkpoint = Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
-    if (checkpoint === -1) {
-      return;
-    }
-    return checkpoint;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -357,7 +453,7 @@ export class EventHubConsumer {
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context);
-    if (this.isClosed) {
+    if (!this._baseConsumer || this.isClosed) {
       const errorMessage =
         `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;

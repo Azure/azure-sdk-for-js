@@ -1,3 +1,27 @@
+### 2019-07-24 2.1.0
+- Added support for WebSockets. WebSockets enable Event processor Host to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
+Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/websockets.ts) sample to see how to use WebSockets. 
+
+## 2019-07-16 2.0.0
+- Use the latest version of the dependency on [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.1) that has the following bug fixes
+    - Added event handlers for `error` and `protocolError` events on the connection object to avoid the case of unhandled exceptions. This is related to the [bug 4136](https://github.com/Azure/azure-sdk-for-js/issues/4136)
+   - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError` 
+      is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host#debug-logs).
+   - When recovering from an error that caused the underlying AMQP connection to get disconnected, 
+      [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection 
+      resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections. 
+      We already have code in place to create new AMQP links to resume send/receive operations.
+      - InvalidOperationError: A link to connection '.....' $cbs node has already been opened.
+      - UnauthorizedError: Unauthorized access. 'Listen' claim(s) are required to perform this operation.
+
+#### Breaking Changes
+- If you have been using the `createFromAadTokenCredentials` function or the `createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager` function to create an instance of the 
+`EventProcessorHost`, you will now need to use the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) 
+library instead of [ms-rest-azure](https://www.npmjs.com/package/ms-rest-azure) library to create 
+the credentials that are needed by these functions.
+    - Typescript: Replace `import * from "ms-rest-azure";` with `import * from "@azure/ms-rest-nodeauth";`
+    - Javascript: Replace `require("ms-rest-azure")` with `require("@azure/ms-rest-nodeauth")`
+
 ## 2018-10-05 1.0.6
 - Remove `@azure/amqp-common` and `rhea-promise` as dependencies, since we use very little from 
 those libraries and there is a risk of having two instances of rhea in the dependency chain which 

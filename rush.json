@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.10.1",
+  "rushVersion": "5.11.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "3.5.3",
+  "pnpmVersion": "3.6.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -62,6 +62,18 @@
    * for your repo.
    */
   "nodeSupportedVersionRange": ">=8.0.0",
+  /**
+   * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
+   * spend six months in a stabilization period before the first Long Term Support (LTS) version.
+   * For example, 8.9.0 was the first LTS version of Node.js 8.  Pre-LTS versions are not recommended
+   * for production usage because they frequently have bugs.  They may cause Rush itself
+   * to malfunction.
+   *
+   * Rush normally prints a warning if it detects a pre-LTS Node.js version.  If you are testing
+   * pre-LTS versions in preparation for supporting the first LTS version, you can use this setting
+   * to disable Rush's warning.
+   */
+  "suppressNodeLtsWarning": true,
   /**
    * If you would like the version specifiers for your dependencies to be consistent, then
    * uncomment this line. This is effectively similar to running "rush check" before any
@@ -311,16 +323,20 @@
     // },
     //
     {
-      "packageName": "@azure/core-amqp",
-      "projectFolder": "sdk/core/core-amqp"
-    },
-    {
       "packageName": "@azure/abort-controller",
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/core-amqp",
+      "projectFolder": "sdk/core/core-amqp"
+    },
+    {
       "packageName": "@azure/core-arm",
       "projectFolder": "sdk/core/core-arm"
+    },
+    {
+      "packageName": "@azure/core-asynciterator-polyfill",
+      "projectFolder": "sdk/core/core-asynciterator-polyfill"
     },
     {
       "packageName": "@azure/core-auth",
@@ -335,10 +351,6 @@
       "projectFolder": "sdk/core/core-paging"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill"
-    },
-    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
@@ -351,20 +363,24 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
+      "packageName": "testhub",
+      "projectFolder": "sdk/eventhub/testhub"
+    },
+    {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity"
     },
     {
-      "packageName": "@azure/keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets"
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates"
     },
     {
       "packageName": "@azure/keyvault-keys",
       "projectFolder": "sdk/keyvault/keyvault-keys"
     },
     {
-      "packageName": "@azure/keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates"
+      "packageName": "@azure/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets"
     },
     {
       "packageName": "@azure/service-bus",
@@ -385,10 +401,6 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub"
     }
   ]
 }

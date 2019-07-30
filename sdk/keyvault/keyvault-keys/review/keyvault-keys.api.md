@@ -4,12 +4,12 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -21,6 +21,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 
 // @public
 export interface CreateKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];
@@ -49,17 +50,20 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 
 // @public
 export interface GetKeyOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetKeysOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
 // @public
 export interface ImportKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     hsm?: boolean;
@@ -121,14 +125,14 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
 
 // @public
 export class KeysClient {
-    constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
-    protected readonly credential: ServiceClientCredentials | TokenCredential;
+    protected readonly credential: TokenCredential;
     deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
+    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
@@ -175,6 +179,7 @@ export interface ProxyOptions {
 
 // @public
 export interface RequestOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
@@ -193,6 +198,7 @@ export interface TelemetryOptions {
 
 // @public
 export interface UpdateKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];
