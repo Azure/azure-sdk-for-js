@@ -533,7 +533,8 @@ export class EventHubSender extends LinkEntity {
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose
+      onSessionClose: this._onSessionClose,
+      sendTimeoutInSeconds: options.sendTimeoutInSeconds
     };
     log.sender("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -613,7 +614,11 @@ export class EventHubSender extends LinkEntity {
 
           try {
             await defaultLock.acquire(this.senderLock, () => {
-              return this._init();
+              return this._init(
+                this._createSenderOptions({
+                  sendTimeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions)
+                })
+              );
             });
           } catch (err) {
             removeListeners();
