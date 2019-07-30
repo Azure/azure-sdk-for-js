@@ -80,14 +80,12 @@ export class RequestResponseLink implements ReqResLink {
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
-    if (!options) options = {};
-
+  sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
     if (!options.timeoutInMs) {
       options.timeoutInMs = Constants.defaultOperationTimeoutInMs;
     }
 
-    const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+    const aborter: AbortSignalLike | undefined = options.abortSignal;
 
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any;
@@ -100,7 +98,7 @@ export class RequestResponseLink implements ReqResLink {
 
       const rejectOnAbort = () => {
         const address = this.receiver.address || "address";
-        const requestName = options!.requestName;
+        const requestName = options.requestName;
         const desc: string =
           `[${this.connection.id}] The request "${requestName}" ` +
           `to "${address}" has been cancelled by the user.`;
@@ -212,7 +210,7 @@ export class RequestResponseLink implements ReqResLink {
         return reject(translate(e));
       };
 
-      waitTimer = setTimeout(actionAfterTimeout, options.timeoutInMs! * 1000);
+      waitTimer = setTimeout(actionAfterTimeout, options.timeoutInMs);
       this.receiver.on(ReceiverEvents.message, messageCallback);
 
       log.reqres(

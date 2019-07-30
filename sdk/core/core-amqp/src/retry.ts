@@ -234,7 +234,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         log.error(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,
-          targetDelayInMs / 1000,
+          targetDelayInMs,
           config.operationType
         );
         await delay(targetDelayInMs);

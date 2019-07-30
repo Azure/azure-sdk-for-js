@@ -234,7 +234,7 @@ export class EventHubConsumer {
     options: EventIteratorOptions = {}
   ): AsyncIterableIterator<ReceivedEventData> {
     const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
 
     while (true) {
       const currentBatch = await this.receiveBatch(

@@ -15,7 +15,7 @@ import { stub } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 
-describe.only("RequestResponseLink", function() {
+describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
@@ -100,7 +100,7 @@ describe.only("RequestResponseLink", function() {
           }
         }
       });
-    }, 500);
+    }, 200);
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
@@ -114,7 +114,7 @@ describe.only("RequestResponseLink", function() {
           body: "Hello World!!"
         }
       });
-    }, 1000);
+    }, 2000);
 
     const sendRequestPromise = async (): Promise<Message> => {
       return await link.sendRequest(request, {
