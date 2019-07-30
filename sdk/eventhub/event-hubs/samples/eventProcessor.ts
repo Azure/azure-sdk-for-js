@@ -15,9 +15,10 @@ class SimplePartitionProcessor {
   async processEvents(events: EventData[]) {
     for (const event of events) {
       console.log(
-        "Received event: '%s' from partition: '%s'",
+        "Received event: '%s' from partition: '%s' and consumer group: '%s'",
         event.body,
-        this._context.partitionId
+        this._context.partitionId,
+        this._context.consumerGroupName
       );
     }
   }
