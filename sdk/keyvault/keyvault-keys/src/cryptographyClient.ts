@@ -26,8 +26,6 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import * as crypto from "crypto";
-import * as constants from "constants";
-const keyto = require("@trust/keyto");
 
 export class CryptographyClient {
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
@@ -54,27 +52,6 @@ export class CryptographyClient {
     _authenticationData?: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    if (typeof this.key !== "string") {
-      switch (algorithm) {
-        case "RSA1_5": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-          const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-          return encrypted;
-        };
-        case "RSA-OAEP": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-          return encrypted;
-        };
-      }
-    }
-
-    // Default to the service
     let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
     return result.result!;
   }
@@ -87,9 +64,6 @@ export class CryptographyClient {
     _authenticationTag?: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    // Default to the service
     let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
     return result.result!;
   }
@@ -99,27 +73,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    if (typeof this.key !== "string") {
-      switch (algorithm) {
-        case "RSA1_5": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-          const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-          return encrypted;
-        };
-        case "RSA-OAEP": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-          return encrypted;
-        };
-      }
-    }
-
-    // Default to the service
     let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
     return result.result!;
   }
@@ -129,9 +82,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    // Default to the service
     let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
     return result.result!;
   }
@@ -141,9 +91,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    // Default to the service
     let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
     return result.result!;
   }
@@ -154,9 +101,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    await this.fetchFullKeyIfPossible();
-
-    // Default to the service
     const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
     return response.value ? response.value : false;
   }
@@ -166,9 +110,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
-
-    // Default to the service
     let hash;
     switch (algorithm) {
       case ("ES256"):
@@ -190,7 +131,7 @@ export class CryptographyClient {
       default: {
         throw new Error("Unsupported verify algorithm");
       }
-    } 
+    }
 
     hash.update(Buffer.from(data));
     let digest = hash.digest();
@@ -204,40 +145,6 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    await this.fetchFullKeyIfPossible();
-
-    if (this.key !== "string") {
-      switch (algorithm) {
-        case ("RS256"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          const verifier = crypto.createVerify("SHA256");
-          verifier.update(Buffer.from(data));
-          verifier.end();
-
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
-        case ("RS384"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          const verifier = crypto.createVerify("SHA384");
-          verifier.update(Buffer.from(data));
-          verifier.end();
-
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
-        case ("RS512"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
-
-          const verifier = crypto.createVerify("SHA512");
-          verifier.update(Buffer.from(data));
-          verifier.end();
-
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
-      }
-    }
-
     let hash;
     switch (algorithm) {
       case ("ES256"):
@@ -259,7 +166,7 @@ export class CryptographyClient {
       default: {
         throw new Error("Unsupported verify algorithm");
       }
-    } 
+    }
 
     hash.update(Buffer.from(data));
     let digest = hash.digest();
@@ -327,18 +234,6 @@ export class CryptographyClient {
     return userAgentInfo.join(" ");
   }
 
-  private async fetchFullKeyIfPossible() {
-    if (!this.hasTriedToGetKey) {
-      try {
-        let result = await this.getKey();
-        this.key = result;
-      } catch {
-
-      }
-      this.hasTriedToGetKey = true;
-    }
-  }
-
   /**
    * The base URL to the vault
    */
@@ -370,11 +265,6 @@ export class CryptographyClient {
    */
   private version: string;
 
-  /**
-   * Has the client tried to fetch the full key yet
-   */
-  private hasTriedToGetKey: boolean;
-
   constructor(
     url: string,
     key: string | JsonWebKey, // keyUrl or JsonWebKey
@@ -394,10 +284,8 @@ export class CryptographyClient {
     let parsed;
     if (typeof this.key === "string") {
       parsed = parseKeyvaultIdentifier("keys", this.key);
-      this.hasTriedToGetKey = false;
     } else {
       parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
-      this.hasTriedToGetKey = true;
     }
 
     if (parsed.name == "") {
