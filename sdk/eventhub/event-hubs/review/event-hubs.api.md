@@ -29,6 +29,20 @@ export interface BatchOptions {
     partitionKey?: string;
 }
 
+// @public
+export class CheckpointManager {
+    // (undocumented)
+    updateCheckpoint(eventData: EventData): Promise<void>;
+    // (undocumented)
+    updateCheckpoint(offset: string, sequenceNumber: number): Promise<void>;
+}
+
+// @public
+export enum CloseReason {
+    OwnershipLost = "OwnershipLost",
+    Shutdown = "Shutdown"
+}
+
 export { DataTransformer }
 
 export { DefaultDataTransformer }
@@ -149,12 +163,19 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
-    // Warning: (ae-forgotten-export) The symbol "PartitionProcessorFactory" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "PartitionManager" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "EventProcessorOptions" needs to be exported by the entry point index.d.ts
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
-    start(): Promise<void>;
+    start(): void;
     stop(): Promise<void>;
+}
+
+// @public (undocumented)
+export interface EventProcessorOptions {
+    // (undocumented)
+    initialEventPosition?: EventPosition;
+    // (undocumented)
+    maxBatchSize?: number;
+    // (undocumented)
+    maxWaitTimeInSeconds?: number;
 }
 
 export { MessagingError }
@@ -173,6 +194,54 @@ export interface PartitionContext {
     readonly eventHubName: string;
     // (undocumented)
     readonly partitionId: string;
+}
+
+// @public
+export interface PartitionManager {
+    // (undocumented)
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    // Warning: (ae-forgotten-export) The symbol "Checkpoint" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    createCheckpoint(checkpoint: Checkpoint): Promise<void>;
+    // (undocumented)
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+}
+
+// @public
+export interface PartitionOwnership {
+    // (undocumented)
+    consumerGroupName: string;
+    // (undocumented)
+    ETag?: string;
+    // (undocumented)
+    eventHubName: string;
+    // (undocumented)
+    instanceId: string;
+    // (undocumented)
+    lastModifiedTime?: number;
+    // (undocumented)
+    offset?: number;
+    // (undocumented)
+    ownerLevel: number;
+    // (undocumented)
+    partitionId: string;
+    // (undocumented)
+    sequenceNumber?: number;
+}
+
+// @public (undocumented)
+export interface PartitionProcessor {
+    close?(reason: CloseReason): Promise<void>;
+    initialize?(): Promise<void>;
+    processError(error: Error): Promise<void>;
+    processEvents(events: EventData[]): Promise<void>;
+}
+
+// @public
+export interface PartitionProcessorFactory {
+    // (undocumented)
+    (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
 }
 
 // @public

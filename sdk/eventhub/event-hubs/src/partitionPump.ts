@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { EventProcessorOptions, PartitionProcessor } from "./eventProcessor";
+import { EventProcessorOptions, PartitionProcessor, CloseReason } from "./eventProcessor";
 import { PartitionContext } from "./partitionContext";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
@@ -32,16 +32,24 @@ export class PartitionPump {
     this._abortController = new AbortController();
   }
 
-  async start(partitionId: string): Promise<void> {
-    if (this._partitionProcessor.initialize) {
-      await this._partitionProcessor.initialize();
+  public get isReceiving(): boolean {
+    return this._isReceiving;
+  }
+
+  async start(): Promise<void> {
+    this._isReceiving = true;
+    if (typeof this._partitionProcessor.initialize === "function") {
+      try {
+        await this._partitionProcessor.initialize();
+      } catch {
+        // swallow the error from the user-defined code
+      }
     }
-    this._receiveEvents(partitionId);
+    this._receiveEvents(this._partitionContext.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
-    this._isReceiving = true;
     try {
       this._receiver = await this._eventHubClient.createConsumer(
         this._partitionContext.consumerGroupName,
@@ -55,6 +63,9 @@ export class PartitionPump {
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
         );
+        if (!this._isReceiving) {
+          return;
+        }
         await this._partitionProcessor.processEvents(receivedEvents);
       }
     } catch (err) {
@@ -71,14 +82,14 @@ export class PartitionPump {
     }
   }
 
-  async stop(reason: string): Promise<void> {
+  async stop(reason: CloseReason): Promise<void> {
     this._isReceiving = false;
     try {
       if (this._receiver) {
         await this._receiver.close();
       }
       this._abortController.abort();
-      if (this._partitionProcessor.close) {
+      if (typeof this._partitionProcessor.close === "function") {
         await this._partitionProcessor.close(reason);
       }
     } catch (err) {
