@@ -167,8 +167,8 @@ dependencies:
   source-map-support: 0.5.12
   stream-browserify: 2.0.2
   stream-http: 2.8.3
-  tough-cookie: 2.5.0
-  ts-loader: 5.4.5_typescript@3.5.3
+  tough-cookie: 3.0.1
+  ts-loader: 6.0.4_typescript@3.5.3
   ts-mocha: 6.0.0_mocha@5.2.0
   ts-node: 7.0.1
   tslib: 1.10.0
@@ -6047,6 +6047,15 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-MWikgl9n9M3w+bpsY3He8L+w9eF9338xRl8IAO5viDizwSzziFEyUzo2xrrloB64ADbTf8uA8vRqqttDTOmccg==
+  /micromatch/4.0.2:
+    dependencies:
+      braces: 3.0.2
+      picomatch: 2.0.7
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-y7FpHSbMUMoyPbYUSzO6PaZ6FyRnQOpHuKwbo1G+Knck95XVU4QAiKdGEnj5wwoS7PlOgthX/09u5iFJ+aYf5Q==
   /miller-rabin/4.0.1:
     dependencies:
       bn.js: 4.11.8
@@ -8871,6 +8880,21 @@ packages:
       typescript: '*'
     resolution:
       integrity: sha512-XYsjfnRQCBum9AMRZpk2rTYSVpdZBpZK+kDh0TeT3kxmQNBDVIeUjdPjY5RZry4eIAb8XHc4gYSUiUWPYvzSRw==
+  /ts-loader/6.0.4_typescript@3.5.3:
+    dependencies:
+      chalk: 2.4.2
+      enhanced-resolve: 4.1.0
+      loader-utils: 1.2.3
+      micromatch: 4.0.2
+      semver: 6.3.0
+      typescript: 3.5.3
+    dev: false
+    engines:
+      node: '>=8.6'
+    peerDependencies:
+      typescript: '*'
+    resolution:
+      integrity: sha512-p2zJYe7OtwR+49kv4gs7v4dMrfYD1IPpOtqiSPCbe8oR+4zEBtdHwzM7A7M91F+suReqgzZrlClk4LRSSp882g==
   /ts-mocha/6.0.0_mocha@5.2.0:
     dependencies:
       mocha: 5.2.0
@@ -9804,7 +9828,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-1sOGfOod5UwbFF8cs0IekpFq9Zne5DIWp+lpG7Isjn7/io2udgugy3ciY7e2XcikZk34wctC8zHQiPul6G9nhg==
+      integrity: sha512-h+mpJ/FL0Zt3ea/pGEwnk+ZaqwoeXh9W2tWOPMnjCSzrH7GSHnbaLl/dU+svMeag5MdoeBmiUppFdBWPtuu9eQ==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -9928,8 +9952,8 @@ packages:
       semver: 5.7.0
       shx: 0.3.2
       sinon: 7.3.2
-      tough-cookie: 2.5.0
-      ts-loader: 5.4.5_typescript@3.5.3
+      tough-cookie: 3.0.1
+      ts-loader: 6.0.4_typescript@3.5.3
       ts-node: 7.0.1
       tslib: 1.10.0
       tunnel: 0.0.6
@@ -9945,7 +9969,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-ykXa+d0rGhwA3mG9JPPf+iKky71Qa2LjflLenGtR78FMTgcDkvq6QmGJ793uZUN5SKu5iXk0CMGYPrngzfx31g==
+      integrity: sha512-7Vrm9Hbt+zQPP66qqOnGdqBP1HqkN60pb8EHIdwMhD6DYYFmx41vCT3v0Jlkp1Vz0k999yCsGzXEfxwU1hxyUQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10728,6 +10752,7 @@ packages:
       integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10784,7 +10809,7 @@ specifiers:
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
-  '@types/tough-cookie': ^2.3.3
+  '@types/tough-cookie': ^2.3.5
   '@types/tunnel': ^0.0.0
   '@types/underscore': ^1.8.8
   '@types/uuid': ^3.4.3
@@ -10897,8 +10922,8 @@ specifiers:
   source-map-support: ^0.5.9
   stream-browserify: ^2.0.2
   stream-http: ^2.8.3
-  tough-cookie: ^2.4.3
-  ts-loader: ^5.3.1
+  tough-cookie: ^3.0.1
+  ts-loader: ^6.0.4
   ts-mocha: ^6.0.0
   ts-node: ^7.0.1
   tslib: ^1.9.3

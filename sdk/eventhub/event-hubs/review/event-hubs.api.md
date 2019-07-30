@@ -15,6 +15,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
+import { RetryPolicy } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
@@ -36,6 +37,21 @@ export interface Checkpoint {
     offset: number;
     partitionId: string;
     sequenceNumber: number;
+}
+
+// @public
+export class CheckpointManager {
+    // (undocumented)
+    updateCheckpoint(eventData: EventData): Promise<void>;
+    // (undocumented)
+    updateCheckpoint(offset: string, sequenceNumber: number): Promise<void>;
+}
+
+// @public
+export enum CloseReason {
+    OwnershipLost = "OwnershipLost",
+    Shutdown = "Shutdown",
+    Unknown = "Unknown"
 }
 
 export { DataTransformer }
@@ -158,12 +174,19 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
-    // Warning: (ae-forgotten-export) The symbol "PartitionProcessorFactory" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "PartitionManager" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "EventProcessorOptions" needs to be exported by the entry point index.d.ts
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
-    start(): Promise<void>;
+    start(): void;
     stop(): Promise<void>;
+}
+
+// @public (undocumented)
+export interface EventProcessorOptions {
+    // (undocumented)
+    initialEventPosition?: EventPosition;
+    // (undocumented)
+    maxBatchSize?: number;
+    // (undocumented)
+    maxWaitTimeInSeconds?: number;
 }
 
 // @public
@@ -189,6 +212,13 @@ export interface PartitionContext {
 }
 
 // @public
+export interface PartitionManager {
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
+// @public
 export interface PartitionOwnership {
     consumerGroupName: string;
     eTag?: string;
@@ -199,6 +229,20 @@ export interface PartitionOwnership {
     ownerLevel: number;
     partitionId: string;
     sequenceNumber?: number;
+}
+
+// @public (undocumented)
+export interface PartitionProcessor {
+    close?(reason: CloseReason): Promise<void>;
+    initialize?(): Promise<void>;
+    processError(error: Error): Promise<void>;
+    processEvents(events: EventData[]): Promise<void>;
+}
+
+// @public
+export interface PartitionProcessorFactory {
+    // (undocumented)
+    (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
 }
 
 // @public
@@ -237,8 +281,11 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
+    maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
+    minExponentialRetryDelayInMs?: number;
     retryInterval?: number;
+    retryPolicy?: RetryPolicy;
     timeoutInMs?: number;
 }
 
