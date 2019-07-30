@@ -124,11 +124,11 @@ describe("Event Processor", function(): void {
       ]);
       partitionOwnership.length.should.equals(2);
    
-      const Ownershipslist = await inMemoryPartitionManager.listOwnerships(
+      const ownershipslist = await inMemoryPartitionManager.listOwnerships(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
-      Ownershipslist.length.should.equals(2);
+      ownershipslist.length.should.equals(2);
     
       const checkpoint: Checkpoint = {
         eventHubName: "myEventHub",

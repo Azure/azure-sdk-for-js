@@ -168,11 +168,8 @@ export class EventProcessor {
 
 // @public
 export class InMemoryPartitionManager implements PartitionManager {
-    // (undocumented)
     claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    // (undocumented)
     listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
-    // (undocumented)
     updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
@@ -186,33 +183,21 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 
 // @public
 export interface PartitionContext {
-    // (undocumented)
     readonly consumerGroupName: string;
-    // (undocumented)
     readonly eventHubName: string;
-    // (undocumented)
     readonly partitionId: string;
 }
 
 // @public
 export interface PartitionOwnership {
-    // (undocumented)
     consumerGroupName: string;
-    // (undocumented)
     eTag?: string;
-    // (undocumented)
     eventHubName: string;
-    // (undocumented)
     instanceId: string;
-    // (undocumented)
-    lastModifiedTime?: number;
-    // (undocumented)
+    lastModifiedTimeInMS?: number;
     offset?: number;
-    // (undocumented)
     ownerLevel: number;
-    // (undocumented)
     partitionId: string;
-    // (undocumented)
     sequenceNumber?: number;
 }
 
