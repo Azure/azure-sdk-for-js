@@ -227,7 +227,8 @@ declare type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
 export function createProxyAgent(requestUrl: string, proxySettings: ProxySettings, headers?: HttpHeaders): ProxyAgent {
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
     proxy: {
-      host: URLBuilder.parse(proxySettings.host).getHost(),
+      // TODO: Handle case where getHost() returns undefined
+      host: URLBuilder.parse(proxySettings.host).getHost()!,
       port: proxySettings.port,
       headers: (headers && headers.rawHeaders()) || {}
     }
