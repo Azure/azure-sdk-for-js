@@ -19,7 +19,7 @@ describe("UsernamePasswordCredential", function () {
 
     await credential.getToken("scope");
 
-    const authRequest = await mockHttpClient.getAuthRequest();
+    const authRequest = await mockHttpClient.requests[0];
     if (!authRequest) {
       assert.fail("No authentication request was intercepted");
     } else {
