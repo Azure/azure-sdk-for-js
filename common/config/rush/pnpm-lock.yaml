@@ -30,7 +30,6 @@ dependencies:
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
-  '@trust/keyto': 0.3.7
   '@types/async-lock': 1.1.1
   '@types/chai': 4.1.7
   '@types/chai-as-promised': 7.1.0
@@ -72,7 +71,6 @@ dependencies:
   axios: 0.19.0
   axios-mock-adapter: 1.17.0_axios@0.19.0
   azure-storage: 2.10.3
-  base64url: 3.0.1
   binary-search-bounds: 2.0.3
   buffer: 5.2.1
   chai: 4.2.0
@@ -464,14 +462,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
-  /@trust/keyto/0.3.7:
-    dependencies:
-      asn1.js: 5.2.0
-      base64url: 3.0.1
-      elliptic: 6.5.0
-    dev: false
-    resolution:
-      integrity: sha512-t5kWWCTkPgg24JWVuCTPMx7l13F7YHdxBeJkT1vmoHjROgiOIEAN8eeY+iRmP1Hwsx+S7U55HyuqSsECr08a8A==
   /@types/anymatch/1.3.1:
     dev: false
     resolution:
@@ -1358,14 +1348,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==
-  /asn1.js/5.2.0:
-    dependencies:
-      bn.js: 4.11.8
-      inherits: 2.0.4
-      minimalistic-assert: 1.0.1
-    dev: false
-    resolution:
-      integrity: sha512-Q7hnYGGNYbcmGrCPulXfkEw7oW7qjWeM4ZTALmgpuIcZLxyqqKYWxCZg2UBm8bklrnB4m2mGyJPWfoktdORD8A==
   /asn1/0.2.4:
     dependencies:
       safer-buffer: 2.1.2
@@ -2032,12 +2014,6 @@ packages:
       node: '>= 0.4.0'
     resolution:
       integrity: sha1-R2iMuZu2gE8OBtPnY7HDLlfY5rY=
-  /base64url/3.0.1:
-    dev: false
-    engines:
-      node: '>=6.0.0'
-    resolution:
-      integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
   /bcrypt-pbkdf/1.0.2:
     dependencies:
       tweetnacl: 0.14.5
@@ -2198,8 +2174,8 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist/3.2.8:
     dependencies:
-      caniuse-lite: 1.0.30000987
-      electron-to-chromium: 1.3.205
+      caniuse-lite: 1.0.30000986
+      electron-to-chromium: 1.3.204
     dev: false
     hasBin: true
     resolution:
@@ -2375,10 +2351,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-  /caniuse-lite/1.0.30000987:
+  /caniuse-lite/1.0.30000986:
     dev: false
     resolution:
-      integrity: sha512-O3VrjtRMTxoU5Cn5/QSmXeIR1gkVps4j9jqfIm4FLaQ5JzqBlVjMUG1xWnoYFv8N+H3Lp++aa05TekyIbjHL7g==
+      integrity: sha512-pM+LnkoAX0+QnIH3tpW5EnkmfpEoqOD8FAcoBvsl3Xh6DXkgctiCxeCbXphP/k3XJtJzm+zOAJbi6U6IVkpWZQ==
   /caseless/0.12.0:
     dev: false
     resolution:
@@ -3248,10 +3224,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.205:
+  /electron-to-chromium/1.3.204:
     dev: false
     resolution:
-      integrity: sha512-VV+f2FVeFI5D/slUD7A3V1lTMDkQTUGWYH2dZGAijIutN5Aga4Fn/Hv4Gc+60OpXFVLYIq5HpXb2cG6NrGGQaA==
+      integrity: sha512-T0eXE6hfbtpzRUaI7aHI/HYJ29Ndk84aVSborRAmXfWvBvz2EuB2OWYUxNcUX9d+jtqEIjgZjWMdoxS0hp5j1g==
   /elliptic/6.5.0:
     dependencies:
       bn.js: 4.11.8
@@ -10253,7 +10229,6 @@ packages:
       '@azure/abort-controller': 1.0.0-preview.1
       '@azure/core-paging': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.4
-      '@trust/keyto': 0.3.7
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.0
@@ -10262,11 +10237,9 @@ packages:
       '@types/nock': 10.0.3
       '@types/node': 8.10.51
       '@types/query-string': 6.2.0
-      '@types/semver': 5.5.0
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       assert: 1.5.0
-      base64url: 3.0.1
       chai: 4.2.0
       cross-env: 5.2.0
       dotenv: 8.0.0
@@ -10309,7 +10282,6 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
-      semver: 5.7.0
       source-map-support: 0.5.12
       tslib: 1.10.0
       typescript: 3.5.3
@@ -10318,7 +10290,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-3idGzReqOm7YU3S9dtydcJ2iuEFMHWAby29PJbv4njIOlH/q4BccSvd/Ykzvh53f5/xrVxHSC8fJqTfBGwUwDA==
+      integrity: sha512-GTQM+glliP/d7vxPSkXYr+h/mCWBAo8KdWEuGHgrnDj8ngOlcJbiORLMpD9aRBan38Jb+rgBSU5j0w8Gwu8oKA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10788,7 +10760,6 @@ specifiers:
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
-  '@trust/keyto': 0.3.7
   '@types/async-lock': ^1.1.0
   '@types/chai': ^4.1.6
   '@types/chai-as-promised': ^7.1.0
@@ -10830,7 +10801,6 @@ specifiers:
   axios: ^0.19.0
   axios-mock-adapter: ^1.16.0
   azure-storage: ^2.10.2
-  base64url: 3.0.1
   binary-search-bounds: 2.0.3
   buffer: ^5.2.1
   chai: ^4.2.0
