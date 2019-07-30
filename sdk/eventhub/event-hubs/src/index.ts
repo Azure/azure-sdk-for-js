@@ -21,8 +21,10 @@ export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch } from "./eventDataBatch";
-export { EventProcessor } from "./eventProcessor";
+export { EventProcessor, PartitionOwnership } from "./eventProcessor";
 export { PartitionContext } from "./partitionContext";
+export { InMemoryPartitionManager} from "./inMemoryPartitionManager"
+export { Checkpoint } from "./checkpointManager";
 export {
   MessagingError,
   DataTransformer,

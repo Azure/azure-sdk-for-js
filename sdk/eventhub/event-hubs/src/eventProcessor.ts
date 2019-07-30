@@ -60,7 +60,7 @@ export interface PartitionProcessorFactory {
 export interface PartitionManager {
   listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
   claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-  createCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // Options passed when creating EventProcessor, everything is optional

@@ -28,6 +28,22 @@ export interface BatchOptions {
     partitionKey?: string;
 }
 
+// @public
+export interface Checkpoint {
+    // (undocumented)
+    consumerGroupName: string;
+    // (undocumented)
+    eventHubName: string;
+    // (undocumented)
+    instanceId: string;
+    // (undocumented)
+    offset: number;
+    // (undocumented)
+    partitionId: string;
+    // (undocumented)
+    sequenceNumber: number;
+}
+
 export { DataTransformer }
 
 export { DefaultDataTransformer }
@@ -156,6 +172,16 @@ export class EventProcessor {
     stop(): Promise<void>;
 }
 
+// @public
+export class InMemoryPartitionManager implements PartitionManager {
+    // (undocumented)
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    // (undocumented)
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    // (undocumented)
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -172,6 +198,28 @@ export interface PartitionContext {
     readonly eventHubName: string;
     // (undocumented)
     readonly partitionId: string;
+}
+
+// @public
+export interface PartitionOwnership {
+    // (undocumented)
+    consumerGroupName: string;
+    // (undocumented)
+    ETag?: string;
+    // (undocumented)
+    eventHubName: string;
+    // (undocumented)
+    instanceId: string;
+    // (undocumented)
+    lastModifiedTime?: number;
+    // (undocumented)
+    offset?: number;
+    // (undocumented)
+    ownerLevel: number;
+    // (undocumented)
+    partitionId: string;
+    // (undocumented)
+    sequenceNumber?: number;
 }
 
 // @public
