@@ -30,6 +30,16 @@ export interface BatchOptions {
 }
 
 // @public
+export interface Checkpoint {
+    consumerGroupName: string;
+    eventHubName: string;
+    instanceId: string;
+    offset: number;
+    partitionId: string;
+    sequenceNumber: number;
+}
+
+// @public
 export class CheckpointManager {
     // (undocumented)
     updateCheckpoint(eventData: EventData): Promise<void>;
@@ -40,7 +50,8 @@ export class CheckpointManager {
 // @public
 export enum CloseReason {
     OwnershipLost = "OwnershipLost",
-    Shutdown = "Shutdown"
+    Shutdown = "Shutdown",
+    Unknown = "Unknown"
 }
 
 export { DataTransformer }
@@ -178,6 +189,13 @@ export interface EventProcessorOptions {
     maxWaitTimeInSeconds?: number;
 }
 
+// @public
+export class InMemoryPartitionManager implements PartitionManager {
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -188,45 +206,28 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 
 // @public
 export interface PartitionContext {
-    // (undocumented)
     readonly consumerGroupName: string;
-    // (undocumented)
     readonly eventHubName: string;
-    // (undocumented)
     readonly partitionId: string;
 }
 
 // @public
 export interface PartitionManager {
-    // (undocumented)
     claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    // Warning: (ae-forgotten-export) The symbol "Checkpoint" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    createCheckpoint(checkpoint: Checkpoint): Promise<void>;
-    // (undocumented)
     listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // @public
 export interface PartitionOwnership {
-    // (undocumented)
     consumerGroupName: string;
-    // (undocumented)
-    ETag?: string;
-    // (undocumented)
+    eTag?: string;
     eventHubName: string;
-    // (undocumented)
     instanceId: string;
-    // (undocumented)
-    lastModifiedTime?: number;
-    // (undocumented)
+    lastModifiedTimeInMS?: number;
     offset?: number;
-    // (undocumented)
     ownerLevel: number;
-    // (undocumented)
     partitionId: string;
-    // (undocumented)
     sequenceNumber?: number;
 }
 

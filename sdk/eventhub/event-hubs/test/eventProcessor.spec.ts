@@ -14,10 +14,14 @@ import {
   EventProcessor,
   PartitionContext,
   delay,
+  InMemoryPartitionManager,
+  PartitionOwnership,
+  Checkpoint,
   PartitionProcessorFactory,
   CloseReason
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { generate_uuid } from "rhea-promise";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -429,6 +433,55 @@ describe("Event Processor", function(): void {
       receivedEvents.length.should.equal(1);
       receivedEvents[0].body.should.equal("Hello world!!!");
       isCloseCalled.should.equal(true);
+    });
+  });
+
+  describe("InMemory Partition Manager", function(): void {
+    it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<void> {
+      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const partitionOwnership1: PartitionOwnership = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "0",
+        ownerLevel: 10
+      };
+      const partitionOwnership2: PartitionOwnership = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "1",
+        ownerLevel: 10
+      };
+      const partitionOwnership = await inMemoryPartitionManager.claimOwnerships([
+        partitionOwnership1,
+        partitionOwnership2
+      ]);
+      partitionOwnership.length.should.equals(2);
+   
+      const ownershipslist = await inMemoryPartitionManager.listOwnerships(
+        "myEventHub",
+        EventHubClient.defaultConsumerGroupName
+      );
+      ownershipslist.length.should.equals(2);
+    
+      const checkpoint: Checkpoint = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "0",
+        sequenceNumber: 10,
+        offset: 50
+      };
+
+      await inMemoryPartitionManager.updateCheckpoint(checkpoint);
+      const partitionOwnershipList = await inMemoryPartitionManager.listOwnerships(
+        "myEventHub",
+        EventHubClient.defaultConsumerGroupName
+      );
+      partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
+      partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
+      partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
     });
   });
 }).timeout(90000);

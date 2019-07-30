@@ -56,15 +56,43 @@ export interface PartitionProcessor {
  * returned by listOwnerships
  */
 export interface PartitionOwnership {
+  /**
+   * @property The event hub name
+   */
   eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
   consumerGroupName: string;
+  /**
+   * @property The unique instance identifier
+   */
   instanceId: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
   partitionId: string;
+  /**
+   * @property
+   * The owner level
+   */
   ownerLevel: number;
+  /**
+   * @property The offset of the event.
+   */
   offset?: number;
+  /**
+   * @property The sequence number of the event.
+   */
   sequenceNumber?: number;
-  lastModifiedTime?: number;
-  ETag?: string;
+  /**
+   * @property The last modified time.
+   */
+  lastModifiedTimeInMS?: number;
+  /**
+   * @property The unique identifier for the operation.
+   */
+  eTag?: string;
 }
 
 /**
@@ -80,9 +108,30 @@ export interface PartitionProcessorFactory {
  * Deals mainly with read/write to the chosen storage service
  */
 export interface PartitionManager {
+  /**
+   * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
+   * results if there are is no existing ownership information.
+   *
+   * @param eventHubName The event hub name.
+   * @param consumerGroupName The consumer group name.
+   * @return A list of partition ownership details of all the partitions that have/had an owner.
+   */
   listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+  /**
+   * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
+   * successfully.
+   *
+   * @param partitionOwnerships The list of partition ownerships this instance is claiming to own.
+   * @return A list of partitions this instance successfully claimed ownership.
+   */
   claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-  createCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  /**
+   * Updates the checkpoint in the data store for a partition.
+   *
+   * @param checkpoint The checkpoint.
+   * @return The new eTag on successful update.
+   */
+  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 }
 
 // Options passed when creating EventProcessor, everything is optional
