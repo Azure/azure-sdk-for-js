@@ -1,5 +1,4 @@
-import { CryptographyClient } from "../src/cryptographyClient";
-import { KeysClient } from "../src";
+import { KeysClient, CryptographyClient } from "../src";
 import { EnvironmentCredential } from "@azure/identity";
 import * as crypto from 'crypto';
 
