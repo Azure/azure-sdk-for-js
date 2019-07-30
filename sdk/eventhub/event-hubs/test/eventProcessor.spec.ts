@@ -104,7 +104,7 @@ describe("Event Processor", function(): void {
   describe("InMemory Partition Manager", function(): void {
     const inMemoryPartitionManager = new InMemoryPartitionManager();
 
-    it("Claim ownership ", async function(): Promise<void> {
+    it("should claim ownership ", async function(): Promise<void> {
       const partitionOwnership1: PartitionOwnership = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
@@ -126,7 +126,7 @@ describe("Event Processor", function(): void {
       partitionOwnership.length.should.equals(2);
     });
 
-    it("Get list of ownerships ", async function(): Promise<void> {
+    it("should get a list of ownerships ", async function(): Promise<void> {
       const partitionOwnershipList = await inMemoryPartitionManager.listOwnerships(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
@@ -134,7 +134,7 @@ describe("Event Processor", function(): void {
       partitionOwnershipList.length.should.equals(2);
     });
 
-    it("Update Checkpoint ", async function(): Promise<void> {
+    it("should update checkpoint ", async function(): Promise<void> {
       const checkpoint: Checkpoint = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
