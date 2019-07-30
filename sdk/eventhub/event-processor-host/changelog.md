@@ -3,7 +3,7 @@
 Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/websockets.ts) sample to see how to use WebSockets. 
 - Fixed [issue](https://github.com/Azure/azure-sdk-for-js/issues/4363)
   - Removed `_eitherLeaseManagerOrleaseDurationAndRenewal(options)` method. 
-    - If a lease manager is provided then leaseDuration and leaseRenewInterval values in the options will be ignored.
+    - If a LeaseManager is provided then leaseDuration and leaseRenewInterval values in the options will be ignored.
     - If nothing is provided(leaseDuration and leaseRenewInterval or leaseDuration and leaseRenewInterval from the LeaseManager) then we will set defaults.
 
 ## 2019-07-16 2.0.0
