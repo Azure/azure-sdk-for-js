@@ -75,11 +75,6 @@
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-cosmos-js"
-  },
-  "license": "MIT",
   "dependencies": {
     "binary-search-bounds": "2.0.3",
     "create-hmac": "^1.1.7",
@@ -88,5 +83,10 @@
     "stream-http": "^2.8.3",
     "tslib": "^1.9.3",
     "tunnel": "0.0.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-cosmos-js"
+  },
+  "license": "MIT"
 }
