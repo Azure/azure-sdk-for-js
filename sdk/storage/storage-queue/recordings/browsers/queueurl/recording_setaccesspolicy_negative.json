@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709965300409",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156404679922907440",
    "query": {
     "timeout": "30"
    },
@@ -10,36 +10,36 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee4e7-c003-005e-72b0-208992000000",
+    "x-ms-request-id": "b29f2d8d-d003-0084-57ca-4268be000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:39 GMT",
+    "date": "Thu, 25 Jul 2019 09:23:00 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709965300409",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156404679922907440",
    "query": {
     "comp": "acl",
     "timeout": "30"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><SignedIdentifiers><SignedIdentifier><Id>MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=</Id><AccessPolicy><Start>2017-12-31T11:22:33.4560000Z</Start><Expiry>2018-12-31T11:22:33.4560000Z</Expiry><Permission>rwdl</Permission></AccessPolicy></SignedIdentifier></SignedIdentifiers>",
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:833ee551-c003-005e-56b0-208992000000\nTime:2019-06-11T23:51:39.9400640Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:b29f2db8-d003-0084-7aca-4268be000000\nTime:2019-07-25T09:23:01.2798642Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
    "responseHeaders": {
-    "date": "Tue, 11 Jun 2019 23:51:39 GMT",
+    "date": "Thu, 25 Jul 2019 09:23:00 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidXmlDocument",
     "content-type": "application/xml",
-    "x-ms-request-id": "833ee551-c003-005e-56b0-208992000000",
+    "x-ms-request-id": "b29f2db8-d003-0084-7aca-4268be000000",
     "x-ms-version": "2018-03-28",
     "content-length": "294"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709965300409",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156404679922907440",
    "query": {
     "timeout": "30"
    },
@@ -47,15 +47,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ee5d0-c003-005e-4bb0-208992000000",
+    "x-ms-request-id": "b29f2dd8-d003-0084-18ca-4268be000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:39 GMT",
+    "date": "Thu, 25 Jul 2019 09:23:00 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue156029709965300409"
+  "queue": "queue156404679922907440"
  }
 }

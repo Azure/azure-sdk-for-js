@@ -1,12 +1,13 @@
 import * as assert from "assert";
-import { bodyToString, getBSU } from "./utils";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
+import { bodyToString, getBSU } from "./utils";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobURL", () => {

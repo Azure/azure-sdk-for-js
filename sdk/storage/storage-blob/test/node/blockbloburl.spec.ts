@@ -4,8 +4,8 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
-import { record } from "../utils/recorder";
 import { bodyToString, getBSU } from "../utils";
+import { record } from "../utils/recorder";
 
 describe("BlockBlobURL Node.js only", () => {
   const serviceURL = getBSU();

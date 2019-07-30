@@ -58,7 +58,9 @@ export class PartitionManager {
       try {
         await localRunTask;
       } catch (err) {
-        const msg = `An error occurred while stopping the run task: ` + `${err ? err.stack : JSON.stringify(err)}.`;
+        const msg =
+          `An error occurred while stopping the run task: ` +
+          `${err ? err.stack : JSON.stringify(err)}.`;
         log.error(withHost("%s"), msg);
       } finally {
         this._isRunning = false;
@@ -72,7 +74,9 @@ export class PartitionManager {
   shouldStop(): boolean {
     if (this._isCancelRequested) {
       log.partitionManager(
-        this._context.withHost("Cancellation was requested -> %s. " + "Hence stopping further execution."),
+        this._context.withHost(
+          "Cancellation was requested -> %s. " + "Hence stopping further execution."
+        ),
         this._isCancelRequested
       );
     }
@@ -117,7 +121,8 @@ export class PartitionManager {
       await this._context.pumpManager.removeAllPumps(CloseReason.shutdown);
     } catch (err) {
       const msg =
-        `An error occurred while shutting down the partition ` + `manager: ${err ? err.stack : JSON.stringify(err)}.`;
+        `An error occurred while shutting down the partition ` +
+        `manager: ${err ? err.stack : JSON.stringify(err)}.`;
       log.error(withHost("%s"), msg);
       this._context.onEphError({
         hostName: this._context.hostName,
@@ -206,7 +211,8 @@ export class PartitionManager {
     log.partitionManager(withHost("Ensure that the checkpoint exists."));
     const checkpointConfig: RetryConfig<void> = {
       hostName: hostName,
-      operation: () => checkpointManager.createAllCheckpointsIfNotExists(this._context.partitionIds),
+      operation: () =>
+        checkpointManager.createAllCheckpointsIfNotExists(this._context.partitionIds),
       retryMessage: "Failure creating checkpoint for partition, retrying",
       finalFailureMessage: "Out of retries for creating checkpoint for partition",
       action: EPHActionStrings.creatingCheckpoint,
@@ -228,12 +234,17 @@ export class PartitionManager {
       }
       const didSteal = await this._partitionScanner.scan(isFirst);
       log.partitionManager(withHost("Did we steal any leases in this scan: %s."), didSteal);
-      let seconds: number = didSteal ? this._context.fastScanInterval! : this._context.slowScanInterval!;
+      let seconds: number = didSteal
+        ? this._context.fastScanInterval!
+        : this._context.slowScanInterval!;
       if (isFirst) {
         seconds = this._context.startupScanDelay!;
         isFirst = false;
       }
-      log.partitionManager(withHost("Sleeping for %d seconds before starting the next scan."), seconds);
+      log.partitionManager(
+        withHost("Sleeping for %d seconds before starting the next scan."),
+        seconds
+      );
       await delay(seconds * 1000);
     }
   }

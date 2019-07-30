@@ -3,13 +3,11 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  bearerTokenAuthenticationPolicy,
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -26,11 +24,14 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecretBundle,
+  DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   Secret,
   DeletedSecret,
@@ -74,13 +75,13 @@ export class SecretsClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    * @static
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof SecretsClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -110,7 +111,7 @@ export class SecretsClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -134,7 +135,7 @@ export class SecretsClient {
   /**
    * The authentication credentials
    */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
@@ -151,14 +152,14 @@ export class SecretsClient {
    * let client = new SecretsClient(url, credentials);
    * ```
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof SecretsClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
@@ -169,7 +170,7 @@ export class SecretsClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -262,7 +263,7 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    return this.getSecretFromSecretBundle(response);
+    return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
   /**
@@ -426,11 +427,7 @@ export class SecretsClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
-    const response: any = await this.client.backupSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
     return response.value;
   }
 
@@ -685,6 +682,29 @@ export class SecretsClient {
     } else {
       resultObject = {
         ...secretBundle,
+        ...parsedId
+      };
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedSecretFromDeletedSecretBundle(
+    deletedSecretBundle: DeletedSecretBundle
+  ): DeletedSecret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
+
+    let resultObject;
+    if (deletedSecretBundle.attributes) {
+      resultObject = {
+        ...deletedSecretBundle,
+        ...parsedId,
+        ...deletedSecretBundle.attributes
+      };
+      delete resultObject.attributes;
+    } else {
+      resultObject = {
+        ...deletedSecretBundle,
         ...parsedId
       };
     }

@@ -70,18 +70,37 @@ export class EventHubProducer {
     if (!options) {
       options = {};
     }
-    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize();
-    if (options.maxMessageSizeInBytes) {
-      if (options.maxMessageSizeInBytes > maxMessageSize) {
+    // throw an error if partition key and partition id are both defined
+    if (
+      typeof options.partitionKey === "string" &&
+      typeof this._senderOptions.partitionId === "string"
+    ) {
+      const error = new Error(
+        "Creating a batch with partition key is not supported when using producers that were created using a partition id."
+      );
+      log.error(
+        "[%s] Creating a batch with partition key is not supported when using producers that were created using a partition id. %O",
+        this._context.connectionId,
+        error
+      );
+      throw error;
+    }
+
+    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize({
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options.abortSignal
+    });
+    if (options.maxSizeInBytes) {
+      if (options.maxSizeInBytes > maxMessageSize) {
         const error = new Error(
-          `Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
         log.error(
-          `[${this._context.connectionId}] Max message size (${options.maxMessageSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+          `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
         );
         throw error;
       }
-      maxMessageSize = options.maxMessageSizeInBytes;
+      maxMessageSize = options.maxSizeInBytes;
     }
     return new EventDataBatch(this._context, maxMessageSize, options.partitionKey);
   }
@@ -108,10 +127,12 @@ export class EventHubProducer {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
-    if (eventData instanceof EventDataBatch && !eventData.batchMessage) {
-      log.error(
-        `[${this._context.connectionId}] No events to send, use tryAdd() function on the EventDataBatch to add events in a batch.`
-      );
+    if (Array.isArray(eventData) && eventData.length === 0) {
+      log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
+      return;
+    }
+    if (eventData instanceof EventDataBatch && eventData.count === 0) {
+      log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
     if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {

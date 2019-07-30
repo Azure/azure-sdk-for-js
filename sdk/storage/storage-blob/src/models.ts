@@ -1,4 +1,4 @@
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 
 export interface IMetadata {
   [propertyName: string]: string;

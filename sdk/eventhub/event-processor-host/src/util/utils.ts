@@ -27,7 +27,9 @@ export function validateType(
   type: "string" | "number" | "boolean" | "Array" | "object" | "Date" | "function"
 ): void {
   if (required && paramValue == undefined) {
-    throw new TypeError(`${paramName} is required. Given value: ${paramValue}. Hence it cannot be null or undefined.`);
+    throw new TypeError(
+      `${paramName} is required. Given value: ${paramValue}. Hence it cannot be null or undefined.`
+    );
   }
   if (paramValue != undefined) {
     if (type === "Array") {
@@ -141,7 +143,12 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           config.partitionId
         );
       } else {
-        log.util("[%s] Retry attempt: %d. Action '%s' suceeded.", config.hostName, retryCount, config.action);
+        log.util(
+          "[%s] Retry attempt: %d. Action '%s' suceeded.",
+          config.hostName,
+          retryCount,
+          config.action
+        );
       }
     } catch (err) {
       innerError = err;
