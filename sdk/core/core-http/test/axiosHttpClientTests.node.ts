@@ -39,8 +39,8 @@ describe("AxiosHttpClient", () => {
         proxyAgent.isHttps.should.equal(testCase.isProxyHttps);
         const agent = proxyAgent.agent as HttpsAgent;
         should().equal(agent.defaultPort, testCase.port);
-        agent.options.proxy.host!.should.equal(urlHost);
-        agent.options.proxy.port!.should.equal(proxySettings.port);
+        agent.options.proxy.host.should.equal(urlHost);
+        agent.options.proxy.port.should.equal(proxySettings.port);
         done();
       });
     });
@@ -57,7 +57,8 @@ describe("AxiosHttpClient", () => {
       const proxyAgent = createProxyAgent("http://example.com", proxySettings, headers);
 
       const agent = proxyAgent.agent as HttpsAgent;
-      agent.proxyOptions.headers.should.contain({ "user-agent": "Node.js" });
+      should().exist(agent.proxyOptions.headers);
+      agent.proxyOptions.headers!.should.contain({ "user-agent": "Node.js" });
       done();
     });
   });
@@ -86,8 +87,8 @@ describe("AxiosHttpClient", () => {
         };
 
         const tunnel = createTunnel(false, value, tunnelConfig) as HttpsAgent;
-        tunnel.options.proxy.host!.should.equal(defaultProxySettings.host);
-        tunnel.options.proxy.port!.should.equal(defaultProxySettings.port);
+        tunnel.options.proxy.host.should.equal(defaultProxySettings.host);
+        tunnel.options.proxy.port.should.equal(defaultProxySettings.port);
         should().not.exist(tunnel.defaultPort);
       });
     });
@@ -103,8 +104,8 @@ describe("AxiosHttpClient", () => {
         };
 
         const tunnel = createTunnel(true, value, tunnelConfig) as HttpsAgent;
-        tunnel.options.proxy.host!.should.equal(defaultProxySettings.host);
-        tunnel.options.proxy.port!.should.equal(defaultProxySettings.port);
+        tunnel.options.proxy.host.should.equal(defaultProxySettings.host);
+        tunnel.options.proxy.port.should.equal(defaultProxySettings.port);
         tunnel.defaultPort!.should.equal(443);
       });
     });
