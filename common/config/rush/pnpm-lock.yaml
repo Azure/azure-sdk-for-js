@@ -167,7 +167,7 @@ dependencies:
   source-map-support: 0.5.12
   stream-browserify: 2.0.2
   stream-http: 2.8.3
-  tough-cookie: 2.5.0
+  tough-cookie: 3.0.1
   ts-loader: 5.4.5_typescript@3.5.3
   ts-mocha: 6.0.0_mocha@5.2.0
   ts-node: 7.0.1
@@ -9928,7 +9928,7 @@ packages:
       semver: 5.7.0
       shx: 0.3.2
       sinon: 7.3.2
-      tough-cookie: 2.5.0
+      tough-cookie: 3.0.1
       ts-loader: 5.4.5_typescript@3.5.3
       ts-node: 7.0.1
       tslib: 1.10.0
@@ -9945,7 +9945,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-ykXa+d0rGhwA3mG9JPPf+iKky71Qa2LjflLenGtR78FMTgcDkvq6QmGJ793uZUN5SKu5iXk0CMGYPrngzfx31g==
+      integrity: sha512-o67Dl6unY+yE89CfrBceA7pVYmDlwwZh0qudQtl7Y0mA+25cQkrFZMefKackxDt5Joa9VMafy7Pwp1K0KxPOUA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10728,6 +10728,7 @@ packages:
       integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10784,7 +10785,7 @@ specifiers:
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
-  '@types/tough-cookie': ^2.3.3
+  '@types/tough-cookie': ^2.3.5
   '@types/tunnel': ^0.0.0
   '@types/underscore': ^1.8.8
   '@types/uuid': ^3.4.3
@@ -10897,7 +10898,7 @@ specifiers:
   source-map-support: ^0.5.9
   stream-browserify: ^2.0.2
   stream-http: ^2.8.3
-  tough-cookie: ^2.4.3
+  tough-cookie: ^3.0.1
   ts-loader: ^5.3.1
   ts-mocha: ^6.0.0
   ts-node: ^7.0.1
