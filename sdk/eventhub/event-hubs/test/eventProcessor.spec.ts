@@ -144,7 +144,7 @@ describe("Event Processor", function(): void {
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
-      partitionOwnershipList[0].partitionId.should.equals("0");
+      partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
       partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
       partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
     });
