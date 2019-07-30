@@ -30,17 +30,11 @@ export interface BatchOptions {
 
 // @public
 export interface Checkpoint {
-    // (undocumented)
     consumerGroupName: string;
-    // (undocumented)
     eventHubName: string;
-    // (undocumented)
     instanceId: string;
-    // (undocumented)
     offset: number;
-    // (undocumented)
     partitionId: string;
-    // (undocumented)
     sequenceNumber: number;
 }
 
@@ -205,7 +199,7 @@ export interface PartitionOwnership {
     // (undocumented)
     consumerGroupName: string;
     // (undocumented)
-    ETag?: string;
+    eTag?: string;
     // (undocumented)
     eventHubName: string;
     // (undocumented)

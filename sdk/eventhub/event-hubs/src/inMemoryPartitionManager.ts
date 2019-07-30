@@ -22,7 +22,7 @@ export class InMemoryPartitionManager implements PartitionManager {
   async claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     for (let partitionOwnership of partitionOwnerships) {
       if (!this._partitionOwnershipMap.has(partitionOwnership.partitionId)) {
-        partitionOwnership.ETag = generate_uuid();
+        partitionOwnership.eTag = generate_uuid();
         this._partitionOwnershipMap.set(partitionOwnership.partitionId, partitionOwnership);
       }
     }
@@ -34,7 +34,7 @@ export class InMemoryPartitionManager implements PartitionManager {
     if (partitionOwnership) {
       partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
       partitionOwnership.offset = checkpoint.offset;
-      partitionOwnership.ETag = generate_uuid();
+      partitionOwnership.eTag = generate_uuid();
     }
   }
 }

@@ -9,11 +9,29 @@ import { EventData } from "./eventData";
  * Used by createCheckpoint in PartitionManager
  **/
 export interface Checkpoint {
+   /**
+   * @property The event hub name
+   */
   eventHubName: string;
+   /**
+   * @property The consumer group name
+   */
   consumerGroupName: string;
+   /**
+   * @property The unique instance identifier
+   */
   instanceId: string;
+   /**
+   * @property The identifier of the Event Hub partition
+   */
   partitionId: string;
+   /**
+   * @property The sequence number of the event.
+   */
   sequenceNumber: number;
+   /**
+   * @property The offset of the event.
+   */
   offset: number;
 }
 

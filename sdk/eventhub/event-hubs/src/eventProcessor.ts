@@ -42,7 +42,7 @@ export interface PartitionOwnership {
   offset?: number;
   sequenceNumber?: number;
   lastModifiedTime?: number;
-  ETag?: string;
+  eTag?: string;
 }
 
 /**

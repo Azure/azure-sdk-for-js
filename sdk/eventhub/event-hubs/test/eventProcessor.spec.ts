@@ -102,9 +102,8 @@ describe("Event Processor", function(): void {
   });
 
   describe("InMemory Partition Manager", function(): void {
-    const inMemoryPartitionManager = new InMemoryPartitionManager();
-
-    it("should claim ownership ", async function(): Promise<void> {
+    it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<void> {
+      const inMemoryPartitionManager = new InMemoryPartitionManager();
       const partitionOwnership1: PartitionOwnership = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
@@ -124,17 +123,13 @@ describe("Event Processor", function(): void {
         partitionOwnership2
       ]);
       partitionOwnership.length.should.equals(2);
-    });
-
-    it("should get a list of ownerships ", async function(): Promise<void> {
-      const partitionOwnershipList = await inMemoryPartitionManager.listOwnerships(
+   
+      const Ownershipslist = await inMemoryPartitionManager.listOwnerships(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
-      partitionOwnershipList.length.should.equals(2);
-    });
-
-    it("should update checkpoint ", async function(): Promise<void> {
+      Ownershipslist.length.should.equals(2);
+    
       const checkpoint: Checkpoint = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
@@ -150,8 +145,8 @@ describe("Event Processor", function(): void {
         EventHubClient.defaultConsumerGroupName
       );
       partitionOwnershipList[0].partitionId.should.equals("0");
-      partitionOwnershipList[0].sequenceNumber!.should.equals(10);
-      partitionOwnershipList[0].offset!.should.equals(50);
+      partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
+      partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
     });
   });
 }).timeout(90000);
