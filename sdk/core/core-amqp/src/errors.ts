@@ -481,13 +481,23 @@ export const retryableErrors: string[] = [
   "ServerBusyError",
   "ServiceUnavailableError",
   "OperationCancelledError",
+
+  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
+  // Since reasons for such failures can be transient, this is treated as a retryable error.
   "OperationTimeoutError",
+
   "SenderBusyError",
   "MessagingError",
   "DetachForcedError",
   "ConnectionForcedError",
-  "TransferLimitExceededError"
+  "TransferLimitExceededError",
+
+  // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
+  // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
+  "InsufficientCreditError"
 ];
+
+export const nonRetryableErrors: string[] = ["AbortError"];
 
 /**
  * Maps some SytemErrors to amqp error conditions
@@ -540,6 +550,29 @@ function isBrowserWebsocketError(err: any): boolean {
 }
 
 /**
+ * @internal
+ * Checks if given object maps to a valid custom error. If yes, configures and returns the appropriate error instance, else returns `undefined`.
+ * @param err
+ */
+function getCustomError(err: AmqpError | Error): MessagingError | undefined {
+  const error: MessagingError = err as MessagingError;
+  if (
+    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+    // Must do a name check until the custom error is updated, and that doesn't break compatibility
+    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    retryableErrors.indexOf((err as Error).name) > 0
+  ) {
+    error.retryable = true;
+    return error;
+  } else if (nonRetryableErrors.indexOf((err as Error).name) > 0) {
+    error.retryable = false;
+    return error;
+  } else {
+    return undefined;
+  }
+}
+
+/**
  * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
  *
  * @param {AmqpError} err The amqp error that was received.
@@ -551,42 +584,16 @@ export function translate(err: AmqpError | Error): MessagingError {
     return err as MessagingError;
   }
 
+  const customError = getCustomError(err);
+  if (customError) {
+    return customError;
+  }
+
   let error: MessagingError = err as MessagingError;
-
-  // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
-  // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
-  if (
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until InsufficientCreditError is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    (err as Error).name === "InsufficientCreditError"
-  ) {
-    error.retryable = true;
-    return error;
-  }
-
-  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
-  // Since reasons for such failures can be transient, this is treated as a retryable error.
-  if (
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until OperationTimeoutError is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    (err as Error).name === "OperationTimeoutError"
-  ) {
-    error.retryable = true;
-    return error;
-  }
 
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
-  if (
-    err instanceof TypeError ||
-    err instanceof RangeError ||
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until AbortError is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    (err as Error).name === "AbortError"
-  ) {
+  if (err instanceof TypeError || err instanceof RangeError) {
     error.retryable = false;
     return error;
   }
