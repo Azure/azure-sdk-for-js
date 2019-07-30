@@ -11,6 +11,7 @@ export {
   AzureFilesIdentityBasedAuthentication,
   BaseResource,
   BlobContainer,
+  BlobServiceItems,
   BlobServiceProperties,
   CloudError,
   CorsRule,
