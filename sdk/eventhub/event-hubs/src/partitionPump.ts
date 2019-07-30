@@ -38,7 +38,7 @@ export class PartitionPump {
 
   async start(): Promise<void> {
     this._isReceiving = true;
-    if (this._partitionProcessor.initialize) {
+    if (typeof this._partitionProcessor.initialize === "function") {
       try {
         await this._partitionProcessor.initialize();
       } catch {
@@ -89,7 +89,7 @@ export class PartitionPump {
         await this._receiver.close();
       }
       this._abortController.abort();
-      if (this._partitionProcessor.close) {
+      if (typeof this._partitionProcessor.close === "function") {
         await this._partitionProcessor.close(reason);
       }
     } catch (err) {
