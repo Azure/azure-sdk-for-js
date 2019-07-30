@@ -52,7 +52,7 @@
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^7.0.13",
-    "@types/tunnel": "^0.0.0",
+    "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
