@@ -73,7 +73,7 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  public async refreshAccessToken(
+  async refreshAccessToken(
     tenantId: string,
     clientId: string,
     scopes: string,
@@ -110,7 +110,18 @@ export class IdentityClient extends ServiceClient {
       abortSignal: options && options.abortSignal
     });
 
-    return this.sendTokenRequest(webResource, expiresOnParser);
+    try {
+      return await this.sendTokenRequest(webResource, expiresOnParser);
+    } catch (err) {
+      if (err instanceof AuthenticationError && err.errorResponse.error === "interaction_required") {
+        // It's likely that the refresh token has expired, so
+        // return null so that the credential implementation will
+        // initiate the authentication flow again.
+        return null;
+      } else {
+        throw err;
+      }
+    }
   }
 
   static getDefaultOptions(): IdentityClientOptions {

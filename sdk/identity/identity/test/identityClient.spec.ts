@@ -61,4 +61,38 @@ describe("IdentityClient", function () {
       isExpectedError("unknown_error")
     );
   });
+
+  it("returns null when the token refresh request returns an 'interaction_required' error", async () => {
+    const mockHttp = new MockAuthHttpClient({
+      authResponse: {
+        status: 401,
+        parsedBody: {
+          error: "interaction_required",
+          error_description: "Interaction required"
+        }
+      }
+    });
+
+    const client = new IdentityClient(mockHttp.identityClientOptions);
+    const tokenResponse = await client.refreshAccessToken("tenant", "client", "scopes", "token", undefined)
+    assert.equal(tokenResponse, null);
+  });
+
+  it("rethrows any other error that is thrown while refreshing the access token", async () => {
+    const mockHttp = new MockAuthHttpClient({
+      authResponse: {
+        status: 401,
+        parsedBody: {
+          error: "invalid_client",
+          error_description: "Invalid client"
+        }
+      }
+    });
+
+    const client = new IdentityClient(mockHttp.identityClientOptions);
+    await assertRejects(
+      client.refreshAccessToken("tenant", "client", "scopes", "token", undefined),
+      isExpectedError("invalid_client")
+    );
+  });
 });

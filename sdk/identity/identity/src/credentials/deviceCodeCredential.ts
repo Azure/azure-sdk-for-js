@@ -47,7 +47,7 @@ export class DeviceCodeCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
- private lastTokenResponse: TokenResponse | null = null;
+  private lastTokenResponse: TokenResponse | null = null;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed

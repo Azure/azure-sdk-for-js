@@ -91,6 +91,39 @@ describe("DeviceCodeCredential", function () {
     }
   });
 
+  it("re-initiates the device code flow when the refresh token expires", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
+        { status: 400, parsedBody: { error: "interaction_required", error_description: "Interaction required" } },
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } },
+      ]
+    });
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      details => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await credential.getToken("scope");
+    const refreshedToken = await credential.getToken("scope");
+
+    if (refreshedToken === null) {
+      assert.fail("getToken did not return a refreshed AccessToken")
+    } else {
+      // Basic verification that the device code flow was re-initiated
+      // once the refresh token request failed with "interaction_required"
+      const refreshRequest = mockHttpClient.requests[3];
+      assert.ok(
+        refreshRequest.url.endsWith("devicecode"),
+        "Device code authorization request was not re-initiated");
+    }
+  });
+
   it("throws an AuthenticationError when the user declines the authorization flow", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
