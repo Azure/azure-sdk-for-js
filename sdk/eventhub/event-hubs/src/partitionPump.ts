@@ -42,7 +42,7 @@ export class PartitionPump {
       try {
         await this._partitionProcessor.initialize();
       } catch {
-        this._isReceiving = false;
+        // swallow the error from the user-defined code
       }
     }
     this._receiveEvents(this._partitionContext.partitionId);

@@ -13,7 +13,7 @@ import * as log from "./log";
 import { cancellableDelay } from "./util/cancellableDelay";
 
 /**
- * Reason for closing an EventProcessor.
+ * Reason for closing a PartitionProcessor.
  */
 export enum CloseReason {
   /**
@@ -23,7 +23,11 @@ export enum CloseReason {
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown"
+  Shutdown = "Shutdown",
+  /**
+   * The PartitionProcessor was shutdown for an unknown reason.
+   */
+  Unknown = "Unknown"
 }
 
 export interface PartitionProcessor {
