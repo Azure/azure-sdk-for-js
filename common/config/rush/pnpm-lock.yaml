@@ -81,7 +81,7 @@ dependencies:
   death: 1.1.0
   debug: 3.2.6
   delay: 4.3.0
-  dotenv: 7.0.0
+  dotenv: 8.0.0
   es6-promise: 4.2.8
   eslint: 5.16.0
   eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -3178,12 +3178,12 @@ packages:
       npm: '>=1.2'
     resolution:
       integrity: sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
-  /dotenv/7.0.0:
+  /dotenv/8.0.0:
     dev: false
     engines:
-      node: '>=6'
+      node: '>=8'
     resolution:
-      integrity: sha512-M3NhsLbV1i6HuGzBUH8vXrtxOk+tWmzWKDMbAVSUp3Zsjm7ywFeuwrUXhmhQyRK1q5B5GGy7hcXPbj3bnfZg2g==
+      integrity: sha512-30xVGqjLjiUOArT4+M5q9sYdvuR4riM6yK9wMcas9Vbp6zZa+ocC9dp6QoftuhTPhFAiLK/0C5Ni2nou/Bk8lg==
   /duplexer/0.1.1:
     dev: false
     resolution:
@@ -9753,7 +9753,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 5.2.0
       debug: 3.2.6
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -9798,7 +9798,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-3d4t4tY50JEufJCuo2xyd4O/T+QoOJARDeDshU+BtuYOwt7z5BTLEk5Oply8pTspZadGEIs+qqhGE/HkQ2ZFxw==
+      integrity: sha512-JGhBmY1aoKDanjTSlKcTn/GuPQTt6fCJlbVZvrv0X/SwenzgUSu7JZlqyuV7g3szIO/2HofxgCgD+zrYlIT8EA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10068,7 +10068,7 @@ packages:
       chai-string: 1.5.0_chai@4.2.0
       cross-env: 5.2.0
       debug: 3.2.6
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -10116,7 +10116,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-0mjQEMP/AVz7oC1IAlNLQ33iz4Nr5+qBaXXYl61l8Xk/jIAgIMhQPZBy1vRj9MzG1dW71rmAVVsK2RSIH7k3uA==
+      integrity: sha512-YI3xKLnd3MkrHU3jKg0o9hwRWqxr7Rrie5irJpZIc/WbTOZxugllxYKOo44LmCkLgaw1/dUHm4k5kr8fgXPq8A==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10143,7 +10143,7 @@ packages:
       chai-string: 1.5.0_chai@4.2.0
       cross-env: 5.2.0
       debug: 3.2.6
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -10174,7 +10174,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-ArbUM9DPleTcwpTC+4K/0fPHmaYl4POCPoGdwyFmHWq6Jci/i2QUwzKVsRt/g1x/N2QmpX9b1ptBbQbCFo5w4A==
+      integrity: sha512-pCHa7gfFwSGhUdYTEOTi29ju3u19hchXhPvyKVCuY5PXrYUEd2U6XikvFs5QCdcDNT4417vO3P7fBQdNnppbpw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10275,7 +10275,7 @@ packages:
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 5.2.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -10323,7 +10323,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-0KyjwRyl+yA7zJyAI0xHYbnZNgew8UYJ1pq2wH+r/BUgep5rG7j7imxQ2W3etCT+VtW7E61CAb+pzXZvNEtIRA==
+      integrity: sha512-GTQM+glliP/d7vxPSkXYr+h/mCWBAo8KdWEuGHgrnDj8ngOlcJbiORLMpD9aRBan38Jb+rgBSU5j0w8Gwu8oKA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10344,7 +10344,7 @@ packages:
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 5.2.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -10392,7 +10392,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-SQ1nP42JIzdivbtGoR7elcmoIams06g57Xu2OScuAPihA8wNqkvdgSUTxJj2boIEnaQDGR1D15WhNJWNqPPS4A==
+      integrity: sha512-e+a+ULs+RLtRRqV/FDghXuuoV2d3jsgArafnFd8tE348UWkqrGmI2N6lcOkBHpQ5+mSSCpl3wT0ayC+wmlmM+Q==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10420,7 +10420,7 @@ packages:
       cross-env: 5.2.0
       debug: 3.2.6
       delay: 4.3.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
@@ -10470,7 +10470,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-IckVg8CV310wLgunRCl2OAi+Nvn+GWQsHf3IDe2BoFOc/JzXKqC7/ETh98lua+jyePPL7ycdGhxxzzRCLieFIA==
+      integrity: sha512-tUY+4clZnQdMrD7mpzAxW/GBUiNStACPr/wk/ToXS08V/yRAXMHi7ljcNdMuZbkyBn3/nifiOlhjgsLnoQ7omQ==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10488,7 +10488,7 @@ packages:
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       assert: 1.5.0
       cross-env: 5.2.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -10541,7 +10541,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-7gm0+9x+ftqH1gOfX9bVQqG3xSp8YOhy55adAv073zQOtCH8TH0LOVqH5+o4b6Jntsjy1CSaPdbmP/xCK24FXQ==
+      integrity: sha512-5KC/oczG4OJCdu73WljXC+6DPQPqwzvbhMhtwmNSvNiW7jMM6eHzrzGJK0n/00vic5fvqhUThm6tu3XZG1ZTSw==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -10559,7 +10559,7 @@ packages:
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       assert: 1.5.0
       cross-env: 5.2.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -10612,7 +10612,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-p6FXuKOLY9zqWg4mqGXgoEZcOzfA4uQ8RWKB5b6HyBCvSDtmviKYgOqwjGd3fZyGT5QoaY9g0x0ztCP7XWNcOw==
+      integrity: sha512-fr9PugxrPIsBuXaXDe02j7E22Esqz+2e8lcbM0HIQDKRi3nxn+f4Hq60sQVOGsckT7weLB7XtQGS7dnEBNd2Cw==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10630,7 +10630,7 @@ packages:
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       assert: 1.5.0
       cross-env: 5.2.0
-      dotenv: 7.0.0
+      dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -10682,7 +10682,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-JLrNUMeV03OgrviE774rsZlMot0F2jN3wtDrr5plPqR0i/FgMSciMfJRUmOiG3teTZo+u8fEgf2feBv+M0wSGA==
+      integrity: sha512-WP+VB28wLg441fESisDswzeIJEAkdEktRSBFSs1qhuT6e0jlSEzlkOjl6xbfVqvg4dlv/ra9TLH051E+lwrhCw==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10845,7 +10845,7 @@ specifiers:
   death: ^1.1.0
   debug: ^3.1.0
   delay: ^4.2.0
-  dotenv: ^7.0.0
+  dotenv: ^8.0.0
   es6-promise: ^4.2.5
   eslint: ^5.16.0
   eslint-config-prettier: ^4.2.0
