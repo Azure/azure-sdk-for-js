@@ -102,7 +102,9 @@ export abstract class BaseRecorder {
     }
 
     // Handling storage environment variables separately
-    updatedRecording = recording.replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount");
+    if (env.ACCOUNT_NAME) {
+      updatedRecording = recording.replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount");
+    }
     if (env.ACCOUNT_KEY) {
       updatedRecording = updatedRecording.replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa");
     }
