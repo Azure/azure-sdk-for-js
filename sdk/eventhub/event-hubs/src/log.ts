@@ -53,3 +53,8 @@ export const client = debugModule("azure:event-hubs:client");
  * log statements for iothub client
  */
 export const iotClient = debugModule("azure:event-hubs:iothubClient");
+/**
+ * @ignore
+ * log statements for partitionManager
+ */
+export const partitionPump = debugModule("azure:event-hubs:partitionPump");

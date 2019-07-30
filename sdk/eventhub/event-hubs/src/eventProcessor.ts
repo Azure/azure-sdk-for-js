@@ -6,6 +6,7 @@ import { EventPosition } from "./eventPosition";
 import { PartitionContext } from "./partitionContext";
 import { CheckpointManager, Checkpoint } from "./checkpointManager";
 import { EventData } from "./eventData";
+import { PartitionPump } from "./partitionPump";
 
 export interface PartitionProcessor {
   /**
@@ -66,7 +67,7 @@ export interface PartitionManager {
 export interface EventProcessorOptions {
   initialEventPosition?: EventPosition;
   maxBatchSize?: number;
-  maxWaitTime?: number;
+  maxWaitTimeInSeconds?: number;
 }
 
 /**
@@ -74,13 +75,26 @@ export interface EventProcessorOptions {
  * @class EventProcessorHost
  */
 export class EventProcessor {
+  private _consumerGroupName: string;
+  private _eventHubClient: EventHubClient;
+  private _partitionProcessorFactory: PartitionProcessorFactory;
+  private _processorOptions: EventProcessorOptions;
+  private _partitionPump?: PartitionPump;
+
   constructor(
     consumerGroupName: string,
     eventHubClient: EventHubClient,
     partitionProcessorFactory: PartitionProcessorFactory,
     partitionManager: PartitionManager,
     options?: EventProcessorOptions
-  ) {}
+  ) {
+    if (!options) options = {};
+
+    this._consumerGroupName = consumerGroupName;
+    this._eventHubClient = eventHubClient;
+    this._partitionProcessorFactory = partitionProcessorFactory;
+    this._processorOptions = options;
+  }
 
   /**
    * Starts the event processor, fetching the list of partitions, and attempting to grab leases
@@ -89,11 +103,46 @@ export class EventProcessor {
    *
    * @return {Promise<void>}
    */
-  async start(): Promise<void> {}
+  async start(): Promise<void> {
+    const partitionIds = await this._eventHubClient.getPartitionIds();
+    const partitionContext: PartitionContext = {
+      partitionId: partitionIds[0],
+      consumerGroupName: this._consumerGroupName,
+      eventHubName: this._eventHubClient.eventHubName
+    };
+    const partitionProcessor = this._partitionProcessorFactory(
+      partitionContext,
+      new CheckpointManager()
+    );
+    if (partitionProcessor.initialize && typeof partitionProcessor.initialize !== "function") {
+      throw new TypeError("'initialize' must be of type 'function'.");
+    }
+    if (typeof partitionProcessor.processEvents !== "function") {
+      throw new TypeError("'processEvents' is required and must be of type 'function'.");
+    }
+    if (typeof partitionProcessor.processError !== "function") {
+      throw new TypeError("'processError' is required and must be of type 'function'.");
+    }
+    if (partitionProcessor.close && typeof partitionProcessor.close !== "function") {
+      throw new TypeError("'close' must be of type 'function'.");
+    }
+
+    this._partitionPump = new PartitionPump(
+      this._eventHubClient,
+      partitionContext,
+      partitionProcessor,
+      this._processorOptions
+    );
+    await this._partitionPump.start(partitionIds[0]);
+  }
 
   /**
    * Stops the EventProcessor from processing messages.
    * @return {Promise<void>}
    */
-  async stop(): Promise<void> {}
+  async stop(): Promise<void> {
+    if (this._partitionPump) {
+      await this._partitionPump.stop("Stopped processing");
+    }
+  }
 }

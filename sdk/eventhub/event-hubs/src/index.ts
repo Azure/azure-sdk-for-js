@@ -21,6 +21,8 @@ export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch } from "./eventDataBatch";
+export { EventProcessor } from "./eventProcessor";
+export { PartitionContext } from "./partitionContext";
 export {
   MessagingError,
   DataTransformer,

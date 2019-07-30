@@ -20,6 +20,10 @@ export class IdentityClient extends ServiceClient {
     super(undefined, options);
 
     this.baseUri = this.authorityHost = options.authorityHost;
+
+    if (!this.baseUri.startsWith("https:")) {
+      throw new Error("The authorityHost address must use the 'https' protocol.");
+    }
   }
 
   createWebResource(requestOptions: RequestPrepareOptions): WebResource {
