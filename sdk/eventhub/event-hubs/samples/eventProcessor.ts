@@ -7,10 +7,18 @@ import {
   PartitionContext
 } from "@azure/event-hubs";
 
-class EventProcessorHost {
+class SimplePartitionProcessor {
+  private _context: PartitionContext;
+  constructor(context: PartitionContext) {
+    this._context = context;
+  }
   async processEvents(events: EventData[]) {
     for (const event of events) {
-      console.log("Received event", event.body);
+      console.log(
+        "Received event: '%s' from partition: '%s'",
+        event.body,
+        this._context.partitionId
+      );
     }
   }
 
@@ -35,10 +43,10 @@ async function main() {
   const client = new EventHubClient(connectionString, eventHubName);
 
   const eventProcessorFactory = (context: PartitionContext) => {
-    return new EventProcessorHost();
+    return new SimplePartitionProcessor(context);
   };
 
-  const eph = new EventProcessor(
+  const processor = new EventProcessor(
     EventHubClient.defaultConsumerGroupName,
     client,
     eventProcessorFactory,
@@ -49,11 +57,11 @@ async function main() {
       maxWaitTimeInSeconds: 20
     }
   );
-  await eph.start();
+  await processor.start();
   // after 2 seconds, stop processing
   await delay(2000);
 
-  await eph.stop();
+  await processor.stop();
   await client.close();
 }
 

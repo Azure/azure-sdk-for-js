@@ -44,7 +44,7 @@ describe("Event Processor", function(): void {
       const receivedEvents: EventData[] = [];
       let isinitializeCalled = false;
       let isCloseCalled = false;
-      class TestEventProcessor {
+      class SimpleEventProcessor {
         async initialize() {
           isinitializeCalled = true;
           debug(`Started processing`);
@@ -66,11 +66,11 @@ describe("Event Processor", function(): void {
         }
       }
       const eventProcessorFactory = (context: PartitionContext) => {
-        return new TestEventProcessor();
+        return new SimpleEventProcessor();
       };
       const partitionInfo = await client.getPartitionProperties("0");
-      const eph = new EventProcessor(
-        "$Default",
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
         client,
         eventProcessorFactory,
         "partitionManager" as any,
@@ -85,10 +85,10 @@ describe("Event Processor", function(): void {
       const producer = client.createProducer({ partitionId: "0" });
       await producer.send({ body: "Hello world!!!" });
 
-      await eph.start();
+      await processor.start();
       // after 2 seconds, stop processing
       await delay(2000);
-      await eph.stop();
+      await processor.stop();
       await producer.close();
       isinitializeCalled.should.equal(true);
       receivedEvents.length.should.equal(1);
