@@ -53,7 +53,7 @@ dependencies:
   '@types/query-string': 6.2.0
   '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
-  '@types/sinon': 5.0.7
+  '@types/sinon': 7.0.13
   '@types/tough-cookie': 2.3.5
   '@types/tunnel': 0.0.0
   '@types/underscore': 1.9.2
@@ -688,10 +688,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-/BZ4QRLpH/bNYgZgwhKEh+5AsboDBcUdlBYgzoLX0fpj3Y2gp6EApyOlM3bK53wQS/OE1SrdSYBAbux2D1528Q==
-  /@types/sinon/5.0.7:
+  /@types/sinon/7.0.13:
     dev: false
     resolution:
-      integrity: sha512-opwMHufhUwkn/UUDk35LDbKJpA2VBsZT8WLU8NjayvRLGPxQkN+8XmfC2Xl35MAscBE8469koLLBjaI3XLEIww==
+      integrity: sha512-d7c/C/+H/knZ3L8/cxhicHUiTDxdgap0b/aNJfsmLwFu/iOP17mdgbQsbHA3SJmrzsjD0l3UEE5SN4xxuz5ung==
   /@types/tapable/1.0.4:
     dev: false
     resolution:
@@ -9736,7 +9736,7 @@ packages:
       '@types/jssha': 2.0.0
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
-      '@types/sinon': 5.0.7
+      '@types/sinon': 7.0.13
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       assert: 1.5.0
@@ -9791,7 +9791,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-JGhBmY1aoKDanjTSlKcTn/GuPQTt6fCJlbVZvrv0X/SwenzgUSu7JZlqyuV7g3szIO/2HofxgCgD+zrYlIT8EA==
+      integrity: sha512-dTjAKaO8jtHyxJxk8wLnqoJcVDILgfB8mZorA055Kcg+j/WNmyHaYv1zoPtDcULNJciN6KmpX8woyCMwJt2zfA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9901,7 +9901,7 @@ packages:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
       '@types/semver': 5.5.0
-      '@types/sinon': 5.0.7
+      '@types/sinon': 7.0.13
       '@types/tough-cookie': 2.3.5
       '@types/tunnel': 0.0.0
       '@types/uuid': 3.4.5
@@ -9969,7 +9969,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-7Vrm9Hbt+zQPP66qqOnGdqBP1HqkN60pb8EHIdwMhD6DYYFmx41vCT3v0Jlkp1Vz0k999yCsGzXEfxwU1hxyUQ==
+      integrity: sha512-CVbJKETE4rZ8HRTwK5s3AP/KoVFXgWFXoQaGZs6fU1IQy+dKvOeH6ssVQyu6w9aRPfrsZUVE/9vLc/BpF+T4gg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -9998,7 +9998,7 @@ packages:
       '@types/node': 8.10.51
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.0
-      '@types/sinon': 5.0.7
+      '@types/sinon': 7.0.13
       '@types/tunnel': 0.0.0
       '@types/underscore': 1.9.2
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
@@ -10031,7 +10031,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-rLhtUCCGnwzY3OigHd+TEJ4U0lyBKc2RpjKGMl9koha/aSUchKfm8qHWS+4XO/J2+WldP7yQx6gZY5C+t3cBvQ==
+      integrity: sha512-/euB1YiQgtheGt1Syg+rxebY8yTl+qdQjyjLB0GAyFo2F1mluazoGYiAEZtD/P9QnEt72eQeL7V1btabWYHZhw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10808,7 +10808,7 @@ specifiers:
   '@types/query-string': 6.2.0
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
-  '@types/sinon': ^5.0.5
+  '@types/sinon': ^7.0.13
   '@types/tough-cookie': ^2.3.5
   '@types/tunnel': ^0.0.0
   '@types/underscore': ^1.8.8
