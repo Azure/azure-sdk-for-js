@@ -415,17 +415,18 @@ export class ManagementClient extends LinkEntity {
           }
         });
 
-      const maxRetries = retryOptions.maxRetries;
-      const delayInSeconds =
-        typeof retryOptions.retryInterval === "number"
-          ? retryOptions.retryInterval / 1000
-          : undefined;
       const config: RetryConfig<Message> = {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: maxRetries,
-        delayInSeconds: delayInSeconds
+        maxRetries: retryOptions.maxRetries,
+        delayInSeconds:
+          typeof retryOptions.retryInterval === "number"
+            ? retryOptions.retryInterval / 1000
+            : undefined,
+        retryPolicy: retryOptions.retryPolicy,
+        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
