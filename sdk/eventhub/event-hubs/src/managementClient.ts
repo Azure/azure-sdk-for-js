@@ -318,84 +318,81 @@ export class ManagementClient extends LinkEntity {
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
-          try {
-            let count = 0;
+          let count = 0;
 
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-            let timeTakenByInit = 0;
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+          let timeTakenByInit = 0;
 
-            const rejectOnAbort = () => {
-              const requestName = options.requestName;
-              const desc: string =
-                `[${this._context.connectionId}] The request "${requestName}" ` +
-                `to has been cancelled by the user.`;
-              log.error(desc);
-              const error = new AbortError(
-                `The ${
-                  requestName ? requestName + " " : ""
-                }operation has been cancelled by the user.`
-              );
+          const rejectOnAbort = () => {
+            const requestName = options.requestName;
+            const desc: string =
+              `[${this._context.connectionId}] The request "${requestName}" ` +
+              `to has been cancelled by the user.`;
+            log.error(desc);
+            const error = new AbortError(
+              `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
+            );
 
-              reject(error);
-            };
+            reject(error);
+          };
 
-            if (aborter) {
-              if (aborter.aborted) {
-                return rejectOnAbort();
-              }
+          if (aborter) {
+            if (aborter.aborted) {
+              return rejectOnAbort();
             }
+          }
 
-            if (!this._isMgmtRequestResponseLinkOpen()) {
-              log.mgmt(
-                "[%s] Acquiring lock to get the management req res link.",
-                this._context.connectionId
-              );
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.connectionId
+            );
 
-              const initOperationStartTime = Date.now();
+            const initOperationStartTime = Date.now();
 
-              const actionAfterTimeout = () => {
-                const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-                const e: Error = {
-                  name: "OperationTimeoutError",
-                  message: desc
-                };
-
-                return reject(translate(e));
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
               };
 
-              const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-              try {
-                await defaultLock.acquire(this.managementLock, () => {
-                  return this._init();
-                });
-              } catch (err) {
-                return reject(translate(err));
-              } finally {
-                clearTimeout(waitTimer);
-              }
-              timeTakenByInit = Date.now() - initOperationStartTime;
-            }
-
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: options.abortSignal,
-              requestName: options.requestName,
-              timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+              return reject(translate(e));
             };
 
-            count++;
-            if (count !== 1) {
-              // Generate a new message_id every time after the first attempt
-              request.message_id = generate_uuid();
-            } else if (!request.message_id) {
-              // Set the message_id in the first attempt only if it is not set
-              request.message_id = generate_uuid();
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
             }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
 
+          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+          const sendRequestOptions: SendRequestOptions = {
+            abortSignal: options.abortSignal,
+            requestName: options.requestName,
+            timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+          };
+
+          count++;
+          if (count !== 1) {
+            // Generate a new message_id every time after the first attempt
+            request.message_id = generate_uuid();
+          } else if (!request.message_id) {
+            // Set the message_id in the first attempt only if it is not set
+            request.message_id = generate_uuid();
+          }
+
+          try {
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-
             resolve(result);
           } catch (err) {
             err = translate(err);
