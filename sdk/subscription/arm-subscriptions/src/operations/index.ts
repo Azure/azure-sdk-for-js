@@ -8,6 +8,9 @@
  * regenerated.
  */
 
-export * from "./operations";
 export * from "./subscriptions";
+export * from "./subscriptionOperationOperations";
+export * from "./subscriptionFactory";
+export * from "./subscriptionOperations";
+export * from "./operations";
 export * from "./tenants";

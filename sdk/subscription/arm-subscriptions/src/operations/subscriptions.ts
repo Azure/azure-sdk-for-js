@@ -27,7 +27,7 @@ export class Subscriptions {
   }
 
   /**
-   * The operation to cancel a subscription
+   * Cancels the subscription
    * @param subscriptionId Subscription Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsCancelResponse>
@@ -55,7 +55,7 @@ export class Subscriptions {
   }
 
   /**
-   * The operation to rename a subscription
+   * Renames the subscription
    * @param subscriptionId Subscription Id.
    * @param body Subscription Name
    * @param [options] The optional parameters
