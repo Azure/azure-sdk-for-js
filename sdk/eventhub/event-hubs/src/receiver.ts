@@ -404,10 +404,10 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInSeconds:
+      delayInMs:
         typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
-          ? retryOptions.retryInterval / 1000
-          : Constants.defaultDelayBetweenOperationRetriesInSeconds,
+          ? retryOptions.retryInterval
+          : Constants.defaultDelayBetweenOperationRetriesInMs,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
       maxRetries: retryOptions.maxRetries,
