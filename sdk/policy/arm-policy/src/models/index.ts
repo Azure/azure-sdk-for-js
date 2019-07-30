@@ -135,10 +135,9 @@ export interface PolicyDefinition extends BaseResource {
    */
   policyType?: PolicyType;
   /**
-   * The policy definition mode. Possible values are NotSpecified, Indexed, and All. Possible
-   * values include: 'NotSpecified', 'Indexed', 'All'
+   * The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data.
    */
-  mode?: PolicyMode;
+  mode?: string;
   /**
    * The display name of the policy definition.
    */
@@ -327,14 +326,6 @@ export type ResourceIdentityType = 'SystemAssigned' | 'None';
  * @enum {string}
  */
 export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom';
-
-/**
- * Defines values for PolicyMode.
- * Possible values include: 'NotSpecified', 'Indexed', 'All'
- * @readonly
- * @enum {string}
- */
-export type PolicyMode = 'NotSpecified' | 'Indexed' | 'All';
 
 /**
  * Contains response data for the deleteMethod operation.

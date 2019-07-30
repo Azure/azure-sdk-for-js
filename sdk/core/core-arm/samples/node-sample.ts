@@ -20,7 +20,7 @@ const apiVersion = "2017-06-01";
 // 1.5 in the curl tab you will see the actual curl request that has the bearer token in it
 // 1.6 copy paste that token here. That token is valid for 1 hour
 const token = "token";
-const creds = new coreHttp.TokenCredentials(token);
+const creds = new coreHttp.RawTokenCredential(token);
 const client = new coreArm.AzureServiceClient(creds, clientOptions);
 const req: coreHttp.RequestPrepareOptions = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Storage/storageAccounts/${accountName}?api-version=${apiVersion}`,

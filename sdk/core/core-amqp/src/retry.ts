@@ -169,6 +169,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.minExponentialRetryDelayInMs == undefined || config.minExponentialRetryDelayInMs < 0) {
     config.minExponentialRetryDelayInMs = defaultMinDelayForExponentialRetryInMs;
   }
+  if (config.retryPolicy == undefined) {
+    config.retryPolicy = RetryPolicy.LinearRetryPolicy;
+  }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;

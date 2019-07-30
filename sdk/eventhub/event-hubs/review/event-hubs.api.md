@@ -15,6 +15,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
+import { RetryPolicy } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
@@ -146,6 +147,16 @@ export class EventPosition {
     sequenceNumber?: number;
     }
 
+// @public
+export class EventProcessor {
+    // Warning: (ae-forgotten-export) The symbol "PartitionProcessorFactory" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PartitionManager" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "EventProcessorOptions" needs to be exported by the entry point index.d.ts
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    start(): Promise<void>;
+    stop(): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -153,6 +164,16 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface PartitionContext {
+    // (undocumented)
+    readonly consumerGroupName: string;
+    // (undocumented)
+    readonly eventHubName: string;
+    // (undocumented)
+    readonly partitionId: string;
+}
 
 // @public
 export interface PartitionProperties {
@@ -190,8 +211,11 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
+    maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
+    minExponentialRetryDelayInMs?: number;
     retryInterval?: number;
+    retryPolicy?: RetryPolicy;
     timeoutInMs?: number;
 }
 
