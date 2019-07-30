@@ -177,7 +177,7 @@
     "semver": "^5.5.0",
     "shx": "^0.3.2",
     "sinon": "^7.1.0",
-    "ts-loader": "^5.3.1",
+    "ts-loader": "^6.0.4",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
