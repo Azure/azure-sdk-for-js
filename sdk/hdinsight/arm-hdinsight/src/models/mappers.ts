@@ -128,6 +128,145 @@ export const SecurityProfile: msRest.CompositeMapper = {
   }
 };
 
+export const AutoscaleTimeAndCapacity: msRest.CompositeMapper = {
+  serializedName: "AutoscaleTimeAndCapacity",
+  type: {
+    name: "Composite",
+    className: "AutoscaleTimeAndCapacity",
+    modelProperties: {
+      time: {
+        serializedName: "time",
+        type: {
+          name: "String"
+        }
+      },
+      minInstanceCount: {
+        serializedName: "minInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      maxInstanceCount: {
+        serializedName: "maxInstanceCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleSchedule: msRest.CompositeMapper = {
+  serializedName: "AutoscaleSchedule",
+  type: {
+    name: "Composite",
+    className: "AutoscaleSchedule",
+    modelProperties: {
+      days: {
+        serializedName: "days",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            }
+          }
+        }
+      },
+      timeAndCapacity: {
+        serializedName: "timeAndCapacity",
+        type: {
+          name: "Composite",
+          className: "AutoscaleTimeAndCapacity"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleCapacity: msRest.CompositeMapper = {
+  serializedName: "AutoscaleCapacity",
+  type: {
+    name: "Composite",
+    className: "AutoscaleCapacity",
+    modelProperties: {
+      minInstanceCount: {
+        serializedName: "minInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      maxInstanceCount: {
+        serializedName: "maxInstanceCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleRecurrence: msRest.CompositeMapper = {
+  serializedName: "AutoscaleRecurrence",
+  type: {
+    name: "Composite",
+    className: "AutoscaleRecurrence",
+    modelProperties: {
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoscaleSchedule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Autoscale: msRest.CompositeMapper = {
+  serializedName: "Autoscale",
+  type: {
+    name: "Composite",
+    className: "Autoscale",
+    modelProperties: {
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "AutoscaleCapacity"
+        }
+      },
+      recurrence: {
+        serializedName: "recurrence",
+        type: {
+          name: "Composite",
+          className: "AutoscaleRecurrence"
+        }
+      }
+    }
+  }
+};
+
 export const HardwareProfile: msRest.CompositeMapper = {
   serializedName: "HardwareProfile",
   type: {
@@ -333,6 +472,13 @@ export const Role: msRest.CompositeMapper = {
         serializedName: "targetInstanceCount",
         type: {
           name: "Number"
+        }
+      },
+      autoscaleConfiguration: {
+        serializedName: "autoscale",
+        type: {
+          name: "Composite",
+          className: "Autoscale"
         }
       },
       hardwareProfile: {
@@ -1626,6 +1772,318 @@ export const Application: msRest.CompositeMapper = {
   }
 };
 
+export const VersionSpec: msRest.CompositeMapper = {
+  serializedName: "VersionSpec",
+  type: {
+    name: "Composite",
+    className: "VersionSpec",
+    modelProperties: {
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      isDefault: {
+        serializedName: "isDefault",
+        type: {
+          name: "String"
+        }
+      },
+      componentVersions: {
+        serializedName: "componentVersions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VersionsCapability: msRest.CompositeMapper = {
+  serializedName: "VersionsCapability",
+  type: {
+    name: "Composite",
+    className: "VersionsCapability",
+    modelProperties: {
+      available: {
+        serializedName: "available",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VersionSpec"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RegionsCapability: msRest.CompositeMapper = {
+  serializedName: "RegionsCapability",
+  type: {
+    name: "Composite",
+    className: "RegionsCapability",
+    modelProperties: {
+      available: {
+        serializedName: "available",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VmSizesCapability: msRest.CompositeMapper = {
+  serializedName: "VmSizesCapability",
+  type: {
+    name: "Composite",
+    className: "VmSizesCapability",
+    modelProperties: {
+      available: {
+        serializedName: "available",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VmSizeCompatibilityFilter: msRest.CompositeMapper = {
+  serializedName: "VmSizeCompatibilityFilter",
+  type: {
+    name: "Composite",
+    className: "VmSizeCompatibilityFilter",
+    modelProperties: {
+      filterMode: {
+        serializedName: "FilterMode",
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "Regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterFlavors: {
+        serializedName: "ClusterFlavors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeTypes: {
+        serializedName: "NodeTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterVersions: {
+        serializedName: "ClusterVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      vmsizes: {
+        serializedName: "vmsizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RegionalQuotaCapability: msRest.CompositeMapper = {
+  serializedName: "RegionalQuotaCapability",
+  type: {
+    name: "Composite",
+    className: "RegionalQuotaCapability",
+    modelProperties: {
+      regionName: {
+        serializedName: "region_name",
+        type: {
+          name: "String"
+        }
+      },
+      coresUsed: {
+        serializedName: "cores_used",
+        type: {
+          name: "Number"
+        }
+      },
+      coresAvailable: {
+        serializedName: "cores_available",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaCapability: msRest.CompositeMapper = {
+  serializedName: "QuotaCapability",
+  type: {
+    name: "Composite",
+    className: "QuotaCapability",
+    modelProperties: {
+      coresUsed: {
+        serializedName: "cores_used",
+        type: {
+          name: "Number"
+        }
+      },
+      maxCoresAllowed: {
+        serializedName: "max_cores_allowed",
+        type: {
+          name: "Number"
+        }
+      },
+      regionalQuotas: {
+        serializedName: "regionalQuotas",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegionalQuotaCapability"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesResult: msRest.CompositeMapper = {
+  serializedName: "CapabilitiesResult",
+  type: {
+    name: "Composite",
+    className: "CapabilitiesResult",
+    modelProperties: {
+      versions: {
+        serializedName: "versions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "VersionsCapability"
+            }
+          }
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "RegionsCapability"
+            }
+          }
+        }
+      },
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "VmSizesCapability"
+            }
+          }
+        }
+      },
+      vmSizeFilters: {
+        serializedName: "vmSize_filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmSizeCompatibilityFilter"
+            }
+          }
+        }
+      },
+      features: {
+        serializedName: "features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      quota: {
+        serializedName: "quota",
+        type: {
+          name: "Composite",
+          className: "QuotaCapability"
+        }
+      }
+    }
+  }
+};
+
 export const LocalizedName: msRest.CompositeMapper = {
   serializedName: "LocalizedName",
   type: {
@@ -1697,6 +2155,237 @@ export const UsagesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Usage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VmSizeCompatibilityFilterV2: msRest.CompositeMapper = {
+  serializedName: "VmSizeCompatibilityFilterV2",
+  type: {
+    name: "Composite",
+    className: "VmSizeCompatibilityFilterV2",
+    modelProperties: {
+      filterMode: {
+        serializedName: "filterMode",
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterFlavors: {
+        serializedName: "clusterFlavors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeTypes: {
+        serializedName: "nodeTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterVersions: {
+        serializedName: "clusterVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      osType: {
+        serializedName: "osType",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Windows",
+                "Linux"
+              ]
+            }
+          }
+        }
+      },
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BillingMeters: msRest.CompositeMapper = {
+  serializedName: "BillingMeters",
+  type: {
+    name: "Composite",
+    className: "BillingMeters",
+    modelProperties: {
+      meterParameter: {
+        serializedName: "meterParameter",
+        type: {
+          name: "String"
+        }
+      },
+      meter: {
+        serializedName: "meter",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskBillingMeters: msRest.CompositeMapper = {
+  serializedName: "DiskBillingMeters",
+  type: {
+    name: "Composite",
+    className: "DiskBillingMeters",
+    modelProperties: {
+      diskRpMeter: {
+        serializedName: "diskRpMeter",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Standard",
+            "Premium"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const BillingResources: msRest.CompositeMapper = {
+  serializedName: "BillingResources",
+  type: {
+    name: "Composite",
+    className: "BillingResources",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      billingMeters: {
+        serializedName: "billingMeters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingMeters"
+            }
+          }
+        }
+      },
+      diskBillingMeters: {
+        serializedName: "diskBillingMeters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DiskBillingMeters"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BillingResponseListResult: msRest.CompositeMapper = {
+  serializedName: "BillingResponseListResult",
+  type: {
+    name: "Composite",
+    className: "BillingResponseListResult",
+    modelProperties: {
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      vmSizeFilters: {
+        serializedName: "vmSizeFilters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmSizeCompatibilityFilterV2"
+            }
+          }
+        }
+      },
+      billingResources: {
+        serializedName: "billingResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingResources"
             }
           }
         }
