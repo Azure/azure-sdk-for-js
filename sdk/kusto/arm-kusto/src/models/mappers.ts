@@ -493,7 +493,7 @@ export const DataConnection: msRest.CompositeMapper = {
       serializedName: "kind",
       clientName: "kind"
     },
-    uberParent: "DataConnection",
+    uberParent: "BaseResource",
     className: "DataConnection",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
