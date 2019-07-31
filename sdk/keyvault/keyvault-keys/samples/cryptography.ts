@@ -31,33 +31,33 @@ async function main(): Promise<void> {
   let digest = hash.digest();
   console.log("digest: ", digest);
 
-  const signature = await remoteCryptoClient.sign(digest, "RS256");
+  const signature = await remoteCryptoClient.sign("RS256", digest);
   console.log("sign result: ", signature);
 
-  const verifyResult1 = await remoteCryptoClient.verify(digest, signature, "RS256");
+  const verifyResult1 = await remoteCryptoClient.verify("RS256", digest, signature);
   console.log("remote verify result: ", verifyResult1);
 
-  const verifyResult2 = await localCryptoClient.verifyData(Buffer.from(signatureValue), signature, "RS256");
+  const verifyResult2 = await localCryptoClient.verifyData("RS256", Buffer.from(signatureValue), signature);
   console.log("local verify result: ", verifyResult2);
 
   // Encrypt and decrypt
-  const encrypt = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA1_5");
+  const encrypt = await localCryptoClient.encrypt("RSA1_5", Buffer.from("My Message"));
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await remoteCryptoClient.decrypt(encrypt, "RSA1_5");
+  const decrypt = await remoteCryptoClient.decrypt("RSA1_5", encrypt);
   console.log("decrypt: ", decrypt.toString());
 
-  const encrypt2 = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA-OAEP");
+  const encrypt2 = await localCryptoClient.encrypt("RSA-OAEP", Buffer.from("My Message"));
   console.log("encrypt2 result: ", encrypt2);
 
-  const decrypt2 = await remoteCryptoClient.decrypt(encrypt2, "RSA-OAEP");
+  const decrypt2 = await remoteCryptoClient.decrypt("RSA-OAEP", encrypt2);
   console.log("decrypt2: ", decrypt2.toString());
 
   // Wrap and unwrap
-  const wrapped = await localCryptoClient.wrapKey(Buffer.from("My Message"), "RSA-OAEP");
+  const wrapped = await localCryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
   console.log("wrap result:", wrapped);
 
-  const unwrapped = await remoteCryptoClient.unwrapKey(wrapped, "RSA-OAEP");
+  const unwrapped = await remoteCryptoClient.unwrapKey("RSA-OAEP", wrapped);
   console.log("unwrap result", unwrapped);
 
   await client.deleteKey(keyName);

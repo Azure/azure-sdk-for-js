@@ -61,13 +61,13 @@ export class CryptographyClient {
 
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
-   * @param plaintext The text to encrypt
    * @param algorithm The algorithm to use
+   * @param plaintext The text to encrypt
    * @param options Additional options
    */
   public async encrypt(
-    plaintext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
+    plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<Uint8Array> {
     if (isNode) {
@@ -76,6 +76,10 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -83,6 +87,10 @@ export class CryptographyClient {
             return encrypted;
           };
           case "RSA-OAEP": {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
@@ -99,13 +107,13 @@ export class CryptographyClient {
 
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
-   * @param ciphertext The ciphertext to decrypt
    * @param algorithm The algorithm to use
+   * @param ciphertext The ciphertext to decrypt
    * @param options Additional options
    */  
   public async decrypt(
-    ciphertext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
+    ciphertext: Uint8Array,
     options?: DecryptOptions
   ): Promise<Uint8Array> {
     let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
@@ -114,13 +122,13 @@ export class CryptographyClient {
 
   /**
    * Wraps the given key using the specified cryptography algorithm
-   * @param key The key to wrap
    * @param algorithm The encryption algorithm to use to wrap the given key
+   * @param key The key to wrap
    * @param options Additional options
    */
   public async wrapKey(
-    key: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
+    key: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
     if (isNode) {
@@ -129,6 +137,10 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
         case "RSA1_5": {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -136,6 +148,10 @@ export class CryptographyClient {
             return encrypted;
           };
           case "RSA-OAEP": {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
@@ -152,13 +168,13 @@ export class CryptographyClient {
 
   /**
    * Unwraps the given wrapped key using the specified cryptography algorithm
-   * @param encryptedKey The encrypted key to unwrap
    * @param algorithm The decryption algorithm to use to unwrap the key
+   * @param encryptedKey The encrypted key to unwrap
    * @param options Additional options
    */
   public async unwrapKey(
-    encryptedKey: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
+    encryptedKey: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
     let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
@@ -167,13 +183,13 @@ export class CryptographyClient {
 
   /**
    * Cryptographically sign the digest of a message
-   * @param digest The digest of the data to sign
    * @param algorithm The signing algorithm to use
+   * @param digest The digest of the data to sign
    * @param options Additional options
    */
   public async sign(
-    digest: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
+    digest: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
     let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
@@ -182,15 +198,15 @@ export class CryptographyClient {
 
   /**
    * Verify the signed message digest
+   * @param algorithm The signing algorithm to use to verify with
    * @param digest The digest to verify
    * @param signature The signature to verify the digest against
-   * @param algorithm The signing algorithm to use to verify with
    * @param options Additional options
    */
   public async verify(
+    algorithm: JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
     const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
@@ -199,13 +215,13 @@ export class CryptographyClient {
 
   /**
    * Cryptographically sign a block of data
-   * @param data The data to sign
    * @param algorithm The signing algorithm to use
+   * @param data The data to sign
    * @param options Additional options
    */
   public async signData(
-    data: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
+    data: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
     let digest;
@@ -237,23 +253,27 @@ export class CryptographyClient {
 
   /**
    * Verify the signed block of data
+   * @param algorithm The algorithm to use to verify with
    * @param data The signed block of data to verify
    * @param signature The signature to verify the block against
-   * @param algorithm The algorithm to use to verify with
    * @param options Additional options
    */
   public async verifyData(
+    algorithm: JsonWebKeySignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
-      if (this.key !== "string") {
+      if (typeof this.key !== "string") {
         switch (algorithm) {
           case ("RS256"): {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA256");
@@ -263,6 +283,10 @@ export class CryptographyClient {
             return verifier.verify(keyPEM, Buffer.from(signature));
           };
           case ("RS384"): {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA384");
@@ -272,6 +296,10 @@ export class CryptographyClient {
             return verifier.verify(keyPEM, Buffer.from(signature));
           };
           case ("RS512"): {
+            if (this.key.kty != "RSA") {
+              throw new Error("Key type does not match algorithm");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA512");
