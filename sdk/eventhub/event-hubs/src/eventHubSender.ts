@@ -293,7 +293,7 @@ export class EventHubSender extends LinkEntity {
             operationType: RetryOperationType.senderLink,
             maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
-            delayInSeconds: 15
+            delayInMs: 15000
           };
           return retry<void>(config);
         });
@@ -397,10 +397,7 @@ export class EventHubSender extends LinkEntity {
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             maxRetries: retryOptions.maxRetries,
-            delayInSeconds:
-              typeof retryOptions.retryInterval === "number"
-                ? retryOptions.retryInterval / 1000
-                : undefined,
+            delayInMs: retryOptions.retryInterval,
             retryPolicy: retryOptions.retryPolicy,
             minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
             maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
@@ -748,10 +745,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       maxRetries: retryOptions.maxRetries,
-      delayInSeconds:
-        typeof retryOptions.retryInterval === "number"
-          ? retryOptions.retryInterval / 1000
-          : undefined,
+      delayInMs: retryOptions.retryInterval,
       retryPolicy: retryOptions.retryPolicy,
       minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
       maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs

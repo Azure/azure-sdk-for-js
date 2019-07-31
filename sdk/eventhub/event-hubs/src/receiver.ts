@@ -234,7 +234,7 @@ export class EventHubConsumer {
     options: EventIteratorOptions = {}
   ): AsyncIterableIterator<ReceivedEventData> {
     const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
 
     while (true) {
       const currentBatch = await this.receiveBatch(
@@ -404,10 +404,7 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInSeconds:
-        typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
-          ? retryOptions.retryInterval / 1000
-          : Constants.defaultDelayBetweenOperationRetriesInSeconds,
+      delayInMs: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
       maxRetries: retryOptions.maxRetries,
