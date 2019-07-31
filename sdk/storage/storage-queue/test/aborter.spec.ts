@@ -25,11 +25,6 @@ describe("Aborter", () => {
     recorder.stop();
   });
 
-  it("should set value and get value successfully", async () => {
-    const aborter = Aborter.none.withValue("mykey", "myvalue");
-    assert.deepStrictEqual(aborter.getValue("mykey"), "myvalue");
-  });
-
   it("should not abort after calling abort()", async () => {
     const cResp = await queueClient.create();
     assert.ok(cResp.date);
@@ -37,8 +32,8 @@ describe("Aborter", () => {
   });
 
   it("should abort when calling abort() before request finishes", async () => {
-    const aborter = Aborter.none;
-    const response = queueClient.create({ abortSignal: aborter });
+    const aborter = new AbortController();
+    const response = queueClient.create({ abortSignal: aborter.signal });
     aborter.abort();
     try {
       await response;
@@ -47,33 +42,24 @@ describe("Aborter", () => {
   });
 
   it("should not abort when calling abort() after request finishes", async () => {
-    const aborter = Aborter.none;
-    await queueClient.create({ abortSignal: aborter });
+    const aborter = new AbortController();
+    await queueClient.create({ abortSignal: aborter.signal });
     aborter.abort();
     await queueClient.delete();
   });
 
   it("should abort after aborter timeout", async () => {
     try {
-      await queueClient.create({ abortSignal: Aborter.timeout(1) });
+      await queueClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
     } catch (err) {}
   });
 
   it("should abort after parent aborter calls abort()", async () => {
     try {
-      const aborter = Aborter.none;
-      const response = queueClient.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
+      const aborter = new AbortController();
+      const response = queueClient.create({ abortSignal: AbortController.timeout(10 * 60 * 1000) });
       aborter.abort();
-      await response;
-      assert.fail();
-    } catch (err) {}
-  });
-
-  it("should abort after parent aborter timeout", async () => {
-    try {
-      const aborter = Aborter.timeout(1);
-      const response = queueClient.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
       await response;
       assert.fail();
     } catch (err) {}
