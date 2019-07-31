@@ -101,7 +101,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.solutionName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion3,
     Parameters.top
   ],
   headerParameters: [
