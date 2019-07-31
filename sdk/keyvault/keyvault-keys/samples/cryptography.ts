@@ -21,6 +21,7 @@ async function main(): Promise<void> {
   let myWorkKey = await client.createKey(keyName, "RSA");
 
   const remoteCryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
+  const localCryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
@@ -36,15 +37,24 @@ async function main(): Promise<void> {
   const verifyResult1 = await remoteCryptoClient.verify(digest, signature, "RS256");
   console.log("remote verify result: ", verifyResult1);
 
+  const verifyResult2 = await localCryptoClient.verifyData(Buffer.from(signatureValue), signature, "RS256");
+  console.log("local verify result: ", verifyResult2);
+
   // Encrypt and decrypt
-  const encrypt = await remoteCryptoClient.encrypt(Buffer.from("My Message"), "RSA1_5");
+  const encrypt = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA1_5");
   console.log("encrypt result: ", encrypt);
 
   const decrypt = await remoteCryptoClient.decrypt(encrypt, "RSA1_5");
   console.log("decrypt: ", decrypt.toString());
 
+  const encrypt2 = await localCryptoClient.encrypt(Buffer.from("My Message"), "RSA-OAEP");
+  console.log("encrypt2 result: ", encrypt2);
+
+  const decrypt2 = await remoteCryptoClient.decrypt(encrypt2, "RSA-OAEP");
+  console.log("decrypt2: ", decrypt2.toString());
+
   // Wrap and unwrap
-  const wrapped = await remoteCryptoClient.wrapKey(Buffer.from("My Message"), "RSA-OAEP");
+  const wrapped = await localCryptoClient.wrapKey(Buffer.from("My Message"), "RSA-OAEP");
   console.log("wrap result:", wrapped);
 
   const unwrapped = await remoteCryptoClient.unwrapKey(wrapped, "RSA-OAEP");
