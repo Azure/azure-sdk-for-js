@@ -62,7 +62,7 @@ dependencies:
   '@types/webpack-dev-middleware': 2.0.3
   '@types/ws': 6.0.1
   '@types/xml2js': 0.4.4
-  '@types/yargs': 11.1.2
+  '@types/yargs': 13.0.2
   '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
   '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
   abortcontroller-polyfill: 1.3.0
@@ -184,7 +184,7 @@ dependencies:
   ws: 6.2.1
   xhr-mock: 2.5.0
   xml2js: 0.4.19
-  yargs: 11.1.0
+  yargs: 13.3.0
   yarn: 1.17.3
 lockfileVersion: 5.1
 packages:
@@ -760,10 +760,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-O6Xgai01b9PB3IGA0lRIp1Ex3JBcxGDhdO0n3NIIpCyDOAjxcIGQFmkvgJpP8anTrthxOUQjBfLdRRi0Zn/TXA==
-  /@types/yargs/11.1.2:
+  /@types/yargs-parser/13.0.0:
     dev: false
     resolution:
-      integrity: sha512-zG61PAp2OcoIBjRV44wftJj6AJgzJrOc32LCYOBqk9bdgcdzK5DCJHV9QZJ60+Fu+fOn79g8Ks3Gixm4CfkZ+w==
+      integrity: sha512-wBlsw+8n21e6eTd4yVv8YD/E3xq0O6nNnJIquutAsFGE7EyMKz7W6RNT6BRu1SmdgmlCZ9tb0X+j+D6HGr8pZw==
+  /@types/yargs/13.0.2:
+    dependencies:
+      '@types/yargs-parser': 13.0.0
+    dev: false
+    resolution:
+      integrity: sha512-lwwgizwk/bIIU+3ELORkyuOgDjCh7zuWDFqRtPPhhVgq9N1F7CvLNKg1TX4f2duwtKQ0p044Au9r1PLIXHrIzQ==
   /@types/z-schema/3.16.31:
     dev: false
     resolution:
@@ -2540,14 +2546,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-EgYBU3qRbSmUD5NNo7SNWFo5IT0=
-  /cliui/4.1.0:
-    dependencies:
-      string-width: 2.1.1
-      strip-ansi: 4.0.0
-      wrap-ansi: 2.1.0
-    dev: false
-    resolution:
-      integrity: sha512-4FG+RSG9DL7uEwRUZXZn3SS34DiDPfzP0VOiEwtUWlE+AR2EIg+hSyvrIgUUfhdgR/UkAeW2QHgeP+hWrXs7jQ==
   /cliui/5.0.0:
     dependencies:
       string-width: 3.1.0
@@ -2849,14 +2847,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-e5JHYhwjrf3ThWAEqCPL45dCTUE=
-  /cross-spawn/5.1.0:
-    dependencies:
-      lru-cache: 4.1.5
-      shebang-command: 1.2.0
-      which: 1.3.1
-    dev: false
-    resolution:
-      integrity: sha1-6L0O/uWPz/b4+UUQoKVUu/ojVEk=
   /cross-spawn/6.0.5:
     dependencies:
       nice-try: 1.0.5
@@ -3633,20 +3623,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-/f2Go4TognH/KvCISP7OUsHn85hT9nUkxxA9BEWxFn+Oj9o8ZNLm/40hdlgSLyuOimsrTKLUMEorQexp/aPQeA==
-  /execa/0.7.0:
-    dependencies:
-      cross-spawn: 5.1.0
-      get-stream: 3.0.0
-      is-stream: 1.1.0
-      npm-run-path: 2.0.2
-      p-finally: 1.0.0
-      signal-exit: 3.0.2
-      strip-eof: 1.0.0
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha1-lEvs00zEHuMqY6n68nrVpl/Fl3c=
   /execa/1.0.0:
     dependencies:
       cross-spawn: 6.0.5
@@ -4165,12 +4141,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-jp4tHawyV7+fkkSKyvjuLZswblUtz+SQKzSWnBbii16BuZksJlU1wuBYXY75r+duh/llF1ur6oNwi+2ZzjKZ7g==
-  /get-stream/3.0.0:
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha1-jpQ9E1jcN1VQVOy+LtsFqhdO3hQ=
   /get-stream/4.1.0:
     dependencies:
       pump: 3.0.0
@@ -5958,14 +5928,6 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
-  /mem/1.1.0:
-    dependencies:
-      mimic-fn: 1.2.0
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha1-Xt1StIXKHZAP5kiVUFOZoN+kX3Y=
   /mem/4.3.0:
     dependencies:
       map-age-cleaner: 0.1.3
@@ -6746,16 +6708,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-IPnxeuKe00XoveWDsT0gCYA8FNk=
-  /os-locale/2.1.0:
-    dependencies:
-      execa: 0.7.0
-      lcid: 1.0.0
-      mem: 1.1.0
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha512-3sslG3zJbEYcaC4YVAvDorjGxc7tv6KVATnLPZONiljsUncvihe9BQoVCEs0RZ1kmf4Hk9OBqlZfJZWI4GanKA==
   /os-locale/3.1.0:
     dependencies:
       execa: 1.0.0
@@ -9585,29 +9537,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-J17PDX/+Bcd+ZOfIbkzZS/DhIoo=
-  /yargs-parser/9.0.2:
-    dependencies:
-      camelcase: 4.1.0
-    dev: false
-    resolution:
-      integrity: sha1-nM9qQ0YP5O1Aqbto9I1DuKaMwHc=
-  /yargs/11.1.0:
-    dependencies:
-      cliui: 4.1.0
-      decamelize: 1.2.0
-      find-up: 2.1.0
-      get-caller-file: 1.0.3
-      os-locale: 2.1.0
-      require-directory: 2.1.1
-      require-main-filename: 1.0.1
-      set-blocking: 2.0.0
-      string-width: 2.1.1
-      which-module: 2.0.0
-      y18n: 3.2.1
-      yargs-parser: 9.0.2
-    dev: false
-    resolution:
-      integrity: sha512-NwW69J42EsCSanF8kyn5upxvjp5ds+t3+udGBeTbFnERA+lF541DDpMawzo4z6W/QrzNM18D+BPMiOBibnFV5A==
   /yargs/13.2.4:
     dependencies:
       cliui: 5.0.0
@@ -10753,7 +10682,7 @@ packages:
       '@azure/event-hubs': 2.1.1
       '@types/node': 8.10.51
       '@types/uuid': 3.4.5
-      '@types/yargs': 11.1.2
+      '@types/yargs': 13.0.2
       async-lock: 1.2.2
       death: 1.1.0
       debug: 3.2.6
@@ -10766,11 +10695,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
-      yargs: 11.1.0
+      yargs: 13.3.0
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
+      integrity: sha512-udls4i3EzzYaovrHK3RsC59ihzLbrw1JnfrAHRexyiVwphcVtNtIVhQ9Taqy6wkdAInOARVYaq6O8OAIThAO1Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -10838,7 +10767,7 @@ specifiers:
   '@types/webpack-dev-middleware': ^2.0.2
   '@types/ws': ^6.0.1
   '@types/xml2js': ^0.4.3
-  '@types/yargs': ^11.0.0
+  '@types/yargs': ^13.0.0
   '@typescript-eslint/eslint-plugin': ^1.11.0
   '@typescript-eslint/parser': ^1.11.0
   abortcontroller-polyfill: ^1.1.9
@@ -10960,5 +10889,5 @@ specifiers:
   ws: ^6.2.1
   xhr-mock: ^2.4.1
   xml2js: ^0.4.19
-  yargs: ^11.0.0
+  yargs: ^13.0.0
   yarn: ^1.6.0
