@@ -243,7 +243,7 @@ export class CryptographyClient {
         digest = await CryptographyClient.createHash("sha512", data);
       } break;
       default: {
-        throw new Error("Unsupported verify algorithm");
+        throw new Error("Unsupported signature algorithm");
       }
     }
 
