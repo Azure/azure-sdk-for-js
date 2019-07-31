@@ -57,8 +57,8 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-auth",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^1.9.3",
-    "@azure/abort-controller": "1.0.0-preview.1"
+    "@azure/abort-controller": "1.0.0-preview.1",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
@@ -90,6 +90,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "typescript": "^3.2.2",
-    "util": "^0.11.1"
+    "util": "^0.12.1"
   }
 }
