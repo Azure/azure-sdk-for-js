@@ -7,14 +7,14 @@
  */
 
 export {
-  AccountListNodeAgentSkusHeaders,
-  AccountListNodeAgentSkusResult,
   AccountListPoolNodeCountsHeaders,
+  AccountListSupportedImagesHeaders,
+  AccountListSupportedImagesResult,
   BatchError,
   BatchErrorDetail,
   ErrorMessage,
+  ImageInformation,
   ImageReference,
-  NodeAgentSku,
   NodeCounts,
   PoolNodeCounts,
   PoolNodeCountsListResult

@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
+import * as coreHttp from "@azure/core-http";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const PoolUsageMetrics: msRest.CompositeMapper = {
+export const PoolUsageMetrics: coreHttp.CompositeMapper = {
   serializedName: "PoolUsageMetrics",
   type: {
     name: "Composite",
@@ -57,7 +57,7 @@ export const PoolUsageMetrics: msRest.CompositeMapper = {
   }
 };
 
-export const ImageReference: msRest.CompositeMapper = {
+export const ImageReference: coreHttp.CompositeMapper = {
   serializedName: "ImageReference",
   type: {
     name: "Composite",
@@ -97,31 +97,29 @@ export const ImageReference: msRest.CompositeMapper = {
   }
 };
 
-export const NodeAgentSku: msRest.CompositeMapper = {
-  serializedName: "NodeAgentSku",
+export const ImageInformation: coreHttp.CompositeMapper = {
+  serializedName: "ImageInformation",
   type: {
     name: "Composite",
-    className: "NodeAgentSku",
+    className: "ImageInformation",
     modelProperties: {
-      id: {
-        serializedName: "id",
+      nodeAgentSKUId: {
+        required: true,
+        serializedName: "nodeAgentSKUId",
         type: {
           name: "String"
         }
       },
-      verifiedImageReferences: {
-        serializedName: "verifiedImageReferences",
+      imageReference: {
+        required: true,
+        serializedName: "imageReference",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageReference"
-            }
-          }
+          name: "Composite",
+          className: "ImageReference"
         }
       },
       osType: {
+        required: true,
         serializedName: "osType",
         type: {
           name: "Enum",
@@ -130,12 +128,40 @@ export const NodeAgentSku: msRest.CompositeMapper = {
             "windows"
           ]
         }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      batchSupportEndOfLife: {
+        serializedName: "batchSupportEndOfLife",
+        type: {
+          name: "DateTime"
+        }
+      },
+      verificationType: {
+        required: true,
+        serializedName: "verificationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "verified",
+            "unverified"
+          ]
+        }
       }
     }
   }
 };
 
-export const AuthenticationTokenSettings: msRest.CompositeMapper = {
+export const AuthenticationTokenSettings: coreHttp.CompositeMapper = {
   serializedName: "AuthenticationTokenSettings",
   type: {
     name: "Composite",
@@ -159,7 +185,7 @@ export const AuthenticationTokenSettings: msRest.CompositeMapper = {
   }
 };
 
-export const UsageStatistics: msRest.CompositeMapper = {
+export const UsageStatistics: coreHttp.CompositeMapper = {
   serializedName: "UsageStatistics",
   type: {
     name: "Composite",
@@ -190,7 +216,7 @@ export const UsageStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceStatistics: msRest.CompositeMapper = {
+export const ResourceStatistics: coreHttp.CompositeMapper = {
   serializedName: "ResourceStatistics",
   type: {
     name: "Composite",
@@ -291,7 +317,7 @@ export const ResourceStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const PoolStatistics: msRest.CompositeMapper = {
+export const PoolStatistics: coreHttp.CompositeMapper = {
   serializedName: "PoolStatistics",
   type: {
     name: "Composite",
@@ -336,7 +362,7 @@ export const PoolStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const JobStatistics: msRest.CompositeMapper = {
+export const JobStatistics: coreHttp.CompositeMapper = {
   serializedName: "JobStatistics",
   type: {
     name: "Composite",
@@ -444,7 +470,7 @@ export const JobStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const NameValuePair: msRest.CompositeMapper = {
+export const NameValuePair: coreHttp.CompositeMapper = {
   serializedName: "NameValuePair",
   type: {
     name: "Composite",
@@ -466,7 +492,7 @@ export const NameValuePair: msRest.CompositeMapper = {
   }
 };
 
-export const DeleteCertificateError: msRest.CompositeMapper = {
+export const DeleteCertificateError: coreHttp.CompositeMapper = {
   serializedName: "DeleteCertificateError",
   type: {
     name: "Composite",
@@ -500,7 +526,7 @@ export const DeleteCertificateError: msRest.CompositeMapper = {
   }
 };
 
-export const Certificate: msRest.CompositeMapper = {
+export const Certificate: coreHttp.CompositeMapper = {
   serializedName: "Certificate",
   type: {
     name: "Composite",
@@ -575,7 +601,7 @@ export const Certificate: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationPackageReference: msRest.CompositeMapper = {
+export const ApplicationPackageReference: coreHttp.CompositeMapper = {
   serializedName: "ApplicationPackageReference",
   type: {
     name: "Composite",
@@ -598,7 +624,7 @@ export const ApplicationPackageReference: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationSummary: msRest.CompositeMapper = {
+export const ApplicationSummary: coreHttp.CompositeMapper = {
   serializedName: "ApplicationSummary",
   type: {
     name: "Composite",
@@ -634,7 +660,7 @@ export const ApplicationSummary: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateAddParameter: msRest.CompositeMapper = {
+export const CertificateAddParameter: coreHttp.CompositeMapper = {
   serializedName: "CertificateAddParameter",
   type: {
     name: "Composite",
@@ -681,7 +707,7 @@ export const CertificateAddParameter: msRest.CompositeMapper = {
   }
 };
 
-export const FileProperties: msRest.CompositeMapper = {
+export const FileProperties: coreHttp.CompositeMapper = {
   serializedName: "FileProperties",
   type: {
     name: "Composite",
@@ -723,7 +749,7 @@ export const FileProperties: msRest.CompositeMapper = {
   }
 };
 
-export const NodeFile: msRest.CompositeMapper = {
+export const NodeFile: coreHttp.CompositeMapper = {
   serializedName: "NodeFile",
   type: {
     name: "Composite",
@@ -758,7 +784,7 @@ export const NodeFile: msRest.CompositeMapper = {
   }
 };
 
-export const Schedule: msRest.CompositeMapper = {
+export const Schedule: coreHttp.CompositeMapper = {
   serializedName: "Schedule",
   type: {
     name: "Composite",
@@ -792,7 +818,7 @@ export const Schedule: msRest.CompositeMapper = {
   }
 };
 
-export const JobConstraints: msRest.CompositeMapper = {
+export const JobConstraints: coreHttp.CompositeMapper = {
   serializedName: "JobConstraints",
   type: {
     name: "Composite",
@@ -814,7 +840,7 @@ export const JobConstraints: msRest.CompositeMapper = {
   }
 };
 
-export const JobNetworkConfiguration: msRest.CompositeMapper = {
+export const JobNetworkConfiguration: coreHttp.CompositeMapper = {
   serializedName: "JobNetworkConfiguration",
   type: {
     name: "Composite",
@@ -831,7 +857,7 @@ export const JobNetworkConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerRegistry: msRest.CompositeMapper = {
+export const ContainerRegistry: coreHttp.CompositeMapper = {
   serializedName: "ContainerRegistry",
   type: {
     name: "Composite",
@@ -861,7 +887,7 @@ export const ContainerRegistry: msRest.CompositeMapper = {
   }
 };
 
-export const TaskContainerSettings: msRest.CompositeMapper = {
+export const TaskContainerSettings: coreHttp.CompositeMapper = {
   serializedName: "TaskContainerSettings",
   type: {
     name: "Composite",
@@ -886,12 +912,22 @@ export const TaskContainerSettings: msRest.CompositeMapper = {
           name: "Composite",
           className: "ContainerRegistry"
         }
+      },
+      workingDirectory: {
+        serializedName: "workingDirectory",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "taskWorkingDirectory",
+            "containerImageDefault"
+          ]
+        }
       }
     }
   }
 };
 
-export const ResourceFile: msRest.CompositeMapper = {
+export const ResourceFile: coreHttp.CompositeMapper = {
   serializedName: "ResourceFile",
   type: {
     name: "Composite",
@@ -937,7 +973,7 @@ export const ResourceFile: msRest.CompositeMapper = {
   }
 };
 
-export const EnvironmentSetting: msRest.CompositeMapper = {
+export const EnvironmentSetting: coreHttp.CompositeMapper = {
   serializedName: "EnvironmentSetting",
   type: {
     name: "Composite",
@@ -960,7 +996,7 @@ export const EnvironmentSetting: msRest.CompositeMapper = {
   }
 };
 
-export const ExitOptions: msRest.CompositeMapper = {
+export const ExitOptions: coreHttp.CompositeMapper = {
   serializedName: "ExitOptions",
   type: {
     name: "Composite",
@@ -991,7 +1027,7 @@ export const ExitOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ExitCodeMapping: msRest.CompositeMapper = {
+export const ExitCodeMapping: coreHttp.CompositeMapper = {
   serializedName: "ExitCodeMapping",
   type: {
     name: "Composite",
@@ -1016,7 +1052,7 @@ export const ExitCodeMapping: msRest.CompositeMapper = {
   }
 };
 
-export const ExitCodeRangeMapping: msRest.CompositeMapper = {
+export const ExitCodeRangeMapping: coreHttp.CompositeMapper = {
   serializedName: "ExitCodeRangeMapping",
   type: {
     name: "Composite",
@@ -1048,7 +1084,7 @@ export const ExitCodeRangeMapping: msRest.CompositeMapper = {
   }
 };
 
-export const ExitConditions: msRest.CompositeMapper = {
+export const ExitConditions: coreHttp.CompositeMapper = {
   serializedName: "ExitConditions",
   type: {
     name: "Composite",
@@ -1103,7 +1139,7 @@ export const ExitConditions: msRest.CompositeMapper = {
   }
 };
 
-export const AutoUserSpecification: msRest.CompositeMapper = {
+export const AutoUserSpecification: coreHttp.CompositeMapper = {
   serializedName: "AutoUserSpecification",
   type: {
     name: "Composite",
@@ -1133,7 +1169,7 @@ export const AutoUserSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const UserIdentity: msRest.CompositeMapper = {
+export const UserIdentity: coreHttp.CompositeMapper = {
   serializedName: "UserIdentity",
   type: {
     name: "Composite",
@@ -1156,7 +1192,7 @@ export const UserIdentity: msRest.CompositeMapper = {
   }
 };
 
-export const LinuxUserConfiguration: msRest.CompositeMapper = {
+export const LinuxUserConfiguration: coreHttp.CompositeMapper = {
   serializedName: "LinuxUserConfiguration",
   type: {
     name: "Composite",
@@ -1184,7 +1220,7 @@ export const LinuxUserConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const WindowsUserConfiguration: msRest.CompositeMapper = {
+export const WindowsUserConfiguration: coreHttp.CompositeMapper = {
   serializedName: "WindowsUserConfiguration",
   type: {
     name: "Composite",
@@ -1204,7 +1240,7 @@ export const WindowsUserConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const UserAccount: msRest.CompositeMapper = {
+export const UserAccount: coreHttp.CompositeMapper = {
   serializedName: "UserAccount",
   type: {
     name: "Composite",
@@ -1252,7 +1288,7 @@ export const UserAccount: msRest.CompositeMapper = {
   }
 };
 
-export const TaskConstraints: msRest.CompositeMapper = {
+export const TaskConstraints: coreHttp.CompositeMapper = {
   serializedName: "TaskConstraints",
   type: {
     name: "Composite",
@@ -1280,7 +1316,7 @@ export const TaskConstraints: msRest.CompositeMapper = {
   }
 };
 
-export const OutputFileBlobContainerDestination: msRest.CompositeMapper = {
+export const OutputFileBlobContainerDestination: coreHttp.CompositeMapper = {
   serializedName: "OutputFileBlobContainerDestination",
   type: {
     name: "Composite",
@@ -1303,7 +1339,7 @@ export const OutputFileBlobContainerDestination: msRest.CompositeMapper = {
   }
 };
 
-export const OutputFileDestination: msRest.CompositeMapper = {
+export const OutputFileDestination: coreHttp.CompositeMapper = {
   serializedName: "OutputFileDestination",
   type: {
     name: "Composite",
@@ -1320,7 +1356,7 @@ export const OutputFileDestination: msRest.CompositeMapper = {
   }
 };
 
-export const OutputFileUploadOptions: msRest.CompositeMapper = {
+export const OutputFileUploadOptions: coreHttp.CompositeMapper = {
   serializedName: "OutputFileUploadOptions",
   type: {
     name: "Composite",
@@ -1342,7 +1378,7 @@ export const OutputFileUploadOptions: msRest.CompositeMapper = {
   }
 };
 
-export const OutputFile: msRest.CompositeMapper = {
+export const OutputFile: coreHttp.CompositeMapper = {
   serializedName: "OutputFile",
   type: {
     name: "Composite",
@@ -1375,7 +1411,7 @@ export const OutputFile: msRest.CompositeMapper = {
   }
 };
 
-export const JobManagerTask: msRest.CompositeMapper = {
+export const JobManagerTask: coreHttp.CompositeMapper = {
   serializedName: "JobManagerTask",
   type: {
     name: "Composite",
@@ -1499,7 +1535,7 @@ export const JobManagerTask: msRest.CompositeMapper = {
   }
 };
 
-export const JobPreparationTask: msRest.CompositeMapper = {
+export const JobPreparationTask: coreHttp.CompositeMapper = {
   serializedName: "JobPreparationTask",
   type: {
     name: "Composite",
@@ -1579,7 +1615,7 @@ export const JobPreparationTask: msRest.CompositeMapper = {
   }
 };
 
-export const JobReleaseTask: msRest.CompositeMapper = {
+export const JobReleaseTask: coreHttp.CompositeMapper = {
   serializedName: "JobReleaseTask",
   type: {
     name: "Composite",
@@ -1652,7 +1688,7 @@ export const JobReleaseTask: msRest.CompositeMapper = {
   }
 };
 
-export const TaskSchedulingPolicy: msRest.CompositeMapper = {
+export const TaskSchedulingPolicy: coreHttp.CompositeMapper = {
   serializedName: "TaskSchedulingPolicy",
   type: {
     name: "Composite",
@@ -1673,7 +1709,7 @@ export const TaskSchedulingPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const StartTask: msRest.CompositeMapper = {
+export const StartTask: coreHttp.CompositeMapper = {
   serializedName: "StartTask",
   type: {
     name: "Composite",
@@ -1740,7 +1776,7 @@ export const StartTask: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateReference: msRest.CompositeMapper = {
+export const CertificateReference: coreHttp.CompositeMapper = {
   serializedName: "CertificateReference",
   type: {
     name: "Composite",
@@ -1796,7 +1832,7 @@ export const CertificateReference: msRest.CompositeMapper = {
   }
 };
 
-export const MetadataItem: msRest.CompositeMapper = {
+export const MetadataItem: coreHttp.CompositeMapper = {
   serializedName: "MetadataItem",
   type: {
     name: "Composite",
@@ -1820,7 +1856,7 @@ export const MetadataItem: msRest.CompositeMapper = {
   }
 };
 
-export const CloudServiceConfiguration: msRest.CompositeMapper = {
+export const CloudServiceConfiguration: coreHttp.CompositeMapper = {
   serializedName: "CloudServiceConfiguration",
   type: {
     name: "Composite",
@@ -1843,7 +1879,7 @@ export const CloudServiceConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const WindowsConfiguration: msRest.CompositeMapper = {
+export const WindowsConfiguration: coreHttp.CompositeMapper = {
   serializedName: "WindowsConfiguration",
   type: {
     name: "Composite",
@@ -1859,7 +1895,7 @@ export const WindowsConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const DataDisk: msRest.CompositeMapper = {
+export const DataDisk: coreHttp.CompositeMapper = {
   serializedName: "DataDisk",
   type: {
     name: "Composite",
@@ -1904,7 +1940,7 @@ export const DataDisk: msRest.CompositeMapper = {
   }
 };
 
-export const ContainerConfiguration: msRest.CompositeMapper = {
+export const ContainerConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ContainerConfiguration",
   type: {
     name: "Composite",
@@ -1946,7 +1982,7 @@ export const ContainerConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineConfiguration: msRest.CompositeMapper = {
+export const VirtualMachineConfiguration: coreHttp.CompositeMapper = {
   serializedName: "VirtualMachineConfiguration",
   type: {
     name: "Composite",
@@ -2003,7 +2039,7 @@ export const VirtualMachineConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
+export const NetworkSecurityGroupRule: coreHttp.CompositeMapper = {
   serializedName: "NetworkSecurityGroupRule",
   type: {
     name: "Composite",
@@ -2033,12 +2069,23 @@ export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sourcePortRanges: {
+        serializedName: "sourcePortRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const InboundNATPool: msRest.CompositeMapper = {
+export const InboundNATPool: coreHttp.CompositeMapper = {
   serializedName: "InboundNATPool",
   type: {
     name: "Composite",
@@ -2099,7 +2146,7 @@ export const InboundNATPool: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEndpointConfiguration: msRest.CompositeMapper = {
+export const PoolEndpointConfiguration: coreHttp.CompositeMapper = {
   serializedName: "PoolEndpointConfiguration",
   type: {
     name: "Composite",
@@ -2122,7 +2169,7 @@ export const PoolEndpointConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkConfiguration: msRest.CompositeMapper = {
+export const NetworkConfiguration: coreHttp.CompositeMapper = {
   serializedName: "NetworkConfiguration",
   type: {
     name: "Composite",
@@ -2150,12 +2197,228 @@ export const NetworkConfiguration: msRest.CompositeMapper = {
           name: "Composite",
           className: "PoolEndpointConfiguration"
         }
+      },
+      publicIPs: {
+        serializedName: "publicIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const PoolSpecification: msRest.CompositeMapper = {
+export const AzureBlobFileSystemConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "AzureBlobFileSystemConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFileSystemConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        required: true,
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      sasKey: {
+        serializedName: "sasKey",
+        type: {
+          name: "String"
+        }
+      },
+      blobfuseOptions: {
+        serializedName: "blobfuseOptions",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NFSMountConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "NFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "NFSMountConfiguration",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CIFSMountConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "CIFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "CIFSMountConfiguration",
+    modelProperties: {
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFileShareConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "AzureFileShareConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureFileShareConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      azureFileUrl: {
+        required: true,
+        serializedName: "azureFileUrl",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        required: true,
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MountConfiguration: coreHttp.CompositeMapper = {
+  serializedName: "MountConfiguration",
+  type: {
+    name: "Composite",
+    className: "MountConfiguration",
+    modelProperties: {
+      azureBlobFileSystemConfiguration: {
+        serializedName: "azureBlobFileSystemConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureBlobFileSystemConfiguration"
+        }
+      },
+      nfsMountConfiguration: {
+        serializedName: "nfsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "NFSMountConfiguration"
+        }
+      },
+      cifsMountConfiguration: {
+        serializedName: "cifsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "CIFSMountConfiguration"
+        }
+      },
+      azureFileShareConfiguration: {
+        serializedName: "azureFileShareConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureFileShareConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const PoolSpecification: coreHttp.CompositeMapper = {
   serializedName: "PoolSpecification",
   type: {
     name: "Composite",
@@ -2315,12 +2578,24 @@ export const PoolSpecification: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      mountConfiguration: {
+        serializedName: "mountConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountConfiguration"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const AutoPoolSpecification: msRest.CompositeMapper = {
+export const AutoPoolSpecification: coreHttp.CompositeMapper = {
   serializedName: "AutoPoolSpecification",
   type: {
     name: "Composite",
@@ -2360,7 +2635,7 @@ export const AutoPoolSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const PoolInformation: msRest.CompositeMapper = {
+export const PoolInformation: coreHttp.CompositeMapper = {
   serializedName: "PoolInformation",
   type: {
     name: "Composite",
@@ -2383,7 +2658,7 @@ export const PoolInformation: msRest.CompositeMapper = {
   }
 };
 
-export const JobSpecification: msRest.CompositeMapper = {
+export const JobSpecification: coreHttp.CompositeMapper = {
   serializedName: "JobSpecification",
   type: {
     name: "Composite",
@@ -2499,7 +2774,7 @@ export const JobSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const RecentJob: msRest.CompositeMapper = {
+export const RecentJob: coreHttp.CompositeMapper = {
   serializedName: "RecentJob",
   type: {
     name: "Composite",
@@ -2521,7 +2796,7 @@ export const RecentJob: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleExecutionInformation: msRest.CompositeMapper = {
+export const JobScheduleExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "JobScheduleExecutionInformation",
   type: {
     name: "Composite",
@@ -2550,7 +2825,7 @@ export const JobScheduleExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleStatistics: msRest.CompositeMapper = {
+export const JobScheduleStatistics: coreHttp.CompositeMapper = {
   serializedName: "JobScheduleStatistics",
   type: {
     name: "Composite",
@@ -2658,7 +2933,7 @@ export const JobScheduleStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const CloudJobSchedule: msRest.CompositeMapper = {
+export const CloudJobSchedule: coreHttp.CompositeMapper = {
   serializedName: "CloudJobSchedule",
   type: {
     name: "Composite",
@@ -2782,7 +3057,7 @@ export const CloudJobSchedule: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleAddParameter: msRest.CompositeMapper = {
+export const JobScheduleAddParameter: coreHttp.CompositeMapper = {
   serializedName: "JobScheduleAddParameter",
   type: {
     name: "Composite",
@@ -2834,7 +3109,7 @@ export const JobScheduleAddParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobSchedulingError: msRest.CompositeMapper = {
+export const JobSchedulingError: coreHttp.CompositeMapper = {
   serializedName: "JobSchedulingError",
   type: {
     name: "Composite",
@@ -2879,7 +3154,7 @@ export const JobSchedulingError: msRest.CompositeMapper = {
   }
 };
 
-export const JobExecutionInformation: msRest.CompositeMapper = {
+export const JobExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "JobExecutionInformation",
   type: {
     name: "Composite",
@@ -2921,7 +3196,7 @@ export const JobExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const CloudJob: msRest.CompositeMapper = {
+export const CloudJob: coreHttp.CompositeMapper = {
   serializedName: "CloudJob",
   type: {
     name: "Composite",
@@ -3121,7 +3396,7 @@ export const CloudJob: msRest.CompositeMapper = {
   }
 };
 
-export const JobAddParameter: msRest.CompositeMapper = {
+export const JobAddParameter: coreHttp.CompositeMapper = {
   serializedName: "JobAddParameter",
   type: {
     name: "Composite",
@@ -3244,7 +3519,7 @@ export const JobAddParameter: msRest.CompositeMapper = {
   }
 };
 
-export const TaskContainerExecutionInformation: msRest.CompositeMapper = {
+export const TaskContainerExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "TaskContainerExecutionInformation",
   type: {
     name: "Composite",
@@ -3272,7 +3547,7 @@ export const TaskContainerExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const TaskFailureInformation: msRest.CompositeMapper = {
+export const TaskFailureInformation: coreHttp.CompositeMapper = {
   serializedName: "TaskFailureInformation",
   type: {
     name: "Composite",
@@ -3317,7 +3592,7 @@ export const TaskFailureInformation: msRest.CompositeMapper = {
   }
 };
 
-export const JobPreparationTaskExecutionInformation: msRest.CompositeMapper = {
+export const JobPreparationTaskExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "JobPreparationTaskExecutionInformation",
   type: {
     name: "Composite",
@@ -3406,7 +3681,7 @@ export const JobPreparationTaskExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const JobReleaseTaskExecutionInformation: msRest.CompositeMapper = {
+export const JobReleaseTaskExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "JobReleaseTaskExecutionInformation",
   type: {
     name: "Composite",
@@ -3482,7 +3757,7 @@ export const JobReleaseTaskExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const JobPreparationAndReleaseTaskExecutionInformation: msRest.CompositeMapper = {
+export const JobPreparationAndReleaseTaskExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "JobPreparationAndReleaseTaskExecutionInformation",
   type: {
     name: "Composite",
@@ -3524,7 +3799,7 @@ export const JobPreparationAndReleaseTaskExecutionInformation: msRest.CompositeM
   }
 };
 
-export const TaskCounts: msRest.CompositeMapper = {
+export const TaskCounts: coreHttp.CompositeMapper = {
   serializedName: "TaskCounts",
   type: {
     name: "Composite",
@@ -3569,7 +3844,7 @@ export const TaskCounts: msRest.CompositeMapper = {
   }
 };
 
-export const AutoScaleRunError: msRest.CompositeMapper = {
+export const AutoScaleRunError: coreHttp.CompositeMapper = {
   serializedName: "AutoScaleRunError",
   type: {
     name: "Composite",
@@ -3603,7 +3878,7 @@ export const AutoScaleRunError: msRest.CompositeMapper = {
   }
 };
 
-export const AutoScaleRun: msRest.CompositeMapper = {
+export const AutoScaleRun: coreHttp.CompositeMapper = {
   serializedName: "AutoScaleRun",
   type: {
     name: "Composite",
@@ -3633,7 +3908,7 @@ export const AutoScaleRun: msRest.CompositeMapper = {
   }
 };
 
-export const ResizeError: msRest.CompositeMapper = {
+export const ResizeError: coreHttp.CompositeMapper = {
   serializedName: "ResizeError",
   type: {
     name: "Composite",
@@ -3667,7 +3942,7 @@ export const ResizeError: msRest.CompositeMapper = {
   }
 };
 
-export const CloudPool: msRest.CompositeMapper = {
+export const CloudPool: coreHttp.CompositeMapper = {
   serializedName: "CloudPool",
   type: {
     name: "Composite",
@@ -3927,12 +4202,24 @@ export const CloudPool: msRest.CompositeMapper = {
           name: "Composite",
           className: "PoolStatistics"
         }
+      },
+      mountConfiguration: {
+        serializedName: "mountConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountConfiguration"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const PoolAddParameter: msRest.CompositeMapper = {
+export const PoolAddParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolAddParameter",
   type: {
     name: "Composite",
@@ -4099,12 +4386,24 @@ export const PoolAddParameter: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      mountConfiguration: {
+        serializedName: "mountConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountConfiguration"
+            }
+          }
+        }
       }
     }
   }
 };
 
-export const AffinityInformation: msRest.CompositeMapper = {
+export const AffinityInformation: coreHttp.CompositeMapper = {
   serializedName: "AffinityInformation",
   type: {
     name: "Composite",
@@ -4121,7 +4420,7 @@ export const AffinityInformation: msRest.CompositeMapper = {
   }
 };
 
-export const TaskExecutionInformation: msRest.CompositeMapper = {
+export const TaskExecutionInformation: coreHttp.CompositeMapper = {
   serializedName: "TaskExecutionInformation",
   type: {
     name: "Composite",
@@ -4199,7 +4498,7 @@ export const TaskExecutionInformation: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeInformation: msRest.CompositeMapper = {
+export const ComputeNodeInformation: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeInformation",
   type: {
     name: "Composite",
@@ -4245,7 +4544,7 @@ export const ComputeNodeInformation: msRest.CompositeMapper = {
   }
 };
 
-export const NodeAgentInformation: msRest.CompositeMapper = {
+export const NodeAgentInformation: coreHttp.CompositeMapper = {
   serializedName: "NodeAgentInformation",
   type: {
     name: "Composite",
@@ -4269,7 +4568,7 @@ export const NodeAgentInformation: msRest.CompositeMapper = {
   }
 };
 
-export const MultiInstanceSettings: msRest.CompositeMapper = {
+export const MultiInstanceSettings: coreHttp.CompositeMapper = {
   serializedName: "MultiInstanceSettings",
   type: {
     name: "Composite",
@@ -4304,7 +4603,7 @@ export const MultiInstanceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const TaskStatistics: msRest.CompositeMapper = {
+export const TaskStatistics: coreHttp.CompositeMapper = {
   serializedName: "TaskStatistics",
   type: {
     name: "Composite",
@@ -4391,7 +4690,7 @@ export const TaskStatistics: msRest.CompositeMapper = {
   }
 };
 
-export const TaskIdRange: msRest.CompositeMapper = {
+export const TaskIdRange: coreHttp.CompositeMapper = {
   serializedName: "TaskIdRange",
   type: {
     name: "Composite",
@@ -4415,7 +4714,7 @@ export const TaskIdRange: msRest.CompositeMapper = {
   }
 };
 
-export const TaskDependencies: msRest.CompositeMapper = {
+export const TaskDependencies: coreHttp.CompositeMapper = {
   serializedName: "TaskDependencies",
   type: {
     name: "Composite",
@@ -4448,7 +4747,7 @@ export const TaskDependencies: msRest.CompositeMapper = {
   }
 };
 
-export const CloudTask: msRest.CompositeMapper = {
+export const CloudTask: coreHttp.CompositeMapper = {
   serializedName: "CloudTask",
   type: {
     name: "Composite",
@@ -4661,7 +4960,7 @@ export const CloudTask: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddParameter: msRest.CompositeMapper = {
+export const TaskAddParameter: coreHttp.CompositeMapper = {
   serializedName: "TaskAddParameter",
   type: {
     name: "Composite",
@@ -4795,7 +5094,7 @@ export const TaskAddParameter: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddCollectionParameter: msRest.CompositeMapper = {
+export const TaskAddCollectionParameter: coreHttp.CompositeMapper = {
   serializedName: "TaskAddCollectionParameter",
   type: {
     name: "Composite",
@@ -4821,7 +5120,7 @@ export const TaskAddCollectionParameter: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorMessage: msRest.CompositeMapper = {
+export const ErrorMessage: coreHttp.CompositeMapper = {
   serializedName: "ErrorMessage",
   type: {
     name: "Composite",
@@ -4843,7 +5142,7 @@ export const ErrorMessage: msRest.CompositeMapper = {
   }
 };
 
-export const BatchErrorDetail: msRest.CompositeMapper = {
+export const BatchErrorDetail: coreHttp.CompositeMapper = {
   serializedName: "BatchErrorDetail",
   type: {
     name: "Composite",
@@ -4865,7 +5164,7 @@ export const BatchErrorDetail: msRest.CompositeMapper = {
   }
 };
 
-export const BatchError: msRest.CompositeMapper = {
+export const BatchError: coreHttp.CompositeMapper = {
   serializedName: "BatchError",
   type: {
     name: "Composite",
@@ -4900,7 +5199,7 @@ export const BatchError: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddResult: msRest.CompositeMapper = {
+export const TaskAddResult: coreHttp.CompositeMapper = {
   serializedName: "TaskAddResult",
   type: {
     name: "Composite",
@@ -4954,7 +5253,7 @@ export const TaskAddResult: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddCollectionResult: msRest.CompositeMapper = {
+export const TaskAddCollectionResult: coreHttp.CompositeMapper = {
   serializedName: "TaskAddCollectionResult",
   type: {
     name: "Composite",
@@ -4976,7 +5275,7 @@ export const TaskAddCollectionResult: msRest.CompositeMapper = {
   }
 };
 
-export const SubtaskInformation: msRest.CompositeMapper = {
+export const SubtaskInformation: coreHttp.CompositeMapper = {
   serializedName: "SubtaskInformation",
   type: {
     name: "Composite",
@@ -5075,7 +5374,7 @@ export const SubtaskInformation: msRest.CompositeMapper = {
   }
 };
 
-export const CloudTaskListSubtasksResult: msRest.CompositeMapper = {
+export const CloudTaskListSubtasksResult: coreHttp.CompositeMapper = {
   serializedName: "CloudTaskListSubtasksResult",
   type: {
     name: "Composite",
@@ -5097,7 +5396,7 @@ export const CloudTaskListSubtasksResult: msRest.CompositeMapper = {
   }
 };
 
-export const TaskInformation: msRest.CompositeMapper = {
+export const TaskInformation: coreHttp.CompositeMapper = {
   serializedName: "TaskInformation",
   type: {
     name: "Composite",
@@ -5151,7 +5450,7 @@ export const TaskInformation: msRest.CompositeMapper = {
   }
 };
 
-export const StartTaskInformation: msRest.CompositeMapper = {
+export const StartTaskInformation: coreHttp.CompositeMapper = {
   serializedName: "StartTaskInformation",
   type: {
     name: "Composite",
@@ -5228,7 +5527,7 @@ export const StartTaskInformation: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeError: msRest.CompositeMapper = {
+export const ComputeNodeError: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeError",
   type: {
     name: "Composite",
@@ -5262,7 +5561,7 @@ export const ComputeNodeError: msRest.CompositeMapper = {
   }
 };
 
-export const InboundEndpoint: msRest.CompositeMapper = {
+export const InboundEndpoint: coreHttp.CompositeMapper = {
   serializedName: "InboundEndpoint",
   type: {
     name: "Composite",
@@ -5318,7 +5617,7 @@ export const InboundEndpoint: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeEndpointConfiguration: msRest.CompositeMapper = {
+export const ComputeNodeEndpointConfiguration: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeEndpointConfiguration",
   type: {
     name: "Composite",
@@ -5341,7 +5640,7 @@ export const ComputeNodeEndpointConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNode: msRest.CompositeMapper = {
+export const ComputeNode: coreHttp.CompositeMapper = {
   serializedName: "ComputeNode",
   type: {
     name: "Composite",
@@ -5518,7 +5817,7 @@ export const ComputeNode: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeUser: msRest.CompositeMapper = {
+export const ComputeNodeUser: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeUser",
   type: {
     name: "Composite",
@@ -5559,7 +5858,7 @@ export const ComputeNodeUser: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetRemoteLoginSettingsResult: msRest.CompositeMapper = {
+export const ComputeNodeGetRemoteLoginSettingsResult: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeGetRemoteLoginSettingsResult",
   type: {
     name: "Composite",
@@ -5583,7 +5882,7 @@ export const ComputeNodeGetRemoteLoginSettingsResult: msRest.CompositeMapper = {
   }
 };
 
-export const JobSchedulePatchParameter: msRest.CompositeMapper = {
+export const JobSchedulePatchParameter: coreHttp.CompositeMapper = {
   serializedName: "JobSchedulePatchParameter",
   type: {
     name: "Composite",
@@ -5619,7 +5918,7 @@ export const JobSchedulePatchParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleUpdateParameter: msRest.CompositeMapper = {
+export const JobScheduleUpdateParameter: coreHttp.CompositeMapper = {
   serializedName: "JobScheduleUpdateParameter",
   type: {
     name: "Composite",
@@ -5658,7 +5957,7 @@ export const JobScheduleUpdateParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobDisableParameter: msRest.CompositeMapper = {
+export const JobDisableParameter: coreHttp.CompositeMapper = {
   serializedName: "JobDisableParameter",
   type: {
     name: "Composite",
@@ -5680,7 +5979,7 @@ export const JobDisableParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobTerminateParameter: msRest.CompositeMapper = {
+export const JobTerminateParameter: coreHttp.CompositeMapper = {
   serializedName: "JobTerminateParameter",
   type: {
     name: "Composite",
@@ -5696,7 +5995,7 @@ export const JobTerminateParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobPatchParameter: msRest.CompositeMapper = {
+export const JobPatchParameter: coreHttp.CompositeMapper = {
   serializedName: "JobPatchParameter",
   type: {
     name: "Composite",
@@ -5748,7 +6047,7 @@ export const JobPatchParameter: msRest.CompositeMapper = {
   }
 };
 
-export const JobUpdateParameter: msRest.CompositeMapper = {
+export const JobUpdateParameter: coreHttp.CompositeMapper = {
   serializedName: "JobUpdateParameter",
   type: {
     name: "Composite",
@@ -5802,7 +6101,7 @@ export const JobUpdateParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEnableAutoScaleParameter: msRest.CompositeMapper = {
+export const PoolEnableAutoScaleParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolEnableAutoScaleParameter",
   type: {
     name: "Composite",
@@ -5824,7 +6123,7 @@ export const PoolEnableAutoScaleParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEvaluateAutoScaleParameter: msRest.CompositeMapper = {
+export const PoolEvaluateAutoScaleParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolEvaluateAutoScaleParameter",
   type: {
     name: "Composite",
@@ -5841,7 +6140,7 @@ export const PoolEvaluateAutoScaleParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolResizeParameter: msRest.CompositeMapper = {
+export const PoolResizeParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolResizeParameter",
   type: {
     name: "Composite",
@@ -5881,7 +6180,7 @@ export const PoolResizeParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolUpdatePropertiesParameter: msRest.CompositeMapper = {
+export const PoolUpdatePropertiesParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolUpdatePropertiesParameter",
   type: {
     name: "Composite",
@@ -5937,7 +6236,7 @@ export const PoolUpdatePropertiesParameter: msRest.CompositeMapper = {
   }
 };
 
-export const PoolPatchParameter: msRest.CompositeMapper = {
+export const PoolPatchParameter: coreHttp.CompositeMapper = {
   serializedName: "PoolPatchParameter",
   type: {
     name: "Composite",
@@ -5990,7 +6289,7 @@ export const PoolPatchParameter: msRest.CompositeMapper = {
   }
 };
 
-export const TaskUpdateParameter: msRest.CompositeMapper = {
+export const TaskUpdateParameter: coreHttp.CompositeMapper = {
   serializedName: "TaskUpdateParameter",
   type: {
     name: "Composite",
@@ -6007,7 +6306,7 @@ export const TaskUpdateParameter: msRest.CompositeMapper = {
   }
 };
 
-export const NodeUpdateUserParameter: msRest.CompositeMapper = {
+export const NodeUpdateUserParameter: coreHttp.CompositeMapper = {
   serializedName: "NodeUpdateUserParameter",
   type: {
     name: "Composite",
@@ -6035,7 +6334,7 @@ export const NodeUpdateUserParameter: msRest.CompositeMapper = {
   }
 };
 
-export const NodeRebootParameter: msRest.CompositeMapper = {
+export const NodeRebootParameter: coreHttp.CompositeMapper = {
   serializedName: "NodeRebootParameter",
   type: {
     name: "Composite",
@@ -6057,7 +6356,7 @@ export const NodeRebootParameter: msRest.CompositeMapper = {
   }
 };
 
-export const NodeReimageParameter: msRest.CompositeMapper = {
+export const NodeReimageParameter: coreHttp.CompositeMapper = {
   serializedName: "NodeReimageParameter",
   type: {
     name: "Composite",
@@ -6079,7 +6378,7 @@ export const NodeReimageParameter: msRest.CompositeMapper = {
   }
 };
 
-export const NodeDisableSchedulingParameter: msRest.CompositeMapper = {
+export const NodeDisableSchedulingParameter: coreHttp.CompositeMapper = {
   serializedName: "NodeDisableSchedulingParameter",
   type: {
     name: "Composite",
@@ -6100,7 +6399,7 @@ export const NodeDisableSchedulingParameter: msRest.CompositeMapper = {
   }
 };
 
-export const NodeRemoveParameter: msRest.CompositeMapper = {
+export const NodeRemoveParameter: coreHttp.CompositeMapper = {
   serializedName: "NodeRemoveParameter",
   type: {
     name: "Composite",
@@ -6143,7 +6442,7 @@ export const NodeRemoveParameter: msRest.CompositeMapper = {
   }
 };
 
-export const UploadBatchServiceLogsConfiguration: msRest.CompositeMapper = {
+export const UploadBatchServiceLogsConfiguration: coreHttp.CompositeMapper = {
   serializedName: "UploadBatchServiceLogsConfiguration",
   type: {
     name: "Composite",
@@ -6173,7 +6472,7 @@ export const UploadBatchServiceLogsConfiguration: msRest.CompositeMapper = {
   }
 };
 
-export const UploadBatchServiceLogsResult: msRest.CompositeMapper = {
+export const UploadBatchServiceLogsResult: coreHttp.CompositeMapper = {
   serializedName: "UploadBatchServiceLogsResult",
   type: {
     name: "Composite",
@@ -6197,7 +6496,7 @@ export const UploadBatchServiceLogsResult: msRest.CompositeMapper = {
   }
 };
 
-export const NodeCounts: msRest.CompositeMapper = {
+export const NodeCounts: coreHttp.CompositeMapper = {
   serializedName: "NodeCounts",
   type: {
     name: "Composite",
@@ -6305,7 +6604,7 @@ export const NodeCounts: msRest.CompositeMapper = {
   }
 };
 
-export const PoolNodeCounts: msRest.CompositeMapper = {
+export const PoolNodeCounts: coreHttp.CompositeMapper = {
   serializedName: "PoolNodeCounts",
   type: {
     name: "Composite",
@@ -6336,7 +6635,7 @@ export const PoolNodeCounts: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationListOptions: msRest.CompositeMapper = {
+export const ApplicationListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ApplicationListOptions",
@@ -6373,7 +6672,7 @@ export const ApplicationListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGetOptions: msRest.CompositeMapper = {
+export const ApplicationGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ApplicationGetOptions",
@@ -6404,7 +6703,7 @@ export const ApplicationGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListUsageMetricsOptions: msRest.CompositeMapper = {
+export const PoolListUsageMetricsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolListUsageMetricsOptions",
@@ -6456,7 +6755,7 @@ export const PoolListUsageMetricsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolGetAllLifetimeStatisticsOptions: msRest.CompositeMapper = {
+export const PoolGetAllLifetimeStatisticsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolGetAllLifetimeStatisticsOptions",
@@ -6487,7 +6786,7 @@ export const PoolGetAllLifetimeStatisticsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolAddOptions: msRest.CompositeMapper = {
+export const PoolAddOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolAddOptions",
@@ -6518,7 +6817,7 @@ export const PoolAddOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListOptions: msRest.CompositeMapper = {
+export const PoolListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolListOptions",
@@ -6570,7 +6869,7 @@ export const PoolListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolDeleteMethodOptions: msRest.CompositeMapper = {
+export const PoolDeleteMethodOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolDeleteMethodOptions",
@@ -6621,7 +6920,7 @@ export const PoolDeleteMethodOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolExistsOptions: msRest.CompositeMapper = {
+export const PoolExistsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolExistsOptions",
@@ -6672,7 +6971,7 @@ export const PoolExistsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolGetOptions: msRest.CompositeMapper = {
+export const PoolGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolGetOptions",
@@ -6733,7 +7032,7 @@ export const PoolGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolPatchOptions: msRest.CompositeMapper = {
+export const PoolPatchOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolPatchOptions",
@@ -6784,7 +7083,7 @@ export const PoolPatchOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolDisableAutoScaleOptions: msRest.CompositeMapper = {
+export const PoolDisableAutoScaleOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolDisableAutoScaleOptions",
@@ -6815,7 +7114,7 @@ export const PoolDisableAutoScaleOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEnableAutoScaleOptions: msRest.CompositeMapper = {
+export const PoolEnableAutoScaleOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolEnableAutoScaleOptions",
@@ -6866,7 +7165,7 @@ export const PoolEnableAutoScaleOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEvaluateAutoScaleOptions: msRest.CompositeMapper = {
+export const PoolEvaluateAutoScaleOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolEvaluateAutoScaleOptions",
@@ -6897,7 +7196,7 @@ export const PoolEvaluateAutoScaleOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolResizeOptions: msRest.CompositeMapper = {
+export const PoolResizeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolResizeOptions",
@@ -6948,7 +7247,7 @@ export const PoolResizeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolStopResizeOptions: msRest.CompositeMapper = {
+export const PoolStopResizeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolStopResizeOptions",
@@ -6999,7 +7298,7 @@ export const PoolStopResizeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolUpdatePropertiesOptions: msRest.CompositeMapper = {
+export const PoolUpdatePropertiesOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolUpdatePropertiesOptions",
@@ -7030,7 +7329,7 @@ export const PoolUpdatePropertiesOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolRemoveNodesOptions: msRest.CompositeMapper = {
+export const PoolRemoveNodesOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolRemoveNodesOptions",
@@ -7081,10 +7380,10 @@ export const PoolRemoveNodesOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusOptions: msRest.CompositeMapper = {
+export const AccountListSupportedImagesOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusOptions",
+    className: "AccountListSupportedImagesOptions",
     modelProperties: {
       filter: {
         type: {
@@ -7123,7 +7422,7 @@ export const AccountListNodeAgentSkusOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListPoolNodeCountsOptions: msRest.CompositeMapper = {
+export const AccountListPoolNodeCountsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AccountListPoolNodeCountsOptions",
@@ -7165,7 +7464,7 @@ export const AccountListPoolNodeCountsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobGetAllLifetimeStatisticsOptions: msRest.CompositeMapper = {
+export const JobGetAllLifetimeStatisticsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobGetAllLifetimeStatisticsOptions",
@@ -7196,7 +7495,7 @@ export const JobGetAllLifetimeStatisticsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobDeleteMethodOptions: msRest.CompositeMapper = {
+export const JobDeleteMethodOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobDeleteMethodOptions",
@@ -7247,7 +7546,7 @@ export const JobDeleteMethodOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobGetOptions: msRest.CompositeMapper = {
+export const JobGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobGetOptions",
@@ -7308,7 +7607,7 @@ export const JobGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobPatchOptions: msRest.CompositeMapper = {
+export const JobPatchOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobPatchOptions",
@@ -7359,7 +7658,7 @@ export const JobPatchOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobUpdateOptions: msRest.CompositeMapper = {
+export const JobUpdateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobUpdateOptions",
@@ -7410,7 +7709,7 @@ export const JobUpdateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobDisableOptions: msRest.CompositeMapper = {
+export const JobDisableOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobDisableOptions",
@@ -7461,7 +7760,7 @@ export const JobDisableOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobEnableOptions: msRest.CompositeMapper = {
+export const JobEnableOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobEnableOptions",
@@ -7512,7 +7811,7 @@ export const JobEnableOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobTerminateOptions: msRest.CompositeMapper = {
+export const JobTerminateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobTerminateOptions",
@@ -7563,7 +7862,7 @@ export const JobTerminateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobAddOptions: msRest.CompositeMapper = {
+export const JobAddOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobAddOptions",
@@ -7594,7 +7893,7 @@ export const JobAddOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListOptions: msRest.CompositeMapper = {
+export const JobListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListOptions",
@@ -7646,7 +7945,7 @@ export const JobListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListFromJobScheduleOptions: msRest.CompositeMapper = {
+export const JobListFromJobScheduleOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListFromJobScheduleOptions",
@@ -7698,7 +7997,7 @@ export const JobListFromJobScheduleOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListPreparationAndReleaseTaskStatusOptions: msRest.CompositeMapper = {
+export const JobListPreparationAndReleaseTaskStatusOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListPreparationAndReleaseTaskStatusOptions",
@@ -7745,7 +8044,7 @@ export const JobListPreparationAndReleaseTaskStatusOptions: msRest.CompositeMapp
   }
 };
 
-export const JobGetTaskCountsOptions: msRest.CompositeMapper = {
+export const JobGetTaskCountsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobGetTaskCountsOptions",
@@ -7776,7 +8075,7 @@ export const JobGetTaskCountsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateAddOptions: msRest.CompositeMapper = {
+export const CertificateAddOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateAddOptions",
@@ -7807,7 +8106,7 @@ export const CertificateAddOptions: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateListOptions: msRest.CompositeMapper = {
+export const CertificateListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateListOptions",
@@ -7854,7 +8153,7 @@ export const CertificateListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateCancelDeletionOptions: msRest.CompositeMapper = {
+export const CertificateCancelDeletionOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateCancelDeletionOptions",
@@ -7885,7 +8184,7 @@ export const CertificateCancelDeletionOptions: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateDeleteMethodOptions: msRest.CompositeMapper = {
+export const CertificateDeleteMethodOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateDeleteMethodOptions",
@@ -7916,7 +8215,7 @@ export const CertificateDeleteMethodOptions: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateGetOptions: msRest.CompositeMapper = {
+export const CertificateGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateGetOptions",
@@ -7952,7 +8251,7 @@ export const CertificateGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileDeleteFromTaskOptions: msRest.CompositeMapper = {
+export const FileDeleteFromTaskOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileDeleteFromTaskOptions",
@@ -7983,7 +8282,7 @@ export const FileDeleteFromTaskOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetFromTaskOptions: msRest.CompositeMapper = {
+export const FileGetFromTaskOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileGetFromTaskOptions",
@@ -8029,7 +8328,7 @@ export const FileGetFromTaskOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetPropertiesFromTaskOptions: msRest.CompositeMapper = {
+export const FileGetPropertiesFromTaskOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileGetPropertiesFromTaskOptions",
@@ -8070,7 +8369,7 @@ export const FileGetPropertiesFromTaskOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileDeleteFromComputeNodeOptions: msRest.CompositeMapper = {
+export const FileDeleteFromComputeNodeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileDeleteFromComputeNodeOptions",
@@ -8101,7 +8400,7 @@ export const FileDeleteFromComputeNodeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetFromComputeNodeOptions: msRest.CompositeMapper = {
+export const FileGetFromComputeNodeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileGetFromComputeNodeOptions",
@@ -8147,7 +8446,7 @@ export const FileGetFromComputeNodeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetPropertiesFromComputeNodeOptions: msRest.CompositeMapper = {
+export const FileGetPropertiesFromComputeNodeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileGetPropertiesFromComputeNodeOptions",
@@ -8188,7 +8487,7 @@ export const FileGetPropertiesFromComputeNodeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromTaskOptions: msRest.CompositeMapper = {
+export const FileListFromTaskOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileListFromTaskOptions",
@@ -8230,7 +8529,7 @@ export const FileListFromTaskOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromComputeNodeOptions: msRest.CompositeMapper = {
+export const FileListFromComputeNodeOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileListFromComputeNodeOptions",
@@ -8272,7 +8571,7 @@ export const FileListFromComputeNodeOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleExistsOptions: msRest.CompositeMapper = {
+export const JobScheduleExistsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleExistsOptions",
@@ -8323,7 +8622,7 @@ export const JobScheduleExistsOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleDeleteMethodOptions: msRest.CompositeMapper = {
+export const JobScheduleDeleteMethodOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleDeleteMethodOptions",
@@ -8374,7 +8673,7 @@ export const JobScheduleDeleteMethodOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleGetOptions: msRest.CompositeMapper = {
+export const JobScheduleGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleGetOptions",
@@ -8435,7 +8734,7 @@ export const JobScheduleGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobSchedulePatchOptions: msRest.CompositeMapper = {
+export const JobSchedulePatchOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobSchedulePatchOptions",
@@ -8486,7 +8785,7 @@ export const JobSchedulePatchOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleUpdateOptions: msRest.CompositeMapper = {
+export const JobScheduleUpdateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleUpdateOptions",
@@ -8537,7 +8836,7 @@ export const JobScheduleUpdateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleDisableOptions: msRest.CompositeMapper = {
+export const JobScheduleDisableOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleDisableOptions",
@@ -8588,7 +8887,7 @@ export const JobScheduleDisableOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleEnableOptions: msRest.CompositeMapper = {
+export const JobScheduleEnableOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleEnableOptions",
@@ -8639,7 +8938,7 @@ export const JobScheduleEnableOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleTerminateOptions: msRest.CompositeMapper = {
+export const JobScheduleTerminateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleTerminateOptions",
@@ -8690,7 +8989,7 @@ export const JobScheduleTerminateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleAddOptions: msRest.CompositeMapper = {
+export const JobScheduleAddOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleAddOptions",
@@ -8721,7 +9020,7 @@ export const JobScheduleAddOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleListOptions: msRest.CompositeMapper = {
+export const JobScheduleListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleListOptions",
@@ -8773,7 +9072,7 @@ export const JobScheduleListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddOptions: msRest.CompositeMapper = {
+export const TaskAddOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskAddOptions",
@@ -8804,7 +9103,7 @@ export const TaskAddOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskListOptions: msRest.CompositeMapper = {
+export const TaskListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskListOptions",
@@ -8856,7 +9155,7 @@ export const TaskListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddCollectionOptions: msRest.CompositeMapper = {
+export const TaskAddCollectionOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskAddCollectionOptions",
@@ -8887,7 +9186,7 @@ export const TaskAddCollectionOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskDeleteMethodOptions: msRest.CompositeMapper = {
+export const TaskDeleteMethodOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskDeleteMethodOptions",
@@ -8938,7 +9237,7 @@ export const TaskDeleteMethodOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskGetOptions: msRest.CompositeMapper = {
+export const TaskGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskGetOptions",
@@ -8999,7 +9298,7 @@ export const TaskGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskUpdateOptions: msRest.CompositeMapper = {
+export const TaskUpdateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskUpdateOptions",
@@ -9050,7 +9349,7 @@ export const TaskUpdateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskListSubtasksOptions: msRest.CompositeMapper = {
+export const TaskListSubtasksOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskListSubtasksOptions",
@@ -9086,7 +9385,7 @@ export const TaskListSubtasksOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskTerminateOptions: msRest.CompositeMapper = {
+export const TaskTerminateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskTerminateOptions",
@@ -9137,7 +9436,7 @@ export const TaskTerminateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskReactivateOptions: msRest.CompositeMapper = {
+export const TaskReactivateOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskReactivateOptions",
@@ -9188,7 +9487,7 @@ export const TaskReactivateOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeAddUserOptions: msRest.CompositeMapper = {
+export const ComputeNodeAddUserOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeAddUserOptions",
@@ -9219,7 +9518,7 @@ export const ComputeNodeAddUserOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeDeleteUserOptions: msRest.CompositeMapper = {
+export const ComputeNodeDeleteUserOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeDeleteUserOptions",
@@ -9250,7 +9549,7 @@ export const ComputeNodeDeleteUserOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeUpdateUserOptions: msRest.CompositeMapper = {
+export const ComputeNodeUpdateUserOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeUpdateUserOptions",
@@ -9281,7 +9580,7 @@ export const ComputeNodeUpdateUserOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetOptions: msRest.CompositeMapper = {
+export const ComputeNodeGetOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeGetOptions",
@@ -9317,7 +9616,7 @@ export const ComputeNodeGetOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeRebootOptions: msRest.CompositeMapper = {
+export const ComputeNodeRebootOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeRebootOptions",
@@ -9348,7 +9647,7 @@ export const ComputeNodeRebootOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeReimageOptions: msRest.CompositeMapper = {
+export const ComputeNodeReimageOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeReimageOptions",
@@ -9379,7 +9678,7 @@ export const ComputeNodeReimageOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeDisableSchedulingOptions: msRest.CompositeMapper = {
+export const ComputeNodeDisableSchedulingOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeDisableSchedulingOptions",
@@ -9410,7 +9709,7 @@ export const ComputeNodeDisableSchedulingOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeEnableSchedulingOptions: msRest.CompositeMapper = {
+export const ComputeNodeEnableSchedulingOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeEnableSchedulingOptions",
@@ -9441,7 +9740,7 @@ export const ComputeNodeEnableSchedulingOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetRemoteLoginSettingsOptions: msRest.CompositeMapper = {
+export const ComputeNodeGetRemoteLoginSettingsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeGetRemoteLoginSettingsOptions",
@@ -9472,7 +9771,7 @@ export const ComputeNodeGetRemoteLoginSettingsOptions: msRest.CompositeMapper = 
   }
 };
 
-export const ComputeNodeGetRemoteDesktopOptions: msRest.CompositeMapper = {
+export const ComputeNodeGetRemoteDesktopOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeGetRemoteDesktopOptions",
@@ -9503,7 +9802,7 @@ export const ComputeNodeGetRemoteDesktopOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeUploadBatchServiceLogsOptions: msRest.CompositeMapper = {
+export const ComputeNodeUploadBatchServiceLogsOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeUploadBatchServiceLogsOptions",
@@ -9534,7 +9833,7 @@ export const ComputeNodeUploadBatchServiceLogsOptions: msRest.CompositeMapper = 
   }
 };
 
-export const ComputeNodeListOptions: msRest.CompositeMapper = {
+export const ComputeNodeListOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeListOptions",
@@ -9581,7 +9880,7 @@ export const ComputeNodeListOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationListNextOptions: msRest.CompositeMapper = {
+export const ApplicationListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ApplicationListNextOptions",
@@ -9606,7 +9905,7 @@ export const ApplicationListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListUsageMetricsNextOptions: msRest.CompositeMapper = {
+export const PoolListUsageMetricsNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolListUsageMetricsNextOptions",
@@ -9631,7 +9930,7 @@ export const PoolListUsageMetricsNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListNextOptions: msRest.CompositeMapper = {
+export const PoolListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PoolListNextOptions",
@@ -9656,10 +9955,10 @@ export const PoolListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusNextOptions: msRest.CompositeMapper = {
+export const AccountListSupportedImagesNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusNextOptions",
+    className: "AccountListSupportedImagesNextOptions",
     modelProperties: {
       clientRequestId: {
         type: {
@@ -9681,7 +9980,7 @@ export const AccountListNodeAgentSkusNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListPoolNodeCountsNextOptions: msRest.CompositeMapper = {
+export const AccountListPoolNodeCountsNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AccountListPoolNodeCountsNextOptions",
@@ -9706,7 +10005,7 @@ export const AccountListPoolNodeCountsNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListNextOptions: msRest.CompositeMapper = {
+export const JobListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListNextOptions",
@@ -9731,7 +10030,7 @@ export const JobListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListFromJobScheduleNextOptions: msRest.CompositeMapper = {
+export const JobListFromJobScheduleNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListFromJobScheduleNextOptions",
@@ -9756,7 +10055,7 @@ export const JobListFromJobScheduleNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobListPreparationAndReleaseTaskStatusNextOptions: msRest.CompositeMapper = {
+export const JobListPreparationAndReleaseTaskStatusNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobListPreparationAndReleaseTaskStatusNextOptions",
@@ -9781,7 +10080,7 @@ export const JobListPreparationAndReleaseTaskStatusNextOptions: msRest.Composite
   }
 };
 
-export const CertificateListNextOptions: msRest.CompositeMapper = {
+export const CertificateListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateListNextOptions",
@@ -9806,7 +10105,7 @@ export const CertificateListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromTaskNextOptions: msRest.CompositeMapper = {
+export const FileListFromTaskNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileListFromTaskNextOptions",
@@ -9831,7 +10130,7 @@ export const FileListFromTaskNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromComputeNodeNextOptions: msRest.CompositeMapper = {
+export const FileListFromComputeNodeNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileListFromComputeNodeNextOptions",
@@ -9856,7 +10155,7 @@ export const FileListFromComputeNodeNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleListNextOptions: msRest.CompositeMapper = {
+export const JobScheduleListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobScheduleListNextOptions",
@@ -9881,7 +10180,7 @@ export const JobScheduleListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const TaskListNextOptions: msRest.CompositeMapper = {
+export const TaskListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TaskListNextOptions",
@@ -9906,7 +10205,7 @@ export const TaskListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeListNextOptions: msRest.CompositeMapper = {
+export const ComputeNodeListNextOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ComputeNodeListNextOptions",
@@ -9931,7 +10230,7 @@ export const ComputeNodeListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationListHeaders: msRest.CompositeMapper = {
+export const ApplicationListHeaders: coreHttp.CompositeMapper = {
   serializedName: "application-list-headers",
   type: {
     name: "Composite",
@@ -9965,7 +10264,7 @@ export const ApplicationListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGetHeaders: msRest.CompositeMapper = {
+export const ApplicationGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "application-get-headers",
   type: {
     name: "Composite",
@@ -9999,7 +10298,7 @@ export const ApplicationGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListUsageMetricsHeaders: msRest.CompositeMapper = {
+export const PoolListUsageMetricsHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-listusagemetrics-headers",
   type: {
     name: "Composite",
@@ -10033,11 +10332,11 @@ export const PoolListUsageMetricsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusHeaders: msRest.CompositeMapper = {
-  serializedName: "account-listnodeagentskus-headers",
+export const AccountListSupportedImagesHeaders: coreHttp.CompositeMapper = {
+  serializedName: "account-listsupportedimages-headers",
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusHeaders",
+    className: "AccountListSupportedImagesHeaders",
     modelProperties: {
       clientRequestId: {
         serializedName: "client-request-id",
@@ -10067,7 +10366,7 @@ export const AccountListNodeAgentSkusHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListPoolNodeCountsHeaders: msRest.CompositeMapper = {
+export const AccountListPoolNodeCountsHeaders: coreHttp.CompositeMapper = {
   serializedName: "account-listpoolnodecounts-headers",
   type: {
     name: "Composite",
@@ -10089,7 +10388,7 @@ export const AccountListPoolNodeCountsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolGetAllLifetimeStatisticsHeaders: msRest.CompositeMapper = {
+export const PoolGetAllLifetimeStatisticsHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-getalllifetimestatistics-headers",
   type: {
     name: "Composite",
@@ -10123,7 +10422,7 @@ export const PoolGetAllLifetimeStatisticsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobGetAllLifetimeStatisticsHeaders: msRest.CompositeMapper = {
+export const JobGetAllLifetimeStatisticsHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-getalllifetimestatistics-headers",
   type: {
     name: "Composite",
@@ -10157,7 +10456,7 @@ export const JobGetAllLifetimeStatisticsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateAddHeaders: msRest.CompositeMapper = {
+export const CertificateAddHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-add-headers",
   type: {
     name: "Composite",
@@ -10197,7 +10496,7 @@ export const CertificateAddHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateListHeaders: msRest.CompositeMapper = {
+export const CertificateListHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-list-headers",
   type: {
     name: "Composite",
@@ -10231,7 +10530,7 @@ export const CertificateListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateCancelDeletionHeaders: msRest.CompositeMapper = {
+export const CertificateCancelDeletionHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-canceldeletion-headers",
   type: {
     name: "Composite",
@@ -10271,7 +10570,7 @@ export const CertificateCancelDeletionHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateDeleteHeaders: msRest.CompositeMapper = {
+export const CertificateDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-delete-headers",
   type: {
     name: "Composite",
@@ -10305,7 +10604,7 @@ export const CertificateDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const CertificateGetHeaders: msRest.CompositeMapper = {
+export const CertificateGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "certificate-get-headers",
   type: {
     name: "Composite",
@@ -10339,7 +10638,7 @@ export const CertificateGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileDeleteFromTaskHeaders: msRest.CompositeMapper = {
+export const FileDeleteFromTaskHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-deletefromtask-headers",
   type: {
     name: "Composite",
@@ -10361,7 +10660,7 @@ export const FileDeleteFromTaskHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetFromTaskHeaders: msRest.CompositeMapper = {
+export const FileGetFromTaskHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getfromtask-headers",
   type: {
     name: "Composite",
@@ -10431,7 +10730,7 @@ export const FileGetFromTaskHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetPropertiesFromTaskHeaders: msRest.CompositeMapper = {
+export const FileGetPropertiesFromTaskHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getpropertiesfromtask-headers",
   type: {
     name: "Composite",
@@ -10501,7 +10800,7 @@ export const FileGetPropertiesFromTaskHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileDeleteFromComputeNodeHeaders: msRest.CompositeMapper = {
+export const FileDeleteFromComputeNodeHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-deletefromcomputenode-headers",
   type: {
     name: "Composite",
@@ -10523,7 +10822,7 @@ export const FileDeleteFromComputeNodeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetFromComputeNodeHeaders: msRest.CompositeMapper = {
+export const FileGetFromComputeNodeHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getfromcomputenode-headers",
   type: {
     name: "Composite",
@@ -10593,7 +10892,7 @@ export const FileGetFromComputeNodeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetPropertiesFromComputeNodeHeaders: msRest.CompositeMapper = {
+export const FileGetPropertiesFromComputeNodeHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getpropertiesfromcomputenode-headers",
   type: {
     name: "Composite",
@@ -10663,7 +10962,7 @@ export const FileGetPropertiesFromComputeNodeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromTaskHeaders: msRest.CompositeMapper = {
+export const FileListFromTaskHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-listfromtask-headers",
   type: {
     name: "Composite",
@@ -10697,7 +10996,7 @@ export const FileListFromTaskHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileListFromComputeNodeHeaders: msRest.CompositeMapper = {
+export const FileListFromComputeNodeHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-listfromcomputenode-headers",
   type: {
     name: "Composite",
@@ -10731,7 +11030,7 @@ export const FileListFromComputeNodeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleExistsHeaders: msRest.CompositeMapper = {
+export const JobScheduleExistsHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-exists-headers",
   type: {
     name: "Composite",
@@ -10765,7 +11064,7 @@ export const JobScheduleExistsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleDeleteHeaders: msRest.CompositeMapper = {
+export const JobScheduleDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-delete-headers",
   type: {
     name: "Composite",
@@ -10787,7 +11086,7 @@ export const JobScheduleDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleGetHeaders: msRest.CompositeMapper = {
+export const JobScheduleGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-get-headers",
   type: {
     name: "Composite",
@@ -10821,7 +11120,7 @@ export const JobScheduleGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobSchedulePatchHeaders: msRest.CompositeMapper = {
+export const JobSchedulePatchHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-patch-headers",
   type: {
     name: "Composite",
@@ -10861,7 +11160,7 @@ export const JobSchedulePatchHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleUpdateHeaders: msRest.CompositeMapper = {
+export const JobScheduleUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-update-headers",
   type: {
     name: "Composite",
@@ -10901,7 +11200,7 @@ export const JobScheduleUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleDisableHeaders: msRest.CompositeMapper = {
+export const JobScheduleDisableHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-disable-headers",
   type: {
     name: "Composite",
@@ -10941,7 +11240,7 @@ export const JobScheduleDisableHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleEnableHeaders: msRest.CompositeMapper = {
+export const JobScheduleEnableHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-enable-headers",
   type: {
     name: "Composite",
@@ -10981,7 +11280,7 @@ export const JobScheduleEnableHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleTerminateHeaders: msRest.CompositeMapper = {
+export const JobScheduleTerminateHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-terminate-headers",
   type: {
     name: "Composite",
@@ -11021,7 +11320,7 @@ export const JobScheduleTerminateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleAddHeaders: msRest.CompositeMapper = {
+export const JobScheduleAddHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-add-headers",
   type: {
     name: "Composite",
@@ -11061,7 +11360,7 @@ export const JobScheduleAddHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobScheduleListHeaders: msRest.CompositeMapper = {
+export const JobScheduleListHeaders: coreHttp.CompositeMapper = {
   serializedName: "jobschedule-list-headers",
   type: {
     name: "Composite",
@@ -11095,7 +11394,7 @@ export const JobScheduleListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobDeleteHeaders: msRest.CompositeMapper = {
+export const JobDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-delete-headers",
   type: {
     name: "Composite",
@@ -11117,7 +11416,7 @@ export const JobDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobGetHeaders: msRest.CompositeMapper = {
+export const JobGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-get-headers",
   type: {
     name: "Composite",
@@ -11151,7 +11450,7 @@ export const JobGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobPatchHeaders: msRest.CompositeMapper = {
+export const JobPatchHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-patch-headers",
   type: {
     name: "Composite",
@@ -11191,7 +11490,7 @@ export const JobPatchHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobUpdateHeaders: msRest.CompositeMapper = {
+export const JobUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-update-headers",
   type: {
     name: "Composite",
@@ -11231,7 +11530,7 @@ export const JobUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobDisableHeaders: msRest.CompositeMapper = {
+export const JobDisableHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-disable-headers",
   type: {
     name: "Composite",
@@ -11271,7 +11570,7 @@ export const JobDisableHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobEnableHeaders: msRest.CompositeMapper = {
+export const JobEnableHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-enable-headers",
   type: {
     name: "Composite",
@@ -11311,7 +11610,7 @@ export const JobEnableHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobTerminateHeaders: msRest.CompositeMapper = {
+export const JobTerminateHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-terminate-headers",
   type: {
     name: "Composite",
@@ -11351,7 +11650,7 @@ export const JobTerminateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobAddHeaders: msRest.CompositeMapper = {
+export const JobAddHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-add-headers",
   type: {
     name: "Composite",
@@ -11391,7 +11690,7 @@ export const JobAddHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobListHeaders: msRest.CompositeMapper = {
+export const JobListHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-list-headers",
   type: {
     name: "Composite",
@@ -11425,7 +11724,7 @@ export const JobListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobListFromJobScheduleHeaders: msRest.CompositeMapper = {
+export const JobListFromJobScheduleHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-listfromjobschedule-headers",
   type: {
     name: "Composite",
@@ -11459,7 +11758,7 @@ export const JobListFromJobScheduleHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const JobListPreparationAndReleaseTaskStatusHeaders: msRest.CompositeMapper = {
+export const JobListPreparationAndReleaseTaskStatusHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-listpreparationandreleasetaskstatus-headers",
   type: {
     name: "Composite",
@@ -11493,7 +11792,7 @@ export const JobListPreparationAndReleaseTaskStatusHeaders: msRest.CompositeMapp
   }
 };
 
-export const JobGetTaskCountsHeaders: msRest.CompositeMapper = {
+export const JobGetTaskCountsHeaders: coreHttp.CompositeMapper = {
   serializedName: "job-gettaskcounts-headers",
   type: {
     name: "Composite",
@@ -11515,7 +11814,7 @@ export const JobGetTaskCountsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolAddHeaders: msRest.CompositeMapper = {
+export const PoolAddHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-add-headers",
   type: {
     name: "Composite",
@@ -11555,7 +11854,7 @@ export const PoolAddHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListHeaders: msRest.CompositeMapper = {
+export const PoolListHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-list-headers",
   type: {
     name: "Composite",
@@ -11589,7 +11888,7 @@ export const PoolListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolDeleteHeaders: msRest.CompositeMapper = {
+export const PoolDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-delete-headers",
   type: {
     name: "Composite",
@@ -11611,7 +11910,7 @@ export const PoolDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolExistsHeaders: msRest.CompositeMapper = {
+export const PoolExistsHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-exists-headers",
   type: {
     name: "Composite",
@@ -11645,7 +11944,7 @@ export const PoolExistsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolGetHeaders: msRest.CompositeMapper = {
+export const PoolGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-get-headers",
   type: {
     name: "Composite",
@@ -11679,7 +11978,7 @@ export const PoolGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolPatchHeaders: msRest.CompositeMapper = {
+export const PoolPatchHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-patch-headers",
   type: {
     name: "Composite",
@@ -11719,7 +12018,7 @@ export const PoolPatchHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolDisableAutoScaleHeaders: msRest.CompositeMapper = {
+export const PoolDisableAutoScaleHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-disableautoscale-headers",
   type: {
     name: "Composite",
@@ -11759,7 +12058,7 @@ export const PoolDisableAutoScaleHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEnableAutoScaleHeaders: msRest.CompositeMapper = {
+export const PoolEnableAutoScaleHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-enableautoscale-headers",
   type: {
     name: "Composite",
@@ -11799,7 +12098,7 @@ export const PoolEnableAutoScaleHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolEvaluateAutoScaleHeaders: msRest.CompositeMapper = {
+export const PoolEvaluateAutoScaleHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-evaluateautoscale-headers",
   type: {
     name: "Composite",
@@ -11839,7 +12138,7 @@ export const PoolEvaluateAutoScaleHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolResizeHeaders: msRest.CompositeMapper = {
+export const PoolResizeHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-resize-headers",
   type: {
     name: "Composite",
@@ -11879,7 +12178,7 @@ export const PoolResizeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolStopResizeHeaders: msRest.CompositeMapper = {
+export const PoolStopResizeHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-stopresize-headers",
   type: {
     name: "Composite",
@@ -11919,7 +12218,7 @@ export const PoolStopResizeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolUpdatePropertiesHeaders: msRest.CompositeMapper = {
+export const PoolUpdatePropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-updateproperties-headers",
   type: {
     name: "Composite",
@@ -11959,7 +12258,7 @@ export const PoolUpdatePropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const PoolRemoveNodesHeaders: msRest.CompositeMapper = {
+export const PoolRemoveNodesHeaders: coreHttp.CompositeMapper = {
   serializedName: "pool-removenodes-headers",
   type: {
     name: "Composite",
@@ -11999,7 +12298,7 @@ export const PoolRemoveNodesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddHeaders: msRest.CompositeMapper = {
+export const TaskAddHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-add-headers",
   type: {
     name: "Composite",
@@ -12039,7 +12338,7 @@ export const TaskAddHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskListHeaders: msRest.CompositeMapper = {
+export const TaskListHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-list-headers",
   type: {
     name: "Composite",
@@ -12073,7 +12372,7 @@ export const TaskListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskAddCollectionHeaders: msRest.CompositeMapper = {
+export const TaskAddCollectionHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-addcollection-headers",
   type: {
     name: "Composite",
@@ -12095,7 +12394,7 @@ export const TaskAddCollectionHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskDeleteHeaders: msRest.CompositeMapper = {
+export const TaskDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-delete-headers",
   type: {
     name: "Composite",
@@ -12117,7 +12416,7 @@ export const TaskDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskGetHeaders: msRest.CompositeMapper = {
+export const TaskGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-get-headers",
   type: {
     name: "Composite",
@@ -12157,7 +12456,7 @@ export const TaskGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskUpdateHeaders: msRest.CompositeMapper = {
+export const TaskUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-update-headers",
   type: {
     name: "Composite",
@@ -12197,7 +12496,7 @@ export const TaskUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskListSubtasksHeaders: msRest.CompositeMapper = {
+export const TaskListSubtasksHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-listsubtasks-headers",
   type: {
     name: "Composite",
@@ -12231,7 +12530,7 @@ export const TaskListSubtasksHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskTerminateHeaders: msRest.CompositeMapper = {
+export const TaskTerminateHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-terminate-headers",
   type: {
     name: "Composite",
@@ -12271,7 +12570,7 @@ export const TaskTerminateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const TaskReactivateHeaders: msRest.CompositeMapper = {
+export const TaskReactivateHeaders: coreHttp.CompositeMapper = {
   serializedName: "task-reactivate-headers",
   type: {
     name: "Composite",
@@ -12311,7 +12610,7 @@ export const TaskReactivateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeAddUserHeaders: msRest.CompositeMapper = {
+export const ComputeNodeAddUserHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-adduser-headers",
   type: {
     name: "Composite",
@@ -12351,7 +12650,7 @@ export const ComputeNodeAddUserHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeDeleteUserHeaders: msRest.CompositeMapper = {
+export const ComputeNodeDeleteUserHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-deleteuser-headers",
   type: {
     name: "Composite",
@@ -12373,7 +12672,7 @@ export const ComputeNodeDeleteUserHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeUpdateUserHeaders: msRest.CompositeMapper = {
+export const ComputeNodeUpdateUserHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-updateuser-headers",
   type: {
     name: "Composite",
@@ -12413,7 +12712,7 @@ export const ComputeNodeUpdateUserHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetHeaders: msRest.CompositeMapper = {
+export const ComputeNodeGetHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-get-headers",
   type: {
     name: "Composite",
@@ -12447,7 +12746,7 @@ export const ComputeNodeGetHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeRebootHeaders: msRest.CompositeMapper = {
+export const ComputeNodeRebootHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-reboot-headers",
   type: {
     name: "Composite",
@@ -12487,7 +12786,7 @@ export const ComputeNodeRebootHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeReimageHeaders: msRest.CompositeMapper = {
+export const ComputeNodeReimageHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-reimage-headers",
   type: {
     name: "Composite",
@@ -12527,7 +12826,7 @@ export const ComputeNodeReimageHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeDisableSchedulingHeaders: msRest.CompositeMapper = {
+export const ComputeNodeDisableSchedulingHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-disablescheduling-headers",
   type: {
     name: "Composite",
@@ -12567,7 +12866,7 @@ export const ComputeNodeDisableSchedulingHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeEnableSchedulingHeaders: msRest.CompositeMapper = {
+export const ComputeNodeEnableSchedulingHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-enablescheduling-headers",
   type: {
     name: "Composite",
@@ -12607,7 +12906,7 @@ export const ComputeNodeEnableSchedulingHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetRemoteLoginSettingsHeaders: msRest.CompositeMapper = {
+export const ComputeNodeGetRemoteLoginSettingsHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-getremoteloginsettings-headers",
   type: {
     name: "Composite",
@@ -12641,7 +12940,7 @@ export const ComputeNodeGetRemoteLoginSettingsHeaders: msRest.CompositeMapper = 
   }
 };
 
-export const ComputeNodeGetRemoteDesktopHeaders: msRest.CompositeMapper = {
+export const ComputeNodeGetRemoteDesktopHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-getremotedesktop-headers",
   type: {
     name: "Composite",
@@ -12675,7 +12974,7 @@ export const ComputeNodeGetRemoteDesktopHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeUploadBatchServiceLogsHeaders: msRest.CompositeMapper = {
+export const ComputeNodeUploadBatchServiceLogsHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-uploadbatchservicelogs-headers",
   type: {
     name: "Composite",
@@ -12697,7 +12996,7 @@ export const ComputeNodeUploadBatchServiceLogsHeaders: msRest.CompositeMapper = 
   }
 };
 
-export const ComputeNodeListHeaders: msRest.CompositeMapper = {
+export const ComputeNodeListHeaders: coreHttp.CompositeMapper = {
   serializedName: "computenode-list-headers",
   type: {
     name: "Composite",
@@ -12731,7 +13030,7 @@ export const ComputeNodeListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationListResult: msRest.CompositeMapper = {
+export const ApplicationListResult: coreHttp.CompositeMapper = {
   serializedName: "ApplicationListResult",
   type: {
     name: "Composite",
@@ -12759,7 +13058,7 @@ export const ApplicationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PoolListUsageMetricsResult: msRest.CompositeMapper = {
+export const PoolListUsageMetricsResult: coreHttp.CompositeMapper = {
   serializedName: "PoolListUsageMetricsResult",
   type: {
     name: "Composite",
@@ -12787,7 +13086,7 @@ export const PoolListUsageMetricsResult: msRest.CompositeMapper = {
   }
 };
 
-export const CloudPoolListResult: msRest.CompositeMapper = {
+export const CloudPoolListResult: coreHttp.CompositeMapper = {
   serializedName: "CloudPoolListResult",
   type: {
     name: "Composite",
@@ -12815,11 +13114,11 @@ export const CloudPoolListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusResult: msRest.CompositeMapper = {
-  serializedName: "AccountListNodeAgentSkusResult",
+export const AccountListSupportedImagesResult: coreHttp.CompositeMapper = {
+  serializedName: "AccountListSupportedImagesResult",
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusResult",
+    className: "AccountListSupportedImagesResult",
     modelProperties: {
       value: {
         serializedName: "",
@@ -12828,7 +13127,7 @@ export const AccountListNodeAgentSkusResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NodeAgentSku"
+              className: "ImageInformation"
             }
           }
         }
@@ -12843,7 +13142,7 @@ export const AccountListNodeAgentSkusResult: msRest.CompositeMapper = {
   }
 };
 
-export const PoolNodeCountsListResult: msRest.CompositeMapper = {
+export const PoolNodeCountsListResult: coreHttp.CompositeMapper = {
   serializedName: "PoolNodeCountsListResult",
   type: {
     name: "Composite",
@@ -12871,7 +13170,7 @@ export const PoolNodeCountsListResult: msRest.CompositeMapper = {
   }
 };
 
-export const CloudJobListResult: msRest.CompositeMapper = {
+export const CloudJobListResult: coreHttp.CompositeMapper = {
   serializedName: "CloudJobListResult",
   type: {
     name: "Composite",
@@ -12899,7 +13198,7 @@ export const CloudJobListResult: msRest.CompositeMapper = {
   }
 };
 
-export const CloudJobListPreparationAndReleaseTaskStatusResult: msRest.CompositeMapper = {
+export const CloudJobListPreparationAndReleaseTaskStatusResult: coreHttp.CompositeMapper = {
   serializedName: "CloudJobListPreparationAndReleaseTaskStatusResult",
   type: {
     name: "Composite",
@@ -12927,7 +13226,7 @@ export const CloudJobListPreparationAndReleaseTaskStatusResult: msRest.Composite
   }
 };
 
-export const CertificateListResult: msRest.CompositeMapper = {
+export const CertificateListResult: coreHttp.CompositeMapper = {
   serializedName: "CertificateListResult",
   type: {
     name: "Composite",
@@ -12955,7 +13254,7 @@ export const CertificateListResult: msRest.CompositeMapper = {
   }
 };
 
-export const NodeFileListResult: msRest.CompositeMapper = {
+export const NodeFileListResult: coreHttp.CompositeMapper = {
   serializedName: "NodeFileListResult",
   type: {
     name: "Composite",
@@ -12983,7 +13282,7 @@ export const NodeFileListResult: msRest.CompositeMapper = {
   }
 };
 
-export const CloudJobScheduleListResult: msRest.CompositeMapper = {
+export const CloudJobScheduleListResult: coreHttp.CompositeMapper = {
   serializedName: "CloudJobScheduleListResult",
   type: {
     name: "Composite",
@@ -13011,7 +13310,7 @@ export const CloudJobScheduleListResult: msRest.CompositeMapper = {
   }
 };
 
-export const CloudTaskListResult: msRest.CompositeMapper = {
+export const CloudTaskListResult: coreHttp.CompositeMapper = {
   serializedName: "CloudTaskListResult",
   type: {
     name: "Composite",
@@ -13039,7 +13338,7 @@ export const CloudTaskListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeListResult: msRest.CompositeMapper = {
+export const ComputeNodeListResult: coreHttp.CompositeMapper = {
   serializedName: "ComputeNodeListResult",
   type: {
     name: "Composite",
