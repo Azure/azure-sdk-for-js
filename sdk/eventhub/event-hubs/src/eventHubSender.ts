@@ -30,14 +30,6 @@ import { EventDataBatch } from "./eventDataBatch";
 import { getRetryAttemptTimeoutInMs, RetryOptions } from "./eventHubClient";
 
 /**
- * @ignore
- */
-interface CreateSenderOptions {
-  newName?: boolean;
-  sendTimeoutInSeconds?: number;
-}
-
-/**
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  * @internal
@@ -277,9 +269,9 @@ export class EventHubSender extends LinkEntity {
       }
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
-          const options: AwaitableSenderOptions = this._createSenderOptions({
-            newName: true
-          });
+          const options: AwaitableSenderOptions = this._createSenderOptions(
+            Constants.defaultOperationTimeoutInSeconds
+          );
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
           // else bail out when the error is not retryable or the oepration succeeds.
           const config: RetryConfig<void> = {
@@ -397,7 +389,8 @@ export class EventHubSender extends LinkEntity {
               : Constants.defaultDelayBetweenOperationRetriesInSeconds;
 
           const config: RetryConfig<void> = {
-            operation: () => this._init(),
+            operation: () =>
+              this._init(this._createSenderOptions(Constants.defaultOperationTimeoutInSeconds)),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             maxRetries: maxRetries,
@@ -523,8 +516,8 @@ export class EventHubSender extends LinkEntity {
     );
   }
 
-  private _createSenderOptions(options: CreateSenderOptions): AwaitableSenderOptions {
-    if (options.newName) this.name = `${uuid()}`;
+  private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
+    if (newName) this.name = `${uuid()}`;
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
@@ -534,7 +527,7 @@ export class EventHubSender extends LinkEntity {
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
       onSessionClose: this._onSessionClose,
-      sendTimeoutInSeconds: options.sendTimeoutInSeconds
+      sendTimeoutInSeconds: timeoutInMs / 1000
     };
     log.sender("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -615,9 +608,7 @@ export class EventHubSender extends LinkEntity {
           try {
             await defaultLock.acquire(this.senderLock, () => {
               return this._init(
-                this._createSenderOptions({
-                  sendTimeoutInSeconds: getRetryAttemptTimeoutInMs(options.retryOptions)
-                })
+                this._createSenderOptions(getRetryAttemptTimeoutInMs(options.retryOptions))
               );
             });
           } catch (err) {
@@ -703,7 +694,7 @@ export class EventHubSender extends LinkEntity {
    * @ignore
    * @returns
    */
-  private async _init(options?: AwaitableSenderOptions): Promise<void> {
+  private async _init(options: AwaitableSenderOptions): Promise<void> {
     try {
       // isOpen isConnecting  Should establish
       // true     false          No
@@ -721,9 +712,7 @@ export class EventHubSender extends LinkEntity {
         this.isConnecting = true;
         await this._negotiateClaim();
         log.error("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
-        if (!options) {
-          options = this._createSenderOptions({});
-        }
+
         this._sender = await this._context.connection.createAwaitableSender(options);
         this.isConnecting = false;
         log.error(
