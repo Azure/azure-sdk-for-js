@@ -5,7 +5,6 @@ import { RestError } from "@azure/core-http";
 
 import * as Models from "../src/generated/lib/models";
 
-export * from "./Aborter";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
@@ -19,7 +18,7 @@ export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
-export { IPRange as IPRange } from "./IPRange";
+export { IPRange } from "./IPRange";
 export { Range } from "./Range";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
