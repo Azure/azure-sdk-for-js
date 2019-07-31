@@ -384,13 +384,31 @@ export class CryptographyClient {
   }
 }
 
+/**
+ * Options for the encrypt call to the CryptographyClient
+ */
 export interface EncryptOptions extends RequestOptions {
+  /**
+   * Initialization vector
+   */
   iv?: Uint8Array,
+  /**
+   * Authentication data
+   */
   authenticationData?: Uint8Array,
 }
 
 export interface DecryptOptions extends RequestOptions {
+  /**
+   * Initialization vector
+   */
   iv?: Uint8Array,
+  /**
+   * Authentication data
+   */
   authenticationData?: Uint8Array,
+  /**
+   * Authentication tag
+   */
   authenticationTag?: Uint8Array,
 }

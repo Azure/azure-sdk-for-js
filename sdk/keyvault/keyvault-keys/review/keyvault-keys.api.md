@@ -45,7 +45,6 @@ export class CryptographyClient {
     credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
     decrypt(ciphertext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: DecryptOptions): Promise<Uint8Array>;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyEncryptionAlgorithm" needs to be exported by the entry point index.d.ts
     encrypt(plaintext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: EncryptOptions): Promise<Uint8Array>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
@@ -62,11 +61,8 @@ export class CryptographyClient {
 
 // @public (undocumented)
 export interface DecryptOptions extends RequestOptions {
-    // (undocumented)
     authenticationData?: Uint8Array;
-    // (undocumented)
     authenticationTag?: Uint8Array;
-    // (undocumented)
     iv?: Uint8Array;
 }
 
@@ -80,11 +76,9 @@ export interface DeletedKey extends Key {
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
-// @public (undocumented)
+// @public
 export interface EncryptOptions extends RequestOptions {
-    // (undocumented)
     authenticationData?: Uint8Array;
-    // (undocumented)
     iv?: Uint8Array;
 }
 
@@ -137,6 +131,9 @@ export interface JsonWebKey {
 
 // @public
 export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+
+// @public
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
 export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
