@@ -567,7 +567,7 @@ export class EventHubSender extends LinkEntity {
 
         if (abortSignal && abortSignal.aborted) {
           // operation has been cancelled, so exit quickly
-          rejectOnAbort();
+          return rejectOnAbort();
         }
 
         const removeListeners = (): void => {
@@ -579,7 +579,7 @@ export class EventHubSender extends LinkEntity {
 
         const onAborted = () => {
           removeListeners();
-          rejectOnAbort();
+          return rejectOnAbort();
         };
 
         if (abortSignal) {
