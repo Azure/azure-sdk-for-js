@@ -17,17 +17,17 @@ import { cancellableDelay } from "./util/cancellableDelay";
  */
 export enum CloseReason {
   /**
+   * The PartitionProcessor was shutdown due to some internal or service exception.
+   */
+  EventHubException = "EventHubException",
+  /**
    * Ownership of the partition was lost or transitioned to a new processor instance.
    */
   OwnershipLost = "OwnershipLost",
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown",
-  /**
-   * The PartitionProcessor was shutdown for an unknown reason.
-   */
-  Unknown = "Unknown"
+  Shutdown = "Shutdown"
 }
 
 export interface PartitionProcessor {
