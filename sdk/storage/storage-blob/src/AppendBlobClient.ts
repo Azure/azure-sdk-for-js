@@ -18,7 +18,6 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
@@ -149,13 +148,17 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(url: string, credential: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
@@ -177,7 +180,12 @@ export class AppendBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName: string | Credential | TokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName:
+      | string
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -187,7 +195,8 @@ export class AppendBlobClient extends BlobClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      credentialOrPipelineOrContainerName instanceof Credential ||
+      credentialOrPipelineOrContainerName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       options = blobNameOrOptions as NewPipelineOptions;

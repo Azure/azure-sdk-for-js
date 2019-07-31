@@ -3,12 +3,12 @@
 
 import { RestError, TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
-import { Aborter } from "../Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -48,7 +48,7 @@ export interface RetriableReadableStreamOptions {
  * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: Aborter;
+  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -78,7 +78,7 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super();
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     this.aborter = aborter;
     this.getter = getter;
     this.source = source;
@@ -161,7 +161,7 @@ export class RetriableReadableStream extends Readable {
               // tslint:disable-next-line:max-line-length
               `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
                 .offset - 1}, data needed offset: ${this.end}, retries: ${
-              this.retries
+                this.retries
               }, max retries: ${this.maxRetryRequests}`
             )
           );
@@ -171,7 +171,7 @@ export class RetriableReadableStream extends Readable {
           "error",
           new Error(
             `Data corruption failure: Received more data than original request, data needed offset is ${
-            this.end
+              this.end
             }, received offset: ${this.offset - 1}`
           )
         );

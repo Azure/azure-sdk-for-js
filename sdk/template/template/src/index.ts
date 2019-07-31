@@ -20,7 +20,7 @@ export function createEventEmitter() {
   if (isNode) {
     console.log("Node 👊");
   } else {
-    console.log("Browser 👊");
+    console.log("Browser ❤");
   }
 
   print("Created event emitter");

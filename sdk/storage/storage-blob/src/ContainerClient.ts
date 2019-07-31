@@ -28,7 +28,6 @@ import {
   BlockBlobUploadOptions,
   BlobDeleteOptions
 } from "./internal";
-import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { LeaseClient } from "./LeaseClient";
@@ -481,13 +480,17 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -510,14 +513,20 @@ export class ContainerClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName?:
+      | string
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      credentialOrPipelineOrContainerName instanceof Credential ||
+      credentialOrPipelineOrContainerName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);

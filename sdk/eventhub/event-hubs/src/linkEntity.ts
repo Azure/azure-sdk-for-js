@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { defaultLock, SharedKeyCredential, AccessToken, Constants, TokenType } from "@azure/core-amqp";
+import {
+  defaultLock,
+  SharedKeyCredential,
+  AccessToken,
+  Constants,
+  TokenType
+} from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";
@@ -124,7 +130,8 @@ export class LinkEntity {
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
     log.link(
-      "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " + "'%s' with address: '%s'.",
+      "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
+        "'%s' with address: '%s'.",
       this._context.connectionId,
       this._context.cbsSession.cbsLock,
       this._type,

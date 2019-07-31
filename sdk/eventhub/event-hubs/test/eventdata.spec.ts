@@ -47,7 +47,9 @@ describe("EventData #RunnableInBrowser", function(): void {
     describe("properties", function(): void {
       it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
-        testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
+        testEventData
+          .enqueuedTimeUtc!.getTime()
+          .should.equal(testAnnotations["x-opt-enqueued-time"]);
       });
 
       it("offset gets the offset from system properties", function(): void {

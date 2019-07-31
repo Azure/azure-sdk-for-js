@@ -101,7 +101,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       }
     });
 
-    it("gets the partition runtime information with partitionId as a string", async function(): Promise<void> {
+    it("gets the partition runtime information with partitionId as a string", async function(): Promise<
+      void
+    > {
       client = new EventHubClient(service.connectionString, service.path);
       const partitionRuntimeInfo = await client.getPartitionProperties("0");
       debug(partitionRuntimeInfo);
@@ -112,7 +114,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
 
-    it("gets the partition runtime information with partitionId as a number", async function(): Promise<void> {
+    it("gets the partition runtime information with partitionId as a number", async function(): Promise<
+      void
+    > {
       client = new EventHubClient(service.connectionString, service.path);
       const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
       debug(partitionRuntimeInfo);

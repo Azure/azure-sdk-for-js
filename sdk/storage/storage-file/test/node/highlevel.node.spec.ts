@@ -1,8 +1,7 @@
 import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
-
-import { Aborter } from "../../src/Aborter";
+import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, DirectoryClient, FileClient } from "../../src";
@@ -95,7 +94,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should abort for large data", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await fileClient.uploadFile(tempFileLarge, {
@@ -110,7 +109,7 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should abort for small data", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await fileClient.uploadFile(tempFileSmall, {
@@ -126,11 +125,11 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should update progress for large data", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await fileClient.uploadFile(tempFileLarge, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         parallelism: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
@@ -145,11 +144,11 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should update progress for small data", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await fileClient.uploadFile(tempFileSmall, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         parallelism: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
@@ -180,7 +179,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadStream should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20, {
@@ -226,7 +225,7 @@ describe("Highlevel Node.js only", () => {
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
       await fileClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: Aborter.timeout(1),
+        abortSignal: AbortController.timeout(1),
         parallelism: 20,
         rangeSize: 4 * 1024 * 1024
       });
@@ -242,10 +241,10 @@ describe("Highlevel Node.js only", () => {
 
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
     try {
       await fileClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         parallelism: 1,
         progress: () => {
           eventTriggered = true;
@@ -389,9 +388,9 @@ describe("Highlevel Node.js only", () => {
     let expectedError = false;
 
     try {
-      const aborter = Aborter.none;
+      const aborter = new AbortController();
       const downloadResponse = await fileClient.download(0, undefined, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         maxRetryRequests: 3,
         progress: () => {
           if (injectedErrors++ < 2) {

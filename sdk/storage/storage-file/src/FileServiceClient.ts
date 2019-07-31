@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -22,14 +22,13 @@ import { isNode } from "@azure/core-http";
  */
 interface ServiceListSharesSegmentOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ServiceListSharesSegmentOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
@@ -67,14 +66,13 @@ interface ServiceListSharesSegmentOptions {
  */
 export interface ServiceListSharesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ServiceListSharesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
@@ -101,14 +99,13 @@ export interface ServiceListSharesOptions {
  */
 export interface ServiceGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -119,14 +116,13 @@ export interface ServiceGetPropertiesOptions {
  */
 export interface ServiceSetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -274,7 +270,7 @@ export class FileServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
@@ -294,7 +290,7 @@ export class FileServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
@@ -454,7 +450,7 @@ export class FileServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listSharesSegment({
       abortSignal: aborter,
       marker,

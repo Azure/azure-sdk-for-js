@@ -9,28 +9,24 @@
  */
 
 import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/keyvault-keys";
-const packageVersion = "0.0.1";
+const packageVersion = "4.0.0-preview.2";
 
-export class KeyVaultClientContext extends coreHttp.ServiceClient {
-  apiVersion: string;
+export class KeyVaultClientContext extends coreArm.AzureServiceClient {
   credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
+  apiVersion?: string;
 
   /**
-   * Initializes a new instance of the KeyVaultClientContext class.
-   * @param apiVersion Client API version.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * Initializes a new instance of the KeyVaultClient class.
+   * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
   constructor(
     credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential,
-    apiVersion: string,
-    options?: coreHttp.ServiceClientOptions
+    options?: coreArm.AzureServiceClientOptions
   ) {
-    if (apiVersion == undefined) {
-      throw new Error("'apiVersion' cannot be null.");
-    }
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }
@@ -38,17 +34,28 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
-
     if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
+    this.apiVersion = "7.0";
+    this.acceptLanguage = "en-US";
+    this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
-    this.apiVersion = apiVersion;
     this.credentials = credentials;
+
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+      this.acceptLanguage = options.acceptLanguage;
+    }
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
+      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
+    }
   }
 }

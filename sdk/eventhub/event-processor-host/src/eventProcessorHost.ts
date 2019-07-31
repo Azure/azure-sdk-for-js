@@ -14,7 +14,7 @@ import {
   UserTokenCredentials,
   DeviceTokenCredentials,
   MSITokenCredentials
-} from "ms-rest-azure";
+} from "@azure/ms-rest-nodeauth";
 import * as log from "./log";
 import { LeaseManager } from "./leaseManager";
 import { HostContext } from "./hostContext";

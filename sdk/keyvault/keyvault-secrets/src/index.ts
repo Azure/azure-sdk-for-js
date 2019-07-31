@@ -26,6 +26,7 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecretBundle,
+  DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams
 } from "./core/models";
@@ -169,7 +170,7 @@ export class SecretsClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -262,7 +263,7 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    return this.getSecretFromSecretBundle(response);
+    return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
   /**
@@ -426,11 +427,7 @@ export class SecretsClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
-    const response: any = await this.client.backupSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
     return response.value;
   }
 
@@ -685,6 +682,29 @@ export class SecretsClient {
     } else {
       resultObject = {
         ...secretBundle,
+        ...parsedId
+      };
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedSecretFromDeletedSecretBundle(
+    deletedSecretBundle: DeletedSecretBundle
+  ): DeletedSecret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
+
+    let resultObject;
+    if (deletedSecretBundle.attributes) {
+      resultObject = {
+        ...deletedSecretBundle,
+        ...parsedId,
+        ...deletedSecretBundle.attributes
+      };
+      delete resultObject.attributes;
+    } else {
+      resultObject = {
+        ...deletedSecretBundle,
         ...parsedId
       };
     }

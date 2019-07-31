@@ -10,7 +10,13 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventHubClient, EventPosition, TokenCredential, EventHubProducer, EventHubConsumer } from "../src";
+import {
+  EventHubClient,
+  EventPosition,
+  TokenCredential,
+  EventHubProducer,
+  EventHubConsumer
+} from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
@@ -38,7 +44,10 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
   });
 
   it("creates an EventHubClient from a connection string and an Event Hub path", function(): void {
-    const client = new EventHubClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c", "my-event-hub-path");
+    const client = new EventHubClient(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c",
+      "my-event-hub-path"
+    );
     client.should.be.an.instanceof(EventHubClient);
     should.equal(client.eventHubName, "my-event-hub-path");
   });
@@ -57,7 +66,9 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     should.equal(client.eventHubName, "my-event-hub-path");
   });
 
-  it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<void> {
+  it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
+    void
+  > {
     should.exist(
       env[EnvVarKeys.AZURE_CLIENT_ID],
       "define AZURE_CLIENT_ID in your environment before running integration tests."
@@ -70,7 +81,10 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
       env[EnvVarKeys.AZURE_CLIENT_SECRET],
       "define AZURE_CLIENT_SECRET in your environment before running integration tests."
     );
-    should.exist(env[EnvVarKeys.ENDPOINT], "define ENDPOINT in your environment before running integration tests.");
+    should.exist(
+      env[EnvVarKeys.ENDPOINT],
+      "define ENDPOINT in your environment before running integration tests."
+    );
 
     const credential = new EnvironmentCredential();
     const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME, credential);
@@ -86,14 +100,18 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   let client: EventHubClient;
 
   beforeEach(() => {
-    client = new EventHubClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d");
+    client = new EventHubClient(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
   });
 
   afterEach(() => {
     return client.close();
   });
 
-  it("should throw ServiceCommunicationError while getting hub runtime info", async function(): Promise<void> {
+  it("should throw ServiceCommunicationError while getting hub runtime info", async function(): Promise<
+    void
+  > {
     try {
       await client.getProperties();
       throw new Error("Test failure");
@@ -103,7 +121,9 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
     }
   });
 
-  it("should throw ServiceCommunicationError while getting partition runtime info", async function(): Promise<void> {
+  it("should throw ServiceCommunicationError while getting partition runtime info", async function(): Promise<
+    void
+  > {
     try {
       await client.getPartitionProperties("0");
       throw new Error("Test failure");
@@ -113,7 +133,9 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
     }
   });
 
-  it("should throw ServiceCommunicationError while creating a sender", async function(): Promise<void> {
+  it("should throw ServiceCommunicationError while creating a sender", async function(): Promise<
+    void
+  > {
     try {
       const sender = client.createProducer({ partitionId: "0" });
       await sender.send([{ body: "Hello World" }]);
@@ -124,9 +146,15 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
     }
   });
 
-  it("should throw ServiceCommunicationError while creating a receiver", async function(): Promise<void> {
+  it("should throw ServiceCommunicationError while creating a receiver", async function(): Promise<
+    void
+  > {
     try {
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
+      const receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        "0",
+        EventPosition.earliest()
+      );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
@@ -151,7 +179,9 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     return client.close();
   });
 
-  it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function(): Promise<void> {
+  it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function(): Promise<
+    void
+  > {
     try {
       await client.getProperties();
       throw new Error("Test failure");
@@ -161,7 +191,9 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     }
   });
 
-  it("should throw MessagingEntityNotFoundError while getting partition runtime info", async function(): Promise<void> {
+  it("should throw MessagingEntityNotFoundError while getting partition runtime info", async function(): Promise<
+    void
+  > {
     try {
       await client.getPartitionProperties("0");
       throw new Error("Test failure");
@@ -171,7 +203,9 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     }
   });
 
-  it("should throw MessagingEntityNotFoundError while creating a sender", async function(): Promise<void> {
+  it("should throw MessagingEntityNotFoundError while creating a sender", async function(): Promise<
+    void
+  > {
     try {
       const sender = client.createProducer({ partitionId: "0" });
       await sender.send([{ body: "Hello World" }]);
@@ -182,9 +216,15 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
     }
   });
 
-  it("should throw MessagingEntityNotFoundError while creating a receiver", async function(): Promise<void> {
+  it("should throw MessagingEntityNotFoundError while creating a receiver", async function(): Promise<
+    void
+  > {
     try {
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
+      const receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        "0",
+        EventPosition.earliest()
+      );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
@@ -213,7 +253,10 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 
   it("should correctly populate the default user agent", function(done: Mocha.Done): void {
-    client = new EventHubClient(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING], env[EnvVarKeys.EVENTHUB_NAME]);
+    client = new EventHubClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME]
+    );
     const packageVersion = packageJsonInfo.version;
     const properties = client["_context"].connection.options.properties;
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
@@ -227,9 +270,13 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   it("should correctly populate the custom user agent", function(done: Mocha.Done): void {
     const customua = "/js-event-processor-host=0.2.0";
 
-    client = new EventHubClient(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING], env[EnvVarKeys.EVENTHUB_NAME], {
-      userAgent: customua
-    });
+    client = new EventHubClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME],
+      {
+        userAgent: customua
+      }
+    );
     const packageVersion = packageJsonInfo.version;
     const properties = client["_context"].connection.options.properties;
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
@@ -260,7 +307,10 @@ describe("Errors after close()", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
-    client = new EventHubClient(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING], env[EnvVarKeys.EVENTHUB_NAME]);
+    client = new EventHubClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME]
+    );
 
     const timeNow = Date.now();
 
@@ -301,7 +351,7 @@ describe("Errors after close()", function(): void {
 
     const testMessage = { body: "test" };
     let errorSend: string = "";
-    await sender.send(testMessage).catch(err => {
+    await sender.send(testMessage).catch((err) => {
       errorSend = err.message;
     });
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
@@ -314,18 +364,26 @@ describe("Errors after close()", function(): void {
     should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
     let errorReceiveBatch: string = "";
-    await receiver.receiveBatch(1, 1).catch(err => {
+    await receiver.receiveBatch(1, 1).catch((err) => {
       errorReceiveBatch = err.message;
     });
-    should.equal(errorReceiveBatch, expectedErrorMsg, "Expected error not thrown for receiveMessages()");
+    should.equal(
+      errorReceiveBatch,
+      expectedErrorMsg,
+      "Expected error not thrown for receiveMessages()"
+    );
 
     let errorReceiveStream: string = "";
     try {
-      receiver.receive(() => Promise.resolve(), e => console.log(e));
+      receiver.receive(() => Promise.resolve(), (e) => console.log(e));
     } catch (err) {
       errorReceiveStream = err.message;
     }
-    should.equal(errorReceiveStream, expectedErrorMsg, "Expected error not thrown for registerMessageHandler()");
+    should.equal(
+      errorReceiveStream,
+      expectedErrorMsg,
+      "Expected error not thrown for registerMessageHandler()"
+    );
   }
 
   it("errors after close() on client", async function(): Promise<void> {
@@ -345,11 +403,19 @@ describe("Errors after close()", function(): void {
 
     let errorNewReceiver: string = "";
     try {
-      receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", EventPosition.earliest());
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        "0",
+        EventPosition.earliest()
+      );
     } catch (err) {
       errorNewReceiver = err.message;
     }
-    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for createReceiver()");
+    should.equal(
+      errorNewReceiver,
+      expectedErrorMsg,
+      "Expected error not thrown for createReceiver()"
+    );
 
     let errorGetPartitionIds: string = "";
     try {
@@ -357,7 +423,11 @@ describe("Errors after close()", function(): void {
     } catch (err) {
       errorGetPartitionIds = err.message;
     }
-    should.equal(errorGetPartitionIds, expectedErrorMsg, "Expected error not thrown for getPartitionIds()");
+    should.equal(
+      errorGetPartitionIds,
+      expectedErrorMsg,
+      "Expected error not thrown for getPartitionIds()"
+    );
 
     let errorGetPartitionProperties: string = "";
     try {
@@ -377,7 +447,11 @@ describe("Errors after close()", function(): void {
     } catch (err) {
       errorGetProperties = err.message;
     }
-    should.equal(errorGetProperties, expectedErrorMsg, "Expected error not thrown for getProperties()");
+    should.equal(
+      errorGetProperties,
+      expectedErrorMsg,
+      "Expected error not thrown for getProperties()"
+    );
   });
 
   it("errors after close() on sender", async function(): Promise<void> {

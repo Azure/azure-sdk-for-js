@@ -1,6 +1,12 @@
 # Breaking Changes
 
-2019.07 Version 12.0.0-preview.1
+### Coming Soon... 12.0.0-preview.2
+
+- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+
+### 2019.07 Version 12.0.0-preview.1
 
 - Client types are renamed from *URL to *Client.
   - ServiceURL, ShareURL, DirectoryURL and FileURL to ServiceClient to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
@@ -16,10 +22,10 @@
 - Methods that list segments(`listFilesAndDirectoriesSegment()` and `listSharesSegment()`) are no longer exposed in public api.
 - High level convenience functions are moved into clients as their instance member function.
   - `uploadFileToAzureFile()`, `uploadStreamToAzureFile()`, `downloadAzureFileToBuffer()` and `uploadBrowserDataToAzureFile()` -> `FileClient.uploadFile()`,
-  `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
+    `FileClient.uploadStream()`, `FileClient.downloadToBuffer()` and `FileClient.uploadBrowserData()` respectively.
 - `StorageClient` is no longer exposed. `StorageClient.newPipeline()` static method is moved to the top level exported function `newPipeline()`.
 
-2019.01 Version 10.1.0
+### 2019.01 Version 10.1.0
 
 - Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.

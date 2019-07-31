@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
@@ -30,14 +29,13 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface ShareCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A name-value pair to associate with a file storage object.
    *
@@ -64,14 +62,13 @@ export interface ShareCreateOptions {
  */
 export interface ShareDeleteMethodOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareDeleteMethodOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
@@ -91,14 +88,13 @@ export interface ShareDeleteMethodOptions {
  */
 export interface ShareSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareSetMetadataOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -109,14 +105,13 @@ export interface ShareSetMetadataOptions {
  */
 export interface ShareSetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareSetAccessPolicyOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -127,14 +122,13 @@ export interface ShareSetAccessPolicyOptions {
  */
 export interface ShareGetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareGetAccessPolicyOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -145,14 +139,13 @@ export interface ShareGetAccessPolicyOptions {
  */
 export interface ShareGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareGetPropertiesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -163,14 +156,13 @@ export interface ShareGetPropertiesOptions {
  */
 export interface ShareSetQuotaOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareSetQuotaOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -181,14 +173,13 @@ export interface ShareSetQuotaOptions {
  */
 export interface ShareGetStatisticsOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareGetStatisticsOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -252,14 +243,13 @@ export declare type ShareGetAccessPolicyResponse = {
  */
 export interface ShareCreateSnapshotOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ShareCreateSnapshotOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A name-value pair to associate with a file storage object.
    *
@@ -389,7 +379,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.create({
       ...options,
       abortSignal: aborter
@@ -529,7 +519,7 @@ export class ShareClient extends StorageClient {
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<Models.ShareGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -545,7 +535,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
       abortSignal: aborter,
       ...options
@@ -568,7 +558,7 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -591,7 +581,7 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.context.getAccessPolicy({
       abortSignal: aborter
     });
@@ -638,7 +628,7 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
       acl.push({
@@ -667,7 +657,7 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.createSnapshot({
       abortSignal: aborter,
       ...options
@@ -686,7 +676,7 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
       throw new RangeError(
         `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
@@ -708,7 +698,7 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<Models.ShareGetStatisticsResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getStatistics({
       abortSignal: aborter
     });

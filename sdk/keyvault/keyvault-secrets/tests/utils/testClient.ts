@@ -6,7 +6,7 @@ export default class TestClient {
   constructor(client: SecretsClient) {
     this.client = client;
   }
-  public formatName(name: string) {
+  public formatName(name: string): string {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeSecret(secretName: string): Promise<void> {

@@ -12,8 +12,8 @@ export type TelemetryInfo = { key?: string; value?: string };
 
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
-    key: "ms-rest-js",
-    value: Constants.msRestVersion
+    key: "core-http",
+    value: Constants.coreHttpVersion
   };
 
   return [msRestRuntime];

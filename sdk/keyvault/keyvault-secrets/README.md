@@ -47,38 +47,41 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to create/get client secret credentials.
 
- * Create a service principal and configure its access to Azure resources:
-    ```Bash
-    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-    ```
-    Output:
-    ```json
-    {
-        "appId": "generated-app-ID",
-        "displayName": "dummy-app-name",
-        "name": "http://dummy-app-name",
-        "password": "random-password",
-        "tenant": "tenant-ID"
-    }
-    ```
-* Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+- Create a service principal and configure its access to Azure resources:
+  ```Bash
+  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+  ```
+  Output:
+  ```json
+  {
+    "appId": "generated-app-ID",
+    "displayName": "dummy-app-name",
+    "name": "http://dummy-app-name",
+    "password": "random-password",
+    "tenant": "tenant-ID"
+  }
+  ```
+- Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+
   ```Bash
     export AZURE_CLIENT_ID="generated-app-ID"
     export AZURE_CLIENT_SECRET="random-password"
     export AZURE_TENANT_ID="tenant-ID"
   ```
 
-* Grant the above mentioned application authorization to perform secret operations on the keyvault:
-    ```Bash
-    az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
-    ```
-    > --secret-permissions:
-    > Accepted values: backup, delete, get, list, purge, recover, restore, set
+- Grant the above mentioned application authorization to perform secret operations on the keyvault:
 
-* Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
-    ```Bash
-    az keyvault show --name <your-key-vault-name>
-    ```
+  ```Bash
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+  ```
+
+  > --secret-permissions:
+  > Accepted values: backup, delete, get, list, purge, recover, restore, set
+
+- Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
+  ```Bash
+  az keyvault show --name <your-key-vault-name>
+  ```
 
 ### Authenticate the client
 
@@ -129,29 +132,35 @@ Once a secret is created, it is possible to update attributes of the secret. For
 Key vaults allow deleting secrets so that they are no longer available.
 
 In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
- 
+
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets.
 
 Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
 
 ### Create a secret
+
 `setSecret` creates a secret to be stored in the Azure Key Vault. If a secret with the same name already exists, then a new version of the secret is created.
+
 ```javascript
 const secretName = "MySecretName";
 const result = await client.setSecret(secretName, "MySecretValue");
 ```
 
 ### Get a secret
+
 `getSecret` retrieves a secret previously stored in the Key Vault.
+
 ```javascript
 const getResult = await client.getSecret(secretName);
 console.log("getResult: ", getResult);
 ```
 
 ### List all versions of a secret
+
 `listSecretVersions` will list versions of the given secret.
+
 ```javascript
 for await (let version of client.listSecretVersions(secretName)) {
   console.log("version: ", version);
@@ -159,7 +168,9 @@ for await (let version of client.listSecretVersions(secretName)) {
 ```
 
 ### List all secrets
+
 `listSecrets` will list all secrets in the Key Vault.
+
 ```javascript
 for await (let listedSecret of client.listSecrets()) {
   console.log("secret: ", listedSecret);
@@ -167,14 +178,18 @@ for await (let listedSecret of client.listSecrets()) {
 ```
 
 ### Update the attributes of a secret
+
 `updateSecretAttributes` updates the attributes of a secret.
-```javascript 
+
+```javascript
 const result = getSecret(secretName);
 await client.updateSecretAttributes(secretName, result.version, { enabled: false });
 ```
 
 ### Delete a secret
+
 `deleteSecret` deletes a secret previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the deletes.
+
 ```javascript
 await client.deleteSecret(secretName);
 ```
@@ -221,20 +236,21 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
     node your-test-script.js >out.log 2>&1
     ```
   - Logging statements from your test script and the sdk go to the same file `out.log`.
+
     ```bash
       node your-test-script.js &> out.log
     ```
-    
+
 ## Next steps
 
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 directory for detailed examples on how to use this library.
 
-* [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/helloWorld.ts) - Create, read, update, and delete secrets
-* [listOperations.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/listOperations.ts) - List secrets all at once, list by page, and list versions of a secret.
-* [backupAndRestore.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/backupAndRestore.ts) - Backup a secret and restore it after it has been deleted.
-* [deleteAndRecover.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/deleteAndRecover.ts) - Deletes a secret and recovers it after. **Note:** this assumes [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is enabled for the key vault.
+- [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/helloWorld.ts) - Create, read, update, and delete secrets
+- [listOperations.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/listOperations.ts) - List secrets all at once, list by page, and list versions of a secret.
+- [backupAndRestore.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/backupAndRestore.ts) - Backup a secret and restore it after it has been deleted.
+- [deleteAndRecover.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/deleteAndRecover.ts) - Deletes a secret and recovers it after. **Note:** this assumes [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is enabled for the key vault.
 
 ## Contributing
 
@@ -245,6 +261,8 @@ the rights to use your contribution. For details, visit <https://cla.microsoft.c
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
+
+If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

@@ -3,7 +3,7 @@
 
 import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { Aborter } from "./Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
@@ -33,14 +33,13 @@ import { readStreamToLocalFile } from "./utils/utils.common";
  */
 export interface FileCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * File HTTP headers like Content-Type.
    *
@@ -66,14 +65,13 @@ export interface FileCreateOptions {
  */
 export interface FileDeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -84,14 +82,13 @@ export interface FileDeleteOptions {
  */
 export interface FileDownloadOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
@@ -135,14 +132,13 @@ export interface FileDownloadOptions {
  */
 export interface FileUploadRangeOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * An MD5 hash of the content. This hash is
    * used to verify the integrity of the data during transport. When the
@@ -172,14 +168,13 @@ export interface FileUploadRangeOptions {
  */
 export interface FileGetRangeListOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
    *
@@ -197,14 +192,13 @@ export interface FileGetRangeListOptions {
  */
 export interface FileGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -244,7 +238,14 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
  * @interface FileStartCopyOptions
  */
 export interface FileStartCopyOptions {
-  abortSignal?: Aborter;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileStartCopyOptions
+   */
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the file storage object.
    *
@@ -262,14 +263,13 @@ export interface FileStartCopyOptions {
  */
 export interface FileSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof FileSetMetadataOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -280,14 +280,13 @@ export interface FileSetMetadataOptions {
  */
 export interface FileSetHTTPHeadersOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof FileSetHTTPHeadersOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -298,14 +297,13 @@ export interface FileSetHTTPHeadersOptions {
  */
 export interface FileAbortCopyFromURLOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof FileAbortCopyFromURLOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -316,14 +314,13 @@ export interface FileAbortCopyFromURLOptions {
  */
 export interface FileResizeOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof FileResizeOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -334,14 +331,13 @@ export interface FileResizeOptions {
  */
 export interface FileClearRangeOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof FileClearRangeOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -351,7 +347,14 @@ export interface FileClearRangeOptions {
  * @interface UploadStreamToAzureFileOptions
  */
 export interface UploadStreamToAzureFileOptions {
-  abortSignal?: Aborter;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof UploadStreamToAzureFileOptions
+   */
+  abortSignal?: AbortSignalLike;
   /**
    * Azure File HTTP Headers.
    *
@@ -384,14 +387,13 @@ export interface UploadStreamToAzureFileOptions {
  */
 export interface UploadToAzureFileOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof UploadToAzureFileOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * RangeSize specifies the range size to use in each parallel upload,
    * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
@@ -442,14 +444,13 @@ export interface UploadToAzureFileOptions {
  */
 export interface DownloadFromAzureFileOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @type {AbortSignalLike}
+   * @memberof DownloadFromAzureFileOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
    * Every small range will be downloaded via a separte request.
@@ -577,7 +578,7 @@ export class FileClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
@@ -609,7 +610,7 @@ export class FileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
     }
@@ -685,7 +686,7 @@ export class FileClient extends StorageClient {
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<Models.FileGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -710,7 +711,7 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
       abortSignal: aborter
     });
@@ -733,7 +734,7 @@ export class FileClient extends StorageClient {
     fileHTTPHeaders: FileHTTPHeaders = {},
     options: FileSetHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
       ...fileHTTPHeaders
@@ -756,7 +757,7 @@ export class FileClient extends StorageClient {
     length: number,
     options: FileResizeOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
@@ -782,7 +783,7 @@ export class FileClient extends StorageClient {
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
   ): Promise<Models.FileSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -808,7 +809,7 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -845,7 +846,7 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileClearRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -865,7 +866,7 @@ export class FileClient extends StorageClient {
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const originalResponse = await this.context.getRangeList({
       abortSignal: aborter,
       range: options.range ? rangeToString(options.range) : undefined
@@ -903,7 +904,7 @@ export class FileClient extends StorageClient {
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.startCopy(copySource, {
       abortSignal: aborter,
       metadata: options.metadata
@@ -924,7 +925,7 @@ export class FileClient extends StorageClient {
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
   ): Promise<Models.FileAbortCopyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.abortCopy(copyId, {
       abortSignal: aborter
     });
@@ -971,7 +972,7 @@ export class FileClient extends StorageClient {
     size: number,
     options: UploadToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1066,7 +1067,7 @@ export class FileClient extends StorageClient {
     size: number,
     options: UploadToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1134,7 +1135,7 @@ export class FileClient extends StorageClient {
     count?: number,
     options: DownloadFromAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1226,7 +1227,7 @@ export class FileClient extends StorageClient {
     maxBuffers: number,
     options: UploadStreamToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.fileHTTPHeaders) {
       options.fileHTTPHeaders = {};
     }
@@ -1255,7 +1256,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-            `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
           );
         }
 
@@ -1276,11 +1277,11 @@ export class FileClient extends StorageClient {
     return scheduler.do();
   }
 
-/**
- * ONLY AVAILABLE IN NODE.JS RUNTIME.
- *
- * Downloads an Azure Blob to a local file.
- * Fails if the the given file path already exits.
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob to a local file.
+   * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
    * @param {string} filePath

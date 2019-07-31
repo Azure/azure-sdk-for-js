@@ -1,0 +1,17 @@
+trigger: none
+
+jobs:
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+    parameters:
+      PackagePath: "sdk/cosmosdb/cosmos/"
+      Toolchain: npm
+      Matrix:
+        Windows_Node6:
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "6.x"
+          TestType: "node"
+      PreIntegrationSteps: cosmos-integration-nightly
+      EnvVars:
+        ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
+        MOCHA_TIMEOUT: 100000
+        NODE_TLS_REJECT_UNAUTHORIZED: 0

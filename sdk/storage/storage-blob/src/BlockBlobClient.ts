@@ -27,7 +27,6 @@ import {
   generateBlockID
 } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   URLConstants,
@@ -427,11 +426,15 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
@@ -453,7 +456,12 @@ export class BlockBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName?:
+      | string
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -463,7 +471,8 @@ export class BlockBlobClient extends BlobClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      credentialOrPipelineOrContainerName instanceof Credential ||
+      credentialOrPipelineOrContainerName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       options = blobNameOrOptions as NewPipelineOptions;

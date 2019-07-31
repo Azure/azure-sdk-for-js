@@ -153,7 +153,34 @@ export class ServiceClient {
     if (Array.isArray(options.requestPolicyFactories)) {
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
-      requestPolicyFactories = createDefaultRequestPolicyFactories(credentials, options);
+      let credentialsOrFactory: ServiceClientCredentials | RequestPolicyFactory | undefined = undefined;
+      if (isTokenCredential(credentials)) {
+        // Create a wrapped RequestPolicyFactory here so that we can provide the
+        // correct scope to the BearerTokenAuthenticationPolicy at the first time
+        // one is requested.  This is needed because generated ServiceClient
+        // implementations do not set baseUri until after ServiceClient's constructor
+        // is finished, leaving baseUri empty at the time when it is needed to
+        // build the correct scope name.
+        const wrappedPolicyFactory: () => RequestPolicyFactory = () => {
+          let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
+          let serviceClient = this;
+          return {
+            create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
+              if (bearerTokenPolicyFactory === undefined) {
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(credentials, `${serviceClient.baseUri || ""}/.default`)
+              }
+
+              return bearerTokenPolicyFactory.create(nextPolicy, options);
+            }
+          }
+        };
+
+        credentialsOrFactory = wrappedPolicyFactory();
+      } else {
+        credentialsOrFactory = credentials;
+      }
+
+      requestPolicyFactories = createDefaultRequestPolicyFactories(credentialsOrFactory, options);
       if (options.requestPolicyFactories) {
         const newRequestPolicyFactories: void | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
@@ -395,7 +422,7 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | TokenCredential | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -405,8 +432,6 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   if (credentials) {
     if (isRequestPolicyFactory(credentials)) {
       factories.push(credentials);
-    } else if (isTokenCredential(credentials)) {
-      factories.push(bearerTokenAuthenticationPolicy(credentials, "/.default"));
     } else {
       factories.push(signingPolicy(credentials));
     }

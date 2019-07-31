@@ -15,10 +15,9 @@ import {
   MessagingError,
   ReceivedEventData,
   EventHubConsumer,
-  delay
+  delay,
+  ReceiveHandler
 } from "../src";
-import { BatchingReceiver } from "../src/batchingReceiver";
-import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
@@ -29,7 +28,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
-  let breceiver: BatchingReceiver;
   let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
@@ -48,18 +46,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     await client.close();
   });
 
-  afterEach("close the sender link", async function(): Promise<void> {
-    if (breceiver) {
-      await breceiver.close();
-      debug("After each - Batching Receiver closed.");
-    }
-  });
-
   afterEach("close the receiver link", async function(): Promise<void> {
-    if (receiver) {
+    if (receiver && !receiver.isClosed) {
       await receiver.close();
       debug("After each - Receiver closed.");
     }
+    receiver = undefined;
   });
 
   describe("with partitionId 0 as number", function(): void {
@@ -74,42 +66,50 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
-    // TODO: Below test is commented due to https://github.com/Azure/azure-sdk-for-js/issues/3938
-    // it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
-    //   const partitionId = partitionIds[0];
-    //   debug("Creating new receiver with offset EndOfStream");
-    //   const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, EventPosition.latest());
-    //   const data = await receiver.receiveBatch(10, 10);
-    //   data.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
-    //   const events: EventData[] = [];
-    //   for (let i = 0; i < 10; i++) {
-    //     const ed: EventData = {
-    //       body: "Hello awesome world " + i
-    //     };
-    //     events.push(ed);
-    //   }
-    //   await client.createProducer({ partitionId: partitionId }).send(events);
-    //   debug(">>>>>>> Sent the new messages. We should only receive these messages.");
-    //   const data2 = await receiver.receiveBatch(10, 20);
-    //   debug("received messages: ", data2);
-    //   data2.length.should.equal(10, "Failed to receive the expected nummber of messages");
-    //   debug("Next receive on this partition should not receive any messages.");
-    //   const data3 = await receiver.receiveBatch(10, 10);
-    //   data3.length.should.equal(0, "Unexpected message received");
-    //   await receiver.close();
-    // });
+    it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      debug("Creating new receiver with offset EndOfStream");
+      const receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.latest()
+      );
+      const data = await receiver.receiveBatch(10, 10);
+      data.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
+      const events: EventData[] = [];
+      for (let i = 0; i < 10; i++) {
+        const ed: EventData = {
+          body: "Hello awesome world " + i
+        };
+        events.push(ed);
+      }
+      await client.createProducer({ partitionId: partitionId }).send(events);
+      debug(">>>>>>> Sent the new messages. We should only receive these messages.");
+      const data2 = await receiver.receiveBatch(10, 20);
+      debug("received messages: ", data2);
+      data2.length.should.equal(10, "Failed to receive the expected nummber of messages");
+      debug("Next receive on this partition should not receive any messages.");
+      const data3 = await receiver.receiveBatch(10, 10);
+      data3.length.should.equal(0, "Unexpected message received");
+      await receiver.close();
+    });
 
-    it("'from last enqueued sequence number' should receive messages correctly", async function(): Promise<void> {
+    it("'from last enqueued sequence number' should receive messages correctly", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const partitionInfo = await client.getPartitionProperties(partitionId);
       debug("Creating a receiver with last enqueued sequence number");
-      const receiver = client.createConsumer(
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
       );
       const data = await receiver.receiveBatch(10, 10);
-      data.length.should.equal(0, "Unexpected message received when using EventPosition.fromSequenceNumber()");
+      data.length.should.equal(
+        0,
+        "Unexpected message received when using EventPosition.fromSequenceNumber()"
+      );
       const events: EventData[] = [];
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
@@ -125,7 +125,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await receiver.close();
     });
 
-    it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
+    it("'after a particular offset' should receive messages correctly", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionProperties(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
@@ -139,7 +141,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
       };
       await client.createProducer({ partitionId: partitionId }).send([ed]);
-      debug("Sent the new message after creating the receiver. We should only receive this message.");
+      debug(
+        "Sent the new message after creating the receiver. We should only receive this message."
+      );
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
@@ -175,24 +179,25 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createProducer({ partitionId: partitionId }).send([ed2]);
       debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
       );
       debug("We should receive the last 2 messages.");
-      const data = await breceiver.receive(10, 30);
+      const data = await receiver.receiveBatch(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to receive the two expected messages");
       data[0].properties!.stamp.should.equal(uid, "First message has unexpected uid");
       data[1].properties!.stamp.should.equal(uid2, "Second message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
 
-    it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<void> {
+    it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionProperties(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
@@ -207,7 +212,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
       };
       await client.createProducer({ partitionId: partitionId }).send([ed]);
-      debug("Sent the new message after creating the receiver. We should only receive this message.");
+      debug(
+        "Sent the new message after creating the receiver. We should only receive this message."
+      );
 
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
@@ -220,7 +227,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data[0].properties!.stamp.should.equal(uid);
     });
 
-    it("'after the particular sequence number' should receive messages correctly", async function(): Promise<void> {
+    it("'after the particular sequence number' should receive messages correctly", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionProperties(partitionId);
       // send a new message. We should only receive this new message.
@@ -235,19 +244,20 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug(
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
-      debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      debug(
+        `Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`
+      );
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       );
-      const data = await breceiver.receive(10, 20);
+      const data = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to receive the expected single message");
       data[0].properties!.stamp.should.equal(uid, "Received message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
 
@@ -274,21 +284,22 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       };
       await client.createProducer({ partitionId: partitionId }).send([ed2]);
       debug(`Sent message 2 with stamp: ${uid}.`);
-      debug(`Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
+      debug(
+        `Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`
+      );
+      receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         partitionId,
         EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       );
       debug("We should receive the last 2 messages.");
-      const data = await breceiver.receive(10, 30);
+      const data = await receiver.receiveBatch(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to received two expected messages");
       data[0].properties!.stamp.should.equal(uid, "Message 1 has unexpected uid");
       data[1].properties!.stamp.should.equal(uid2, "Message 2 has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      const data2 = await receiver.receiveBatch(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
     });
   });
@@ -314,7 +325,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         let shouldStop = false;
         const events: ReceivedEventData[] = [];
 
-        const handler = receiver!.receive(event => {
+        const handler = receiver!.receive((event) => {
           if (!shouldStop) {
             events.push(event);
             shouldStop = true;
@@ -354,7 +365,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           const abortSignal = AbortController.timeout(0);
 
           const handler = receiver!.receive(
-            event => {
+            (event) => {
               if (!shouldStop) {
                 events.push(event);
                 shouldStop = true;
@@ -375,7 +386,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -402,7 +415,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           abortController.abort();
 
           const handler = receiver!.receive(
-            event => {
+            (event) => {
               if (!shouldStop) {
                 events.push(event);
                 shouldStop = true;
@@ -423,7 +436,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support creating a new handler after cancellation", async function(): Promise<void> {
+    it("should not support creating a new handler after cancellation", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -450,7 +465,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           abortController.abort();
 
           const handler = receiver!.receive(
-            event => {
+            (event) => {
               if (!shouldStop) {
                 events.push(event);
                 shouldStop = true;
@@ -470,22 +485,28 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         err.message.should.equal("The receive operation has been cancelled by the user.");
 
         const events: ReceivedEventData[] = [];
-        await new Promise((resolve, reject) => {
-          let shouldStop = false;
+        try {
+          await new Promise((resolve, reject) => {
+            let shouldStop = false;
 
-          const handler = receiver!.receive(event => {
-            if (!shouldStop) {
-              events.push(event);
-              shouldStop = true;
-              handler
-                .stop()
-                .then(() => resolve(events))
-                .catch(reject);
-            }
-          }, reject);
-        });
+            const handler = receiver!.receive((event) => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            }, reject);
+          });
+        } catch (err) {
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
+        }
 
-        events.length.should.equal(1);
+        events.length.should.equal(0);
       }
     });
   });
@@ -493,7 +514,24 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   describe("in batch mode #RunnableInBrowser", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, EventPosition.earliest());
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.earliest()
+      );
+      const data = await receiver.receiveBatch(5, 10);
+      debug("received messages: ", data);
+      data.length.should.equal(5, "Failed to receive five expected messages");
+    });
+
+    it("should receive messages correctly with maxRetries 0", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.earliest(),
+        { retryOptions: { maxRetries: 0 } }
+      );
       const data = await receiver.receiveBatch(5, 10);
       debug("received messages: ", data);
       data.length.should.equal(5, "Failed to receive five expected messages");
@@ -527,7 +565,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -556,7 +596,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support cancellation when a connection already exists", async function(): Promise<void> {
+    it("should support cancellation when a connection already exists", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -586,7 +628,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support calling receiveBatch after a cancellation", async function(): Promise<void> {
+    it("should not support calling receiveBatch after a cancellation", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -611,8 +655,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
-        const events = await receiver.receiveBatch(1, 60);
-        events.length.should.equal(1);
+        try {
+          await receiver.receiveBatch(1, 60);
+          throw new Error(`Test failure`);
+        } catch (err) {
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
+        }
       }
     });
   });
@@ -661,7 +711,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     it("should properly drain if broken out of", async function(): Promise<void> {
       const partitionId = partitionIds[0];
 
-      receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, EventPosition.latest());
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.latest()
+      );
       const eventIterator = receiver.getEventIterator();
 
       const eventPromise = eventIterator.next();
@@ -682,7 +736,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
       try {
         await sender.send(
-          expectedBodies.map(body => {
+          expectedBodies.map((body) => {
             return { body };
           })
         );
@@ -708,7 +762,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     it("should not return undefined if no messages are found", async function(): Promise<void> {
       const partitionId = partitionIds[0];
 
-      receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, EventPosition.latest());
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.latest()
+      );
       const eventIterator = receiver.getEventIterator({
         // behind the scenes, eventIterator will wait up to 60 seconds before returning.
         // set timeout to 70 seconds to give the iterator a chance to yield a value.
@@ -761,7 +819,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -793,7 +853,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should support creating a new iterator after a cancellation", async function(): Promise<void> {
+    it("should not support creating a new iterator after a cancellation", async function(): Promise<
+      void
+    > {
       const partitionId = partitionIds[0];
       const time = Date.now();
       // send a message that can be received
@@ -820,16 +882,17 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
-        const events = [];
 
         const eventIterator2 = receiver.getEventIterator();
-        for await (const event of eventIterator2) {
-          events.push(event);
-          break;
+        try {
+          for await (const _ of eventIterator2) {
+          }
+          throw new Error(`Test failure`);
+        } catch (err) {
+          err.message.should.match(
+            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
+          );
         }
-
-        events.length.should.equal(1);
-        events[0].should.haveOwnProperty("body");
       }
     });
   });
@@ -873,14 +936,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
 
         // switch to batcher
-        (await receiver.receiveBatch(5)).forEach(event => {
+        (await receiver.receiveBatch(5)).forEach((event) => {
           data.push(event);
         });
 
         // switch to handler
         let handlerReceivedCount = 0;
         const handler = receiver.receive(
-          async event => {
+          async (event) => {
             data.push(event);
 
             if (++handlerReceivedCount >= 5) {
@@ -894,11 +957,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
                 }
               }
 
-              data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+              data.length.should.equal(
+                messageCount,
+                `Failed to receive ${messageCount} expected messages`
+              );
 
               try {
                 data
-                  .map(event => event.sequenceNumber)
+                  .map((event) => event.sequenceNumber)
                   .reduce((prev, current) => {
                     // each sequenceNumber should only be incremented by 1
                     current.should.equal(prev + 1, `Invalid sequence of events`);
@@ -911,7 +977,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
               }
             }
           },
-          err => {
+          (err) => {
             throw err;
           }
         );
@@ -956,7 +1022,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             done(should.equal(error.name, "MessagingEntityNotFoundError"));
           }, 3000);
         };
-        const receiver = client.createConsumer("some-random-name", "0", EventPosition.earliest());
+        receiver = client.createConsumer("some-random-name", "0", EventPosition.earliest());
         receiver.receive(onMessage, onError);
         debug(">>>>>>>> attached the error handler on the receiver...");
       } catch (err) {
@@ -1001,7 +1067,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       let ownerLevelRcvr2: ReceiveHandler;
       const onError = (error: MessagingError | Error) => {
         debug(">>>> ownerLevel Receiver 1", error);
-        throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 2.");
+        throw new Error(
+          "An Error should not have happened for ownerLevel receiver with ownerLevel value 2."
+        );
       };
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> ownerLevel Receiver 1", data);
@@ -1030,7 +1098,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
               debug("Successfully closed the ownerLevel receivers 1 and 2.");
               done();
             })
-            .catch(err => {
+            .catch((err) => {
               debug("error occurred while closing the receivers... ", err);
               done();
             });
@@ -1069,7 +1137,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             debug("Successfully closed the ownerLevel receivers 1 and 2.");
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             debug("error occurred while closing the receivers... ", err);
             done();
           });
@@ -1090,7 +1158,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
           debug(">>>> ownerLevel Receiver 2", error);
-          throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 2.");
+          throw new Error(
+            "An Error should not have happened for ownerLevel receiver with ownerLevel value 2."
+          );
         };
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> ownerLevel Receiver 2", data);
@@ -1114,7 +1184,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       let nonownerLevelRcvr: ReceiveHandler;
       const onerr1 = (error: MessagingError | Error) => {
         debug(">>>> ownerLevel Receiver ", error);
-        throw new Error("An Error should not have happened for ownerLevel receiver with ownerLevel value 1.");
+        throw new Error(
+          "An Error should not have happened for ownerLevel receiver with ownerLevel value 1."
+        );
       };
       const onmsg1 = (data: ReceivedEventData) => {
         debug(">>>> ownerLevel Receiver ", data);
@@ -1142,7 +1214,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             debug("Successfully closed the nonownerLevel and ownerLevel receivers");
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             debug("error occurred while closing the receivers... ", err);
             done();
           });
@@ -1178,7 +1250,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             debug("Successfully closed the nonownerLevel and ownerLevel receivers");
             done();
           })
-          .catch(err => {
+          .catch((err) => {
             debug("error occurred while closing the receivers... ", err);
             done();
           });
@@ -1186,7 +1258,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg3 = (data: ReceivedEventData) => {
         debug(">>>> non ownerLevel Receiver", data);
       };
-      receiver1 = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, EventPosition.latest());
+      receiver1 = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.latest()
+      );
       nonownerLevelRcvr = receiver1.receive(onmsg3, onerr3);
       debug("Created non ownerLevel receiver %s", nonownerLevelRcvr);
       setTimeout(() => {
@@ -1247,7 +1323,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         } catch (err) {
           debug("Receiver received an error", err);
           should.exist(err);
-          err.message.should.match(/.*Invalid EventHub address. It must be either of the following.*/gi);
+          err.message.should.match(
+            /.*Invalid EventHub address. It must be either of the following.*/gi
+          );
         }
       });
 
@@ -1316,8 +1394,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
               debug("Successfully closed all the receivers..");
               done();
             })
-            .catch(err => {
-              debug("An error occurred while closing the receiver in the 'QuotaExceededError' test.", err);
+            .catch((err) => {
+              debug(
+                "An error occurred while closing the receiver in the 'QuotaExceededError' test.",
+                err
+              );
               done();
             });
         };

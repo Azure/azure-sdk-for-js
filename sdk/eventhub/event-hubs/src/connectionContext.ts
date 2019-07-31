@@ -130,7 +130,8 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError = context.connection && context.connection.error ? context.connection.error : undefined;
+      const connectionError =
+        context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
         log.error(
           "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
@@ -185,7 +186,7 @@ export namespace ConnectionContext {
               sender.name,
               sender.address
             );
-            sender.onDetached(connectionError || contextError).catch(err => {
+            sender.onDetached(connectionError || contextError).catch((err) => {
               log.error(
                 "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
@@ -214,7 +215,7 @@ export namespace ConnectionContext {
               receiver.name,
               receiver.address
             );
-            receiver.onDetached(connectionError || contextError).catch(err => {
+            receiver.onDetached(connectionError || contextError).catch((err) => {
               log.error(
                 "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id,
@@ -236,9 +237,45 @@ export namespace ConnectionContext {
       }
     };
 
+    const protocolError: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
+    const error: OnAmqpEvent = async (context: EventContext) => {
+      if (context.connection && context.connection.error) {
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.connection && context.connection.error
+        );
+      }
+      if (context.error) {
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          context.error
+        );
+      }
+    };
+
     // Add listeners on the connection object.
     connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
     connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
+    connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
+    connectionContext.connection.on(ConnectionEvents.error, error);
 
     log.context("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;

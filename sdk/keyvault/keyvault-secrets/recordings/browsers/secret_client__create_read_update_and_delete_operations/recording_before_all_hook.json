@@ -1,0 +1,1629 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 19 Jul 2019 00:21:06 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "4ac14261-4787-4351-9e89-5bbad33efd00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canaddasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\"}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canaddasecret-/f540d3ae1ca84d188c250feaa00d21fc\",\"attributes\":{\"enabled\":true,\"created\":1563495666,\"updated\":1563495666,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "267",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:05 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "93233ef4-9d38-4bd1-a357-7b0efd76b6d3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canaddasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canaddasecret-\",\"deletedDate\":1563495666,\"scheduledPurgeDate\":1571271666,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canaddasecret-/f540d3ae1ca84d188c250feaa00d21fc\",\"attributes\":{\"enabled\":true,\"created\":1563495666,\"updated\":1563495666,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "414",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:06 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "ff061849-cdf0-46ae-8ef5-34f2ecace370",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canaddasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:06 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "b4fafc7d-9b8d-4808-8c36-9df797b49c21",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canaddasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:17 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "26125448-de93-47c6-a632-54f273d971c8",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canaddasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "6915d879-2db8-4060-87d2-fa4a54217320",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:21:27 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canabortaddingasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\",\"attributes\":{}}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canabortaddingasecret-/169d32b19da04f27826b0cc3faa9c952\",\"attributes\":{\"enabled\":true,\"created\":1563495687,\"updated\":1563495687,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "275",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:27 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "0f2628e6-4a30-4930-a140-ad2874f09c43",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithEmptyValue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"\"}",
+   "status": 200,
+   "response": "{\"value\":\"\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithEmptyValue-/5e6c82c5c7c349b29c08cebe12e3f188\",\"attributes\":{\"enabled\":true,\"created\":1563495687,\"updated\":1563495687,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "269",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:27 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "1e1b403f-e9b7-4ddd-b9a3-c6f3cc4c6b29",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithEmptyValue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithEmptyValue-\",\"deletedDate\":1563495687,\"scheduledPurgeDate\":1571271687,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithEmptyValue-/5e6c82c5c7c349b29c08cebe12e3f188\",\"attributes\":{\"enabled\":true,\"created\":1563495687,\"updated\":1563495687,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "442",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:27 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "e008c1e2-1acc-45dc-b91a-aac83a0ddeb2",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithEmptyValue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:27 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "80141e12-82c0-46ed-9a8c-33e92ba3be7b",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithEmptyValue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "5c17b279-29d5-442e-becb-0594a4a0d585",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:21:37 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\",\"attributes\":{\"exp\":32503680000}}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-/209bb33ebfd84ffd941ddcf40a40e126\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495698,\"updated\":1563495698,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "299",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:37 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "5c8e2d1b-34e3-4c95-a064-c221e0223471",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-/209bb33ebfd84ffd941ddcf40a40e126\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495698,\"updated\":1563495698,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "299",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:38 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "c995ef17-f957-40f7-a8b1-05a03a3a9794",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithattributes-\",\"deletedDate\":1563495698,\"scheduledPurgeDate\":1571271698,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cansetasecretwithattributes-/209bb33ebfd84ffd941ddcf40a40e126\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495698,\"updated\":1563495698,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "460",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:38 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "4a53f168-37aa-45ff-b99f-d1049d67fe95",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithattributes-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:38 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "36c14c8e-c184-41f1-8d9f-14a7546a51a0",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithattributes-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:48 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "d83ec146-ee35-4715-a9fd-77e90f15bac3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cansetasecretwithattributes-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "aee7b086-d325-4657-b30d-dbfb58d9ee1c",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\"}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/9e67eb89fe544c47ab7f85283bc5fd96\",\"attributes\":{\"enabled\":true,\"created\":1563495719,\"updated\":1563495719,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "270",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "40db330d-f307-4539-967b-c93c0965fa94",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"attributes\":{\"exp\":32503680000}}",
+   "status": 200,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/9e67eb89fe544c47ab7f85283bc5fd96\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495719,\"updated\":1563495719,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "265",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6db4dd96-5e5c-46a7-9871-84aff25406c8",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/9e67eb89fe544c47ab7f85283bc5fd96\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495719,\"updated\":1563495719,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "288",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "e7a30eea-0a7e-4e5b-b2ea-1a235190ec45",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateasecret-\",\"deletedDate\":1563495719,\"scheduledPurgeDate\":1571271719,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateasecret-/9e67eb89fe544c47ab7f85283bc5fd96\",\"attributes\":{\"enabled\":true,\"exp\":32503680000,\"created\":1563495719,\"updated\":1563495719,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "438",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "e8c1ce05-d5e2-4235-922a-6f943723d603",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:21:58 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "575f4857-022d-4eae-b44e-6f7310247d1b",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "61bee5af-c037-48e5-983b-9d70cba0a9ed",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:22:09 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\",\"attributes\":{\"enabled\":false}}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-/f337cbde990b43b9a5964b66f65bd6fb\",\"attributes\":{\"enabled\":false,\"created\":1563495729,\"updated\":1563495729,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "279",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:09 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "419ac880-1bde-4953-854e-870333593b35",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"attributes\":{\"exp\":32503680000}}",
+   "status": 200,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-/f337cbde990b43b9a5964b66f65bd6fb\",\"attributes\":{\"enabled\":false,\"exp\":32503680000,\"created\":1563495729,\"updated\":1563495730,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "274",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:09 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "38dee489-bc5f-415e-8701-3a41791244e1",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateadisabledSecret-\",\"deletedDate\":1563495730,\"scheduledPurgeDate\":1571271730,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canupdateadisabledSecret-/f337cbde990b43b9a5964b66f65bd6fb\",\"attributes\":{\"enabled\":false,\"exp\":32503680000,\"created\":1563495729,\"updated\":1563495730,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "455",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:10 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "4e97f0cf-464e-4dd5-8fff-48e5bb5de1ef",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:10 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "380f483e-3a29-40f3-830c-96f25337263d",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:20 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "d1965eca-5aca-434c-bec5-75b1a2a49655",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canupdateadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "348136c0-7d7d-456d-a8c1-e516328b7065",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:22:30 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\"}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-/421a1b8b588940489b2bab3ec52d2827\",\"attributes\":{\"enabled\":true,\"created\":1563495750,\"updated\":1563495750,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "267",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:30 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "388155fe-c00e-4d7a-a235-58b661122e46",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-/421a1b8b588940489b2bab3ec52d2827\",\"attributes\":{\"enabled\":true,\"created\":1563495750,\"updated\":1563495750,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "267",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:30 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "50272c8c-19b9-4b6e-a379-220816849be7",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetasecret-\",\"deletedDate\":1563495750,\"scheduledPurgeDate\":1571271750,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecret-/421a1b8b588940489b2bab3ec52d2827\",\"attributes\":{\"enabled\":true,\"created\":1563495750,\"updated\":1563495750,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "414",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:30 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "1af86e68-4b38-4b99-9f7f-b52bfb5448cc",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:30 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6524879c-18cc-4c8c-a09f-8662e1c3c0b0",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "1ca3ec18-4786-4b16-abc0-2c225049b3f6",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:22:40 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cantgetadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\",\"attributes\":{\"enabled\":false}}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cantgetadisabledSecret-/ea6f543a77c04a52a4c58a0caeb7abf5\",\"attributes\":{\"enabled\":false,\"created\":1563495761,\"updated\":1563495761,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "277",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:40 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "28c76b4e-59b9-41f1-bd39-e1139a9ed619",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cantgetadisabledSecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 403,
+   "response": "{\"error\":{\"code\":\"Forbidden\",\"message\":\"Operation get is not allowed on a disabled secret.\",\"innererror\":{\"code\":\"SecretDisabled\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "403",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "132",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:40 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8b01f1ed-46fd-403a-95e3-08e9e90a97d1",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cantgetadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cantgetadisabledSecret-\",\"deletedDate\":1563495761,\"scheduledPurgeDate\":1571271761,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cantgetadisabledSecret-/ea6f543a77c04a52a4c58a0caeb7abf5\",\"attributes\":{\"enabled\":false,\"created\":1563495761,\"updated\":1563495761,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "433",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:41 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "a164af9f-f7cf-4f46-957e-a29526426c75",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cantgetadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:41 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "2aeb7524-bca7-458d-a539-c50efcfe89bc",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cantgetadisabledSecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "e35b53c0-1f05-4579-86da-1e6ccd92b8ab",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:22:51 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\"}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-/a8a59fbe609345d1ab2ffc73e756606c\",\"attributes\":{\"enabled\":true,\"created\":1563495772,\"updated\":1563495772,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "295",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:52 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "23f8935c-1c80-49f7-8dfa-78ef2f5d158a",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-/a8a59fbe609345d1ab2ffc73e756606c\",\"attributes\":{\"enabled\":true,\"created\":1563495772,\"updated\":1563495772,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "295",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:52 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "829c3a80-26ec-4d95-a191-e85c85b34495",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-\",\"deletedDate\":1563495772,\"scheduledPurgeDate\":1571271772,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-/a8a59fbe609345d1ab2ffc73e756606c\",\"attributes\":{\"enabled\":true,\"created\":1563495772,\"updated\":1563495772,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "470",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:52 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "83b63f99-ea28-4dca-964f-12c24de9c754",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:22:52 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "3d12d82e-807d-4b60-83d6-9058e50a462d",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:02 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "e7f5d649-99de-4b3f-b5d4-1ea28ce9add1",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canretrievethelatestversionofasecretvalue-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "1cc6e7c5-b988-4996-a240-fb4aed1a88b5",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetasecretNonExisting-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-cangetasecretNonExisting-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "123",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f0161476-9c8a-4c01-bd9d-0bded598ca32",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"SECRET_VALUE\"}",
+   "status": 200,
+   "response": "{\"value\":\"SECRET_VALUE\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecret-/abec8fb0523b4262a71f19983f186315\",\"attributes\":{\"enabled\":true,\"created\":1563495793,\"updated\":1563495793,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "270",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "76392dab-3db9-43a8-93a3-18c05cb166a3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-candeleteasecret-\",\"deletedDate\":1563495793,\"scheduledPurgeDate\":1571271793,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecret-/abec8fb0523b4262a71f19983f186315\",\"attributes\":{\"enabled\":true,\"created\":1563495793,\"updated\":1563495793,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "420",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "2c7fb705-8e38-4f92-ab00-c18f7c31eb17",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-candeleteasecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "115",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f47cadb9-e628-4ef5-8cd4-9c2b35df46cf",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-candeleteasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:12 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "62da7f11-c0c9-492c-9486-0996a2a11959",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-candeleteasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "1d7feee3-cf49-4c1a-87c2-2fdab6c17836",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:23:23 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-candeleteasecretNonExisting-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-candeleteasecretNonExisting-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "126",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:23 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "627c844c-9cf4-4f87-ab1b-34ef73c682a1",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-/6edc6b8886134536995ed05b6b2f2c8c\",\"attributes\":{\"enabled\":true,\"created\":1563495803,\"updated\":1563495803,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "265",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:23 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "379241aa-105a-49a0-b5a7-cc381ca4d030",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-\",\"deletedDate\":1563495803,\"scheduledPurgeDate\":1571271803,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-/6edc6b8886134536995ed05b6b2f2c8c\",\"attributes\":{\"enabled\":true,\"created\":1563495803,\"updated\":1563495803,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "428",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:24 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "64fa85e3-ff44-4b45-9972-af280c733bc9",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: CRUDSecretName-cangetadeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "127",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:24 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "a308af05-d9a9-4890-997d-fc87423a1e89",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: CRUDSecretName-cangetadeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "127",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:34 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6711503f-c151-4c4c-b311-722713025322",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-\",\"deletedDate\":1563495803,\"scheduledPurgeDate\":1571271803,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecret-/6edc6b8886134536995ed05b6b2f2c8c\",\"attributes\":{\"enabled\":true,\"created\":1563495803,\"updated\":1563495803,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "428",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:43 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f66e4aba-4afd-40ea-9062-e7eff466131c",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-cangetadeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "795950bf-b053-4d17-9ea6-9acf58404216",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 19 Jul 2019 00:23:44 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-cangetadeletedsecretNonExisting-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-cangetadeletedsecretNonExisting-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.82.238.224;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "130",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 19 Jul 2019 00:23:44 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8b606877-12f0-4fda-a29c-0b7de5995a46",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

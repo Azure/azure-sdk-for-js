@@ -19,7 +19,6 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
@@ -309,12 +308,16 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
-  constructor(url: string, credential: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of PageBlobClient.
    *
@@ -333,7 +336,12 @@ export class PageBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName: string | Credential | TokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName:
+      | string
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -343,7 +351,8 @@ export class PageBlobClient extends BlobClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      credentialOrPipelineOrContainerName instanceof Credential ||
+      credentialOrPipelineOrContainerName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       options = blobNameOrOptions as NewPipelineOptions;

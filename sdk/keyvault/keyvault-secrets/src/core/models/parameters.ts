@@ -10,6 +10,16 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export const acceptLanguage: coreHttp.OperationParameter = {
+  parameterPath: "acceptLanguage",
+  mapper: {
+    serializedName: "accept-language",
+    defaultValue: "en-US",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
