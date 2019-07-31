@@ -27,7 +27,11 @@ import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import * as crypto from "crypto";
 import * as constants from "constants";
-const keyto = require("@trust/keyto");
+
+let keyto: any;
+if (isNode) {
+  keyto = require("@trust/keyto");
+}
 
 /**
  * The client to interact with the KeyVault cryptography functionality
@@ -40,7 +44,7 @@ export class CryptographyClient {
    */
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
     if (typeof this.key === "string") {
-      if (!this.name || this.name == "") {
+      if (!this.name || this.name === "") {
         throw new Error("getKey requires a key with a name");
       }
       const key = await this.client.getKey(
@@ -66,23 +70,25 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: EncryptOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
+    if (isNode) {
+      await this.fetchFullKeyIfPossible();
 
-    if (typeof this.key !== "string") {
-      switch (algorithm) {
-        case "RSA1_5": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+      if (typeof this.key !== "string") {
+        switch (algorithm) {
+          case "RSA1_5": {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-          const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-          return encrypted;
-        };
-        case "RSA-OAEP": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+            const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
+            return encrypted;
+          };
+          case "RSA-OAEP": {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-          return encrypted;
-        };
+            const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
+            return encrypted;
+          };
+        }
       }
     }
 
@@ -117,23 +123,25 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    await this.fetchFullKeyIfPossible();
+    if (isNode) {
+      await this.fetchFullKeyIfPossible();
 
-    if (typeof this.key !== "string") {
-      switch (algorithm) {
-       case "RSA1_5": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+      if (typeof this.key !== "string") {
+        switch (algorithm) {
+        case "RSA1_5": {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-          const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-          return encrypted;
-        };
-        case "RSA-OAEP": {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+            const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
+            return encrypted;
+          };
+          case "RSA-OAEP": {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-          return encrypted;
-        };
+            const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
+            return encrypted;
+          };
+        }
       }
     }
 
@@ -240,37 +248,39 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    await this.fetchFullKeyIfPossible();
+    if (isNode) {
+      await this.fetchFullKeyIfPossible();
 
-    if (this.key !== "string") {
-      switch (algorithm) {
-        case ("RS256"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+      if (this.key !== "string") {
+        switch (algorithm) {
+          case ("RS256"): {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          const verifier = crypto.createVerify("SHA256");
-          verifier.update(Buffer.from(data));
-          verifier.end();
+            const verifier = crypto.createVerify("SHA256");
+            verifier.update(Buffer.from(data));
+            verifier.end();
 
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
-        case ("RS384"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            return verifier.verify(keyPEM, Buffer.from(signature));
+          };
+          case ("RS384"): {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          const verifier = crypto.createVerify("SHA384");
-          verifier.update(Buffer.from(data));
-          verifier.end();
+            const verifier = crypto.createVerify("SHA384");
+            verifier.update(Buffer.from(data));
+            verifier.end();
 
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
-        case ("RS512"): {
-          let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            return verifier.verify(keyPEM, Buffer.from(signature));
+          };
+          case ("RS512"): {
+            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
-          const verifier = crypto.createVerify("SHA512");
-          verifier.update(Buffer.from(data));
-          verifier.end();
+            const verifier = crypto.createVerify("SHA512");
+            verifier.update(Buffer.from(data));
+            verifier.end();
 
-          return verifier.verify(keyPEM, Buffer.from(signature));
-        };
+            return verifier.verify(keyPEM, Buffer.from(signature));
+          };
+        }
       }
     }
 

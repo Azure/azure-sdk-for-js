@@ -79,6 +79,7 @@ dependencies:
   chai-string: 1.5.0_chai@4.2.0
   create-hmac: 1.1.7
   cross-env: 5.2.0
+  crypto: 1.0.1
   death: 1.1.0
   debug: 3.2.6
   delay: 4.3.0
@@ -2911,6 +2912,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
+  /crypto/1.0.1:
+    deprecated: 'This package is no longer supported. It''s now a built-in Node module. If you''ve depended on crypto, you should switch to the one that''s built-in.'
+    dev: false
+    resolution:
+      integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==
   /currently-unhandled/0.4.1:
     dependencies:
       array-find-index: 1.0.2
@@ -10252,6 +10258,7 @@ packages:
       '@azure/abort-controller': 1.0.0-preview.1
       '@azure/core-paging': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.4
+      '@trust/keyto': 0.3.7
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.0
@@ -10265,6 +10272,7 @@ packages:
       assert: 1.5.0
       chai: 4.2.0
       cross-env: 5.2.0
+      crypto: 1.0.1
       dotenv: 8.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -10313,7 +10321,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-GTQM+glliP/d7vxPSkXYr+h/mCWBAo8KdWEuGHgrnDj8ngOlcJbiORLMpD9aRBan38Jb+rgBSU5j0w8Gwu8oKA==
+      integrity: sha512-GRhecSpKJjI9ugkANAq+62b9zIox0aB/jiS0kyVqdMFLUTuqS3zPcgSRgnnhoDhwaLJXbLi9414OYWdDnQ8YsQ==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10383,7 +10391,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-IZICYGD5UiOZ7FMYYPww1sFnrztVufSD4PEeM53ZmtATBcr88D8hornf37FLgN0GF0jVtr/OAija9ev+mH1Chg==
+      integrity: sha512-e+a+ULs+RLtRRqV/FDghXuuoV2d3jsgArafnFd8tE348UWkqrGmI2N6lcOkBHpQ5+mSSCpl3wT0ayC+wmlmM+Q==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10834,6 +10842,7 @@ specifiers:
   chai-string: ^1.5.0
   create-hmac: ^1.1.7
   cross-env: ^5.2.0
+  crypto: 1.0.1
   death: ^1.1.0
   debug: ^3.1.0
   delay: ^4.2.0
