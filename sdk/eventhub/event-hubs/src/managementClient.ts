@@ -352,7 +352,9 @@ export class ManagementClient extends LinkEntity {
             const initOperationStartTime = Date.now();
 
             const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const desc: string = `The request with message_id "${
+                request.message_id
+              }" timed out. Please try again later.`;
               const e: Error = {
                 name: "OperationTimeoutError",
                 message: desc
@@ -417,10 +419,9 @@ export class ManagementClient extends LinkEntity {
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
         maxRetries: retryOptions.maxRetries,
-        delayInMs: retryOptions.retryInterval,
-        retryPolicy: retryOptions.retryPolicy,
-        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+        delayInMs: retryOptions.retryDelayInMs,
+        mode: retryOptions.mode,
+        maxRetryDelayInMs: retryOptions.maxRetryDelayInMs
       };
       return (await retry<Message>(config)).body;
     } catch (err) {

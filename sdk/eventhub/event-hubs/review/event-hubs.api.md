@@ -15,7 +15,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
-import { RetryPolicy } from '@azure/core-amqp';
+import { RetryMode } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
@@ -281,11 +281,10 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
-    maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
-    minExponentialRetryDelayInMs?: number;
-    retryInterval?: number;
-    retryPolicy?: RetryPolicy;
+    maxRetryDelayInMs?: number;
+    mode?: RetryMode;
+    retryDelayInMs?: number;
     timeoutInMs?: number;
 }
 

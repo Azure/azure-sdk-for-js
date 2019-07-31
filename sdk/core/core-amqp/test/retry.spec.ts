@@ -9,7 +9,7 @@ import {
   Constants,
   delay,
   MessagingError,
-  RetryPolicy
+  RetryMode
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
@@ -18,12 +18,11 @@ const should = chai.should();
 import * as dotenv from "dotenv";
 dotenv.config();
 
-[RetryPolicy.ExponentialRetryPolicy, RetryPolicy.LinearRetryPolicy].forEach(
+[RetryMode.Exponential, RetryMode.Fixed].forEach(
   () =>
-    function(retryPolicy: RetryPolicy): void {
-      const retryPolicyName =
-        retryPolicy === RetryPolicy.ExponentialRetryPolicy ? "Exponential" : "Linear";
-      describe(`retry function for ${retryPolicyName}`, function() {
+    function(mode: RetryMode): void {
+      const retryModeName = mode === RetryMode.Exponential ? "Exponential" : "Fixed";
+      describe(`retry function for ${retryModeName}`, function() {
         it("should succeed if the operation succeeds.", async function() {
           let counter = 0;
           try {
@@ -39,8 +38,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.cbsAuth,
               delayInMs: 15000,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -67,8 +65,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.management,
               delayInMs: 15000,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             await retry(config);
           } catch (err) {
@@ -102,8 +99,7 @@ dotenv.config();
               operationType: RetryOperationType.receiverLink,
               maxRetries: 2,
               delayInMs: 500,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -141,8 +137,7 @@ dotenv.config();
               operationType: RetryOperationType.senderLink,
               maxRetries: 2,
               delayInMs: 500,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -181,8 +176,7 @@ dotenv.config();
               operationType: RetryOperationType.sendMessage,
               maxRetries: 2,
               delayInMs: 500,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             await retry(config);
           } catch (err) {
@@ -208,8 +202,7 @@ dotenv.config();
               operationType: RetryOperationType.session,
               maxRetries: 4,
               delayInMs: 500,
-              minExponentialRetryDelayInMs: 0,
-              retryPolicy: retryPolicy
+              mode: mode
             };
             await retry(config);
           } catch (err) {
@@ -237,8 +230,7 @@ dotenv.config();
                 connectionId: "connection-1",
                 operationType: RetryOperationType.cbsAuth,
                 delayInMs: 500,
-                minExponentialRetryDelayInMs: 0,
-                retryPolicy: retryPolicy
+                mode: mode
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -266,8 +258,7 @@ dotenv.config();
                 operationType: RetryOperationType.management,
                 maxRetries: Infinity,
                 delayInMs: 500,
-                minExponentialRetryDelayInMs: 0,
-                retryPolicy: retryPolicy
+                mode: mode
               };
               await retry(config);
             } catch (err) {
@@ -301,8 +292,7 @@ dotenv.config();
                 operationType: RetryOperationType.receiverLink,
                 maxRetries: Infinity,
                 delayInMs: 500,
-                minExponentialRetryDelayInMs: 0,
-                retryPolicy: retryPolicy
+                mode: mode
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -340,8 +330,7 @@ dotenv.config();
                 operationType: RetryOperationType.senderLink,
                 maxRetries: Infinity,
                 delayInMs: 500,
-                minExponentialRetryDelayInMs: 0,
-                retryPolicy: retryPolicy
+                mode: mode
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -380,8 +369,7 @@ dotenv.config();
                 operationType: RetryOperationType.sendMessage,
                 maxRetries: Constants.defaultMaxRetriesForConnection,
                 delayInMs: 1,
-                minExponentialRetryDelayInMs: 0,
-                retryPolicy: retryPolicy
+                mode: mode
               };
               await retry(config);
             } catch (err) {

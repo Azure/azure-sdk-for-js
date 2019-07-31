@@ -11,7 +11,7 @@ import {
   ConnectionConfig,
   isTokenCredential,
   Constants,
-  RetryPolicy
+  RetryMode
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -35,26 +35,21 @@ export interface RetryOptions {
   /**
    * Number of milliseconds to wait between attempts.
    */
-  retryInterval?: number;
+  retryDelayInMs?: number;
   /**
    * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
    * A minimum value of `60000` milliseconds will be used if a value not greater than this is provided.
    */
   timeoutInMs?: number;
   /**
-   * @property {RetryPolicy} [retryPolicy] Denotes which retry policy to apply. If undefined, defaults to `LinearRetryPolicy`
+   * @property {RetryMode} [mode] Denotes which retry mode to apply. If undefined, defaults to `Fixed`
    */
-  retryPolicy?: RetryPolicy;
+  mode?: RetryMode;
   /**
-   * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
+   * @property {number} [maxRetryDelayInMs] Denotes the maximum delay between retries
    * that the retry attempts will be capped at. Applicable only when performing exponential retry.
    */
-  maxExponentialRetryDelayInMs?: number;
-  /**
-   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay between retries
-   * to use. Applicable only when performing exponential retry.
-   */
-  minExponentialRetryDelayInMs?: number;
+  maxRetryDelayInMs?: number;
 }
 
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {

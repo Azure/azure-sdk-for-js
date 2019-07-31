@@ -292,7 +292,9 @@ export class EventHubConsumer {
           const name = baseConsumer && baseConsumer.name;
           const address = baseConsumer && baseConsumer.address;
           const desc: string =
-            `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
+            `[${
+              this._context.connectionId
+            }] The request operation on the Receiver "${name}" with ` +
             `address "${address}" has been cancelled by the user.`;
           log.error(desc);
         };
@@ -404,13 +406,12 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInMs: retryOptions.retryInterval,
+      delayInMs: retryOptions.retryDelayInMs,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
       maxRetries: retryOptions.maxRetries,
-      retryPolicy: retryOptions.retryPolicy,
-      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+      mode: retryOptions.mode,
+      maxRetryDelayInMs: retryOptions.maxRetryDelayInMs
     };
     return retry<ReceivedEventData[]>(config);
   }
@@ -441,7 +442,9 @@ export class EventHubConsumer {
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages) {
-      const errorMessage = `The EventHubConsumer for "${this._context.config.entityPath}" is already receiving messages.`;
+      const errorMessage = `The EventHubConsumer for "${
+        this._context.config.entityPath
+      }" is already receiving messages.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
@@ -452,7 +455,9 @@ export class EventHubConsumer {
     throwErrorIfConnectionClosed(this._context);
     if (!this._baseConsumer || this.isClosed) {
       const errorMessage =
-        `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
+        `The EventHubConsumer for "${
+          this._context.config.entityPath
+        }" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
       log.error(`[${this._context.connectionId}] %O`, error);

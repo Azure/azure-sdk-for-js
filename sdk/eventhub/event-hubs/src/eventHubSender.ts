@@ -364,7 +364,9 @@ export class EventHubSender extends LinkEntity {
     }
     return new Promise<number>(async (resolve, reject) => {
       const rejectOnAbort = () => {
-        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
+        const desc: string = `[${
+          this._context.connectionId
+        }] The create batch operation has been cancelled by the user.`;
         log.error(desc);
         const error = new AbortError(`The create batch operation has been cancelled by the user.`);
         reject(error);
@@ -397,10 +399,9 @@ export class EventHubSender extends LinkEntity {
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             maxRetries: retryOptions.maxRetries,
-            delayInMs: retryOptions.retryInterval,
-            retryPolicy: retryOptions.retryPolicy,
-            minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+            delayInMs: retryOptions.retryDelayInMs,
+            mode: retryOptions.mode,
+            maxRetryDelayInMs: retryOptions.maxRetryDelayInMs
           };
 
           return retry<void>(config);
@@ -566,8 +567,9 @@ export class EventHubSender extends LinkEntity {
 
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
-            `address "${this.address}" has been cancelled by the user.`;
+            `[${this._context.connectionId}] The send operation on the Sender "${
+              this.name
+            }" with ` + `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
@@ -745,10 +747,9 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       maxRetries: retryOptions.maxRetries,
-      delayInMs: retryOptions.retryInterval,
-      retryPolicy: retryOptions.retryPolicy,
-      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+      delayInMs: retryOptions.retryDelayInMs,
+      mode: retryOptions.mode,
+      maxRetryDelayInMs: retryOptions.maxRetryDelayInMs
     };
     return retry<void>(config);
   }
