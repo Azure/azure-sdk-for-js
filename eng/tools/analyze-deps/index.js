@@ -153,10 +153,7 @@ const main = async () => {
     packages: {},
     dependencies: {},
     external: [],
-    inconsistent: [],
-    frozen: {},
-    new_reqs: {},
-    changed_reqs: {}
+    inconsistent: []
   };
 
   const rushPackages = await getRushPackages(path.resolve(`${__dirname}/../../../rush.json`));

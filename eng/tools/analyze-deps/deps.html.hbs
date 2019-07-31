@@ -159,20 +159,6 @@
         {{else}}
           No inconsistent package dependency versions were discovered.<br /><br />
         {{/if}}
-        {{#if frozen}}
-          {{ len frozen }} dependency {{ pluralize (len frozen) 'version was' 'versions were' }} discovered in the <a href="#lockfile">lockfile</a>.<br />
-          {{#if new_reqs}}
-            <strong>{{ len new_reqs }} {{ pluralize (len new_reqs) 'dependency is' 'dependencies are' }} missing from the lockfile.</strong><br />
-          {{/if}}
-          {{#if changed_reqs}}
-            <strong>{{ len changed_reqs }} dependency {{ pluralize (len changed_reqs) 'version does' 'versions do' }} not match the version in the lockfile.</strong><br />
-          {{/if}}
-          {{#unless (or new_reqs changed_reqs)}}
-            All declared dependency versions were validated against those in the lockfile.<br />
-          {{/unless}}
-        {{else}}
-          <strong>No lockfile is present in the repo, declared dependency versions were not able to be validated.</strong><br />
-        {{/if}}
         <br />This report scanned {{ len packages }} <a href="#packages">{{ pluralize (len packages) 'package' 'packages' }}</a>.
     </p>
     <a name="dependencies" />
@@ -204,84 +190,6 @@
       </table>
       <br />
     {{/each}}
-    <br /><br />
-    <hr /><br /><br />
-    <a name="lockfile" />
-    <table class="condensed">
-      <thead>
-        <tr>
-          <th colspan="3"><strong>Dependencies Frozen in Lockfile</strong></th>
-        </tr>
-        {{#if frozen}}
-          <tr>
-            <th>Dependency</th>
-            <th>Frozen Version</th>
-            <th>Dependency State</th>
-          </tr>
-        {{/if}}
-      </thead>
-      <tbody>
-        {{#each frozen as |versions name|}}
-          <tr>
-            <td><a href="#dep_{{ name }}">{{ name }}</a></td>
-            <td>{{ default versions.[0] '(empty)' }}</td>
-            {{#if missing_reqs.[name]}}
-              <td>⚠️ No packages reference this dependency</td>
-            {{else if changed_reqs.[name]}}
-              <td>
-                <div class="tooltip">❌ One or more packages reference a different version of this dependency
-                  <span class="tooltiptext">
-                    {{#each dependencies as |libs spec|}}
-                      {{#if (ne spec versions.[0])}}
-                        {{#each libs as |package|}}
-                          {{ package }} ({{ spec }})
-                          <br />
-                        {{/each}}
-                      {{/if}}
-                    {{/each}}
-                  </span>
-                </div>
-              </td>
-            {{else}}
-              <td>✅ All packages validated against this dependency and version</td>
-            {{/if}}
-          </tr>
-        {{else}}
-          <tr>
-            <td colspan="2">Unable to open shared_requirements.txt, shared requirements have not been validated</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    {{#if (and frozen new_reqs)}}
-      <br />
-      {{#each new_reqs as |name|}}
-        <table class="condensed">
-          <thead>
-            {{#if @first}}
-              <tr>
-                <th colspan="2" class="inconsistent"><strong>Dependencies Missing from Lockfile</strong></th>
-              </tr>
-            {{/if}}
-            <tr>
-              <th colspan="2" class="inconsistent"><strong>Missing Dependency:</strong> <a href="#dep_{{ name }}">{{ name }}</a></th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each dependencies as |packages requirement|}}
-              <tr>
-                <td class="version">{{ default requirement '(empty)' }}</td>
-                <td>
-                  {{#each packages as |package_name|}}
-                    {{ package_name }}<br />
-                  {{/each}}
-                </td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      {{/each}}
-    {{/if}}
     <br /><br />
     <hr /><br /><br />
     <a name="packages" />
