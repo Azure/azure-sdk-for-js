@@ -497,8 +497,6 @@ export const retryableErrors: string[] = [
   "InsufficientCreditError"
 ];
 
-export const nonRetryableErrors: string[] = ["AbortError"];
-
 /**
  * Maps some SytemErrors to amqp error conditions
  * @enum SystemErrorConditionMapper
@@ -556,19 +554,20 @@ function isBrowserWebsocketError(err: any): boolean {
  */
 function getCustomError(err: AmqpError | Error): MessagingError | undefined {
   const error: MessagingError = err as MessagingError;
+  const errorName = (err as Error).name;
   if (
     // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
     // Must do a name check until the custom error is updated, and that doesn't break compatibility
     // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    retryableErrors.indexOf((err as Error).name) > 0
+    retryableErrors.indexOf(errorName) > 0
   ) {
     error.retryable = true;
     return error;
-  } else if (nonRetryableErrors.indexOf((err as Error).name) > 0) {
+  }
+
+  if (errorName === "AbortError") {
     error.retryable = false;
     return error;
-  } else {
-    return undefined;
   }
 }
 
@@ -585,9 +584,6 @@ export function translate(err: AmqpError | Error): MessagingError {
   }
 
   const customError = getCustomError(err);
-  if (customError) {
-    return customError;
-  }
 
   let error: MessagingError = err as MessagingError;
 
@@ -641,6 +637,8 @@ export function translate(err: AmqpError | Error): MessagingError {
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
+  } else if (customError) {
+    return customError;
   } else {
     // Translate a generic error into MessagingError.
     error = new MessagingError((err as Error).message);
