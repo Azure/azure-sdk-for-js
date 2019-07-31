@@ -398,6 +398,10 @@ export interface EncryptOptions extends RequestOptions {
   authenticationData?: Uint8Array,
 }
 
+/**
+ * Options for the decrypt call to the CryptographyClient
+ */
+
 export interface DecryptOptions extends RequestOptions {
   /**
    * Initialization vector

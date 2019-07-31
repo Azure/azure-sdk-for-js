@@ -59,7 +59,7 @@ export class CryptographyClient {
     wrapKey(key: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
 }
 
-// @public (undocumented)
+// @public
 export interface DecryptOptions extends RequestOptions {
     authenticationData?: Uint8Array;
     authenticationTag?: Uint8Array;
