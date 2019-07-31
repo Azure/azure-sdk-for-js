@@ -16,6 +16,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
+import { RetryPolicy } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
@@ -26,6 +27,31 @@ export interface BatchOptions {
     abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
     partitionKey?: string;
+}
+
+// @public
+export interface Checkpoint {
+    consumerGroupName: string;
+    eventHubName: string;
+    instanceId: string;
+    offset: number;
+    partitionId: string;
+    sequenceNumber: number;
+}
+
+// @public
+export class CheckpointManager {
+    // (undocumented)
+    updateCheckpoint(eventData: EventData): Promise<void>;
+    // (undocumented)
+    updateCheckpoint(offset: string, sequenceNumber: number): Promise<void>;
+}
+
+// @public
+export enum CloseReason {
+    OwnershipLost = "OwnershipLost",
+    Shutdown = "Shutdown",
+    Unknown = "Unknown"
 }
 
 export { DataTransformer }
@@ -146,6 +172,30 @@ export class EventPosition {
     sequenceNumber?: number;
     }
 
+// @public
+export class EventProcessor {
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    start(): void;
+    stop(): Promise<void>;
+}
+
+// @public (undocumented)
+export interface EventProcessorOptions {
+    // (undocumented)
+    initialEventPosition?: EventPosition;
+    // (undocumented)
+    maxBatchSize?: number;
+    // (undocumented)
+    maxWaitTimeInSeconds?: number;
+}
+
+// @public
+export class InMemoryPartitionManager implements PartitionManager {
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
 export { MessagingError }
 
 // @public
@@ -153,6 +203,47 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface PartitionContext {
+    readonly consumerGroupName: string;
+    readonly eventHubName: string;
+    readonly partitionId: string;
+}
+
+// @public
+export interface PartitionManager {
+    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+}
+
+// @public
+export interface PartitionOwnership {
+    consumerGroupName: string;
+    eTag?: string;
+    eventHubName: string;
+    instanceId: string;
+    lastModifiedTimeInMS?: number;
+    offset?: number;
+    ownerLevel: number;
+    partitionId: string;
+    sequenceNumber?: number;
+}
+
+// @public (undocumented)
+export interface PartitionProcessor {
+    close?(reason: CloseReason): Promise<void>;
+    initialize?(): Promise<void>;
+    processError(error: Error): Promise<void>;
+    processEvents(events: EventData[]): Promise<void>;
+}
+
+// @public
+export interface PartitionProcessorFactory {
+    // (undocumented)
+    (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
+}
 
 // @public
 export interface PartitionProperties {
@@ -190,8 +281,11 @@ export class ReceiveHandler {
 
 // @public
 export interface RetryOptions {
+    maxExponentialRetryDelayInMs?: number;
     maxRetries?: number;
+    minExponentialRetryDelayInMs?: number;
     retryInterval?: number;
+    retryPolicy?: RetryPolicy;
     timeoutInMs?: number;
 }
 

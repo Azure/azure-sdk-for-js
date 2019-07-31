@@ -2,11 +2,18 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../src";
-import { Connection } from "rhea-promise";
+import {
+  RequestResponseLink,
+  AmqpMessage,
+  ErrorNameConditionMapper,
+  RetryConfig,
+  RetryOperationType,
+  retry
+} from "../src";
+import { Connection, Message } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 
 describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
@@ -27,7 +34,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -53,11 +60,11 @@ describe("RequestResponseLink", function() {
     assert.equal(response.correlation_id, req.message_id);
   });
 
-  it("should send a request and receive a response correctly", async function() {
+  it("should surface error up through retry", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let messageId: string = "";
-    let counter = 0;
+    let count = 0;
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -65,12 +72,7 @@ describe("RequestResponseLink", function() {
       createSender: () => {
         return Promise.resolve({
           send: (request: any) => {
-            counter++;
-            if (counter != 1) {
-              assert.notEqual(messageId, undefined);
-              assert.notEqual(request.message_id, undefined);
-              assert.notEqual(messageId, request.message_id);
-            }
+            count++;
             messageId = request.message_id;
           }
         });
@@ -78,7 +80,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -98,7 +100,7 @@ describe("RequestResponseLink", function() {
           }
         }
       });
-    }, 2000);
+    }, 200);
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
@@ -112,12 +114,26 @@ describe("RequestResponseLink", function() {
           body: "Hello World!!"
         }
       });
-    }, 4000);
-    const response = await link.sendRequest(request, {
-      delayInSeconds: 1,
-      timeoutInSeconds: 5
-    });
-    assert.equal(response.correlation_id, messageId);
+    }, 2000);
+
+    const sendRequestPromise = async (): Promise<Message> => {
+      return await link.sendRequest(request, {
+        timeoutInMs: 5000
+      });
+    };
+
+    const config: RetryConfig<Message> = {
+      operation: sendRequestPromise,
+      connectionId: "connection-1",
+      operationType: RetryOperationType.management,
+      maxRetries: 3,
+      delayInMs: 1000
+    };
+
+    const message = await retry<Message>(config);
+    assert.equal(count, 2, "It should retry twice");
+    assert.equal(message == undefined, false, "It should return a valid message");
+    assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
   });
 
   it("should abort a request and response correctly", async function() {
@@ -138,7 +154,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -171,15 +187,19 @@ describe("RequestResponseLink", function() {
         /The foo operation has been cancelled by the user.$/,
         "gi"
       );
-      assert.equal(expectedErrorRegex.test(err.message), true);
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
+      assert.equal(
+        expectedErrorRegex.test(err.message),
+        true,
+        `Incorrect error received "${err.message}"`
+      );
     }
   });
 
-  it("should abort a request and response correctly when retried", async function() {
+  it("should abort a request and response correctly when abort signal is already fired", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    let messageId: string = "";
-    let counter = 0;
+    let req: any = {};
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -187,20 +207,14 @@ describe("RequestResponseLink", function() {
       createSender: () => {
         return Promise.resolve({
           send: (request: any) => {
-            counter++;
-            if (counter != 1) {
-              assert.notEqual(messageId, undefined);
-              assert.notEqual(request.message_id, undefined);
-              assert.notEqual(messageId, request.message_id);
-            }
-            messageId = request.message_id;
+            req = request;
           }
         });
       },
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -211,20 +225,7 @@ describe("RequestResponseLink", function() {
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
-          correlation_id: messageId,
-          application_properties: {
-            statusCode: 500,
-            errorCondition: ErrorNameConditionMapper.InternalServerError,
-            statusDescription: "Please retry later.",
-            "com.microsoft:tracking-id": "1"
-          }
-        }
-      });
-    }, 2000);
-    setTimeout(() => {
-      rcvr.emit("message", {
-        message: {
-          correlation_id: messageId,
+          correlation_id: req.message_id,
           application_properties: {
             statusCode: 200,
             errorCondition: null,
@@ -234,19 +235,19 @@ describe("RequestResponseLink", function() {
           body: "Hello World!!"
         }
       });
-    }, 4000);
+    }, 2000);
     try {
       const controller = new AbortController();
-      const signal = controller.signal;
-      setTimeout(controller.abort.bind(controller), 100);
-      await link.sendRequest(request, {
-        delayInSeconds: 1,
-        timeoutInSeconds: 5,
-        abortSignal: signal // cancel between request attempts
-      });
+      const signal: AbortSignalLike = controller.signal;
+      controller.abort();
+      await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(/The operation has been cancelled by the user.$/, "gi");
+      const expectedErrorRegex = new RegExp(
+        /The foo operation has been cancelled by the user.$/,
+        "gi"
+      );
+      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(
         expectedErrorRegex.test(err.message),
         true,

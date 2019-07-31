@@ -11,6 +11,7 @@ export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthenticationError, AggregateAuthenticationError } from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";

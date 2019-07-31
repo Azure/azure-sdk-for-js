@@ -24,10 +24,14 @@ import {
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { SendOptions, EventHubProducerOptions } from "./eventHubClient";
+import {
+  SendOptions,
+  EventHubProducerOptions,
+  getRetryAttemptTimeoutInMs,
+  RetryOptions
+} from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch } from "./eventDataBatch";
-import { getRetryAttemptTimeoutInMs, RetryOptions } from "./eventHubClient";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -270,7 +274,7 @@ export class EventHubSender extends LinkEntity {
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
           const options: AwaitableSenderOptions = this._createSenderOptions(
-            Constants.defaultOperationTimeoutInSeconds
+            Constants.defaultOperationTimeoutInMs
           );
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
           // else bail out when the error is not retryable or the oepration succeeds.
@@ -280,7 +284,7 @@ export class EventHubSender extends LinkEntity {
             operationType: RetryOperationType.senderLink,
             maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
-            delayInSeconds: 15
+            delayInMs: 15000
           };
           return retry<void>(config);
         });
@@ -338,12 +342,14 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<number>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getMaxMessageSize(options?: {
-    retryOptions?: RetryOptions;
-    abortSignal?: AbortSignalLike;
-  }): Promise<number> {
-    const abortSignal = options && options.abortSignal;
-    const retryOptions = options && options.retryOptions;
+  async getMaxMessageSize(
+    options: {
+      retryOptions?: RetryOptions;
+      abortSignal?: AbortSignalLike;
+    } = {}
+  ): Promise<number> {
+    const abortSignal = options.abortSignal;
+    const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
       return this._sender!.maxMessageSize;
     }
@@ -377,24 +383,16 @@ export class EventHubSender extends LinkEntity {
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
-          const maxRetries =
-            retryOptions && typeof retryOptions.maxRetries === "number"
-              ? retryOptions.maxRetries
-              : Constants.defaultMaxRetries;
-          const retryInterval =
-            retryOptions &&
-            typeof retryOptions.retryInterval === "number" &&
-            retryOptions.retryInterval > 0
-              ? retryOptions.retryInterval / 1000
-              : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
           const config: RetryConfig<void> = {
             operation: () =>
-              this._init(this._createSenderOptions(Constants.defaultOperationTimeoutInSeconds)),
+              this._init(this._createSenderOptions(Constants.defaultOperationTimeoutInMs)),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            maxRetries: maxRetries,
-            delayInSeconds: retryInterval
+            maxRetries: retryOptions.maxRetries,
+            delayInMs: retryOptions.retryInterval,
+            retryPolicy: retryOptions.retryPolicy,
+            minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
           };
 
           return retry<void>(config);
@@ -548,6 +546,7 @@ export class EventHubSender extends LinkEntity {
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
+    const retryOptions = options.retryOptions || {};
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const rejectOnAbort = () => {
@@ -672,19 +671,15 @@ export class EventHubSender extends LinkEntity {
         }
       });
 
-    const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
-    const delayInSeconds =
-      options.retryOptions &&
-      options.retryOptions.retryInterval &&
-      options.retryOptions.retryInterval >= 0
-        ? options.retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      maxRetries: maxRetries,
-      delayInSeconds: delayInSeconds
+      maxRetries: retryOptions.maxRetries,
+      delayInMs: retryOptions.retryInterval,
+      retryPolicy: retryOptions.retryPolicy,
+      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
     };
     return retry<void>(config);
   }

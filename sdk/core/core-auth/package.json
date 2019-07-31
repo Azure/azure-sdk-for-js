@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-preview.2",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -57,10 +57,10 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-auth",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "@azure/abort-controller": "1.0.0-preview.1"
   },
   "devDependencies": {
-    "@azure/abort-controller": "1.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",

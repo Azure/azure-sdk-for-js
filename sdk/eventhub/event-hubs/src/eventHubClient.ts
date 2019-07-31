@@ -10,7 +10,8 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   isTokenCredential,
-  Constants
+  Constants,
+  RetryPolicy
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -37,19 +38,23 @@ export interface RetryOptions {
   retryInterval?: number;
   /**
    * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
-   * A minimum value of 60 seconds will be used if a value not greater than this is provided.
+   * A minimum value of `60000` milliseconds will be used if a value not greater than this is provided.
    */
   timeoutInMs?: number;
-  // /**
-  //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
-  //  * Not applicable, when `isExponential` is set to `false`.
-  //  */
-  // maxRetryInterval?: number;
-  // /**
-  //  * Boolean denoting if the `retryInterval` should be incremented exponentially between
-  //  * retries or kept the same.
-  //  */
-  // isExponential?: boolean;
+  /**
+   * @property {RetryPolicy} [retryPolicy] Denotes which retry policy to apply. If undefined, defaults to `LinearRetryPolicy`
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * @property {number} [maxExponentialRetryDelayInMs] Denotes the maximum delay between retries
+   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
+   */
+  maxExponentialRetryDelayInMs?: number;
+  /**
+   * @property {number} [minExponentialRetryDelayInMs] Denotes the minimum delay between retries
+   * to use. Applicable only when performing exponential retry.
+   */
+  minExponentialRetryDelayInMs?: number;
 }
 
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
@@ -57,8 +62,8 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
     retryOptions == undefined ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
-      ? Constants.defaultOperationTimeoutInSeconds * 1000
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
+      ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
 }
