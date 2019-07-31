@@ -13,7 +13,6 @@ import {
   ContainerDeleteMethodOptions
 } from "./ContainerClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
@@ -201,13 +200,17 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of BlobServiceClient.
    *
@@ -221,14 +224,15 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
+    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      credentialOrPipeline instanceof Credential ||
+      credentialOrPipeline instanceof SharedKeyCredential ||
+      credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
       pipeline = newPipeline(credentialOrPipeline, options);

@@ -12,7 +12,6 @@ import { QueueClient } from "./QueueClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
@@ -188,13 +187,17 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of QueueServiceClient.
    *
@@ -208,14 +211,15 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
+    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      credentialOrPipeline instanceof Credential ||
+      credentialOrPipeline instanceof SharedKeyCredential ||
+      credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
       pipeline = newPipeline(credentialOrPipeline, options);

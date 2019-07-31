@@ -23,11 +23,12 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { Credential } from "./credentials/Credential";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -187,7 +188,7 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @static
- * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+ * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
  *                                                  or a TokenCredential from @azure/identity. If not specified,
  *                                                  AnonymousCredential is used.
  * @param {NewPipelineOptions} [pipelineOptions] Options.
@@ -195,7 +196,7 @@ export interface NewPipelineOptions {
  * @memberof Pipeline
  */
 export function newPipeline(
-  credential: Credential | TokenCredential,
+  credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: NewPipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.

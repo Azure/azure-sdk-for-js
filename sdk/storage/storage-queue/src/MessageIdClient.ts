@@ -6,7 +6,6 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./StorageClient";
@@ -88,13 +87,17 @@ export class MessageIdClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of MessageIdClient.
    *
@@ -109,7 +112,12 @@ export class MessageIdClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
+    credentialOrPipelineOrQueueName?:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline
+      | string,
     messageIdOrOptions?: string | NewPipelineOptions,
     options: NewPipelineOptions = {}
   ) {
@@ -117,7 +125,8 @@ export class MessageIdClient extends StorageClient {
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      credentialOrPipelineOrQueueName instanceof Credential ||
+      credentialOrPipelineOrQueueName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
       options = messageIdOrOptions as NewPipelineOptions;

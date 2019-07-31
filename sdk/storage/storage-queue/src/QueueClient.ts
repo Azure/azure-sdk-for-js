@@ -14,7 +14,6 @@ import {
   extractConnectionStringParts
 } from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
-import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
@@ -221,13 +220,17 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of QueueClient.
    *
@@ -242,14 +245,20 @@ export class QueueClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
+    credentialOrPipelineOrQueueName?:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline
+      | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      credentialOrPipelineOrQueueName instanceof Credential ||
+      credentialOrPipelineOrQueueName instanceof SharedKeyCredential ||
+      credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
