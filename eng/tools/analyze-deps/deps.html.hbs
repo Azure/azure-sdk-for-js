@@ -96,6 +96,24 @@
       color: #CC0000;
     }
 
+    .dep_type {
+      border: 1px solid gray;
+      border-radius: 2px;
+      background: lightgray;
+      font-size: 10px;
+      padding: 1px 2px;
+    }
+
+    .dep_type.runtime {
+      border-color: forestgreen;
+      background: lightgreen;
+    }
+
+    .dep_type.peer {
+      border-color: cadetblue;
+      background: lightblue;
+    }
+
     @media only screen and (max-width: 1350px) {
 
       body,
@@ -135,19 +153,19 @@
       {{/if}}
     </h3>
     <p>
-      {{ sub dependencies.length external.length }} internal and {{ external.length }} external package <a href="#dependencies">{{ pluralize dependencies.length 'dependency</a> was' 'dependencies</a> were' }} analyzed to determine if any packages declare inconsistent dependency versions.<br />
+      {{ sub (len dependencies) (len external) }} internal and {{ len external }} external package <a href="#dependencies">{{ pluralize (len dependencies) 'dependency</a> was' 'dependencies</a> were' }} analyzed to determine if any packages declare inconsistent dependency versions.<br />
         {{#if inconsistent}}
-          <strong>{{ inconsistent.length }} inconsistent package dependency {{ pluralize inconsistent.length 'version was' 'versions were' }} discovered.</strong><br /><br />
+          <strong>{{ len inconsistent }} inconsistent package dependency {{ pluralize (len inconsistent) 'version was' 'versions were' }} discovered.</strong><br /><br />
         {{else}}
           No inconsistent package dependency versions were discovered.<br /><br />
         {{/if}}
         {{#if frozen}}
-          {{ frozen.length }} dependency {{ pluralize frozen.length 'version was' 'versions were' }} discovered in the <a href="#lockfile">lockfile</a>.<br />
+          {{ len frozen }} dependency {{ pluralize (len frozen) 'version was' 'versions were' }} discovered in the <a href="#lockfile">lockfile</a>.<br />
           {{#if new_reqs}}
-            <strong>{{ new_reqs.length }} {{ pluralize new_reqs.length 'dependency is' 'dependencies are' }} missing from the lockfile.</strong><br />
+            <strong>{{ len new_reqs }} {{ pluralize (len new_reqs) 'dependency is' 'dependencies are' }} missing from the lockfile.</strong><br />
           {{/if}}
           {{#if changed_reqs}}
-            <strong>{{ changed_reqs.length }} dependency {{ pluralize changed_reqs.length 'version does' 'versions do' }} not match the version in the lockfile.</strong><br />
+            <strong>{{ len changed_reqs }} dependency {{ pluralize (len changed_reqs) 'version does' 'versions do' }} not match the version in the lockfile.</strong><br />
           {{/if}}
           {{#unless (or new_reqs changed_reqs)}}
             All declared dependency versions were validated against those in the lockfile.<br />
@@ -155,10 +173,10 @@
         {{else}}
           <strong>No lockfile is present in the repo, declared dependency versions were not able to be validated.</strong><br />
         {{/if}}
-        <br />This report scanned {{ packages.length }} <a href="#packages">{{ pluralize packages.length 'package' 'packages' }}</a>.
+        <br />This report scanned {{ len packages }} <a href="#packages">{{ pluralize (len packages) 'package' 'packages' }}</a>.
     </p>
     <a name="dependencies" />
-    {{#each ordered_deps as |dep_name|}}
+    {{#each dependencies as |info dep_name|}}
       <a name="dep_{{dep_name}}" />
       <table>
         <thead>
@@ -168,16 +186,16 @@
             </tr>
           {{/if}}
           <tr>
-            <th colspan="2" class="{{#if inconsistent.[dep_name]}}inconsistent {{/if}}{{#if external.[dep_name]}}external{{else}}internal{{/if}}"><strong>{{ title dep_type }} Dependency:</strong> {{ dep_name }}</th>
+            <th colspan="2" class="{{dep_type dep_name}}"><strong>{{ title (dep_type dep_name) }} Dependency:</strong> {{ dep_name }}</th>
           </tr>
         </thead>
         <tbody>
-          {{#each dependencies as |packages requirement|}}
+          {{#each info as |packages spec|}}
             <tr>
-              <td class="version">{{ default requirement '(empty)' }}</td>
+              <td class="version">{{ default spec '(empty)' }}</td>
               <td>
-                {{#each packages as |package_name|}}
-                  {{ package_name }}<br />
+                {{#each packages as |package|}}
+                  {{ package.[0] }} <span class="dep_type {{ package.[1] }}">{{ package.[1] }}</span><br />
                 {{/each}}
               </td>
             </tr>
@@ -282,8 +300,8 @@
         {{#each packages as |info name|}}
           <tr>
             <td>{{ name }}</td>
-            <td>{{ info.version }}</td>
-            <td>{{ info.source }}</td>
+            <td>{{ info.ver }}</td>
+            <td>{{ info.src }}</td>
           </tr>
         {{/each}}
       </tbody>
