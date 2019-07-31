@@ -230,7 +230,7 @@ export function createProxyAgent(requestUrl: string, proxySettings: ProxySetting
       // TODO: Handle case where getHost() returns undefined
       host: URLBuilder.parse(proxySettings.host).getHost()!,
       port: proxySettings.port,
-       headers: (headers && headers.rawHeaders())
+      headers: (headers && headers.rawHeaders())
     }
   };
 
