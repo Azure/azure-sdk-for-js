@@ -162,8 +162,8 @@
         <br />This report scanned {{ len packages }} <a href="#packages">{{ pluralize (len packages) 'package' 'packages' }}</a>.
     </p>
     <a name="dependencies" />
-    {{#each dependencies as |info dep_name|}}
-      <a name="dep_{{dep_name}}" />
+    {{#each (sorted dependencies) as |dep|}}
+      <a name="dep_{{dep.[0]}}" />
       <table>
         <thead>
           {{#if @first}}
@@ -172,15 +172,15 @@
             </tr>
           {{/if}}
           <tr>
-            <th colspan="2" class="{{dep_type dep_name}}"><strong>{{ title (dep_type dep_name) }} Dependency:</strong> {{ dep_name }}</th>
+            <th colspan="2" class="{{dep_type dep.[0]}}"><strong>{{ title (dep_type dep.[0]) }} Dependency:</strong> {{ dep.[0] }}</th>
           </tr>
         </thead>
         <tbody>
-          {{#each info as |packages spec|}}
+          {{#each (sorted dep.[1]) as |spec|}}
             <tr>
-              <td class="version">{{ default spec '(empty)' }}</td>
+              <td class="version">{{ default spec.[0] '(empty)' }}</td>
               <td>
-                {{#each packages as |package|}}
+                {{#each (sorted spec.[1]) as |package|}}
                   {{ package.[0] }} <span class="dep_type {{ package.[1] }}">{{ package.[1] }}</span><br />
                 {{/each}}
               </td>
@@ -205,11 +205,11 @@
         </tr>
       </thead>
       <tbody>
-        {{#each packages as |info name|}}
+        {{#each (sorted packages) as |entry|}}
           <tr>
-            <td>{{ name }}</td>
-            <td>{{ info.ver }}</td>
-            <td>{{ info.src }}</td>
+            <td>{{ entry.[0] }}</td>
+            <td>{{ entry.[1].ver }}</td>
+            <td>{{ entry.[1].src }}</td>
           </tr>
         {{/each}}
       </tbody>

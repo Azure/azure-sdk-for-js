@@ -113,6 +113,7 @@ const render = async (context, dest) => {
     ne: (a, b) => a !== b,
     or: (a, b) => a || b,
     pluralize: (num, singular, plural) => new Handlebars.SafeString(num === 1 ? singular : plural),
+    sorted: (c) => (typeof c.sort === "function" ? c.sort() : Object.entries(c).sort()),
     sub: (a, b) => a - b,
     title: (s) => new Handlebars.SafeString(s ? s.replace(/\b\S/g, (t) => t.toUpperCase()) : ""),
     truncate: (s, len) => new Handlebars.SafeString(s.substr(0, len))
