@@ -1,5 +1,5 @@
 import { GetKeyOptions, RequestOptions } from "./keysModels";
-import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm } from "./core/models";
+import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm, JsonWebKeyOperation } from "./core/models";
 import {
   ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
   isTokenCredential,
@@ -80,6 +80,10 @@ export class CryptographyClient {
               throw new Error("Key type does not match algorithm");
             }
 
+            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
+              throw new Error("Key does not support the encrypt operation");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -89,6 +93,10 @@ export class CryptographyClient {
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
+            }
+
+            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
+              throw new Error("Key does not support the encrypt operation");
             }
 
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
@@ -141,6 +149,10 @@ export class CryptographyClient {
               throw new Error("Key type does not match algorithm");
             }
 
+            if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
+              throw new Error("Key does not support the wrapKey operation");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -150,6 +162,10 @@ export class CryptographyClient {
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
+            }
+
+            if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
+              throw new Error("Key does not support the wrapKey operation");
             }
 
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
@@ -274,6 +290,10 @@ export class CryptographyClient {
               throw new Error("Key type does not match algorithm");
             }
 
+            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
+              throw new Error("Key does not support the verify operation");
+            }
+
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA256");
@@ -287,6 +307,10 @@ export class CryptographyClient {
               throw new Error("Key type does not match algorithm");
             }
 
+            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
+              throw new Error("Key does not support the verify operation");
+            }
+            
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA384");
@@ -300,6 +324,10 @@ export class CryptographyClient {
               throw new Error("Key type does not match algorithm");
             }
 
+            if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
+              throw new Error("Key does not support the verify operation");
+            }
+            
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const verifier = crypto.createVerify("SHA512");
