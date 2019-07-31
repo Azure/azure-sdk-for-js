@@ -6,6 +6,10 @@ import { Status } from "../../interfaces/status";
 export class OpenCensusSpanPlugin implements Span {
   private _span: any;
 
+  public getSpan() {
+    return this._span;
+  }
+
   constructor(span: any) {
     this._span = span;
   }

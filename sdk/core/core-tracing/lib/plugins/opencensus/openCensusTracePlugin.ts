@@ -12,9 +12,16 @@ export class OpenCensusTracePlugin implements Tracer {
   }
 
   startSpan(name: string, options?: SpanOptions): Span {
+    const parent = 
+      options ? 
+        options.parent ?
+          options.parent instanceof OpenCensusSpanPlugin ? options.parent.getSpan() : options.parent
+        : undefined
+      :undefined
+
     const span = this._tracer.startChildSpan({
       name: name,
-      childOf: options ? options.parent : undefined
+      childOf: parent
     });
 
     const openCensusSpanPlugin = new OpenCensusSpanPlugin(span);
