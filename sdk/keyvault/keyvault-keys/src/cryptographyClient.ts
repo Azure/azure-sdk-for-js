@@ -26,7 +26,15 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
+/**
+ * The client to interact with the KeyVault cryptography functionality
+ */
 export class CryptographyClient {
+
+  /**
+   * Retrieves the complete key from the key vault
+   * @param options Options for retrieving key
+   */
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
     if (typeof this.key === "string") {
       if (!this.name || this.name == "") {
@@ -44,29 +52,42 @@ export class CryptographyClient {
     }
   }
 
+  /**
+   * Encrypts the given plaintext with the specified cryptography algorithm
+   * @param plaintext The text to encrypt
+   * @param algorithm The algorithm to use
+   * @param options Additional options
+   */
   public async encrypt(
     plaintext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
-    _iv?: Uint8Array,
-    _authenticationData?: Uint8Array,
-    options?: RequestOptions
+    options?: EncryptOptions
   ): Promise<Uint8Array> {
     let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
     return result.result!;
   }
 
+  /**
+   * Decrypts the given ciphertext with the specified cryptography algorithm
+   * @param ciphertext The ciphertext to decrypt
+   * @param algorithm The algorithm to use
+   * @param options Additional options
+   */  
   public async decrypt(
     ciphertext: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
-    _iv?: Uint8Array,
-    _authenticationData?: Uint8Array,
-    _authenticationTag?: Uint8Array,
-    options?: RequestOptions
+    options?: DecryptOptions
   ): Promise<Uint8Array> {
     let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
     return result.result!;
   }
 
+  /**
+   * Wraps the given key using the specified cryptography algorithm
+   * @param key The key to wrap
+   * @param algorithm The encryption algorithm to use to wrap the given key
+   * @param options Additional options
+   */
   public async wrapKey(
     key: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
@@ -76,6 +97,12 @@ export class CryptographyClient {
     return result.result!;
   }
 
+  /**
+   * Unwraps the given wrapped key using the specified cryptography algorithm
+   * @param encryptedKey The encrypted key to unwrap
+   * @param algorithm The decryption algorithm to use to unwrap the key
+   * @param options Additional options
+   */
   public async unwrapKey(
     encryptedKey: Uint8Array,
     algorithm: JsonWebKeyEncryptionAlgorithm,
@@ -85,6 +112,12 @@ export class CryptographyClient {
     return result.result!;
   }
 
+  /**
+   * Cryptographically sign the digest of a message
+   * @param digest The digest of the data to sign
+   * @param algorithm The signing algorithm to use
+   * @param options Additional options
+   */
   public async sign(
     digest: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
@@ -94,6 +127,13 @@ export class CryptographyClient {
     return result.result!;
   }
 
+  /**
+   * Verify the signed message digest
+   * @param digest The digest to verify
+   * @param signature The signature to verify the digest against
+   * @param algorithm The signing algorithm to use to verify with
+   * @param options Additional options
+   */
   public async verify(
     digest: Uint8Array,
     signature: Uint8Array,
@@ -104,22 +144,12 @@ export class CryptographyClient {
     return response.value ? response.value : false;
   }
 
-  private static async createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
-    if (isNode) {
-      let crypto = require("crypto");
-      let hash = crypto.createHash(algorithm);
-      hash.update(Buffer.from(data));
-      let digest = hash.digest();
-      return digest;
-    } else {
-      if (window && window.crypto && window.crypto.subtle) {
-        return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
-      } else {
-        throw new Error("Browser does not support cryptography functions");
-      }
-    }
-  }
-
+  /**
+   * Cryptographically sign a block of data
+   * @param data The data to sign
+   * @param algorithm The signing algorithm to use
+   * @param options Additional options
+   */
   public async signData(
     data: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
@@ -152,6 +182,13 @@ export class CryptographyClient {
     return result.result!;
   }
 
+  /**
+   * Verify the signed block of data
+   * @param data The signed block of data to verify
+   * @param signature The signature to verify the block against
+   * @param algorithm The algorithm to use to verify with
+   * @param options Additional options
+   */
   public async verifyData(
     data: Uint8Array,
     signature: Uint8Array,
@@ -186,6 +223,15 @@ export class CryptographyClient {
     return result.value!;
   }
 
+  /**
+   * A static method used to create a new Pipeline object with the provided Credential.
+   *
+   * @static
+   * @param {TokenCredential} The credential to use for API requests.
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @returns {Pipeline} A new Pipeline object.
+   * @memberof CryptographyClient
+   */
   public static getDefaultPipeline(
     credential: ServiceClientCredentials | TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
@@ -246,6 +292,22 @@ export class CryptographyClient {
     return userAgentInfo.join(" ");
   }
 
+  private static async createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
+    if (isNode) {
+      let crypto = require("crypto");
+      let hash = crypto.createHash(algorithm);
+      hash.update(Buffer.from(data));
+      let digest = hash.digest();
+      return digest;
+    } else {
+      if (window && window.crypto && window.crypto.subtle) {
+        return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
+      } else {
+        throw new Error("Browser does not support cryptography functions");
+      }
+    }
+  }
+
   /**
    * The base URL to the vault
    */
@@ -277,6 +339,15 @@ export class CryptographyClient {
    */
   private version: string;
 
+  /**
+   * Constructs a new instance of the Cryptography client for the given key
+   * @param url The url of the key vault service
+   * @param key The key to use during cryptography tasks
+   * @param credential The login credentials of the service
+   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                                 Omitting this parameter to create the default Pipeline instance.
+   * @memberof CryptographyClient
+   */
   constructor(
     url: string,
     key: string | JsonWebKey, // keyUrl or JsonWebKey
@@ -311,4 +382,15 @@ export class CryptographyClient {
     this.name = parsed.name;
     this.version = parsed.version;
   }
+}
+
+export interface EncryptOptions extends RequestOptions {
+  iv?: Uint8Array,
+  authenticationData?: Uint8Array,
+}
+
+export interface DecryptOptions extends RequestOptions {
+  iv?: Uint8Array,
+  authenticationData?: Uint8Array,
+  authenticationTag?: Uint8Array,
 }

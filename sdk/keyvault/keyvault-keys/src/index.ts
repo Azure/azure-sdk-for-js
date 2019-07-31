@@ -30,6 +30,7 @@ import {
   JsonWebKey,
   JsonWebKeyOperation,
   JsonWebKeyCurveName,
+  JsonWebKeySignatureAlgorithm,
   KeyItem,
   DeletionRecoveryLevel,
   KeyVaultClientGetKeysOptionalParams
@@ -59,7 +60,7 @@ import {
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
-import { CryptographyClient } from "./cryptographyClient";
+import { CryptographyClient, EncryptOptions, DecryptOptions } from "./cryptographyClient";
 
 export {
   CreateEcKeyOptions,
@@ -68,12 +69,15 @@ export {
   CryptographyClient,
   DeletedKey,
   DeletionRecoveryLevel,
+  DecryptOptions,
+  EncryptOptions,
   GetKeyOptions,
   ListKeysOptions as GetKeysOptions,
   ImportKeyOptions,
   JsonWebKey,
   JsonWebKeyCurveName,
   JsonWebKeyOperation,
+  JsonWebKeySignatureAlgorithm,
   JsonWebKeyType,
   Key,
   KeyAttributes,

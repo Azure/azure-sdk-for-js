@@ -39,38 +39,35 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
     keySize?: number;
 }
 
-// @public (undocumented)
+// @public
 export class CryptographyClient {
     constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
     credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
-    // (undocumented)
-    decrypt(ciphertext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, _iv?: Uint8Array, _authenticationData?: Uint8Array, _authenticationTag?: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    decrypt(ciphertext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: DecryptOptions): Promise<Uint8Array>;
     // Warning: (ae-forgotten-export) The symbol "JsonWebKeyEncryptionAlgorithm" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    encrypt(plaintext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, _iv?: Uint8Array, _authenticationData?: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
-    // (undocumented)
+    encrypt(plaintext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: EncryptOptions): Promise<Uint8Array>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
-    // (undocumented)
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
-    // Warning: (ae-forgotten-export) The symbol "JsonWebKeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
     sign(digest: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
-    // (undocumented)
     signData(data: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
-    // (undocumented)
     unwrapKey(encryptedKey: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
     readonly vaultBaseUrl: string;
-    // (undocumented)
     verify(digest: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
-    // (undocumented)
     verifyData(data: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
-    // (undocumented)
     wrapKey(key: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+}
+
+// @public (undocumented)
+export interface DecryptOptions extends RequestOptions {
+    // (undocumented)
+    authenticationData?: Uint8Array;
+    // (undocumented)
+    authenticationTag?: Uint8Array;
+    // (undocumented)
+    iv?: Uint8Array;
 }
 
 // @public
@@ -82,6 +79,14 @@ export interface DeletedKey extends Key {
 
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
+
+// @public (undocumented)
+export interface EncryptOptions extends RequestOptions {
+    // (undocumented)
+    authenticationData?: Uint8Array;
+    // (undocumented)
+    iv?: Uint8Array;
+}
 
 // @public
 export interface GetKeyOptions {
@@ -135,6 +140,9 @@ export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
 export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+
+// @public
+export type JsonWebKeySignatureAlgorithm = "PS256" | "PS384" | "PS512" | "RS256" | "RS384" | "RS512" | "RSNULL" | "ES256" | "ES384" | "ES512" | "ES256K";
 
 // @public
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
