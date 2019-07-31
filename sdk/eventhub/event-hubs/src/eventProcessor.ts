@@ -54,7 +54,7 @@ export interface PartitionProcessor {
 
 /**
  * used by PartitionManager to claim ownership.
- * returned by listOwnerships
+ * returned by listOwnership
  */
 export interface PartitionOwnership {
   /**
@@ -117,15 +117,15 @@ export interface PartitionManager {
    * @param consumerGroupName The consumer group name.
    * @return A list of partition ownership details of all the partitions that have/had an owner.
    */
-  listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+  listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnerships The list of partition ownerships this instance is claiming to own.
+   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
    * @return A list of partitions this instance successfully claimed ownership.
    */
-  claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+  claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
   /**
    * Updates the checkpoint in the data store for a partition.
    *
@@ -210,7 +210,7 @@ export class EventProcessor {
           return;
         }
 
-        const ownerships = await this._partitionManager.listOwnerships(
+        const partitionOwnership = await this._partitionManager.listOwnership(
           this._eventHubClient.eventHubName,
           this._consumerGroupName
         );
@@ -223,7 +223,7 @@ export class EventProcessor {
             partitionId: partitionId
           };
 
-          for (const ownership of ownerships) {
+          for (const ownership of partitionOwnership) {
             if (ownership.partitionId != partitionId) {
               const partitionOwnership: PartitionOwnership = {
                 eventHubName: this._eventHubClient.eventHubName,
@@ -232,7 +232,7 @@ export class EventProcessor {
                 partitionId: partitionId,
                 ownerLevel: 0
               };
-              await this._partitionManager.claimOwnerships([partitionOwnership]);
+              await this._partitionManager.claimOwnership([partitionOwnership]);
             }
           }
 

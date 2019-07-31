@@ -20,7 +20,7 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @param consumerGroupName The consumer group name.
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
-  async listOwnerships(
+  async listOwnership(
     eventHubName: string,
     consumerGroupName: string
   ): Promise<PartitionOwnership[]> {
@@ -31,17 +31,17 @@ export class InMemoryPartitionManager implements PartitionManager {
    * Claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnerships The list of partition ownerships this instance is claiming to own.
+   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
    * @return A list partitions this instance successfully claimed ownership.
    */
-  async claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]> {
-    for (const partitionOwnership of partitionOwnerships) {
-      if (!this._partitionOwnershipMap.has(partitionOwnership.partitionId)) {
-        partitionOwnership.eTag = generate_uuid();
-        this._partitionOwnershipMap.set(partitionOwnership.partitionId, partitionOwnership);
+  async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
+    for (const ownership of partitionOwnership) {
+      if (!this._partitionOwnershipMap.has(ownership.partitionId)) {
+        ownership.eTag = generate_uuid();
+        this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }
-    return partitionOwnerships;
+    return partitionOwnership;
   }
 
   /**

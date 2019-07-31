@@ -44,8 +44,8 @@ export interface Checkpoint {
  * CheckPointManager is created by the library & passed to user's code to let them create a checkpoint
  */
 export class CheckpointManager {
-  private _partitionContext: PartitionContext; // for internal use by createCheckpoint
-  private _partitionManager: PartitionManager; // for internal use by createCheckpoint
+  private _partitionContext: PartitionContext; 
+  private _partitionManager: PartitionManager;
   private _instanceId: string;
   private _eTag: string;
 

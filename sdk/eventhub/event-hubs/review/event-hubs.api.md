@@ -191,8 +191,8 @@ export interface EventProcessorOptions {
 
 // @public
 export class InMemoryPartitionManager implements PartitionManager {
-    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
@@ -213,8 +213,8 @@ export interface PartitionContext {
 
 // @public
 export interface PartitionManager {
-    claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
