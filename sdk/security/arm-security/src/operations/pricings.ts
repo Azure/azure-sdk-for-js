@@ -53,9 +53,7 @@ export class Pricings {
   }
 
   /**
-   * A given security pricing configuration in the subscription. Azure Security Center is available
-   * in two pricing tiers: Free and Standard, on multiple resource types, including Virtual machines,
-   * SQL Servers, App service plans and Storage accounts.
+   * Security pricing configuration in the subscription
    * @param pricingName name of the pricing configuration
    * @param [options] The optional parameters
    * @returns Promise<Models.PricingsGetResponse>
@@ -83,9 +81,7 @@ export class Pricings {
   }
 
   /**
-   * A given security pricing configuration in the subscription. Azure Security Center is available
-   * in two pricing tiers: Free and Standard, on multiple resource types, including Virtual machines,
-   * SQL Servers, App service plans and Storage accounts.
+   * Security pricing configuration in the subscription
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param [options] The optional parameters

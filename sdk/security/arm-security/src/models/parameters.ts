@@ -142,6 +142,26 @@ export const ascLocation: msRest.OperationURLParameter = {
     }
   }
 };
+export const assessmentName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentName",
+  mapper: {
+    required: true,
+    serializedName: "assessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const assessmentsMetadataName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentsMetadataName",
+  mapper: {
+    required: true,
+    serializedName: "assessmentsMetadataName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const complianceName: msRest.OperationURLParameter = {
   parameterPath: "complianceName",
   mapper: {
