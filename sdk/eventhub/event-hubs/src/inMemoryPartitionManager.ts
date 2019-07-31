@@ -50,12 +50,14 @@ export class InMemoryPartitionManager implements PartitionManager {
    * @param checkpoint The checkpoint.
    * @return Promise<void>
    */
-  async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
+  async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
     if (partitionOwnership) {
       partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
       partitionOwnership.offset = checkpoint.offset;
       partitionOwnership.eTag = generate_uuid();
+      return  partitionOwnership.eTag;
     }
+    return "";
   }
 }

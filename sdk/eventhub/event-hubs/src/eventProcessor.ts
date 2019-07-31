@@ -11,6 +11,7 @@ import { PumpManager } from "./pumpManager";
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import * as log from "./log";
 import { cancellableDelay } from "./util/cancellableDelay";
+import { generate_uuid } from "rhea-promise";
 
 /**
  * Reason for closing a PartitionProcessor.
@@ -131,7 +132,7 @@ export interface PartitionManager {
    * @param checkpoint The checkpoint.
    * @return The new eTag on successful update.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // Options passed when creating EventProcessor, everything is optional
@@ -155,6 +156,7 @@ export class EventProcessor {
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
+  private _partitionManager: PartitionManager;
 
   constructor(
     consumerGroupName: string,
@@ -168,6 +170,7 @@ export class EventProcessor {
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
     this._partitionProcessorFactory = partitionProcessorFactory;
+    this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
   }
@@ -207,6 +210,10 @@ export class EventProcessor {
           return;
         }
 
+        const ownerships = await this._partitionManager.listOwnerships(
+          this._eventHubClient.eventHubName,
+          this._consumerGroupName
+        );
         const tasks: PromiseLike<void>[] = [];
         // create partition pumps to process any partitions we should be processing
         for (const partitionId of partitionsToAdd) {
@@ -216,7 +223,20 @@ export class EventProcessor {
             partitionId: partitionId
           };
 
-          const checkpointManager = new CheckpointManager();
+          for (const ownership of ownerships) {
+            if (ownership.partitionId != partitionId) {
+              const partitionOwnership: PartitionOwnership = {
+                eventHubName: this._eventHubClient.eventHubName,
+                consumerGroupName: this._consumerGroupName,
+                instanceId: generate_uuid(),
+                partitionId: partitionId,
+                ownerLevel: 0
+              };
+              await this._partitionManager.claimOwnerships([partitionOwnership]);
+            }
+          }
+
+          const checkpointManager = new CheckpointManager(partitionContext, this._partitionManager);
 
           log.eventProcessor(
             `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`

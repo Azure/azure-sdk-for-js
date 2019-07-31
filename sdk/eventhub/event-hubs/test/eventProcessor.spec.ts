@@ -471,7 +471,8 @@ describe("Event Processor", function(): void {
         instanceId: generate_uuid(),
         partitionId: "0",
         sequenceNumber: 10,
-        offset: 50
+        offset: 50,
+        eTag: generate_uuid()
       };
 
       await inMemoryPartitionManager.updateCheckpoint(checkpoint);

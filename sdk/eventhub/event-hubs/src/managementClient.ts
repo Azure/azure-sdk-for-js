@@ -69,7 +69,7 @@ export interface PartitionProperties {
   /**
    * @property The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: string;
+  lastEnqueuedOffset: number;
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
