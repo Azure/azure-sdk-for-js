@@ -176,7 +176,7 @@ dependencies:
   typescript: 3.5.3
   uglify-js: 3.6.0
   url: 0.11.0
-  util: 0.11.1
+  util: 0.12.1
   uuid: 3.3.2
   webpack: 4.38.0_webpack@4.38.0
   webpack-cli: 3.3.6_webpack@4.38.0
@@ -4828,6 +4828,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-m5hnHTkcVsPfqx3AKlyttIPb7J+XykHvJP2B9bZDjlhLIoEq4XoK64Vg7boZlVWYK6LUY94dYPEE7Lh0ZkZKcQ==
+  /is-arguments/1.0.4:
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha512-xPh0Rmt8NE65sNzvyUmWgI1tz3mKq74lGA0mL8LYZcoIzKOzDh6HmrYm3d18k60nHerC8A9Km8kYu87zfSFnLA==
   /is-arrayish/0.2.1:
     dev: false
     resolution:
@@ -4948,6 +4954,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-o7MKXE8ZkYMWeqq5O+764937ZU8=
+  /is-generator-function/1.0.7:
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha512-YZc5EwyO4f2kWCax7oegfuSr9mFz1ZvieNYBEjmukLxgXfBUbxAWGVF7GZf0zidYtoBl3WvC07YK0wT76a+Rtw==
   /is-glob/3.1.0:
     dependencies:
       is-extglob: 2.1.1
@@ -6623,6 +6635,17 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-On+GgzS0B96gbaFtiNXNKeQ1/s8=
+  /object.entries/1.1.0:
+    dependencies:
+      define-properties: 1.1.3
+      es-abstract: 1.13.0
+      function-bind: 1.1.1
+      has: 1.0.3
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha512-l+H6EQ8qzGRxbkHOd5I/aHRhHDKoQXQ8g0BYt4uSweQU1/J6dZUOyWh9a2Vky35YCKjzmgxOzta2hH6kf9HuXA==
   /object.map/1.0.1:
     dependencies:
       for-own: 1.0.0
@@ -9157,6 +9180,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==
+  /util/0.12.1:
+    dependencies:
+      inherits: 2.0.4
+      is-arguments: 1.0.4
+      is-generator-function: 1.0.7
+      object.entries: 1.1.0
+      safe-buffer: 5.2.0
+    dev: false
+    resolution:
+      integrity: sha512-MREAtYOp+GTt9/+kwf00IYoHZyjM8VU4aVrkzUlejyqaIjd2GztVl5V9hGXKlvBKE3gENn/FMfHE5v6hElXGcQ==
   /utils-merge/1.0.1:
     dev: false
     engines:
@@ -9775,12 +9808,12 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       url: 0.11.0
-      util: 0.11.1
+      util: 0.12.1
       ws: 6.2.1
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-dTjAKaO8jtHyxJxk8wLnqoJcVDILgfB8mZorA055Kcg+j/WNmyHaYv1zoPtDcULNJciN6KmpX8woyCMwJt2zfA==
+      integrity: sha512-5ARKdRpu7sUJLZquQZ7Dw9pBq+yA8U/S32ECIsKXgHb7bbRcJIBanfbiF0YqSVt9uIX8xHeyPA3SUFJdm6PtUg==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9871,11 +9904,11 @@ packages:
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-D6tMjROHeCf7ijXZIPhewnP5sPK7Aj+k5Na5O5OU629HF7qLBczazjTCnpnnex4X8yvi4X3b82rX/LD2OxZ0dQ==
+      integrity: sha512-3A4yvJDci4zsEaNhc5KDCr0gAwjKpH9EWw+pU1s6orOqh4RcEpssVPmUFoNKPk7+qDMRqS/IhAvWAjIgiI+Dag==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -10199,12 +10232,12 @@ packages:
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
       uuid: 3.3.2
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-aLe+RHGk7M6wqCmNrblNMYMUtng49pfjo7pctPvnPORnPMD3acKp1+Ld3wQaAjImwPxlq60O1eulxRKAGM/fag==
+      integrity: sha512-OCuCwMq/7z9NlL+LSZk4XXQ5HOkaafysxr4cEwmsn5lS5cEeGjotLokWr6AawJXfkC32jo9qLdLEYSMKQQ0KcQ==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10516,11 +10549,11 @@ packages:
       ts-node: 7.0.1
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-oMEqXqmiRF6HYkZXU4o93bKkibi5RGs4iYwnSXE1QXA5uIFqU1oGvVxUMvZedk9DUCKOssRYOTFSrf0HCjy9dQ==
+      integrity: sha512-HjEUL9dhBjgba7hXKV9x6Tb4h1Qp1bZTJ31OIEzlnqgc2pHpQuv8kbh3ZAPSA6DbH8YNc+2Am7Z7rFYWOvJtHQ==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -10587,11 +10620,11 @@ packages:
       ts-node: 7.0.1
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-Tld5tho72inYm+jDPhQ85HvUmtd08K/oVBddhWT5MfgLbT+6BM6ZKMkyPgjCa/o2RsSR0NYPQSGijmdpfiDXKA==
+      integrity: sha512-bRyE0Ed4FzqGxUHMrEUI/lygBbbjOC1jxfnbRtYODlCcCzgCmVtgwLObbo+FcuT6GxG9ZcCESjID6h/EuorllQ==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10657,11 +10690,11 @@ packages:
       ts-node: 7.0.1
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-71xJVOcx25+m4X852HbknjV1kMpt0itdtxhTPF804gVomy4Ymrj8AQhwAmMVzzt3Q/+5LU51VpLtH10FF5Hxfg==
+      integrity: sha512-9xaNXDS3q2AZRVJJsskWabT27QuDc4V3F7bJ97i2fUpBHEM1gzSI2p+LTHSvuw2P2AcT4Q9VSiJS2t1BFWncUg==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10708,11 +10741,11 @@ packages:
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       tslib: 1.10.0
       typescript: 3.5.3
-      util: 0.11.1
+      util: 0.12.1
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-aCJAMfdHDb3AD+e4HRiGpK0k0J17hCxw9MbtTZiFmGn65a+yA2M9yEDtF2bAoVCGlM9CjzWzLLUPBdyoNiSevw==
+      integrity: sha512-vjwXidhvwZKemAOYjKCZP9El5ZmQBzYZ4LP5fBvYa/KfD24X1o8x5/1ns4/kQHXnsgUtbjsm9Kd3M8wrB7nnWA==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10740,6 +10773,7 @@ packages:
       integrity: sha512-rdhMvXi7mvg+wP0vVdqhouZr17v9a3n4KDMSyuUPU9qhOvY6bMfqoeIXrzgWkCXtR9yjL15gwJHKWsBlByGE4A==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10918,7 +10952,7 @@ specifiers:
   typescript: ^3.2.2
   uglify-js: ^3.4.9
   url: ^0.11.0
-  util: ^0.11.1
+  util: ^0.12.1
   uuid: ^3.3.2
   webpack: ^4.16.3
   webpack-cli: ^3.2.3
