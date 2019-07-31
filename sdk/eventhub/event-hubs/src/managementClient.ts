@@ -417,8 +417,7 @@ export class ManagementClient extends LinkEntity {
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
         maxRetries: retryOptions.maxRetries,
-        delayInMs:
-          typeof retryOptions.retryInterval === "number" ? retryOptions.retryInterval : undefined,
+        delayInMs: retryOptions.retryInterval,
         retryPolicy: retryOptions.retryPolicy,
         minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
         maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
