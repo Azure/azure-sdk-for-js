@@ -68,7 +68,7 @@ export class PumpManager {
       log.pumpManager(
         `[${this._eventProcessorName}] [${partitionId}] The existing pump is not running.`
       );
-      await this.removePump(partitionId, CloseReason.Unknown);
+      await this.removePump(partitionId, CloseReason.EventHubExpcetion);
     }
 
     log.pumpManager(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
