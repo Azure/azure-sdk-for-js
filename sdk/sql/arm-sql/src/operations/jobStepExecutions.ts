@@ -174,7 +174,7 @@ const listByJobExecutionOperationSpec: msRest.OperationSpec = {
     Parameters.isActive,
     Parameters.skip,
     Parameters.top,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -203,7 +203,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
