@@ -93,7 +93,16 @@ export function delay(milliseconds: number): Promise<void> | null {
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
  */
-const skip: string[] = [];
+const skip = [
+  // Abort
+  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json"
+];
 
 abstract class Recorder {
   protected readonly filepath: string;
