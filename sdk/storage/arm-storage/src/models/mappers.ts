@@ -1601,7 +1601,8 @@ export const DateAfterModification: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterModificationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -1652,7 +1653,8 @@ export const DateAfterCreation: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterCreationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -2660,6 +2662,29 @@ export const UsageListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Usage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BlobServiceItems: msRest.CompositeMapper = {
+  serializedName: "BlobServiceItems",
+  type: {
+    name: "Composite",
+    className: "BlobServiceItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BlobServiceProperties"
             }
           }
         }

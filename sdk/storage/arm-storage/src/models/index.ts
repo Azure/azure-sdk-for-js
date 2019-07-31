@@ -1007,7 +1007,7 @@ export interface ListServiceSasResponse {
  */
 export interface DateAfterModification {
   /**
-   * Integer value indicating the age in days after last modification
+   * Value indicating the age in days after last modification
    */
   daysAfterModificationGreaterThan: number;
 }
@@ -1035,7 +1035,7 @@ export interface ManagementPolicyBaseBlob {
  */
 export interface DateAfterCreation {
   /**
-   * Integer value indicating the age in days after creation
+   * Value indicating the age in days after creation
    */
   daysAfterCreationGreaterThan: number;
 }
@@ -1751,6 +1751,14 @@ export interface UsageListResult extends Array<Usage> {
 
 /**
  * @interface
+ * An interface representing the BlobServiceItems.
+ * @extends Array<BlobServiceProperties>
+ */
+export interface BlobServiceItems extends Array<BlobServiceProperties> {
+}
+
+/**
+ * @interface
  * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
  * to next page of containers.
  * @extends Array<ListContainerItem>
@@ -2325,6 +2333,26 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BlobServicesListResponse = BlobServiceItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobServiceItems;
     };
 };
 
