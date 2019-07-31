@@ -569,6 +569,8 @@ function getCustomError(err: AmqpError | Error): MessagingError | undefined {
     error.retryable = false;
     return error;
   }
+
+  return undefined;
 }
 
 /**
