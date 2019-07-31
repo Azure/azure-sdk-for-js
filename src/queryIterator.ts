@@ -17,7 +17,7 @@ import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 
 /**
- * Represents a QueryIterator Object, an implmenetation of feed or query response that enables
+ * Represents a QueryIterator Object, an implementation of feed or query response that enables
  * traversal and iterating over the response
  * in the Azure Cosmos DB database service.
  */
