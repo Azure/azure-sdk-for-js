@@ -38,7 +38,7 @@ export interface RetryOptions {
   retryInterval?: number;
   /**
    * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
-   * A minimum value of 60 seconds will be used if a value not greater than this is provided.
+   * A minimum value of `60000` milliseconds will be used if a value not greater than this is provided.
    */
   timeoutInMs?: number;
   /**
@@ -62,8 +62,8 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
     retryOptions == undefined ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
-      ? Constants.defaultOperationTimeoutInSeconds * 1000
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
+      ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
 }

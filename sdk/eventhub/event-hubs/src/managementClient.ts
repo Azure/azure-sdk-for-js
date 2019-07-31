@@ -380,7 +380,7 @@ export class ManagementClient extends LinkEntity {
           const sendRequestOptions: SendRequestOptions = {
             abortSignal: options.abortSignal,
             requestName: options.requestName,
-            timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+            timeoutInMs: remainingOperationTimeoutInMs
           };
 
           count++;
@@ -417,10 +417,7 @@ export class ManagementClient extends LinkEntity {
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
         maxRetries: retryOptions.maxRetries,
-        delayInSeconds:
-          typeof retryOptions.retryInterval === "number"
-            ? retryOptions.retryInterval / 1000
-            : undefined,
+        delayInMs: retryOptions.retryInterval,
         retryPolicy: retryOptions.retryPolicy,
         minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
         maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
