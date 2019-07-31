@@ -130,7 +130,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@types/semver": "^5.5.0",
-    "@types/sinon": "^5.0.5",
+    "@types/sinon": "^7.0.13",
     "@types/tough-cookie": "^2.3.5",
     "@types/uuid": "^3.4.3",
     "@types/webpack": "^4.4.13",
