@@ -364,7 +364,9 @@ export class EventHubSender extends LinkEntity {
     }
     return new Promise<number>(async (resolve, reject) => {
       const rejectOnAbort = () => {
-        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
+        const desc: string = `[${
+          this._context.connectionId
+        }] The create batch operation has been cancelled by the user.`;
         log.error(desc);
         const error = new AbortError(`The create batch operation has been cancelled by the user.`);
         reject(error);
@@ -403,7 +405,8 @@ export class EventHubSender extends LinkEntity {
                 : undefined,
             retryPolicy: retryOptions.retryPolicy,
             minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
+            abortSignal: abortSignal
           };
 
           return retry<void>(config);
@@ -569,8 +572,9 @@ export class EventHubSender extends LinkEntity {
 
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
-            `address "${this.address}" has been cancelled by the user.`;
+            `[${this._context.connectionId}] The send operation on the Sender "${
+              this.name
+            }" with ` + `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
@@ -754,7 +758,8 @@ export class EventHubSender extends LinkEntity {
           : undefined,
       retryPolicy: retryOptions.retryPolicy,
       minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
+      abortSignal: abortSignal
     };
     return retry<void>(config);
   }

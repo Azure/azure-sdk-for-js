@@ -315,7 +315,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<any> {
     const retryOptions = options.retryOptions || {};
     try {
-      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+      const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
@@ -337,8 +337,8 @@ export class ManagementClient extends LinkEntity {
             reject(error);
           };
 
-          if (aborter) {
-            if (aborter.aborted) {
+          if (abortSignal) {
+            if (abortSignal.aborted) {
               return rejectOnAbort();
             }
           }
@@ -352,7 +352,9 @@ export class ManagementClient extends LinkEntity {
             const initOperationStartTime = Date.now();
 
             const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const desc: string = `The request with message_id "${
+                request.message_id
+              }" timed out. Please try again later.`;
               const e: Error = {
                 name: "OperationTimeoutError",
                 message: desc
@@ -423,7 +425,8 @@ export class ManagementClient extends LinkEntity {
             : undefined,
         retryPolicy: retryOptions.retryPolicy,
         minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
+        abortSignal: abortSignal
       };
       return (await retry<Message>(config)).body;
     } catch (err) {

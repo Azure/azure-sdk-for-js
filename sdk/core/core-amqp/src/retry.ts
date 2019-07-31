@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { translate, MessagingError } from "./errors";
-import { delay, isNode } from "./util/utils";
+import { cancellableDelay, isNode } from "./util/cancellableDelay";
 import * as log from "./log";
 import {
   defaultMaxRetries,
@@ -11,6 +11,7 @@ import {
   defaultMinDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -104,6 +105,11 @@ export interface RetryConfig<T> {
    * to use. Applicable only when performing exponential retry.
    */
   minExponentialRetryDelayInMs?: number;
+  /**
+   * @property {AbortSignalLike} [abortSignal] The `AbortSignal` associated with the operation being retried on.
+   * This is used to cancel the delay between retries. This is not used to cancel the actual operation, which is handled by the operation definition itself.
+   */
+  abortSignal: AbortSignalLike;
 }
 
 /**
@@ -157,6 +163,7 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
+
   if (config.maxRetries == undefined || config.maxRetries < 0) {
     config.maxRetries = defaultMaxRetries;
   }
@@ -237,7 +244,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs / 1000,
           config.operationType
         );
-        await delay(targetDelayInMs);
+        await cancellableDelay(targetDelayInMs, config.abortSignal);
         continue;
       } else {
         break;
