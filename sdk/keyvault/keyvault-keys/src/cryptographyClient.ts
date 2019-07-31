@@ -25,7 +25,6 @@ import {
 } from "./core/keyVaultBase";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-import * as crypto from "crypto";
 
 export class CryptographyClient {
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
@@ -105,36 +104,50 @@ export class CryptographyClient {
     return response.value ? response.value : false;
   }
 
+  private static async createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
+    if (isNode) {
+      let crypto = require("crypto");
+      let hash = crypto.createHash(algorithm);
+      hash.update(Buffer.from(data));
+      let digest = hash.digest();
+      return digest;
+    } else {
+      if (window && window.crypto && window.crypto.subtle) {
+        return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
+      } else {
+        throw new Error("Browser does not support cryptography functions");
+      }
+    }
+  }
+
   public async signData(
     data: Uint8Array,
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<Uint8Array> {
-    let hash;
+    let digest;
     switch (algorithm) {
       case ("ES256"):
       case ("ES256K"):
       case ("PS256"):
       case ("RS256"): {
-        hash = crypto.createHash("sha256");
+        digest = await CryptographyClient.createHash("sha256", data);
       } break;
       case ("ES384"):
       case ("PS384"):
       case ("RS384"): {
-        hash = crypto.createHash("sha384");
+        digest = await CryptographyClient.createHash("sha384", data);
       } break;
       case ("ES512"):
       case ("PS512"):
       case ("RS512"): {
-        hash = crypto.createHash("sha512");
+        digest = await CryptographyClient.createHash("sha512", data);
       } break;
       default: {
         throw new Error("Unsupported verify algorithm");
       }
     }
 
-    hash.update(Buffer.from(data));
-    let digest = hash.digest();
     let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
     return result.result!;
   }
@@ -145,31 +158,30 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     options?: RequestOptions
   ): Promise<boolean> {
-    let hash;
+
+    let digest: Buffer;
     switch (algorithm) {
       case ("ES256"):
       case ("ES256K"):
       case ("PS256"):
       case ("RS256"): {
-        hash = crypto.createHash("sha256");
+        digest = await CryptographyClient.createHash("sha256", data);
       } break;
       case ("ES384"):
       case ("PS384"):
       case ("RS384"): {
-        hash = crypto.createHash("sha384");
+        digest = await CryptographyClient.createHash("sha384", data);
       } break;
       case ("ES512"):
       case ("PS512"):
       case ("RS512"): {
-        hash = crypto.createHash("sha512");
+        digest = await CryptographyClient.createHash("sha512", data);
       } break;
       default: {
         throw new Error("Unsupported verify algorithm");
       }
     }
 
-    hash.update(Buffer.from(data));
-    let digest = hash.digest();
     let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
     return result.value!;
   }

@@ -10,6 +10,7 @@ import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
+import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -36,6 +37,40 @@ export interface CreateKeyOptions {
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
     keySize?: number;
+}
+
+// @public (undocumented)
+export class CryptographyClient {
+    constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
+    credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    protected readonly credential: ServiceClientCredentials | TokenCredential;
+    // (undocumented)
+    decrypt(ciphertext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, _iv?: Uint8Array, _authenticationData?: Uint8Array, _authenticationTag?: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    // Warning: (ae-forgotten-export) The symbol "JsonWebKeyEncryptionAlgorithm" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    encrypt(plaintext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, _iv?: Uint8Array, _authenticationData?: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    // (undocumented)
+    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
+    // (undocumented)
+    getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
+    key: string | JsonWebKey;
+    readonly pipeline: ServiceClientOptions;
+    // Warning: (ae-forgotten-export) The symbol "JsonWebKeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    sign(digest: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+    // (undocumented)
+    signData(data: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+    // (undocumented)
+    unwrapKey(encryptedKey: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+    readonly vaultBaseUrl: string;
+    // (undocumented)
+    verify(digest: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
+    // (undocumented)
+    verifyData(data: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
+    // (undocumented)
+    wrapKey(key: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
 }
 
 // @public
