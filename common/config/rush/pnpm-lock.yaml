@@ -2175,7 +2175,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000988
-      electron-to-chromium: 1.3.207
+      electron-to-chromium: 1.3.208
     dev: false
     hasBin: true
     resolution:
@@ -3225,10 +3225,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.207:
+  /electron-to-chromium/1.3.208:
     dev: false
     resolution:
-      integrity: sha512-RIgAnfqbjZNECBLjslfy4cIYvcPl3GAXmnENrcoo0TZ8fGkyEEAealAbO7MoevW4xYUPe+e68cWAj6eP0DmMHw==
+      integrity: sha512-ljgZXaKSfRg32jEl1V8zRJaT3u653jxfZRztKQWM/I1kE+ifBCQKRY+jOPzb4JS48a4czvT/LQfjdiDq5qjU4g==
   /elliptic/6.5.0:
     dependencies:
       bn.js: 4.11.8
@@ -9957,7 +9957,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-efe1kdaKsX3+5dTnSR0+Ri+YAvJUyyE4gMMw1CP9QYP/mbO8tmuocIrclE+I5uCXOftEYC57DxQWfKGDeIxZmA==
+      integrity: sha512-N/NX4ok47ug/na0c62L9AVo+0MdHr7R9q16LPYHcxCo63EcciMnGi8GUfFIFWK5fTtECdB+ZSISisOZMhEg6dA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10019,7 +10019,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-yK++23mfEVl3T1p/aa/fkqlg+DjqqN3owE0qGER2wF9UIBkRqV+iYZhhrGUdcWrEmmcdf7CXFhgzOAdDbjIVwg==
+      integrity: sha512-RgTQjcsHb4jzSrt1mYXxJpL8JPGHMExoXAJSGtLIPN4Vj+S9vxuqdgf/vPBqr+vNl2otvdEMasEX0/F5hhY/GA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10914,7 +10914,7 @@ specifiers:
   ts-mocha: ^6.0.0
   ts-node: ^7.0.1
   tslib: ^1.9.3
-  tunnel: 0.0.6
+  tunnel: ^0.0.6
   typescript: ^3.2.2
   uglify-js: ^3.4.9
   url: ^0.11.0
