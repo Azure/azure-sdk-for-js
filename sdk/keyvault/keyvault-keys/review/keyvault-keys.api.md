@@ -44,19 +44,19 @@ export class CryptographyClient {
     constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
     credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
-    decrypt(ciphertext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: DecryptOptions): Promise<Uint8Array>;
-    encrypt(plaintext: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: EncryptOptions): Promise<Uint8Array>;
+    decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<Uint8Array>;
+    encrypt(algorithm: JsonWebKeyEncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<Uint8Array>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
-    sign(digest: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
-    signData(data: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
-    unwrapKey(encryptedKey: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+    sign(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    signData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
     readonly vaultBaseUrl: string;
-    verify(digest: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
-    verifyData(data: Uint8Array, signature: Uint8Array, algorithm: JsonWebKeySignatureAlgorithm, options?: RequestOptions): Promise<boolean>;
-    wrapKey(key: Uint8Array, algorithm: JsonWebKeyEncryptionAlgorithm, options?: RequestOptions): Promise<Uint8Array>;
+    verify(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<boolean>;
+    verifyData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<boolean>;
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
 }
 
 // @public
@@ -186,6 +186,9 @@ export class KeysClient {
     updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
     readonly vaultBaseUrl: string;
 }
+
+// @public
+export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
 export interface NewPipelineOptions {

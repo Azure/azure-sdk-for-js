@@ -1,5 +1,5 @@
 import { GetKeyOptions, RequestOptions } from "./keysModels";
-import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm, JsonWebKeyOperation } from "./core/models";
+import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
   isTokenCredential,
@@ -135,7 +135,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async wrapKey(
-    algorithm: JsonWebKeyEncryptionAlgorithm,
+    algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
@@ -189,7 +189,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async unwrapKey(
-    algorithm: JsonWebKeyEncryptionAlgorithm,
+    algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
     options?: RequestOptions
   ): Promise<Uint8Array> {
@@ -578,3 +578,8 @@ export interface DecryptOptions extends RequestOptions {
    */
   authenticationTag?: Uint8Array,
 }
+
+/**
+ * Allow algorithms for key wrapping/unwrapping
+ */
+export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";

@@ -61,7 +61,7 @@ import {
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
-import { CryptographyClient, EncryptOptions, DecryptOptions } from "./cryptographyClient";
+import { CryptographyClient, EncryptOptions, DecryptOptions, KeyWrapAlgorithm } from "./cryptographyClient";
 
 export {
   CreateEcKeyOptions,
@@ -83,6 +83,7 @@ export {
   JsonWebKeyType,
   Key,
   KeyAttributes,
+  KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
   PagedAsyncIterableIterator,
