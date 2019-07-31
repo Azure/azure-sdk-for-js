@@ -7,7 +7,7 @@
   "browser": {
     "dist/index.js": "./browser/azure-test-utils-recorder.js"
   },
-  "types": "./typings/index.d.ts",
+  "types": "./typings/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
