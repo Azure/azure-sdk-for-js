@@ -82,7 +82,7 @@
     "semaphore": "1.0.5",
     "stream-http": "^2.8.3",
     "tslib": "^1.9.3",
-    "tunnel": "0.0.6"
+    "tunnel": "^0.0.6"
   },
   "repository": {
     "type": "git",
