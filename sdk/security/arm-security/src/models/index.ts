@@ -256,6 +256,466 @@ export interface DataExportSetting extends Setting {
 }
 
 /**
+ * A container holding only the Tags for a resource, allowing the user to update the tags.
+ */
+export interface TagsResource {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Properties of the solution's user defined resources.
+ */
+export interface UserDefinedResourcesProperties {
+  /**
+   * Azure Resource Graph query which represents the security solution's user defined resources.
+   * Required to start with "where type != "Microsoft.Devices/IotHubs""
+   */
+  query: string;
+  /**
+   * List of Azure subscription ids on which the user defined resources query should be executed.
+   */
+  querySubscriptions: string[];
+}
+
+/**
+ * Recommendation configuration
+ */
+export interface RecommendationConfigurationProperties {
+  /**
+   * The recommendation type. Possible values include: 'IoT_ACRAuthentication',
+   * 'IoT_AgentSendsUnutilizedMessages', 'IoT_Baseline', 'IoT_EdgeHubMemOptimize',
+   * 'IoT_EdgeLoggingOptions', 'IoT_InconsistentModuleSettings', 'IoT_InstallAgent',
+   * 'IoT_IPFilter_DenyAll', 'IoT_IPFilter_PermissiveRule', 'IoT_OpenPorts',
+   * 'IoT_PermissiveFirewallPolicy', 'IoT_PermissiveInputFirewallRules',
+   * 'IoT_PermissiveOutputFirewallRules', 'IoT_PrivilegedDockerOptions', 'IoT_SharedCredentials',
+   * 'IoT_VulnerableTLSCipherSuite'
+   */
+  recommendationType: RecommendationType;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Recommendation status. The recommendation is not generated when the status is disabled.
+   * Possible values include: 'Disabled', 'Enabled'. Default value: 'Enabled'.
+   */
+  status: RecommendationConfigStatus;
+}
+
+/**
+ * Security Solution
+ */
+export interface IoTSecuritySolutionModel {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The resource location.
+   */
+  location?: string;
+  /**
+   * Workspace resource ID
+   */
+  workspace: string;
+  /**
+   * Resource display name.
+   */
+  displayName: string;
+  /**
+   * Security solution status. Possible values include: 'Enabled', 'Disabled'. Default value:
+   * 'Enabled'.
+   */
+  status?: SecuritySolutionStatus;
+  /**
+   * List of additional export to workspace data options
+   */
+  exportProperty?: ExportData[];
+  /**
+   * Disabled data sources. Disabling these data sources compromises the system.
+   */
+  disabledDataSources?: DataSource[];
+  /**
+   * IoT Hub resource IDs
+   */
+  iotHubs: string[];
+  userDefinedResources?: UserDefinedResourcesProperties;
+  /**
+   * List of resources that were automatically discovered as relevant to the security solution.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly autoDiscoveredResources?: string[];
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
+}
+
+/**
+ * An interface representing UpdateIotSecuritySolutionData.
+ */
+export interface UpdateIotSecuritySolutionData extends TagsResource {
+  userDefinedResources?: UserDefinedResourcesProperties;
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
+}
+
+/**
+ * Severity metrics
+ */
+export interface IoTSeverityMetrics {
+  /**
+   * count of high severity items
+   */
+  high?: number;
+  /**
+   * count of medium severity items
+   */
+  medium?: number;
+  /**
+   * count of low severity items
+   */
+  low?: number;
+}
+
+/**
+ * An interface representing IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem.
+ */
+export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
+  /**
+   * the date of the metrics
+   */
+  date?: Date;
+  /**
+   * devices alerts count by severity.
+   */
+  devicesMetrics?: IoTSeverityMetrics;
+}
+
+/**
+ * Statistic information about the number of alerts per device during the last period
+ */
+export interface IoTSecurityAlertedDevice {
+  /**
+   * Name of the alert type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deviceId?: string;
+  /**
+   * the number of alerts raised for this device
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertsCount?: number;
+}
+
+/**
+ * List of devices with the count of raised alerts
+ */
+export interface IoTSecurityAlertedDevicesList {
+  /**
+   * List of aggregated alerts data
+   */
+  value: IoTSecurityAlertedDevice[];
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Statistic information about the number of alerts per alert type during the last period
+ */
+export interface IoTSecurityDeviceAlert {
+  /**
+   * Display name of the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertDisplayName?: string;
+  /**
+   * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
+   * 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * the number of alerts raised for this alert type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertsCount?: number;
+}
+
+/**
+ * List of alerts with the count of raised alerts
+ */
+export interface IoTSecurityDeviceAlertsList {
+  /**
+   * List of top alerts data
+   */
+  value: IoTSecurityDeviceAlert[];
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Statistic information about the number of recommendations per recommendation type
+ */
+export interface IoTSecurityDeviceRecommendation {
+  /**
+   * Display name of the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationDisplayName?: string;
+  /**
+   * Estimated severity of this recommendation. Possible values include: 'Informational', 'Low',
+   * 'Medium', 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * the number of device with this recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly devicesCount?: number;
+}
+
+/**
+ * List of recommendations with the count of devices
+ */
+export interface IoTSecurityDeviceRecommendationsList {
+  /**
+   * List of aggregated recommendation data
+   */
+  value: IoTSecurityDeviceRecommendation[];
+}
+
+/**
+ * Security Analytics of a security solution
+ */
+export interface IoTSecuritySolutionAnalyticsModel extends Resource {
+  /**
+   * Security Analytics of a security solution
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metrics?: IoTSeverityMetrics;
+  /**
+   * number of unhealthy devices
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unhealthyDeviceCount?: number;
+  /**
+   * The list of devices metrics by the aggregated date.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
+  /**
+   * The list of top 3 devices with the most attacked.
+   */
+  topAlertedDevices?: IoTSecurityAlertedDevicesList;
+  /**
+   * The list of most prevalent 3 alerts.
+   */
+  mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlertsList;
+  /**
+   * The list of most prevalent 3 recommendations.
+   */
+  mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendationsList;
+}
+
+/**
+ * List of Security Analytics of a security solution
+ */
+export interface IoTSecuritySolutionAnalyticsModelList {
+  /**
+   * List of Security Analytics of a security solution
+   */
+  value: IoTSecuritySolutionAnalyticsModel[];
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Security Solution Aggregated Alert information
+ */
+export interface IoTSecurityAggregatedAlert {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Name of the alert type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertType?: string;
+  /**
+   * Display name of the alert type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertDisplayName?: string;
+  /**
+   * The date the incidents were detected by the vendor
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly aggregatedDateUtc?: Date;
+  /**
+   * Name of the vendor that discovered the incident
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vendorName?: string;
+  /**
+   * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
+   * 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * Recommended steps for remediation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remediationSteps?: string;
+  /**
+   * Description of the incident and what it means
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * Occurrence number of the alert within the aggregated date
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly count?: number;
+  /**
+   * Azure resource ID of the resource that got the alerts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly effectedResourceType?: string;
+  /**
+   * The type of the alerted resource (Azure, Non-Azure)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The action that was taken as a response to the alert (Active, Blocked etc.)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionTaken?: string;
+  /**
+   * query in log analytics to get the list of affected devices/alerts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logAnalyticsQuery?: string;
+}
+
+/**
+ * Security Solution Recommendation Information
+ */
+export interface IoTSecurityAggregatedRecommendation {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Name of the recommendation
+   */
+  recommendationName?: string;
+  /**
+   * Display name of the recommendation type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationDisplayName?: string;
+  /**
+   * Description of the incident and what it means
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The recommendation-type GUID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationTypeId?: string;
+  /**
+   * Name of the vendor that discovered the issue
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly detectedBy?: string;
+  /**
+   * Recommended steps for remediation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remediationSteps?: string;
+  /**
+   * Estimated severity of this recommendation. Possible values include: 'Informational', 'Low',
+   * 'Medium', 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * the number of the healthy devices within the solution
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly healthyDevices?: number;
+  /**
+   * the number of the unhealthy devices within the solution
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unhealthyDeviceCount?: number;
+  /**
+   * query in log analytics to get the list of affected devices/alerts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logAnalyticsQuery?: string;
+}
+
+/**
  * Describes properties of a connected resource
  */
 export interface ConnectedResource {
@@ -554,17 +1014,23 @@ export interface AadExternalSecuritySolution {
    * Resource Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  issue?: Issue;
   /**
    * Resource name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  numberOfVms?: number;
+}
+
+/**
+ * Represents a machine that is part of a VM/server group
+ */
+export interface VmRecommendation {
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly type?: string;
+  configurationStatus?: ConfigurationStatus;
   /**
    * Location where the resource is stored
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1334,471 +1800,6 @@ export interface WorkspaceSetting extends Resource {
 }
 
 /**
- * A container holding only the Tags for a resource, allowing the user to update the tags.
- */
-export interface TagsResource {
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Properties of the solution's user defined resources.
- */
-export interface UserDefinedResourcesProperties {
-  /**
-   * Azure Resource Graph query which represents the security solution's user defined resources.
-   * Required to start with "where type != "Microsoft.Devices/IotHubs""
-   */
-  query: string;
-  /**
-   * List of Azure subscription ids on which the user defined resources query should be executed.
-   */
-  querySubscriptions: string[];
-}
-
-/**
- * Recommendation configuration
- */
-export interface RecommendationConfigurationProperties {
-  /**
-   * The recommendation type. Possible values include: 'IoT_ACRAuthentication',
-   * 'IoT_AgentSendsUnutilizedMessages', 'IoT_Baseline', 'IoT_EdgeHubMemOptimize',
-   * 'IoT_EdgeLoggingOptions', 'IoT_InconsistentModuleSettings', 'IoT_InstallAgent',
-   * 'IoT_IPFilter_DenyAll', 'IoT_IPFilter_PermissiveRule', 'IoT_OpenPorts',
-   * 'IoT_PermissiveFirewallPolicy', 'IoT_PermissiveInputFirewallRules',
-   * 'IoT_PermissiveOutputFirewallRules', 'IoT_PrivilegedDockerOptions', 'IoT_SharedCredentials',
-   * 'IoT_VulnerableTLSCipherSuite'
-   */
-  recommendationType: RecommendationType;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Recommendation status. The recommendation is not generated when the status is disabled.
-   * Possible values include: 'Disabled', 'Enabled'. Default value: 'Enabled'.
-   */
-  status: RecommendationConfigStatus;
-}
-
-/**
- * Security Solution
- */
-export interface IoTSecuritySolutionModel {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The resource location.
-   */
-  location?: string;
-  /**
-   * Workspace resource ID
-   */
-  workspace: string;
-  /**
-   * Resource display name.
-   */
-  displayName: string;
-  /**
-   * Security solution status. Possible values include: 'Enabled', 'Disabled'. Default value:
-   * 'Enabled'.
-   */
-  status?: SecuritySolutionStatus;
-  /**
-   * List of additional export to workspace data options
-   */
-  exportProperty?: ExportData[];
-  /**
-   * Disabled data sources. Disabling these data sources compromises the system.
-   */
-  disabledDataSources?: DataSource[];
-  /**
-   * IoT Hub resource IDs
-   */
-  iotHubs: string[];
-  userDefinedResources?: UserDefinedResourcesProperties;
-  /**
-   * List of resources that were automatically discovered as relevant to the security solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly autoDiscoveredResources?: string[];
-  recommendationsConfiguration?: RecommendationConfigurationProperties[];
-}
-
-/**
- * An interface representing UpdateIotSecuritySolutionData.
- */
-export interface UpdateIotSecuritySolutionData extends TagsResource {
-  userDefinedResources?: UserDefinedResourcesProperties;
-  recommendationsConfiguration?: RecommendationConfigurationProperties[];
-}
-
-/**
- * Severity metrics
- */
-export interface IoTSeverityMetrics {
-  /**
-   * count of high severity items
-   */
-  high?: number;
-  /**
-   * count of medium severity items
-   */
-  medium?: number;
-  /**
-   * count of low severity items
-   */
-  low?: number;
-}
-
-/**
- * An interface representing IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem.
- */
-export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
-  /**
-   * the date of the metrics
-   */
-  date?: Date;
-  /**
-   * devices alerts count by severity.
-   */
-  devicesMetrics?: IoTSeverityMetrics;
-}
-
-/**
- * Statistic information about the number of alerts per device during the last period
- */
-export interface IoTSecurityAlertedDevice {
-  /**
-   * Name of the alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly deviceId?: string;
-  /**
-   * the number of alerts raised for this device
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alertsCount?: number;
-}
-
-/**
- * List of devices with the count of raised alerts
- */
-export interface IoTSecurityAlertedDevicesList {
-  /**
-   * List of aggregated alerts data
-   */
-  value: IoTSecurityAlertedDevice[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Statistic information about the number of alerts per alert type during the last period
- */
-export interface IoTSecurityDeviceAlert {
-  /**
-   * Display name of the alert
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alertDisplayName?: string;
-  /**
-   * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
-   * 'High'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * the number of alerts raised for this alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alertsCount?: number;
-}
-
-/**
- * List of alerts with the count of raised alerts
- */
-export interface IoTSecurityDeviceAlertsList {
-  /**
-   * List of top alerts data
-   */
-  value: IoTSecurityDeviceAlert[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Statistic information about the number of recommendations per recommendation type
- */
-export interface IoTSecurityDeviceRecommendation {
-  /**
-   * Display name of the recommendation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendationDisplayName?: string;
-  /**
-   * Estimated severity of this recommendation. Possible values include: 'Informational', 'Low',
-   * 'Medium', 'High'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * the number of device with this recommendation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly devicesCount?: number;
-}
-
-/**
- * List of recommendations with the count of devices
- */
-export interface IoTSecurityDeviceRecommendationsList {
-  /**
-   * List of aggregated recommendation data
-   */
-  value: IoTSecurityDeviceRecommendation[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Security Analytics of a security solution
- */
-export interface IoTSecuritySolutionAnalyticsModel extends Resource {
-  /**
-   * Security Analytics of a security solution
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metrics?: IoTSeverityMetrics;
-  /**
-   * number of unhealthy devices
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unhealthyDeviceCount?: number;
-  /**
-   * The list of devices metrics by the aggregated date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly devicesMetrics?: IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem[];
-  /**
-   * The list of top 3 devices with the most attacked.
-   */
-  topAlertedDevices?: IoTSecurityAlertedDevicesList;
-  /**
-   * The list of most prevalent 3 alerts.
-   */
-  mostPrevalentDeviceAlerts?: IoTSecurityDeviceAlertsList;
-  /**
-   * The list of most prevalent 3 recommendations.
-   */
-  mostPrevalentDeviceRecommendations?: IoTSecurityDeviceRecommendationsList;
-}
-
-/**
- * List of Security Analytics of a security solution
- */
-export interface IoTSecuritySolutionAnalyticsModelList {
-  /**
-   * List of Security Analytics of a security solution
-   */
-  value: IoTSecuritySolutionAnalyticsModel[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Security Solution Aggregated Alert information
- */
-export interface IoTSecurityAggregatedAlert {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Name of the alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alertType?: string;
-  /**
-   * Display name of the alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alertDisplayName?: string;
-  /**
-   * The date the incidents were detected by the vendor
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly aggregatedDateUtc?: Date;
-  /**
-   * Name of the vendor that discovered the incident
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly vendorName?: string;
-  /**
-   * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
-   * 'High'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * Recommended steps for remediation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly remediationSteps?: string;
-  /**
-   * Description of the incident and what it means
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * Occurrence number of the alert within the aggregated date
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly count?: number;
-  /**
-   * Azure resource ID of the resource that got the alerts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly effectedResourceType?: string;
-  /**
-   * The type of the alerted resource (Azure, Non-Azure)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemSource?: string;
-  /**
-   * The action that was taken as a response to the alert (Active, Blocked etc.)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionTaken?: string;
-  /**
-   * query in log analytics to get the list of affected devices/alerts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly logAnalyticsQuery?: string;
-}
-
-/**
- * Security Solution Recommendation Information
- */
-export interface IoTSecurityAggregatedRecommendation {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Name of the recommendation
-   */
-  recommendationName?: string;
-  /**
-   * Display name of the recommendation type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendationDisplayName?: string;
-  /**
-   * Description of the incident and what it means
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * The recommendation-type GUID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendationTypeId?: string;
-  /**
-   * Name of the vendor that discovered the issue
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly detectedBy?: string;
-  /**
-   * Recommended steps for remediation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly remediationSteps?: string;
-  /**
-   * Estimated severity of this recommendation. Possible values include: 'Informational', 'Low',
-   * 'Medium', 'High'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * the number of the healthy devices within the solution
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly healthyDevices?: number;
-  /**
-   * the number of the unhealthy devices within the solution
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unhealthyDeviceCount?: number;
-  /**
-   * query in log analytics to get the list of affected devices/alerts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly logAnalyticsQuery?: string;
-}
-
-/**
  * Regulatory compliance standard details and state
  */
 export interface RegulatoryComplianceStandard extends Resource {
@@ -2008,6 +2009,46 @@ export interface AlertsListResourceGroupLevelAlertsByRegionOptionalParams extend
 /**
  * Optional Parameters.
  */
+export interface IoTSecuritySolutionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * filter the Security Solution with OData syntax. supporting filter by iotHubs
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IoTSecuritySolutionsResourceGroupListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * filter the Security Solution with OData syntax. supporting filter by iotHubs
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IoTSecuritySolutionsAnalyticsAggregatedAlertsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of results to retrieve.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IoTSecuritySolutionsAnalyticsRecommendationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of results to retrieve.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface AdaptiveApplicationControlsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Include the policy rules
@@ -2047,46 +2088,6 @@ export interface TasksListByResourceGroupOptionalParams extends msRest.RequestOp
    * OData filter. Optional.
    */
   filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IoTSecuritySolutionsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * filter the Security Solution with OData syntax. supporting filter by iotHubs
-   */
-  filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IoTSecuritySolutionsResourceGroupListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * filter the Security Solution with OData syntax. supporting filter by iotHubs
-   */
-  filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IoTSecuritySolutionsAnalyticsAggregatedAlertsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The number of results to retrieve.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IoTSecuritySolutionsAnalyticsRecommendationsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The number of results to retrieve.
-   */
-  top?: number;
 }
 
 /**
@@ -2158,6 +2159,45 @@ export interface AlertList extends Array<Alert> {
  * @extends Array<Setting>
  */
 export interface SettingsList extends Array<Setting> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of iot solutions
+ * @extends Array<IoTSecuritySolutionModel>
+ */
+export interface IoTSecuritySolutionsList extends Array<IoTSecuritySolutionModel> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of IoT aggregated security alerts
+ * @extends Array<IoTSecurityAggregatedAlert>
+ */
+export interface IoTSecurityAggregatedAlertList extends Array<IoTSecurityAggregatedAlert> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of IoT aggregated security recommendations
+ * @extends Array<IoTSecurityAggregatedRecommendation>
+ */
+export interface IoTSecurityAggregatedRecommendationList extends Array<IoTSecurityAggregatedRecommendation> {
   /**
    * The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2336,45 +2376,6 @@ export interface WorkspaceSettingList extends Array<WorkspaceSetting> {
 
 /**
  * @interface
- * List of iot solutions
- * @extends Array<IoTSecuritySolutionModel>
- */
-export interface IoTSecuritySolutionsList extends Array<IoTSecuritySolutionModel> {
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * List of IoT aggregated security alerts
- * @extends Array<IoTSecurityAggregatedAlert>
- */
-export interface IoTSecurityAggregatedAlertList extends Array<IoTSecurityAggregatedAlert> {
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * List of IoT aggregated security recommendations
- * @extends Array<IoTSecurityAggregatedRecommendation>
- */
-export interface IoTSecurityAggregatedRecommendationList extends Array<IoTSecurityAggregatedRecommendation> {
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * List of regulatory compliance standards response
  * @extends Array<RegulatoryComplianceStandard>
  */
@@ -2443,6 +2444,51 @@ export type ReportedSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
  * @enum {string}
  */
 export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
+
+/**
+ * Defines values for SecuritySolutionStatus.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type SecuritySolutionStatus = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ExportData.
+ * Possible values include: 'RawEvents'
+ * @readonly
+ * @enum {string}
+ */
+export type ExportData = 'RawEvents';
+
+/**
+ * Defines values for DataSource.
+ * Possible values include: 'TwinData'
+ * @readonly
+ * @enum {string}
+ */
+export type DataSource = 'TwinData';
+
+/**
+ * Defines values for RecommendationType.
+ * Possible values include: 'IoT_ACRAuthentication', 'IoT_AgentSendsUnutilizedMessages',
+ * 'IoT_Baseline', 'IoT_EdgeHubMemOptimize', 'IoT_EdgeLoggingOptions',
+ * 'IoT_InconsistentModuleSettings', 'IoT_InstallAgent', 'IoT_IPFilter_DenyAll',
+ * 'IoT_IPFilter_PermissiveRule', 'IoT_OpenPorts', 'IoT_PermissiveFirewallPolicy',
+ * 'IoT_PermissiveInputFirewallRules', 'IoT_PermissiveOutputFirewallRules',
+ * 'IoT_PrivilegedDockerOptions', 'IoT_SharedCredentials', 'IoT_VulnerableTLSCipherSuite'
+ * @readonly
+ * @enum {string}
+ */
+export type RecommendationType = 'IoT_ACRAuthentication' | 'IoT_AgentSendsUnutilizedMessages' | 'IoT_Baseline' | 'IoT_EdgeHubMemOptimize' | 'IoT_EdgeLoggingOptions' | 'IoT_InconsistentModuleSettings' | 'IoT_InstallAgent' | 'IoT_IPFilter_DenyAll' | 'IoT_IPFilter_PermissiveRule' | 'IoT_OpenPorts' | 'IoT_PermissiveFirewallPolicy' | 'IoT_PermissiveInputFirewallRules' | 'IoT_PermissiveOutputFirewallRules' | 'IoT_PrivilegedDockerOptions' | 'IoT_SharedCredentials' | 'IoT_VulnerableTLSCipherSuite';
+
+/**
+ * Defines values for RecommendationConfigStatus.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type RecommendationConfigStatus = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for SecurityFamily.
@@ -2515,51 +2561,6 @@ export type AlertNotifications = 'On' | 'Off';
  * @enum {string}
  */
 export type AlertsToAdmins = 'On' | 'Off';
-
-/**
- * Defines values for SecuritySolutionStatus.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type SecuritySolutionStatus = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for ExportData.
- * Possible values include: 'RawEvents'
- * @readonly
- * @enum {string}
- */
-export type ExportData = 'RawEvents';
-
-/**
- * Defines values for DataSource.
- * Possible values include: 'TwinData'
- * @readonly
- * @enum {string}
- */
-export type DataSource = 'TwinData';
-
-/**
- * Defines values for RecommendationType.
- * Possible values include: 'IoT_ACRAuthentication', 'IoT_AgentSendsUnutilizedMessages',
- * 'IoT_Baseline', 'IoT_EdgeHubMemOptimize', 'IoT_EdgeLoggingOptions',
- * 'IoT_InconsistentModuleSettings', 'IoT_InstallAgent', 'IoT_IPFilter_DenyAll',
- * 'IoT_IPFilter_PermissiveRule', 'IoT_OpenPorts', 'IoT_PermissiveFirewallPolicy',
- * 'IoT_PermissiveInputFirewallRules', 'IoT_PermissiveOutputFirewallRules',
- * 'IoT_PrivilegedDockerOptions', 'IoT_SharedCredentials', 'IoT_VulnerableTLSCipherSuite'
- * @readonly
- * @enum {string}
- */
-export type RecommendationType = 'IoT_ACRAuthentication' | 'IoT_AgentSendsUnutilizedMessages' | 'IoT_Baseline' | 'IoT_EdgeHubMemOptimize' | 'IoT_EdgeLoggingOptions' | 'IoT_InconsistentModuleSettings' | 'IoT_InstallAgent' | 'IoT_IPFilter_DenyAll' | 'IoT_IPFilter_PermissiveRule' | 'IoT_OpenPorts' | 'IoT_PermissiveFirewallPolicy' | 'IoT_PermissiveInputFirewallRules' | 'IoT_PermissiveOutputFirewallRules' | 'IoT_PrivilegedDockerOptions' | 'IoT_SharedCredentials' | 'IoT_VulnerableTLSCipherSuite';
-
-/**
- * Defines values for RecommendationConfigStatus.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type RecommendationConfigStatus = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for State.
@@ -3160,6 +3161,306 @@ export type SettingsListNextResponse = SettingsList & {
 /**
  * Contains response data for the list operation.
  */
+export type IoTSecuritySolutionsListResponse = IoTSecuritySolutionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionsList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsListNextResponse = IoTSecuritySolutionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionsList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IoTSecuritySolutionsResourceGroupListResponse = IoTSecuritySolutionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionsList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsResourceGroupListNextResponse = IoTSecuritySolutionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionModel;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type IotSecuritySolutionCreateResponse = IoTSecuritySolutionModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionModel;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionModel;
+    };
+};
+
+/**
+ * Contains response data for the getAll operation.
+ */
+export type IoTSecuritySolutionsAnalyticsGetAllResponse = IoTSecuritySolutionAnalyticsModelList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionAnalyticsModelList;
+    };
+};
+
+/**
+ * Contains response data for the getDefault operation.
+ */
+export type IoTSecuritySolutionsAnalyticsGetDefaultResponse = IoTSecuritySolutionAnalyticsModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecuritySolutionAnalyticsModel;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListResponse = IoTSecurityAggregatedAlertList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedAlertList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListNextResponse = IoTSecurityAggregatedAlertList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedAlertList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurityAggregatedAlert & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedAlert;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IoTSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurityAggregatedRecommendation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedRecommendation;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IoTSecuritySolutionsAnalyticsRecommendationsListResponse = IoTSecurityAggregatedRecommendationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedRecommendationList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsAnalyticsRecommendationsListNextResponse = IoTSecurityAggregatedRecommendationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedRecommendationList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
 export type AllowedConnectionsListResponse = AllowedConnectionsList & {
   /**
    * The underlying HTTP response.
@@ -3538,7 +3839,7 @@ export type JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse = JitNe
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the listNext operation.
  */
 export type JitNetworkAccessPoliciesGetResponse = JitNetworkAccessPolicy & {
   /**
@@ -3738,7 +4039,7 @@ export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listByHomeRegion operation.
  */
 export type LocationsListResponse = AscLocationList & {
   /**
@@ -3793,7 +4094,7 @@ export type LocationsListNextResponse = AscLocationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AscLocationList;
+      parsedBody: TopologyList;
     };
 };
 
@@ -3818,7 +4119,7 @@ export type OperationsListResponse = OperationList & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the get operation.
  */
 export type OperationsListNextResponse = OperationList & {
   /**
@@ -3838,9 +4139,29 @@ export type OperationsListNextResponse = OperationList & {
 };
 
 /**
+ * Contains response data for the create operation.
+ */
+export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
-export type TasksListResponse = SecurityTaskList & {
+export type AutoProvisioningSettingsListResponse = AutoProvisioningSettingList & {
   /**
    * The underlying HTTP response.
    */
@@ -3853,14 +4174,14 @@ export type TasksListResponse = SecurityTaskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecurityTaskList;
+      parsedBody: AutoProvisioningSettingList;
     };
 };
 
 /**
- * Contains response data for the listByHomeRegion operation.
+ * Contains response data for the get operation.
  */
-export type TasksListByHomeRegionResponse = SecurityTaskList & {
+export type AutoProvisioningSettingsGetResponse = AutoProvisioningSetting & {
   /**
    * The underlying HTTP response.
    */
@@ -3873,14 +4194,14 @@ export type TasksListByHomeRegionResponse = SecurityTaskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecurityTaskList;
+      parsedBody: AutoProvisioningSetting;
     };
 };
 
 /**
- * Contains response data for the getSubscriptionLevelTask operation.
+ * Contains response data for the create operation.
  */
-export type TasksGetSubscriptionLevelTaskResponse = SecurityTask & {
+export type AutoProvisioningSettingsCreateResponse = AutoProvisioningSetting & {
   /**
    * The underlying HTTP response.
    */
@@ -3893,54 +4214,14 @@ export type TasksGetSubscriptionLevelTaskResponse = SecurityTask & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecurityTask;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type TasksListByResourceGroupResponse = SecurityTaskList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
-};
-
-/**
- * Contains response data for the getResourceGroupLevelTask operation.
- */
-export type TasksGetResourceGroupLevelTaskResponse = SecurityTask & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTask;
+      parsedBody: AutoProvisioningSetting;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type TasksListNextResponse = SecurityTaskList & {
+export type AutoProvisioningSettingsListNextResponse = AutoProvisioningSettingList & {
   /**
    * The underlying HTTP response.
    */
@@ -3953,14 +4234,14 @@ export type TasksListNextResponse = SecurityTaskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecurityTaskList;
+      parsedBody: AutoProvisioningSettingList;
     };
 };
 
 /**
- * Contains response data for the listByHomeRegionNext operation.
+ * Contains response data for the list operation.
  */
-export type TasksListByHomeRegionNextResponse = SecurityTaskList & {
+export type CompliancesListResponse = ComplianceList & {
   /**
    * The underlying HTTP response.
    */
@@ -3973,7 +4254,27 @@ export type TasksListByHomeRegionNextResponse = SecurityTaskList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SecurityTaskList;
+      parsedBody: ComplianceList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CompliancesGetResponse = Compliance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComplianceList;
     };
 };
 
@@ -4554,306 +4855,6 @@ export type WorkspaceSettingsListNextResponse = WorkspaceSettingList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: WorkspaceSettingList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IoTSecuritySolutionsListResponse = IoTSecuritySolutionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type IoTSecuritySolutionsListNextResponse = IoTSecuritySolutionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IoTSecuritySolutionsResourceGroupListResponse = IoTSecuritySolutionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type IoTSecuritySolutionsResourceGroupListNextResponse = IoTSecuritySolutionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type IotSecuritySolutionCreateResponse = IoTSecuritySolutionModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
-};
-
-/**
- * Contains response data for the getAll operation.
- */
-export type IoTSecuritySolutionsAnalyticsGetAllResponse = IoTSecuritySolutionAnalyticsModelList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionAnalyticsModelList;
-    };
-};
-
-/**
- * Contains response data for the getDefault operation.
- */
-export type IoTSecuritySolutionsAnalyticsGetDefaultResponse = IoTSecuritySolutionAnalyticsModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionAnalyticsModel;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListResponse = IoTSecurityAggregatedAlertList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlertList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListNextResponse = IoTSecurityAggregatedAlertList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlertList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurityAggregatedAlert & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlert;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IoTSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurityAggregatedRecommendation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendation;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IoTSecuritySolutionsAnalyticsRecommendationsListResponse = IoTSecurityAggregatedRecommendationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendationList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type IoTSecuritySolutionsAnalyticsRecommendationsListNextResponse = IoTSecurityAggregatedRecommendationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendationList;
     };
 };
 

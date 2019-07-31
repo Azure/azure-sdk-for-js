@@ -96,7 +96,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [

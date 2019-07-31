@@ -120,7 +120,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.includePathRecommendations,
     Parameters.summary
   ],
@@ -147,7 +147,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -172,7 +172,7 @@ const putOperationSpec: msRest.OperationSpec = {
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
