@@ -285,6 +285,7 @@ describe("FileClient", () => {
     try {
       const aborter = new AbortController();
       const result = await fileClient.download(0, undefined, {
+        abortSignal: aborter.signal,
         progress: () => {
           eventTriggered = true;
           aborter.abort();
