@@ -94,6 +94,14 @@ export function delay(milliseconds: number): Promise<void> | null {
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
  */
 const skip = [
+  // Abort
+  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // Unknown reason (playback fails, probably same as Nock)
   "browsers/fileclient/recording_download_should_update_progress_and_abort_successfully.json",
   // Unknown reason (recording throws an error, but file is generated and playback works)

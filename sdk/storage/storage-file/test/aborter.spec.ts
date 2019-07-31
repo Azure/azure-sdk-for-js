@@ -8,7 +8,7 @@ import { ShareClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe.only("Aborter", () => {
+describe("Aborter", () => {
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
