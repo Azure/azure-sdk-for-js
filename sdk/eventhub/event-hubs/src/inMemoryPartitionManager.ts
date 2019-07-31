@@ -15,7 +15,7 @@ export class InMemoryPartitionManager implements PartitionManager {
   /**
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
-   * 
+   *
    * @param eventHubName The event hub name.
    * @param consumerGroupName The consumer group name.
    * @return Partition ownership details of all the partitions that have/had an owner..
@@ -56,7 +56,7 @@ export class InMemoryPartitionManager implements PartitionManager {
       partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
       partitionOwnership.offset = checkpoint.offset;
       partitionOwnership.eTag = generate_uuid();
-      return  partitionOwnership.eTag;
+      return partitionOwnership.eTag;
     }
     return "";
   }

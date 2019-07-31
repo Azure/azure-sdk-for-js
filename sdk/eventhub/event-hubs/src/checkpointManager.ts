@@ -49,18 +49,26 @@ export class CheckpointManager {
   private _instanceId: string;
   private _eTag: string;
 
-  constructor(
-    partitionContext: PartitionContext,
-    partitionManager: PartitionManager,
-  ) {
+  constructor(partitionContext: PartitionContext, partitionManager: PartitionManager) {
     this._partitionContext = partitionContext;
     this._partitionManager = partitionManager;
     this._eTag = "";
     this._instanceId = generate_uuid();
   }
-
+  /**
+   * Updates a checkpoint using the event data.
+   *
+   * @param eventData The event data to use for updating the checkpoint.
+   * @return Promise<void>
+   */
   public async updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-
+  /**
+   * Updates a checkpoint using the given offset and sequence number.
+   *
+   * @param sequenceNumber The sequence number to update the checkpoint.
+   * @param offset The offset to update the checkpoint.
+   * @return  Promise<void>.
+   */
   public async updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 
   public async updateCheckpoint(
