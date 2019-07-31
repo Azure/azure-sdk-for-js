@@ -606,7 +606,7 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.filter,
     Parameters.select,
-    Parameters.expand0,
+    Parameters.expand1,
     Parameters.apiVersion0
   ],
   headerParameters: [

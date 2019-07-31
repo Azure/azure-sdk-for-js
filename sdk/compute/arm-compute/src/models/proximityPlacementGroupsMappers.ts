@@ -91,6 +91,7 @@ export {
   OSProfile,
   Plan,
   ProximityPlacementGroup,
+  ProximityPlacementGroupListResult,
   ProximityPlacementGroupUpdate,
   PurchasePlan,
   RecommendedMachineConfiguration,

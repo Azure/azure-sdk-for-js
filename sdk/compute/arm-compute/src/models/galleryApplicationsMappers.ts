@@ -53,6 +53,7 @@ export {
   EncryptionSettingsElement,
   Gallery,
   GalleryApplication,
+  GalleryApplicationList,
   GalleryApplicationVersion,
   GalleryApplicationVersionPublishingProfile,
   GalleryArtifactPublishingProfileBase,
