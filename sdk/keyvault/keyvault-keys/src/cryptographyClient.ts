@@ -603,26 +603,62 @@ export type KeySignatureAlgorithm =
   | "ES512"
   | "ES256K";
 
+/**
+ * Result of a decrypt operation
+ */
 export interface DecryptResult {
+  /**
+   * Result of the operation
+   */
   result: Uint8Array,
 }
 
+/**
+ * Reuslt of an encrypt operation
+ */
 export interface EncryptResult {
+  /**
+   * Result of the operation
+   */
   result: Uint8Array,
 }
 
+/**
+ * Result of a sign operation
+ */
 export interface SignResult {
+  /**
+   * Result of the operation
+   */
   result: Uint8Array,
 }
 
+/**
+ * Result of a verify operation
+ */
 export interface VerifyResult {
+  /**
+   * Result of the operation
+   */
   result: boolean,
 }
 
+/**
+ * Result of a wrap operation
+ */
 export interface WrapResult {
+  /**
+   * Result of the operation
+   */
   result: Uint8Array,
 }
 
+/**
+ * Result of an unwrap operation
+ */
 export interface UnwrapResult {
+  /**
+   * Result of the operation
+   */
   result: Uint8Array,
 }

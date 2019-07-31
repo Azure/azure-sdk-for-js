@@ -29,10 +29,10 @@ export interface SendRequestOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
-   * Default: `60 seconds`.
+   * @property {number} [timeoutInMs] Max time to wait for the operation to complete.
+   * Default: `60000 milliseconds`.
    */
-  timeoutInSeconds?: number;
+  timeoutInMs?: number;
   /**
    * @property {string} [requestName] Name of the request being performed.
    */
@@ -74,20 +74,18 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Sends the given request message and returns the received response. If the operation is not
-   * completed in the provided timeout in seconds `default: 60`, then `OperationTimeoutError` is thrown.
+   * completed in the provided timeout in milliseconds `default: 60000`, then `OperationTimeoutError` is thrown.
    *
    * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
-    if (!options) options = {};
-
-    if (!options.timeoutInSeconds) {
-      options.timeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+  sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
+    if (!options.timeoutInMs) {
+      options.timeoutInMs = Constants.defaultOperationTimeoutInMs;
     }
 
-    const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+    const aborter: AbortSignalLike | undefined = options.abortSignal;
 
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any;
@@ -100,7 +98,7 @@ export class RequestResponseLink implements ReqResLink {
 
       const rejectOnAbort = () => {
         const address = this.receiver.address || "address";
-        const requestName = options!.requestName;
+        const requestName = options.requestName;
         const desc: string =
           `[${this.connection.id}] The request "${requestName}" ` +
           `to "${address}" has been cancelled by the user.`;
@@ -212,7 +210,7 @@ export class RequestResponseLink implements ReqResLink {
         return reject(translate(e));
       };
 
-      waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
+      waitTimer = setTimeout(actionAfterTimeout, options.timeoutInMs);
       this.receiver.on(ReceiverEvents.message, messageCallback);
 
       log.reqres(

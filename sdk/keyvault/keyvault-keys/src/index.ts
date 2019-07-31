@@ -61,7 +61,18 @@ import {
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
-import { CryptographyClient, EncryptOptions, DecryptOptions, KeyWrapAlgorithm } from "./cryptographyClient";
+import {
+  CryptographyClient,
+  EncryptOptions,
+  DecryptOptions,
+  KeyWrapAlgorithm,
+  EncryptResult,
+  DecryptResult,
+  SignResult, 
+  VerifyResult,
+  WrapResult,
+  UnwrapResult
+} from "./cryptographyClient";
 
 export {
   CreateEcKeyOptions,
@@ -71,7 +82,9 @@ export {
   DeletedKey,
   DeletionRecoveryLevel,
   DecryptOptions,
+  DecryptResult,
   EncryptOptions,
+  EncryptResult,
   GetKeyOptions,
   ListKeysOptions as GetKeysOptions,
   ImportKeyOptions,
@@ -89,7 +102,11 @@ export {
   PagedAsyncIterableIterator,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  UpdateKeyOptions
+  SignResult,
+  UnwrapResult,
+  UpdateKeyOptions,
+  VerifyResult,
+  WrapResult,
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };

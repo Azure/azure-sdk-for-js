@@ -38,7 +38,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.cbsAuth,
-              delayInSeconds: 15,
+              delayInMs: 15000,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -66,7 +66,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.management,
-              delayInSeconds: 15,
+              delayInMs: 15000,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -101,7 +101,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.receiverLink,
               maxRetries: 2,
-              delayInSeconds: 0.5,
+              delayInMs: 500,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -140,7 +140,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.senderLink,
               maxRetries: 2,
-              delayInSeconds: 0.5,
+              delayInMs: 500,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -180,7 +180,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.sendMessage,
               maxRetries: 2,
-              delayInSeconds: 0.5,
+              delayInMs: 500,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -207,7 +207,7 @@ dotenv.config();
               connectionId: "connection-1",
               operationType: RetryOperationType.session,
               maxRetries: 4,
-              delayInSeconds: 0.5,
+              delayInMs: 500,
               minExponentialRetryDelayInMs: 0,
               retryPolicy: retryPolicy
             };
@@ -236,7 +236,7 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.cbsAuth,
-                delayInSeconds: 0.5,
+                delayInMs: 500,
                 minExponentialRetryDelayInMs: 0,
                 retryPolicy: retryPolicy
               };
@@ -265,7 +265,7 @@ dotenv.config();
                 connectionId: "connection-1",
                 operationType: RetryOperationType.management,
                 maxRetries: Infinity,
-                delayInSeconds: 0.5,
+                delayInMs: 500,
                 minExponentialRetryDelayInMs: 0,
                 retryPolicy: retryPolicy
               };
@@ -300,7 +300,7 @@ dotenv.config();
                 connectionId: "connection-1",
                 operationType: RetryOperationType.receiverLink,
                 maxRetries: Infinity,
-                delayInSeconds: 0.5,
+                delayInMs: 500,
                 minExponentialRetryDelayInMs: 0,
                 retryPolicy: retryPolicy
               };
@@ -339,7 +339,7 @@ dotenv.config();
                 connectionId: "connection-1",
                 operationType: RetryOperationType.senderLink,
                 maxRetries: Infinity,
-                delayInSeconds: 0.5,
+                delayInMs: 500,
                 minExponentialRetryDelayInMs: 0,
                 retryPolicy: retryPolicy
               };
@@ -379,7 +379,7 @@ dotenv.config();
                 connectionId: "connection-1",
                 operationType: RetryOperationType.sendMessage,
                 maxRetries: Constants.defaultMaxRetriesForConnection,
-                delayInSeconds: 0.001,
+                delayInMs: 1,
                 minExponentialRetryDelayInMs: 0,
                 retryPolicy: retryPolicy
               };

@@ -44,19 +44,20 @@ export class CryptographyClient {
     constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
     credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     protected readonly credential: ServiceClientCredentials | TokenCredential;
-    decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<Uint8Array>;
-    encrypt(algorithm: JsonWebKeyEncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<Uint8Array>;
+    decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
+    encrypt(algorithm: JsonWebKeyEncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
-    sign(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
-    signData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
-    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    sign(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<SignResult>;
+    signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<SignResult>;
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
-    verify(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<boolean>;
-    verifyData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<boolean>;
-    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<Uint8Array>;
+    // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
+    verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
+    verifyData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<WrapResult>;
 }
 
 // @public
@@ -64,6 +65,11 @@ export interface DecryptOptions extends RequestOptions {
     authenticationData?: Uint8Array;
     authenticationTag?: Uint8Array;
     iv?: Uint8Array;
+}
+
+// @public
+export interface DecryptResult {
+    result: Uint8Array;
 }
 
 // @public
@@ -80,6 +86,11 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 export interface EncryptOptions extends RequestOptions {
     authenticationData?: Uint8Array;
     iv?: Uint8Array;
+}
+
+// @public
+export interface EncryptResult {
+    result: Uint8Array;
 }
 
 // @public
@@ -233,10 +244,20 @@ export interface RetryOptions {
     readonly retryIntervalInMS?: number;
 }
 
+// @public
+export interface SignResult {
+    result: Uint8Array;
+}
+
 // @public (undocumented)
 export interface TelemetryOptions {
     // (undocumented)
     value: string;
+}
+
+// @public
+export interface UnwrapResult {
+    result: Uint8Array;
 }
 
 // @public
@@ -250,6 +271,16 @@ export interface UpdateKeyOptions {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface VerifyResult {
+    result: boolean;
+}
+
+// @public
+export interface WrapResult {
+    result: Uint8Array;
 }
 
 

@@ -13,9 +13,15 @@ import {
   EventData,
   EventProcessor,
   PartitionContext,
-  delay
+  delay,
+  InMemoryPartitionManager,
+  PartitionOwnership,
+  Checkpoint,
+  PartitionProcessorFactory,
+  CloseReason
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { generate_uuid } from "rhea-promise";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -39,7 +45,340 @@ describe("Event Processor", function(): void {
     await client.close();
   });
 
+  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
+    const partitionIds = await client.getPartitionIds();
+
+    // ensure we have at least 2 partitions
+    partitionIds.length.should.gte(2);
+
+    const partitionResultsMap = new Map<
+      string,
+      { events: string[]; initialized: boolean; closeReason?: CloseReason }
+    >();
+    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
+    let didError = false;
+
+    // The partitionProcess will need to add events to the partitionResultsMap as they are received
+    const factory: PartitionProcessorFactory = (context) => {
+      return {
+        async initialize() {
+          partitionResultsMap.get(context.partitionId)!.initialized = true;
+        },
+        async close(reason) {
+          partitionResultsMap.get(context.partitionId)!.closeReason = reason;
+        },
+        async processEvents(events) {
+          const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
+          events.forEach((event) => existingEvents.push(event.body));
+        },
+        async processError() {
+          didError = true;
+        }
+      };
+    };
+
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      factory,
+      undefined as any,
+      {
+        initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+      }
+    );
+
+    processor.start();
+    processor.start();
+    processor.start();
+
+    // create messages
+    const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+    for (const partitionId of partitionIds) {
+      const producer = client.createProducer({ partitionId });
+      await producer.send({ body: expectedMessagePrefix + partitionId });
+      await producer.close();
+    }
+
+    // shutdown the processor
+    await processor.stop();
+
+    didError.should.be.false;
+    // validate correct events captured for each partition
+    for (const partitionId of partitionIds) {
+      const results = partitionResultsMap.get(partitionId)!;
+      const events = results.events;
+      events.length.should.equal(1);
+      events[0].should.equal(expectedMessagePrefix + partitionId);
+      results.initialized.should.be.true;
+      (results.closeReason === CloseReason.Shutdown).should.be.true;
+    }
+  });
+
+  it("should not throw if stop is called without start", async function(): Promise<void> {
+    let didPartitionProcessorStart = false;
+
+    // The partitionProcess will need to add events to the partitionResultsMap as they are received
+    const factory: PartitionProcessorFactory = (context) => {
+      return {
+        async initialize() {
+          didPartitionProcessorStart = true;
+        },
+        async close() {
+          didPartitionProcessorStart = true;
+        },
+        async processEvents(events) {
+          didPartitionProcessorStart = true;
+        },
+        async processError() {
+          didPartitionProcessorStart = true;
+        }
+      };
+    };
+
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      factory,
+      undefined as any,
+      {
+        initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+      }
+    );
+
+    // shutdown the processor
+    await processor.stop();
+
+    didPartitionProcessorStart.should.be.false;
+  });
+
+  it("should support start after stopping", async function(): Promise<void> {
+    const partitionIds = await client.getPartitionIds();
+
+    // ensure we have at least 2 partitions
+    partitionIds.length.should.gte(2);
+
+    const partitionResultsMap = new Map<
+      string,
+      { events: string[]; initialized: boolean; closeReason?: CloseReason }
+    >();
+    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
+    let didError = false;
+
+    // The partitionProcess will need to add events to the partitionResultsMap as they are received
+    const factory: PartitionProcessorFactory = (context) => {
+      return {
+        async initialize() {
+          partitionResultsMap.get(context.partitionId)!.initialized = true;
+        },
+        async close(reason) {
+          partitionResultsMap.get(context.partitionId)!.closeReason = reason;
+        },
+        async processEvents(events) {
+          const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
+          events.forEach((event) => existingEvents.push(event.body));
+        },
+        async processError() {
+          didError = true;
+        }
+      };
+    };
+
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      factory,
+      undefined as any,
+      {
+        initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+      }
+    );
+
+    processor.start();
+
+    // create messages
+    const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+    for (const partitionId of partitionIds) {
+      const producer = client.createProducer({ partitionId });
+      await producer.send({ body: expectedMessagePrefix + partitionId });
+      await producer.close();
+    }
+
+    // set a delay to give a consumers a chance to receive a message
+    await delay(1000);
+
+    // shutdown the processor
+    await processor.stop();
+
+    didError.should.be.false;
+    // validate correct events captured for each partition
+    for (const partitionId of partitionIds) {
+      const results = partitionResultsMap.get(partitionId)!;
+      const events = results.events;
+      events.length.should.equal(1);
+      events[0].should.equal(expectedMessagePrefix + partitionId);
+      results.initialized.should.be.true;
+      (results.closeReason === CloseReason.Shutdown).should.be.true;
+      // reset fields
+      results.initialized = false;
+      results.closeReason = undefined;
+      results.events = [];
+    }
+
+    // start it again
+    // note: since checkpointing isn't implemented yet,
+    // EventProcessor will retrieve events from the initialEventPosition.
+    processor.start();
+
+    // set a delay to give a consumers a chance to receive a message
+    await delay(1000);
+
+    await processor.stop();
+
+    didError.should.be.false;
+    // validate correct events captured for each partition
+    for (const partitionId of partitionIds) {
+      const results = partitionResultsMap.get(partitionId)!;
+      const events = results.events;
+      events.length.should.equal(1);
+      events[0].should.equal(expectedMessagePrefix + partitionId);
+      results.initialized.should.be.true;
+      (results.closeReason === CloseReason.Shutdown).should.be.true;
+    }
+  });
+
   describe("Partition processor", function(): void {
+    it("should support processing events across multiple partitions", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds();
+
+      // ensure we have at least 2 partitions
+      partitionIds.length.should.gte(2);
+
+      const partitionResultsMap = new Map<
+        string,
+        { events: string[]; initialized: boolean; closeReason?: CloseReason }
+      >();
+      partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
+      let didError = false;
+
+      // The partitionProcess will need to add events to the partitionResultsMap as they are received
+      const factory: PartitionProcessorFactory = (context) => {
+        return {
+          async initialize() {
+            partitionResultsMap.get(context.partitionId)!.initialized = true;
+          },
+          async close(reason) {
+            partitionResultsMap.get(context.partitionId)!.closeReason = reason;
+          },
+          async processEvents(events) {
+            const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
+            events.forEach((event) => existingEvents.push(event.body));
+          },
+          async processError() {
+            didError = true;
+          }
+        };
+      };
+
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        factory,
+        undefined as any,
+        {
+          initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+        }
+      );
+
+      processor.start();
+
+      // create messages
+      const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId });
+        await producer.send({ body: expectedMessagePrefix + partitionId });
+        await producer.close();
+      }
+
+      // set a delay to give a consumers a chance to receive a message
+      await delay(1000);
+
+      // shutdown the processor
+      await processor.stop();
+
+      didError.should.be.false;
+      // validate correct events captured for each partition
+      for (const partitionId of partitionIds) {
+        const results = partitionResultsMap.get(partitionId)!;
+        const events = results.events;
+        events.length.should.equal(1);
+        events[0].should.equal(expectedMessagePrefix + partitionId);
+        results.initialized.should.be.true;
+        (results.closeReason === CloseReason.Shutdown).should.be.true;
+      }
+    });
+
+    it("should support processing events across multiple partitions without initialize or close", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds();
+
+      // ensure we have at least 2 partitions
+      partitionIds.length.should.gte(2);
+
+      const partitionResultsMap = new Map<string, string[]>();
+      partitionIds.forEach((id) => partitionResultsMap.set(id, []));
+      let didError = false;
+
+      // The partitionProcess will need to add events to the partitionResultsMap as they are received
+      const factory: PartitionProcessorFactory = (context) => {
+        return {
+          async processEvents(events) {
+            const existingEvents = partitionResultsMap.get(context.partitionId)!;
+            events.forEach((event) => existingEvents.push(event.body));
+          },
+          async processError() {
+            didError = true;
+          }
+        };
+      };
+
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        factory,
+        undefined as any,
+        {
+          initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+        }
+      );
+
+      processor.start();
+
+      // create messages
+      const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId });
+        await producer.send({ body: expectedMessagePrefix + partitionId });
+        await producer.close();
+      }
+
+      // set a delay to give a consumers a chance to receive a message
+      await delay(1000);
+
+      // shutdown the processor
+      await processor.stop();
+
+      didError.should.be.false;
+      // validate correct events captured for each partition
+      for (const partitionId of partitionIds) {
+        const events = partitionResultsMap.get(partitionId)!;
+        events.length.should.equal(1);
+        events[0].should.equal(expectedMessagePrefix + partitionId);
+      }
+    });
+
     it("should call methods on a PartitionProcessor ", async function(): Promise<void> {
       const receivedEvents: EventData[] = [];
       let isinitializeCalled = false;
@@ -94,6 +433,55 @@ describe("Event Processor", function(): void {
       receivedEvents.length.should.equal(1);
       receivedEvents[0].body.should.equal("Hello world!!!");
       isCloseCalled.should.equal(true);
+    });
+  });
+
+  describe("InMemory Partition Manager", function(): void {
+    it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<void> {
+      const inMemoryPartitionManager = new InMemoryPartitionManager();
+      const partitionOwnership1: PartitionOwnership = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "0",
+        ownerLevel: 10
+      };
+      const partitionOwnership2: PartitionOwnership = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "1",
+        ownerLevel: 10
+      };
+      const partitionOwnership = await inMemoryPartitionManager.claimOwnerships([
+        partitionOwnership1,
+        partitionOwnership2
+      ]);
+      partitionOwnership.length.should.equals(2);
+   
+      const ownershipslist = await inMemoryPartitionManager.listOwnerships(
+        "myEventHub",
+        EventHubClient.defaultConsumerGroupName
+      );
+      ownershipslist.length.should.equals(2);
+    
+      const checkpoint: Checkpoint = {
+        eventHubName: "myEventHub",
+        consumerGroupName: EventHubClient.defaultConsumerGroupName,
+        instanceId: generate_uuid(),
+        partitionId: "0",
+        sequenceNumber: 10,
+        offset: 50
+      };
+
+      await inMemoryPartitionManager.updateCheckpoint(checkpoint);
+      const partitionOwnershipList = await inMemoryPartitionManager.listOwnerships(
+        "myEventHub",
+        EventHubClient.defaultConsumerGroupName
+      );
+      partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
+      partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
+      partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
     });
   });
 }).timeout(90000);

@@ -313,6 +313,7 @@ export class ManagementClient extends LinkEntity {
       requestName?: string;
     } = {}
   ): Promise<any> {
+    const retryOptions = options.retryOptions || {};
     try {
       const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
@@ -379,7 +380,7 @@ export class ManagementClient extends LinkEntity {
           const sendRequestOptions: SendRequestOptions = {
             abortSignal: options.abortSignal,
             requestName: options.requestName,
-            timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+            timeoutInMs: remainingOperationTimeoutInMs
           };
 
           count++;
@@ -411,19 +412,15 @@ export class ManagementClient extends LinkEntity {
           }
         });
 
-      const maxRetries = options.retryOptions && options.retryOptions.maxRetries;
-      const delayInSeconds =
-        options.retryOptions &&
-        options.retryOptions.retryInterval &&
-        options.retryOptions.retryInterval >= 0
-          ? options.retryOptions.retryInterval / 1000
-          : Constants.defaultDelayBetweenOperationRetriesInSeconds;
       const config: RetryConfig<Message> = {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: maxRetries,
-        delayInSeconds: delayInSeconds
+        maxRetries: retryOptions.maxRetries,
+        delayInMs: retryOptions.retryInterval,
+        retryPolicy: retryOptions.retryPolicy,
+        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
+        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
