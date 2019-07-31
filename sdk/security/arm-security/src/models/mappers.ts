@@ -407,7 +407,13 @@ export const DataExportSetting: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.enabled",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "JitNetworkAccessPortRule"
+            }
+          }
         }
       }
     }
@@ -754,13 +760,6 @@ export const IoTSecurityAlertedDevicesList: msRest.CompositeMapper = {
               className: "IoTSecurityAlertedDevice"
             }
           }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1923,7 +1922,7 @@ export const JitNetworkAccessPolicy: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "id",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       name: {
@@ -1982,7 +1981,7 @@ export const JitNetworkAccessPolicy: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       }
     }
@@ -2307,7 +2306,13 @@ export const AppWhitelistingGroup: msRest.CompositeMapper = {
       enforcementMode: {
         serializedName: "properties.enforcementMode",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppWhitelistingIssueSummary"
+            }
+          }
         }
       },
       configurationStatus: {
@@ -2319,7 +2324,13 @@ export const AppWhitelistingGroup: msRest.CompositeMapper = {
       recommendationStatus: {
         serializedName: "properties.recommendationStatus",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmRecommendation"
+            }
+          }
         }
       },
       issues: {
@@ -2337,7 +2348,13 @@ export const AppWhitelistingGroup: msRest.CompositeMapper = {
       sourceSystem: {
         serializedName: "properties.sourceSystem",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppWhitelistingGroup"
+            }
+          }
         }
       },
       vmRecommendations: {
@@ -2454,7 +2471,7 @@ export const OperationDisplay: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "operation",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       description: {
@@ -2509,7 +2526,7 @@ export const SecurityTaskParameters: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "name",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       }
     },
@@ -2700,118 +2717,15 @@ export const IoTSecuritySolutionModel: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      workspace: {
-        required: true,
-        serializedName: "properties.workspace",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        required: true,
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "properties.status",
-        defaultValue: 'Enabled',
-        type: {
-          name: "String"
-        }
-      },
-      exportProperty: {
-        serializedName: "properties.export",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      disabledDataSources: {
-        serializedName: "properties.disabledDataSources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      iotHubs: {
-        required: true,
-        serializedName: "properties.iotHubs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      userDefinedResources: {
-        serializedName: "properties.userDefinedResources",
-        type: {
-          name: "Composite",
-          className: "UserDefinedResourcesProperties"
-        }
-      },
-      autoDiscoveredResources: {
+      topologyResources: {
         readOnly: true,
-        serializedName: "properties.autoDiscoveredResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      recommendationsConfiguration: {
-        serializedName: "properties.recommendationsConfiguration",
+        serializedName: "properties.topologyResources",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "RecommendationConfigurationProperties"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UpdateIotSecuritySolutionData: msRest.CompositeMapper = {
-  serializedName: "UpdateIotSecuritySolutionData",
-  type: {
-    name: "Composite",
-    className: "UpdateIotSecuritySolutionData",
-    modelProperties: {
-      ...TagsResource.type.modelProperties,
-      userDefinedResources: {
-        serializedName: "userDefinedResources",
-        type: {
-          name: "Composite",
-          className: "UserDefinedResourcesProperties"
-        }
-      },
-      recommendationsConfiguration: {
-        serializedName: "recommendationsConfiguration",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RecommendationConfigurationProperties"
+              className: "TopologySingleResource"
             }
           }
         }
@@ -3129,7 +3043,7 @@ export const WorkspaceSetting: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.scope",
         type: {
-          name: "Number"
+          name: "String"
         }
       }
     }
@@ -3237,7 +3151,21 @@ export const RegulatoryComplianceAssessment: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.description",
         type: {
-          name: "String"
+          name: "Number"
+        }
+      },
+      failedAssessments: {
+        readOnly: true,
+        serializedName: "properties.failedAssessments",
+        type: {
+          name: "Number"
+        }
+      },
+      skippedAssessments: {
+        readOnly: true,
+        serializedName: "properties.skippedAssessments",
+        type: {
+          name: "Number"
         }
       },
       assessmentType: {
@@ -3251,7 +3179,7 @@ export const RegulatoryComplianceAssessment: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.assessmentDetailsLink",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       state: {
@@ -3303,7 +3231,7 @@ export const ServerVulnerabilityAssessment: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.provisioningState",
         type: {
-          name: "Number"
+          name: "String"
         }
       }
     }
@@ -3355,7 +3283,7 @@ export const ComplianceResultList: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "nextLink",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
@@ -3443,13 +3371,6 @@ export const IoTSecuritySolutionsList: msRest.CompositeMapper = {
               className: "IoTSecuritySolutionModel"
             }
           }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       },
       nextLink: {
@@ -3618,7 +3539,6 @@ export const JitNetworkAccessPoliciesList: msRest.CompositeMapper = {
     className: "JitNetworkAccessPoliciesList",
     modelProperties: {
       value: {
-        readOnly: true,
         serializedName: "",
         type: {
           name: "Sequence",
@@ -3678,6 +3598,7 @@ export const OperationList: msRest.CompositeMapper = {
     className: "OperationList",
     modelProperties: {
       value: {
+        readOnly: true,
         serializedName: "",
         type: {
           name: "Sequence",
@@ -3825,7 +3746,6 @@ export const InformationProtectionPolicyList: msRest.CompositeMapper = {
     className: "InformationProtectionPolicyList",
     modelProperties: {
       value: {
-        required: true,
         serializedName: "",
         type: {
           name: "Sequence",

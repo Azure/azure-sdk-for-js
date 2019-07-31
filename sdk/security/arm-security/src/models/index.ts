@@ -313,17 +313,18 @@ export interface IoTSecuritySolutionModel {
    * Resource Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly reportedSeverity?: ReportedSeverity;
   /**
    * Resource name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  readonly compromisedEntity?: string;
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly type?: string;
+  readonly associatedResource?: string;
+  extendedProperties?: { [propertyName: string]: any };
   /**
    * Resource tags
    */
@@ -430,11 +431,6 @@ export interface IoTSecurityAlertedDevicesList {
    * List of aggregated alerts data
    */
   value: IoTSecurityAlertedDevice[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -567,7 +563,7 @@ export interface IoTSecurityAggregatedAlert {
    * Resource name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  value: IoTSecurityDeviceAlert[];
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -627,7 +623,7 @@ export interface IoTSecurityAggregatedAlert {
    * The type of the alerted resource (Azure, Non-Azure)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly type?: string;
+  readonly systemSource?: string;
   /**
    * The action that was taken as a response to the alert (Active, Blocked etc.)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -676,7 +672,7 @@ export interface IoTSecurityAggregatedRecommendation {
    * Description of the incident and what it means
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly description?: string;
+  readonly vendorName?: string;
   /**
    * The recommendation-type GUID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -765,22 +761,22 @@ export interface AllowedConnectionsResource {
    * Resource Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly description?: string;
   /**
    * Resource name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  readonly recommendationTypeId?: string;
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly type?: string;
+  readonly detectedBy?: string;
   /**
    * Location where the resource is stored
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly location?: string;
+  readonly remediationSteps?: string;
   /**
    * The UTC time on which the allowed connections resource was calculated
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1014,23 +1010,17 @@ export interface AadExternalSecuritySolution {
    * Resource Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  issue?: Issue;
+  readonly id?: string;
   /**
    * Resource name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  numberOfVms?: number;
-}
-
-/**
- * Represents a machine that is part of a VM/server group
- */
-export interface VmRecommendation {
+  readonly name?: string;
   /**
    * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  configurationStatus?: ConfigurationStatus;
+  readonly type?: string;
   /**
    * Location where the resource is stored
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1193,6 +1183,14 @@ export interface JitNetworkAccessPolicy {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly location?: string;
+  properties?: AtaSolutionProperties;
+}
+
+/**
+ * An interface representing ConnectedWorkspace.
+ * @summary Represents an OMS workspace to which the solution is connected
+ */
+export interface ConnectedWorkspace {
   /**
    * Configurations for Microsoft.Compute/virtualMachines resource type.
    */
@@ -1202,7 +1200,7 @@ export interface JitNetworkAccessPolicy {
    * Gets the provisioning state of the Just-in-Time policy.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  connectivityState?: AadConnectivityState;
 }
 
 /**
@@ -1214,35 +1212,36 @@ export interface JitNetworkAccessPolicyInitiatePort {
    * Source of the allowed traffic. If omitted, the request will be for the source IP address of
    * the initiate request.
    */
-  allowedSourceAddressPrefix?: string;
+  issue?: Issue;
   /**
    * The time to close the request in UTC
    */
-  endTimeUtc: Date;
+  numberOfVms?: number;
 }
 
 /**
  * An interface representing JitNetworkAccessPolicyInitiateVirtualMachine.
  */
-export interface JitNetworkAccessPolicyInitiateVirtualMachine {
+export interface VmRecommendation {
   /**
    * Resource ID of the virtual machine that is linked to this policy
    */
-  id: string;
+  configurationStatus?: ConfigurationStatus;
   /**
    * The ports to open for the resource with the `id`
    */
-  ports: JitNetworkAccessPolicyInitiatePort[];
+  readonly location?: string;
+  properties?: AadSolutionProperties;
 }
 
 /**
  * An interface representing JitNetworkAccessPolicyInitiateRequest.
  */
-export interface JitNetworkAccessPolicyInitiateRequest {
+export interface ExternalSecuritySolutionKind1 {
   /**
    * A list of virtual machines & ports to open access for
    */
-  virtualMachines: JitNetworkAccessPolicyInitiateVirtualMachine[];
+  kind?: ExternalSecuritySolutionKind;
 }
 
 /**
@@ -1457,7 +1456,7 @@ export interface Operation {
    * Name of the operation
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
+  issue?: Issue;
   /**
    * Where the operation is originated
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1604,7 +1603,7 @@ export interface TopologyResource {
    * The UTC time on which the topology was calculated
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly calculatedDateTime?: Date;
+  enforcementMode?: EnforcementMode;
   /**
    * Azure resources which are part of this topology resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3199,7 +3198,7 @@ export type IoTSecuritySolutionsListNextResponse = IoTSecuritySolutionsList & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the getDefault operation.
  */
 export type IoTSecuritySolutionsResourceGroupListResponse = IoTSecuritySolutionsList & {
   /**
@@ -3339,7 +3338,7 @@ export type IoTSecuritySolutionsAnalyticsGetDefaultResponse = IoTSecuritySolutio
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the list operation.
  */
 export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListResponse = IoTSecurityAggregatedAlertList & {
   /**
@@ -3839,7 +3838,7 @@ export type JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse = JitNe
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listByResourceGroupAndRegion operation.
  */
 export type JitNetworkAccessPoliciesGetResponse = JitNetworkAccessPolicy & {
   /**
@@ -4039,7 +4038,7 @@ export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
 };
 
 /**
- * Contains response data for the listByHomeRegion operation.
+ * Contains response data for the put operation.
  */
 export type LocationsListResponse = AscLocationList & {
   /**
@@ -4094,7 +4093,7 @@ export type LocationsListNextResponse = AscLocationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: TopologyList;
+      parsedBody: AscLocation;
     };
 };
 
@@ -4102,6 +4101,26 @@ export type LocationsListNextResponse = AscLocationList & {
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListNextResponse = OperationList & {
   /**
    * The underlying HTTP response.
    */
@@ -4242,26 +4261,6 @@ export type AutoProvisioningSettingsListNextResponse = AutoProvisioningSettingLi
  * Contains response data for the list operation.
  */
 export type CompliancesListResponse = ComplianceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CompliancesGetResponse = Compliance & {
   /**
    * The underlying HTTP response.
    */
