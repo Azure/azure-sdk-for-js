@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/certificateOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,24 +27,24 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Adds a certificate to the specified account.
-   * @param certificate The certificate to be added.
+   * @summary Adds a Certificate to the specified Account.
+   * @param certificate The Certificate to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateAddResponse>
    */
   add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams): Promise<Models.CertificateAddResponse>;
   /**
-   * @param certificate The certificate to be added.
+   * @param certificate The Certificate to be added.
    * @param callback The callback
    */
-  add(certificate: Models.CertificateAddParameter, callback: msRest.ServiceCallback<void>): void;
+  add(certificate: Models.CertificateAddParameter, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param certificate The certificate to be added.
+   * @param certificate The Certificate to be added.
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(certificate: Models.CertificateAddParameter, options: Models.CertificateAddOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateAddResponse> {
+  add(certificate: Models.CertificateAddParameter, options: Models.CertificateAddOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CertificateAddResponse> {
     return this.client.sendOperationRequest(
       {
         certificate,
@@ -55,7 +55,7 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Lists all of the certificates that have been added to the specified account.
+   * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListResponse>
    */
@@ -63,13 +63,13 @@ export class CertificateOperations {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.CertificateListOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  list(options?: Models.CertificateListOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
+  list(options: Models.CertificateListOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
+  list(options?: Models.CertificateListOptionalParams | coreHttp.ServiceCallback<Models.CertificateListResult>, callback?: coreHttp.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -79,16 +79,16 @@ export class CertificateOperations {
   }
 
   /**
-   * If you try to delete a certificate that is being used by a pool or compute node, the status of
-   * the certificate changes to deleteFailed. If you decide that you want to continue using the
-   * certificate, you can use this operation to set the status of the certificate back to active. If
-   * you intend to delete the certificate, you do not need to run this operation after the deletion
-   * failed. You must make sure that the certificate is not being used by any resources, and then you
-   * can try again to delete the certificate.
-   * @summary Cancels a failed deletion of a certificate from the specified account.
+   * If you try to delete a Certificate that is being used by a Pool or Compute Node, the status of
+   * the Certificate changes to deleteFailed. If you decide that you want to continue using the
+   * Certificate, you can use this operation to set the status of the Certificate back to active. If
+   * you intend to delete the Certificate, you do not need to run this operation after the deletion
+   * failed. You must make sure that the Certificate is not being used by any resources, and then you
+   * can try again to delete the Certificate.
+   * @summary Cancels a failed deletion of a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCancelDeletionResponse>
    */
@@ -96,19 +96,19 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param callback The callback
    */
-  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
+  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateCancelDeletionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateCancelDeletionResponse> {
+  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateCancelDeletionOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateCancelDeletionOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CertificateCancelDeletionResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -120,18 +120,18 @@ export class CertificateOperations {
   }
 
   /**
-   * You cannot delete a certificate if a resource (pool or compute node) is using it. Before you can
-   * delete a certificate, you must therefore make sure that the certificate is not associated with
-   * any existing pools, the certificate is not installed on any compute nodes (even if you remove a
-   * certificate from a pool, it is not removed from existing compute nodes in that pool until they
-   * restart), and no running tasks depend on the certificate. If you try to delete a certificate
-   * that is in use, the deletion fails. The certificate status changes to deleteFailed. You can use
+   * You cannot delete a Certificate if a resource (Pool or Compute Node) is using it. Before you can
+   * delete a Certificate, you must therefore make sure that the Certificate is not associated with
+   * any existing Pools, the Certificate is not installed on any Nodes (even if you remove a
+   * Certificate from a Pool, it is not removed from existing Compute Nodes in that Pool until they
+   * restart), and no running Tasks depend on the Certificate. If you try to delete a Certificate
+   * that is in use, the deletion fails. The Certificate status changes to deleteFailed. You can use
    * Cancel Delete Certificate to set the status back to active if you decide that you want to
-   * continue using the certificate.
-   * @summary Deletes a certificate from the specified account.
+   * continue using the Certificate.
+   * @summary Deletes a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateDeleteResponse>
    */
@@ -139,19 +139,19 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param callback The callback
    */
-  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CertificateDeleteResponse> {
+  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CertificateDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -163,10 +163,10 @@ export class CertificateOperations {
   }
 
   /**
-   * Gets information about the specified certificate.
+   * Gets information about the specified Certificate.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
@@ -174,19 +174,19 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param callback The callback
    */
-  get(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  get(thumbprintAlgorithm: string, thumbprint: string, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateGetOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
+  get(thumbprintAlgorithm: string, thumbprint: string, options: Models.CertificateGetOptionalParams, callback: coreHttp.ServiceCallback<Models.Certificate>): void;
+  get(thumbprintAlgorithm: string, thumbprint: string, options?: Models.CertificateGetOptionalParams | coreHttp.ServiceCallback<Models.Certificate>, callback?: coreHttp.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         thumbprintAlgorithm,
@@ -198,7 +198,7 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Lists all of the certificates that have been added to the specified account.
+   * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListResponse>
@@ -208,14 +208,14 @@ export class CertificateOperations {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.CertificateListNextOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
+  listNext(nextPageLink: string, options: Models.CertificateListNextOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
+  listNext(nextPageLink: string, options?: Models.CertificateListNextOptionalParams | coreHttp.ServiceCallback<Models.CertificateListResult>, callback?: coreHttp.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -227,8 +227,8 @@ export class CertificateOperations {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const addOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const addOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates",
   urlParameters: [
@@ -263,7 +263,7 @@ const addOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates",
   urlParameters: [
@@ -294,7 +294,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const cancelDeletionOperationSpec: msRest.OperationSpec = {
+const cancelDeletionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete",
   urlParameters: [
@@ -323,7 +323,7 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
   urlParameters: [
@@ -352,7 +352,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
   urlParameters: [
@@ -383,7 +383,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
