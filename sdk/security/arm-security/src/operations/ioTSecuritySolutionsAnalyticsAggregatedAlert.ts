@@ -117,7 +117,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.aggregatedAlertName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -143,7 +143,7 @@ const dismissOperationSpec: msRest.OperationSpec = {
     Parameters.aggregatedAlertName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
