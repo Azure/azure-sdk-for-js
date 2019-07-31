@@ -397,6 +397,20 @@ export class Databases {
   }
 
   /**
+   * Failovers a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database to failover.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  failover(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginFailover(resourceGroupName,serverName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Imports a bacpac into a new database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -591,6 +605,27 @@ export class Databases {
         options
       },
       beginResumeOperationSpec,
+      options);
+  }
+
+  /**
+   * Failovers a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database to failover.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginFailover(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      },
+      beginFailoverOperationSpec,
       options);
   }
 
@@ -1084,6 +1119,31 @@ const beginResumeOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Database
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginFailoverOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
