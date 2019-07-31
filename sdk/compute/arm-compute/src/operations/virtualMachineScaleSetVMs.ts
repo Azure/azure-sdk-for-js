@@ -105,7 +105,7 @@ export class VirtualMachineScaleSetVMs {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetVMsGetResponse>
    */
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetVMsGetResponse>;
+  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsGetOptionalParams): Promise<Models.VirtualMachineScaleSetVMsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -120,8 +120,8 @@ export class VirtualMachineScaleSetVMs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>): Promise<Models.VirtualMachineScaleSetVMsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options: Models.VirtualMachineScaleSetVMsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSetVM>): Promise<Models.VirtualMachineScaleSetVMsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -553,6 +553,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.expand0,
     Parameters.apiVersion0
   ],
   headerParameters: [
@@ -606,7 +607,7 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.filter,
     Parameters.select,
-    Parameters.expand0,
+    Parameters.expand1,
     Parameters.apiVersion0
   ],
   headerParameters: [
