@@ -8,7 +8,7 @@ import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
-import { MessagingError } from '@azure/core-amqp';
+import { MessagingError } from "@azure/core-amqp";
 
 export class PartitionPump {
   private _partitionContext: PartitionContext;
@@ -88,9 +88,12 @@ export class PartitionPump {
         if (typeof err !== "object" || !(err as MessagingError).retryable) {
           try {
             // this will close the pump and will break us out of the while loop
-            return await this.stop(CloseReason.EventHubExpcetion);
+            return await this.stop(CloseReason.EventHubException);
           } catch (err) {
-            log.error(`An error occurred while closing the receiver with reason ${CloseReason.EventHubExpcetion}: `, err);
+            log.error(
+              `An error occurred while closing the receiver with reason ${CloseReason.EventHubException}: `,
+              err
+            );
           }
         }
       }

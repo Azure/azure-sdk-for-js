@@ -19,7 +19,7 @@ export enum CloseReason {
   /**
    * The PartitionProcessor was shutdown due to some internal or service exception.
    */
-  EventHubExpcetion = "EventHubExpcetion",
+  EventHubException = "EventHubException",
   /**
    * Ownership of the partition was lost or transitioned to a new processor instance.
    */
