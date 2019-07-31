@@ -24,13 +24,13 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid } from "rhea-promise";
 const env = getEnvVars();
 
-describe("Event Processor", function (): void {
+describe("Event Processor", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
-  before("validate environment", async function (): Promise<void> {
+  before("validate environment", async function(): Promise<void> {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -41,11 +41,11 @@ describe("Event Processor", function (): void {
     );
   });
 
-  after("close the connection", async function (): Promise<void> {
+  after("close the connection", async function(): Promise<void> {
     await client.close();
   });
 
-  it("should treat consecutive start invocations as idempotent", async function (): Promise<void> {
+  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
     // ensure we have at least 2 partitions
@@ -114,7 +114,7 @@ describe("Event Processor", function (): void {
     }
   });
 
-  it("should not throw if stop is called without start", async function (): Promise<void> {
+  it("should not throw if stop is called without start", async function(): Promise<void> {
     let didPartitionProcessorStart = false;
 
     // The partitionProcess will need to add events to the partitionResultsMap as they are received
@@ -151,7 +151,7 @@ describe("Event Processor", function (): void {
     didPartitionProcessorStart.should.be.false;
   });
 
-  it("should support start after stopping", async function (): Promise<void> {
+  it("should support start after stopping", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
     // ensure we have at least 2 partitions
@@ -244,8 +244,8 @@ describe("Event Processor", function (): void {
     }
   });
 
-  describe("Partition processor", function (): void {
-    it("should support processing events across multiple partitions", async function (): Promise<
+  describe("Partition processor", function(): void {
+    it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds();
@@ -317,7 +317,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should support processing events across multiple partitions without initialize or close", async function (): Promise<
+    it("should support processing events across multiple partitions without initialize or close", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds();
@@ -377,7 +377,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should call methods on a PartitionProcessor ", async function (): Promise<void> {
+    it("should call methods on a PartitionProcessor ", async function(): Promise<void> {
       const receivedEvents: EventData[] = [];
       let isinitializeCalled = false;
       let isCloseCalled = false;
@@ -434,8 +434,10 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe("InMemory Partition Manager", function (): void {
-    it("should claim ownership, get a list of ownership and update checkpoint", async function (): Promise<void> {
+  describe("InMemory Partition Manager", function(): void {
+    it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
+      void
+    > {
       const inMemoryPartitionManager = new InMemoryPartitionManager();
       const partitionOwnership1: PartitionOwnership = {
         eventHubName: "myEventHub",
