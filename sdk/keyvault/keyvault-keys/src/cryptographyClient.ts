@@ -69,7 +69,7 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     plaintext: Uint8Array,
     options?: EncryptOptions
-  ): Promise<Uint8Array> {
+  ): Promise<EncryptResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -88,7 +88,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-            return encrypted;
+            return {result: encrypted};
           };
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -102,7 +102,7 @@ export class CryptographyClient {
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return encrypted;
+            return {result: encrypted};
           };
         }
       }
@@ -110,7 +110,7 @@ export class CryptographyClient {
 
     // Default to the service
     let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -123,9 +123,9 @@ export class CryptographyClient {
     algorithm: JsonWebKeyEncryptionAlgorithm,
     ciphertext: Uint8Array,
     options?: DecryptOptions
-  ): Promise<Uint8Array> {
+  ): Promise<DecryptResult> {
     let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -138,7 +138,7 @@ export class CryptographyClient {
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
     options?: RequestOptions
-  ): Promise<Uint8Array> {
+  ): Promise<WrapResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -157,7 +157,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-            return encrypted;
+            return {result: encrypted};
           };
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -171,7 +171,7 @@ export class CryptographyClient {
             let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-            return encrypted;
+            return {result: encrypted};
           };
         }
       }
@@ -179,7 +179,7 @@ export class CryptographyClient {
 
     // Default to the service
     let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -192,9 +192,9 @@ export class CryptographyClient {
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
     options?: RequestOptions
-  ): Promise<Uint8Array> {
+  ): Promise<UnwrapResult> {
     let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -207,9 +207,9 @@ export class CryptographyClient {
     algorithm: JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     options?: RequestOptions
-  ): Promise<Uint8Array> {
+  ): Promise<SignResult> {
     let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -220,13 +220,13 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async verify(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options?: RequestOptions
-  ): Promise<boolean> {
+  ): Promise<VerifyResult> {
     const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-    return response.value ? response.value : false;
+    return {result: response.value ? response.value : false};
   }
 
   /**
@@ -236,10 +236,10 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async signData(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
     options?: RequestOptions
-  ): Promise<Uint8Array> {
+  ): Promise<SignResult> {
     let digest;
     switch (algorithm) {
       case ("ES256"):
@@ -264,7 +264,7 @@ export class CryptographyClient {
     }
 
     let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
-    return result.result!;
+    return {result: result.result!};
   }
 
   /**
@@ -279,7 +279,7 @@ export class CryptographyClient {
     data: Uint8Array,
     signature: Uint8Array,
     options?: RequestOptions
-  ): Promise<boolean> {
+  ): Promise<VerifyResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -300,7 +300,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return verifier.verify(keyPEM, Buffer.from(signature));
+            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
           };
           case ("RS384"): {
             if (this.key.kty != "RSA") {
@@ -317,7 +317,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return verifier.verify(keyPEM, Buffer.from(signature));
+            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
           };
           case ("RS512"): {
             if (this.key.kty != "RSA") {
@@ -334,7 +334,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return verifier.verify(keyPEM, Buffer.from(signature));
+            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
           };
         }
       }
@@ -364,7 +364,7 @@ export class CryptographyClient {
     }
 
     let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-    return result.value!;
+    return {result: result.value!};
   }
 
   /**
@@ -583,3 +583,46 @@ export interface DecryptOptions extends RequestOptions {
  * Allow algorithms for key wrapping/unwrapping
  */
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+/**
+ * Defines values for JsonWebKeySignatureAlgorithm.
+ * Possible values include: 'PS256', 'PS384', 'PS512', 'RS256', 'RS384', 'RS512',
+ * 'ES256', 'ES384', 'ES512', 'ES256K'
+ * @readonly
+ * @enum {string}
+ */
+export type KeySignatureAlgorithm =
+  | "PS256"
+  | "PS384"
+  | "PS512"
+  | "RS256"
+  | "RS384"
+  | "RS512"
+  | "ES256"
+  | "ES384"
+  | "ES512"
+  | "ES256K";
+
+export interface DecryptResult {
+  result: Uint8Array,
+}
+
+export interface EncryptResult {
+  result: Uint8Array,
+}
+
+export interface SignResult {
+  result: Uint8Array,
+}
+
+export interface VerifyResult {
+  result: boolean,
+}
+
+export interface WrapResult {
+  result: Uint8Array,
+}
+
+export interface UnwrapResult {
+  result: Uint8Array,
+}
