@@ -29,8 +29,8 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   pipelineRuns: operations.PipelineRuns;
   activityRuns: operations.ActivityRuns;
   triggers: operations.Triggers;
-  rerunTriggers: operations.RerunTriggers;
   triggerRuns: operations.TriggerRuns;
+  rerunTriggers: operations.RerunTriggers;
 
   /**
    * Initializes a new instance of the DataFactoryManagementClient class.
@@ -52,8 +52,8 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
     this.pipelineRuns = new operations.PipelineRuns(this);
     this.activityRuns = new operations.ActivityRuns(this);
     this.triggers = new operations.Triggers(this);
-    this.rerunTriggers = new operations.RerunTriggers(this);
     this.triggerRuns = new operations.TriggerRuns(this);
+    this.rerunTriggers = new operations.RerunTriggers(this);
   }
 }
 

@@ -7627,9 +7627,17 @@ export interface VerticaTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Vertica. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Vertica. Type: string (or Expression with resultType string).
+   */
+  verticaTableDatasetSchema?: any;
 }
 
 /**
@@ -7847,9 +7855,17 @@ export interface SparkObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Spark. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Spark. Type: string (or Expression with resultType string).
+   */
+  sparkObjectDatasetSchema?: any;
 }
 
 /**
@@ -8023,9 +8039,17 @@ export interface PrestoObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Presto. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Presto. Type: string (or Expression with resultType string).
+   */
+  prestoObjectDatasetSchema?: any;
 }
 
 /**
@@ -8067,9 +8091,17 @@ export interface PhoenixObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Phoenix. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Phoenix. Type: string (or Expression with resultType string).
+   */
+  phoenixObjectDatasetSchema?: any;
 }
 
 /**
@@ -8331,9 +8363,17 @@ export interface ImpalaObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Impala. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Impala. Type: string (or Expression with resultType string).
+   */
+  impalaObjectDatasetSchema?: any;
 }
 
 /**
@@ -8419,9 +8459,17 @@ export interface HiveObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Hive. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Hive. Type: string (or Expression with resultType string).
+   */
+  hiveObjectDatasetSchema?: any;
 }
 
 /**
@@ -8507,9 +8555,17 @@ export interface GreenplumTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of Greenplum. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of Greenplum. Type: string (or Expression with resultType string).
+   */
+  greenplumTableDatasetSchema?: any;
 }
 
 /**
@@ -8551,9 +8607,17 @@ export interface GoogleBigQueryObjectDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using database + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Google BigQuery. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The database name of the Google BigQuery. Type: string (or Expression with resultType string).
+   */
+  dataset?: any;
 }
 
 /**
@@ -8639,9 +8703,17 @@ export interface DrillTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The table name of the Drill. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+  /**
+   * The schema name of the Drill. Type: string (or Expression with resultType string).
+   */
+  drillTableDatasetSchema?: any;
 }
 
 /**
@@ -9173,7 +9245,7 @@ export interface AzureSearchIndexDataset {
   /**
    * Dataset description.
    */
-  description?: string;
+  structure?: any;
   /**
    * Columns that define the structure of the dataset. Type: array (or Expression with resultType
    * array), itemType: DatasetDataElement.
@@ -9404,9 +9476,18 @@ export interface SqlServerTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The schema name of the SQL Server dataset. Type: string (or Expression with resultType
+   * string).
+   */
+  sqlServerTableDatasetSchema?: any;
+  /**
+   * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -10170,10 +10251,19 @@ export interface OracleTableDataset {
    */
   folder?: DatasetFolder;
   /**
+   * This property will be retired. Please consider using schema + table properties instead.
+   */
+  tableName?: any;
+  /**
+   * The schema name of the on-premises Oracle database. Type: string (or Expression with
+   * resultType string).
+   */
+  oracleTableDatasetSchema?: any;
+  /**
    * The table name of the on-premises Oracle database. Type: string (or Expression with resultType
    * string).
    */
-  tableName?: any;
+  table?: any;
 }
 
 /**
@@ -10896,10 +10986,19 @@ export interface AzureSqlDWTableDataset {
    */
   folder?: DatasetFolder;
   /**
+   * This property will be retired. Please consider using schema + table properties instead.
+   */
+  tableName?: any;
+  /**
+   * The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
+   * string).
+   */
+  azureSqlDWTableDatasetSchema?: any;
+  /**
    * The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
    * string).
    */
-  tableName?: any;
+  table?: any;
 }
 
 /**
@@ -10995,9 +11094,18 @@ export interface AzureSqlTableDataset {
    */
   folder?: DatasetFolder;
   /**
-   * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
+   * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
+  /**
+   * The schema name of the Azure SQL database. Type: string (or Expression with resultType
+   * string).
+   */
+  azureSqlTableDatasetSchema?: any;
+  /**
+   * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -12006,7 +12114,7 @@ export interface WebActivity {
   /**
    * Activity user properties.
    */
-  userProperties?: UserProperty[];
+  type: "RestResource";
   /**
    * Linked service reference.
    */
@@ -14250,6 +14358,24 @@ export interface SapBwSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
+  maxConcurrentConnections?: any;
+  /**
+   * Database query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * A copy activity source for MySQL databases.
+ */
+export interface MySqlSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MySqlSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14362,24 +14488,6 @@ export interface OdbcSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  maxConcurrentConnections?: any;
-  /**
-   * Database query. Type: string (or Expression with resultType string).
-   */
-  query?: any;
-}
-
-/**
- * A copy activity source for Microsoft Access.
- */
-export interface MicrosoftAccessSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MicrosoftAccessSource";
-  /**
-   * Source retry count. Type: integer (or Expression with resultType integer).
-   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14408,24 +14516,6 @@ export interface Db2Source {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  maxConcurrentConnections?: any;
-  /**
-   * Database query. Type: string (or Expression with resultType string).
-   */
-  query?: any;
-}
-
-/**
- * A copy activity source for various relational databases.
- */
-export interface RelationalSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "RelationalSource";
-  /**
-   * Source retry count. Type: integer (or Expression with resultType integer).
-   */
   sourceRetryCount?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
@@ -14441,6 +14531,10 @@ export interface RelationalSource {
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
+  /**
+   * Nested properties separator. Type: string (or Expression with resultType string).
+   */
+  nestingSeparator?: any;
 }
 
 /**
@@ -14451,25 +14545,6 @@ export interface MicrosoftAccessSource {
    * Polymorphic Discriminator
    */
   type: "MicrosoftAccessSource";
-  /**
-   * Source retry count. Type: integer (or Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
-   * Apps (online & on-premises). Type: string (or Expression with resultType string).
-   */
-  query?: any;
-}
-
-/**
- * A copy activity Dynamics CRM source.
- */
-export interface DynamicsCrmSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "DynamicsCrmSource";
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
@@ -14498,6 +14573,39 @@ export interface InformixSource {
    * Polymorphic Discriminator
    */
   type: "InformixSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online &
+   * on-premises). Type: string (or Expression with resultType string).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Treat empty as null. Type: boolean (or Expression with resultType boolean).
+   */
+  treatEmptyAsNull?: any;
+  /**
+   * Number of header lines to skip from each blob. Type: integer (or Expression with resultType
+   * integer).
+   */
+  skipHeaderLineCount?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+}
+
+/**
+ * A copy activity Dynamics source.
+ */
+export interface DynamicsSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DynamicsSource";
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
@@ -14561,12 +14669,12 @@ export interface CommonDataServiceForAppsSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  treatEmptyAsNull?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  skipHeaderLineCount?: any;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14576,7 +14684,7 @@ export interface CommonDataServiceForAppsSource {
    * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
    * Apps (online & on-premises). Type: string (or Expression with resultType string).
    */
-  query?: any;
+  recursive?: any;
 }
 
 /**
@@ -14590,12 +14698,12 @@ export interface DynamicsCrmSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  wildcardFileName?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  enablePartitionDiscovery?: boolean;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14607,19 +14715,14 @@ export interface DynamicsCrmSource {
    */
   maxConcurrentConnections?: any;
   /**
-   * Treat empty as null. Type: boolean (or Expression with resultType boolean).
+   * Azure Table source query. Type: string (or Expression with resultType string).
    */
-  treatEmptyAsNull?: any;
+  azureTableSourceQuery?: any;
   /**
-   * Number of header lines to skip from each blob. Type: integer (or Expression with resultType
-   * integer).
+   * Azure Table source ignore table not found. Type: boolean (or Expression with resultType
+   * boolean).
    */
-  skipHeaderLineCount?: any;
-  /**
-   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
-   * (or Expression with resultType boolean).
-   */
-  recursive?: any;
+  azureTableSourceIgnoreTableNotFound?: any;
 }
 
 /**
@@ -14648,7 +14751,7 @@ export interface DynamicsSource {
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
-  query?: any;
+  [property: string]: any;
 }
 
 /**
@@ -14662,12 +14765,12 @@ export interface DocumentDbCollectionSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  wildcardFolderPath?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  wildcardFileName?: any;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14694,12 +14797,12 @@ export interface BlobSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  requestBody?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  additionalHeaders?: any;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -14732,12 +14835,12 @@ export interface AzureTableSource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  wildcardFileName?: any;
+  wildcardFolderPath?: any;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  enablePartitionDiscovery?: boolean;
+  wildcardFileName?: any;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -15053,12 +15156,12 @@ export interface BinarySource {
   /**
    * Source retry count. Type: integer (or Expression with resultType integer).
    */
-  sourceRetryCount?: any;
+  name: string;
   /**
    * Source retry wait. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
-  sourceRetryWait?: any;
+  description?: string;
   /**
    * The maximum concurrent connection count for the source data store. Type: integer (or
    * Expression with resultType integer).
@@ -17641,17 +17744,17 @@ export interface SetVariableActivity {
   /**
    * Value to be set. Could be a static value or Expression
    */
-  value?: any;
+  condition: Expression;
 }
 
 /**
  * Filter and return results from input array based on the conditions.
  */
-export interface FilterActivity {
+export interface ValidationActivity {
   /**
    * Polymorphic Discriminator
    */
-  type: "Filter";
+  type: "Validation";
   /**
    * Activity name.
    */
@@ -17671,11 +17774,26 @@ export interface FilterActivity {
   /**
    * Input array on which filter should be applied.
    */
-  items: Expression;
+  timeout?: any;
   /**
    * Condition to be used for filtering the input.
    */
-  condition: Expression;
+  sleep?: any;
+  /**
+   * Can be used if dataset points to a file. The file must be greater than or equal in size to the
+   * value specified. Type: integer (or Expression with resultType integer).
+   */
+  minimumSize?: any;
+  /**
+   * Can be used if dataset points to a folder. If set to true, the folder must have at least one
+   * file. If set to false, the folder must be empty. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  childItems?: any;
+  /**
+   * Validation activity dataset reference.
+   */
+  dataset: DatasetReference;
 }
 
 /**
@@ -18229,7 +18347,7 @@ export interface ManagedIntegrationRuntimeError {
    * Error message.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly message?: string;
+  vNetProperties?: IntegrationRuntimeVNetProperties;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -18239,78 +18357,92 @@ export interface ManagedIntegrationRuntimeError {
 /**
  * Properties of integration runtime node.
  */
-export interface ManagedIntegrationRuntimeNode {
+export interface ManagedIntegrationRuntime {
   /**
    * The managed integration runtime node id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nodeId?: string;
+  type: "Managed";
   /**
    * The managed integration runtime node status. Possible values include: 'Starting', 'Available',
    * 'Recycling', 'Unavailable'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: ManagedIntegrationRuntimeNodeStatus;
+  description?: string;
   /**
    * The errors that occurred on this integration runtime node.
    */
-  errors?: ManagedIntegrationRuntimeError[];
+  readonly state?: IntegrationRuntimeState;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
-  [property: string]: any;
+  computeProperties?: IntegrationRuntimeComputeProperties;
+  /**
+   * SSIS properties for managed integration runtime.
+   */
+  ssisProperties?: IntegrationRuntimeSsisProperties;
 }
 
 /**
  * Managed integration runtime status.
  */
-export interface ManagedIntegrationRuntimeStatus {
+export interface IntegrationRuntimeNodeIpAddress {
   /**
    * Polymorphic Discriminator
    */
-  type: "Managed";
+  readonly ipAddress?: string;
+}
+
+/**
+ * Ssis variable.
+ */
+export interface SsisVariable {
   /**
    * The data factory name which the integration runtime belong to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataFactoryName?: string;
+  id?: number;
   /**
    * The state of integration runtime. Possible values include: 'Initial', 'Stopped', 'Started',
    * 'Starting', 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly state?: IntegrationRuntimeState;
+  name?: string;
   /**
    * The time at which the integration runtime was created, in ISO8601 format.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly createTime?: Date;
+  description?: string;
   /**
    * The list of nodes for managed integration runtime.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nodes?: ManagedIntegrationRuntimeNode[];
+  dataType?: string;
   /**
    * The errors that occurred on this integration runtime.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly otherErrors?: ManagedIntegrationRuntimeError[];
+  sensitive?: boolean;
   /**
    * The last operation result that occurred on this integration runtime.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
+  value?: string;
+  /**
+   * Variable sensitive value.
+   */
+  sensitiveValue?: string;
 }
 
 /**
- * Contains the possible cases for LinkedIntegrationRuntimeType.
+ * Contains the possible cases for SsisObjectMetadata.
  */
-export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeRbacAuthorization | LinkedIntegrationRuntimeKeyAuthorization;
+export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisEnvironment | SsisPackage | SsisProject | SsisFolder;
 
 /**
  * The base definition of a linked integration runtime.
  */
-export interface LinkedIntegrationRuntimeType {
+export interface SsisObjectMetadata {
   /**
    * Polymorphic Discriminator
    */
@@ -18324,21 +18456,25 @@ export interface LinkedIntegrationRuntimeRbacAuthorization {
   /**
    * Polymorphic Discriminator
    */
-  authorizationType: "RBAC";
+  id?: number;
   /**
    * The resource identifier of the integration runtime to be shared.
    */
-  resourceId: string;
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
 }
 
 /**
  * The key authorization type integration runtime.
  */
-export interface LinkedIntegrationRuntimeKeyAuthorization {
+export interface SsisEnvironment {
   /**
    * Polymorphic Discriminator
    */
-  authorizationType: "Key";
+  type: "Environment";
   /**
    * The key used for authorization.
    */
@@ -18352,7 +18488,7 @@ export interface SelfHostedIntegrationRuntime {
   /**
    * Polymorphic Discriminator
    */
-  type: "SelfHosted";
+  name?: string;
   /**
    * Integration runtime description.
    */
@@ -18396,11 +18532,11 @@ export interface IntegrationRuntimeDataProxyProperties {
 /**
  * Custom setup script properties for a managed dedicated integration runtime.
  */
-export interface IntegrationRuntimeCustomSetupScriptProperties {
+export interface SsisParameter {
   /**
    * The URI of the Azure blob container that contains the custom setup script.
    */
-  blobContainerUri?: string;
+  id?: number;
   /**
    * The SAS token of the Azure blob container.
    */
@@ -18414,44 +18550,64 @@ export interface IntegrationRuntimeSsisCatalogInfo {
   /**
    * The catalog database server URL.
    */
-  catalogServerEndpoint?: string;
+  description?: string;
   /**
    * The administrator user name of catalog database.
    */
-  catalogAdminUserName?: string;
+  dataType?: string;
   /**
    * The password of the administrator user account of the catalog database.
    */
-  catalogAdminPassword?: SecureString;
+  required?: boolean;
   /**
    * The pricing tier for the catalog database. The valid values could be found in
    * https://azure.microsoft.com/en-us/pricing/details/sql-database/. Possible values include:
    * 'Basic', 'Standard', 'Premium', 'PremiumRS'
    */
-  catalogPricingTier?: IntegrationRuntimeSsisCatalogPricingTier;
+  sensitive?: boolean;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
-  [property: string]: any;
+  designDefaultValue?: string;
+  /**
+   * Default value of parameter.
+   */
+  defaultValue?: string;
+  /**
+   * Default sensitive value of parameter.
+   */
+  sensitiveDefaultValue?: string;
+  /**
+   * Parameter value type.
+   */
+  valueType?: string;
+  /**
+   * Parameter value set.
+   */
+  valueSet?: boolean;
+  /**
+   * Parameter reference variable.
+   */
+  variable?: string;
 }
 
 /**
  * SSIS properties for managed integration runtime.
  */
-export interface IntegrationRuntimeSsisProperties {
+export interface SsisPackage {
   /**
    * Catalog information for managed dedicated integration runtime.
    */
-  catalogInfo?: IntegrationRuntimeSsisCatalogInfo;
+  type: "Package";
   /**
    * License type for bringing your own license scenario. Possible values include: 'BasePrice',
    * 'LicenseIncluded'
    */
-  licenseType?: IntegrationRuntimeLicenseType;
+  id?: number;
   /**
    * Custom setup script properties for a managed dedicated integration runtime.
    */
-  customSetupScriptProperties?: IntegrationRuntimeCustomSetupScriptProperties;
+  name?: string;
   /**
    * Data proxy properties for a managed dedicated integration runtime.
    */
@@ -18460,60 +18616,84 @@ export interface IntegrationRuntimeSsisProperties {
    * The edition for the SSIS Integration Runtime. Possible values include: 'Standard',
    * 'Enterprise'
    */
-  edition?: IntegrationRuntimeEdition;
+  description?: string;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
-  [property: string]: any;
+  folderId?: number;
+  /**
+   * Project version which contains package.
+   */
+  projectVersion?: number;
+  /**
+   * Project id which contains package.
+   */
+  projectId?: number;
+  /**
+   * Parameters in package
+   */
+  parameters?: SsisParameter[];
 }
 
 /**
  * VNet properties for managed integration runtime.
  */
-export interface IntegrationRuntimeVNetProperties {
+export interface SsisEnvironmentReference {
   /**
    * The ID of the VNet that this integration runtime will join.
    */
-  vNetId?: string;
+  id?: number;
   /**
    * The name of the subnet this integration runtime will join.
    */
-  subnet?: string;
+  environmentFolderName?: string;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
-  [property: string]: any;
+  environmentName?: string;
+  /**
+   * Reference type
+   */
+  referenceType?: string;
 }
 
 /**
  * The compute resource properties for managed integration runtime.
  */
-export interface IntegrationRuntimeComputeProperties {
+export interface SsisProject {
   /**
    * The location for managed integration runtime. The supported regions could be found on
    * https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities
    */
-  location?: string;
+  type: "Project";
   /**
    * The node size requirement to managed integration runtime.
    */
-  nodeSize?: string;
+  id?: number;
   /**
    * The required number of nodes for managed integration runtime.
    */
-  numberOfNodes?: number;
+  name?: string;
   /**
    * Maximum parallel executions count per node for managed integration runtime.
    */
-  maxParallelExecutionsPerNode?: number;
+  description?: string;
   /**
    * VNet properties for managed integration runtime.
    */
-  vNetProperties?: IntegrationRuntimeVNetProperties;
+  folderId?: number;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
-  [property: string]: any;
+  version?: number;
+  /**
+   * Environment reference in project
+   */
+  environmentRefs?: SsisEnvironmentReference[];
+  /**
+   * Parameters in project
+   */
+  parameters?: SsisParameter[];
 }
 
 /**
@@ -18528,33 +18708,37 @@ export interface ManagedIntegrationRuntime {
   /**
    * Integration runtime description.
    */
-  description?: string;
+  type: "Folder";
   /**
    * Integration runtime state, only valid for managed dedicated integration runtime. Possible
    * values include: 'Initial', 'Stopped', 'Started', 'Starting', 'Stopping', 'NeedRegistration',
    * 'Online', 'Limited', 'Offline', 'AccessDenied'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly state?: IntegrationRuntimeState;
+  id?: number;
   /**
    * The compute resource for managed integration runtime.
    */
-  computeProperties?: IntegrationRuntimeComputeProperties;
+  name?: string;
   /**
    * SSIS properties for managed integration runtime.
    */
-  ssisProperties?: IntegrationRuntimeSsisProperties;
+  description?: string;
 }
 
 /**
  * The IP address of self-hosted integration runtime node.
  */
-export interface IntegrationRuntimeNodeIpAddress {
+export interface SsisObjectMetadataListResponse {
   /**
    * The IP address of self-hosted integration runtime node.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly ipAddress?: string;
+  value?: SsisObjectMetadataUnion[];
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -18994,21 +19178,10 @@ export interface FactoriesGetOptionalParams extends coreHttp.RequestOptionsBase 
  */
 export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * ETag of the factory entity. Should only be specified for get. If the ETag matches the existing
-   * entity tag, or if * was provided, then no content will be returned.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IntegrationRuntimesGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
    * ETag of the integration runtime entity. Should only be specified for update, for which it
    * should match existing entity or can be * for unconditional update.
    */
-  ifNoneMatch?: string;
+  ifMatch?: string;
 }
 
 /**
@@ -19020,6 +19193,16 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
    * the existing entity tag, or if * was provided, then no content will be returned.
    */
   ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The parameters for getting a SSIS object metadata.
+   */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
 }
 
 /**
@@ -20428,11 +20611,31 @@ export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMet
 /**
  * Contains response data for the get operation.
  */
-export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode & {
+export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginRefresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -20886,6 +21089,26 @@ export type TriggersListByFactoryNextResponse = TriggerListResponse & {
 };
 
 /**
+ * Contains response data for the queryByFactory operation.
+ */
+export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerRunsQueryResponse;
+    };
+};
+
+/**
  * Contains response data for the create operation.
  */
 export type RerunTriggersCreateResponse = TriggerResource & {
@@ -20942,25 +21165,5 @@ export type RerunTriggersListByTriggerNextResponse = RerunTriggerListResponse & 
        * The response body as parsed JSON or XML
        */
       parsedBody: RerunTriggerListResponse;
-    };
-};
-
-/**
- * Contains response data for the queryByFactory operation.
- */
-export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TriggerRunsQueryResponse;
     };
 };

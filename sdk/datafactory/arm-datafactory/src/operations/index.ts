@@ -20,5 +20,5 @@ export * from "./pipelines";
 export * from "./pipelineRuns";
 export * from "./activityRuns";
 export * from "./triggers";
-export * from "./rerunTriggers";
 export * from "./triggerRuns";
+export * from "./rerunTriggers";
