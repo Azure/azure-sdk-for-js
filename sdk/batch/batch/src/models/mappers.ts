@@ -97,7 +97,7 @@ export const ImageReference: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageInformation: coreHttp.CompositeMapper = {
+export const ImageInformation: msRest.CompositeMapper = {
   serializedName: "ImageInformation",
   type: {
     name: "Composite",
@@ -2207,6 +2207,211 @@ export const NetworkConfiguration: coreHttp.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AzureBlobFileSystemConfiguration: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFileSystemConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFileSystemConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        required: true,
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      sasKey: {
+        serializedName: "sasKey",
+        type: {
+          name: "String"
+        }
+      },
+      blobfuseOptions: {
+        serializedName: "blobfuseOptions",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NFSMountConfiguration: msRest.CompositeMapper = {
+  serializedName: "NFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "NFSMountConfiguration",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CIFSMountConfiguration: msRest.CompositeMapper = {
+  serializedName: "CIFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "CIFSMountConfiguration",
+    modelProperties: {
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFileShareConfiguration: msRest.CompositeMapper = {
+  serializedName: "AzureFileShareConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureFileShareConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      azureFileUrl: {
+        required: true,
+        serializedName: "azureFileUrl",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        required: true,
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MountConfiguration: msRest.CompositeMapper = {
+  serializedName: "MountConfiguration",
+  type: {
+    name: "Composite",
+    className: "MountConfiguration",
+    modelProperties: {
+      azureBlobFileSystemConfiguration: {
+        serializedName: "azureBlobFileSystemConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureBlobFileSystemConfiguration"
+        }
+      },
+      nfsMountConfiguration: {
+        serializedName: "nfsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "NFSMountConfiguration"
+        }
+      },
+      cifsMountConfiguration: {
+        serializedName: "cifsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "CIFSMountConfiguration"
+        }
+      },
+      azureFileShareConfiguration: {
+        serializedName: "azureFileShareConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureFileShareConfiguration"
         }
       }
     }
@@ -7380,7 +7585,7 @@ export const PoolRemoveNodesOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccountListSupportedImagesOptions: coreHttp.CompositeMapper = {
+export const AccountListSupportedImagesOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AccountListSupportedImagesOptions",
@@ -9955,7 +10160,7 @@ export const PoolListNextOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccountListSupportedImagesNextOptions: coreHttp.CompositeMapper = {
+export const AccountListSupportedImagesNextOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AccountListSupportedImagesNextOptions",
@@ -10332,7 +10537,7 @@ export const PoolListUsageMetricsHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccountListSupportedImagesHeaders: coreHttp.CompositeMapper = {
+export const AccountListSupportedImagesHeaders: msRest.CompositeMapper = {
   serializedName: "account-listsupportedimages-headers",
   type: {
     name: "Composite",
@@ -13114,7 +13319,7 @@ export const CloudPoolListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccountListSupportedImagesResult: coreHttp.CompositeMapper = {
+export const AccountListSupportedImagesResult: msRest.CompositeMapper = {
   serializedName: "AccountListSupportedImagesResult",
   type: {
     name: "Composite",
