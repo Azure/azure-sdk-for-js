@@ -453,17 +453,17 @@ describe("Event Processor", function(): void {
         partitionId: "1",
         ownerLevel: 10
       };
-      const partitionOwnership = await inMemoryPartitionManager.claimOwnerships([
+      const partitionOwnership = await inMemoryPartitionManager.claimOwnership([
         partitionOwnership1,
         partitionOwnership2
       ]);
       partitionOwnership.length.should.equals(2);
-
-      const ownershipslist = await inMemoryPartitionManager.listOwnerships(
+   
+      const ownershiplist = await inMemoryPartitionManager.listOwnership(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
-      ownershipslist.length.should.equals(2);
+      ownershiplist.length.should.equals(2);
 
       const checkpoint: Checkpoint = {
         eventHubName: "myEventHub",
@@ -471,11 +471,12 @@ describe("Event Processor", function(): void {
         instanceId: generate_uuid(),
         partitionId: "0",
         sequenceNumber: 10,
-        offset: 50
+        offset: 50,
+        eTag: generate_uuid()
       };
 
       await inMemoryPartitionManager.updateCheckpoint(checkpoint);
-      const partitionOwnershipList = await inMemoryPartitionManager.listOwnerships(
+      const partitionOwnershipList = await inMemoryPartitionManager.listOwnership(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
