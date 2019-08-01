@@ -31,7 +31,6 @@ import {
   JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyCurveName,
-  JsonWebKeySignatureAlgorithm,
   KeyItem,
   DeletionRecoveryLevel,
   KeyVaultClientGetKeysOptionalParams
@@ -92,7 +91,6 @@ export {
   JsonWebKeyCurveName,
   JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
-  JsonWebKeySignatureAlgorithm,
   JsonWebKeyType,
   Key,
   KeyAttributes,
