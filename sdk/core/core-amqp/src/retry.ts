@@ -54,7 +54,7 @@ export enum RetryOperationType {
 }
 
 /**
- * Retry policy options for operations on the EventHubClient.
+ * Retry policy options that determine the mode, number of retries, retry interval etc.
  */
 export interface RetryOptions {
   /**
