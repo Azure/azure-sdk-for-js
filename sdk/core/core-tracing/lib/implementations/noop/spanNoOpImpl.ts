@@ -25,12 +25,8 @@ export class SpanNoOpImpl implements Span {
   updateName(name: string): this {
     throw new Error("Method not implemented.");
   }
-  start(startTime?: number | undefined): void {
-    throw new Error("Method not implemented.");
-  }
-  end(endTime?: number | undefined): void {
-    throw new Error("Method not implemented.");
-  }
+  start(startTime?: number): void {}
+  end(endTime?: number): void {}
   isRecordingEvents(): boolean {
     throw new Error("Method not implemented.");
   }

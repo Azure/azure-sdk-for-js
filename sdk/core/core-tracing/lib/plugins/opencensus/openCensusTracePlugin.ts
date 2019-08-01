@@ -1,7 +1,6 @@
 import { Tracer } from "../../interfaces/tracer";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { Span } from "../../interfaces/span";
-// import { TracerProxy } from "../../tracerProxy";
 import { OpenCensusSpanPlugin } from "../opencensus/openCensusSpanPlugin";
 
 export class OpenCensusTracePlugin implements Tracer {
@@ -12,12 +11,13 @@ export class OpenCensusTracePlugin implements Tracer {
   }
 
   startSpan(name: string, options?: SpanOptions): Span {
-    const parent = 
-      options ? 
-        options.parent ?
-          options.parent instanceof OpenCensusSpanPlugin ? options.parent.getSpan() : options.parent
+    const parent = options
+      ? options.parent
+        ? options.parent instanceof OpenCensusSpanPlugin
+          ? options.parent.getSpan()
+          : options.parent
         : undefined
-      :undefined
+      : undefined;
 
     const span = this._tracer.startChildSpan({
       name: name,

@@ -33,7 +33,7 @@ dependencies:
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
   '@types/async-lock': 1.1.1
   '@types/chai': 4.1.7
-  '@types/chai-as-promised': 7.1.0
+  '@types/chai-as-promised': 7.1.1
   '@types/chai-string': 1.4.1
   '@types/debug': 0.0.31
   '@types/dotenv': 6.1.1
@@ -507,12 +507,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-a2+YeUjPkztKJu5aIF2yArYFQQp8d51wZ7DavSHjFuY1mqVgidGyzEQ41JIVNy82fXj8yPgy2vJmfIywgESW6w==
-  /@types/chai-as-promised/7.1.0:
+  /@types/chai-as-promised/7.1.1:
     dependencies:
       '@types/chai': 4.1.7
     dev: false
     resolution:
-      integrity: sha512-MFiW54UOSt+f2bRw8J7LgQeIvE/9b4oGvwU7XW30S9QGAiHGnU/fmiOprsyMkdmH2rl8xSPc0/yrQw8juXU6bQ==
+      integrity: sha512-dberBxQW/XWv6BMj0su1lV9/C9AUx5Hqu2pisuS6S4YK/Qt6vurcj/BmcbEsobIWWCQzhesNY8k73kIxx4X7Mg==
   /@types/chai-string/1.4.1:
     dependencies:
       '@types/chai': 4.1.7
@@ -655,10 +655,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-OthuN+2FuzfZO3yONJ/QVjKmLEuRagS9TV9lEId+WHL9KhftYG+/2z+pxlr0UgVVXSpVD8woie/3fzQn8ft/Ow==
-  /@types/node/12.6.8:
+  /@types/node/12.6.9:
     dev: false
     resolution:
-      integrity: sha512-aX+gFgA5GHcDi89KG5keey2zf0WfZk/HAQotEamsK2kbey+8yGKcson0hbK8E+v0NArlCJQCqMP161YhV6ZXLg==
+      integrity: sha512-+YB9FtyxXGyD54p8rXwWaN1EWEyar5L58GlGWgtH2I9rGmLGBQcw63+0jw+ujqVavNuO47S1ByAjm9zdHMnskw==
   /@types/node/8.10.51:
     dev: false
     resolution:
@@ -7907,7 +7907,7 @@ packages:
   /rollup/1.18.0:
     dependencies:
       '@types/estree': 0.0.39
-      '@types/node': 12.6.8
+      '@types/node': 12.6.9
       acorn: 6.2.1
     dev: false
     hasBin: true
@@ -9710,7 +9710,7 @@ packages:
       '@azure/abort-controller': 1.0.0-preview.1
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
-      '@types/chai-as-promised': 7.1.0
+      '@types/chai-as-promised': 7.1.1
       '@types/debug': 0.0.31
       '@types/dotenv': 6.1.1
       '@types/is-buffer': 2.0.0
@@ -10099,7 +10099,7 @@ packages:
       '@microsoft/api-extractor': 7.3.4
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
-      '@types/chai-as-promised': 7.1.0
+      '@types/chai-as-promised': 7.1.1
       '@types/chai-string': 1.4.1
       '@types/debug': 0.0.31
       '@types/dotenv': 6.1.1
@@ -10175,7 +10175,7 @@ packages:
       '@microsoft/api-extractor': 7.3.4
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
-      '@types/chai-as-promised': 7.1.0
+      '@types/chai-as-promised': 7.1.1
       '@types/chai-string': 1.4.1
       '@types/debug': 0.0.31
       '@types/dotenv': 6.1.1
@@ -10452,7 +10452,7 @@ packages:
       '@microsoft/api-extractor': 7.3.4
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
-      '@types/chai-as-promised': 7.1.0
+      '@types/chai-as-promised': 7.1.1
       '@types/debug': 0.0.31
       '@types/dotenv': 6.1.1
       '@types/is-buffer': 2.0.0

@@ -1,6 +1,8 @@
 import { Tracer } from "../../interfaces/tracer";
 import { Span } from "../../interfaces/span";
 import { SpanOptions } from "../../interfaces/SpanOptions";
+import { NoOpSpanPlugin } from "./noOpSpanPlugin";
+import { SpanNoOpImpl } from "../../implementations/noop/spanNoOpImpl";
 
 export class NoOpTracePlugin implements Tracer {
   private _tracer: any;
@@ -9,10 +11,13 @@ export class NoOpTracePlugin implements Tracer {
     this._tracer = tracer;
   }
 
-  getCurrentSpan(): Span {
-    throw new Error("Method not implemented.");
+  startSpan(name: string, options?: SpanOptions): Span {
+    const span = new SpanNoOpImpl();
+    const noOpSpanPlugin = new NoOpSpanPlugin(span);
+    return noOpSpanPlugin;
   }
-  startSpan(name: string, options?: SpanOptions | undefined): Span {
+
+  getCurrentSpan(): Span {
     throw new Error("Method not implemented.");
   }
   withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T> {
