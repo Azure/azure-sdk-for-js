@@ -64,8 +64,6 @@ export function getConnectionStringFromEnvironment(): string {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `STORAGE_SAS_CONNECTION_STRING`;
-
   const now = new Date();
   now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -90,21 +88,13 @@ export function getSASConnectionStringFromEnvironment(): string {
     sharedKeyCredential as SharedKeyCredential
   ).toString();
 
-  const queueEndpoint = extractConnectionStringParts(process.env.STORAGE_CONNECTION_STRING || "")
-    .url;
+  const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
-  const connectionString = `BlobEndpoint=${queueEndpoint.replace(
+  return `BlobEndpoint=${queueEndpoint.replace(
     ".queue.",
     ".blob."
   )}/;QueueEndpoint=${queueEndpoint}/;FileEndpoint=${queueEndpoint.replace(
     ".queue.",
     ".file."
   )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
-
-  // console.log(connectionString);
-  if (!connectionString) {
-    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
-  }
-
-  return connectionString;
 }

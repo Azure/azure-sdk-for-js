@@ -131,15 +131,6 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `STORAGE_SAS_CONNECTION_STRING`;
   const env = (window as any).__env__;
-  const connectionString = `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
-
-  console.log(connectionString);
-  if (!connectionString) {
-    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
-  }
-
-  // return connectionString;
-  return env.STORAGE_SAS_CONNECTION_STRING;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
