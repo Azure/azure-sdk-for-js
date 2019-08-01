@@ -143,11 +143,15 @@ export class FileServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Creates an instance of FileServiceClient from connection string.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @returns {FileServiceClient} A new FileServiceClient from the given connection string.
    * @memberof FileServiceClient
@@ -156,16 +160,25 @@ export class FileServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): FileServiceClient {
-    if (isNode) {
-      const extractedCreds = extractConnectionStringParts(connectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      const pipeline = newPipeline(sharedKeyCredential, options);
-      return new FileServiceClient(extractedCreds.url, pipeline);
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    if (extractedCreds.kind === "AccountConnString") {
+      if (isNode) {
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
+        const pipeline = newPipeline(sharedKeyCredential, options);
+        return new FileServiceClient(extractedCreds.url, pipeline);
+      } else {
+        throw new Error("Account connection string is only supported in Node.js environment");
+      }
+    } else if (extractedCreds.kind === "SASConnString") {
+      const pipeline = newPipeline(new AnonymousCredential(), options);
+      return new FileServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
-      throw new Error("Connection string is only supported in Node.js environment");
+      throw new Error(
+        "Connection string must be either an Account connection string or a SAS connection string"
+      );
     }
   }
 
