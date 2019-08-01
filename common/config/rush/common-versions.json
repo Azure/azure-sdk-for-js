@@ -16,9 +16,9 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    "resolve": "1.11.1",
     // This is required to allow for backward compatibility with Service Bus Track 1
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
-    "resolve": "1.11.1",
     "rhea-promise": "^0.1.15"
   },
   /**
