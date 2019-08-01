@@ -150,7 +150,7 @@ describe("PageBlobClient", () => {
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });
 
-  it.only("can be created with a sas connection string", async () => {
+  it("can be created with a sas connection string", async () => {
     const newClient = new PageBlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,
@@ -162,7 +162,7 @@ describe("PageBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it.only("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new PageBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
@@ -176,7 +176,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it.only("throws error if constructor blobName parameter is empty", async () => {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new PageBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");

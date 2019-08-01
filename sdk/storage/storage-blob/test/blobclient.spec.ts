@@ -247,7 +247,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it.only("can be created with a sas connection string", async () => {
+  it("can be created with a sas connection string", async () => {
     const newClient = new BlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,
@@ -262,7 +262,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it.only("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
@@ -276,7 +276,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it.only("throws error if constructor blobName parameter is empty", async () => {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");

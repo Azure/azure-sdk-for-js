@@ -462,7 +462,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it.only("can be created with a sas connection string", async () => {
+  it("can be created with a sas connection string", async () => {
     const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName);
 
     const result = await newClient.getProperties();
@@ -478,7 +478,7 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it.only("can be created with a sas connection string and a container name and an option bag", async () => {
+  it("can be created with a sas connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
         maxTries: 5
@@ -498,7 +498,7 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it.only("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new ContainerClient(getSASConnectionStringFromEnvironment(), "");

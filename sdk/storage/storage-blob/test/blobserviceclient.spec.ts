@@ -393,7 +393,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it.only("can be created from a sas connection string", async () => {
+  it("can be created from a sas connection string", async () => {
     const newClient = BlobServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment()
     );

@@ -199,7 +199,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![0].size, body.length);
   });
 
-  it.only("can be created with a sas connection string", async () => {
+  it("can be created with a sas connection string", async () => {
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,
@@ -212,7 +212,7 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it.only("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
@@ -226,7 +226,7 @@ describe("BlockBlobClient", () => {
     }
   });
 
-  it.only("throws error if constructor blobName parameter is empty", async () => {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
