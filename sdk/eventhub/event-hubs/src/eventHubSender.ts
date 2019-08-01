@@ -382,10 +382,10 @@ export class EventHubSender extends LinkEntity {
             "possibly the connection.",
           this.senderLock
         );
+        const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
         await defaultLock.acquire(this.senderLock, () => {
           const config: RetryConfig<void> = {
-            operation: () =>
-              this._init(this._createSenderOptions(Constants.defaultOperationTimeoutInMs)),
+            operation: () => this._init(senderOptions),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             maxRetries: retryOptions.maxRetries,
