@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -25,14 +25,13 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface QueueCreateOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the queue object.
    * The keys need to be lower-case.
@@ -51,14 +50,13 @@ export interface QueueCreateOptions {
  */
 export interface QueueGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -69,14 +67,13 @@ export interface QueueGetPropertiesOptions {
  */
 export interface QueueDeleteOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -87,14 +84,13 @@ export interface QueueDeleteOptions {
  */
 export interface QueueGetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -105,14 +101,13 @@ export interface QueueGetAccessPolicyOptions {
  */
 export interface QueueSetAccessPolicyOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -123,14 +118,13 @@ export interface QueueSetAccessPolicyOptions {
  */
 export interface QueueSetMetadataOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -167,24 +161,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -314,7 +308,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.create({
       ...options,
       abortSignal: aborter
@@ -341,7 +335,7 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<Models.QueueGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.getProperties({
       abortSignal: aborter
     });
@@ -356,7 +350,7 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
     });
@@ -378,7 +372,7 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.setMetadata({
       abortSignal: aborter,
       metadata
@@ -400,7 +394,7 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
@@ -442,7 +436,7 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
       acl.push({
