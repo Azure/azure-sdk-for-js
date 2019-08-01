@@ -25,7 +25,8 @@ class DataCatalogRestClient extends DataCatalogRestClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Gets subscription credentials which uniquely identify the Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
-   * @param catalogName The name of the data catlog in the specified subscription and resource group.
+   * @param catalogName The name of the data catalog in the specified subscription and resource
+   * group.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, catalogName: string, options?: Models.DataCatalogRestClientOptions) {
