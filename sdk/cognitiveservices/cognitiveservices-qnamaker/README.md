@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - QnAMakerClient
+## An isomorphic javascript sdk for - QnAMakerRuntimeClient
 
-This package contains an isomorphic SDK for QnAMakerClient.
+This package contains an isomorphic SDK for QnAMakerRuntimeClient.
 
 ### Currently supported environments
 
@@ -15,29 +15,61 @@ npm install @azure/cognitiveservices-qnamaker
 
 ### How to use
 
-#### nodejs - Authentication, client creation and getKeys endpointKeys as an example written in TypeScript.
+#### nodejs - Authentication, client creation and generateAnswer runtime as an example written in TypeScript.
+
+##### Install @azure/ms-rest-nodeauth
+
+```bash
+npm install @azure/ms-rest-nodeauth
+```
 
 ##### Sample code
 
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { QnAMakerClient, QnAMakerModels, QnAMakerMappers } from "@azure/cognitiveservices-qnamaker";
+import { QnAMakerRuntimeClient, QnAMakerRuntimeModels, QnAMakerRuntimeMappers } from "@azure/cognitiveservices-qnamaker";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-const endpoint = "https://westus.api.cognitive.microsoft.com"; // OR some other endpoint.
-const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': subscriptionId }});
-const client = new QnAMakerClient(creds, endpoint);
-client.endpointKeys.getKeys().then((result) => {
-  console.log("The result is:");
-  console.log(result);
+
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new QnAMakerRuntimeClient(creds, subscriptionId);
+  const kbId = "testkbId";
+  const generateAnswerPayload: QnAMakerRuntimeModels.QueryDTO = {
+    qnaId: "testqnaId",
+    question: "testquestion",
+    top: 1,
+    userId: "testuserId",
+    isTest: true,
+    scoreThreshold: 1.01,
+    context: {
+      previousQnaId: "testpreviousQnaId",
+      previousUserQuery: "testpreviousUserQuery"
+    },
+    strictFilters: [{
+      name: "testname",
+      value: "testvalue"
+    }]
+  };
+  client.runtime.generateAnswer(kbId, generateAnswerPayload).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
 }).catch((err) => {
   console.error(err);
 });
 ```
 
-#### browser - Authentication, client creation and getKeys endpointKeys as an example written in JavaScript.
+#### browser - Authentication, client creation and generateAnswer runtime as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
+
+```bash
+npm install @azure/ms-rest-browserauth
+```
 
 ##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -50,15 +82,40 @@ client.endpointKeys.getKeys().then((result) => {
     <script src="node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': subscriptionId }});
-      const endpoint = "https://westus.api.cognitive.microsoft.com"; // OR some other endpoint.
-      const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(creds, endpoint);
-      client.endpointKeys.getKeys().then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesQnamaker.QnAMakerRuntimeClient(res.creds, subscriptionId);
+        const kbId = "testkbId";
+        const generateAnswerPayload = {
+          qnaId: "testqnaId",
+          question: "testquestion",
+          top: 1,
+          userId: "testuserId",
+          isTest: true,
+          scoreThreshold: 1.01,
+          context: {
+            previousQnaId: "testpreviousQnaId",
+            previousUserQuery: "testpreviousUserQuery"
+          },
+          strictFilters: [{
+            name: "testname",
+            value: "testvalue"
+          }]
+        };
+        client.runtime.generateAnswer(kbId, generateAnswerPayload).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>
@@ -69,3 +126,5 @@ client.endpointKeys.getKeys().then((result) => {
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png)
