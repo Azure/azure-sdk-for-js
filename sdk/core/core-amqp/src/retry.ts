@@ -7,8 +7,7 @@ import * as log from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenOperationRetriesInMs,
-  defaultMaxDelayForExponentialRetryInMs,
-  defaultMinDelayForExponentialRetryInMs
+  defaultMaxDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
 
@@ -55,6 +54,38 @@ export enum RetryOperationType {
 }
 
 /**
+ * Retry policy options for operations on the EventHubClient.
+ */
+export interface RetryOptions {
+  /**
+   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
+   * of retryable error. Default: 3.
+   */
+  maxRetries?: number;
+  /**
+   * @property {number} [retryDelayInMs] Amount of time to wait in milliseconds before making the
+   * next attempt. Default: `30000 milliseconds`.
+   * When `mode` option is set to `Exponential`,
+   * this is used to compute the exponentially increasing delays between retries.
+   */
+  retryDelayInMs?: number;
+  /**
+   * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
+   * A minimum value of `60000` milliseconds will be used if a value not greater than this is provided.
+   */
+  timeoutInMs?: number;
+  /**
+   * @property {RetryMode} [mode] Denotes which retry mode to apply. If undefined, defaults to `Fixed`
+   */
+  mode?: RetryMode;
+  /**
+   * @property {number} [maxRetryDelayInMs] Denotes the maximum delay between retries
+   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
+   */
+  maxRetryDelayInMs?: number;
+}
+
+/**
  * Describes the parameters that need to be configured for the retry operation.
  * @interface RetryConfig
  */
@@ -74,31 +105,14 @@ export interface RetryConfig<T> {
    */
   operationType: RetryOperationType;
   /**
-   * @property {number} [maxRetries] Number of times the operation needs to be retried in case
-   * of retryable error. Default: 3.
-   */
-  maxRetries?: number;
-  /**
-   * @property {number} [delayInMs] Amount of time to wait in milliseconds before making the
-   * next attempt. Default: `30000 milliseconds`.
-   * When `mode` option is set to `Exponential`,
-   * this is used to compute the exponentially increasing delays between retries.
-   */
-  delayInMs?: number;
-  /**
    * @property {string} connectionHost The host "<yournamespace>.servicebus.windows.net".
    * Used to check network connectivity.
    */
   connectionHost?: string;
   /**
-   * @property {RetryMode} [mode] Denotes which retry mode to apply. Default is `Fixed`
+   * @property {RetryOptions} retryOptions The retry related options associated with given operation execution.
    */
-  mode?: RetryMode;
-  /**
-   * @property {number} [maxRetryDelayInMs] Denotes the maximum delay between retries
-   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
-   */
-  maxRetryDelayInMs?: number;
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -152,22 +166,28 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (config.maxRetries == undefined || config.maxRetries < 0) {
-    config.maxRetries = defaultMaxRetries;
+  if (!config.retryOptions) {
+    config.retryOptions = {};
   }
-  if (config.delayInMs == undefined || config.delayInMs < 0) {
-    config.delayInMs = defaultDelayBetweenOperationRetriesInMs;
+  if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
+    config.retryOptions.maxRetries = defaultMaxRetries;
   }
-  if (config.maxRetryDelayInMs == undefined || config.maxRetryDelayInMs < 0) {
-    config.maxRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
+    config.retryOptions.retryDelayInMs = defaultDelayBetweenOperationRetriesInMs;
   }
-  if (config.mode == undefined) {
-    config.mode = RetryMode.Fixed;
+  if (
+    config.retryOptions.maxRetryDelayInMs == undefined ||
+    config.retryOptions.maxRetryDelayInMs < 0
+  ) {
+    config.retryOptions.maxRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+  }
+  if (config.retryOptions.mode == undefined) {
+    config.retryOptions.mode = RetryMode.Fixed;
   }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
-  const totalNumberOfAttempts = config.maxRetries + 1;
+  const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
     log.retry("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
     try {
@@ -208,18 +228,18 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      let targetDelayInMs = config.delayInMs;
-      if (config.mode === RetryMode.Exponential) {
+      let targetDelayInMs = config.retryOptions.retryDelayInMs;
+      if (config.retryOptions.mode === RetryMode.Exponential) {
         let incrementDelta = Math.pow(2, i) - 1;
         const boundedRandDelta =
-          config.delayInMs * 0.8 +
-          Math.floor(Math.random() * (config.delayInMs * 1.2 - config.delayInMs * 0.8));
+          config.retryOptions.retryDelayInMs * 0.8 +
+          Math.floor(
+            Math.random() *
+              (config.retryOptions.retryDelayInMs * 1.2 - config.retryOptions.retryDelayInMs * 0.8)
+          );
         incrementDelta *= boundedRandDelta;
 
-        targetDelayInMs = Math.min(
-          defaultMinDelayForExponentialRetryInMs + incrementDelta,
-          config.maxRetryDelayInMs
-        );
+        targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
       }
 
       if (lastError && lastError.retryable) {

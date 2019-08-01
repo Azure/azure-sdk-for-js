@@ -37,8 +37,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.cbsAuth,
-              delayInMs: 15000,
-              mode: mode
+              retryOptions: { retryDelayInMs: 15000, mode: mode }
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -64,8 +63,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.management,
-              delayInMs: 15000,
-              mode: mode
+              retryOptions: { retryDelayInMs: 15000, mode: mode }
             };
             await retry(config);
           } catch (err) {
@@ -97,9 +95,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.receiverLink,
-              maxRetries: 2,
-              delayInMs: 500,
-              mode: mode
+              retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode }
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -135,9 +131,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.senderLink,
-              maxRetries: 2,
-              delayInMs: 500,
-              mode: mode
+              retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode }
             };
             const result = await retry(config);
             result.code.should.equal(200);
@@ -174,9 +168,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.sendMessage,
-              maxRetries: 2,
-              delayInMs: 500,
-              mode: mode
+              retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode }
             };
             await retry(config);
           } catch (err) {
@@ -200,9 +192,7 @@ dotenv.config();
               },
               connectionId: "connection-1",
               operationType: RetryOperationType.session,
-              maxRetries: 4,
-              delayInMs: 500,
-              mode: mode
+              retryOptions: { maxRetries: 4, retryDelayInMs: 500, mode: mode }
             };
             await retry(config);
           } catch (err) {
@@ -218,7 +208,6 @@ dotenv.config();
             let counter = 0;
             try {
               const config: RetryConfig<any> = {
-                maxRetries: Infinity,
                 operation: async () => {
                   debug("counter: %d", ++counter);
                   await delay(200);
@@ -229,8 +218,7 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.cbsAuth,
-                delayInMs: 500,
-                mode: mode
+                retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode }
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -256,9 +244,7 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.management,
-                maxRetries: Infinity,
-                delayInMs: 500,
-                mode: mode
+                retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode }
               };
               await retry(config);
             } catch (err) {
@@ -290,9 +276,7 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.receiverLink,
-                maxRetries: Infinity,
-                delayInMs: 500,
-                mode: mode
+                retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode }
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -328,9 +312,7 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.senderLink,
-                maxRetries: Infinity,
-                delayInMs: 500,
-                mode: mode
+                retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode }
               };
               const result = await retry(config);
               result.code.should.equal(200);
@@ -367,9 +349,11 @@ dotenv.config();
                 },
                 connectionId: "connection-1",
                 operationType: RetryOperationType.sendMessage,
-                maxRetries: Constants.defaultMaxRetriesForConnection,
-                delayInMs: 1,
-                mode: mode
+                retryOptions: {
+                  maxRetries: Constants.defaultMaxRetriesForConnection,
+                  retryDelayInMs: 1,
+                  mode: mode
+                }
               };
               await retry(config);
             } catch (err) {

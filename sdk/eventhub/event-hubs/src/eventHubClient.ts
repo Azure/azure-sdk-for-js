@@ -10,8 +10,8 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   isTokenCredential,
-  Constants,
-  RetryMode
+  RetryOptions,
+  Constants
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -23,34 +23,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
-
-/**
- * Retry policy options for operations on the EventHubClient.
- */
-export interface RetryOptions {
-  /**
-   * The maximum number of times an operation will be retried.
-   */
-  maxRetries?: number;
-  /**
-   * Number of milliseconds to wait between attempts.
-   */
-  retryDelayInMs?: number;
-  /**
-   * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
-   * A minimum value of `60000` milliseconds will be used if a value not greater than this is provided.
-   */
-  timeoutInMs?: number;
-  /**
-   * @property {RetryMode} [mode] Denotes which retry mode to apply. If undefined, defaults to `Fixed`
-   */
-  mode?: RetryMode;
-  /**
-   * @property {number} [maxRetryDelayInMs] Denotes the maximum delay between retries
-   * that the retry attempts will be capped at. Applicable only when performing exponential retry.
-   */
-  maxRetryDelayInMs?: number;
-}
 
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =

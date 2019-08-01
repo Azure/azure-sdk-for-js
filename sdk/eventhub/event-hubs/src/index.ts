@@ -12,7 +12,6 @@ export {
   EventHubClientOptions,
   EventHubConsumerOptions,
   EventHubProducerOptions,
-  RetryOptions,
   SendOptions,
   BatchOptions
 } from "./eventHubClient";
@@ -32,7 +31,7 @@ export {
   PartitionOwnership
 } from "./eventProcessor";
 export { PartitionContext } from "./partitionContext";
-export { InMemoryPartitionManager} from "./inMemoryPartitionManager"
+export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export { Checkpoint } from "./checkpointManager";
 export {
   MessagingError,
