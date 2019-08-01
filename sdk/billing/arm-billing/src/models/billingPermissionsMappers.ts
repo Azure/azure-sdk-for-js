@@ -7,9 +7,8 @@
  */
 
 export {
+  BillingPermissionsListResult,
+  BillingPermissionsProperties,
   ErrorDetails,
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ErrorResponse
 } from "../models/mappers";

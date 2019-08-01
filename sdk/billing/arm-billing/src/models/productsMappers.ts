@@ -24,7 +24,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
@@ -36,6 +35,13 @@ export {
   PaymentProperties,
   Policy,
   Product,
+  ProductsListResult,
+  ProductsTransferHeaders,
   Resource,
-  Transaction
+  Transaction,
+  TransferProductRequestProperties,
+  UpdateAutoRenewOperation,
+  UpdateAutoRenewRequest,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";

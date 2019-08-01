@@ -7,9 +7,9 @@
  */
 
 export {
+  DownloadUrl,
   ErrorDetails,
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  PriceSheetDownloadByBillingProfileNameHeaders,
+  PriceSheetDownloadHeaders
 } from "../models/mappers";

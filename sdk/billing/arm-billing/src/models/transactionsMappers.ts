@@ -24,7 +24,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
@@ -37,5 +36,6 @@ export {
   Policy,
   Product,
   Resource,
-  Transaction
+  Transaction,
+  TransactionListResult
 } from "../models/mappers";
