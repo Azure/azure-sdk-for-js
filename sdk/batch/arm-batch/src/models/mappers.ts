@@ -1216,6 +1216,17 @@ export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sourcePortRanges: {
+        serializedName: "sourcePortRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1322,6 +1333,17 @@ export const NetworkConfiguration: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PoolEndpointConfiguration"
+        }
+      },
+      publicIPs: {
+        serializedName: "publicIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1616,6 +1638,16 @@ export const TaskContainerSettings: msRest.CompositeMapper = {
           name: "Composite",
           className: "ContainerRegistry"
         }
+      },
+      workingDirectory: {
+        serializedName: "workingDirectory",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "TaskWorkingDirectory",
+            "ContainerImageDefault"
+          ]
+        }
       }
     }
   }
@@ -1853,6 +1885,211 @@ export const ResizeOperationStatus: msRest.CompositeMapper = {
   }
 };
 
+export const AzureBlobFileSystemConfiguration: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFileSystemConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFileSystemConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        required: true,
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      sasKey: {
+        serializedName: "sasKey",
+        type: {
+          name: "String"
+        }
+      },
+      blobfuseOptions: {
+        serializedName: "blobfuseOptions",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NFSMountConfiguration: msRest.CompositeMapper = {
+  serializedName: "NFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "NFSMountConfiguration",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CIFSMountConfiguration: msRest.CompositeMapper = {
+  serializedName: "CIFSMountConfiguration",
+  type: {
+    name: "Composite",
+    className: "CIFSMountConfiguration",
+    modelProperties: {
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFileShareConfiguration: msRest.CompositeMapper = {
+  serializedName: "AzureFileShareConfiguration",
+  type: {
+    name: "Composite",
+    className: "AzureFileShareConfiguration",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      azureFileUrl: {
+        required: true,
+        serializedName: "azureFileUrl",
+        type: {
+          name: "String"
+        }
+      },
+      accountKey: {
+        required: true,
+        serializedName: "accountKey",
+        type: {
+          name: "String"
+        }
+      },
+      relativeMountPath: {
+        required: true,
+        serializedName: "relativeMountPath",
+        type: {
+          name: "String"
+        }
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MountConfiguration: msRest.CompositeMapper = {
+  serializedName: "MountConfiguration",
+  type: {
+    name: "Composite",
+    className: "MountConfiguration",
+    modelProperties: {
+      azureBlobFileSystemConfiguration: {
+        serializedName: "azureBlobFileSystemConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureBlobFileSystemConfiguration"
+        }
+      },
+      nfsMountConfiguration: {
+        serializedName: "nfsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "NFSMountConfiguration"
+        }
+      },
+      cifsMountConfiguration: {
+        serializedName: "cifsMountConfiguration",
+        type: {
+          name: "Composite",
+          className: "CIFSMountConfiguration"
+        }
+      },
+      azureFileShareConfiguration: {
+        serializedName: "azureFileShareConfiguration",
+        type: {
+          name: "Composite",
+          className: "AzureFileShareConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const Pool: msRest.CompositeMapper = {
   serializedName: "Pool",
   type: {
@@ -2061,6 +2298,18 @@ export const Pool: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResizeOperationStatus"
+        }
+      },
+      mountConfiguration: {
+        serializedName: "properties.mountConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountConfiguration"
+            }
+          }
         }
       }
     }

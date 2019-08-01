@@ -504,8 +504,8 @@ export interface ImageReference {
    */
   offer?: string;
   /**
-   * The SKU of the Azure Virtual Machines Marketplace image. For example, 14.04.0-LTS or
-   * 2012-R2-Datacenter.
+   * The SKU of the Azure Virtual Machines Marketplace image. For example, 18.04-LTS or
+   * 2019-Datacenter.
    */
   sku?: string;
   /**
@@ -514,14 +514,16 @@ export interface ImageReference {
    */
   version?: string;
   /**
-   * The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be
-   * created using this custom image. This is of the form
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
-   * This property is mutually exclusive with other properties. The virtual machine image must be
-   * in the same region and subscription as the Azure Batch account. For information about the
-   * firewall settings for Batch node agent to communicate with Batch service see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
-   * .
+   * The ARM resource identifier of the Virtual Machine Image or Shared Image Gallery Image.
+   * Compute Nodes of the Pool will be created using this Image Id. This is of either the form
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}
+   * for Virtual Machine Image or
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}
+   * for SIG image. This property is mutually exclusive with other properties. For Virtual Machine
+   * Image it must be in the same region and subscription as the Azure Batch account. For SIG image
+   * it must have replicas in the same region as the Azure Batch account. For information about the
+   * firewall settings for the Batch node agent to communicate with the Batch service see
+   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   id?: string;
 }
@@ -539,7 +541,8 @@ export interface WindowsConfiguration {
 }
 
 /**
- * Data Disk settings which will be used by the data disks associated to Compute Nodes in the pool.
+ * Settings which will be used by the data disks associated to Compute Nodes in the Pool. When
+ * using attached data disks, you need to mount and format the disks from within a VM to use them.
  */
 export interface DataDisk {
   /**
@@ -813,6 +816,13 @@ export interface NetworkSecurityGroupRule {
    * If any other values are provided the request fails with HTTP status code 400.
    */
   sourceAddressPrefix: string;
+  /**
+   * The source port ranges to match for the rule. Valid values are '*' (for all ports 0 - 65535)
+   * or arrays of ports or port ranges (i.e. 100-200). The ports should in the range of 0 to 65535
+   * and the port ranges or ports can't overlap. If any other values are provided the request fails
+   * with HTTP status code 400. Default value will be *.
+   */
+  sourcePortRanges?: string[];
 }
 
 /**
@@ -910,6 +920,14 @@ export interface NetworkConfiguration {
    * configuration is only supported on pools with the virtualMachineConfiguration property.
    */
   endpointConfiguration?: PoolEndpointConfiguration;
+  /**
+   * The list of public IPs which the Batch service will use when provisioning Compute Nodes. The
+   * number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20
+   * low-priority nodes can be allocated for each public IP. For example, a pool needing 150
+   * dedicated VMs would need at least 3 public IPs specified. This is of the form:
+   * /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}.
+   */
+  publicIPs?: string[];
 }
 
 /**
@@ -1091,15 +1109,16 @@ export interface EnvironmentSetting {
  */
 export interface AutoUserSpecification {
   /**
-   * The scope for the auto user. The default value is task. Possible values include: 'Task',
-   * 'Pool'
+   * The scope for the auto user. The default value is Pool. If the pool is running Windows a value
+   * of Task should be specified if stricter isolation between tasks is required. For example, if
+   * the task mutates the registry in a way which could impact other tasks, or if certificates have
+   * been specified on the pool which should not be accessible by normal tasks but should be
+   * accessible by start tasks. Possible values include: 'Task', 'Pool'
    */
   scope?: AutoUserScope;
   /**
-   * The elevation level of the auto user. nonAdmin - The auto user is a standard user without
-   * elevated access. admin - The auto user is a user with elevated access and operates with full
-   * Administrator permissions. The default value is nonAdmin. Possible values include: 'NonAdmin',
-   * 'Admin'
+   * The elevation level of the auto user. The default value is nonAdmin. Possible values include:
+   * 'NonAdmin', 'Admin'
    */
   elevationLevel?: ElevationLevel;
 }
@@ -1143,6 +1162,12 @@ export interface TaskContainerSettings {
    * already provided at pool creation.
    */
   registry?: ContainerRegistry;
+  /**
+   * A flag to indicate where the container task working directory is. The default is
+   * 'taskWorkingDirectory'. Possible values include: 'TaskWorkingDirectory',
+   * 'ContainerImageDefault'
+   */
+  workingDirectory?: ContainerWorkingDirectory;
 }
 
 /**
@@ -1195,7 +1220,7 @@ export interface StartTask {
    * This condition can be detected via the node state and scheduling error detail. If false, the
    * Batch service will not wait for the start task to complete. In this case, other tasks can
    * start executing on the compute node while the start task is still running; and even if the
-   * start task fails, new tasks will continue to be scheduled on the node. The default is false.
+   * start task fails, new tasks will continue to be scheduled on the node. The default is true.
    */
   waitForSuccess?: boolean;
   /**
@@ -1323,6 +1348,148 @@ export interface ResizeOperationStatus {
    * allocationState is Steady.
    */
   errors?: ResizeError[];
+}
+
+/**
+ * An interface representing AzureBlobFileSystemConfiguration.
+ * @summary Blobfuse file system details.
+ */
+export interface AzureBlobFileSystemConfiguration {
+  /**
+   * The Azure Storage account name.
+   */
+  accountName: string;
+  /**
+   * The Azure Blob Storage container name.
+   */
+  containerName: string;
+  /**
+   * The Azure Storage account key. This property is mutually exclusive with sasKey and one must be
+   * specified.
+   */
+  accountKey?: string;
+  /**
+   * The Azure Storage SAS token. This property is mutually exclusive with accountKey and one must
+   * be specified.
+   */
+  sasKey?: string;
+  /**
+   * Additional command line options to pass to the mount command. These are 'net use' options in
+   * Windows and 'mount' options in Linux.
+   */
+  blobfuseOptions?: string;
+  /**
+   * The relative path on the compute node where the file system will be mounted. All file systems
+   * are mounted relative to the Batch mounts directory, accessible via the
+   * AZ_BATCH_NODE_MOUNTS_DIR environment variable.
+   */
+  relativeMountPath: string;
+}
+
+/**
+ * An interface representing NFSMountConfiguration.
+ * @summary NFS file system detail.
+ */
+export interface NFSMountConfiguration {
+  /**
+   * The URI of the file system to mount.
+   */
+  source: string;
+  /**
+   * The relative path on the compute node where the file system will be mounted. All file systems
+   * are mounted relative to the Batch mounts directory, accessible via the
+   * AZ_BATCH_NODE_MOUNTS_DIR environment variable.
+   */
+  relativeMountPath: string;
+  /**
+   * Specifies various mount options that can be used.
+   */
+  mountOptions?: string;
+}
+
+/**
+ * An interface representing CIFSMountConfiguration.
+ * @summary CIFS file system details.
+ */
+export interface CIFSMountConfiguration {
+  /**
+   * The user to use for authentication against the CIFS file system.
+   */
+  username: string;
+  /**
+   * The URI of the file system to mount.
+   */
+  source: string;
+  /**
+   * The relative path on the compute node where the file system will be mounted. All file systems
+   * are mounted relative to the Batch mounts directory, accessible via the
+   * AZ_BATCH_NODE_MOUNTS_DIR environment variable.
+   */
+  relativeMountPath: string;
+  /**
+   * Specifies various mount options that can be used.
+   */
+  mountOptions?: string;
+  /**
+   * The password to authenticate with.
+   */
+  password: string;
+}
+
+/**
+ * An interface representing AzureFileShareConfiguration.
+ * @summary Azure Files details.
+ */
+export interface AzureFileShareConfiguration {
+  /**
+   * The Azure Storage account name.
+   */
+  accountName: string;
+  /**
+   * The Azure Files URL.
+   */
+  azureFileUrl: string;
+  /**
+   * The Azure Storage account key.
+   */
+  accountKey: string;
+  /**
+   * The relative path on the compute node where the file system will be mounted. All file systems
+   * are mounted relative to the Batch mounts directory, accessible via the
+   * AZ_BATCH_NODE_MOUNTS_DIR environment variable.
+   */
+  relativeMountPath: string;
+  /**
+   * Specifies various mount options that can be used.
+   */
+  mountOptions?: string;
+}
+
+/**
+ * Each property is mutually exclusive.
+ * @summary The file system to mount on each node.
+ */
+export interface MountConfiguration {
+  /**
+   * The Azure Storage container to mount using blob FUSE on each node. This property is mutually
+   * exclusive with all other properties.
+   */
+  azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfiguration;
+  /**
+   * The NFS file system to mount on each node. This property is mutually exclusive with all other
+   * properties.
+   */
+  nfsMountConfiguration?: NFSMountConfiguration;
+  /**
+   * The CIFS/SMB file system to mount on each node. This property is mutually exclusive with all
+   * other properties.
+   */
+  cifsMountConfiguration?: CIFSMountConfiguration;
+  /**
+   * The Azure File Share to mount on each node. This is CIFS based for linux and net use for for
+   * windows, and this property is mutually exclusive with all other properties.
+   */
+  azureFileShareConfiguration?: AzureFileShareConfiguration;
 }
 
 /**
@@ -1473,6 +1640,11 @@ export interface Pool extends ProxyResource {
    * will not be serialized. It can only be populated by the server.**
    */
   readonly resizeOperationStatus?: ResizeOperationStatus;
+  /**
+   * A list of file systems to mount on each node in the pool. This supports Azure Files, NFS,
+   * CIFS/SMB, and Blobfuse.
+   */
+  mountConfiguration?: MountConfiguration[];
 }
 
 /**
@@ -2114,6 +2286,14 @@ export type LoginMode = 'Batch' | 'Interactive';
  * @enum {string}
  */
 export type AutoUserScope = 'Task' | 'Pool';
+
+/**
+ * Defines values for ContainerWorkingDirectory.
+ * Possible values include: 'TaskWorkingDirectory', 'ContainerImageDefault'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerWorkingDirectory = 'TaskWorkingDirectory' | 'ContainerImageDefault';
 
 /**
  * Defines values for CertificateStoreLocation.
