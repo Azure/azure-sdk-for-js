@@ -10,6 +10,9 @@
 
 export * from "./operations";
 export * from "./availabilitySets";
+export * from "./proximityPlacementGroups";
+export * from "./dedicatedHostGroups";
+export * from "./dedicatedHosts";
 export * from "./virtualMachineExtensionImages";
 export * from "./virtualMachineExtensions";
 export * from "./virtualMachineImages";
@@ -20,7 +23,6 @@ export * from "./images";
 export * from "./virtualMachineScaleSets";
 export * from "./virtualMachineScaleSetExtensions";
 export * from "./virtualMachineScaleSetRollingUpgrades";
-export * from "./virtualMachineScaleSetOperations";
 export * from "./virtualMachineScaleSetVMs";
 export * from "./logAnalytics";
 export * from "./virtualMachineRunCommands";

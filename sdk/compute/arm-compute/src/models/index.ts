@@ -157,6 +157,11 @@ export interface AvailabilitySet extends Resource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -197,6 +202,11 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -205,6 +215,241 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    * Sku of the availability set
    */
   sku?: Sku;
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroup extends Resource {
+  /**
+   * Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br>
+   * **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br>
+   * **Ultra** : For future use. Possible values include: 'Standard', 'Ultra'
+   */
+  proximityPlacementGroupType?: ProximityPlacementGroupType;
+  /**
+   * A list of references to all virtual machines in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResource[];
+  /**
+   * A list of references to all virtual machine scale sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachineScaleSets?: SubResource[];
+  /**
+   * A list of references to all availability sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly availabilitySets?: SubResource[];
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroupUpdate extends UpdateResource {
+}
+
+/**
+ * An interface representing SubResourceReadOnly.
+ */
+export interface SubResourceReadOnly extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * Specifies information about the dedicated host group that the dedicated hosts should be assigned
+ * to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation
+ * time. An existing dedicated host cannot be added to another dedicated host group.
+ */
+export interface DedicatedHostGroup extends Resource {
+  /**
+   * Number of fault domains that the host group can span.
+   */
+  platformFaultDomainCount: number;
+  /**
+   * A list of references to all dedicated hosts in the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * Availability Zone to use for this host group. Only single zone is supported. The zone can be
+   * assigned only during creation. If not provided, the group supports all zones in the region. If
+   * provided, enforces each host in the group to be in the same zone.
+   */
+  zones?: string[];
+}
+
+/**
+ * Specifies information about the dedicated host group that the dedicated host should be assigned
+ * to. Only tags may be updated.
+ */
+export interface DedicatedHostGroupUpdate extends UpdateResource {
+  /**
+   * Number of fault domains that the host group can span.
+   */
+  platformFaultDomainCount: number;
+  /**
+   * A list of references to all dedicated hosts in the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * Availability Zone to use for this host group. Only single zone is supported. The zone can be
+   * assigned only during creation. If not provided, the group supports all zones in the region. If
+   * provided, enforces each host in the group to be in the same zone.
+   */
+  zones?: string[];
+}
+
+/**
+ * Represents the dedicated host unutilized capacity in terms of a specific VM size.
+ */
+export interface DedicatedHostAllocatableVM {
+  /**
+   * VM size in terms of which the unutilized capacity is represented.
+   */
+  vmSize?: string;
+  /**
+   * Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity.
+   */
+  count?: number;
+}
+
+/**
+ * Dedicated host unutilized capacity.
+ */
+export interface DedicatedHostAvailableCapacity {
+  /**
+   * The unutilized capacity of the dedicated host represented in terms of each VM size that is
+   * allowed to be deployed to the dedicated host.
+   */
+  allocatableVMs?: DedicatedHostAllocatableVM[];
+}
+
+/**
+ * The instance view of a dedicated host.
+ */
+export interface DedicatedHostInstanceView {
+  /**
+   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assetId?: string;
+  /**
+   * Unutilized capacity of the dedicated host.
+   */
+  availableCapacity?: DedicatedHostAvailableCapacity;
+  /**
+   * The resource status information.
+   */
+  statuses?: InstanceViewStatus[];
+}
+
+/**
+ * Specifies information about the Dedicated host.
+ */
+export interface DedicatedHost extends Resource {
+  /**
+   * Fault domain of the dedicated host within a dedicated host group.
+   */
+  platformFaultDomain?: number;
+  /**
+   * Specifies whether the dedicated host should be replaced automatically in case of a failure.
+   * The value is defaulted to 'true' when not provided.
+   */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not
+   * change throughout the lifetime of the host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /**
+   * Specifies the software license type that will be applied to the VMs deployed on the dedicated
+   * host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid**
+   * <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**. Possible values include:
+   * 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+   */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The dedicated host instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
+  /**
+   * SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be
+   * set. List Microsoft.Compute SKUs for a list of possible values.
+   */
+  sku: Sku;
+}
+
+/**
+ * Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType
+ * may be updated.
+ */
+export interface DedicatedHostUpdate extends UpdateResource {
+  /**
+   * Fault domain of the dedicated host within a dedicated host group.
+   */
+  platformFaultDomain?: number;
+  /**
+   * Specifies whether the dedicated host should be replaced automatically in case of a failure.
+   * The value is defaulted to 'true' when not provided.
+   */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not
+   * change throughout the lifetime of the host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /**
+   * Specifies the software license type that will be applied to the VMs deployed on the dedicated
+   * host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid**
+   * <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**. Possible values include:
+   * 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+   */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The dedicated host instance view.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
 }
 
 /**
@@ -505,7 +750,8 @@ export interface Usage {
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * Specifies whether to reimage temp disk. Default value: false.
+   * Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage
+   * parameter is only supported for VM/VMSS with Ephemeral OS disk.
    */
   tempDisk?: boolean;
 }
@@ -863,6 +1109,11 @@ export interface DataDisk {
    * The managed disk parameters.
    */
   managedDisk?: ManagedDiskParameters;
+  /**
+   * Specifies whether the data disk is in process of detachment from the
+   * VirtualMachine/VirtualMachineScaleset
+   */
+  toBeDetached?: boolean;
 }
 
 /**
@@ -974,7 +1225,9 @@ export interface WindowsConfiguration {
    */
   provisionVMAgent?: boolean;
   /**
-   * Indicates whether virtual machine is enabled for automatic updates.
+   * Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value
+   * is true. <br><br> For virtual machine scale sets, this property can be updated and updates
+   * will take effect on OS reprovisioning.
    */
   enableAutomaticUpdates?: boolean;
   /**
@@ -1391,6 +1644,11 @@ export interface VirtualMachineInstanceView {
    */
   osVersion?: string;
   /**
+   * Specifies the HyperVGeneration Type associated with a resource. Possible values include: 'V1',
+   * 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationType;
+  /**
    * The Remote desktop certificate thumbprint.
    */
   rdpThumbPrint?: string;
@@ -1471,6 +1729,16 @@ export interface VirtualMachine extends Resource {
    * VM cannot be added to an availability set.
    */
   availabilitySet?: SubResource;
+  /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies information about the dedicated host that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2018-10-01.
+   */
+  host?: SubResource;
   /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1562,6 +1830,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   availabilitySet?: SubResource;
   /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies information about the dedicated host that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2018-10-01.
+   */
+  host?: SubResource;
+  /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1602,8 +1880,11 @@ export interface VirtualMachineUpdate extends UpdateResource {
  */
 export interface AutomaticOSUpgradePolicy {
   /**
-   * Whether OS upgrades should automatically be applied to scale set instances in a rolling
-   * fashion when a newer version of the image becomes available. Default value is false.
+   * Indicates whether OS upgrades should automatically be applied to scale set instances in a
+   * rolling fashion when a newer version of the OS image becomes available. Default value is
+   * false. <br><br> If this is set to true for Windows based scale sets,
+   * [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+   * is automatically set to false and cannot be set to true.
    */
   enableAutomaticOSUpgrade?: boolean;
   /**
@@ -1794,6 +2075,11 @@ export interface Image extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -1813,6 +2099,11 @@ export interface ImageUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -2421,17 +2712,6 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 }
 
 /**
- * An interface representing SubResourceReadOnly.
- */
-export interface SubResourceReadOnly extends BaseResource {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
  * Describes a Virtual Machine Scale Set Extension.
  */
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
@@ -2493,6 +2773,32 @@ export interface VirtualMachineScaleSetExtensionProfile {
 }
 
 /**
+ * An interface representing TerminateNotificationProfile.
+ */
+export interface TerminateNotificationProfile {
+  /**
+   * Configurable length of time a Virtual Machine being deleted will have to potentially approve
+   * the Terminate Scheduled Event before the event is auto approved (timed out). The configuration
+   * must be specified in ISO 8601 format, the default value is 5 minutes (PT5M)
+   */
+  notBeforeTimeout?: string;
+  /**
+   * Specifies whether the Terminate Scheduled event is enabled or disabled.
+   */
+  enable?: boolean;
+}
+
+/**
+ * An interface representing ScheduledEventsProfile.
+ */
+export interface ScheduledEventsProfile {
+  /**
+   * Specifies Terminate Scheduled Event related configurations.
+   */
+  terminateNotificationProfile?: TerminateNotificationProfile;
+}
+
+/**
  * Describes a virtual machine scale set virtual machine profile.
  */
 export interface VirtualMachineScaleSetVMProfile {
@@ -2504,12 +2810,6 @@ export interface VirtualMachineScaleSetVMProfile {
    * Specifies the storage settings for the virtual machine disks.
    */
   storageProfile?: VirtualMachineScaleSetStorageProfile;
-  /**
-   * Specifies additional capabilities enabled or disabled on the virtual machine in the scale set.
-   * For instance: whether the virtual machine has the capability to support attaching managed data
-   * disks with UltraSSD_LRS storage account type.
-   */
-  additionalCapabilities?: AdditionalCapabilities;
   /**
    * Specifies properties of the network interfaces of the virtual machines in the scale set.
    */
@@ -2544,6 +2844,10 @@ export interface VirtualMachineScaleSetVMProfile {
    * 'Delete'
    */
   evictionPolicy?: VirtualMachineEvictionPolicyTypes;
+  /**
+   * Specifies Scheduled Event related configurations.
+   */
+  scheduledEventsProfile?: ScheduledEventsProfile;
 }
 
 /**
@@ -2574,6 +2878,10 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
    * The license type, which is for bring your own license scenario.
    */
   licenseType?: string;
+  /**
+   * Specifies Scheduled Event related configurations.
+   */
+  scheduledEventsProfile?: ScheduledEventsProfile;
 }
 
 /**
@@ -2635,6 +2943,17 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   platformFaultDomainCount?: number;
   /**
+   * Specifies information about the proximity placement group that the virtual machine scale set
+   * should be assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
+  /**
    * The identity of the virtual machine scale set, if configured.
    */
   identity?: VirtualMachineScaleSetIdentity;
@@ -2691,6 +3010,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * machines.
    */
   singlePlacementGroup?: boolean;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
   /**
    * The identity of the virtual machine scale set, if configured.
    */
@@ -3541,6 +3866,22 @@ export interface ResourceSkuCapabilities {
 }
 
 /**
+ * Describes The zonal capabilities of a SKU.
+ */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+/**
  * An interface representing ResourceSkuRestrictionInfo.
  */
 export interface ResourceSkuRestrictionInfo {
@@ -3597,6 +3938,11 @@ export interface ResourceSkuLocationInfo {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly zones?: string[];
+  /**
+   * Details of capabilities available to a SKU in specific zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
 }
 
 /**
@@ -4151,10 +4497,15 @@ export interface GalleryImage extends Resource {
    */
   osType: OperatingSystemTypes;
   /**
-   * The allowed values for OS State are 'Generalized'. Possible values include: 'Generalized',
-   * 'Specialized'
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
    */
   osState: OperatingSystemStateTypes;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
   /**
    * The end of life date of the gallery Image Definition. This property can be used for
    * decommissioning purposes. This property is updatable.
@@ -4182,7 +4533,6 @@ export interface GalleryArtifactPublishingProfileBase {
    * updatable.
    */
   targetRegions?: TargetRegion[];
-  source: GalleryArtifactSource;
 }
 
 /**
@@ -4217,6 +4567,17 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
 }
 
 /**
+ * The gallery artifact version source.
+ */
+export interface GalleryArtifactVersionSource {
+  /**
+   * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
+   * image.
+   */
+  id: string;
+}
+
+/**
  * This is the disk image base class.
  */
 export interface GalleryDiskImage {
@@ -4228,9 +4589,9 @@ export interface GalleryDiskImage {
   /**
    * The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'. Possible
    * values include: 'None', 'ReadOnly', 'ReadWrite'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly hostCaching?: HostCaching;
+  hostCaching?: HostCaching;
+  source?: GalleryArtifactVersionSource;
 }
 
 /**
@@ -4247,24 +4608,20 @@ export interface GalleryDataDiskImage extends GalleryDiskImage {
    * This property specifies the logical unit number of the data disk. This value is used to
    * identify data disks within the Virtual Machine and therefore must be unique for each data disk
    * attached to the Virtual Machine.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly lun?: number;
+  lun: number;
 }
 
 /**
- * This is the storage profile of a gallery Image Version.
+ * This is the storage profile of a Gallery Image Version.
  */
 export interface GalleryImageVersionStorageProfile {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly osDiskImage?: GalleryOSDiskImage;
+  source?: GalleryArtifactVersionSource;
+  osDiskImage?: GalleryOSDiskImage;
   /**
    * A list of data disk images.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataDiskImages?: GalleryDataDiskImage[];
+  dataDiskImages?: GalleryDataDiskImage[];
 }
 
 /**
@@ -4315,7 +4672,7 @@ export interface ReplicationStatus {
  * Specifies information about the gallery Image Version that you want to create or update.
  */
 export interface GalleryImageVersion extends Resource {
-  publishingProfile: GalleryImageVersionPublishingProfile;
+  publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
    * The current state of the gallery Image Version. The provisioning state, which only appears in
    * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
@@ -4323,10 +4680,7 @@ export interface GalleryImageVersion extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState2;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageProfile?: GalleryImageVersionStorageProfile;
+  storageProfile: GalleryImageVersionStorageProfile;
   /**
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -4351,23 +4705,6 @@ export interface TargetRegion {
    * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
    */
   storageAccountType?: StorageAccountType;
-}
-
-/**
- * The managed artifact.
- */
-export interface ManagedArtifact {
-  /**
-   * The managed artifact id.
-   */
-  id: string;
-}
-
-/**
- * The source image from which the Image Version is going to be created.
- */
-export interface GalleryArtifactSource {
-  managedImage: ManagedArtifact;
 }
 
 /**
@@ -4578,6 +4915,16 @@ export interface ContainerService extends Resource {
    * Properties of the diagnostic agent.
    */
   diagnosticsProfile?: ContainerServiceDiagnosticsProfile;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DedicatedHostsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
 }
 
 /**
@@ -4883,6 +5230,16 @@ export interface VirtualMachineScaleSetVMsReimageOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
+export interface VirtualMachineScaleSetVMsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The filter to apply to the operation.
@@ -4976,6 +5333,44 @@ export interface AvailabilitySetListResult extends Array<AvailabilitySet> {
  * @extends Array<VirtualMachineSize>
  */
 export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {
+}
+
+/**
+ * @interface
+ * The List Proximity Placement Group operation response.
+ * @extends Array<ProximityPlacementGroup>
+ */
+export interface ProximityPlacementGroupListResult extends Array<ProximityPlacementGroup> {
+  /**
+   * The URI to fetch the next page of proximity placement groups.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Dedicated Host Group with resource group response.
+ * @extends Array<DedicatedHostGroup>
+ */
+export interface DedicatedHostGroupListResult extends Array<DedicatedHostGroup> {
+  /**
+   * The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to
+   * fetch the next page of Dedicated Host Groups.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list dedicated host operation response.
+ * @extends Array<DedicatedHost>
+ */
+export interface DedicatedHostListResult extends Array<DedicatedHost> {
+  /**
+   * The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the
+   * next page of dedicated hosts.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -5110,13 +5505,13 @@ export interface RunCommandListResult extends Array<RunCommandDocumentBase> {
 
 /**
  * @interface
- * The Compute List Skus operation response.
+ * The List Resource Skus operation response.
  * @extends Array<ResourceSku>
  */
 export interface ResourceSkusResult extends Array<ResourceSku> {
   /**
-   * The uri to fetch the next page of Compute Skus. Call ListNext() with this to fetch the next
-   * page of VMSS Skus.
+   * The URI to fetch the next page of Resource Skus. Call ListNext() with this URI to fetch the
+   * next page of Resource Skus
    */
   nextLink?: string;
 }
@@ -5199,6 +5594,14 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
 }
 
 /**
+ * Defines values for HyperVGenerationTypes.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationTypes = 'V1' | 'V2';
+
+/**
  * Defines values for StatusLevelTypes.
  * Possible values include: 'Info', 'Warning', 'Error'
  * @readonly
@@ -5213,6 +5616,22 @@ export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
  * @enum {string}
  */
 export type AvailabilitySetSkuTypes = 'Classic' | 'Aligned';
+
+/**
+ * Defines values for ProximityPlacementGroupType.
+ * Possible values include: 'Standard', 'Ultra'
+ * @readonly
+ * @enum {string}
+ */
+export type ProximityPlacementGroupType = 'Standard' | 'Ultra';
+
+/**
+ * Defines values for DedicatedHostLicenseTypes.
+ * Possible values include: 'None', 'Windows_Server_Hybrid', 'Windows_Server_Perpetual'
+ * @readonly
+ * @enum {string}
+ */
+export type DedicatedHostLicenseTypes = 'None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual';
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -5343,6 +5762,14 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @enum {string}
  */
 export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'MaintenanceAborted' | 'MaintenanceCompleted';
+
+/**
+ * Defines values for HyperVGenerationType.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationType = 'V1' | 'V2';
 
 /**
  * Defines values for UpgradeMode.
@@ -5778,6 +6205,426 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AvailabilitySetListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DedicatedHostGroupsGetResponse = DedicatedHostGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DedicatedHostsUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DedicatedHostsGetResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the listByHostGroup operation.
+ */
+export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DedicatedHostsBeginCreateOrUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type DedicatedHostsBeginUpdateResponse = DedicatedHost & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHost;
+    };
+};
+
+/**
+ * Contains response data for the listByHostGroupNext operation.
+ */
+export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DedicatedHostListResult;
     };
 };
 
