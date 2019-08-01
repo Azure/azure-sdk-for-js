@@ -713,13 +713,14 @@ export interface ResourcesMoveInfo {
  */
 export interface ExportTemplateRequest {
   /**
-   * The IDs of the resources. The only supported string currently is '*' (all resources). Future
-   * updates will support exporting specific resources.
+   * The IDs of the resources to filter the export by. To export all resources, supply an array
+   * with single entry '*'.
    */
   resources?: string[];
   /**
-   * The export template options. Supported values include 'IncludeParameterDefaultValue',
-   * 'IncludeComments' or 'IncludeParameterDefaultValue, IncludeComments
+   * The export template options. A CSV-formatted list containing zero or more of the following:
+   * 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization',
+   * 'SkipAllParameterization'
    */
   options?: string;
 }
@@ -969,6 +970,36 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
+export interface DeploymentsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
+   * '{state}'.
+   */
+  filter?: string;
+  /**
+   * The number of results to get. If null is passed, returns all deployments.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DeploymentsListAtTenantScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
+   * '{state}'.
+   */
+  filter?: string;
+  /**
+   * The number of results to get. If null is passed, returns all deployments.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface DeploymentsListAtManagementGroupScopeOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation. For example, you can use $filter=provisioningState eq
@@ -1030,7 +1061,34 @@ export interface ProvidersListOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
+export interface ProvidersListAtTenantScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of results to return. If null is passed returns all providers.
+   */
+  top?: number;
+  /**
+   * The properties to include in the results. For example, use &$expand=metadata in the query
+   * string to retrieve resource provider metadata. To include property aliases in response, use
+   * $expand=resourceTypes/aliases.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ProvidersGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The $expand query parameter. For example, to include property aliases in response, use
+   * $expand=resourceTypes/aliases.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProvidersGetAtTenantScopeOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The $expand query parameter. For example, to include property aliases in response, use
    * $expand=resourceTypes/aliases.
@@ -1112,6 +1170,26 @@ export interface ResourceGroupsListOptionalParams extends msRest.RequestOptionsB
   filter?: string;
   /**
    * The number of results to return. If null is passed, returns all resource groups.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DeploymentOperationsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DeploymentOperationsListAtTenantScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of results to return.
    */
   top?: number;
 }
@@ -1306,6 +1384,256 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkExistenceAtScope operation.
+ */
+export type DeploymentsCheckExistenceAtScopeResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtScope operation.
+ */
+export type DeploymentsCreateOrUpdateAtScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the getAtScope operation.
+ */
+export type DeploymentsGetAtScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the validateAtScope operation.
+ */
+export type DeploymentsValidateAtScopeResponse = DeploymentValidateResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the exportTemplateAtScope operation.
+ */
+export type DeploymentsExportTemplateAtScopeResponse = DeploymentExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExportResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtScope operation.
+ */
+export type DeploymentsListAtScopeResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkExistenceAtTenantScope operation.
+ */
+export type DeploymentsCheckExistenceAtTenantScopeResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtTenantScope operation.
+ */
+export type DeploymentsCreateOrUpdateAtTenantScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the getAtTenantScope operation.
+ */
+export type DeploymentsGetAtTenantScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the validateAtTenantScope operation.
+ */
+export type DeploymentsValidateAtTenantScopeResponse = DeploymentValidateResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the exportTemplateAtTenantScope operation.
+ */
+export type DeploymentsExportTemplateAtTenantScopeResponse = DeploymentExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExportResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtTenantScope operation.
+ */
+export type DeploymentsListAtTenantScopeResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
     };
 };
 
@@ -1685,6 +2013,46 @@ export type DeploymentsListByResourceGroupResponse = DeploymentListResult & {
 };
 
 /**
+ * Contains response data for the beginCreateOrUpdateAtScope operation.
+ */
+export type DeploymentsBeginCreateOrUpdateAtScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateAtTenantScope operation.
+ */
+export type DeploymentsBeginCreateOrUpdateAtTenantScopeResponse = DeploymentExtended & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentExtended;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdateAtManagementGroupScope operation.
  */
 export type DeploymentsBeginCreateOrUpdateAtManagementGroupScopeResponse = DeploymentExtended & {
@@ -1741,6 +2109,46 @@ export type DeploymentsBeginCreateOrUpdateResponse = DeploymentExtended & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DeploymentExtended;
+    };
+};
+
+/**
+ * Contains response data for the listAtScopeNext operation.
+ */
+export type DeploymentsListAtScopeNextResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtTenantScopeNext operation.
+ */
+export type DeploymentsListAtTenantScopeNextResponse = DeploymentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentListResult;
     };
 };
 
@@ -1865,6 +2273,26 @@ export type ProvidersListResponse = ProviderListResult & {
 };
 
 /**
+ * Contains response data for the listAtTenantScope operation.
+ */
+export type ProvidersListAtTenantScopeResponse = ProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type ProvidersGetResponse = Provider & {
@@ -1885,9 +2313,49 @@ export type ProvidersGetResponse = Provider & {
 };
 
 /**
+ * Contains response data for the getAtTenantScope operation.
+ */
+export type ProvidersGetAtTenantScopeResponse = Provider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Provider;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type ProvidersListNextResponse = ProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtTenantScopeNext operation.
+ */
+export type ProvidersListAtTenantScopeNextResponse = ProviderListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -2460,6 +2928,86 @@ export type TagsListNextResponse = TagsListResult & {
 };
 
 /**
+ * Contains response data for the getAtScope operation.
+ */
+export type DeploymentOperationsGetAtScopeResponse = DeploymentOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperation;
+    };
+};
+
+/**
+ * Contains response data for the listAtScope operation.
+ */
+export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the getAtTenantScope operation.
+ */
+export type DeploymentOperationsGetAtTenantScopeResponse = DeploymentOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperation;
+    };
+};
+
+/**
+ * Contains response data for the listAtTenantScope operation.
+ */
+export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
  * Contains response data for the getAtManagementGroupScope operation.
  */
 export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOperation & {
@@ -2563,6 +3111,46 @@ export type DeploymentOperationsGetResponse = DeploymentOperation & {
  * Contains response data for the list operation.
  */
 export type DeploymentOperationsListResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtScopeNext operation.
+ */
+export type DeploymentOperationsListAtScopeNextResponse = DeploymentOperationsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeploymentOperationsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAtTenantScopeNext operation.
+ */
+export type DeploymentOperationsListAtTenantScopeNextResponse = DeploymentOperationsListResult & {
   /**
    * The underlying HTTP response.
    */
