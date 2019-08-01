@@ -221,7 +221,7 @@ export class MessagesClient extends StorageClient {
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      credentialOrPipelineOrQueueName instanceof SharedKeyCredential ||
+      (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
