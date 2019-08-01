@@ -49,9 +49,9 @@ export class CheckpointManager {
 
 // @public
 export enum CloseReason {
-    EventHubException = "EventHubException",
     OwnershipLost = "OwnershipLost",
-    Shutdown = "Shutdown"
+    Shutdown = "Shutdown",
+    Unknown = "Unknown"
 }
 
 export { DataTransformer }
