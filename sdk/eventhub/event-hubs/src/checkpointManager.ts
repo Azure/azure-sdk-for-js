@@ -4,7 +4,6 @@
 import { PartitionContext } from "./partitionContext";
 import { ReceivedEventData } from "./eventData";
 import { PartitionManager } from "./eventProcessor";
-import { generate_uuid } from "rhea-promise";
 
 /**
  * Used by createCheckpoint in PartitionManager
@@ -49,11 +48,11 @@ export class CheckpointManager {
   private _instanceId: string;
   private _eTag: string;
 
-  constructor(partitionContext: PartitionContext, partitionManager: PartitionManager) {
+  constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, instanceId: string) {
     this._partitionContext = partitionContext;
     this._partitionManager = partitionManager;
+    this._instanceId = instanceId;
     this._eTag = "";
-    this._instanceId = generate_uuid();
   }
   /**
    * Updates a checkpoint using the event data.

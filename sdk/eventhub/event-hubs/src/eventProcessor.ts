@@ -210,10 +210,6 @@ export class EventProcessor {
           return;
         }
 
-        const partitionOwnership = await this._partitionManager.listOwnership(
-          this._eventHubClient.eventHubName,
-          this._consumerGroupName
-        );
         const tasks: PromiseLike<void>[] = [];
         // create partition pumps to process any partitions we should be processing
         for (const partitionId of partitionsToAdd) {
@@ -223,20 +219,20 @@ export class EventProcessor {
             partitionId: partitionId
           };
 
-          for (const ownership of partitionOwnership) {
-            if (ownership.partitionId != partitionId) {
-              const partitionOwnership: PartitionOwnership = {
-                eventHubName: this._eventHubClient.eventHubName,
-                consumerGroupName: this._consumerGroupName,
-                instanceId: generate_uuid(),
-                partitionId: partitionId,
-                ownerLevel: 0
-              };
-              await this._partitionManager.claimOwnership([partitionOwnership]);
-            }
-          }
+          const partitionOwnership: PartitionOwnership = {
+            eventHubName: this._eventHubClient.eventHubName,
+            consumerGroupName: this._consumerGroupName,
+            instanceId: generate_uuid(),
+            partitionId: partitionId,
+            ownerLevel: 0
+          };
+          await this._partitionManager.claimOwnership([partitionOwnership]);
 
-          const checkpointManager = new CheckpointManager(partitionContext, this._partitionManager);
+          const checkpointManager = new CheckpointManager(
+            partitionContext,
+            this._partitionManager,
+            this._id
+          );
 
           log.eventProcessor(
             `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`

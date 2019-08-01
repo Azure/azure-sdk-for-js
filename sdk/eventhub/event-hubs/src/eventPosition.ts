@@ -106,7 +106,7 @@ export class EventPosition {
    * Default: `false`.
    * @returns EventPosition
    */
-  static fromOffset(offset: number | "@latest", isInclusive?: boolean): EventPosition {
+  static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
     if (offset == undefined) {
       throw new Error('Missing parameter "offset"');
     }
@@ -165,7 +165,7 @@ export class EventPosition {
    */
 
   static latest(): EventPosition {
-    return EventPosition.fromOffset(EventPosition.endOfStream);
+    return new EventPosition({ offset: EventPosition.endOfStream });
   }
 }
 
