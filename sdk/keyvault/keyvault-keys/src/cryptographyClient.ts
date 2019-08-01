@@ -40,6 +40,12 @@ export class CryptographyClient {
 
   /**
    * Retrieves the complete key from the key vault
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let result = await client.getKey();
+   * ```
    * @param options Options for retrieving key
    */
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
