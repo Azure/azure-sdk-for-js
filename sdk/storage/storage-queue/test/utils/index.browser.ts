@@ -107,7 +107,7 @@ export function isIE(): boolean {
   // If IE, return version number.
   if (Idx > 0) {
     return true;
-  } else if (!!navigator.userAgent.match(/Trident\/7\./)) {
+  } else if (navigator.userAgent.match(/Trident\/7\./)) {
     // IE 11
     return true;
   } else {
@@ -128,4 +128,18 @@ export function getBrowserFile(name: string, size: number): File {
   const file = new Blob([uint8Arr]) as any;
   file.name = name;
   return file;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_SAS_CONNECTION_STRING`;
+  const env = (window as any).__env__;
+  const connectionString = `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
+
+  console.log(connectionString);
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  // return connectionString;
+  return env.STORAGE_SAS_CONNECTION_STRING;
 }

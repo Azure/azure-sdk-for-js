@@ -1,6 +1,15 @@
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
+import {
+  generateAccountSASQueryParameters,
+  AccountSASPermissions,
+  SASProtocol,
+  AccountSASResourceTypes,
+  AccountSASServices
+} from "../../src";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"
 // import {ConsoleHttpPipelineLogger} from "./testutils.common"
@@ -47,6 +56,52 @@ export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];
 
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_SAS_CONNECTION_STRING`;
+
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+  const tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+  const queueServiceClient = getQSU();
+  // By default, credential is always the last element of pipeline factories
+  const factories = (queueServiceClient as any).pipeline.factories;
+  const sharedKeyCredential = factories[factories.length - 1];
+
+  const sas = generateAccountSASQueryParameters(
+    {
+      expiryTime: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+      protocol: SASProtocol.HTTPSandHTTP,
+      resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+      services: AccountSASServices.parse("btqf").toString(),
+      startTime: now,
+      version: "2016-05-31"
+    },
+    sharedKeyCredential as SharedKeyCredential
+  ).toString();
+
+  const queueEndpoint = extractConnectionStringParts(process.env.STORAGE_CONNECTION_STRING || "")
+    .url;
+
+  const connectionString = `BlobEndpoint=${queueEndpoint.replace(
+    ".queue.",
+    ".blob."
+  )}/;QueueEndpoint=${queueEndpoint}/;FileEndpoint=${queueEndpoint.replace(
+    ".queue.",
+    ".file."
+  )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+
+  // console.log(connectionString);
   if (!connectionString) {
     throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
   }
