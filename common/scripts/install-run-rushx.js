@@ -22,7 +22,7 @@ function getRushVersion() {
 
  function run() {
     const [nodePath, /* Ex: /bin/node */ scriptPath, /* /repo/common/scripts/install-run-rush.js */ ...packageBinArgs /* [build, --to, myproject] */] = process.argv;
-    console.log("sriptpath="+scriptPath);
+
     const scriptName = path.basename(scriptPath);
     const bin = scriptName.toLowerCase() === 'install-run-rushx.js' ? 'rushx' : 'rush';
     if (!nodePath || !scriptPath) {

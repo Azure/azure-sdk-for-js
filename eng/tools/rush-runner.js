@@ -30,22 +30,46 @@ const log = message => {
 
 log(`Working directory is "${process.cwd()}".`);
 
+let [action, ...givenArgs] = process.argv.slice(2);
+let pos = 0, i = 0;
+let serviceDirList = [];
+for(arg of givenArgs){
+  if(arg == "--"){
+    pos = i; 
+    break;
+  }
 
-let [action, serviceDir, ...rushParams] = process.argv.slice(2);
-//let commandToRun = process.argv[3];
+  serviceDirList.push(arg);
+  i++;
+}
+let rushParams = [];
 
+for(arg of givenArgs){
+  
+  if(arg == "--"){
+    continue;
+  }
+  if(arg.startsWith("--") || arg.startsWith("-")){
+    rushParams.push(arg);
+  }
+}
+console.log("action = " + action);
+console.log("servicelist = "+ serviceDirList);
+console.log("rushParams = "+rushParams);
 
 let packageJsons = [];
-if (serviceDir) {
-  const searchDir = path.resolve(`../../sdk/${serviceDir}`);
-  packageJsons = getPackageJsons(searchDir);
+if (serviceDirList.length > 0) {
+  for(serviceDir of serviceDirList){
+    const searchDir = path.resolve(`../../sdk/${serviceDir}`);
+    let listJsons = getPackageJsons(searchDir);
+    packageJsons = packageJsons.concat(listJsons);
+  }
 } else {
   const sdkDir = path.resolve(`../../sdk`);
   const serviceDirs = fs.readdirSync(sdkDir)
     .map(f => path.join(sdkDir,f)) // turn directory names into paths
     .filter(f => fs.lstatSync(f).isDirectory()); // only keep those which are actually directories (not files)
 
-console.log("servicedirs ="+serviceDirs);
   for (const dir of serviceDirs) {
     packageJsons.concat(getPackageJsons(dir));
   }
@@ -72,8 +96,7 @@ switch (action.toLowerCase()) {
       params = packageNames.map(p => [`--to`,p,`--from`,p]);
       args = ['../../common/scripts/install-run-rush.js','build'];
       rushArgs = [].concat(args, ...params, rushParams);
-      console.log("rushArgs = " + rushArgs);
-      console.log("args = " + args);
+
       const build = spawn('node', rushArgs);
       build.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
@@ -109,20 +132,20 @@ switch (action.toLowerCase()) {
     break;
 
   case 'lint':
+  console.log(rushParams);
     if (serviceDir) {
       for (const dir of packageDirs) {
-        //THIS CASE DOESN'T WORK - NEED an alternate script for rushx :(
-        // rushx doesn't accept rushParams
-        ///run('rushx', 'lint', { cwd: dir });
+
+        // rushx doesn't accept rushParams - ????
         const defaults = {
                           cwd: dir,
                           env: process.env
                         };
-        //args = ['../../../common/scripts/install-run-rush.js','lint'];
-        args = ['lint'];
-        rushArgs = [].concat(args, ...params);
+        args = ['../../../common/scripts/install-run-rushx.js','lint'];
+
+        rushArgs = [].concat(args, ...params, rushParams);
         //const lintr = spawn('node', rushArgs,defaults);
-        const lintr = spawn('rushx', rushArgs,defaults);
+        const lintr = spawn('node', rushArgs,defaults);
         lintr.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`);
         });
@@ -134,7 +157,6 @@ switch (action.toLowerCase()) {
         lintr.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
         });
-
       }
     } else {
         ///run('rush', 'lint', rushParams)
