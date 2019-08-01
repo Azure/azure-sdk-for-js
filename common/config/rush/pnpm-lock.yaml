@@ -30,6 +30,7 @@ dependencies:
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
+  '@trust/keyto': 0.3.7
   '@types/async-lock': 1.1.1
   '@types/chai': 4.1.7
   '@types/chai-as-promised': 7.1.0
@@ -462,6 +463,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
+  /@trust/keyto/0.3.7:
+    dependencies:
+      asn1.js: 5.2.0
+      base64url: 3.0.1
+      elliptic: 6.5.0
+    dev: false
+    resolution:
+      integrity: sha512-t5kWWCTkPgg24JWVuCTPMx7l13F7YHdxBeJkT1vmoHjROgiOIEAN8eeY+iRmP1Hwsx+S7U55HyuqSsECr08a8A==
   /@types/anymatch/1.3.1:
     dev: false
     resolution:
@@ -1354,6 +1363,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==
+  /asn1.js/5.2.0:
+    dependencies:
+      bn.js: 4.11.8
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-Q7hnYGGNYbcmGrCPulXfkEw7oW7qjWeM4ZTALmgpuIcZLxyqqKYWxCZg2UBm8bklrnB4m2mGyJPWfoktdORD8A==
   /asn1/0.2.4:
     dependencies:
       safer-buffer: 2.1.2
@@ -2020,6 +2037,12 @@ packages:
       node: '>= 0.4.0'
     resolution:
       integrity: sha1-R2iMuZu2gE8OBtPnY7HDLlfY5rY=
+  /base64url/3.0.1:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
   /bcrypt-pbkdf/1.0.2:
     dependencies:
       tweetnacl: 0.14.5
@@ -7183,10 +7206,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
-  /psl/1.2.0:
+  /psl/1.3.0:
     dev: false
     resolution:
-      integrity: sha512-GEn74ZffufCmkDDLNcl3uuyF/aSD6exEyh1v/ZSdAomB82t6G9hzJVRx0jBmLDW+VfZqks3aScmMw9DszwUalA==
+      integrity: sha512-avHdspHO+9rQTLbv1RO+MPYeP/SzsCoxofjVnHanETfQhTJrmB0HlDoW+EiN/R+C0BZ+gERab9NY0lPN2TxNag==
   /public-encrypt/4.0.3:
     dependencies:
       bn.js: 4.11.8
@@ -8800,7 +8823,7 @@ packages:
       integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
   /tough-cookie/2.4.3:
     dependencies:
-      psl: 1.2.0
+      psl: 1.3.0
       punycode: 1.4.1
     dev: false
     engines:
@@ -8809,7 +8832,7 @@ packages:
       integrity: sha512-Q5srk/4vDM54WJsJio3XNn6K2sCG+CQ8G5Wz6bZhRZoAe/+TxjWB/GlFAnYEbkYVlON9FMk/fE3h2RLpPXo4lQ==
   /tough-cookie/2.5.0:
     dependencies:
-      psl: 1.2.0
+      psl: 1.3.0
       punycode: 2.1.1
     dev: false
     engines:
@@ -8819,7 +8842,7 @@ packages:
   /tough-cookie/3.0.1:
     dependencies:
       ip-regex: 2.1.0
-      psl: 1.2.0
+      psl: 1.3.0
       punycode: 2.1.1
     dev: false
     engines:
@@ -10203,6 +10226,7 @@ packages:
       '@azure/abort-controller': 1.0.0-preview.1
       '@azure/core-paging': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.4
+      '@trust/keyto': 0.3.7
       '@types/chai': 4.1.7
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.0
@@ -10264,7 +10288,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-GTQM+glliP/d7vxPSkXYr+h/mCWBAo8KdWEuGHgrnDj8ngOlcJbiORLMpD9aRBan38Jb+rgBSU5j0w8Gwu8oKA==
+      integrity: sha512-SnJWbsg/cOmEhu0ZAO+0ze4CnyTX4Ec2eT/gQoJKZjhZuDrX5czQXguOoCgs8p9EYqT7XDX3S7Epv1s1LDDHeQ==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10735,6 +10759,7 @@ specifiers:
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
+  '@trust/keyto': 0.3.7
   '@types/async-lock': ^1.1.0
   '@types/chai': ^4.1.6
   '@types/chai-as-promised': ^7.1.0
