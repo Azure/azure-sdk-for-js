@@ -254,12 +254,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span: Span = TracerProxy.getTracer().startSpan(
-        "createKeyMethod",
-        this.getSpanOptions(options)
-      );
-      if (options.requestOptions && options.requestOptions.spanOptions) {
-        options.requestOptions.spanOptions.parent = span;
+      const spanOptions = this.getSpanOptions(options);
+      const span: Span = TracerProxy.getTracer().startSpan("createKeyMethod", spanOptions);
+      if (spanOptions) {
+        spanOptions.parent = span;
       }
       span.start();
 
@@ -312,12 +310,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span: Span = TracerProxy.getTracer().startSpan(
-        "createEcKeyMethod",
-        this.getSpanOptions(options)
-      );
-      if (options.requestOptions && options.requestOptions.spanOptions) {
-        options.requestOptions.spanOptions.parent = span;
+      const spanOptions = this.getSpanOptions(options);
+      const span: Span = TracerProxy.getTracer().startSpan("createEcKeyMethod", spanOptions);
+      if (spanOptions) {
+        spanOptions.parent = span;
       }
       span.start();
 
@@ -370,12 +366,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span: Span = TracerProxy.getTracer().startSpan(
-        "createRsaKeyMethod",
-        this.getSpanOptions(options)
-      );
-      if (options.requestOptions && options.requestOptions.spanOptions) {
-        options.requestOptions.spanOptions.parent = span;
+      const spanOptions = this.getSpanOptions(options);
+      const span: Span = TracerProxy.getTracer().startSpan("createRsaKeyMethod", spanOptions);
+      if (spanOptions) {
+        spanOptions.parent = span;
       }
       span.start();
 
@@ -428,12 +422,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span: Span = TracerProxy.getTracer().startSpan(
-        "importKeyMethod",
-        this.getSpanOptions(options)
-      );
-      if (options.requestOptions && options.requestOptions.spanOptions) {
-        options.requestOptions.spanOptions.parent = span;
+      const spanOptions = this.getSpanOptions(options);
+      const span: Span = TracerProxy.getTracer().startSpan("importKeyMethod", spanOptions);
+      if (spanOptions) {
+        spanOptions.parent = span;
       }
       span.start();
 
@@ -468,15 +460,11 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "deleteKeyMethod",
-      this.getSpanOptions(options)
-    );
-
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("deleteKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
-
     span.start();
 
     const response = await this.client.deleteKey(
@@ -528,12 +516,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span: Span = TracerProxy.getTracer().startSpan(
-        "updateKeyMethod",
-        this.getSpanOptions(options)
-      );
-      if (options.requestOptions && options.requestOptions.spanOptions) {
-        options.requestOptions.spanOptions.parent = span;
+      const spanOptions = this.getSpanOptions(options);
+      const span: Span = TracerProxy.getTracer().startSpan("updateKeyMethod", spanOptions);
+      if (spanOptions) {
+        spanOptions.parent = span;
       }
       span.start();
 
@@ -567,12 +553,10 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "getKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("getKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -603,12 +587,10 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "getDeletedKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("getDeletedKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -640,12 +622,10 @@ export class KeysClient {
    * @returns Promise<void>
    */
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "purgeDeletedKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("purgeDeletedKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -675,12 +655,10 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "recoverDeletedKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("recoverDeletedKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -709,12 +687,10 @@ export class KeysClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "backupKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("backupKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -745,12 +721,10 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "restoreKeyMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("restoreKeyMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
     const response = await this.client.restoreKey(
@@ -823,12 +797,10 @@ export class KeysClient {
     name: string,
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "listKeyVersionsMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("listKeyVersionsMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -898,12 +870,10 @@ export class KeysClient {
   public listKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "listKeysMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("listKeysMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
@@ -978,12 +948,10 @@ export class KeysClient {
   public listDeletedKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    const span: Span = TracerProxy.getTracer().startSpan(
-      "listDeletedKeysMethod",
-      this.getSpanOptions(options)
-    );
-    if (options && options.requestOptions && options.requestOptions.spanOptions) {
-      options.requestOptions.spanOptions.parent = span;
+    const spanOptions = this.getSpanOptions(options);
+    const span: Span = TracerProxy.getTracer().startSpan("listDeletedKeysMethod", spanOptions);
+    if (spanOptions) {
+      spanOptions.parent = span;
     }
     span.start();
 
