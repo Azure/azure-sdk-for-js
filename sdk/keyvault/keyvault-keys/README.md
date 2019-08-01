@@ -209,7 +209,7 @@ await client.deleteKey(keyName);
 
 ## Cryptography
 
-Additionally, a set of cryptography functions that are available through the `CryptographyClient`. Similar to the `KeysClient`, `CryptographyClient` will connect to Azure Key Vault with the provided set of credentials. Once connected, `CryptographyClient` can encrypt, decrypt, sign, verify, wrap keys, and unwrap keys.
+This library also offers a set of cryptographic utilities available through `CryptographyClient`. Similar to the `KeysClient`, `CryptographyClient` will connect to Azure Key Vault with the provided set of credentials. Once connected, `CryptographyClient` can encrypt, decrypt, sign, verify, wrap keys, and unwrap keys.
 
 ### Authenticate the client
 
@@ -243,7 +243,7 @@ const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, 
 ```
 
 ### Encrypt
-`encrypt` will encrypt a message.
+`encrypt` will encrypt a message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
 const encrypt = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
@@ -251,7 +251,7 @@ console.log("encrypt result: ", encrypt);
 ```
 
 ### Decrypt
-`decrypt` will decrypt an encrypted message.
+`decrypt` will decrypt an encrypted message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
 const decrypt = await cryptographyClient.decrypt("RSA1_5", encrypt.result);
