@@ -1,5 +1,5 @@
 import { GetKeyOptions, RequestOptions } from "./keysModels";
-import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm } from "./core/models";
+import { JsonWebKey, JsonWebKeyEncryptionAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
   isTokenCredential,
@@ -61,6 +61,12 @@ export class CryptographyClient {
 
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
+   * ```
    * @param algorithm The algorithm to use
    * @param plaintext The text to encrypt
    * @param options Additional options
@@ -115,6 +121,12 @@ export class CryptographyClient {
 
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.decrypt("RSA1_5", encryptedBuffer);
+   * ```
    * @param algorithm The algorithm to use
    * @param ciphertext The ciphertext to decrypt
    * @param options Additional options
@@ -130,6 +142,12 @@ export class CryptographyClient {
 
   /**
    * Wraps the given key using the specified cryptography algorithm
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.wrapKey("RSA1_5", keyToWrap);
+   * ```
    * @param algorithm The encryption algorithm to use to wrap the given key
    * @param key The key to wrap
    * @param options Additional options
@@ -184,6 +202,12 @@ export class CryptographyClient {
 
   /**
    * Unwraps the given wrapped key using the specified cryptography algorithm
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
+   * ```
    * @param algorithm The decryption algorithm to use to unwrap the key
    * @param encryptedKey The encrypted key to unwrap
    * @param options Additional options
@@ -199,12 +223,18 @@ export class CryptographyClient {
 
   /**
    * Cryptographically sign the digest of a message
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.sign("RS256", digest);
+   * ```
    * @param algorithm The signing algorithm to use
    * @param digest The digest of the data to sign
    * @param options Additional options
    */
   public async sign(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
     options?: RequestOptions
   ): Promise<SignResult> {
@@ -214,6 +244,12 @@ export class CryptographyClient {
 
   /**
    * Verify the signed message digest
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.verify("RS256", signedDigest, signature);
+   * ```
    * @param algorithm The signing algorithm to use to verify with
    * @param digest The digest to verify
    * @param signature The signature to verify the digest against
@@ -231,6 +267,12 @@ export class CryptographyClient {
 
   /**
    * Cryptographically sign a block of data
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.signData("RS256", message);
+   * ```
    * @param algorithm The signing algorithm to use
    * @param data The data to sign
    * @param options Additional options
@@ -269,13 +311,19 @@ export class CryptographyClient {
 
   /**
    * Verify the signed block of data
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, key, credentials);
+   * let result = await client.verifyData("RS256", signedMessage, signature);
+   * ```
    * @param algorithm The algorithm to use to verify with
    * @param data The signed block of data to verify
    * @param signature The signature to verify the block against
    * @param options Additional options
    */
   public async verifyData(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options?: RequestOptions
@@ -501,6 +549,19 @@ export class CryptographyClient {
 
   /**
    * Constructs a new instance of the Cryptography client for the given key
+   *
+   * Example usage:
+   * ```ts
+   * import { CryptographyClient } from "@azure/keyvault-keys";
+   * import { EnvironmentCredential } from "@azure/identity";
+   *
+   * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let credentials = new EnvironmentCredential();
+   *
+   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * // or
+   * let client = new CryptographyClient(url, jsonWebKey, credentials);
+   * ```
    * @param url The url of the key vault service
    * @param key The key to use during cryptography tasks
    * @param credential The login credentials of the service

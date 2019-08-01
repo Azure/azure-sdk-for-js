@@ -33,8 +33,8 @@ async function main(): Promise<void> {
   const signature = await cryptoClient.sign("RS256", digest);
   console.log("sign result: ", signature);
 
-  const verifyResult1 = await cryptoClient.verify("RS256", digest, signature.result);
-  console.log("remote verify result: ", verifyResult1);
+  const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
+  console.log("verify result: ", verifyResult);
 
   // Encrypt and decrypt
   const encrypt = await cryptoClient.encrypt("RSA1_5", Buffer.from("My Message"));
@@ -45,10 +45,10 @@ async function main(): Promise<void> {
 
   // Wrap and unwrap
   const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
-  console.log("wrap result:", wrapped);
+  console.log("wrap result: ", wrapped);
 
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
-  console.log("unwrap result", unwrapped);
+  console.log("unwrap result: ", unwrapped);
 
   await client.deleteKey(keyName);
 }
