@@ -1,8 +1,9 @@
 import * as assert from "assert";
-import { getQSU } from "./utils";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { MessageIdClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
@@ -73,6 +74,41 @@ describe("MessageIdClient", () => {
 
     let newMessage = "New Message";
     let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
+    assert.ok(uResult.version);
+    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.date);
+    assert.ok(uResult.requestId);
+    assert.ok(uResult.popReceipt);
+
+    let pResult = await messagesClient.peek();
+    assert.equal(pResult.peekedMessageItems.length, 0);
+
+    await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
+
+    let pResult2 = await messagesClient.peek();
+    assert.equal(pResult2.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult2.peekedMessageItems[0].messageText, newMessage);
+  });
+
+  it("update and delete message with all parameters - test sas connection string MessageIdClient constructor", async () => {
+    let messagesClient = queueClient.getMessagesClient();
+    let eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+
+    let newMessage = "New Message";
+    let messageIdClient = new MessageIdClient(
+      getSASConnectionStringFromEnvironment(),
+      queueName,
+      eResult.messageId
+    );
     let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
@@ -225,7 +225,7 @@ export class BlobServiceClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      credentialOrPipeline instanceof SharedKeyCredential ||
+      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
