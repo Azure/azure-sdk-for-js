@@ -459,7 +459,6 @@ describe("Event Processor", function(): void {
         partitionOwnership2
       ]);
       partitionOwnership.length.should.equals(2);
-
       const ownershiplist = await inMemoryPartitionManager.listOwnership(
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
@@ -587,7 +586,7 @@ describe("Event Processor", function(): void {
       index = 0;
       // validate correct events captured for each partition using checkpoint
       for (const partitionId of partitionIds) {
-        debug(`working on partition ${partitionId}`);
+        debug(`Validate events for partition: ${partitionId}`);
         lastEventsReceivedFromProcessor1[index].sequenceNumber.should.equal(
           firstEventsReceivedFromProcessor2[index].sequenceNumber - 1
         );

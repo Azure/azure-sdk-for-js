@@ -245,12 +245,15 @@ export class EventProcessor {
           let eventPosition =
             this._processorOptions.initialEventPosition || EventPosition.earliest();
 
-            const partitionOwnerships = await this._partitionManager.listOwnership(this._eventHubClient.eventHubName, this._consumerGroupName);
-            for (const ownership of partitionOwnerships) {
-              if(ownership.partitionId === partitionId && ownership.sequenceNumber){
-                eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
-              }
+          const partitionOwnerships = await this._partitionManager.listOwnership(
+            this._eventHubClient.eventHubName,
+            this._consumerGroupName
+          );
+          for (const ownership of partitionOwnerships) {
+            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
+              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
             }
+          }
 
           tasks.push(
             this._pumpManager.createPump(
