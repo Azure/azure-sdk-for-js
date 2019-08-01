@@ -107,7 +107,7 @@ export interface RetryConfig<T> {
   minExponentialRetryDelayInMs?: number;
   /**
    * @property {AbortSignalLike} [abortSignal] The `AbortSignal` associated with the operation being retried on.
-   * This is used to cancel the delay between retries. This is not used to cancel the actual operation, which is handled by the operation definition itself.
+   * If this signal is fired during the wait time between retries, then the `retry()` method will ensure that the wait is abandoned and the retry process gets cancelled. If this signal is fired when the operation is in progress, then the operation is expected to react to it.
    */
   abortSignal?: AbortSignalLike;
 }
