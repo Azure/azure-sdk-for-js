@@ -8,5 +8,6 @@
  * regenerated.
  */
 
-export * from "./appliances";
-export * from "./applianceDefinitions";
+export * from "./operations";
+export * from "./subscriptions";
+export * from "./tenants";

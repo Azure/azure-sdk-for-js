@@ -1,6 +1,6 @@
-## Azure ManagedApplicationClient SDK for JavaScript
+## Azure SubscriptionClient SDK for JavaScript
 
-This package contains an isomorphic SDK for ManagedApplicationClient.
+This package contains an isomorphic SDK for SubscriptionClient.
 
 ### Currently supported environments
 
@@ -15,7 +15,7 @@ npm install @azure/arm-managedapplications
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listOperations  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,12 +29,12 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ManagedApplicationClient, ManagedApplicationModels, ManagedApplicationMappers } from "@azure/arm-managedapplications";
+import { SubscriptionClient, SubscriptionModels, SubscriptionMappers } from "@azure/arm-managedapplications";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ManagedApplicationClient(creds, subscriptionId);
-  client.listOperations().then((result) => {
+  const client = new SubscriptionClient(creds, subscriptionId);
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listOperations  as an example written in JavaScript.
+#### browser - Authentication, client creation and list operations as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -76,8 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmManagedapplications.ManagedApplicationClient(res.creds, subscriptionId);
-        client.listOperations().then((result) => {
+        const client = new Azure.ArmManagedapplications.SubscriptionClient(res.creds, subscriptionId);
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

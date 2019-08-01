@@ -30,56 +30,6 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applianceDefinitionId: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionId",
-  mapper: {
-    required: true,
-    serializedName: "applianceDefinitionId",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const applianceDefinitionName: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionName",
-  mapper: {
-    required: true,
-    serializedName: "applianceDefinitionName",
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const applianceId: msRest.OperationURLParameter = {
-  parameterPath: "applianceId",
-  mapper: {
-    required: true,
-    serializedName: "applianceId",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const applianceName: msRest.OperationURLParameter = {
-  parameterPath: "applianceName",
-  mapper: {
-    required: true,
-    serializedName: "applianceName",
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -90,21 +40,6 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    required: true,
-    serializedName: "resourceGroupName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
 };
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",

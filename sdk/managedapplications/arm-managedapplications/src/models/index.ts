@@ -12,321 +12,137 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Plan for the appliance.
+ * Location information.
  */
-export interface Plan {
+export interface Location {
   /**
-   * The plan name.
-   */
-  name: string;
-  /**
-   * The publisher ID.
-   */
-  publisher: string;
-  /**
-   * The product code.
-   */
-  product: string;
-  /**
-   * The promotion code.
-   */
-  promotionCode?: string;
-  /**
-   * The plan's version.
-   */
-  version: string;
-}
-
-/**
- * Resource information.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Resource ID
+   * The fully qualified ID of the location. For example,
+   * /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Resource name
+   * The subscription ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The location name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Resource type
+   * The display name of the location.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly type?: string;
+  readonly displayName?: string;
   /**
-   * Resource location
-   */
-  location?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Resource information.
- */
-export interface GenericResource extends Resource {
-  /**
-   * ID of the resource that manages this resource.
-   */
-  managedBy?: string;
-  /**
-   * The SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * The identity of the resource.
-   */
-  identity?: Identity;
-}
-
-/**
- * Information about appliance.
- */
-export interface Appliance extends GenericResource {
-  /**
-   * The managed resource group Id.
-   */
-  managedResourceGroupId: string;
-  /**
-   * The fully qualified path of appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * Name and value pairs that define the appliance parameters. It can be a JObject or a well
-   * formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * Name and value pairs that define the appliance outputs.
+   * The latitude of the location.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly outputs?: any;
+  readonly latitude?: string;
   /**
-   * The appliance provisioning state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+   * The longitude of the location.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The blob URI where the UI definition file is located.
-   */
-  uiDefinitionUri?: string;
-  /**
-   * The plan information.
-   */
-  plan?: Plan;
-  /**
-   * The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
-   */
-  kind?: string;
+  readonly longitude?: string;
 }
 
 /**
- * Plan for the appliance.
+ * Subscription policies.
  */
-export interface PlanPatchable {
+export interface SubscriptionPolicies {
   /**
-   * The plan name.
-   */
-  name?: string;
-  /**
-   * The publisher ID.
-   */
-  publisher?: string;
-  /**
-   * The product code.
-   */
-  product?: string;
-  /**
-   * The promotion code.
-   */
-  promotionCode?: string;
-  /**
-   * The plan's version.
-   */
-  version?: string;
-}
-
-/**
- * Information about appliance.
- */
-export interface AppliancePatchable extends GenericResource {
-  /**
-   * The managed resource group Id.
-   */
-  managedResourceGroupId?: string;
-  /**
-   * The fully qualified path of appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * Name and value pairs that define the appliance parameters. It can be a JObject or a well
-   * formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * Name and value pairs that define the appliance outputs.
+   * The subscription location placement ID. The ID indicates which regions are visible for a
+   * subscription. For example, a subscription with a location placement Id of Public_2014-09-01
+   * has access to Azure public regions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly outputs?: any;
+  readonly locationPlacementId?: string;
   /**
-   * The appliance provisioning state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+   * The subscription quota ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly quotaId?: string;
   /**
-   * The blob URI where the UI definition file is located.
-   */
-  uiDefinitionUri?: string;
-  /**
-   * The plan information.
-   */
-  plan?: PlanPatchable;
-  /**
-   * The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
-   */
-  kind?: string;
-}
-
-/**
- * The appliance provider authorization.
- */
-export interface ApplianceProviderAuthorization {
-  /**
-   * The provider's principal identifier. This is the identity that the provider will use to call
-   * ARM to manage the appliance resources.
-   */
-  principalId: string;
-  /**
-   * The provider's role definition identifier. This role will define all the permissions that the
-   * provider must have on the appliance's container resource group. This role definition cannot
-   * have permission to delete the resource group.
-   */
-  roleDefinitionId: string;
-}
-
-/**
- * Appliance artifact.
- */
-export interface ApplianceArtifact {
-  /**
-   * The appliance artifact name.
-   */
-  name?: string;
-  /**
-   * The appliance artifact blob uri.
-   */
-  uri?: string;
-  /**
-   * The the appliance artifact type. Possible values include: 'Template', 'Custom'
-   */
-  type?: ApplianceArtifactType;
-}
-
-/**
- * Information about appliance definition.
- */
-export interface ApplianceDefinition extends GenericResource {
-  /**
-   * The appliance lock level. Possible values include: 'CanNotDelete', 'ReadOnly', 'None'
-   */
-  lockLevel: ApplianceLockLevel;
-  /**
-   * The appliance definition display name.
-   */
-  displayName?: string;
-  /**
-   * The appliance provider authorizations.
-   */
-  authorizations: ApplianceProviderAuthorization[];
-  /**
-   * The collection of appliance artifacts. The portal will use the files specified as artifacts to
-   * construct the user experience of creating an appliance from an appliance definition.
-   */
-  artifacts?: ApplianceArtifact[];
-  /**
-   * The appliance definition description.
-   */
-  description?: string;
-  /**
-   * The appliance definition package file Uri.
-   */
-  packageFileUri: string;
-}
-
-/**
- * SKU for the resource.
- */
-export interface Sku {
-  /**
-   * The SKU name.
-   */
-  name: string;
-  /**
-   * The SKU tier.
-   */
-  tier?: string;
-  /**
-   * The SKU size.
-   */
-  size?: string;
-  /**
-   * The SKU family.
-   */
-  family?: string;
-  /**
-   * The SKU model.
-   */
-  model?: string;
-  /**
-   * The SKU capacity.
-   */
-  capacity?: number;
-}
-
-/**
- * Identity for the resource.
- */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
+   * The subscription spending limit. Possible values include: 'On', 'Off', 'CurrentPeriodOff'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly principalId?: string;
+  readonly spendingLimit?: SpendingLimit;
+}
+
+/**
+ * Information about a tenant managing the subscription.
+ */
+export interface ManagedByTenant {
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the managing tenant. This is a GUID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
+ * Subscription information.
+ */
+export interface Subscription {
+  /**
+   * The fully qualified ID for the subscription. For example,
+   * /subscriptions/00000000-0000-0000-0000-000000000000.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The subscription display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The subscription tenant ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned'
+   * The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
+   * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  type?: ResourceIdentityType;
+  readonly state?: SubscriptionState;
+  /**
+   * The subscription policies.
+   */
+  subscriptionPolicies?: SubscriptionPolicies;
+  /**
+   * The authorization source of the request. Valid values are one or more combinations of Legacy,
+   * RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.
+   */
+  authorizationSource?: string;
+  /**
+   * An array containing the tenants managing the subscription.
+   */
+  managedByTenants?: ManagedByTenant[];
 }
 
 /**
- * Error response indicates ARM appliance is not able to process the incoming request. The reason
- * is provided in the error message.
+ * Tenant Id information.
  */
-export interface ErrorResponse {
+export interface TenantIdDescription {
   /**
-   * Http status code.
+   * The fully qualified ID of the tenant. For example,
+   * /tenants/00000000-0000-0000-0000-000000000000.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  httpStatus?: string;
+  readonly id?: string;
   /**
-   * Error code.
+   * The tenant ID. For example, 00000000-0000-0000-0000-000000000000.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  errorCode?: string;
-  /**
-   * Error message indicating why the operation failed.
-   */
-  errorMessage?: string;
+  readonly tenantId?: string;
 }
 
 /**
@@ -334,7 +150,7 @@ export interface ErrorResponse {
  */
 export interface OperationDisplay {
   /**
-   * Service provider: Microsoft.Solutions
+   * Service provider: Microsoft.Resources
    */
   provider?: string;
   /**
@@ -345,10 +161,14 @@ export interface OperationDisplay {
    * Operation type: Read, write, delete, etc.
    */
   operation?: string;
+  /**
+   * Description of the operation.
+   */
+  description?: string;
 }
 
 /**
- * Microsoft.Solutions operation
+ * Microsoft.Resources operation
  */
 export interface Operation {
   /**
@@ -362,35 +182,15 @@ export interface Operation {
 }
 
 /**
- * Optional Parameters.
+ * An interface representing SubscriptionClientOptions.
  */
-export interface AppliancesUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to update an existing appliance.
-   */
-  parameters?: Appliance;
-}
-
-/**
- * Optional Parameters.
- */
-export interface AppliancesUpdateByIdOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to update an existing appliance.
-   */
-  parameters?: Appliance;
-}
-
-/**
- * An interface representing ManagedApplicationClientOptions.
- */
-export interface ManagedApplicationClientOptions extends AzureServiceClientOptions {
+export interface SubscriptionClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
 /**
  * @interface
- * Result of the request to list Microsoft.Solutions operations. It contains a list of operations
+ * Result of the request to list Microsoft.Resources operations. It contains a list of operations
  * and a URL link to get the next set of results.
  * @extends Array<Operation>
  */
@@ -403,65 +203,56 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * @interface
- * List of appliances.
- * @extends Array<Appliance>
+ * Location list operation response.
+ * @extends Array<Location>
  */
-export interface ApplianceListResult extends Array<Appliance> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
+export interface LocationListResult extends Array<Location> {
 }
 
 /**
  * @interface
- * List of appliance definitions.
- * @extends Array<ApplianceDefinition>
+ * Subscription list operation response.
+ * @extends Array<Subscription>
  */
-export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition> {
+export interface SubscriptionListResult extends Array<Subscription> {
   /**
-   * The URL to use for getting the next set of results.
+   * The URL to get the next set of results.
    */
-  nextLink?: string;
+  nextLink: string;
 }
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating', 'Created', 'Deleting',
- * 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+ * @interface
+ * Tenant Ids information.
+ * @extends Array<TenantIdDescription>
+ */
+export interface TenantListResult extends Array<TenantIdDescription> {
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink: string;
+}
+
+/**
+ * Defines values for SubscriptionState.
+ * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
+export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 'Deleted';
 
 /**
- * Defines values for ApplianceLockLevel.
- * Possible values include: 'CanNotDelete', 'ReadOnly', 'None'
+ * Defines values for SpendingLimit.
+ * Possible values include: 'On', 'Off', 'CurrentPeriodOff'
  * @readonly
  * @enum {string}
  */
-export type ApplianceLockLevel = 'CanNotDelete' | 'ReadOnly' | 'None';
+export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
 
 /**
- * Defines values for ApplianceArtifactType.
- * Possible values include: 'Template', 'Custom'
- * @readonly
- * @enum {string}
+ * Contains response data for the list operation.
  */
-export type ApplianceArtifactType = 'Template' | 'Custom';
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'SystemAssigned';
-
-/**
- * Contains response data for the listOperations operation.
- */
-export type ListOperationsResponse = OperationListResult & {
+export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -479,9 +270,9 @@ export type ListOperationsResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the listOperationsNext operation.
+ * Contains response data for the listNext operation.
  */
-export type ListOperationsNextResponse = OperationListResult & {
+export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -499,9 +290,9 @@ export type ListOperationsNextResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the listLocations operation.
  */
-export type AppliancesGetResponse = Appliance & {
+export type SubscriptionsListLocationsResponse = LocationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -514,234 +305,14 @@ export type AppliancesGetResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type AppliancesCreateOrUpdateResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AppliancesUpdateResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the getById operation.
- */
-export type AppliancesGetByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateById operation.
- */
-export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the updateById operation.
- */
-export type AppliancesUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdateById operation.
- */
-export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
+      parsedBody: LocationListResult;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
+export type SubscriptionsGetResponse = Subscription & {
   /**
    * The underlying HTTP response.
    */
@@ -754,14 +325,14 @@ export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: Subscription;
     };
 };
 
 /**
- * Contains response data for the createOrUpdate operation.
+ * Contains response data for the list operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
+export type SubscriptionsListResponse = SubscriptionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -774,14 +345,14 @@ export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: SubscriptionListResult;
     };
 };
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Contains response data for the listNext operation.
  */
-export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitionListResult & {
+export type SubscriptionsListNextResponse = SubscriptionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -794,14 +365,14 @@ export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinitionListResult;
+      parsedBody: SubscriptionListResult;
     };
 };
 
 /**
- * Contains response data for the getById operation.
+ * Contains response data for the list operation.
  */
-export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
+export type TenantsListResponse = TenantListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -814,14 +385,14 @@ export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: TenantListResult;
     };
 };
 
 /**
- * Contains response data for the createOrUpdateById operation.
+ * Contains response data for the listNext operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition & {
+export type TenantsListNextResponse = TenantListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -834,66 +405,6 @@ export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinition & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdateById operation.
- */
-export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefinition & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinitionListResult;
+      parsedBody: TenantListResult;
     };
 };
