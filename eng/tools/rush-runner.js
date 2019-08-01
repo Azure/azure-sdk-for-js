@@ -13,8 +13,7 @@ let path = require('path');
 const { spawn } = require('child_process');
 
 const getPackageJsons = (searchDir) => {
-  //const searchDir = path.resolve(`../../sdk/${serviceDir}`);
- console.log("searchDir=" + searchDir);
+  console.log("searchDir=" + searchDir);
   const packageJsons = fs.readdirSync(searchDir)
     .filter(f => !f.startsWith('arm-')) // exclude libraries starting with "arm-"
     .map(f => path.join(searchDir, f, 'package.json')) // turn potential directory names into package.json paths
@@ -53,9 +52,6 @@ for(arg of givenArgs){
     rushParams.push(arg);
   }
 }
-console.log("action = " + action);
-console.log("servicelist = "+ serviceDirList);
-console.log("rushParams = "+rushParams);
 
 let packageJsons = [];
 if (serviceDirList.length > 0) {
@@ -99,15 +95,15 @@ switch (action.toLowerCase()) {
 
       const build = spawn('node', rushArgs);
       build.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+        log(`stdout: ${data}`);
         });
 
       build.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
+        log(`stderr: ${data}`);
       });
 
       build.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
+        log(`child process exited with code ${code}`);
       });
     
     break;
@@ -118,15 +114,15 @@ switch (action.toLowerCase()) {
     rushArgs = [].concat(args, ...params, rushParams);
     const test = spawn('node', rushArgs);
     test.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+        log(`stdout: ${data}`);
       });
 
     test.stderr.on('data', (data) => {
-      console.log(`stderr: ${data}`);
+      log(`stderr: ${data}`);
     });
 
     test.on('close', (code) => {
-      console.log(`child process exited with code ${code}`);
+      log(`child process exited with code ${code}`);
     });
 
     break;
@@ -144,18 +140,17 @@ switch (action.toLowerCase()) {
         args = ['../../../common/scripts/install-run-rushx.js','lint'];
 
         rushArgs = [].concat(args, ...params, rushParams);
-        //const lintr = spawn('node', rushArgs,defaults);
         const lintr = spawn('node', rushArgs,defaults);
         lintr.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          log(`stdout: ${data}`);
         });
 
         lintr.stderr.on('data', (data) => {
-          console.log(`stderr: ${data}`);
+          log(`stderr: ${data}`);
         });
 
         lintr.on('close', (code) => {
-          console.log(`child process exited with code ${code}`);
+          log(`child process exited with code ${code}`);
         });
       }
     } else {
@@ -165,15 +160,15 @@ switch (action.toLowerCase()) {
         const lint = spawn('node', rushArgs);
 
         lint.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`);
+          log(`stdout: ${data}`);
         });
 
         lint.stderr.on('data', (data) => {
-          console.log(`stderr: ${data}`);
+          log(`stderr: ${data}`);
         });
 
         lint.on('close', (code) => {
-          console.log(`child process exited with code ${code}`);
+          log(`child process exited with code ${code}`);
         });
 
     }
