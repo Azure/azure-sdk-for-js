@@ -113,6 +113,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "typescript": "^3.2.2",
-    "util": "^0.11.1"
+    "util": "^0.12.1"
   }
 }

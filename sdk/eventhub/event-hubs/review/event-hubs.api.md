@@ -42,7 +42,7 @@ export interface Checkpoint {
 
 // @public
 export class CheckpointManager {
-    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager);
+    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, instanceId: string);
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
@@ -164,7 +164,7 @@ export class EventPosition {
     static earliest(): EventPosition;
     enqueuedTime?: Date | number;
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
-    static fromOffset(offset: number | "@latest", isInclusive?: boolean): EventPosition;
+    static fromOffset(offset: number, isInclusive?: boolean): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
     isInclusive: boolean;
     static latest(): EventPosition;

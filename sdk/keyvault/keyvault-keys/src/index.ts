@@ -28,8 +28,10 @@ import {
   KeyBundle,
   JsonWebKeyType,
   JsonWebKey,
+  JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyCurveName,
+  JsonWebKeySignatureAlgorithm,
   KeyItem,
   DeletionRecoveryLevel,
   KeyVaultClientGetKeysOptionalParams
@@ -59,27 +61,52 @@ import {
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
+import {
+  CryptographyClient,
+  EncryptOptions,
+  DecryptOptions,
+  KeyWrapAlgorithm,
+  EncryptResult,
+  DecryptResult,
+  SignResult, 
+  VerifyResult,
+  WrapResult,
+  UnwrapResult
+} from "./cryptographyClient";
+
 export {
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
   CreateKeyOptions,
+  CryptographyClient,
   DeletedKey,
   DeletionRecoveryLevel,
+  DecryptOptions,
+  DecryptResult,
+  EncryptOptions,
+  EncryptResult,
   GetKeyOptions,
   ListKeysOptions as GetKeysOptions,
   ImportKeyOptions,
   JsonWebKey,
   JsonWebKeyCurveName,
+  JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
+  JsonWebKeySignatureAlgorithm,
   JsonWebKeyType,
   Key,
   KeyAttributes,
+  KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
   PagedAsyncIterableIterator,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  UpdateKeyOptions
+  SignResult,
+  UnwrapResult,
+  UpdateKeyOptions,
+  VerifyResult,
+  WrapResult,
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };

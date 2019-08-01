@@ -34,7 +34,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -80,7 +80,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -154,7 +154,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -214,7 +214,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
