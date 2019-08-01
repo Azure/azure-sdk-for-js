@@ -6,6 +6,14 @@ import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { FileServiceClient } from "../../src/FileServiceClient";
 import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName } from "./testutils.common";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import {
+  AccountSASPermissions,
+  SASProtocol,
+  AccountSASResourceTypes,
+  AccountSASServices,
+  generateAccountSASQueryParameters
+} from "../../src";
 
 export * from "./testutils.common";
 
@@ -118,4 +126,40 @@ export async function createRandomLocalFile(
     ws.on("finish", () => resolve(destFile));
     ws.on("error", reject);
   });
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+  const tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+  const queueServiceClient = getBSU();
+  // By default, credential is always the last element of pipeline factories
+  const factories = (queueServiceClient as any).pipeline.factories;
+  const sharedKeyCredential = factories[factories.length - 1];
+
+  const sas = generateAccountSASQueryParameters(
+    {
+      expiryTime: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+      protocol: SASProtocol.HTTPSandHTTP,
+      resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+      services: AccountSASServices.parse("btqf").toString(),
+      startTime: now,
+      version: "2016-05-31"
+    },
+    sharedKeyCredential as SharedKeyCredential
+  ).toString();
+
+  const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
+
+  return `BlobEndpoint=${queueEndpoint.replace(
+    ".queue.",
+    ".blob."
+  )}/;QueueEndpoint=${queueEndpoint}/;FileEndpoint=${queueEndpoint.replace(
+    ".queue.",
+    ".file."
+  )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }
