@@ -312,12 +312,23 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span: Span = TracerProxy.getTracer().startSpan(
+        "createEcKeyMethod",
+        options.requestOptions ? options.requestOptions.spanOptions : undefined
+      );
+      if (options.requestOptions && options.requestOptions.spanOptions) {
+        options.requestOptions.spanOptions.parent = span;
+      }
+      span.start();
+
       const response = await this.client.createKey(
         this.vaultBaseUrl,
         name,
         options.hsm ? "EC-HSM" : "EC",
         unflattenedOptions
       );
+
+      span.end();
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.createKey(this.vaultBaseUrl, name, "EC", options);
@@ -359,12 +370,23 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span: Span = TracerProxy.getTracer().startSpan(
+        "createRsaKeyMethod",
+        options.requestOptions ? options.requestOptions.spanOptions : undefined
+      );
+      if (options.requestOptions && options.requestOptions.spanOptions) {
+        options.requestOptions.spanOptions.parent = span;
+      }
+      span.start();
+
       const response = await this.client.createKey(
         this.vaultBaseUrl,
         name,
         options.hsm ? "RSA-HSM" : "RSA",
         unflattenedOptions
       );
+
+      span.end();
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.createKey(this.vaultBaseUrl, name, "RSA", options);
@@ -406,12 +428,23 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span: Span = TracerProxy.getTracer().startSpan(
+        "importKeyMethod",
+        options.requestOptions ? options.requestOptions.spanOptions : undefined
+      );
+      if (options.requestOptions && options.requestOptions.spanOptions) {
+        options.requestOptions.spanOptions.parent = span;
+      }
+      span.start();
+
       const response = await this.client.importKey(
         this.vaultBaseUrl,
         name,
         key,
         unflattenedOptions
       );
+
+      span.end();
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.importKey(this.vaultBaseUrl, name, key, options);
@@ -499,12 +532,23 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span: Span = TracerProxy.getTracer().startSpan(
+        "updateKeyMethod",
+        options.requestOptions ? options.requestOptions.spanOptions : undefined
+      );
+      if (options.requestOptions && options.requestOptions.spanOptions) {
+        options.requestOptions.spanOptions.parent = span;
+      }
+      span.start();
+
       const response = await this.client.updateKey(
         this.vaultBaseUrl,
         name,
         keyVersion,
         unflattenedOptions
       );
+
+      span.end();
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.updateKey(this.vaultBaseUrl, name, keyVersion, options);
@@ -567,11 +611,26 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "getDeletedKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     const response = await this.client.getDeletedKey(
       this.vaultBaseUrl,
       name,
       options ? options.requestOptions : {}
     );
+
+    span.end();
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -593,11 +652,26 @@ export class KeysClient {
    * @returns Promise<void>
    */
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "purgeDeletedKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     await this.client.purgeDeletedKey(
       this.vaultBaseUrl,
       name,
       options ? options.requestOptions : {}
     );
+
+    span.end();
   }
 
   /**
@@ -617,11 +691,26 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "recoverDeletedKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     const response = await this.client.recoverDeletedKey(
       this.vaultBaseUrl,
       name,
       options ? options.requestOptions : {}
     );
+
+    span.end();
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -640,11 +729,26 @@ export class KeysClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "backupKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     const response = await this.client.backupKey(
       this.vaultBaseUrl,
       name,
       options ? options.requestOptions : {}
     );
+
+    span.end();
     return response.value;
   }
 
@@ -665,11 +769,24 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "restoreKeyMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
     const response = await this.client.restoreKey(
       this.vaultBaseUrl,
       backup,
       options ? options.requestOptions : {}
     );
+    span.end();
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -734,7 +851,22 @@ export class KeysClient {
     name: string,
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "listKeyVersionsMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     const iter = this.listKeyVersionsAll(name, options);
+
+    span.end();
     return {
       next() {
         return iter.next();
@@ -882,7 +1014,22 @@ export class KeysClient {
   public listDeletedKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    const span: Span = TracerProxy.getTracer().startSpan(
+      "listDeletedKeysMethod",
+      options
+        ? options.requestOptions
+          ? options.requestOptions.spanOptions
+          : undefined
+        : undefined
+    );
+    if (options && options.requestOptions && options.requestOptions.spanOptions) {
+      options.requestOptions.spanOptions.parent = span;
+    }
+    span.start();
+
     const iter = this.listDeletedKeysAll(options);
+
+    span.end();
     return {
       next() {
         return iter.next();
