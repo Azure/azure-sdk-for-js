@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,7 +30,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const location: msRest.OperationURLParameter = {
+export const location: coreHttp.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     required: true,
@@ -40,7 +40,7 @@ export const location: msRest.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -51,7 +51,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName: coreHttp.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -61,7 +61,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceName: msRest.OperationURLParameter = {
+export const resourceName: coreHttp.OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     required: true,
@@ -71,7 +71,7 @@ export const resourceName: msRest.OperationURLParameter = {
     }
   }
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
