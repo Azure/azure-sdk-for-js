@@ -134,18 +134,4 @@ describe("ShareClient Node.js only", () => {
     assert.ok(result.version);
     assert.ok(result.date);
   });
-
-  it("throws error if constructor shareName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new ShareClient(getConnectionStringFromEnvironment(), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for shareName parameter",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
 });
