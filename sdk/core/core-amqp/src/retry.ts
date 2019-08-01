@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { translate, MessagingError } from "./errors";
-import { cancellableDelay, isNode } from "./util/cancellableDelay";
+import { delay, isNode } from "./util/utils";
 import * as log from "./log";
 import {
   defaultMaxRetries,
@@ -109,7 +109,7 @@ export interface RetryConfig<T> {
    * @property {AbortSignalLike} [abortSignal] The `AbortSignal` associated with the operation being retried on.
    * This is used to cancel the delay between retries. This is not used to cancel the actual operation, which is handled by the operation definition itself.
    */
-  abortSignal: AbortSignalLike;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -244,7 +244,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs / 1000,
           config.operationType
         );
-        await cancellableDelay(targetDelayInMs, config.abortSignal);
+        await delay(targetDelayInMs, config.abortSignal);
         continue;
       } else {
         break;
