@@ -3,7 +3,7 @@
 
 import { isNode } from "./recorder";
 
-export function str2ab(str: string): Uint8Array {
+export function stringToUint8Array(str: string): Uint8Array {
   if (isNode) {
     return new Uint8Array(Buffer.from(str));
   } else {
@@ -15,7 +15,7 @@ export function str2ab(str: string): Uint8Array {
   }
 }
 
-export function ab2str(ab: Uint8Array): string {
+export function uint8ArrayToString(ab: Uint8Array): string {
   if (isNode) {
     return Buffer.from(ab).toString("utf-8");
   } else {

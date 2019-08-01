@@ -10,7 +10,7 @@ import { CryptographyClient, Key, KeysClient } from "../src";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { isRecording } from "./utils/recorder";
-import { str2ab, ab2str } from "./utils/crypto";
+import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
 let keyto: any;
 if (isNode) {
@@ -62,9 +62,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   if (isRecording) {
     it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt("RSA1_5", str2ab(text));
+      const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
-      const decryptedText = ab2str(decryptResult.result);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
 
@@ -76,16 +76,16 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
         const encrypted = crypto.publicEncrypt(padded, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
-        const decryptedText = ab2str(decryptResult.result);
+        const decryptedText = uint8ArrayToString(decryptResult.result);
         assert.equal(text, decryptedText);
       });
     }
 
     it("encrypt & decrypt with RSA-OAEP", async function() {
       const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt("RSA-OAEP", str2ab(text));
+      const encryptResult = await cryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encryptResult.result);
-      const decryptedText = ab2str(decryptResult.result);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
 
@@ -97,7 +97,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const keyPEM = keyto.from(key, "jwk").toString("pem", "public_pkcs1");
         const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
-        const decryptedText = ab2str(decryptResult.result);
+        const decryptedText = uint8ArrayToString(decryptResult.result);
         assert.equal(text, decryptedText);
       });
     }
@@ -118,17 +118,17 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   if (isRecording) {
     it("wrap and unwrap with rsa1_5", async function() {
       const text = "arepa";
-      const wrapped = await cryptoClient.wrapKey("RSA1_5", str2ab(text));
+      const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
-      const unwrappedText = ab2str(unwrappedResult.result);
+      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
       assert.equal(text, unwrappedText);
     });
 
     it("wrap and unwrap with RSA-OAEP", async function() {
       const text = this.test!.title;
-      const wrapped = await cryptoClient.wrapKey("RSA-OAEP", str2ab(text));
+      const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
-      const unwrappedText = ab2str(unwrappedResult.result);
+      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
       assert.equal(text, unwrappedText);
     });
   }
