@@ -35,6 +35,7 @@ describe("Errors", function() {
       const err = new Error("error message");
       err.name = "OperationTimeoutError";
       const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "OperationTimeoutError", true);
       translatedError.message.should.equal(err.message);
       translatedError.stack!.should.equal(err.stack);
       translatedError.retryable.should.equal(true);
@@ -44,6 +45,7 @@ describe("Errors", function() {
       const err = new Error("error message");
       err.name = "InsufficientCreditError";
       const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "InsufficientCreditError", true);
       translatedError.message.should.equal(err.message);
       translatedError.stack!.should.equal(err.stack);
       translatedError.retryable.should.equal(true);
@@ -52,6 +54,7 @@ describe("Errors", function() {
     it("Sets retryable to false, if input is the custom AbortError", function() {
       const err = new AbortError("error message");
       const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "AbortError", true);
       translatedError.message.should.equal(err.message);
       translatedError.stack!.should.equal(err.stack);
       translatedError.retryable.should.equal(false);

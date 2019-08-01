@@ -559,7 +559,7 @@ function getCustomError(err: AmqpError | Error): MessagingError | undefined {
     // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
     // Must do a name check until the custom error is updated, and that doesn't break compatibility
     // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    retryableErrors.indexOf(errorName) > 0
+    retryableErrors.indexOf(errorName) > -1
   ) {
     error.retryable = true;
     return error;
@@ -584,8 +584,6 @@ export function translate(err: AmqpError | Error): MessagingError {
     // already translated
     return err as MessagingError;
   }
-
-  const customError = getCustomError(err);
 
   let error: MessagingError = err as MessagingError;
 
@@ -639,7 +637,9 @@ export function translate(err: AmqpError | Error): MessagingError {
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
-  } else if (customError) {
+  }
+  const customError = getCustomError(err);
+  if (customError) {
     return customError;
   } else {
     // Translate a generic error into MessagingError.
