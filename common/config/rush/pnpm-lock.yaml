@@ -129,7 +129,7 @@ dependencies:
   mocha-multi-reporters: 1.1.7
   moment: 2.24.0
   ms-rest: 2.5.3
-  ms-rest-azure: 2.6.0
+  ms-rest-azure: 3.0.0
   nise: 1.5.0
   nock: 10.0.6
   npm-run-all: 4.1.5
@@ -2209,7 +2209,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000988
-      electron-to-chromium: 1.3.210
+      electron-to-chromium: 1.3.211
     dev: false
     hasBin: true
     resolution:
@@ -3249,10 +3249,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.210:
+  /electron-to-chromium/1.3.211:
     dev: false
     resolution:
-      integrity: sha512-m1i/F+gw9jkauxDx0mOr7Sj6vp6se1mfkQNYqZb1yL5VGTp0AC1NZH5CGI6YMSO7WaScILmkKDZFG9/hlR9axQ==
+      integrity: sha512-GZAiK3oHrs0K+LwH+HD+bdjZ17v40oQQdXbbd3dgrwgbENvazrGpcuIADSAREWnxzo9gADB1evuizrbXsnoU2Q==
   /elliptic/6.5.0:
     dependencies:
       bn.js: 4.11.8
@@ -6274,7 +6274,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-viwAX9oy4LKa8fBdfEszIUxwH5I=
-  /ms-rest-azure/2.6.0:
+  /ms-rest-azure/3.0.0:
     dependencies:
       adal-node: 0.1.28
       async: 2.6.0
@@ -6284,7 +6284,7 @@ packages:
       uuid: 3.3.2
     dev: false
     resolution:
-      integrity: sha512-J6386a9krZ4VtU7CRt+Ypgo9RGf8+d3gjMBkH7zbkM4zzkhbbMOYiPRaZ+bHZcfihkKLlktTgA6rjshTjF329A==
+      integrity: sha512-cttN01/TtMDB4v3rt/WQ/slgffB6jcUYxcPzcL0VNSB+WFPE1j4y5ICNHMuD1RaNNekCYMI4Pv51BDQ/BXNq7Q==
   /ms-rest/2.5.3:
     dependencies:
       duplexer: 0.1.1
@@ -10732,7 +10732,7 @@ packages:
       is-buffer: 2.0.3
       jssha: 2.3.1
       ms-rest: 2.5.3
-      ms-rest-azure: 2.6.0
+      ms-rest-azure: 3.0.0
       rhea: 1.0.8
       rimraf: 2.6.3
       tslib: 1.10.0
@@ -10742,7 +10742,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-udls4i3EzzYaovrHK3RsC59ihzLbrw1JnfrAHRexyiVwphcVtNtIVhQ9Taqy6wkdAInOARVYaq6O8OAIThAO1Q==
+      integrity: sha512-WEbPgQkNQlR5XACXEsHijPGXT9RNAouPlPrJwO8NAK+zqDXIB0+65CfOR500n597cWTYZUnNAqQJw1ckLtzRGQ==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 specifiers:
@@ -10876,7 +10876,7 @@ specifiers:
   mocha-multi-reporters: ^1.1.7
   moment: ^2.24.0
   ms-rest: ^2.3.3
-  ms-rest-azure: ^2.5.9
+  ms-rest-azure: ^3.0.0
   nise: ^1.4.10
   nock: ^10.0.6
   npm-run-all: ^4.1.5
