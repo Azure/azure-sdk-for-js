@@ -48,7 +48,7 @@ export class InMemoryPartitionManager implements PartitionManager {
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
-   * @return Promise<void>
+   * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
