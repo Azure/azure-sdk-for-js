@@ -305,7 +305,7 @@ describe("FileServiceClient", () => {
     }
   });
 
-  it.only("can be created from a sas connection string", async () => {
+  it("can be created from a sas connection string", async () => {
     const newClient = FileServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment()
     );
@@ -316,7 +316,7 @@ describe("FileServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it.only("can be created from a sas connection string and an option bag", async () => {
+  it("can be created from a sas connection string and an option bag", async () => {
     const newClient = FileServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(),
       {

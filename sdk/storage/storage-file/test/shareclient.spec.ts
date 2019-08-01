@@ -137,7 +137,7 @@ describe("ShareClient", () => {
     assert.ok(result, "Expecting valid properties for the root directory.");
   });
 
-  it.only("can be created with a sas connection string and a share name", async () => {
+  it("can be created with a sas connection string and a share name", async () => {
     const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName);
     const result = await newClient.getProperties();
 
@@ -148,7 +148,7 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it.only("can be created with a sas connection string and a share name and an option bag", async () => {
+  it("can be created with a sas connection string and a share name and an option bag", async () => {
     const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName, {
       retryOptions: {
         maxTries: 5
@@ -163,7 +163,7 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it.only("throws error if constructor shareName parameter is empty", async () => {
+  it("throws error if constructor shareName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new ShareClient(getSASConnectionStringFromEnvironment(), "");
