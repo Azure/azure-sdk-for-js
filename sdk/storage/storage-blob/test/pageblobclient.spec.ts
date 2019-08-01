@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU } from "./utils";
+import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { ContainerClient, BlobClient, PageBlobClient } from "../src";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
@@ -148,5 +148,45 @@ describe("PageBlobClient", () => {
     await pageBlobClient.updateSequenceNumber("max", 100);
     propertiesResponse = await pageBlobClient.getProperties();
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
+  });
+
+  it.only("can be created with a sas connection string", async () => {
+    const newClient = new PageBlobClient(
+      getSASConnectionStringFromEnvironment(),
+      containerName,
+      blobName
+    );
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it.only("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it.only("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

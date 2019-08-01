@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU } from "./utils";
+import { getAlternateBSU, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -231,7 +231,7 @@ describe("BlobServiceClient", () => {
       assert.deepEqual(container.metadata!.key, "val");
     }
     // Gets next marker
-    let marker = response.nextMarker;
+    const marker = response.nextMarker;
     // Passing next marker as continuationToken
     iter = blobServiceClient
       .listContainers({
@@ -391,5 +391,16 @@ describe("BlobServiceClient", () => {
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
     }
+  });
+
+  it.only("can be created from a sas connection string", async () => {
+    const newClient = BlobServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment()
+    );
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });
