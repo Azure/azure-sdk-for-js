@@ -35,13 +35,13 @@ export class Account {
   /**
    * @param callback The callback
    */
-  listSupportedImages(callback: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImages(callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedImages(options: Models.AccountListSupportedImagesOptionalParams, callback: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
-  listSupportedImages(options?: Models.AccountListSupportedImagesOptionalParams | coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
+  listSupportedImages(options: Models.AccountListSupportedImagesOptionalParams, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImages(options?: Models.AccountListSupportedImagesOptionalParams | msRest.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -85,14 +85,14 @@ export class Account {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSupportedImagesNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImagesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedImagesNext(nextPageLink: string, options: Models.AccountListSupportedImagesNextOptionalParams, callback: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
-  listSupportedImagesNext(nextPageLink: string, options?: Models.AccountListSupportedImagesNextOptionalParams | coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: coreHttp.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
+  listSupportedImagesNext(nextPageLink: string, options: Models.AccountListSupportedImagesNextOptionalParams, callback: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): void;
+  listSupportedImagesNext(nextPageLink: string, options?: Models.AccountListSupportedImagesNextOptionalParams | msRest.ServiceCallback<Models.AccountListSupportedImagesResult>, callback?: msRest.ServiceCallback<Models.AccountListSupportedImagesResult>): Promise<Models.AccountListSupportedImagesResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -132,8 +132,8 @@ export class Account {
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers);
-const listSupportedImagesOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers);
+const listSupportedImagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "supportedimages",
   urlParameters: [
@@ -193,7 +193,7 @@ const listPoolNodeCountsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listSupportedImagesNextOperationSpec: coreHttp.OperationSpec = {
+const listSupportedImagesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",

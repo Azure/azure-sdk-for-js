@@ -34,7 +34,7 @@ class BatchServiceClient extends BatchServiceClientContext {
    * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, batchUrl: string, options?: coreArm.AzureServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, batchUrl: string, options?: msRest.AzureServiceClientOptions) {
     super(credentials, batchUrl, options);
     this.application = new operations.Application(this);
     this.pool = new operations.Pool(this);

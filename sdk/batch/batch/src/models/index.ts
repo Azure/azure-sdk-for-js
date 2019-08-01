@@ -8356,7 +8356,7 @@ export interface PoolListNextOptionalParams extends coreHttp.RequestOptionsBase 
 /**
  * Optional Parameters.
  */
-export interface AccountListSupportedImagesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface AccountListSupportedImagesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -8376,7 +8376,7 @@ export interface AccountListPoolNodeCountsOptionalParams extends coreHttp.Reques
 /**
  * Optional Parameters.
  */
-export interface AccountListSupportedImagesNextOptionalParams extends coreHttp.RequestOptionsBase {
+export interface AccountListSupportedImagesNextOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
