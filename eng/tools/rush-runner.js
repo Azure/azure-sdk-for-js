@@ -12,8 +12,8 @@ const fs = require('fs');
 let path = require('path');
 const { spawn } = require('child_process');
 
-const getPackageJsons = (serviceDir) => {
-  const searchDir = path.resolve(`../../sdk/${serviceDir}`);
+const getPackageJsons = (searchDir) => {
+  //const searchDir = path.resolve(`../../sdk/${serviceDir}`);
  console.log("searchDir=" + searchDir);
   const packageJsons = fs.readdirSync(searchDir)
     .filter(f => !f.startsWith('arm-')) // exclude libraries starting with "arm-"
@@ -34,18 +34,18 @@ log(`Working directory is "${process.cwd()}".`);
 let [action, serviceDir, ...rushParams] = process.argv.slice(2);
 //let commandToRun = process.argv[3];
 
-const searchDir = path.resolve(`../../sdk/${serviceDir}`);
 
 let packageJsons = [];
 if (serviceDir) {
-  packageJsons = getPackageJsons(serviceDir);
+  const searchDir = path.resolve(`../../sdk/${serviceDir}`);
+  packageJsons = getPackageJsons(searchDir);
 } else {
   const sdkDir = path.resolve(`../../sdk`);
-
   const serviceDirs = fs.readdirSync(sdkDir)
     .map(f => path.join(sdkDir,f)) // turn directory names into paths
     .filter(f => fs.lstatSync(f).isDirectory()); // only keep those which are actually directories (not files)
 
+console.log("servicedirs ="+serviceDirs);
   for (const dir of serviceDirs) {
     packageJsons.concat(getPackageJsons(dir));
   }
@@ -111,11 +111,49 @@ switch (action.toLowerCase()) {
   case 'lint':
     if (serviceDir) {
       for (const dir of packageDirs) {
+        //THIS CASE DOESN'T WORK - NEED an alternate script for rushx :(
         // rushx doesn't accept rushParams
         ///run('rushx', 'lint', { cwd: dir });
+        const defaults = {
+                          cwd: dir,
+                          env: process.env
+                        };
+        //args = ['../../../common/scripts/install-run-rush.js','lint'];
+        args = ['lint'];
+        rushArgs = [].concat(args, ...params);
+        //const lintr = spawn('node', rushArgs,defaults);
+        const lintr = spawn('rushx', rushArgs,defaults);
+        lintr.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`);
+        });
+
+        lintr.stderr.on('data', (data) => {
+          console.log(`stderr: ${data}`);
+        });
+
+        lintr.on('close', (code) => {
+          console.log(`child process exited with code ${code}`);
+        });
+
       }
     } else {
-      ///run('rush', 'lint', rushParams)
+        ///run('rush', 'lint', rushParams)
+        args = ['../../common/scripts/install-run-rush.js','lint'];
+        rushArgs = [].concat(args, ...params, rushParams);
+        const lint = spawn('node', rushArgs);
+
+        lint.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`);
+        });
+
+        lint.stderr.on('data', (data) => {
+          console.log(`stderr: ${data}`);
+        });
+
+        lint.on('close', (code) => {
+          console.log(`child process exited with code ${code}`);
+        });
+
     }
     break;
 }
