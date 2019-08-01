@@ -259,7 +259,7 @@ console.log("decrypt: ", decrypt.toString());
 ```
 
 ### Sign
-`sign` will cryptographically sign the digest (hash) of a message with a signature.
+`sign` will cryptographically sign the digest (hash) of a message with a signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
 const signatureValue = "MySignature";
@@ -274,7 +274,7 @@ console.log("sign result: ", signature);
 ```
 
 ### Sign Data
-`signData` will cryptographically sign a message with a signature.
+`signData` will cryptographically sign a message with a signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
 const signature = await cryptoClient.signData("RS256", Buffer.from("My Message"));
@@ -282,7 +282,7 @@ console.log("sign result: ", signature);
 ```
 
 ### Verify
-`verify` will cryptographically verify that the signed digest was signed with the given signature
+`verify` will cryptographically verify that the signed digest was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
 const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
@@ -290,7 +290,7 @@ console.log("verify result: ", verifyResult);
 ```
 
 ### Verify Data
-`verifyData` will cryptographically verify that the signed message was signed with the given signature
+`verifyData` will cryptographically verify that the signed message was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
 const verifyResult = await cryptoClient.verifyData("RS256", buffer, signature.result);
@@ -298,7 +298,7 @@ console.log("verify result: ", verifyResult);
 ```
 
 ### Wrap Key
-`wrapKey` will wrap a key with an encryption layer
+`wrapKey` will wrap a key with an encryption layer. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
 const wrapped = await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
@@ -306,7 +306,7 @@ console.log("wrap result:", wrapped);
 ```
 
 ### Unwrap Key
-`unwrapKey` will unwrap a wrapped key
+`unwrapKey` will unwrap a wrapped key. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
 const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);

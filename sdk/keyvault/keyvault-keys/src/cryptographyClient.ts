@@ -1,5 +1,5 @@
 import { GetKeyOptions, RequestOptions } from "./keysModels";
-import { JsonWebKey, JsonWebKeyEncryptionAlgorithm, JsonWebKeySignatureAlgorithm } from "./core/models";
+import { JsonWebKey, JsonWebKeyEncryptionAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
   isTokenCredential,
@@ -234,7 +234,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async sign(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
     options?: RequestOptions
   ): Promise<SignResult> {
@@ -323,7 +323,7 @@ export class CryptographyClient {
    * @param options Additional options
    */
   public async verifyData(
-    algorithm: JsonWebKeySignatureAlgorithm,
+    algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options?: RequestOptions
