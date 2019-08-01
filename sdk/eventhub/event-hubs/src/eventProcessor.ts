@@ -6,12 +6,11 @@ import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionContext } from "./partitionContext";
 import { CheckpointManager, Checkpoint } from "./checkpointManager";
-import { EventData } from "./eventData";
+import { ReceivedEventData } from "./eventData";
 import { PumpManager } from "./pumpManager";
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import * as log from "./log";
 import { cancellableDelay } from "./util/cancellableDelay";
-import { generate_uuid } from "rhea-promise";
 
 /**
  * Reason for closing a PartitionProcessor.
@@ -45,7 +44,7 @@ export interface PartitionProcessor {
   /**
    * Called when a batch of events have been received.
    */
-  processEvents(events: EventData[]): Promise<void>;
+  processEvents(events: ReceivedEventData[]): Promise<void>;
   /**
    * Called when the underlying client experiences an error while receiving.
    */
@@ -222,7 +221,7 @@ export class EventProcessor {
           const partitionOwnership: PartitionOwnership = {
             eventHubName: this._eventHubClient.eventHubName,
             consumerGroupName: this._consumerGroupName,
-            instanceId: generate_uuid(),
+            instanceId: this._id,
             partitionId: partitionId,
             ownerLevel: 0
           };

@@ -49,9 +49,9 @@ export class CheckpointManager {
 
 // @public
 export enum CloseReason {
+    EventHubException = "EventHubException",
     OwnershipLost = "OwnershipLost",
-    Shutdown = "Shutdown",
-    Unknown = "Unknown"
+    Shutdown = "Shutdown"
 }
 
 export { DataTransformer }
@@ -236,7 +236,7 @@ export interface PartitionProcessor {
     close?(reason: CloseReason): Promise<void>;
     initialize?(): Promise<void>;
     processError(error: Error): Promise<void>;
-    processEvents(events: EventData[]): Promise<void>;
+    processEvents(events: ReceivedEventData[]): Promise<void>;
 }
 
 // @public
