@@ -37,6 +37,7 @@ export {
   MessagingError,
   DataTransformer,
   DefaultDataTransformer,
+  RetryOptions,
   TokenType,
   TokenCredential,
   delay
