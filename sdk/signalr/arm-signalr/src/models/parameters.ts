@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/ms-rest-js";
 
-export const acceptLanguage: coreHttp.OperationParameter = {
+export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,7 +20,7 @@ export const acceptLanguage: coreHttp.OperationParameter = {
     }
   }
 };
-export const apiVersion: coreHttp.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -30,7 +30,7 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const location: coreHttp.OperationURLParameter = {
+export const location: msRest.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     required: true,
@@ -40,7 +40,7 @@ export const location: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: coreHttp.OperationURLParameter = {
+export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -51,7 +51,7 @@ export const nextPageLink: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: coreHttp.OperationURLParameter = {
+export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -61,7 +61,7 @@ export const resourceGroupName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const resourceName: coreHttp.OperationURLParameter = {
+export const resourceName: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     required: true,
@@ -71,7 +71,7 @@ export const resourceName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const subscriptionId: coreHttp.OperationURLParameter = {
+export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,

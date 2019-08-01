@@ -9,14 +9,14 @@
  */
 
 import * as Models from "./models";
-import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-signalr";
-const packageVersion = "1.2.0";
+const packageVersion = "1.2.1";
 
-export class SignalRManagementClientContext extends coreArm.AzureServiceClient {
-  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
+export class SignalRManagementClientContext extends msRestAzure.AzureServiceClient {
+  credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
   subscriptionId: string;
 
@@ -27,7 +27,7 @@ export class SignalRManagementClientContext extends coreArm.AzureServiceClient {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, options?: Models.SignalRManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SignalRManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -39,7 +39,7 @@ export class SignalRManagementClientContext extends coreArm.AzureServiceClient {
       options = {};
     }
     if(!options.userAgent) {
-      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

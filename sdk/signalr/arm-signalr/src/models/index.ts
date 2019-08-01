@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
-import * as coreHttp from "@azure/core-http";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -470,7 +470,7 @@ export interface SignalRUsage {
 /**
  * Optional Parameters.
  */
-export interface SignalRCheckNameAvailabilityOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRCheckNameAvailabilityOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters supplied to the operation.
    */
@@ -480,7 +480,7 @@ export interface SignalRCheckNameAvailabilityOptionalParams extends coreHttp.Req
 /**
  * Optional Parameters.
  */
-export interface SignalRRegenerateKeyOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRRegenerateKeyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameter that describes the Regenerate Key Operation.
    */
@@ -490,7 +490,7 @@ export interface SignalRRegenerateKeyOptionalParams extends coreHttp.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface SignalRCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters for the create or update operation
    */
@@ -500,7 +500,7 @@ export interface SignalRCreateOrUpdateOptionalParams extends coreHttp.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface SignalRUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters for the update operation
    */
@@ -510,7 +510,7 @@ export interface SignalRUpdateOptionalParams extends coreHttp.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface SignalRBeginRegenerateKeyOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRBeginRegenerateKeyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameter that describes the Regenerate Key Operation.
    */
@@ -520,7 +520,7 @@ export interface SignalRBeginRegenerateKeyOptionalParams extends coreHttp.Reques
 /**
  * Optional Parameters.
  */
-export interface SignalRBeginCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters for the create or update operation
    */
@@ -530,7 +530,7 @@ export interface SignalRBeginCreateOrUpdateOptionalParams extends coreHttp.Reque
 /**
  * Optional Parameters.
  */
-export interface SignalRBeginUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+export interface SignalRBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Parameters for the update operation
    */
@@ -615,7 +615,7 @@ export type OperationsListResponse = OperationList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -635,7 +635,7 @@ export type OperationsListNextResponse = OperationList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -655,7 +655,7 @@ export type SignalRCheckNameAvailabilityResponse = NameAvailability & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -675,7 +675,7 @@ export type SignalRListBySubscriptionResponse = SignalRResourceList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -695,7 +695,7 @@ export type SignalRListByResourceGroupResponse = SignalRResourceList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -715,7 +715,7 @@ export type SignalRListKeysResponse = SignalRKeys & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -735,7 +735,7 @@ export type SignalRRegenerateKeyResponse = SignalRKeys & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -755,7 +755,7 @@ export type SignalRGetResponse = SignalRResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -775,7 +775,7 @@ export type SignalRCreateOrUpdateResponse = SignalRResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -795,7 +795,7 @@ export type SignalRUpdateResponse = SignalRResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -815,7 +815,7 @@ export type SignalRBeginRegenerateKeyResponse = SignalRKeys & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -835,7 +835,7 @@ export type SignalRBeginCreateOrUpdateResponse = SignalRResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -855,7 +855,7 @@ export type SignalRBeginUpdateResponse = SignalRResource & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -875,7 +875,7 @@ export type SignalRListBySubscriptionNextResponse = SignalRResourceList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -895,7 +895,7 @@ export type SignalRListByResourceGroupNextResponse = SignalRResourceList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -915,7 +915,7 @@ export type UsagesListResponse = SignalRUsageList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -935,7 +935,7 @@ export type UsagesListNextResponse = SignalRUsageList & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
