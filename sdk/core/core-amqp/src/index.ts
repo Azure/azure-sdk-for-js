@@ -15,7 +15,6 @@ export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/co
 export { EventHubConnectionConfig } from "./connectionConfig/eventhubConnectionConfig";
 export { IotHubConnectionConfig } from "./connectionConfig/iothubConnectionConfig";
 
-export { cancellableDelay } from "./util/cancellableDelay";
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };
