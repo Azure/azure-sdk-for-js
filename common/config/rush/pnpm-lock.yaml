@@ -171,7 +171,7 @@ dependencies:
   tough-cookie: 3.0.1
   ts-loader: 6.0.4_typescript@3.5.3
   ts-mocha: 6.0.0_mocha@5.2.0
-  ts-node: 7.0.1
+  ts-node: 8.3.0_typescript@3.5.3
   tslib: 1.10.0
   tunnel: 0.0.6
   typescript: 3.5.3
@@ -1209,6 +1209,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
+  /arg/4.1.1:
+    dev: false
+    resolution:
+      integrity: sha512-SlmP3fEA88MBv0PypnXZ8ZfJhwmDeIE3SP71j37AiXQBXYosPV0x6uISAaHYSlSVhmHOVkomen0tbGk6Anlebw==
   /argparse/1.0.10:
     dependencies:
       sprintf-js: 1.0.3
@@ -3155,6 +3159,12 @@ packages:
       node: '>=0.3.1'
     resolution:
       integrity: sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
+  /diff/4.0.1:
+    dev: false
+    engines:
+      node: '>=0.3.1'
+    resolution:
+      integrity: sha512-s2+XdvhPCOF01LRQBC8hf4vhbVmI2CGS5aZnxLJlT5FtdhPCDFq80q++zK2KlrVorVDdL5BOGZ/VfLrVtYNF+Q==
   /diffie-hellman/5.0.3:
     dependencies:
       bn.js: 4.11.8
@@ -8912,6 +8922,22 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-BVwVbPJRspzNh2yfslyT1PSbl5uIk03EZlb493RKHN4qej/D06n1cEhjlOJG69oFsE7OT8XjpTUcYf6pKTLMhw==
+  /ts-node/8.3.0_typescript@3.5.3:
+    dependencies:
+      arg: 4.1.1
+      diff: 4.0.1
+      make-error: 1.3.5
+      source-map-support: 0.5.13
+      typescript: 3.5.3
+      yn: 3.1.1
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.0'
+    resolution:
+      integrity: sha512-dyNS/RqyVTDcmNM4NIBAeDMpsAdaQ+ojdf0GOLqE6nwJOgzEkdRNzJywhDfwnuvB10oa6NLVG1rUJQCpRN7qoQ==
   /tsconfig-paths/3.8.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -9638,6 +9664,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-5a2ryKz0CPY4X8dklWhMiOavaJo=
+  /yn/3.1.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
   /z-schema/3.18.4:
     dependencies:
       lodash.get: 4.4.2
@@ -9689,12 +9721,13 @@ packages:
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-2+IDAPkc8w6F7v+Qtv+0QlKup7BbSj9/FJRqus2Fv6lv4Qwfhhl1dII2Ttv0Y3D1jF0IlqOecuzEef9zxLc/jA==
+      integrity: sha512-wuRBs43JZ+D6MGIBrPcfFzZ060NNKsJIx1JOeCPzsWct2TKFUG3usx1K+B+/CMIxpu9EWI8OZlbSRjNT27k3IA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -9756,7 +9789,7 @@ packages:
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       sinon: 7.3.2
       stream-browserify: 2.0.2
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       url: 0.11.0
@@ -9765,7 +9798,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-5ARKdRpu7sUJLZquQZ7Dw9pBq+yA8U/S32ECIsKXgHb7bbRcJIBanfbiF0YqSVt9uIX8xHeyPA3SUFJdm6PtUg==
+      integrity: sha512-Ce9vRlzHo2g4Ua9NkeJGLnPNg7BrY3C14XhGW7YdKWRQ9ztHXL9o1LCsfs3Syo+uPRLs1t67ZxpQiIGBwOA/fw==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9793,7 +9826,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       shx: 0.3.2
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       uglify-js: 3.6.0
@@ -9801,7 +9834,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-h+mpJ/FL0Zt3ea/pGEwnk+ZaqwoeXh9W2tWOPMnjCSzrH7GSHnbaLl/dU+svMeag5MdoeBmiUppFdBWPtuu9eQ==
+      integrity: sha512-DxPkCs1exvhv8SRAI7jx9CVtepRR3Qj9++ynwASgqjPh85+9Wo3xSl+mohWi+c/nmON9kdHlzp4qvq7psKkk9A==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -9927,7 +9960,7 @@ packages:
       sinon: 7.3.2
       tough-cookie: 3.0.1
       ts-loader: 6.0.4_typescript@3.5.3
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       tunnel: 0.0.6
       typescript: 3.5.3
@@ -9942,7 +9975,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-N/NX4ok47ug/na0c62L9AVo+0MdHr7R9q16LPYHcxCo63EcciMnGi8GUfFIFWK5fTtECdB+ZSISisOZMhEg6dA==
+      integrity: sha512-GJthq9VM0tV+jzbTEMUIcwv6M3iRkdabTXuc7HHweYR5+fTwDkqDuqROU4QshOidG4hvKjuyz5MZ+lxLprPh0w==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -9995,7 +10028,7 @@ packages:
       semaphore: 1.0.5
       sinon: 7.3.2
       stream-http: 2.8.3
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       tunnel: 0.0.6
       typescript: 3.5.3
@@ -10004,7 +10037,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-RgTQjcsHb4jzSrt1mYXxJpL8JPGHMExoXAJSGtLIPN4Vj+S9vxuqdgf/vPBqr+vNl2otvdEMasEX0/F5hhY/GA==
+      integrity: sha512-C/dkPEdiFfMi1Qz6BaTMvSF218Ht9TIHjxBcYIC2H20Kfb0/fVR1ThW1H1uFPidEPtct/Qz8wlJWBVUfiumPNQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10072,7 +10105,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       ts-mocha: 6.0.0_mocha@5.2.0
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
@@ -10080,7 +10113,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-YI3xKLnd3MkrHU3jKg0o9hwRWqxr7Rrie5irJpZIc/WbTOZxugllxYKOo44LmCkLgaw1/dUHm4k5kr8fgXPq8A==
+      integrity: sha512-PSQlcpN5daT+CP8GhNdSVLHqYTyirWtaSGoj0Wt6U/qc5IBKY11sbFQC27yuTebSo3wmj1RnnnlzvHk8UicaGw==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10130,7 +10163,7 @@ packages:
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-uglify: 6.0.2_rollup@1.17.0
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
@@ -10138,7 +10171,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-pCHa7gfFwSGhUdYTEOTi29ju3u19hchXhPvyKVCuY5PXrYUEd2U6XikvFs5QCdcDNT4417vO3P7fBQdNnppbpw==
+      integrity: sha512-8hJE2VpoJpenKjzTXTKZnpWJianXLxiKUtXJExYIhysC7LaRFLaNXqv0kATHnfh9ACNd47oSfSO8csydQV/x5Q==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10428,14 +10461,14 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.17.0
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       ws: 6.2.1
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-tUY+4clZnQdMrD7mpzAxW/GBUiNStACPr/wk/ToXS08V/yRAXMHi7ljcNdMuZbkyBn3/nifiOlhjgsLnoQ7omQ==
+      integrity: sha512-d1tm8lIuXTzNZiqm+v28bwt42HNi0HqSPyqcp9Smqi7XUzutEP5RSrSW3qjLDku0pH8C+do+ncbwHkbhk93Mtw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10499,14 +10532,14 @@ packages:
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       source-map-support: 0.5.13
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-HjEUL9dhBjgba7hXKV9x6Tb4h1Qp1bZTJ31OIEzlnqgc2pHpQuv8kbh3ZAPSA6DbH8YNc+2Am7Z7rFYWOvJtHQ==
+      integrity: sha512-LzB+XEB85G1rPiErDKA4pJb8Ew/qV0WDlW1Y/3bzd9EpmtTRXOiUp3lg6cAT+bN5Ds2CDIUw+S5d2KnTN4rDwA==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -10570,14 +10603,14 @@ packages:
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       source-map-support: 0.5.13
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-bRyE0Ed4FzqGxUHMrEUI/lygBbbjOC1jxfnbRtYODlCcCzgCmVtgwLObbo+FcuT6GxG9ZcCESjID6h/EuorllQ==
+      integrity: sha512-M074f1NJdTnUO9/JDpd0jfYVZTgOEu8kExe1vMyHBocQOc6OhOfQuHl+et6DW5BHX13ccmkeZ4m1Mj5uhU8Itw==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10640,14 +10673,14 @@ packages:
       rollup-plugin-terser: 5.1.1_rollup@1.17.0
       rollup-plugin-visualizer: 2.5.4_rollup@1.17.0
       source-map-support: 0.5.13
-      ts-node: 7.0.1
+      ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
       util: 0.12.1
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-9xaNXDS3q2AZRVJJsskWabT27QuDc4V3F7bJ97i2fUpBHEM1gzSI2p+LTHSvuw2P2AcT4Q9VSiJS2t1BFWncUg==
+      integrity: sha512-xFt+E10/FioLhb9FPvQw0wzAGpWg8xxFE9XMALH1Ipcj1dP8GcNYWxqq2yqyAijGQ0LPfQcPGlDODfeAJPJL2w==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10900,7 +10933,7 @@ specifiers:
   tough-cookie: ^3.0.1
   ts-loader: ^6.0.4
   ts-mocha: ^6.0.0
-  ts-node: ^7.0.1
+  ts-node: ^8.3.0
   tslib: ^1.9.3
   tunnel: ^0.0.6
   typescript: ^3.2.2
