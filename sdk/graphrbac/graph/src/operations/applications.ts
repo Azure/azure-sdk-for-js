@@ -383,6 +383,34 @@ export class Applications {
   }
 
   /**
+   * Gets an object id for a given application id from the current tenant.
+   * @param applicationID The application ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>
+   */
+  getServicePrincipalsIdByAppId(applicationID: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
+  /**
+   * @param applicationID The application ID.
+   * @param callback The callback
+   */
+  getServicePrincipalsIdByAppId(applicationID: string, callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): void;
+  /**
+   * @param applicationID The application ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getServicePrincipalsIdByAppId(applicationID: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): void;
+  getServicePrincipalsIdByAppId(applicationID: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipalObjectResult>, callback?: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse> {
+    return this.client.sendOperationRequest(
+      {
+        applicationID,
+        options
+      },
+      getServicePrincipalsIdByAppIdOperationSpec,
+      callback) as Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
+  }
+
+  /**
    * Gets a list of applications from the current tenant.
    * @param nextLink Next link for the list operation.
    * @param [options] The optional parameters
@@ -750,6 +778,30 @@ const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     204: {},
+    default: {
+      bodyMapper: Mappers.GraphError
+    }
+  },
+  serializer
+};
+
+const getServicePrincipalsIdByAppIdOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{tenantID}/servicePrincipalsByAppId/{applicationID}/objectId",
+  urlParameters: [
+    Parameters.tenantID,
+    Parameters.applicationID
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServicePrincipalObjectResult
+    },
     default: {
       bodyMapper: Mappers.GraphError
     }

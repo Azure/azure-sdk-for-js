@@ -10,7 +10,7 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 
     In the Azure portal, go to your Service Bus resource and click on the Access control (IAM) tab.
-    Here, assign "owner" role to your account.
+    Here, assign "Azure Service Bus Data Owner (Preview)" role to your account.
 */
 
 const { ServiceBusClient } = require("@azure/service-bus");

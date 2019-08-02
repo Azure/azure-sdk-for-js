@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
@@ -11,7 +11,8 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -73,7 +74,7 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">>;
+  private _retryOptions: RetryOptions;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -112,7 +113,7 @@ export class EventHubConsumer {
    * @readonly
    */
   get ownerLevel(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.ownerLevel;
+    return this._receiverOptions.ownerLevel;
   }
 
   /**
@@ -139,7 +140,7 @@ export class EventHubConsumer {
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
-    this._retryOptions = this._initRetryOptions(this._receiverOptions.retryOptions);
+    this._retryOptions = this._receiverOptions.retryOptions || {};
     this._baseConsumer = new EventHubReceiver(
       context,
       consumerGroup,
@@ -234,7 +235,7 @@ export class EventHubConsumer {
     options: EventIteratorOptions = {}
   ): AsyncIterableIterator<ReceivedEventData> {
     const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
 
     while (true) {
       const currentBatch = await this.receiveBatch(
@@ -370,7 +371,7 @@ export class EventHubConsumer {
         );
 
         const addTimeout = (): void => {
-          let msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
           log.batching(
             msg,
             this._context.connectionId,
@@ -404,10 +405,10 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInSeconds: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries: retryOptions.maxRetries
+      abortSignal: abortSignal,
+      retryOptions: retryOptions
     };
     return retry<ReceivedEventData[]>(config);
   }
@@ -434,24 +435,6 @@ export class EventHubConsumer {
     } finally {
       this._isClosed = true;
     }
-  }
-
-  private _initRetryOptions(
-    retryOptions: RetryOptions = {}
-  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> {
-    const maxRetries =
-      typeof retryOptions.maxRetries === "number"
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
-    const retryInterval =
-      typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
-        ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
-    return {
-      maxRetries,
-      retryInterval
-    };
   }
 
   private _throwIfAlreadyReceiving(): void {

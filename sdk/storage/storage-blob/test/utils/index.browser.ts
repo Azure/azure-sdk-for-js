@@ -1,3 +1,4 @@
+import { TokenCredential } from "../../src";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { ServiceURL } from "../../src/ServiceURL";
 import { StorageURL } from "../../src/StorageURL";
@@ -29,6 +30,29 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
+  return new ServiceURL(blobPrimaryURL, pipeline);
+}
+
+export function getTokenBSU(): ServiceURL {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+
+  let accountName: string | undefined;
+  let accountToken: string | undefined;
+
+  accountName = process.env[accountNameEnvVar];
+  accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountName || !accountToken || accountName === "" || accountToken === "") {
+    throw new Error(`${accountNameEnvVar} and/or ${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  const credentials = new TokenCredential(accountToken);
+  const pipeline = StorageURL.newPipeline(credentials, {
+    // Enable logger when debugging
+    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  });
+  const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
   return new ServiceURL(blobPrimaryURL, pipeline);
 }
 

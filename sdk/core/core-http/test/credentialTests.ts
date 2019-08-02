@@ -4,59 +4,11 @@
 import "chai/register-should";
 import * as msRest from "../lib/coreHttp";
 import * as base64 from "../lib/util/base64";
-const TokenCredentials = msRest.TokenCredentials;
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
 const ApiKeyCredentials = msRest.ApiKeyCredentials;
-const dummyToken = "A-dummy-access-token";
 const fakeScheme = "fake-auth-scheme";
 const dummyUsername = "dummy@mummy.com";
 const dummyPassword = "IL0veDummies";
-
-describe("Token credentials", () => {
-  describe("usage", () => {
-    it("should set auth header with bearer scheme in request", (done) => {
-      const creds = new TokenCredentials(dummyToken);
-      const request = new msRest.WebResource();
-
-      creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.get("authorization")!.should.exist;
-        signedRequest.headers.get("authorization")!.should.match(new RegExp("^Bearer\\s+" + dummyToken + "$"));
-        done();
-      });
-    });
-
-    it("should set auth header with custom scheme in request", (done) => {
-      const creds = new TokenCredentials(dummyToken, fakeScheme);
-      const request = new msRest.WebResource();
-      creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.get("authorization")!.should.exist;
-        signedRequest.headers.get("authorization")!.should.match(new RegExp("^" + fakeScheme + "\\s+" + dummyToken + "$"));
-        done();
-      });
-    });
-  });
-
-  describe("construction", () => {
-
-    it("should succeed with token", () => {
-      (() => {
-        new TokenCredentials(dummyToken);
-      }).should.not.throw();
-    });
-
-    // it("should fail without credentials", () => {
-    //   (() => {
-    //     new TokenCredentials();
-    //   }).should.throw();
-    // });
-
-    // it("should fail without token", () => {
-    //   (() => {
-    //     new TokenCredentials(null, fakeScheme);
-    //   }).should.throw();
-    // });
-  });
-});
 
 describe("Basic Authentication credentials", () => {
   const encodedCredentials = base64.encodeString(dummyUsername + ":" + dummyPassword);

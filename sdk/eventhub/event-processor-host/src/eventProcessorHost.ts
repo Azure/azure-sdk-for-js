@@ -84,7 +84,9 @@ export class EventProcessorHost {
    *
    * @returns {EventHubPartitionRuntimeInformation} EventHubPartitionRuntimeInformation
    */
-  getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
+  getPartitionInformation(
+    partitionId: string | number
+  ): Promise<EventHubPartitionRuntimeInformation> {
     return this._context.getPartitionInformation(partitionId);
   }
 
@@ -372,7 +374,11 @@ export class EventProcessorHost {
     storageContainerName: string,
     namespace: string,
     eventHubPath: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
+    credentials:
+      | ApplicationTokenCredentials
+      | UserTokenCredentials
+      | DeviceTokenCredentials
+      | MSITokenCredentials,
     options?: FromTokenProviderOptions
   ): EventProcessorHost {
     if (!options) options = {};
@@ -425,7 +431,11 @@ export class EventProcessorHost {
     hostName: string,
     namespace: string,
     eventHubPath: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
+    credentials:
+      | ApplicationTokenCredentials
+      | UserTokenCredentials
+      | DeviceTokenCredentials
+      | MSITokenCredentials,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
     options?: FromTokenProviderOptions

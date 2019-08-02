@@ -58,4 +58,3 @@ jobs:
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        ENDPOINT: $(js-event-hubs-test-endpoint)

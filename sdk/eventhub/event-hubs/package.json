@@ -69,7 +69,7 @@
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
     "jssha": "^2.3.1",
-    "rhea-promise": "^0.1.15",
+    "rhea-promise": "^1.0.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
   },
@@ -94,7 +94,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-string": "^1.5.0",
     "cross-env": "^5.2.0",
-    "dotenv": "^7.0.0",
+    "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-detailed-reporter": "^0.8.0",
@@ -103,7 +103,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
@@ -131,7 +131,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "ts-mocha": "^6.0.0",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.3.0",
     "typescript": "^3.2.2",
     "ws": "^6.2.1"
   }
