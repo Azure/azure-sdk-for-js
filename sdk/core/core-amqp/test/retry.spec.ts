@@ -203,6 +203,34 @@ dotenv.config();
           }
         });
 
+        it("should stop retries when aborted", async function() {
+          let counter = 0;
+          const controller = new AbortController();
+          const abortSignal = controller.signal;
+          setTimeout(controller.abort.bind(controller), 300);
+          try {
+            const config: RetryConfig<any> = {
+              operation: async () => {
+                debug("counter: %d", ++counter);
+                await delay(200);
+                const e = new MessagingError("I would always like to fail, keep retrying.");
+                e.retryable = true;
+                throw e;
+              },
+              connectionId: "connection-1",
+              operationType: RetryOperationType.session,
+              abortSignal: abortSignal,
+              retryOptions: { maxRetries: 4, retryDelayInMs: 500, mode: mode }
+            };
+            await retry(config);
+          } catch (err) {
+            should.exist(err);
+            should.equal(true, err instanceof MessagingError);
+            err.message.should.equal("I would always like to fail, keep retrying.");
+            counter.should.equal(2, "It should retry only twice");
+          }
+        });
+
         describe("with config.maxRetries set to Infinity", function() {
           it("should succeed if the operation succeeds.", async function() {
             let counter = 0;
