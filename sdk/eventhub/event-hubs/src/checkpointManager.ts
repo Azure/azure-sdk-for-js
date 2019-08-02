@@ -55,11 +55,11 @@ export class CheckpointManager {
   constructor(
     partitionContext: PartitionContext,
     partitionManager: PartitionManager,
-    _eventProcessorId: string
+    eventProcessorId: string
   ) {
     this._partitionContext = partitionContext;
     this._partitionManager = partitionManager;
-    this._eventProcessorId = _eventProcessorId;
+    this._eventProcessorId = eventProcessorId;
     this._eTag = "";
   }
   /**
