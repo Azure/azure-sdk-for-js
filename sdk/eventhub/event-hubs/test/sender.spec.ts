@@ -356,22 +356,16 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await Promise.all(promises);
     });
 
-    it("should be sent successfully in parallel, even when exceeding event listener count of 1000", async function(): Promise<
+    it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function(): Promise<
       void
     > {
       const senderCount = 1200;
-      try {
-        const producer = client.createProducer();
-        const promises = [];
-        for (let i = 0; i < senderCount; i++) {
-          debug(">>>>> Sending a message to the hub when i == %d", i);
-          promises.push(producer.send([{ body: `Hello World ${i}` }]));
-        }
-        await Promise.all(promises);
-      } catch (err) {
-        debug("An error occurred while running the test: ", err);
-        throw err;
+      const producer = client.createProducer();
+      const promises = [];
+      for (let i = 0; i < senderCount; i++) {
+        promises.push(producer.send([{ body: `Hello World ${i}` }]));
       }
+      await Promise.all(promises);
     });
 
     it("should be sent successfully in parallel by multiple senders", async function(): Promise<
