@@ -155,7 +155,8 @@ const skip = [
   // Size (263MB), Tempfile
   "node/highlevel/recording_downloadtofile_should_success.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/blobclient/recording_startcopyfromclient.json"
+  "browsers/blobclient/recording_startcopyfromclient.json",
+  "node/blockblobclient/recording_can_be_created_with_a_sas_connection_string.js"
 ];
 
 abstract class Recorder {
