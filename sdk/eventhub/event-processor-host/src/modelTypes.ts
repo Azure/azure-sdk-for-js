@@ -117,7 +117,7 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
    * ceases operating, we recommend a relatively short interval, such as ten seconds. Obviously it
    * should be less than half of the lease length, to prevent accidental expiration.
    *
-   * If `Leasemanager` is provided then this value will be ignored.
+   * If `Leasemanager` is provided when creating the EventProcessorHost then this value will be ignored.
    */
   leaseRenewInterval?: number;
   /**
