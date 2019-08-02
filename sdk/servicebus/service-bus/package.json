@@ -90,7 +90,7 @@
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
-    "assert": "^1.4.1",
+    "assert": "^2.0.0",
     "buffer": "^5.2.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
