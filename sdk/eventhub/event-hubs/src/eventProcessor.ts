@@ -242,8 +242,19 @@ export class EventProcessor {
           );
 
           // eventually this will 1st check if the existing PartitionOwnership has a position
-          const eventPosition =
+          let eventPosition =
             this._processorOptions.initialEventPosition || EventPosition.earliest();
+
+          const partitionOwnerships = await this._partitionManager.listOwnership(
+            this._eventHubClient.eventHubName,
+            this._consumerGroupName
+          );
+          for (const ownership of partitionOwnerships) {
+            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
+              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
+              break;
+            }
+          }
 
           tasks.push(
             this._pumpManager.createPump(

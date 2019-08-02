@@ -2,6 +2,8 @@ jobs:
   - job: "Build"
     variables:
       - template: ../variables/globals.yml
+      - name: packageGlobFilter
+        value: "**"
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -23,17 +25,18 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Build libraries"
+
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Pack libraries"
 
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/**/*.tgz
-            sdk/**/**/browser/*.zip
+            sdk/**/$(packageGlobFilter)/*.tgz
+            sdk/**/$(packageGlobFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
@@ -71,7 +74,7 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsFrom)
         displayName: "Lint libraries"
 
       - task: CopyFiles@2
@@ -89,7 +92,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
-          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit libraries"
 
@@ -149,13 +152,13 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Build test assets"
       - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Test libraries"
 
       - task: PublishTestResults@2
