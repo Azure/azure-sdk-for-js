@@ -278,7 +278,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const spanOptions = this.getSpanOptions(options);
+      const spanOptions = this.getSpanOptions(unflattenedOptions);
       const span: Span = TracerProxy.getTracer().startSpan("createKeyMethod", spanOptions);
       if (spanOptions) {
         spanOptions.parent = span;
@@ -334,7 +334,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const spanOptions = this.getSpanOptions(options);
+      const spanOptions = this.getSpanOptions(unflattenedOptions);
       const span: Span = TracerProxy.getTracer().startSpan("createEcKeyMethod", spanOptions);
       if (spanOptions) {
         spanOptions.parent = span;
@@ -390,7 +390,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const spanOptions = this.getSpanOptions(options);
+      const spanOptions = this.getSpanOptions(unflattenedOptions);
       const span: Span = TracerProxy.getTracer().startSpan("createRsaKeyMethod", spanOptions);
       if (spanOptions) {
         spanOptions.parent = span;
@@ -446,7 +446,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const spanOptions = this.getSpanOptions(options);
+      const spanOptions = this.getSpanOptions(unflattenedOptions);
       const span: Span = TracerProxy.getTracer().startSpan("importKeyMethod", spanOptions);
       if (spanOptions) {
         spanOptions.parent = span;
@@ -541,7 +541,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const spanOptions = this.getSpanOptions(options);
+      const spanOptions = this.getSpanOptions(unflattenedOptions);
       const span: Span = TracerProxy.getTracer().startSpan("updateKeyMethod", spanOptions);
       if (spanOptions) {
         spanOptions.parent = span;
@@ -1059,12 +1059,12 @@ export class KeysClient {
     return { ...options };
   }
 
-  private getSpanOptions(
-    options?: ListKeysOptions | RequestOptions | GetKeyOptions | UpdateKeyOptions
-  ): any {
+  private getSpanOptions(options?: any): any {
     return options
       ? options.requestOptions
         ? options.requestOptions.spanOptions
+        : options.spanOptions
+        ? options.spanOptions
         : undefined
       : undefined;
   }
