@@ -69,7 +69,7 @@ import {
   KeyWrapAlgorithm,
   EncryptResult,
   DecryptResult,
-  SignResult, 
+  SignResult,
   VerifyResult,
   WrapResult,
   UnwrapResult
@@ -106,7 +106,7 @@ export {
   UnwrapResult,
   UpdateKeyOptions,
   VerifyResult,
-  WrapResult,
+  WrapResult
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -484,6 +484,7 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("deleteKeyMethod", spanOptions);
     if (spanOptions) {
@@ -577,6 +578,7 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("getKeyMethod", spanOptions);
     if (spanOptions) {
@@ -611,6 +613,7 @@ export class KeysClient {
    * @returns Promise<DeletedKey>
    */
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("getDeletedKeyMethod", spanOptions);
     if (spanOptions) {
@@ -646,6 +649,7 @@ export class KeysClient {
    * @returns Promise<void>
    */
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("purgeDeletedKeyMethod", spanOptions);
     if (spanOptions) {
@@ -679,6 +683,7 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("recoverDeletedKeyMethod", spanOptions);
     if (spanOptions) {
@@ -711,6 +716,7 @@ export class KeysClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("backupKeyMethod", spanOptions);
     if (spanOptions) {
@@ -745,6 +751,7 @@ export class KeysClient {
    * @returns Promise<Key>
    */
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("restoreKeyMethod", spanOptions);
     if (spanOptions) {
@@ -821,6 +828,7 @@ export class KeysClient {
     name: string,
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("listKeyVersionsMethod", spanOptions);
     if (spanOptions) {
@@ -894,6 +902,7 @@ export class KeysClient {
   public listKeys(
     options?: ListKeysOptions
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+    options = this.getClonedOptions(options);
     const spanOptions = this.getSpanOptions(options);
     const span: Span = TracerProxy.getTracer().startSpan("listKeysMethod", spanOptions);
     if (spanOptions) {
@@ -1038,6 +1047,16 @@ export class KeysClient {
     }
 
     return resultObject;
+  }
+
+  private getClonedOptions(
+    options?: ListKeysOptions | RequestOptions | GetKeyOptions | UpdateKeyOptions
+  ): any {
+    if (!options) {
+      return options;
+    }
+
+    return { ...options };
   }
 
   private getSpanOptions(
