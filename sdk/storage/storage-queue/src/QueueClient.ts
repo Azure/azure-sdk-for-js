@@ -161,24 +161,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -280,7 +280,7 @@ export class QueueClient extends StorageClient {
           urlOrConnectionString = extractedCreds.url + "/" + queueName;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
-          throw new Error("Account connection is only supported in Node.js environment");
+          throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;

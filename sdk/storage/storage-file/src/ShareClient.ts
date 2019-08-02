@@ -343,7 +343,7 @@ export class ShareClient extends StorageClient {
           urlOrConnectionString = extractedCreds.url + "/" + shareName;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
-          throw new Error("Account connection is only supported in Node.js environment");
+          throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         urlOrConnectionString =

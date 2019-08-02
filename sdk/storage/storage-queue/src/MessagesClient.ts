@@ -36,7 +36,7 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams { }
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -45,7 +45,7 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams { }
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
 
 /**
  * Options to configure Messages - Peek operation
@@ -54,7 +54,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams { }
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -83,68 +83,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesEnqueueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.EnqueuedMessage[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesEnqueueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.EnqueuedMessage[];
+    };
   };
-};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesDequeueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.DequeuedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesDequeueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.DequeuedMessageItem[];
+    };
   };
-};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesPeekHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.PeekedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesPeekHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.PeekedMessageItem[];
+    };
   };
-};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
@@ -246,7 +246,7 @@ export class MessagesClient extends StorageClient {
           urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
-          throw new Error("Account connection is only supported in Node.js environment");
+          throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
