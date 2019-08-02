@@ -23,12 +23,16 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
+          echo {{coalesce($(packageGlobFilter),"**")}}
+
+      - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Build libraries"
 
       - script: |
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Pack libraries"
+
 
       - task: CopyFiles@2
         inputs:
