@@ -360,12 +360,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       void
     > {
       const senderCount = 1200;
-      const producer = client.createProducer();
-      const promises = [];
-      for (let i = 0; i < senderCount; i++) {
-        promises.push(producer.send([{ body: `Hello World ${i}` }]));
+      try {
+        const producer = client.createProducer();
+        const promises = [];
+        for (let i = 0; i < senderCount; i++) {
+          promises.push(producer.send([{ body: `Hello World ${i}` }]));
+        }
+        await Promise.all(promises);
+      } catch (err) {
+        debug("An error occurred while running the test: ", err);
+        throw err;
       }
-      await Promise.all(promises);
     });
 
     it("should be sent successfully in parallel by multiple senders", async function(): Promise<
@@ -397,7 +402,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
+    it.skip("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
       void
     > {
       const data: EventData = {
@@ -421,7 +426,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Negative scenarios", function(): void {
-    it("a message greater than 1 MB should fail.", async function(): Promise<void> {
+    it.skip("a message greater than 1 MB should fail.", async function(): Promise<void> {
       const data: EventData = {
         body: Buffer.from("Z".repeat(1300000))
       };
