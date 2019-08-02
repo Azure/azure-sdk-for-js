@@ -402,7 +402,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
     });
 
-    it.skip("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
+    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
       void
     > {
       const data: EventData = {
@@ -426,7 +426,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   });
 
   describe("Negative scenarios", function(): void {
-    it.skip("a message greater than 1 MB should fail.", async function(): Promise<void> {
+    it("a message greater than 1 MB should fail.", async function(): Promise<void> {
       const data: EventData = {
         body: Buffer.from("Z".repeat(1300000))
       };

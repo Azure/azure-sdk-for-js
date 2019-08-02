@@ -644,7 +644,7 @@ export class EventHubSender extends LinkEntity {
             );
             return resolve();
           } catch (err) {
-            err = translate(err);
+            err = translate(err.innerError || err);
             log.error(
               "[%s] An error occurred while sending the message",
               this._context.connectionId,
