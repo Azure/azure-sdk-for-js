@@ -34,15 +34,15 @@ export interface Checkpoint {
     consumerGroupName: string;
     eTag: string;
     eventHubName: string;
-    instanceId: string;
     offset: number;
+    ownerId: string;
     partitionId: string;
     sequenceNumber: number;
 }
 
 // @public
 export class CheckpointManager {
-    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, instanceId: string);
+    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, _eventProcessorId: string);
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
@@ -175,6 +175,7 @@ export class EventPosition {
 // @public
 export class EventProcessor {
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    readonly id: string;
     start(): void;
     stop(): Promise<void>;
 }
@@ -223,9 +224,9 @@ export interface PartitionOwnership {
     consumerGroupName: string;
     eTag?: string;
     eventHubName: string;
-    instanceId: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
+    ownerId: string;
     ownerLevel: number;
     partitionId: string;
     sequenceNumber?: number;
