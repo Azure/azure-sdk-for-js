@@ -17,6 +17,9 @@ class SimplePartitionProcessor {
     this._checkpointManager = checkpointManager;
   }
   async processEvents(events: ReceivedEventData[]) {
+    if(events.length === 0){
+      return;
+    }
     for (const event of events) {
       console.log(
         "Received event: '%s' from partition: '%s' and consumer group: '%s'",

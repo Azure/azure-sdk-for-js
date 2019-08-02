@@ -252,6 +252,7 @@ export class EventProcessor {
           for (const ownership of partitionOwnerships) {
             if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
               eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
+              break;
             }
           }
 

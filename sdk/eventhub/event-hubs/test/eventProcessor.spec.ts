@@ -491,24 +491,25 @@ describe("Event Processor", function(): void {
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
 
-      let partitionResultsMap = new Map<string, ReceivedEventData[]>();
-      partitionIds.forEach((id) => partitionResultsMap.set(id, []));
+      let checkpointMap = new Map<string, ReceivedEventData[]>();
+      partitionIds.forEach((id) => checkpointMap.set(id, []));
       let didError = false;
 
-      // The partitionProcess will need to add events to the partitionResultsMap as they are received
+      let partionCount: { [x: string]: number } = {};
       const factory: PartitionProcessorFactory = (context, checkpointManager) => {
         return {
           async processEvents(events: ReceivedEventData[]) {
-            const existingEvents = partitionResultsMap.get(context.partitionId)!;
-            events.forEach((event: ReceivedEventData) => {
-              existingEvents.push(event);
-              debug(
-                "Received event: '%s' from partition: '%s' and consumer group: '%s'",
-                event.body,
-                context.partitionId
-              );
-              checkpointManager.updateCheckpoint(event);
-            });
+            !partionCount[context.partitionId]
+              ? (partionCount[context.partitionId] = 1)
+              : partionCount[context.partitionId]++;
+            const existingEvents = checkpointMap.get(context.partitionId)!;
+            for (const event of events) {
+              debug("Received event: '%s' from partition: '%s'", event.body, context.partitionId);
+              if (partionCount[context.partitionId] <= 50) {
+                await checkpointManager.updateCheckpoint(event);
+                existingEvents.push(event);
+              }
+            }
           },
           async processError() {
             didError = true;
@@ -544,21 +545,22 @@ describe("Event Processor", function(): void {
       }
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(500);
+      await delay(5000);
 
       // shutdown the first processor
       await processor1.stop();
 
-      let lastEventsReceivedFromProcessor1: ReceivedEventData[] = [];
+      const lastEventsReceivedFromProcessor1: ReceivedEventData[] = [];
       let index = 0;
 
       for (const partitionId of partitionIds) {
-        const receivedEvents = partitionResultsMap.get(partitionId)!;
+        const receivedEvents = checkpointMap.get(partitionId)!;
         lastEventsReceivedFromProcessor1[index++] = receivedEvents[receivedEvents.length - 1];
       }
 
-      partitionResultsMap = new Map<string, ReceivedEventData[]>();
-      partitionIds.forEach((id) => partitionResultsMap.set(id, []));
+      checkpointMap = new Map<string, ReceivedEventData[]>();
+      partitionIds.forEach((id) => checkpointMap.set(id, []));
+      partionCount = {};
 
       const processor2 = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
@@ -570,15 +572,15 @@ describe("Event Processor", function(): void {
       processor2.start();
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(2000);
+      await delay(5000);
 
       // shutdown the second processor
       await processor2.stop();
 
       index = 0;
-      let firstEventsReceivedFromProcessor2: ReceivedEventData[] = [];
+      const firstEventsReceivedFromProcessor2: ReceivedEventData[] = [];
       for (const partitionId of partitionIds) {
-        const receivedEvents = partitionResultsMap.get(partitionId)!;
+        const receivedEvents = checkpointMap.get(partitionId)!;
         firstEventsReceivedFromProcessor2[index++] = receivedEvents[0];
       }
 
