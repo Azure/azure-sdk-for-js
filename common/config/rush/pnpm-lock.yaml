@@ -124,13 +124,11 @@ dependencies:
   karma-webpack: 4.0.2_webpack@4.39.0
   long: 4.0.0
   mocha: 5.2.0
-  mocha-chrome: 1.1.0
+  mocha-chrome: 2.0.0
   mocha-junit-reporter: 1.23.1_mocha@5.2.0
   mocha-multi: 1.1.0_mocha@5.2.0
   mocha-multi-reporters: 1.1.7
   moment: 2.24.0
-  ms-rest: 2.5.3
-  ms-rest-azure: 2.6.0
   nise: 1.5.0
   nock: 10.0.6
   npm-run-all: 4.1.5
@@ -184,7 +182,7 @@ dependencies:
   webpack: 4.39.0_webpack@4.39.0
   webpack-cli: 3.3.6_webpack@4.39.0
   webpack-dev-middleware: 3.7.0_webpack@4.39.0
-  ws: 6.2.1
+  ws: 7.1.1
   xhr-mock: 2.5.0
   xml2js: 0.4.19
   yargs: 13.3.0
@@ -1437,6 +1435,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jp/uFnooOiO+L211eZOoSyzpOITMXx1rBITauYykG3BRYPu8h0UcxsPNB04RR5vo4Tyz3+ay17tR6JVf9qzYWg==
+  /async-limiter/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
   /async-lock/1.2.2:
     dev: false
     resolution:
@@ -1889,14 +1891,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-1fr3qleKZbvlkc9e2uBKDGcCB1g=
-  /babel-polyfill/6.26.0:
-    dependencies:
-      babel-runtime: 6.26.0
-      core-js: 2.6.9
-      regenerator-runtime: 0.10.5
-    dev: false
-    resolution:
-      integrity: sha1-N5k3q8Z9eJWXCtxiHyhM2WbPIVM=
   /babel-preset-env/1.7.0:
     dependencies:
       babel-plugin-check-es2015-constants: 6.22.0
@@ -2507,16 +2501,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-IoQLp64s2n8OQuvKZwt77CscVj3UlV2Dj7yZtd1EBMld9mSdGcsGy9fN5hd/r4vJuWZR09it78n1+A17gB+AIQ==
-  /chrome-remote-interface/0.25.7:
+  /chrome-remote-interface/0.27.2:
     dependencies:
       commander: 2.11.0
-      ws: 3.3.3
+      ws: 6.2.1
     dev: false
-    engines:
-      node: '>=4'
     hasBin: true
     resolution:
-      integrity: sha512-6zI6LbR2IiGmduFZededaerEr9hHXabxT/L+fRrdq65a0CfyLMzpq0BKuZiqN0Upqcacsb6q2POj7fmobwBsEA==
+      integrity: sha512-pVLljQ29SAx8KIv5tSa9sIf8GrEsAZdPJoeWOmY3/nrIzFmE+EryNNHvDkddGod0cmAFTv+GmPG0uvzxi2NWsA==
   /chrome-trace-event/1.0.2:
     dependencies:
       tslib: 1.10.0
@@ -3022,14 +3014,15 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
-  /deep-assign/2.0.0:
+  /deep-assign/3.0.0:
     dependencies:
       is-obj: 1.0.1
+    deprecated: Check out `lodash.merge` or `merge-options` instead.
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha1-6+BrHwfwja5ZdiDj3RYi83GhxXI=
+      integrity: sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==
   /deep-eql/3.0.1:
     dependencies:
       type-detect: 4.0.8
@@ -4673,16 +4666,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-PpuksHKGt8rXfWEr9m9EHIpgyyaltBy8+eF6GJM0QCAxMgxCfucMF3mjecK2QsJr0amJW7gTqh5/wht0z2UhEQ==
-  /import-local/1.0.0:
-    dependencies:
-      pkg-dir: 2.0.0
-      resolve-cwd: 2.0.0
-    dev: false
-    engines:
-      node: '>=4'
-    hasBin: true
-    resolution:
-      integrity: sha512-vAaZHieK9qjGo58agRBg+bhHX3hoTZU/Oa3GESWLz7t1U62fk63aHuDJJEteXoDeTCcPmUT+z38gkHPZkkmpmQ==
   /import-local/2.0.0:
     dependencies:
       pkg-dir: 3.0.0
@@ -5994,22 +5977,22 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-cstmi0JSKCkKu/qFaJJYcwioAfs=
-  /meow/4.0.1:
+  /meow/5.0.0:
     dependencies:
       camelcase-keys: 4.2.0
       decamelize-keys: 1.1.0
       loud-rejection: 1.6.0
-      minimist: 1.2.0
       minimist-options: 3.0.2
       normalize-package-data: 2.5.0
       read-pkg-up: 3.0.0
       redent: 2.0.0
       trim-newlines: 2.0.0
+      yargs-parser: 10.1.0
     dev: false
     engines:
-      node: '>=4'
+      node: '>=6'
     resolution:
-      integrity: sha512-xcSBHD5Z86zaOc+781KrupuHAzeGXSLtiAOmBsiLDiPSaYSB6hdew2ng9EBAnZ62jagG9MHAOdxpDi/lWBFJ/A==
+      integrity: sha512-CbTqYU17ABaLefO8vCU153ZZlprKYWDljcndKKDCFcYQITzWCXZAVk4QMFZPgvzrnUQ3uItnIE/LoUOwrT15Ig==
   /merge-descriptors/1.0.1:
     dev: false
     resolution:
@@ -6183,29 +6166,24 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
-  /mocha-chrome/1.1.0:
+  /mocha-chrome/2.0.0:
     dependencies:
-      babel-plugin-transform-es2015-destructuring: 6.23.0
-      babel-plugin-transform-es2015-parameters: 6.24.1
-      babel-polyfill: 6.26.0
-      babel-preset-env: 1.7.0
-      babel-register: 6.26.0
       chalk: 2.4.2
       chrome-launcher: 0.10.7
-      chrome-remote-interface: 0.25.7
+      chrome-remote-interface: 0.27.2
       chrome-unmirror: 0.1.0
-      debug: 3.2.6
-      deep-assign: 2.0.0
-      import-local: 1.0.0
+      debug: 4.1.1
+      deep-assign: 3.0.0
+      import-local: 2.0.0
       loglevel: 1.6.3
-      meow: 4.0.1
+      meow: 5.0.0
       nanobus: 4.4.0
     dev: false
     engines:
-      node: '>= 7.6.0'
+      node: '>= 8.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-Zk1HvDF13TLOBH2sML+4T1o5Z3nwUYN9ah3gz4TUrnwx7Sdk0N+rq5n+uzw0/3BAQH9aejPCJILWoWi7HW0qyw==
+      integrity: sha512-Kq6W9jdXY3C2PhNHtSrk3GnDuoAKN+DbgJKCLfXtc5cql8oHB8+rUYlq9t1c8in6vQ6/X432E/U8h0pV5QlAug==
   /mocha-junit-reporter/1.23.1_mocha@5.2.0:
     dependencies:
       debug: 2.6.9
@@ -7068,14 +7046,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
-  /pkg-dir/2.0.0:
-    dependencies:
-      find-up: 2.1.0
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha1-9tXREJ4Z1j7fQo4L1X4Sd3YVM0s=
   /pkg-dir/3.0.0:
     dependencies:
       find-up: 3.0.0
@@ -7482,10 +7452,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
-  /regenerator-runtime/0.10.5:
-    dev: false
-    resolution:
-      integrity: sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
   /regenerator-runtime/0.11.1:
     dev: false
     resolution:
@@ -9484,6 +9450,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
+  /ws/7.1.1:
+    dependencies:
+      async-limiter: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-o41D/WmDeca0BqYhsr3nJzQyg9NF5X8l/UdnFNux9cS3lwB+swm8qGWX5rn+aD6xfBU3rGmtHij7g7x6LxFU3A==
   /xhr-mock/2.5.0:
     dependencies:
       global: 4.4.0
@@ -9560,6 +9532,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-S+Zk8DEWE6oKpV+vI3qWkaK+jSbIK86pCwe2IF/xwIpQ8jEuxpw9NyaGjmp9+BoJv5FV2piqCDcoCtStppiq2A==
+  /yargs-parser/10.1.0:
+    dependencies:
+      camelcase: 4.1.0
+    dev: false
+    resolution:
+      integrity: sha512-VCIyR1wJoEBZUqk5PA+oOBF6ypbwh5aNB3I50guxAL/quggdfs4TtNHQrSazFA3fYZ+tEqfs0zIGlv0c/rgjbQ==
   /yargs-parser/13.1.1:
     dependencies:
       camelcase: 5.3.1
@@ -9781,11 +9759,11 @@ packages:
       typescript: 3.5.3
       url: 0.11.0
       util: 0.12.1
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-TO5tSHoJ1Uxi7Um7qtmzxYsEipKbbVF7wsY5faQRM4XvRkcjjL2cKSRrYyHNmSWZSniQ+KFfol5lHo3zOt+gDQ==
+      integrity: sha512-ZyTOcKkPXTGZSy4u5Qlo23m3kxbAhENzHCL1dI9lZawvkcFQ4IXVimLaTbPu0we6Af536q7SqSihDBPU5wy44w==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9925,7 +9903,7 @@ packages:
       karma-typescript-es6-transform: 4.1.1
       karma-webpack: 4.0.2_webpack@4.39.0
       mocha: 5.2.0
-      mocha-chrome: 1.1.0
+      mocha-chrome: 2.0.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
       mocha-multi-reporters: 1.1.7
       npm-run-all: 4.1.5
@@ -9962,7 +9940,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-HBS+FpI24GB29G+6v9HX7hePp1rULVnlcNe0Pw8ueEangIz40aWXh1Y3zPtVz9A6/wz/p2nC7W8k/TNl066cfQ==
+      integrity: sha512-81nCKIpQV87NKB9yhYwvC/lI8SqX3n+XsO/3Dav2v3UtJTHnqrlg4pXBGNgYSesge4Y9KJEHkkve/Yx/jdmlfQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10135,11 +10113,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-senhWyZk3l8A041gtjoRjoLcikYZKIcCZRZjtuMVaVjDc+P9fttnMfAE+Bc7BThmRYYYURn/2WocPAKtKjNLBQ==
+      integrity: sha512-LVH3ua5nCFL+caEgJzom1j4BKBuyGyJ08FQYVwmCR2oe9uVsKgOqHgOrRvuv/6L7V7h6iDNUjQgJsnmfQ/ndLQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10193,15 +10171,16 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-8cK8BQGt608wzcnNTZBssdPfgdyX7xQbvTA8Q8U0Hqe5XKbykhzHpx/Y32+CE6bOW17QDbKmIgxPYywIRRBFag==
+      integrity: sha512-lAC/BYJvdttZfq60Bkqow8NQIAWpYA2ByPGBaue+SS2myGSQTX7LVnS4xwEy+CTtVG76d7oRK+CKbslx/hBMPw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.1
       '@types/jws': 3.2.0
       '@types/mocha': 5.2.7
       '@types/node': 8.10.51
@@ -10248,7 +10227,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-rF7sKJQVnOCy3Tnu/sMdcwk8DAN7IAqJV2fo9wtrtJ2yOqMwqwxeNGYteel2EPnOqH0D6p3qdB1hCuwAsyXF0Q==
+      integrity: sha512-JChnsLgbSP6jz9PepCG2gwy+9hc4TsDItlZa19dV29bgFBPNLJSCeHtvF7S0GqQl3oz+RxvR4kdY885ZPX0D4A==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10490,11 +10469,11 @@ packages:
       ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-93tbhWPPZ04ozrpvFWfn2wOaLRvnilD6vxPq7xMAnyvi52T7HjHo+NyY1S8bojg4xciYHiDrByvNGxVlgPxVIQ==
+      integrity: sha512-l17qeUYPz5PaK4XO3Ko93pWhWnoMdU1IcBzz6tdmvS9dzBi/Qbi1H4VOuA7vfPDTs/AVdyNIOY1c8MhcN5U91w==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10782,7 +10761,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-qcngMCJsJmX+G0stXZchWUI/WxyiMNfPI6MBDVbg/YMXc/lqEmttj/MghcZQiS+FMR859XarQzv5mfGa1q5DZQ==
+      integrity: sha512-5P+X3IwgFa9rlq+jbtHxWVZWF1kDmRZwV8jQfHMYV5CLsJjXKw1yISIRSFmCmuXDdHYEnxO1bnRGi34QeZ+63g==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -10912,13 +10891,11 @@ specifiers:
   karma-webpack: ^4.0.0-rc.6
   long: ^4.0.0
   mocha: ^5.2.0
-  mocha-chrome: ^1.1.0
+  mocha-chrome: ^2.0.0
   mocha-junit-reporter: ^1.18.0
   mocha-multi: ^1.0.1
   mocha-multi-reporters: ^1.1.7
   moment: ^2.24.0
-  ms-rest: ^2.3.3
-  ms-rest-azure: ^2.5.9
   nise: ^1.4.10
   nock: ^10.0.6
   npm-run-all: ^4.1.5
@@ -10972,7 +10949,7 @@ specifiers:
   webpack: ^4.16.3
   webpack-cli: ^3.2.3
   webpack-dev-middleware: ^3.1.2
-  ws: ^6.2.1
+  ws: ^7.1.1
   xhr-mock: ^2.4.1
   xml2js: ^0.4.19
   yargs: ^13.0.0
