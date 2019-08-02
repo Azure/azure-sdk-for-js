@@ -274,7 +274,8 @@ export class EventHubSender extends LinkEntity {
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
           const options: AwaitableSenderOptions = this._createSenderOptions(
-            Constants.defaultOperationTimeoutInMs
+            Constants.defaultOperationTimeoutInMs,
+            true
           );
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
           // else bail out when the error is not retryable or the oepration succeeds.
@@ -605,10 +606,11 @@ export class EventHubSender extends LinkEntity {
           );
 
           try {
+            const senderOptions = this._createSenderOptions(
+              getRetryAttemptTimeoutInMs(options.retryOptions)
+            );
             await defaultLock.acquire(this.senderLock, () => {
-              return this._init(
-                this._createSenderOptions(getRetryAttemptTimeoutInMs(options.retryOptions))
-              );
+              return this._init(senderOptions);
             });
           } catch (err) {
             removeListeners();
