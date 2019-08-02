@@ -34,8 +34,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/${{coalesce(variables['packageGlobFilter'],"**")}}/*.tgz
-            sdk/**/${{coalesce(variables['packageGlobFilter'],"**")}}/browser/*.zip
+            sdk/**/${{coalesce(variables['packageGlobFilter'],**)}}/*.tgz
+            sdk/**/${{coalesce(variables['packageGlobFilter'],**)}}/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
