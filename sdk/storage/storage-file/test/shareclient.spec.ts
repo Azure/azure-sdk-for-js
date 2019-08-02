@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU } from "./utils";
+import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { ShareClient } from "../src";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
@@ -135,5 +135,45 @@ describe("ShareClient", () => {
     const root = await shareClient.rootDirectoryClient;
     const result = await root.getProperties();
     assert.ok(result, "Expecting valid properties for the root directory.");
+  });
+
+  it("can be created with a sas connection string and a share name", async () => {
+    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName);
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a sas connection string and a share name and an option bag", async () => {
+    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("throws error if constructor shareName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ShareClient(getSASConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for shareName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });
