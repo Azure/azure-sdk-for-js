@@ -125,7 +125,7 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
    * unless renewed. Default: **`30` seconds**, Min Value: **`15` seconds**,
    * Max value: **`60` seconds**.
    *
-   * If `Leasemanager` is provided then this value will be ignored.
+   * If `Leasemanager` is provided when creating the EventProcessorHost then this value will be ignored.
    */
   leaseDuration?: number;
   /**
