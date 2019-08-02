@@ -12,8 +12,6 @@ export * from "./BlobClient";
 export * from "./AppendBlobClient";
 export * from "./BlockBlobClient";
 export * from "./PageBlobClient";
-
-export * from "./Aborter";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";

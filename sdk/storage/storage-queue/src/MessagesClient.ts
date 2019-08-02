@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { Messages } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -20,14 +20,13 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface MessagesClearOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -37,7 +36,7 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams { }
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -46,7 +45,7 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams { }
 
 /**
  * Options to configure Messages - Peek operation
@@ -55,7 +54,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams { }
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -84,68 +83,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.EnqueuedMessage[];
-    };
+    parsedHeaders: Models.MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.EnqueuedMessage[];
   };
+};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.DequeuedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.DequeuedMessageItem[];
   };
+};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.PeekedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.PeekedMessageItem[];
   };
+};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
@@ -164,11 +163,14 @@ export class MessagesClient extends StorageClient {
   private messagesContext: Messages;
 
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
    * Creates an instance of MessagesClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessagesClient
@@ -233,17 +235,28 @@ export class MessagesClient extends StorageClient {
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
-      if (isNode) {
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      if (extractedCreds.kind === "AccountConnString") {
+        if (isNode) {
+          const queueName = credentialOrPipelineOrQueueName;
+          const sharedKeyCredential = new SharedKeyCredential(
+            extractedCreds.accountName,
+            extractedCreds.accountKey
+          );
+          urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
+          pipeline = newPipeline(sharedKeyCredential, options);
+        } else {
+          throw new Error("Account connection is only supported in Node.js environment");
+        }
+      } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-        const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
-          extractedCreds.accountKey
-        );
-        urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
-        pipeline = newPipeline(sharedKeyCredential, options);
+        urlOrConnectionString =
+          extractedCreds.url + "/" + queueName + "/messages" + "?" + extractedCreds.accountSas;
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
-        throw new Error("Connection string is only supported in Node.js environment");
+        throw new Error(
+          "Connection string must be either an Account connection string or a SAS connection string"
+        );
       }
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
@@ -261,7 +274,7 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.messagesContext.clear({
       abortSignal: aborter
     });
@@ -292,7 +305,7 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.enqueue(
       {
         messageText: messageText
@@ -321,14 +334,12 @@ export class MessagesClient extends StorageClient {
    * Dequeue retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
    * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.dequeue({
       abortSignal: aborter,
       ...options
@@ -354,14 +365,12 @@ export class MessagesClient extends StorageClient {
    * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
    * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.peek({
       abortSignal: aborter,
       ...options

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
+import { AbortController } from "@azure/abort-controller";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -53,7 +53,7 @@ describe("Highlevel", () => {
   after(async () => {});
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
@@ -66,7 +66,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
@@ -82,11 +82,11 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: (ev) => {
@@ -101,11 +101,11 @@ describe("Highlevel", () => {
 
   it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: (ev) => {

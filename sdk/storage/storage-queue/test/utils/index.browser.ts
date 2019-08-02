@@ -107,7 +107,7 @@ export function isIE(): boolean {
   // If IE, return version number.
   if (Idx > 0) {
     return true;
-  } else if (!!navigator.userAgent.match(/Trident\/7\./)) {
+  } else if (navigator.userAgent.match(/Trident\/7\./)) {
     // IE 11
     return true;
   } else {
@@ -128,4 +128,9 @@ export function getBrowserFile(name: string, size: number): File {
   const file = new Blob([uint8Arr]) as any;
   file.name = name;
   return file;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const env = (window as any).__env__;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

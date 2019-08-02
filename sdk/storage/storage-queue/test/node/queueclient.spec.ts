@@ -112,20 +112,6 @@ describe("QueueClient Node.js only", () => {
     assert.ok(result.date);
   });
 
-  it("throws error if constructor queueName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new QueueClient(getConnectionStringFromEnvironment(), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for queueName parameter",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
-
   it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>

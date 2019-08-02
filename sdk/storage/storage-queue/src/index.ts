@@ -5,7 +5,6 @@ import { RestError } from "@azure/core-http";
 
 import * as Models from "../src/generated/lib/models";
 
-export * from "./Aborter";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";

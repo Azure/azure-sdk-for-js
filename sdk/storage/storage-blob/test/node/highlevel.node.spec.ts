@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { PassThrough } from "stream";
 
-import { Aborter } from "../../src/Aborter";
+import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record } from "../utils/recorder";
@@ -111,7 +111,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
@@ -126,7 +126,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
@@ -142,11 +142,11 @@ describe("Highlevel", () => {
 
   it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
         progress: (ev) => {
@@ -161,11 +161,11 @@ describe("Highlevel", () => {
 
   it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
 
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
         progress: (ev) => {
@@ -214,7 +214,7 @@ describe("Highlevel", () => {
 
   it("uploadStream should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    const aborter = Aborter.timeout(1);
+    const aborter = AbortController.timeout(1);
 
     try {
       await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
@@ -261,7 +261,7 @@ describe("Highlevel", () => {
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
       await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: Aborter.timeout(1),
+        abortSignal: AbortController.timeout(1),
         blockSize: 4 * 1024 * 1024,
         maxRetryRequestsPerBlock: 5,
         parallelism: 20
@@ -278,10 +278,10 @@ describe("Highlevel", () => {
 
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
-    const aborter = Aborter.none;
+    const aborter = new AbortController();
     try {
       await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blockSize: 1 * 1024,
         maxRetryRequestsPerBlock: 5,
         parallelism: 1,
@@ -446,9 +446,9 @@ describe("Highlevel", () => {
     let expectedError = false;
 
     try {
-      const aborter = Aborter.none;
+      const aborter = new AbortController();
       const downloadResponse = await blockBlobClient.download(0, undefined, {
-        abortSignal: aborter,
+        abortSignal: aborter.signal,
         blobAccessConditions: {
           modifiedAccessConditions: {
             ifMatch: uploadResponse.eTag
