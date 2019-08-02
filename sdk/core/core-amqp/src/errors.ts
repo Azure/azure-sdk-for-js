@@ -548,32 +548,6 @@ function isBrowserWebsocketError(err: any): boolean {
 }
 
 /**
- * @internal
- * Checks if given object maps to a valid custom error. If yes, configures and returns the appropriate error instance, else returns `undefined`.
- * @param err
- */
-function getCustomError(err: AmqpError | Error): MessagingError | undefined {
-  const error: MessagingError = err as MessagingError;
-  const errorName = (err as Error).name;
-  if (
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until the custom error is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    retryableErrors.indexOf(errorName) > -1
-  ) {
-    error.retryable = true;
-    return error;
-  }
-
-  if (errorName === "AbortError") {
-    error.retryable = false;
-    return error;
-  }
-
-  return undefined;
-}
-
-/**
  * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
  *
  * @param {AmqpError} err The amqp error that was received.
@@ -617,7 +591,10 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
-  } else if (isSystemError(err)) {
+    return error;
+  }
+
+  if (isSystemError(err)) {
     // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
@@ -632,19 +609,32 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
-  } else if (isBrowserWebsocketError(err)) {
+    return error;
+  }
+
+  if (isBrowserWebsocketError(err)) {
     // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
+    return error;
   }
-  const customError = getCustomError(err);
-  if (customError) {
-    return customError;
-  } else {
-    // Translate a generic error into MessagingError.
-    error = new MessagingError((err as Error).message);
-    error.stack = (err as Error).stack;
+
+  // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+  // Must do a name check until the custom error is updated, and that doesn't break compatibility
+  // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+  const errorName = (err as Error).name;
+  if (retryableErrors.indexOf(errorName) > -1) {
+    error.retryable = true;
+    return error;
   }
+  if (errorName === "AbortError") {
+    error.retryable = false;
+    return error;
+  }
+
+  // Translate a generic error into MessagingError.
+  error = new MessagingError((err as Error).message);
+  error.stack = (err as Error).stack;
   return error;
 }
