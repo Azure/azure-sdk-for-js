@@ -2,7 +2,8 @@ jobs:
   - job: "Build"
     variables:
       - template: ../variables/globals.yml
-      - defaultFilter: "**"
+        parameters:
+          defaultFilter: "**"
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -35,8 +36,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/${{coalesce(variables['packageGlobFilter'],variables['defaultFilter'])}}/*.tgz
-            sdk/**/${{coalesce(variables['packageGlobFilter'],variables['defaultFilter'])}}/browser/*.zip
+            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/*.tgz
+            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
