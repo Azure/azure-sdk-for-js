@@ -406,28 +406,26 @@ describe("Event Processor", function(): void {
       const eventProcessorFactory = (context: PartitionContext) => {
         return new SimpleEventProcessor();
       };
-      const partitionInfo = await client.getPartitionProperties("0");
+
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         eventProcessorFactory,
         new InMemoryPartitionManager(),
         {
-          initialEventPosition: EventPosition.fromSequenceNumber(
-            partitionInfo.lastEnqueuedSequenceNumber
-          ),
+          initialEventPosition:EventPosition.fromEnqueuedTime(new Date()),
           maxBatchSize: 1,
           maxWaitTimeInSeconds: 5
         }
       );
       const producer = client.createProducer({ partitionId: "0" });
       await producer.send({ body: "Hello world!!!" });
+      await producer.close();
 
       await processor.start();
       // after 2 seconds, stop processing
       await delay(2000);
       await processor.stop();
-      await producer.close();
       isinitializeCalled.should.equal(true);
       receivedEvents.length.should.equal(1);
       receivedEvents[0].body.should.equal("Hello world!!!");
