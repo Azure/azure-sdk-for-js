@@ -10,7 +10,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./blob-storage-2018-03-28.json
+input-file: ./blob-storage-2018-11-09.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```

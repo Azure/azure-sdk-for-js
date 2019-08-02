@@ -48,7 +48,7 @@ describe("ClientCertificateCredential", function () {
 
     await credential.getToken("scope");
 
-    const authRequest = await mockHttpClient.getAuthRequest();
+    const authRequest = mockHttpClient.requests[0];
     if (!authRequest) {
       assert.fail("No authentication request was intercepted");
     } else {

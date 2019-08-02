@@ -1,5 +1,16 @@
 # Changelog
 
+2019.7 Version 10.2.0
+
+* Fixed a bug that `Aborter` cannot work during retry interval.
+* Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
+* Export `RetryPolicyType`.
+* `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+* Updated API version to 2018-11-09.
+* Updated HTTP client from axios to node-fetch in Node.js runtime.
+* A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
+* Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+
 2019.1 Version 10.1.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.

@@ -3,15 +3,15 @@
 
 <head>
   <title>My Todos</title>
-  <script type="text/javascript" src="../node_modules/ms-rest-ts/msRestBundle.js"></script>
-  <script type="text/javascript" src="../msRestAzureBundle.js"></script>
-  
+  <script type="text/javascript" src="../node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
+  <script type="text/javascript" src="../dist/coreArm.js"></script>
+
   <script type="text/javascript">
     document.write("hello world");
     const subscriptionId = "subscriptionId";
     const token = "token";
-    const creds = new msRest.TokenCredentials(token);
-    const client = new msRestAzure.AzureServiceClient(creds);
+    const creds = new Azure.Core.HTTP.RawTokenCredential(token);
+    const client = new Azure.Core.ARM.AzureServiceClient(creds);
     const req = {
       url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,
       method: "GET"

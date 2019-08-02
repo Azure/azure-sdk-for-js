@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { RestError } from "@azure/core-http";
-import { isNode, retry, env } from "./utils/recorder";
+import { retry, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
@@ -50,11 +50,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    if (isNode) {
-      assert.equal(error.message, "The request was aborted");
-    } else {
-      assert.equal(error.message, "Failed to send the request.");
-    }
+    assert.equal(error.message, "The request was aborted");
   });
 
   it("cannot create a key with an empty name", async function() {
