@@ -88,7 +88,7 @@
     "eslint": "^5.16.0",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-json-preprocessor": "^0.3.3",
@@ -113,6 +113,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "typescript": "^3.2.2",
-    "util": "^0.11.1"
+    "util": "^0.12.1"
   }
 }

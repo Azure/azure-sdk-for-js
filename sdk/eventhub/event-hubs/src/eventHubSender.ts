@@ -21,17 +21,13 @@ import {
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
+  RetryOptions,
   Constants
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import {
-  SendOptions,
-  EventHubProducerOptions,
-  getRetryAttemptTimeoutInMs,
-  RetryOptions
-} from "./eventHubClient";
+import { SendOptions, EventHubProducerOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch } from "./eventDataBatch";
 
@@ -291,9 +287,11 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
-            delayInSeconds: 15
+            retryOptions: {
+              maxRetries: Constants.defaultMaxRetriesForConnection,
+              retryDelayInMs: 15000
+            }
           };
           return retry<void>(config);
         });
@@ -364,9 +362,7 @@ export class EventHubSender extends LinkEntity {
     }
     return new Promise<number>(async (resolve, reject) => {
       const rejectOnAbort = () => {
-        const desc: string = `[${
-          this._context.connectionId
-        }] The create batch operation has been cancelled by the user.`;
+        const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
         log.error(desc);
         const error = new AbortError(`The create batch operation has been cancelled by the user.`);
         reject(error);
@@ -398,15 +394,8 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            maxRetries: retryOptions.maxRetries,
-            delayInSeconds:
-              typeof retryOptions.retryInterval === "number"
-                ? retryOptions.retryInterval / 1000
-                : undefined,
-            retryPolicy: retryOptions.retryPolicy,
-            minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
-            abortSignal: abortSignal
+            abortSignal: abortSignal,
+            retryOptions: retryOptions
           };
 
           return retry<void>(config);
@@ -572,9 +561,8 @@ export class EventHubSender extends LinkEntity {
 
         const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.connectionId}] The send operation on the Sender "${
-              this.name
-            }" with ` + `address "${this.address}" has been cancelled by the user.`;
+            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
@@ -751,15 +739,8 @@ export class EventHubSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      maxRetries: retryOptions.maxRetries,
-      delayInSeconds:
-        typeof retryOptions.retryInterval === "number"
-          ? retryOptions.retryInterval / 1000
-          : undefined,
-      retryPolicy: retryOptions.retryPolicy,
-      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
-      abortSignal: abortSignal
+      abortSignal: abortSignal,
+      retryOptions: retryOptions
     };
     return retry<void>(config);
   }

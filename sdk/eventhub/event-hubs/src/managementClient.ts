@@ -10,6 +10,7 @@ import {
   SendRequestOptions,
   retry,
   RetryConfig,
+  RetryOptions,
   RetryOperationType
 } from "@azure/core-amqp";
 import {
@@ -24,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -69,7 +70,7 @@ export interface PartitionProperties {
   /**
    * @property The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: string;
+  lastEnqueuedOffset: number;
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
@@ -352,9 +353,7 @@ export class ManagementClient extends LinkEntity {
             const initOperationStartTime = Date.now();
 
             const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${
-                request.message_id
-              }" timed out. Please try again later.`;
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
               const e: Error = {
                 name: "OperationTimeoutError",
                 message: desc
@@ -382,7 +381,7 @@ export class ManagementClient extends LinkEntity {
           const sendRequestOptions: SendRequestOptions = {
             abortSignal: options.abortSignal,
             requestName: options.requestName,
-            timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+            timeoutInMs: remainingOperationTimeoutInMs
           };
 
           count++;
@@ -418,15 +417,8 @@ export class ManagementClient extends LinkEntity {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: retryOptions.maxRetries,
-        delayInSeconds:
-          typeof retryOptions.retryInterval === "number"
-            ? retryOptions.retryInterval / 1000
-            : undefined,
-        retryPolicy: retryOptions.retryPolicy,
-        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs,
-        abortSignal: abortSignal
+        abortSignal: abortSignal,
+        retryOptions: retryOptions
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
