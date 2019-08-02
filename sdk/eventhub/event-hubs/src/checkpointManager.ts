@@ -18,9 +18,9 @@ export interface Checkpoint {
    */
   consumerGroupName: string;
   /**
-   * @property The unique instance identifier
+   * @property The unique identifier of the event processor.
    */
-  instanceId: string;
+  ownerId: string;
   /**
    * @property The identifier of the Event Hub partition
    */
@@ -43,15 +43,23 @@ export interface Checkpoint {
  * CheckPointManager is created by the library & passed to user's code to let them create a checkpoint
  */
 export class CheckpointManager {
-  private _partitionContext: PartitionContext; 
+  private _partitionContext: PartitionContext;
   private _partitionManager: PartitionManager;
-  private _instanceId: string;
+  private _eventProcessorId: string;
   private _eTag: string;
 
-  constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, instanceId: string) {
+  /**
+   * @ignore
+   * @interal
+   */
+  constructor(
+    partitionContext: PartitionContext,
+    partitionManager: PartitionManager,
+    _eventProcessorId: string
+  ) {
     this._partitionContext = partitionContext;
     this._partitionManager = partitionManager;
-    this._instanceId = instanceId;
+    this._eventProcessorId = _eventProcessorId;
     this._eTag = "";
   }
   /**
@@ -77,7 +85,7 @@ export class CheckpointManager {
     const checkpoint: Checkpoint = {
       eventHubName: this._partitionContext.eventHubName,
       consumerGroupName: this._partitionContext.consumerGroupName,
-      instanceId: this._instanceId,
+      ownerId: this._eventProcessorId,
       partitionId: this._partitionContext.partitionId,
       sequenceNumber:
         typeof eventDataOrSequenceNumber === "number"

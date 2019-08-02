@@ -46,6 +46,28 @@ describe("Event Processor", function(): void {
     await client.close();
   });
 
+  it("should expose an id", async function(): Promise<void> {
+    const factory: PartitionProcessorFactory = (context) => {
+      return {
+        async processEvents() {},
+        async processError() {}
+      };
+    };
+
+    const processor = new EventProcessor(
+      EventHubClient.defaultConsumerGroupName,
+      client,
+      factory,
+      new InMemoryPartitionManager(),
+      {
+        initialEventPosition: EventPosition.fromEnqueuedTime(new Date())
+      }
+    );
+
+    const id = processor.id;
+    id.length.should.be.gt(1);
+  });
+
   it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
@@ -413,7 +435,7 @@ describe("Event Processor", function(): void {
         eventProcessorFactory,
         new InMemoryPartitionManager(),
         {
-          initialEventPosition:EventPosition.fromEnqueuedTime(new Date()),
+          initialEventPosition: EventPosition.fromEnqueuedTime(new Date()),
           maxBatchSize: 1,
           maxWaitTimeInSeconds: 5
         }
@@ -441,14 +463,14 @@ describe("Event Processor", function(): void {
       const partitionOwnership1: PartitionOwnership = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
-        instanceId: generate_uuid(),
+        ownerId: generate_uuid(),
         partitionId: "0",
         ownerLevel: 10
       };
       const partitionOwnership2: PartitionOwnership = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
-        instanceId: generate_uuid(),
+        ownerId: generate_uuid(),
         partitionId: "1",
         ownerLevel: 10
       };
@@ -466,7 +488,7 @@ describe("Event Processor", function(): void {
       const checkpoint: Checkpoint = {
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
-        instanceId: generate_uuid(),
+        ownerId: generate_uuid(),
         partitionId: "0",
         sequenceNumber: 10,
         offset: 50,
