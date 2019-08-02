@@ -10,6 +10,7 @@ import {
   SendRequestOptions,
   retry,
   RetryConfig,
+  RetryOptions,
   RetryOperationType
 } from "@azure/core-amqp";
 import {
@@ -24,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -69,7 +70,7 @@ export interface PartitionProperties {
   /**
    * @property The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: string;
+  lastEnqueuedOffset: number;
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
@@ -416,11 +417,7 @@ export class ManagementClient extends LinkEntity {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: retryOptions.maxRetries,
-        delayInMs: retryOptions.retryInterval,
-        retryPolicy: retryOptions.retryPolicy,
-        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+        retryOptions: retryOptions
       };
       return (await retry<Message>(config)).body;
     } catch (err) {

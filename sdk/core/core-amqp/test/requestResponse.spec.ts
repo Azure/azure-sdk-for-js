@@ -126,8 +126,10 @@ describe("RequestResponseLink", function() {
       operation: sendRequestPromise,
       connectionId: "connection-1",
       operationType: RetryOperationType.management,
-      maxRetries: 3,
-      delayInMs: 1000
+      retryOptions: {
+        maxRetries: 3,
+        retryDelayInMs: 1000
+      }
     };
 
     const message = await retry<Message>(config);

@@ -6,7 +6,7 @@ import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionContext } from "./partitionContext";
 import { CheckpointManager, Checkpoint } from "./checkpointManager";
-import { EventData } from "./eventData";
+import { ReceivedEventData } from "./eventData";
 import { PumpManager } from "./pumpManager";
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import * as log from "./log";
@@ -17,17 +17,17 @@ import { cancellableDelay } from "./util/cancellableDelay";
  */
 export enum CloseReason {
   /**
+   * The PartitionProcessor was shutdown due to some internal or service exception.
+   */
+  EventHubException = "EventHubException",
+  /**
    * Ownership of the partition was lost or transitioned to a new processor instance.
    */
   OwnershipLost = "OwnershipLost",
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown",
-  /**
-   * The PartitionProcessor was shutdown for an unknown reason.
-   */
-  Unknown = "Unknown"
+  Shutdown = "Shutdown"
 }
 
 export interface PartitionProcessor {
@@ -44,7 +44,7 @@ export interface PartitionProcessor {
   /**
    * Called when a batch of events have been received.
    */
-  processEvents(events: EventData[]): Promise<void>;
+  processEvents(events: ReceivedEventData[]): Promise<void>;
   /**
    * Called when the underlying client experiences an error while receiving.
    */
@@ -53,7 +53,7 @@ export interface PartitionProcessor {
 
 /**
  * used by PartitionManager to claim ownership.
- * returned by listOwnerships
+ * returned by listOwnership
  */
 export interface PartitionOwnership {
   /**
@@ -116,22 +116,22 @@ export interface PartitionManager {
    * @param consumerGroupName The consumer group name.
    * @return A list of partition ownership details of all the partitions that have/had an owner.
    */
-  listOwnerships(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+  listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnerships The list of partition ownerships this instance is claiming to own.
+   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
    * @return A list of partitions this instance successfully claimed ownership.
    */
-  claimOwnerships(partitionOwnerships: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+  claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
   /**
    * Updates the checkpoint in the data store for a partition.
    *
    * @param checkpoint The checkpoint.
    * @return The new eTag on successful update.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
 // Options passed when creating EventProcessor, everything is optional
@@ -155,6 +155,7 @@ export class EventProcessor {
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
+  private _partitionManager: PartitionManager;
 
   constructor(
     consumerGroupName: string,
@@ -168,6 +169,7 @@ export class EventProcessor {
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
     this._partitionProcessorFactory = partitionProcessorFactory;
+    this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
   }
@@ -216,7 +218,20 @@ export class EventProcessor {
             partitionId: partitionId
           };
 
-          const checkpointManager = new CheckpointManager();
+          const partitionOwnership: PartitionOwnership = {
+            eventHubName: this._eventHubClient.eventHubName,
+            consumerGroupName: this._consumerGroupName,
+            instanceId: this._id,
+            partitionId: partitionId,
+            ownerLevel: 0
+          };
+          await this._partitionManager.claimOwnership([partitionOwnership]);
+
+          const checkpointManager = new CheckpointManager(
+            partitionContext,
+            this._partitionManager,
+            this._id
+          );
 
           log.eventProcessor(
             `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`

@@ -82,7 +82,7 @@ export interface EventDataInternal {
   /**
    * @property [offset] The offset of the event.
    */
-  offset?: string;
+  offset?: number;
   /**
    * @property [sequenceNumber] The sequence number of the event.
    */
@@ -216,7 +216,7 @@ export interface ReceivedEventData {
   /**
    * @property The offset of the event.
    */
-  offset: string;
+  offset: number;
   /**
    * @property The sequence number of the event.
    */

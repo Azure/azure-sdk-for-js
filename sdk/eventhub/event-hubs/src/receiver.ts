@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
@@ -11,7 +11,8 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -404,13 +405,9 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInMs: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries: retryOptions.maxRetries,
-      retryPolicy: retryOptions.retryPolicy,
-      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+      retryOptions: retryOptions
     };
     return retry<ReceivedEventData[]>(config);
   }

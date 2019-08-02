@@ -19,17 +19,13 @@ import {
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
+  RetryOptions,
   Constants
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import {
-  SendOptions,
-  EventHubProducerOptions,
-  getRetryAttemptTimeoutInMs,
-  RetryOptions
-} from "./eventHubClient";
+import { SendOptions, EventHubProducerOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch } from "./eventDataBatch";
 
@@ -283,9 +279,11 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            maxRetries: Constants.defaultMaxRetriesForConnection,
             connectionHost: this._context.config.host,
-            delayInMs: 15000
+            retryOptions: {
+              maxRetries: Constants.defaultMaxRetriesForConnection,
+              retryDelayInMs: 15000
+            }
           };
           return retry<void>(config);
         });
@@ -389,11 +387,7 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(senderOptions),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
-            maxRetries: retryOptions.maxRetries,
-            delayInMs: retryOptions.retryInterval,
-            retryPolicy: retryOptions.retryPolicy,
-            minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-            maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+            retryOptions: retryOptions
           };
 
           return retry<void>(config);
@@ -677,11 +671,7 @@ export class EventHubSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      maxRetries: retryOptions.maxRetries,
-      delayInMs: retryOptions.retryInterval,
-      retryPolicy: retryOptions.retryPolicy,
-      minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-      maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+      retryOptions: retryOptions
     };
     return retry<void>(config);
   }
