@@ -213,22 +213,35 @@ export function delay<T>(
   value?: T
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    if (abortSignal && abortSignal.aborted) {
+    const rejectOnAbort = () => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
       );
+    };
+
+    const removeListeners = () => {
+      if (abortSignal) {
+        abortSignal.removeEventListener("abort", onAborted);
+      }
+    };
+
+    const onAborted = () => {
+      clearTimeout(timer);
+      removeListeners();
+      return rejectOnAbort();
+    };
+
+    if (abortSignal && abortSignal.aborted) {
+      return rejectOnAbort();
     }
 
     const timer = setTimeout(() => {
+      removeListeners();
       resolve(value);
     }, delayInMs);
+
     if (abortSignal) {
-      abortSignal.addEventListener("abort", () => {
-        clearTimeout(timer);
-        reject(
-          new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
-        );
-      });
+      abortSignal.addEventListener("abort", onAborted);
     }
   });
 }

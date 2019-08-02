@@ -244,7 +244,11 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs / 1000,
           config.operationType
         );
-        await delay(targetDelayInMs, config.abortSignal);
+        await delay(
+          targetDelayInMs,
+          config.abortSignal,
+          `The retry operation has been cancelled by the user.`
+        );
         continue;
       } else {
         break;
