@@ -153,13 +153,16 @@ export function getSASConnectionStringFromEnvironment(): string {
     sharedKeyCredential as SharedKeyCredential
   ).toString();
 
-  const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
+  const fileEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
-  return `BlobEndpoint=${queueEndpoint.replace(
-    ".queue.",
+  return `BlobEndpoint=${fileEndpoint.replace(
+    ".file.",
     ".blob."
-  )}/;QueueEndpoint=${queueEndpoint}/;FileEndpoint=${queueEndpoint.replace(
-    ".queue.",
-    ".file."
-  )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+  )}/;QueueEndpoint=${fileEndpoint.replace(
+    ".file.",
+    ".queue."
+  )}/;FileEndpoint=${fileEndpoint}/;TableEndpoint=${fileEndpoint.replace(
+    ".file.",
+    ".table."
+  )}/;SharedAccessSignature=${sas}`;
 }
