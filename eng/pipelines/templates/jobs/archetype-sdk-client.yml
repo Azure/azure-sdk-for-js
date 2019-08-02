@@ -32,8 +32,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/**/*.tgz
-            sdk/**/**/browser/*.zip
+            sdk/**/$(packageGlobFilter)/*.tgz
+            sdk/**/$(packageGlobFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
