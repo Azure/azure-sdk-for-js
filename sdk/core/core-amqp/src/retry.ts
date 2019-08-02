@@ -10,6 +10,7 @@ import {
   defaultMaxDelayForExponentialRetryInMs
 } from "./util/constants";
 import { resolve } from "dns";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -113,6 +114,11 @@ export interface RetryConfig<T> {
    * @property {RetryOptions} retryOptions The retry related options associated with given operation execution.
    */
   retryOptions?: RetryOptions;
+  /**
+   * @property {AbortSignalLike} [abortSignal] The `AbortSignal` associated with the operation being retried on.
+   * If this signal is fired during the wait time between retries, then the `retry()` method will ensure that the wait is abandoned and the retry process gets cancelled. If this signal is fired when the operation is in progress, then the operation is expected to react to it.
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -249,7 +255,11 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           targetDelayInMs,
           config.operationType
         );
-        await delay(targetDelayInMs);
+        await delay(
+          targetDelayInMs,
+          config.abortSignal,
+          `The retry operation has been cancelled by the user.`
+        );
         continue;
       } else {
         break;

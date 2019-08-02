@@ -407,6 +407,7 @@ export class EventHubConsumer {
       connectionId: this._context.connectionId,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
+      abortSignal: abortSignal,
       retryOptions: retryOptions
     };
     return retry<ReceivedEventData[]>(config);

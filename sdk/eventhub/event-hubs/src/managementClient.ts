@@ -316,7 +316,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<any> {
     const retryOptions = options.retryOptions || {};
     try {
-      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+      const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
@@ -338,8 +338,8 @@ export class ManagementClient extends LinkEntity {
             reject(error);
           };
 
-          if (aborter) {
-            if (aborter.aborted) {
+          if (abortSignal) {
+            if (abortSignal.aborted) {
               return rejectOnAbort();
             }
           }
@@ -417,6 +417,7 @@ export class ManagementClient extends LinkEntity {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
+        abortSignal: abortSignal,
         retryOptions: retryOptions
       };
       return (await retry<Message>(config)).body;

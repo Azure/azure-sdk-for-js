@@ -387,6 +387,7 @@ export class EventHubSender extends LinkEntity {
             operation: () => this._init(senderOptions),
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
+            abortSignal: abortSignal,
             retryOptions: retryOptions
           };
 
@@ -671,6 +672,7 @@ export class EventHubSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
+      abortSignal: abortSignal,
       retryOptions: retryOptions
     };
     return retry<void>(config);
