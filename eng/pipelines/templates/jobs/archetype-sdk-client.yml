@@ -2,6 +2,8 @@ jobs:
   - job: "Build"
     variables:
       - template: ../variables/globals.yml
+      - name: packageGlobFilter
+        value: "**"
 
     pool:
       vmImage: "$(OSVmImage)"
