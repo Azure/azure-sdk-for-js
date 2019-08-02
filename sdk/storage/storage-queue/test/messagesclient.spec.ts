@@ -1,8 +1,9 @@
 import * as assert from "assert";
-import { getQSU } from "./utils";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { MessagesClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessagesClient", () => {
@@ -340,5 +341,41 @@ describe("MessagesClient", () => {
         "The request body is too large and exceeds the maximum permissible limit."
       )
     );
+  });
+
+  it("can be created with a sas connection string and a queue name", async () => {
+    const newClient = new MessagesClient(getSASConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("can be created with a sas connection string and a queue name and an option bag", async () => {
+    const newClient = new MessagesClient(getSASConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("throws error if constructor queueName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new MessagesClient(getSASConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for queueName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

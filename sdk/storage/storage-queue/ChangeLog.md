@@ -1,6 +1,12 @@
 # Changelog
 
-2019.07 Version 12.0.0-preview.1
+### Coming Soon... 12.0.0-preview.2
+
+- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
+  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+
+### 2019.07 Version 12.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
@@ -31,7 +37,7 @@
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-2019.1 Version 10.1.0
+### 2019.1 Version 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 - [Breaking] `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
@@ -42,6 +48,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
 - Exported HttpRequestBody type for who wants to implement a customized HTTP client.
 
-2018.12 Version 10.0.0-preview
+### 2018.12 Version 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.

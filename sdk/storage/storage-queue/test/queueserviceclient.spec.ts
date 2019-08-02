@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU } from "./utils";
+import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -297,5 +297,16 @@ describe("QueueServiceClient", () => {
         done();
       })
       .catch(done);
+  });
+
+  it("can be created from a sas connection string", async () => {
+    const newClient = QueueServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment()
+    );
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });

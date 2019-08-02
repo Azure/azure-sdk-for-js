@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -23,14 +23,13 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  */
 export interface ServiceGetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -41,14 +40,13 @@ export interface ServiceGetPropertiesOptions {
  */
 export interface ServiceSetPropertiesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -59,14 +57,13 @@ export interface ServiceSetPropertiesOptions {
  */
 export interface ServiceGetStatisticsOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof AppendBlobCreateOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -76,14 +73,13 @@ export interface ServiceGetStatisticsOptions {
  */
 interface ServiceListQueuesSegmentOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ServiceListQueuesSegmentOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.
@@ -115,14 +111,13 @@ interface ServiceListQueuesSegmentOptions {
  */
 export interface ServiceListQueuesOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof ServiceListQueuesOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.
@@ -145,11 +140,14 @@ export interface ServiceListQueuesOptions {
  */
 export class QueueServiceClient extends StorageClient {
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
@@ -158,17 +156,26 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): QueueServiceClient {
-    if (isNode) {
-      const extractedCreds = extractConnectionStringParts(connectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    if (extractedCreds.kind === "AccountConnString") {
+      if (isNode) {
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName,
+          extractedCreds.accountKey
+        );
 
-      const pipeline = newPipeline(sharedKeyCredential, options);
-      return new QueueServiceClient(extractedCreds.url, pipeline);
+        const pipeline = newPipeline(sharedKeyCredential, options);
+        return new QueueServiceClient(extractedCreds.url, pipeline);
+      } else {
+        throw new Error("Account connection string is only supported in Node.js environment");
+      }
+    } else if (extractedCreds.kind === "SASConnString") {
+      const pipeline = newPipeline(new AnonymousCredential(), options);
+      return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
-      throw new Error("Connection string is only supported in Node.js environment");
+      throw new Error(
+        "Connection string must be either an Account connection string or a SAS connection string"
+      );
     }
   }
 
@@ -218,7 +225,7 @@ export class QueueServiceClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      credentialOrPipeline instanceof SharedKeyCredential ||
+      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
@@ -251,7 +258,7 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
@@ -271,7 +278,7 @@ export class QueueServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
@@ -290,7 +297,7 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
@@ -315,7 +322,7 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
-    const aborter = options.abortSignal || Aborter.none;
+    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listQueuesSegment({
       abortSignal: aborter,
       marker,

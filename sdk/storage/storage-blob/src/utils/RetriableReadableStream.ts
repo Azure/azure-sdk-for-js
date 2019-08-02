@@ -4,20 +4,19 @@
 import { RestError, TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { Aborter } from "../Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @type {Aborter}
+   * @type {AbortSignalLike}
    * @memberof RetriableReadableStreamOptions
    */
-  abortSignal?: Aborter;
+  abortSignal?: AbortSignalLike;
 
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
@@ -58,7 +57,7 @@ export interface RetriableReadableStreamOptions {
  * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: Aborter;
+  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -88,7 +87,7 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super();
-    this.aborter = options.abortSignal || Aborter.none;
+    this.aborter = options.abortSignal || AbortSignal.none;
     this.getter = getter;
     this.source = source;
     this.start = offset;
