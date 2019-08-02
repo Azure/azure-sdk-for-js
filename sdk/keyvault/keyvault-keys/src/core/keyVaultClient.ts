@@ -22,7 +22,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The parameter options
    */
   constructor(
-    credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential,
+    credentials: coreHttp.TokenCredential,
     options?: coreArm.AzureServiceClientOptions
   ) {
     super(credentials, options);

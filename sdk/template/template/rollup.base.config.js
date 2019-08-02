@@ -58,13 +58,12 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/ms-rest-js"],
     output: {
       file: "browser/azure-template.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
-      globals: { "@azure/ms-rest-js": "msRest" }
+      globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
     plugins: [
@@ -83,10 +82,7 @@ export function browserConfig(test = false, production = false) {
         preferBuiltins: false
       }),
       cjs({
-        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
-        // modules with built-in names must have a trailing slash.
-        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-        namedExports: { "events/": ["EventEmitter"] }
+        namedExports: { events: ["EventEmitter"] }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]

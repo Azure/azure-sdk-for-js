@@ -7,7 +7,7 @@ import { retry as realRetry } from "./retry";
 import { isNode as coreIsNode, delay as coreDelay } from "@azure/core-http";
 import queryString from "query-string";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
+dotenv.config({ path: "../.env" });
 
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
@@ -36,8 +36,8 @@ if (!isBrowser()) {
 }
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
-const isRecording = env.TEST_MODE === "record";
-const isPlayingBack = env.TEST_MODE === "playback";
+export const isRecording = env.TEST_MODE === "record";
+export const isPlayingBack = env.TEST_MODE === "playback";
 
 // IMPORTANT: These are my attempts to make this more generic without changing it significantly
 let replaceableVariables: { [key: string]: any } = {};

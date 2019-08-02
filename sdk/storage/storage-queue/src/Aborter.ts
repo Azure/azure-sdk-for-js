@@ -59,14 +59,14 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: (ev?: Event) => any;
+  public onabort: ((this: AbortSignalLike, ev: any) => any) | null = null;
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
   private timer?: any;
   private readonly parent?: Aborter;
   private readonly children: Aborter[] = []; // When child object calls dispose(), remove child from here
-  private readonly abortEventListeners: Array<(this: AbortSignalLike, ev?: any) => any> = [];
+  private readonly abortEventListeners: ((this: AbortSignalLike, ev?: any) => any)[] = [];
   // Pipeline proxies need to use "abortSignal as Aborter" in order to access non AbortSignalLike methods
   // immutable primitive types
   private readonly key?: string;
@@ -180,11 +180,11 @@ export class Aborter implements AbortSignalLike {
     this.cancelTimer();
 
     if (this.onabort) {
-      this.onabort.call(this);
+      this.onabort.call(this, { type: "abort" } as any);
     }
 
     this.abortEventListeners.forEach((listener) => {
-      listener.call(this, undefined);
+      listener.call(this, { type: "abort" } as any);
     });
 
     this.children.forEach((child) => child.cancelByParent());
@@ -241,6 +241,10 @@ export class Aborter implements AbortSignalLike {
     if (index > -1) {
       this.abortEventListeners.splice(index, 1);
     }
+  }
+
+  public dispatchEvent(): boolean {
+    throw new Error("Method not implemented.");
   }
 
   private cancelByParent() {

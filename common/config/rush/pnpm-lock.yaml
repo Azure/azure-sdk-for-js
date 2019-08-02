@@ -120,7 +120,7 @@ dependencies:
   karma-rollup-preprocessor: 7.0.2_rollup@1.18.0
   karma-sourcemap-loader: 0.3.7
   karma-typescript-es6-transform: 4.1.1
-  karma-webpack: 4.0.2_webpack@4.39.1
+  karma-webpack: 4.0.2_webpack@4.39.0
   long: 4.0.0
   mocha: 5.2.0
   mocha-chrome: 1.1.0
