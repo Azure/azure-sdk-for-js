@@ -324,32 +324,4 @@ describe("BlobClient Node.js only", () => {
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new BlobClient(getConnectionStringFromEnvironment(), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new BlobClient(getConnectionStringFromEnvironment(), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
 });

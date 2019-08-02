@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU } from "./utils";
+import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import { ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
@@ -272,7 +272,7 @@ describe("ContainerClient", () => {
       i++;
     }
     // Gets next marker
-    let marker = response.nextMarker;
+    const marker = response.nextMarker;
     // Passing next marker as continuationToken
     iter = containerClient
       .listBlobsFlat({
@@ -459,6 +459,56 @@ describe("ContainerClient", () => {
       );
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("can be created with a sas connection string", async () => {
+    const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a sas connection string and a container name and an option bag", async () => {
+    const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ContainerClient(getSASConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
     }
   });
 });

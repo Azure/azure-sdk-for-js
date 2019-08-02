@@ -1,5 +1,3 @@
-import * as assert from "assert";
-
 import * as dotenv from "dotenv";
 import { AppendBlobClient, newPipeline, SharedKeyCredential, ContainerClient } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment } from "../utils";
@@ -82,33 +80,5 @@ describe("AppendBlobClient Node.js only", () => {
 
     await newClient.create();
     await newClient.download();
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
   });
 });

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { bodyToString, getBSU } from "./utils";
+import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, ContainerClient } from "../src";
@@ -68,5 +68,44 @@ describe("AppendBlobClient", () => {
     const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
+  it("can be created with a sas connection string", async () => {
+    const newClient = new AppendBlobClient(
+      getSASConnectionStringFromEnvironment(),
+      containerName,
+      blobName
+    );
+
+    await newClient.create();
+    await newClient.download();
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new AppendBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new AppendBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

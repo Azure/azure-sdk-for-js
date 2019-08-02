@@ -159,18 +159,4 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
   });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new ContainerClient(getConnectionStringFromEnvironment(), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName parameter",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
 });
