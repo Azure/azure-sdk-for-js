@@ -1,6 +1,6 @@
 dependencies:
   '@azure/abort-controller': 1.0.0-preview.1
-  '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
+  '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-auth': 1.0.0-preview.1
@@ -145,7 +145,6 @@ dependencies:
   requirejs: 2.3.6
   resolve: 1.11.1
   rhea: 1.0.8
-  rhea-promise: 0.1.15
   rimraf: 2.6.3
   rollup: 1.18.0
   rollup-plugin-alias: 1.5.2
@@ -196,6 +195,27 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NnJqi6oHqt06Q2hz4nO1HO0QlyusBa3E/wezvn9flHEtl0IHYSmzGbtlb+MaAJ5GzxwqSevQ4q1+4B8fvVijOA==
+  /@azure/amqp-common/1.0.0-preview.6:
+    dependencies:
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/async-lock': 1.1.1
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.2
+      buffer: 5.2.1
+      debug: 3.2.6
+      events: 3.0.0
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      stream-browserify: 2.0.2
+      tslib: 1.10.0
+      url: 0.11.0
+      util: 0.11.1
+    dev: false
+    peerDependencies:
+      rhea-promise: ^0.1.15
+    resolution:
+      integrity: sha512-5XJZaJGtGoPmLhFx5y0vfCXiAHksoA4fdSnHAfkgEm4krhCW1jt1LH/6aJdUwUTJe+bz6m3Pv0sG/ILG0Vd65g==
   /@azure/amqp-common/1.0.0-preview.6_rhea-promise@0.1.15:
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3
@@ -10892,7 +10912,6 @@ specifiers:
   requirejs: ^2.3.5
   resolve: 1.11.1
   rhea: ^1.0.4
-  rhea-promise: ^0.1.15
   rimraf: ^2.6.2
   rollup: ^1.16.3
   rollup-plugin-alias: ^1.4.0

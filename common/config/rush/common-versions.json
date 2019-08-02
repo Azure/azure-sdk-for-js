@@ -19,11 +19,7 @@
 
     // resolve@1.12.0 causes a build break in storage-blob and storage-file related
     // to the rollup-plugin-commonjs namedExports of "events"
-    "resolve": "1.11.1",
-
-    // This is required to allow for backward compatibility with Service Bus Track 1
-    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
-    "rhea-promise": "^0.1.15"
+    "resolve": "1.11.1"
   },
   /**
    * The "rush check" command can be used to enforce that every project in the repo must specify
@@ -44,6 +40,7 @@
     //   "~2.4.0"
     // ]
     "@azure/ms-rest-js": ["^2.0.0"],
+
     // Following is required to allow for backward compatibility with Service Bus Track 1
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
     "rhea-promise": ["^0.1.15"]
