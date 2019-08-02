@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as msRest from "@azure/core-http";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
@@ -126,10 +125,6 @@ export interface CreateKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -201,10 +196,6 @@ export interface ImportKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -239,10 +230,6 @@ export interface UpdateKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -260,10 +247,6 @@ export interface GetKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -276,10 +259,6 @@ export interface ListKeysOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -291,8 +270,4 @@ export interface RequestOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }

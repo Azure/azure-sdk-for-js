@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as msRest from "@azure/core-http";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { DeletionRecoveryLevel } from "./core/models";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 
@@ -145,10 +144,6 @@ export interface SetSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -183,10 +178,6 @@ export interface UpdateSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -204,10 +195,6 @@ export interface GetSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -220,8 +207,4 @@ export interface ListSecretsOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
