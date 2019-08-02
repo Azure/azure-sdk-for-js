@@ -23,9 +23,6 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          echo {{coalesce($(packageGlobFilter),"**")}}
-
-      - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Build libraries"
 
@@ -37,8 +34,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/{{coalesce($(packageGlobFilter),"**")}}/*.tgz
-            sdk/**/{{coalesce($(packageGlobFilter),"**")}}/browser/*.zip
+            sdk/**/${{coalesce(variables['packageGlobFilter'],"**")}}/*.tgz
+            sdk/**/${{coalesce(variables['packageGlobFilter'],"**")}}/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
