@@ -51,8 +51,7 @@ export class CheckpointManager {
 export enum CloseReason {
     EventHubException = "EventHubException",
     OwnershipLost = "OwnershipLost",
-    Shutdown = "Shutdown",
-    Unknown = "Unknown"
+    Shutdown = "Shutdown"
 }
 
 export { DataTransformer }
@@ -279,6 +278,8 @@ export class ReceiveHandler {
     readonly partitionId: string | undefined;
     stop(): Promise<void>;
 }
+
+export { RetryOptions }
 
 // @public
 export interface SendOptions {
