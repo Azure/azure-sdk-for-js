@@ -28,7 +28,8 @@ glob(filter, (err, files) => {
     process.exit(1);
   }
 
-  let packageTargets = "";
+  let packageTargetsTo = "";
+  let packageTargetsFrom = "";
 
   if (files) {
     log(`Found ${files.length} packages under service directory.`);
