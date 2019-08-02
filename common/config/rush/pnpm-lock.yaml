@@ -181,7 +181,7 @@ dependencies:
   webpack: 4.39.1_webpack@4.39.1
   webpack-cli: 3.3.6_webpack@4.39.1
   webpack-dev-middleware: 3.7.0_webpack@4.39.1
-  ws: 6.2.1
+  ws: 7.1.1
   xhr-mock: 2.5.0
   xml2js: 0.4.19
   yargs: 13.3.0
@@ -9405,6 +9405,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
+  /ws/7.1.1:
+    dependencies:
+      async-limiter: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-o41D/WmDeca0BqYhsr3nJzQyg9NF5X8l/UdnFNux9cS3lwB+swm8qGWX5rn+aD6xfBU3rGmtHij7g7x6LxFU3A==
   /xhr-mock/2.5.0:
     dependencies:
       global: 4.4.0
@@ -9708,11 +9714,11 @@ packages:
       typescript: 3.5.3
       url: 0.11.0
       util: 0.12.1
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-P8CiVrSH6xDLznsrnE5Ml2Udf2c1kVSESkHPxfHgKkj3qo1w5CYK7WE6wtkLIkD31kPyFoHWsHBC5XyVs3GJLA==
+      integrity: sha512-EF7uKXApQvxDTDqJuufx+S4UYFVYXYTjC5FCq2tLGtL/wTGvc2IsIHz8BzWeCYKuJpe9d0LVcz+fSLjcNXkrBQ==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10023,11 +10029,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-oyo9iC0F31bWD+/p5AtfkUcnFIovsqgZUq/VAdsRDjPoRHmAU7g5V6hGy5XYHnjKSRbFMGjYN+Wz1e/mT1TxqQ==
+      integrity: sha512-O2d6Uswmk/Fgv4BTLZCUw0IX0P2EiJEbWLhB6H5Li9yQ37LL3vfU/elSoPZGeVMclIsaxeuO+nhWoAvdd4t3jQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10081,11 +10087,11 @@ packages:
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.2
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-8hJE2VpoJpenKjzTXTKZnpWJianXLxiKUtXJExYIhysC7LaRFLaNXqv0kATHnfh9ACNd47oSfSO8csydQV/x5Q==
+      integrity: sha512-B8IPcoMj4zy8oK2UI0bOmF7QoSg4LFPisEMwSR7gCk8b6jmIt9oXXY7ND5jLpmiwLAtLVN84jVYZkrqUjP9AYQ==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10379,11 +10385,11 @@ packages:
       ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       typescript: 3.5.3
-      ws: 6.2.1
+      ws: 7.1.1
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-pGmuhpiqNLjt0lRX/4q7hUdnFKpcT3OaYmGsq3I9sPEEYS6zn+Rr8kAX291NNHdEPBh6nyUUqftpalELJSq3Yg==
+      integrity: sha512-dXvqZ2I6tr3o5+pkLb6WxyaRSLqxKdPrFN5MEZqN3Q39RwYUerHXpguHwjjVk5tlquNAzbyi1jL9MIVoSpHcKw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10853,7 +10859,7 @@ specifiers:
   webpack: ^4.16.3
   webpack-cli: ^3.2.3
   webpack-dev-middleware: ^3.1.2
-  ws: ^6.2.1
+  ws: ^7.1.1
   xhr-mock: ^2.4.1
   xml2js: ^0.4.19
   yargs: ^13.0.0
