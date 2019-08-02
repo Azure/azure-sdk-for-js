@@ -40,7 +40,8 @@ export class CheckpointManager {
 // @public
 export enum CloseReason {
     OwnershipLost = "OwnershipLost",
-    Shutdown = "Shutdown"
+    Shutdown = "Shutdown",
+    Unknown = "Unknown"
 }
 
 export { DataTransformer }
