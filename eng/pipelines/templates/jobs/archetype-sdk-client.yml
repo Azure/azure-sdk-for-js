@@ -153,7 +153,7 @@ jobs:
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
+          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Build test assets"
       - script: |
           node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
