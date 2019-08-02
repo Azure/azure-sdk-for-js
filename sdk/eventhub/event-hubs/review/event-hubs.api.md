@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
+import { AwaitableSender } from 'rhea-promise';
 import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
@@ -16,7 +17,6 @@ import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
-import { Sender } from 'rhea-promise';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
@@ -278,6 +278,8 @@ export class ReceiveHandler {
     readonly partitionId: string | undefined;
     stop(): Promise<void>;
 }
+
+export { RetryOptions }
 
 // @public
 export interface SendOptions {
