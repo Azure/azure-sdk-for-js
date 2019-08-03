@@ -85,7 +85,7 @@ dependencies:
   dotenv: 8.0.0
   es6-promise: 4.2.8
   eslint: 5.16.0
-  eslint-config-prettier: 4.3.0_eslint@5.16.0
+  eslint-config-prettier: 6.0.0_eslint@5.16.0
   eslint-detailed-reporter: 0.8.0_eslint@5.16.0
   eslint-plugin-no-null: 1.0.2_eslint@5.16.0
   eslint-plugin-no-only-tests: 2.3.1
@@ -3433,7 +3433,7 @@ packages:
       source-map: 0.2.0
     resolution:
       integrity: sha1-WltTr0aTEQvrsIZ6o0MN07cKEBg=
-  /eslint-config-prettier/4.3.0_eslint@5.16.0:
+  /eslint-config-prettier/6.0.0_eslint@5.16.0:
     dependencies:
       eslint: 5.16.0
       get-stdin: 6.0.0
@@ -3442,7 +3442,7 @@ packages:
     peerDependencies:
       eslint: '>=3.14.1'
     resolution:
-      integrity: sha512-sZwhSTHVVz78+kYD3t5pCWSYEdVSBR0PXnwjDRsUs8ytIrK8PLXw+6FKp8r3Z7rx4ZszdetWlXYKOHoUrrwPlA==
+      integrity: sha512-vDrcCFE3+2ixNT5H83g28bO/uYAwibJxerXPj+E7op4qzBCsAV36QfvdAyVOoNxKAH2Os/e01T/2x++V0LPukA==
   /eslint-detailed-reporter/0.8.0_eslint@5.16.0:
     dependencies:
       eslint: 5.16.0
@@ -9612,7 +9612,7 @@ packages:
       cross-env: 5.2.0
       delay: 4.3.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9647,7 +9647,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-YZB6V1xg82Kr6pXb7ROrUOn04B0z+uMjGfx3h01o1YlNs0nK1PWjUGxbv7S2W3jVqdtrigRrUCb0N7ssWt/qmg==
+      integrity: sha512-MMUffH4NZW/NawCA13C0bdKqjytoja1BQSwuA7bQHzMmINYCA+3lE9scchzm8CV5N5RIdtPPABCTkPAdI/2w6A==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -9675,7 +9675,7 @@ packages:
       debug: 3.2.6
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9718,7 +9718,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-EF7uKXApQvxDTDqJuufx+S4UYFVYXYTjC5FCq2tLGtL/wTGvc2IsIHz8BzWeCYKuJpe9d0LVcz+fSLjcNXkrBQ==
+      integrity: sha512-0v3Gz9NCETDOgGKPZ764PdvsLIdCV6QSHRblilI8DlC5CXz/pvUEL1JsQcrM1tXbJOZcuB72pIQwnYrdPm7vdA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9730,7 +9730,7 @@ packages:
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       chai: 4.2.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9754,7 +9754,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-DxPkCs1exvhv8SRAI7jx9CVtepRR3Qj9++ynwASgqjPh85+9Wo3xSl+mohWi+c/nmON9kdHlzp4qvq7psKkk9A==
+      integrity: sha512-pyEiD37YlrRGFw/QdPkmVy1yOIEbpAp1shPzktFxYfuN/BWicVa+I62AF14J3DdqXkG4wsRaaUNIfrTCvMJNVQ==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -9763,7 +9763,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9773,7 +9773,7 @@ packages:
     dev: false
     name: '@rush-temp/core-asynciterator-polyfill'
     resolution:
-      integrity: sha512-oJErNaXrpCzEEVyYVvv8gcBRnv36c76LBxalfW/l4wlABmUh9u+EuvwI46ig0V3m1bmIluW4S/9O08nO18uyGw==
+      integrity: sha512-eM85h9SCt/WXjcDWnOd1RZAKQWwPRSpsOgNeNHm/RZ84rEDmAp/8Lv1t1vaJLLqn6bExzexX/a3MjS57kuNY/g==
       tarball: 'file:projects/core-asynciterator-polyfill.tgz'
     version: 0.0.0
   'file:projects/core-auth.tgz':
@@ -9787,7 +9787,7 @@ packages:
       assert: 1.5.0
       cross-env: 5.2.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9813,7 +9813,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-3A4yvJDci4zsEaNhc5KDCr0gAwjKpH9EWw+pU1s6orOqh4RcEpssVPmUFoNKPk7+qDMRqS/IhAvWAjIgiI+Dag==
+      integrity: sha512-BzCXSUB2kZHpKe4LcJmw1ttav09XKk0gCebGj3pric2r8D4dKZIpzS5KRJ+t+X8TcyupVuBv2kx/U2ZeTTX6QA==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -9841,7 +9841,7 @@ packages:
       axios-mock-adapter: 1.17.0_axios@0.19.0
       chai: 4.2.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9895,7 +9895,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-2x3r93OGjp7mx4hCbLEcXN1bTEWBXIc5d4DMbBNqwPF+sMzKRFsB6HAbuV1F+/+yvCo4djCzIZBoJEaAN5/rlA==
+      integrity: sha512-DXu2Sn0O580ClpsT/e4sS7zHjNg/38ftgWG7MWj0m9A4VRkP+9K4N0BPRyw0oAeht99AWauEQ2SxYEwc5uGdQg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -9905,7 +9905,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9915,7 +9915,7 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-MTsl2eG0FXkUyouQVkSEpgLuG6tNUKE8ckhH8y4B3VUevh/MOS/ghpCqXFRKEAMF7jVfB1s2BSSorGYFuWlcDg==
+      integrity: sha512-EnQl2fTIIG6a5I/I3EzV+4vYTEJcb4TBBeW/olyfoCWioVWC9Mmq5u4S83XXAgY3m98/ctbNHzEcEuCdgSdVrA==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -9932,7 +9932,7 @@ packages:
       binary-search-bounds: 2.0.3
       create-hmac: 1.1.7
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -9957,7 +9957,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-C/dkPEdiFfMi1Qz6BaTMvSF218Ht9TIHjxBcYIC2H20Kfb0/fVR1ThW1H1uFPidEPtct/Qz8wlJWBVUfiumPNQ==
+      integrity: sha512-5OtuHMLHmJ9wohJDESFRqKwMm3IMXzj6ffj2BkZZqroUioGo4xLqSOAVrnaqPaiBzlQWp96viBp8mhxgc+2prA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -9987,7 +9987,7 @@ packages:
       debug: 3.2.6
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10033,7 +10033,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-O2d6Uswmk/Fgv4BTLZCUw0IX0P2EiJEbWLhB6H5Li9yQ37LL3vfU/elSoPZGeVMclIsaxeuO+nhWoAvdd4t3jQ==
+      integrity: sha512-5bF+EvgsyN/dhQIPgU/C24oeLdUSa+FSbELjGfSmWkmhLQbgBM8JQNImtDgor5n81QpM1pWpFPIpu5M8cVmHzg==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10062,7 +10062,7 @@ packages:
       debug: 3.2.6
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10091,7 +10091,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-B8IPcoMj4zy8oK2UI0bOmF7QoSg4LFPisEMwSR7gCk8b6jmIt9oXXY7ND5jLpmiwLAtLVN84jVYZkrqUjP9AYQ==
+      integrity: sha512-NA3u7hYUX4M4rPCK+aTFtGaZfbMDWvsxHdV0No6sppjjLiHEKDL2yBdBwhuhKsy4/Ty/VIpfJQQjfUoYPOn/nw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10155,7 +10155,7 @@ packages:
       '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
       chai: 4.2.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10172,7 +10172,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-QXnSrcEl4SWcc1wYPRy2BeupDtio52G/miaEJAgse04u88EeU5YoZpQNtZ9l2rzpd/wuJmB2GMkVgUXRnB6zgg==
+      integrity: sha512-chpyZ7ntkMyiVzN6BTFCdw/mzSpZj8O8Gi4JznOkO7bBOQzgBLmVIQ/pwJqUoJg8YUnfqNZMV/xqJD6Irkjl1w==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10196,7 +10196,7 @@ packages:
       cross-env: 5.2.0
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10242,7 +10242,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-MyqA/8uu5hwV/QAJYyS0dKOpixsYXhqanHEaqgUr5MK3y+CfNKX1/PA5u7TqujiROxXgjeXoGiIPcRmblFOOxg==
+      integrity: sha512-uHS+jjG/J+5s42bd29eIQtGRRboDv5mR9zchVtpbHRkHYRZLrxNoWnKooL84um+7p15mLCRpF4S5cSkex7dRUg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10265,7 +10265,7 @@ packages:
       cross-env: 5.2.0
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10311,7 +10311,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-Kflt5b838Qhaj+aJi0E24WrQX1LsBsvjhcCxP1cLaSB4kwwCyjWLzHithaomyK3DLY7G029+VtWojYYVlDjt1g==
+      integrity: sha512-a/Il5P+9dNOUYtFC0EB5PZIhy5LouW+8oqc+uBvwlIKAA/NzUVTy5ZjkMskqiH5aMleJeV4ZMYOSBigU8O8e7Q==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10341,7 +10341,7 @@ packages:
       delay: 4.3.0
       dotenv: 8.0.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10389,7 +10389,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-dXvqZ2I6tr3o5+pkLb6WxyaRSLqxKdPrFN5MEZqN3Q39RwYUerHXpguHwjjVk5tlquNAzbyi1jL9MIVoSpHcKw==
+      integrity: sha512-YZz3mASz3qrM577g17GK1eoOiOyH8DiSGxfkIw28W+qGFSBhPNXKs1qdOwDySMs9iypb3z8UjPMeEiBJYFfj/Q==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10410,7 +10410,7 @@ packages:
       dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10460,7 +10460,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-T4hbFg8h5S7RcyLHXW7HUXAQmpQ4IR3fyS43dlanQsxODisWkgkgEE/NpkLW6v4XG4nZLmUBJC3Rziz/vVqcjw==
+      integrity: sha512-/pzOlT+BOxng1QpYdbv3xj6EbqP2+biLw7Lsj8MuQ/JlkecQ/vq7uFRuu67Pv7RMA66kzwBu4PRvpkN3CyCsWg==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -10481,7 +10481,7 @@ packages:
       dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10531,7 +10531,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-mddX2+fGdsOiO6MYnvgsXXY7iY5lkyqIJVn+UYpuJ0Hioxxaf16WBj/RtqTvV6+HHxBXKZ1Mgf+ERSyvJN3NBQ==
+      integrity: sha512-AcWoeC5WyCxKB+KVvceLsoq/zSf5HFzVdXpVvX+Mc/+uaP6XItcvGGsLQfwUojuQ5P7y08AMNMzFMh++vCn7qA==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10552,7 +10552,7 @@ packages:
       dotenv: 8.0.0
       es6-promise: 4.2.8
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10601,7 +10601,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-vzHosalOlYTuZXeMq203NI3hVVkPV/Rj8pMvciVP7V52/pSocKHx69rO/ifHvBWzwQwLcJtCoQhxAkEGw9rVQA==
+      integrity: sha512-2O9eUkSpX6m28VxTLOykmO3qCo7wybjtfDi6ITx3AhyuRghzv7JwMQNoQKKZlipoD0C5xRzFt4kx51HSA1haPQ==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -10614,7 +10614,7 @@ packages:
       assert: 1.5.0
       cross-env: 5.2.0
       eslint: 5.16.0
-      eslint-config-prettier: 4.3.0_eslint@5.16.0
+      eslint-config-prettier: 6.0.0_eslint@5.16.0
       eslint-detailed-reporter: 0.8.0_eslint@5.16.0
       eslint-plugin-no-null: 1.0.2_eslint@5.16.0
       eslint-plugin-no-only-tests: 2.3.1
@@ -10652,7 +10652,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-uPHAfdfuRcAzIkfBXfMawiZC8rXarqHPLodrKMLJX31JLlLIzdHXhHES0+bVNn2Jtse0erx0gNzWu2eAXTWEQA==
+      integrity: sha512-MxtFJnVO6Nw4g+5rIx/QWGh/+i5iimaZLDDEisDKv4PY/K8OfoV4Z/dZikDd22rhLUIoT4+yRizXbKtLM7zLxg==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10676,6 +10676,7 @@ packages:
       integrity: sha512-VxrbDXfuJ6Nz4rm0DHlJ+0sMk4RMKRflIyu7WxXLZGBpri9KLivFyNA0TWfZBifpdy3T1kVXyLOccskpzczDvA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10763,7 +10764,7 @@ specifiers:
   dotenv: ^8.0.0
   es6-promise: ^4.2.5
   eslint: ^5.16.0
-  eslint-config-prettier: ^4.2.0
+  eslint-config-prettier: ^6.0.0
   eslint-detailed-reporter: ^0.8.0
   eslint-plugin-no-null: ^1.0.2
   eslint-plugin-no-only-tests: ^2.3.0
