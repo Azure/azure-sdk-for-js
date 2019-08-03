@@ -55,12 +55,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
   private login(): Promise<msal.AuthResponse> {
     switch (this.loginStyle) {
-      case "redirect":
-        let loginPromise: Promise<msal.AuthResponse> = new Promise((resolve, reject) => {
+      case "redirect": {
+        const loginPromise = new Promise<msal.AuthResponse>((resolve, reject) => {
           this.msalObject.handleRedirectCallback(resolve, reject);
         });
         this.msalObject.loginRedirect();
         return loginPromise;
+      }
       case "popup":
         return this.msalObject.loginPopup();
     }
@@ -117,7 +118,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       await this.login();
     }
 
-    let authResponse = await this.acquireToken({
+    const authResponse = await this.acquireToken({
       scopes: Array.isArray(scopes) ? scopes : scopes.split(',')
     });
 
