@@ -20,6 +20,27 @@ export const acceptLanguage: coreHttp.OperationParameter = {
     }
   }
 };
+
+export const spanOptions: coreHttp.OperationParameter = {
+  parameterPath: ["options", "requestOptions", "spanOptions"],
+  mapper: {
+    serializedName: "span-options",
+    type: {
+      name: "Object"
+    }
+  }
+};
+
+export const spanOptionsV2: coreHttp.OperationParameter = {
+  parameterPath: ["options", "spanOptions"],
+  mapper: {
+    serializedName: "span-options",
+    type: {
+      name: "Object"
+    }
+  }
+};
+
 export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -30,6 +51,7 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
     }
   }
 };
+
 export const certificateName0: coreHttp.OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {

@@ -460,5 +460,10 @@ export interface RequestOptionsBase {
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
+  /**
+  * Options used to create a span if tracing is enabled.
+  */
+  spanOptions?: any;
+
   [key: string]: any;
 }

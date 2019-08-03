@@ -71,6 +71,7 @@
     "@azure/core-arm": "1.0.0-preview.2",
     "@azure/core-http": "1.0.0-preview.2",
     "@azure/core-paging": "1.0.0-preview.1",
+    "@azure/core-tracing": "1.0.0-preview.1",
     "@azure/identity": "1.0.0-preview.2",
     "tslib": "^1.9.3"
   },

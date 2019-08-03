@@ -21,10 +21,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential,
-    options?: coreArm.AzureServiceClientOptions
-  ) {
+  constructor(credentials: coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
     super(credentials, options);
   }
 
@@ -5266,7 +5263,7 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/create",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   requestBody: {
     parameterPath: {
       kty: "kty",
@@ -5326,7 +5323,7 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -5371,7 +5368,7 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -5405,7 +5402,7 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   path: "keys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptionsV2],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
