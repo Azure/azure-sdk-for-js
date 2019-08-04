@@ -7,7 +7,7 @@ import {
   ErrorNameConditionMapper,
   MessagingError,
   Func
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import {
   Receiver,
   OnAmqpEvent,
@@ -284,7 +284,7 @@ export class MessageSession extends LinkEntity {
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
-              maxRetries: 4
+              times: 4
             }
           );
           log.receiver(

@@ -116,7 +116,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceProviderNamespace
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.expand
   ],
   headerParameters: [
@@ -137,7 +137,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/providerOperations",
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.expand
   ],
   headerParameters: [

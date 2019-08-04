@@ -1,13 +1,15 @@
-import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
+import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
 import { bodyToString, getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
-import * as dotenv from "dotenv";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("FileURL", () => {
@@ -262,6 +264,16 @@ describe("FileURL", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
+  it("download should not have aborted error after download finishes", async () => {
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+
+    const aborter = Aborter.none;
+    const result = await fileURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
+  });
+
   it("download all parameters set", async () => {
     await fileURL.create(Aborter.none, content.length);
     await fileURL.uploadRange(Aborter.none, content, 0, content.length);
@@ -310,5 +322,45 @@ describe("FileURL", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("listHandles should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: FileForceCloseHandlesResponse = await fileURL.forceCloseHandlesSegment(Aborter.none, marker);
+      marker = response.marker;
+    } while (marker)
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+    
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirURL.forceCloseHandle(Aborter.none, handle.handleId);
+    }
   });
 });

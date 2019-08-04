@@ -5,6 +5,7 @@ import * as chai from "chai";
 const should = chai.should();
 
 import * as Errors from "../src/errors";
+import { AbortError } from "@azure/abort-controller";
 
 class AMQPError {
   name = "AmqpProtocolError";
@@ -28,6 +29,35 @@ describe("Errors", function() {
       translatedError.name.should.equal(ehError.name);
       translatedError.retryable.should.equal(ehError.retryable);
       translatedError.message.should.equal(ehError.message);
+    });
+
+    it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function() {
+      const err = new Error("error message");
+      err.name = "OperationTimeoutError";
+      const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "OperationTimeoutError", true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(true);
+    });
+
+    it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", function() {
+      const err = new Error("error message");
+      err.name = "InsufficientCreditError";
+      const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "InsufficientCreditError", true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(true);
+    });
+
+    it("Sets retryable to false, if input is the custom AbortError", function() {
+      const err = new AbortError("error message");
+      const translatedError = Errors.translate(err);
+      should.equal(translatedError.name === "AbortError", true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(false);
     });
 
     it("Sets retryable to false, and acts as a passthrough if the input is TypeError", function() {
@@ -67,10 +97,7 @@ describe("Errors", function() {
       { from: "<unknown>", to: "MessagingError" }
     ].forEach(function(mapping) {
       it("translates " + mapping.from + " into " + mapping.to, function() {
-        const err: any = new AMQPError(
-          mapping.from as any,
-          mapping.message as any
-        );
+        const err: any = new AMQPError(mapping.from as any, mapping.message as any);
         const translatedError = <Errors.MessagingError>Errors.translate(err);
         translatedError.name.should.equal(mapping.to);
         if (
@@ -113,18 +140,13 @@ describe("Errors", function() {
         code: "ESOMETHINGRANDOM",
         errno: "ESOMETHINGRANDOM",
         syscall: "read",
-        message:
-          "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read"
+        message: "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read"
       }
     ].forEach(function(mapping) {
       it(
-        "SystemError from node.js  with code: '" +
-          mapping.code +
-          "' to a MessagingError",
+        "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
         function() {
-          const translatedError = <Errors.MessagingError>(
-            Errors.translate(mapping as any)
-          );
+          const translatedError = <Errors.MessagingError>Errors.translate(mapping as any);
           if (mapping.code === "ECONNRESET") {
             translatedError.name.should.equal("ServiceUnavailableError");
             translatedError.retryable.should.equal(true);

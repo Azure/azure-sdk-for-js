@@ -11,14 +11,14 @@ describe("EventPosition #RunnableInBrowser", function(): void {
   describe("happy", function(): void {
     it("should create from an offset with inclusive false", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-offset > '1234'";
-      const pos = EventPosition.fromOffset("1234");
+      const pos = EventPosition.fromOffset(1234);
       result.should.equal(getEventPositionFilter(pos));
       done();
     });
 
     it("should create from an offset with inclusive true", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-offset >= '1234'";
-      const pos = EventPosition.fromOffset("1234", true);
+      const pos = EventPosition.fromOffset(1234, true);
       result.should.equal(getEventPositionFilter(pos));
       done();
     });
@@ -71,18 +71,6 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       const result = "amqp.annotation.x-opt-offset > '@latest'";
       const pos = EventPosition.latest();
       result.should.equal(getEventPositionFilter(pos));
-      done();
-    });
-  });
-  describe("sad", function(): void {
-    it("should fail if empty string is provided for offset", function(done: Mocha.Done): void {
-      try {
-        EventPosition.fromOffset("");
-      } catch (err) {
-        err.message.should.match(
-          /'offset' is a required parameter and must be a non-empty string.*/gi
-        );
-      }
       done();
     });
   });

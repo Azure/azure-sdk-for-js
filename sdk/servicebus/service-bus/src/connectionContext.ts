@@ -11,9 +11,8 @@ import {
   CreateConnectionContextBaseParameters,
   Dictionary,
   delay,
-  TokenCredential,
-  SharedKeyCredential
-} from "@azure/core-amqp";
+  TokenProvider
+} from "@azure/amqp-common";
 import { ServiceBusClientOptions } from "./serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
@@ -22,7 +21,7 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
  * @internal
  * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
- * tokenCredential, senders, receivers, etc. about the ServiceBus client.
+ * tokenProvider, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
@@ -46,13 +45,13 @@ export namespace ConnectionContext {
 
   export function create(
     config: ConnectionConfig,
-    tokenCredential: SharedKeyCredential | TokenCredential,
+    tokenProvider: TokenProvider,
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenCredential: tokenCredential,
+      tokenProvider: tokenProvider,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {

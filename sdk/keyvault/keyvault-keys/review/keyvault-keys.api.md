@@ -40,6 +40,39 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 }
 
 // @public
+export class CryptographyClient {
+    constructor(url: string, key: string | JsonWebKey, // keyUrl or JsonWebKey
+    credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    protected readonly credential: ServiceClientCredentials | TokenCredential;
+    decrypt(algorithm: JsonWebKeyEncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
+    encrypt(algorithm: JsonWebKeyEncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
+    getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
+    key: string | JsonWebKey;
+    readonly pipeline: ServiceClientOptions;
+    // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
+    sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<SignResult>;
+    signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<SignResult>;
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<UnwrapResult>;
+    readonly vaultBaseUrl: string;
+    verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
+    verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<WrapResult>;
+}
+
+// @public
+export interface DecryptOptions extends RequestOptions {
+    authenticationData?: Uint8Array;
+    authenticationTag?: Uint8Array;
+    iv?: Uint8Array;
+}
+
+// @public
+export interface DecryptResult {
+    result: Uint8Array;
+}
+
+// @public
 export interface DeletedKey extends Key {
     readonly deletedDate?: Date;
     readonly recoveryId?: string;
@@ -50,18 +83,32 @@ export interface DeletedKey extends Key {
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
+export interface EncryptOptions extends RequestOptions {
+    authenticationData?: Uint8Array;
+    iv?: Uint8Array;
+}
+
+// @public
+export interface EncryptResult {
+    result: Uint8Array;
+}
+
+// @public
 export interface GetKeyOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetKeysOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
 // @public
 export interface ImportKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     hsm?: boolean;
@@ -97,6 +144,9 @@ export interface JsonWebKey {
 export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+// @public
 export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
 
 // @public
@@ -123,14 +173,14 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
 
 // @public
 export class KeysClient {
-    constructor(url: string, credential: ServiceClientCredentials | TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
-    protected readonly credential: ServiceClientCredentials | TokenCredential;
+    protected readonly credential: TokenCredential;
     deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    static getDefaultPipeline(credential: ServiceClientCredentials | TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
+    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
@@ -144,6 +194,9 @@ export class KeysClient {
     updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
     readonly vaultBaseUrl: string;
 }
+
+// @public
+export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
 export interface NewPipelineOptions {
@@ -177,6 +230,7 @@ export interface ProxyOptions {
 
 // @public
 export interface RequestOptions {
+    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
@@ -187,6 +241,11 @@ export interface RetryOptions {
     readonly retryIntervalInMS?: number;
 }
 
+// @public
+export interface SignResult {
+    result: Uint8Array;
+}
+
 // @public (undocumented)
 export interface TelemetryOptions {
     // (undocumented)
@@ -194,7 +253,13 @@ export interface TelemetryOptions {
 }
 
 // @public
+export interface UnwrapResult {
+    result: Uint8Array;
+}
+
+// @public
 export interface UpdateKeyOptions {
+    abortSignal?: AbortSignalLike;
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];
@@ -203,6 +268,16 @@ export interface UpdateKeyOptions {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface VerifyResult {
+    result: boolean;
+}
+
+// @public
+export interface WrapResult {
+    result: Uint8Array;
 }
 
 

@@ -1,6 +1,9 @@
-import { CertificatesClient, SecretsClient } from "../src";
-import { CertificatePolicy } from "../src/models";
+import { CertificatesClient } from "../src";
 import { EnvironmentCredential } from "@azure/identity";
+
+export function delay<T>(t: number, value?: T): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+}
 
 async function main(): Promise<void> {
   // EnvironmentCredential expects the following three environment variables:
@@ -12,68 +15,28 @@ async function main(): Promise<void> {
   const credential = new EnvironmentCredential();
 
   const cc = new CertificatesClient(url, credential);
-  const sc = new SecretsClient(url, credential);
 
-  /*
-    let result = await cc.createCertificate("Unique123124", {
-      certificatePolicy: {
-        issuerParameters: { name: "Self" },
-        keyProperties: {
-          exportable: true,
-          keySize: 2048,
-          keyType: "RSA",
-          reuseKey: true
-        },
-        lifetimeActions: [
-          {
-            action: {
-              actionType: "EmailContacts"
-            },
-            trigger: {
-              daysBeforeExpiry: 90
-            }
-          }
-        ],
-        secretProperties: {
-          contentType: "application/x-pkcs12"
-        },
-        x509CertificateProperties: {
-          keyUsage: [
-            "cRLSign",
-            "dataEncipherment",
-            "digitalSignature",
-            "keyEncipherment",
-            "keyAgreement",
-            "keyCertSign"],
-          subject: "CN=MyTestPolicy",
-          validityInMonths: 12
-        }
-      }
-    });
-  
-    console.log(result);
-  */
-  //let result = await cc.createCertificate("MyCert", { certificatePolicy: { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } } })
-  let result = await cc.createCertificate("MyCert2", { issuerName: "Self", x509Subject: "cn=MyCert2", })
-  let result = await cc.createCertificate("MyCert2", { certificatePolicy: { issuerName: "Self", subjectName: "cn=MyCert2" } });
-  //console.log(result);
+  // let result = await cc.createCertificate("MyCertificate2", { certificatePolicy: { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } }});
+  // console.log("result: ", result);
 
-  /*
-  let result = await cc.getAllCertificates();
+  // await delay(150000);
 
-  for await (let x of result) {
-    console.log(x);
+  // let result2 = await cc.getCertificate("MyCertificate2", "");
+  // console.log("result: ", result2);
+
+  for await (let cert of cc.listCertificates()) {
+    console.log("cert: ", cert);
+    for await (let version of cc.listCertificateVersions(cert.name)) {
+      console.log("version: ", version);
+
+      // let backedUp = await cc.backupCertificate(cert.name);
+      // console.log("backedup: ", backedUp);
+    }
   }
-  */
 
-
-  let result = await cc.getCertificate("Unique123124", "");
-  let lifetimeActions = result.policy.lifetimeActions[0];
-  console.log(lifetimeActions.action);
-  console.log(lifetimeActions.trigger);
-
-  // let result = await sc.getSecret("Unique123123");
-  // console.log(result);
+  for await (let issuer of cc.listCertificateIssuers()) {
+    console.log("issuer: ", issuer);
+  }
 }
 
 main().catch((err) => {

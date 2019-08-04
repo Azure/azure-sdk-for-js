@@ -1,18 +1,15 @@
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
+
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import * as Models from "./generated/lib/models";
-import { File } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { File } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  FILE_MAX_SIZE_BYTES,
-  FILE_RANGE_MAX_SIZE_BYTES
-} from "./utils/constants";
+import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IFileCreateOptions {
@@ -143,6 +140,14 @@ export interface IFileStartCopyOptions {
   metadata?: IMetadata;
 }
 
+export interface IFileListHandlesSegmentOptions {
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   */
+  maxresults?: number;
+}
+
 /**
  * A FileURL represents a URL to an Azure Storage file.
  *
@@ -231,7 +236,7 @@ export class FileURL extends StorageURL {
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.create(size, {
       abortSignal: aborter,
-      ...options.fileHTTPHeaders,
+      fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
   }
@@ -382,7 +387,7 @@ export class FileURL extends StorageURL {
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
-      ...fileHTTPHeaders
+      fileHTTPHeaders
     });
   }
 
@@ -578,6 +583,92 @@ export class FileURL extends StorageURL {
     copyId: string
   ): Promise<Models.FileAbortCopyResponse> {
     return this.context.abortCopy(copyId, {
+      abortSignal: aborter
+    });
+  }
+
+  /**
+   * Lists handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {IFileListHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.FileListHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async listHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IFileListHandlesSegmentOptions = {}
+  ): Promise<Models.FileListHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if (response.handleList as any === "") {
+      response.handleList = undefined;
+    }
+    return response;
+  }
+
+  /**
+   * Force close all handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * 
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will 
+   *                          be closed with the next force close handles operation. 
+   *                          The operation returns a marker value within the response 
+   *                          body if there are more handles to close. The marker value 
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker,
+    });
+  }
+
+  /**
+   * Force close a specific handle for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @memberof FileURL
+   */
+  public async forceCloseHandle(
+    aborter: Aborter,
+    handleId: string
+  ): Promise<Models.FileForceCloseHandlesResponse> {
+    if (handleId === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleId, {
       abortSignal: aborter
     });
   }

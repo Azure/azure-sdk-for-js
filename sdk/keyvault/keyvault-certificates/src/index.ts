@@ -1,10 +1,8 @@
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
-  bearerTokenAuthenticationPolicy,
   signingPolicy,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -16,6 +14,7 @@ import {
   isNode,
   userAgentPolicy
 } from "@azure/core-http";
+
 
 import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
@@ -39,20 +38,22 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 export class CertificatesClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof CertificatesClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -82,7 +83,7 @@ export class CertificatesClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -97,20 +98,20 @@ export class CertificatesClient {
 
   public readonly pipeline: Pipeline;
 
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
    * Creates an instance of CertificatesClient.
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof CertificatesClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
@@ -450,37 +451,37 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  public async updateCertificateOperation(name: string, cancel: boolean, options: RequestOptions): Promise<CertificateOperation> {
+  public async updateCertificateOperation(name: string, cancel: boolean, options?: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, cancel, options);
 
     return result._response.parsedBody;
   }
 
-  public async getCertificateOperation(name: string, options: RequestOptions): Promise<CertificateOperation> {
+  public async getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.getCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async deleteCertificateOperation(name: string, options: RequestOptions): Promise<CertificateOperation> {
+  public async deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.deleteCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options: RequestOptions): Promise<Certificate> {
+  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptions): Promise<Certificate> {
     let result = await this.client.mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  public async backupCertificate(name: string, options: RequestOptions): Promise<BackupCertificateResult> {
+  public async backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult> {
     let result = await this.client.backupCertificate(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async restoreCertificate(certificateBackup: Uint8Array, options: RequestOptions): Promise<Certificate> {
+  public async restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptions): Promise<Certificate> {
     let result = await this.client.restoreCertificate(this.vaultBaseUrl, certificateBackup, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);

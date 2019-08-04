@@ -3,12 +3,10 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
-  ServiceClientCredentials,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
-  bearerTokenAuthenticationPolicy,
   signingPolicy,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -30,6 +28,7 @@ import {
   KeyBundle,
   JsonWebKeyType,
   JsonWebKey,
+  JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyCurveName,
   KeyItem,
@@ -38,6 +37,8 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   NewPipelineOptions,
   isNewPipelineOptions,
@@ -59,27 +60,51 @@ import {
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
+import {
+  CryptographyClient,
+  EncryptOptions,
+  DecryptOptions,
+  KeyWrapAlgorithm,
+  EncryptResult,
+  DecryptResult,
+  SignResult, 
+  VerifyResult,
+  WrapResult,
+  UnwrapResult
+} from "./cryptographyClient";
+
 export {
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
   CreateKeyOptions,
+  CryptographyClient,
   DeletedKey,
   DeletionRecoveryLevel,
+  DecryptOptions,
+  DecryptResult,
+  EncryptOptions,
+  EncryptResult,
   GetKeyOptions,
   ListKeysOptions as GetKeysOptions,
   ImportKeyOptions,
   JsonWebKey,
   JsonWebKeyCurveName,
+  JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyType,
   Key,
   KeyAttributes,
+  KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
   PagedAsyncIterableIterator,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  UpdateKeyOptions
+  SignResult,
+  UnwrapResult,
+  UpdateKeyOptions,
+  VerifyResult,
+  WrapResult,
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -92,13 +117,13 @@ export class KeysClient {
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof KeysClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -128,7 +153,7 @@ export class KeysClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -152,7 +177,7 @@ export class KeysClient {
   /**
    * The authentication credentials
    */
-  protected readonly credential: ServiceClientCredentials | TokenCredential;
+  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
@@ -169,14 +194,14 @@ export class KeysClient {
    * let client = new KeysClient(url, credentials);
    * ```
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof KeysClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials | TokenCredential,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
@@ -186,6 +211,8 @@ export class KeysClient {
     } else {
       this.pipeline = pipelineOrOptions;
     }
+
+    this.pipeline.requestPolicyFactories
 
     this.client = new KeyVaultClient(credential, this.pipeline);
   }

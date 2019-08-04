@@ -32,8 +32,10 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new GraphRbacManagementClient(creds, subscriptionId);
+msRestNodeAuth.interactiveLogin({{ tokenAudience: "https://graph.windows.net" }}).then((creds) => {
+  const client = new GraphRbacManagementClient(creds, subscriptionId, {
+    baseUri: "https://graph.windows.net"
+  });
   client.signedInUser.get().then((result) => {
     console.log("The result is:");
     console.log(result);
@@ -76,7 +78,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, subscriptionId);
+        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, subscriptionId, {
+          baseUri: "https://graph.windows.net"
+        });
         client.signedInUser.get().then((result) => {
           console.log("The result is:");
           console.log(result);

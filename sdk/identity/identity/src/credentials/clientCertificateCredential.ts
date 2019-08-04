@@ -84,7 +84,7 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public getToken(
+  public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
@@ -131,6 +131,7 @@ export class ClientCertificateCredential implements TokenCredential {
       abortSignal: options && options.abortSignal
     });
 
-    return this.identityClient.sendTokenRequest(webResource);
+    const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }
