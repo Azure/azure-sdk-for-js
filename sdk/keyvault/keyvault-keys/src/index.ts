@@ -525,7 +525,7 @@ export class KeysClient {
       this.vaultBaseUrl,
       name,
       options && options.version ? options.version : "",
-      options
+      options ? options.requestOptions : {}
     );
     return this.getKeyFromKeyBundle(response);
   }
