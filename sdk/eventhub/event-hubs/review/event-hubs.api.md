@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
+import { AwaitableSender } from 'rhea-promise';
 import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
@@ -15,8 +16,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
-import { RetryPolicy } from '@azure/core-amqp';
-import { Sender } from 'rhea-promise';
+import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
@@ -34,15 +34,15 @@ export interface Checkpoint {
     consumerGroupName: string;
     eTag: string;
     eventHubName: string;
-    instanceId: string;
     offset: number;
+    ownerId: string;
     partitionId: string;
     sequenceNumber: number;
 }
 
 // @public
 export class CheckpointManager {
-    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, instanceId: string);
+    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, eventProcessorId: string);
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
@@ -175,6 +175,7 @@ export class EventPosition {
 // @public
 export class EventProcessor {
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    readonly id: string;
     start(): void;
     stop(): Promise<void>;
 }
@@ -223,9 +224,9 @@ export interface PartitionOwnership {
     consumerGroupName: string;
     eTag?: string;
     eventHubName: string;
-    instanceId: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
+    ownerId: string;
     ownerLevel: number;
     partitionId: string;
     sequenceNumber?: number;
@@ -279,15 +280,7 @@ export class ReceiveHandler {
     stop(): Promise<void>;
 }
 
-// @public
-export interface RetryOptions {
-    maxExponentialRetryDelayInMs?: number;
-    maxRetries?: number;
-    minExponentialRetryDelayInMs?: number;
-    retryInterval?: number;
-    retryPolicy?: RetryPolicy;
-    timeoutInMs?: number;
-}
+export { RetryOptions }
 
 // @public
 export interface SendOptions {

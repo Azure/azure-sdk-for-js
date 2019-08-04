@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import AsyncLock from "async-lock";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+
 export { AsyncLock };
 /**
  * Describes the options that can be provided to create an async lock.
@@ -198,12 +200,50 @@ export class Timeout {
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} t - The number of milliseconds to be delayed.
+ * @param {number} delayInMs - The number of milliseconds to be delayed.
+ * @param {AbortSignalLike} abortSignal - The abortSignal associated with containing operation.
+ * @param {string} abortErrorMsg - The abort error message associated with containing operation.
  * @param {T} value - The value to be resolved with after a timeout of t milliseconds.
  * @returns {Promise<T>} - Resolved promise
  */
-export function delay<T>(t: number, value?: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+export function delay<T>(
+  delayInMs: number,
+  abortSignal?: AbortSignalLike,
+  abortErrorMsg?: string,
+  value?: T
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const rejectOnAbort = () => {
+      return reject(
+        new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
+      );
+    };
+
+    const removeListeners = () => {
+      if (abortSignal) {
+        abortSignal.removeEventListener("abort", onAborted);
+      }
+    };
+
+    const onAborted = () => {
+      clearTimeout(timer);
+      removeListeners();
+      return rejectOnAbort();
+    };
+
+    if (abortSignal && abortSignal.aborted) {
+      return rejectOnAbort();
+    }
+
+    const timer = setTimeout(() => {
+      removeListeners();
+      resolve(value);
+    }, delayInMs);
+
+    if (abortSignal) {
+      abortSignal.addEventListener("abort", onAborted);
+    }
+  });
 }
 
 /**

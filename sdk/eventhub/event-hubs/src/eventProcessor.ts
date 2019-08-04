@@ -10,7 +10,7 @@ import { ReceivedEventData } from "./eventData";
 import { PumpManager } from "./pumpManager";
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import * as log from "./log";
-import { cancellableDelay } from "./util/cancellableDelay";
+import { delay } from "@azure/core-amqp";
 
 /**
  * Reason for closing a PartitionProcessor.
@@ -65,9 +65,9 @@ export interface PartitionOwnership {
    */
   consumerGroupName: string;
   /**
-   * @property The unique instance identifier
+   * @property The unique identifier of the event processor.
    */
-  instanceId: string;
+  ownerId: string;
   /**
    * @property The identifier of the Event Hub partition
    */
@@ -221,7 +221,7 @@ export class EventProcessor {
           const partitionOwnership: PartitionOwnership = {
             eventHubName: this._eventHubClient.eventHubName,
             consumerGroupName: this._consumerGroupName,
-            instanceId: this._id,
+            ownerId: this._id,
             partitionId: partitionId,
             ownerLevel: 0
           };
@@ -242,8 +242,19 @@ export class EventProcessor {
           );
 
           // eventually this will 1st check if the existing PartitionOwnership has a position
-          const eventPosition =
+          let eventPosition =
             this._processorOptions.initialEventPosition || EventPosition.earliest();
+
+          const partitionOwnerships = await this._partitionManager.listOwnership(
+            this._eventHubClient.eventHubName,
+            this._consumerGroupName
+          );
+          for (const ownership of partitionOwnerships) {
+            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
+              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
+              break;
+            }
+          }
 
           tasks.push(
             this._pumpManager.createPump(
@@ -263,7 +274,7 @@ export class EventProcessor {
         log.eventProcessor(
           `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
         );
-        await cancellableDelay(waitIntervalInMs, abortSignal);
+        await delay(waitIntervalInMs, abortSignal);
       } catch (err) {
         log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
       }
@@ -271,6 +282,15 @@ export class EventProcessor {
 
     // loop has completed, remove all existing pumps
     return this._pumpManager.removeAllPumps(CloseReason.Shutdown);
+  }
+
+  /**
+   * The unique identifier for the EventProcessor.
+   *
+   * @return {string}
+   */
+  get id(): string {
+    return this._id;
   }
 
   /**

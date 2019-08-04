@@ -11,6 +11,7 @@
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
     "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
+    "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist/index.js": "./browser/index.js"
   },
   "scripts": {
@@ -76,6 +77,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@azure/abort-controller": "1.0.0-preview.1",
     "@types/jws": "~3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
@@ -88,7 +90,7 @@
     "eslint": "^5.16.0",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-json-preprocessor": "^0.3.3",

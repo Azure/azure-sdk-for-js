@@ -528,10 +528,12 @@ export class EventHubReceiver extends LinkEntity {
       const linkCreationConfig: RetryConfig<void> = {
         connectionId: this._context.connectionId,
         connectionHost: this._context.config.host,
-        delayInMs: 15000,
         operation: () => this.initialize(initOptions),
         operationType: RetryOperationType.receiverLink,
-        maxRetries: Constants.defaultMaxRetriesForConnection
+        retryOptions: {
+          maxRetries: Constants.defaultMaxRetriesForConnection,
+          retryDelayInMs: 15000
+        }
       };
 
       await retry(linkCreationConfig);

@@ -50,13 +50,13 @@ export class CryptographyClient {
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
-    sign(algorithm: JsonWebKeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<SignResult>;
+    // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
+    sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<SignResult>;
     signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
     verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
-    verifyData(algorithm: JsonWebKeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
+    verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<WrapResult>;
 }
 
@@ -148,9 +148,6 @@ export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_
 
 // @public
 export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
-
-// @public
-export type JsonWebKeySignatureAlgorithm = "PS256" | "PS384" | "PS512" | "RS256" | "RS384" | "RS512" | "RSNULL" | "ES256" | "ES384" | "ES512" | "ES256K";
 
 // @public
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";

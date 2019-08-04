@@ -10,6 +10,7 @@ import {
   SendRequestOptions,
   retry,
   RetryConfig,
+  RetryOptions,
   RetryOperationType
 } from "@azure/core-amqp";
 import {
@@ -24,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -315,7 +316,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<any> {
     const retryOptions = options.retryOptions || {};
     try {
-      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+      const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
@@ -337,8 +338,8 @@ export class ManagementClient extends LinkEntity {
             reject(error);
           };
 
-          if (aborter) {
-            if (aborter.aborted) {
+          if (abortSignal) {
+            if (abortSignal.aborted) {
               return rejectOnAbort();
             }
           }
@@ -416,11 +417,8 @@ export class ManagementClient extends LinkEntity {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: retryOptions.maxRetries,
-        delayInMs: retryOptions.retryInterval,
-        retryPolicy: retryOptions.retryPolicy,
-        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+        abortSignal: abortSignal,
+        retryOptions: retryOptions
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
