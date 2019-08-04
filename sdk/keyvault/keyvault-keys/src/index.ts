@@ -560,7 +560,7 @@ export class KeysClient {
       this.vaultBaseUrl,
       name,
       options && options.version ? options.version : "",
-      options
+      options ? options.requestOptions : {}
     );
 
     span.end();
