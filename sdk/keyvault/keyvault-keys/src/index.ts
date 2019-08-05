@@ -278,7 +278,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span = this.createSpan("createKeyMethod", unflattenedOptions);
+      const span = this.createSpan("createKey", unflattenedOptions);
       span.start();
 
       const response = await this.client
@@ -330,7 +330,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span = this.createSpan("createEcKeyMethod", unflattenedOptions);
+      const span = this.createSpan("createEcKey", unflattenedOptions);
       span.start();
 
       const response = await this.client
@@ -382,7 +382,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span = this.createSpan("createRsaKeyMethod", unflattenedOptions);
+      const span = this.createSpan("createRsaKey", unflattenedOptions);
       span.start();
 
       const response = await this.client
@@ -434,7 +434,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span = this.createSpan("importKeyMethod", unflattenedOptions);
+      const span = this.createSpan("importKey", unflattenedOptions);
       span.start();
 
       const response = await this.client
@@ -469,7 +469,7 @@ export class KeysClient {
    */
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("deleteKeyMethod", requestOptions);
+    const span = this.createSpan("deleteKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -522,7 +522,7 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const span = this.createSpan("updateKeyMethod", unflattenedOptions);
+      const span = this.createSpan("updateKey", unflattenedOptions);
       span.start();
 
       const response = await this.client
@@ -556,7 +556,7 @@ export class KeysClient {
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("getKeyMethod", requestOptions);
+    const span = this.createSpan("getKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -592,7 +592,7 @@ export class KeysClient {
    */
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("getDeletedKeyMethod", requestOptions);
+    const span = this.createSpan("getDeletedKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -625,7 +625,7 @@ export class KeysClient {
    */
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("purgeDeletedKeyMethod", requestOptions);
+    const span = this.createSpan("purgeDeletedKey", requestOptions);
     span.start();
 
     await this.client.purgeDeletedKey(this.vaultBaseUrl, name, requestOptions).catch((err) => {
@@ -654,7 +654,7 @@ export class KeysClient {
    */
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("recoverDeletedKeyMethod", requestOptions);
+    const span = this.createSpan("recoverDeletedKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -684,7 +684,7 @@ export class KeysClient {
    */
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("backupKeyMethod", requestOptions);
+    const span = this.createSpan("backupKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -716,7 +716,7 @@ export class KeysClient {
    */
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("restoreKeyMethod", requestOptions);
+    const span = this.createSpan("restoreKey", requestOptions);
     span.start();
 
     const response = await this.client
@@ -797,7 +797,7 @@ export class KeysClient {
     if (!options.requestOptions) {
       options.requestOptions = {};
     }
-    const span = this.createSpan("listKeyVersionsMethod", options.requestOptions);
+    const span = this.createSpan("listKeyVersions", options.requestOptions);
     span.start();
 
     const iter = this.listKeyVersionsAll(name, options);
@@ -872,7 +872,7 @@ export class KeysClient {
     if (!options.requestOptions) {
       options.requestOptions = {};
     }
-    const span = this.createSpan("listKeysMethod", options.requestOptions);
+    const span = this.createSpan("listKeys", options.requestOptions);
     span.start();
 
     const iter = this.listKeysAll(options);
@@ -952,7 +952,7 @@ export class KeysClient {
     if (!options.requestOptions) {
       options.requestOptions = {};
     }
-    const span = this.createSpan("listDeletedKeysMethod", options.requestOptions);
+    const span = this.createSpan("listDeletedKeys", options.requestOptions);
     span.start();
 
     const iter = this.listDeletedKeysAll(options);
