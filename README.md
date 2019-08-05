@@ -27,8 +27,8 @@ The libraries released in July preview:
 - [@azure/storage-blob@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
 - [@azure/storage-queue@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [@azure/storage-file@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
-- [@azure/kevault-keys@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
-- [@azure/kevault-secrets@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
+- [@azure/keyvault-keys@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
+- [@azure/keyvault-secrets@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
 - [@azure/event-hubs@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs)
 
 >NOTE: If you need to ensure your code is ready for production use one of the stable libraries.
