@@ -11,9 +11,7 @@ export class OpenCensusTracePlugin implements Tracer {
     this._tracer = tracer;
   }
   
-  public get pluginType() : SupportedPlugins {
-    return SupportedPlugins.OPENCENSUS
-  }
+  public readonly pluginType = SupportedPlugins.OPENCENSUS;
   
   startSpan(name: string, options?: SpanOptions): Span {
     const parent = options
