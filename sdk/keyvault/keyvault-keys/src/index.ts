@@ -983,6 +983,13 @@ export class KeysClient {
     return resultObject;
   }
 
+  /**
+   * Creates a span using the tracer that was set by the user
+   * @param methodName The name of the method for which the span is being created.
+   * @param requestOptions The options for the underlying http request. This will be
+   * updated to use the newly created span as the "parent" so that any new spans created
+   * after this point gets the right parent.
+   */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase): Span {
     const span = TracerProxy.getTracer().startSpan(methodName, requestOptions.spanOptions);
     requestOptions.spanOptions = { ...requestOptions.spanOptions, parent: span };
