@@ -101,18 +101,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeysClient, which will connect to the key vault.
 
 ```typescript
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeysClient } from "@azure/keyvault-keys";
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
-// EnvironmentCredential expects the following three environment variables:
+// DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
 // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
 // * AZURE_CLIENT_SECRET: The client secret for the registered application
-const credential = new EnvironmentCredential();
+const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";
@@ -223,18 +223,18 @@ This library also offers a set of cryptographic utilities available through `Cry
 ### Authenticate the client
 
 ```typescript
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
-// EnvironmentCredential expects the following three environment variables:
+// DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
 // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
 // * AZURE_CLIENT_SECRET: The client secret for the registered application
-const credential = new EnvironmentCredential();
+const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";

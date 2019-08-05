@@ -67,7 +67,7 @@ import {
   KeyWrapAlgorithm,
   EncryptResult,
   DecryptResult,
-  SignResult, 
+  SignResult,
   VerifyResult,
   WrapResult,
   UnwrapResult
@@ -186,10 +186,10 @@ export class KeysClient {
    * Example usage:
    * ```ts
    * import { KeysClient } from "@azure/keyvault-keys";
-   * import { EnvironmentCredential } from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new EnvironmentCredential();
+   * let credentials = new DefaultAzureCredential();
    *
    * let client = new KeysClient(url, credentials);
    * ```
