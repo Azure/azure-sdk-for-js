@@ -2,8 +2,12 @@ import { Tracer } from "../../interfaces/tracer";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { Span } from "../../interfaces/span";
 import { SpanNoOpImpl } from "./spanNoOpImpl";
+import { SupportedPlugins } from '../../utils/supportedPlugins';
 
 export class TracerNoOpImpl implements Tracer {
+  public get pluginType() : SupportedPlugins {
+    return SupportedPlugins.NOOP;
+  }
   getCurrentSpan(): Span {
     throw new Error("Method not implemented.");
   }
