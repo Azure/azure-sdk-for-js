@@ -29,14 +29,23 @@ async function main(): Promise<void> {
     for await (let version of cc.listCertificateVersions(cert.name)) {
       console.log("version: ", version);
 
-      // let backedUp = await cc.backupCertificate(cert.name);
-      // console.log("backedup: ", backedUp);
+      let backedUp = await cc.backupCertificate(cert.name);
+      console.log("backedup: ", backedUp);
+
+      let policy = await cc.getCertificatePolicy(cert.name);
+      console.log("policy: ", policy);
+
+      let operation = await cc.getCertificateOperation(cert.name);
+      console.log("operation: ", operation);
     }
   }
 
   for await (let issuer of cc.listCertificateIssuers()) {
     console.log("issuer: ", issuer);
   }
+
+  let contacts = await cc.getCertificateContacts();
+  console.log("contact: ", contacts);
 }
 
 main().catch((err) => {
