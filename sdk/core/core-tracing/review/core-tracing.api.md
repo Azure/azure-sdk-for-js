@@ -78,7 +78,7 @@ export class NoOpTracePlugin implements Tracer {
     // (undocumented)
     getHttpTextFormat(): unknown;
     // (undocumented)
-    readonly pluginType: SupportedPlugins;
+    readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
@@ -124,7 +124,7 @@ export class OpenCensusTracePlugin implements Tracer {
     // (undocumented)
     getHttpTextFormat(): unknown;
     // (undocumented)
-    readonly pluginType: SupportedPlugins;
+    readonly pluginType = SupportedPlugins.OPENCENSUS;
     // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
@@ -250,7 +250,7 @@ export class TracerNoOpImpl implements Tracer {
     // (undocumented)
     getHttpTextFormat(): unknown;
     // (undocumented)
-    readonly pluginType: SupportedPlugins;
+    readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
