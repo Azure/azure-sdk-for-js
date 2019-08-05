@@ -21,7 +21,10 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential,
+    options?: coreArm.AzureServiceClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -5263,7 +5266,7 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/create",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       kty: "kty",
@@ -5294,7 +5297,7 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       hsm: ["options", "hsm"],
@@ -5323,7 +5326,7 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -5340,7 +5343,7 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyOps: ["options", "keyOps"],
@@ -5368,7 +5371,7 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/{key-version}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -5385,7 +5388,7 @@ const getKeyVersionsOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/versions",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5402,7 +5405,7 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   path: "keys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5419,7 +5422,7 @@ const backupKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/{key-name}/backup",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupKeyResult
@@ -5436,7 +5439,7 @@ const restoreKeyOperationSpec: coreHttp.OperationSpec = {
   path: "keys/restore",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyBundleBackup: "keyBundleBackup"
@@ -5625,7 +5628,7 @@ const getDeletedKeysOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys",
   urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [Parameters.maxresults, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -5642,7 +5645,7 @@ const getDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -5659,7 +5662,7 @@ const purgeDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -5674,7 +5677,7 @@ const recoverDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   path: "deletedkeys/{key-name}/recover",
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
   queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage, Parameters.spanOptions],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
