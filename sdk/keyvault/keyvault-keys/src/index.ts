@@ -281,12 +281,12 @@ export class KeysClient {
       const span = this.createSpan("createKeyMethod", unflattenedOptions);
       span.start();
 
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        keyType,
-        unflattenedOptions
-      );
+      const response = await this.client
+        .createKey(this.vaultBaseUrl, name, keyType, unflattenedOptions)
+        .catch((err) => {
+          span.end();
+          throw err;
+        });
 
       span.end();
       return this.getKeyFromKeyBundle(response);
@@ -333,12 +333,12 @@ export class KeysClient {
       const span = this.createSpan("createEcKeyMethod", unflattenedOptions);
       span.start();
 
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        options.hsm ? "EC-HSM" : "EC",
-        unflattenedOptions
-      );
+      const response = await this.client
+        .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", unflattenedOptions)
+        .catch((err) => {
+          span.end();
+          throw err;
+        });
 
       span.end();
       return this.getKeyFromKeyBundle(response);
@@ -385,12 +385,12 @@ export class KeysClient {
       const span = this.createSpan("createRsaKeyMethod", unflattenedOptions);
       span.start();
 
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        options.hsm ? "RSA-HSM" : "RSA",
-        unflattenedOptions
-      );
+      const response = await this.client
+        .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", unflattenedOptions)
+        .catch((err) => {
+          span.end();
+          throw err;
+        });
 
       span.end();
       return this.getKeyFromKeyBundle(response);
@@ -437,12 +437,12 @@ export class KeysClient {
       const span = this.createSpan("importKeyMethod", unflattenedOptions);
       span.start();
 
-      const response = await this.client.importKey(
-        this.vaultBaseUrl,
-        name,
-        key,
-        unflattenedOptions
-      );
+      const response = await this.client
+        .importKey(this.vaultBaseUrl, name, key, unflattenedOptions)
+        .catch((err) => {
+          span.end();
+          throw err;
+        });
 
       span.end();
       return this.getKeyFromKeyBundle(response);
@@ -472,7 +472,12 @@ export class KeysClient {
     const span = this.createSpan("deleteKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.deleteKey(this.vaultBaseUrl, name, requestOptions);
+    const response = await this.client
+      .deleteKey(this.vaultBaseUrl, name, requestOptions)
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
     return this.getKeyFromKeyBundle(response);
@@ -520,12 +525,12 @@ export class KeysClient {
       const span = this.createSpan("updateKeyMethod", unflattenedOptions);
       span.start();
 
-      const response = await this.client.updateKey(
-        this.vaultBaseUrl,
-        name,
-        keyVersion,
-        unflattenedOptions
-      );
+      const response = await this.client
+        .updateKey(this.vaultBaseUrl, name, keyVersion, unflattenedOptions)
+        .catch((err) => {
+          span.end();
+          throw err;
+        });
 
       span.end();
       return this.getKeyFromKeyBundle(response);
@@ -554,12 +559,17 @@ export class KeysClient {
     const span = this.createSpan("getKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.getKey(
-      this.vaultBaseUrl,
-      name,
-      options && options.version ? options.version : "",
-      requestOptions
-    );
+    const response = await this.client
+      .getKey(
+        this.vaultBaseUrl,
+        name,
+        options && options.version ? options.version : "",
+        requestOptions
+      )
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
 
@@ -585,7 +595,12 @@ export class KeysClient {
     const span = this.createSpan("getDeletedKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.getDeletedKey(this.vaultBaseUrl, name, requestOptions);
+    const response = await this.client
+      .getDeletedKey(this.vaultBaseUrl, name, requestOptions)
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
     return this.getKeyFromKeyBundle(response);
@@ -613,7 +628,10 @@ export class KeysClient {
     const span = this.createSpan("purgeDeletedKeyMethod", requestOptions);
     span.start();
 
-    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, requestOptions);
+    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, requestOptions).catch((err) => {
+      span.end();
+      throw err;
+    });
 
     span.end();
   }
@@ -639,7 +657,12 @@ export class KeysClient {
     const span = this.createSpan("recoverDeletedKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, name, requestOptions);
+    const response = await this.client
+      .recoverDeletedKey(this.vaultBaseUrl, name, requestOptions)
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
     return this.getKeyFromKeyBundle(response);
@@ -664,7 +687,12 @@ export class KeysClient {
     const span = this.createSpan("backupKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.backupKey(this.vaultBaseUrl, name, requestOptions);
+    const response = await this.client
+      .backupKey(this.vaultBaseUrl, name, requestOptions)
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
     return response.value;
@@ -691,7 +719,12 @@ export class KeysClient {
     const span = this.createSpan("restoreKeyMethod", requestOptions);
     span.start();
 
-    const response = await this.client.restoreKey(this.vaultBaseUrl, backup, requestOptions);
+    const response = await this.client
+      .restoreKey(this.vaultBaseUrl, backup, requestOptions)
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
 
     span.end();
     return this.getKeyFromKeyBundle(response);
