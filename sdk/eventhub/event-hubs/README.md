@@ -79,7 +79,8 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
-- [Consume events from an Event Hub](#consume-events-from-an-event-hub)
+- [Consume events from an Event Hub partition](#consume-events-from-an-event-hub-partition)
+- [Consume events from all partitions of an Event Hub](#consume-events-from-all-partitions-of-an-event-hub)
 - [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
 
 ### Inspect an Event Hub
@@ -116,9 +117,9 @@ All events that use the same partition key will be sent to the same partition.
 **Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
 For example: `body: { "message": "Hello World" }`
 
-### Consume events from an Event Hub
+### Consume events from an Event Hub partition
 
-In order to consume events, you'll need to create an `EventHubConsumer` for a specific partition and consumer group combination. When an Event Hub is created, it starts with a default consumer group that can be used to get started. A consumer also needs to specify where in the event stream to begin receiving events; in our example, we will focus on reading new events as they are published.
+In order to consume events for an Event Hub partition, you'll need to create an `EventHubConsumer` for that partition and consumer group combination. When an Event Hub is created, it provides a default consumer group that can be used to get started. A consumer also needs to specify where in the event stream to begin receiving events; in our example, we will focus on reading new events as they are published.
 
 ```javascript
 const client = new EventHubClient("connectionString", "eventHubName");
@@ -157,10 +158,10 @@ Use the [receive](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/ev
 This function takes an optional parameter called `abortSignal` to cancel current operation.
 
 ```javascript
-const myEventHandler = event => {
+const myEventHandler = (event) => {
   // your code here
 };
-const myErrorHandler = error => {
+const myErrorHandler = (error) => {
   // your error handler here
 };
 const receiveHandler = consumer.receive(myEventHandler, myErrorHandler);
@@ -181,6 +182,59 @@ for await (const events of consumer.getEventIterator()){
 }
 ```
 
+### Consume events from all partitions of an Event Hub
+
+To consume events for all partitions of an Event Hub, you'll create an `EventProcessor` for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be used to get started.
+
+The `EventProcessor` will delegate processing of events to a `PartitionManager` implementation that you provide, allowing your logic to focus on the logic needed to provide value while the processor holds responsibility for managing the underlying consumer operations. In our example, we will focus on building the `EventProcessor` and use a very minimal partition processor that does no actual processing.
+
+```javascript
+class SimplePartitionProcessor {
+  async processEvents(events: ReceivedEventData[]) {
+    // your code here
+  }
+
+  async processError(error: Error) {
+    // your error handler here
+  }
+
+  async initialize() {
+    // your code here
+  }
+
+  async close() {
+    // your code here
+  }
+}
+const eventProcessorFactory = (context: PartitionContext, checkpoint: CheckpointManager) => {
+  return new SimplePartitionProcessor();
+};
+
+const processor = new EventProcessor(
+  EventHubClient.defaultConsumerGroupName,
+  client,
+  eventProcessorFactory,
+  new InMemoryPartitionManager(),
+  {
+    initialEventPosition: EventPosition.earliest(),
+    maxBatchSize: 10,
+    maxWaitTimeInSeconds: 20
+  }
+);
+await processor.start();
+// At this point, the processor is consuming events from each partition of the Event Hub and
+// delegating them to the SimplePartitionProcessor instance created for that partition.  This
+// processing takes place in the background and will not block.
+//
+// It is important to note that the processor does not own the EventHubClient that was passed into it.
+// You are responsible for ensuring that it is disposed after processing.  It is also important that it
+// not be closed or disposed during the time that the EventProcessor is running.
+//
+// In this example, we'll stop processing after five seconds.
+await delay(5000);
+await processor.stop();
+```
+
 ### Use EventHubClient to work with IotHub
 
 You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
@@ -199,6 +253,7 @@ await client.getPartitionProperties("partitionId");
 ## Troubleshooting
 
 ### AMQP Dependencies
+
 The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs

@@ -1,3 +1,29 @@
+### 2019-08-06 5.0.0-preview.2
+
+#### General
+- The current `Sender` does not have a provision of "awaiting" on sending a message. We need to add handlers on the `Sender` for accepted, rejected, released, modified to ensure whether the message was successfully sent. 
+  Now, we use a new `AwaitableSender` instead of `Sender` which adds the handlers internally and provides an awaitable `send()` operation.
+- Refactor receiver that allows the same amqp link to be shared between streaming and batching receivers.
+- Update the version of rhea-promise to "^1.0.0".
+- Update the version of ws to "^7.1.1".
+
+#### Publishing events
+- Introduced the `EventDataBatch`, allowing for publication of a batch of events with known size constraint. 
+  This is intended to ensure that publishers can build batches without the potential for an error when sending and to allow publishers with bandwidth concerns to control the size of each batch published.
+- Enhanced the `EventHubProducer` to allow creation of an `EventDataBatch` and to accept them for publication.
+
+#### Consuming events
+- Introduced the initial concept of a new version of the `EventProcessor`, intended as a neutral framework for processing events across all partitions for a given Event Hub and in the context of a specific Consumer Group. 
+  This early preview is intended to allow consumers to test the new design using a single instance that does not persist checkpoints to any durable store.
+
+### Retries and timeouts
+- Parameter `retryCount` is now renamed to `maxRetries` in `RetryOptions` and this would specifically count the number of retry attempts and will exclude counting the initial attempt.
+- Now we support exponential retry mechanism instead of linear retry mechanism.
+- Insufficient credit error is now treated as retryable error. A new error with name `InsufficientCreditError` 
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#enable-logs). 
+  It occurs when the number of credits available on Rhea link is insufficient.
+- `OperationTimeoutError` is now treated as retryable error.
+
 ### 2019-06-28 5.0.0-preview.1
 
 Version 5.0.0-preview.1 is a preview of our efforts to create a client library that is user friendly and
