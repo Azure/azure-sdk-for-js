@@ -1,4 +1,4 @@
-## 1.0.0-preview.2.0 - 5th August, 2019
+## 1.0.0-preview.2 - 5th August, 2019
 
 - Retry updates
    - The properties on the `RetryConfig` interface have been refactored for ease of use. The new `RetryOptions` in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
@@ -10,7 +10,7 @@
 - The error `OperationTimeoutError` was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
 
 
-## 1.0.0-preview.1.0 - 28th June, 2019
+## 1.0.0-preview.1 - 28th June, 2019
 
 This library is based off of the [@azure/amqp-common](https://www.npmjs.com/package/@azure/amqp-common)
 library. Both are meant to contain common functionality required by Azure Javascript libraries that
