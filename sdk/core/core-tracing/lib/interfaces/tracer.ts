@@ -16,6 +16,7 @@
 
 import { Span } from './span';
 import { SpanOptions } from './SpanOptions';
+import { SupportedPlugins } from '../utils/supportedPlugins';
 
 /**
  * Tracer provides an interface for creating {@link Span}s and propagating
@@ -25,6 +26,11 @@ import { SpanOptions } from './SpanOptions';
  * that this class offers APIs to facilitate both usages.
  */
 export interface Tracer {
+  /**
+   * Returns the type of the plugin being used by the tracer.
+   * @returns the type of the plugin being used by the tracer. 
+   */
+  pluginType: SupportedPlugins
   /**
    * Returns the current Span from the current context if available.
    *

@@ -3,12 +3,17 @@ import { Span } from "../../interfaces/span";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { NoOpSpanPlugin } from "./noOpSpanPlugin";
 import { SpanNoOpImpl } from "../../implementations/noop/spanNoOpImpl";
+import { SupportedPlugins } from '../../utils/supportedPlugins';
 
 export class NoOpTracePlugin implements Tracer {
   private _tracer: any;
 
   public constructor(tracer: any) {
     this._tracer = tracer;
+  }
+
+  public get pluginType() : SupportedPlugins {
+    return SupportedPlugins.NOOP;
   }
 
   startSpan(name: string, options?: SpanOptions): Span {
