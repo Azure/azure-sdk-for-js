@@ -1,16 +1,14 @@
 ## 1.0.0-preview.2.0 - 5th August, 2019
 
-- `sendRequest()` function in the `RequestResponseLink` now excludes default retries and leaves it up to the users to implement it as necessary.
-- Parameter `retryCount` is now renamed to `maxRetries` in `RetryOptions` and this would specifically count the number of retry attempts and will exclude counting the initial attempt.
-- Now we support exponential retry mechanism instead of linear retry mechanism.
-- Now we use milliseconds as the unit of time for the user facing inputs.
-- You can now pass an abort signal in `retry` operation. This signal can be used to cancel the operation. Use
-  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to create such abort signals.
-- Insufficient credit error is now treated as retryable error. A new error with name `InsufficientCreditError` 
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-amqp#troubleshooting). 
-  It occurs when the number of credits available on Rhea link is insufficient.
-- `OperationTimeoutError` is now treated as retryable error.
-- Update the version of rhea-promise to "^1.0.0".
+- Retry updates
+   - The properties on the `RetryConfig` interface have been refactored for ease of use. The new `RetryOptions` in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
+   - Support for exponential retry has been added
+   - Support for cancellation has been added via an optional `AbortSignal` from the [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) package.
+   - The `RequestResponseLink` class has been updated to not have retries anymore for the `sendRequest()` method. The caller of this method is expected to add the relevant retries.
+- All time related entites have been updated to use milli seconds as the unit of time for consistency.
+- New error `InsufficientCreditError` is introduced for the scenario where [rhea](https://www.npmjs.com/package/rhea) is unable to send events due to its internal buffer being full. This is a transient error and so is treated as retryable.
+- The error `OperationTimeoutError` was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
+
 
 ## 1.0.0-preview.1.0 - 28th June, 2019
 
