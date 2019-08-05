@@ -5,6 +5,7 @@
 - [Breaking] Aborter class is no longer exposed from the package. You are expected to use
   the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+- Union type of credential is updated to `{SharedKeyCredential | AnonymousCredential | TokenCredential}` in all the client constructors.
 
 ### 2019.07 Version 12.0.0-preview.1
 
