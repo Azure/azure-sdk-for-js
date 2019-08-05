@@ -1,15 +1,15 @@
 import { CertificatesClient, SecretsClient } from "../src";
 import { CertificatePolicy } from "../src/models";
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
-  // EnvironmentCredential expects the following three environment variables:
+  // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = new EnvironmentCredential();
+  const credential = new DefaultAzureCredential();
 
   const cc = new CertificatesClient(url, credential);
   const sc = new SecretsClient(url, credential);
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
         }
       }
     });
-  
+
     console.log(result);
   */
   //let result = await cc.createCertificate("MyCert", { certificatePolicy: { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } } })
