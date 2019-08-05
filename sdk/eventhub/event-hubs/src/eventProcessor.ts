@@ -37,7 +37,7 @@ export enum CloseReason {
 export interface PartitionProcessor {
   /**
    * This method is called when this `EventProcessor` takes ownership of a new partition and before any
-   * events from this partition are received.
+   * events are received.
    *
    * @return {void}
    */
@@ -52,16 +52,19 @@ export interface PartitionProcessor {
    */
   close?(reason: CloseReason): Promise<void>;
   /**
-   * This method is called when new events are received for this partition.
+   * This method is called when new events are received.
    *
    * This is also a good place to update checkpoints as appropriate.
    *
-   * @param eventData {@link EventData} received from this partition.
+   * @param eventData The received events to be processed.
    * @return {void}
    */
   processEvents(events: ReceivedEventData[]): Promise<void>;
   /**
    * This method is called when an error occurs while receiving events from Event Hub.
+   * 
+   * @param error The error to be processed.
+   * @return {void}
    */
   processError(error: Error): Promise<void>;
 }

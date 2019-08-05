@@ -4,6 +4,9 @@
 - The current `Sender` does not have a provision of "awaiting" on sending a message. We need to add handlers on the `Sender` for accepted, rejected, released, modified to ensure whether the message was successfully sent. 
   Now, we use a new `AwaitableSender` instead of `Sender` which adds the handlers internally and provides an awaitable `send()` operation.
 - Refactor receiver that allows the same amqp link to be shared between streaming and batching receivers.
+- All time related entites have been updated to use milli seconds as the unit of time for consistency.
+- New error InsufficientCreditError is introduced for the scenario where rhea is unable to send events due to its internal buffer being full. This is a transient error and so is treated as retryable.
+- The error OperationTimeoutError was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
 - Update the version of rhea-promise to "^1.0.0".
 - Update the version of ws to "^7.1.1".
 
@@ -17,12 +20,8 @@
   This early preview is intended to allow consumers to test the new design using a single instance that does not persist checkpoints to any durable store.
 
 ### Retries and timeouts
-- Parameter `retryCount` is now renamed to `maxRetries` in `RetryOptions` and this would specifically count the number of retry attempts and will exclude counting the initial attempt.
-- Now we support exponential retry mechanism instead of linear retry mechanism.
-- Insufficient credit error is now treated as retryable error. A new error with name `InsufficientCreditError` 
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#enable-logs). 
-  It occurs when the number of credits available on Rhea link is insufficient.
-- `OperationTimeoutError` is now treated as retryable error.
+- The properties on the RetryConfig interface have been refactored for ease of use. The new RetryOptions in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
+- Support for exponential retry has been added.
 
 ### 2019-06-28 5.0.0-preview.1
 
