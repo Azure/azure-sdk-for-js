@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.1",
-    "@azure/core-auth": "1.0.0-preview.1",
+    "@azure/core-auth": "1.0.0-preview.2",
     "@types/async-lock": "^1.1.0",
     "@types/is-buffer": "^2.0.0",
     "async-lock": "^1.1.3",
