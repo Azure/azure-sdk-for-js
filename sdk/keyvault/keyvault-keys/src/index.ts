@@ -1026,7 +1026,10 @@ export class KeysClient {
   private createSpan(methodName: string, requestOptions: RequestOptionsBase): Span {
     const tracer = TracerProxy.getTracer();
     const span = tracer.startSpan(methodName, requestOptions.spanOptions);
-    if (tracer.pluginType !== SupportedPlugins.NOOP) {
+    if (
+      tracer.pluginType !== SupportedPlugins.NOOP &&
+      (requestOptions.spanOptions && requestOptions.spanOptions.parent)
+    ) {
       requestOptions.spanOptions = { ...requestOptions.spanOptions, parent: span };
     }
     return span;
