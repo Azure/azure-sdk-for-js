@@ -19,7 +19,7 @@
 - Introduced the initial concept of a new version of the `EventProcessor`, intended as a neutral framework for processing events across all partitions for a given Event Hub and in the context of a specific Consumer Group. 
   This early preview is intended to allow consumers to test the new design using a single instance that does not persist checkpoints to any durable store.
 
-### Retries and timeouts
+#### Retries and timeouts
 - The properties on the RetryConfig interface have been refactored for ease of use. The new RetryOptions in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
 - Support for exponential retry has been added.
 
