@@ -5,6 +5,11 @@
 - [Breaking] Aborter class is no longer exposed from the package. You are expected to use
   the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+- Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
+  In this preview, SAS connection string support is added to the existing static connection string methods and constructors.
+  - Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+  - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+  - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 
 ### 2019.07 Version 12.0.0-preview.1
 
