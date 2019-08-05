@@ -5,9 +5,11 @@
 import { FileServiceClient } from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
-  // Create File Service Client from Connection String
+  // Create File Service Client from Account connection string or SAS connection string
+  // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+  // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   const STORAGE_CONNECTION_STRING = "";
-  // Only available in Node.js runtime
+  // Note - Account connection string can only be used in NODE.JS runtime.
   const serviceClient = FileServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   console.log(`List shares`);
