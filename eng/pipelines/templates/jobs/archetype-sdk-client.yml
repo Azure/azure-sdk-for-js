@@ -25,11 +25,11 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
 
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
 
 
@@ -75,7 +75,7 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
         displayName: "Lint libraries"
 
       - task: CopyFiles@2
@@ -93,7 +93,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
-          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit libraries"
 
@@ -153,13 +153,13 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
         displayName: "Build test assets"
       - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsTo)
+          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
         displayName: "Test libraries"
 
       - task: PublishTestResults@2
