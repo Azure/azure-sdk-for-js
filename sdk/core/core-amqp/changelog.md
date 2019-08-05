@@ -1,4 +1,4 @@
-## 1.0.0-preview.2.0 - 5th July, 2019
+## 1.0.0-preview.2.0 - 5th August, 2019
 
 - `sendRequest()` function in the `RequestResponseLink` now excludes default retries and leaves it up to the users to implement it as necessary.
 - Parameter `retryCount` is now renamed to `maxRetries` in `RetryOptions` and this would specifically count the number of retry attempts and will exclude counting the initial attempt.
