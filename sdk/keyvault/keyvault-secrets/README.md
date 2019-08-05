@@ -19,6 +19,8 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 - Get all secrets.
 - Get all deleted secrets.
 
+**Please Note:** This is a preview version of the KeyVault Secrets library
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
