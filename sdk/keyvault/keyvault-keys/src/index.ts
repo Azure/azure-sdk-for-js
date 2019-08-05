@@ -20,7 +20,7 @@ import {
   RequestOptionsBase
 } from "@azure/core-http";
 
-import { TracerProxy, Span } from "@azure/core-tracing";
+import { TracerProxy, Span, SupportedPlugins } from "@azure/core-tracing";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -1024,8 +1024,11 @@ export class KeysClient {
    * after this point gets the right parent.
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase): Span {
-    const span = TracerProxy.getTracer().startSpan(methodName, requestOptions.spanOptions);
-    requestOptions.spanOptions = { ...requestOptions.spanOptions, parent: span };
+    const tracer = TracerProxy.getTracer();
+    const span = tracer.startSpan(methodName, requestOptions.spanOptions);
+    if (tracer.pluginType !== SupportedPlugins.NOOP) {
+      requestOptions.spanOptions = { ...requestOptions.spanOptions, parent: span };
+    }
     return span;
   }
 }
