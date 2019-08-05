@@ -67,7 +67,7 @@ import {
   KeyWrapAlgorithm,
   EncryptResult,
   DecryptResult,
-  SignResult, 
+  SignResult,
   VerifyResult,
   WrapResult,
   UnwrapResult
@@ -104,7 +104,7 @@ export {
   UnwrapResult,
   UpdateKeyOptions,
   VerifyResult,
-  WrapResult,
+  WrapResult
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -212,7 +212,7 @@ export class KeysClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.pipeline.requestPolicyFactories
+    this.pipeline.requestPolicyFactories;
 
     this.client = new KeyVaultClient(credential, this.pipeline);
   }
