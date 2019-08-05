@@ -2,7 +2,7 @@
 
 ## 1.0.0-preview.2 - 2019-08-05
 
-- Removed `ServiceClientCredentials` type from `credentials` parameter of `AzureServiceClient` ([#4367](https://github.com/Azure/azure-sdk-for-js/pull/4367)).  Credential implementations are now standardized on `@azure/core-auth`'s `TokenCredential` interface and provided by `@azure/identity`.
+- Removed `ServiceClientCredentials` type from `credentials` parameter of `AzureServiceClient` ([PR #4367](https://github.com/Azure/azure-sdk-for-js/pull/4367)).  Credential implementations are now standardized on `@azure/core-auth`'s `TokenCredential` interface and provided by `@azure/identity`.
 
 ## 1.0.0-preview.1 - 2019-07-10
 
