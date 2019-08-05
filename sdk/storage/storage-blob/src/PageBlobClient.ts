@@ -275,11 +275,15 @@ export class PageBlobClient extends BlobClient {
   private pageBlobContext: PageBlob;
 
   /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Creates an instance of PageBlobClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -361,19 +365,35 @@ export class PageBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      if (isNode) {
-        const containerName = credentialOrPipelineOrContainerName;
-        const blobName = blobNameOrOptions;
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
 
-        const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-        const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
-          extractedCreds.accountKey
-        );
-        urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
-        pipeline = newPipeline(sharedKeyCredential, options);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      if (extractedCreds.kind === "AccountConnString") {
+        if (isNode) {
+          const sharedKeyCredential = new SharedKeyCredential(
+            extractedCreds.accountName,
+            extractedCreds.accountKey
+          );
+          urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          pipeline = newPipeline(sharedKeyCredential, options);
+        } else {
+          throw new Error("Account connection string is only supported in Node.js environment");
+        }
+      } else if (extractedCreds.kind === "SASConnString") {
+        urlOrConnectionString =
+          extractedCreds.url +
+          "/" +
+          containerName +
+          "/" +
+          blobName +
+          "?" +
+          extractedCreds.accountSas;
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
-        throw new Error("Connection string is only supported in Node.js environment");
+        throw new Error(
+          "Connection string must be either an Account connection string or a SAS connection string"
+        );
       }
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");

@@ -1,8 +1,9 @@
 import * as assert from "assert";
 
-import { getBSU } from "./utils";
+import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { FileServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
@@ -120,7 +121,7 @@ describe("FileServiceClient", () => {
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
-    let iter = await serviceClient.listShares({
+    const iter = await serviceClient.listShares({
       include: ["metadata", "snapshots"],
       prefix: shareNamePrefix
     });
@@ -196,7 +197,7 @@ describe("FileServiceClient", () => {
       assert.deepEqual(item.metadata!.key, "val");
     }
     // Gets next marker
-    let marker = response.nextMarker;
+    const marker = response.nextMarker;
     iter = serviceClient
       .listShares({
         include: ["metadata", "snapshots"],
@@ -302,5 +303,32 @@ describe("FileServiceClient", () => {
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
     }
+  });
+
+  it("can be created from a sas connection string", async () => {
+    const newClient = FileServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment()
+    );
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+  });
+
+  it("can be created from a sas connection string and an option bag", async () => {
+    const newClient = FileServiceClient.fromConnectionString(
+      getSASConnectionStringFromEnvironment(),
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });
