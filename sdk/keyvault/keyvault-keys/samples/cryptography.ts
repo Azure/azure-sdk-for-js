@@ -41,7 +41,7 @@ async function main(): Promise<void> {
   console.log("encrypt result: ", encrypt);
 
   const decrypt = await cryptoClient.decrypt("RSA1_5", encrypt.result);
-  console.log("decrypt: ", decrypt.toString());
+  console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap
   const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
