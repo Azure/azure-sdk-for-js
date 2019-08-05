@@ -12,9 +12,7 @@ export class NoOpTracePlugin implements Tracer {
     this._tracer = tracer;
   }
 
-  public get pluginType() : SupportedPlugins {
-    return SupportedPlugins.NOOP;
-  }
+  public readonly pluginType = SupportedPlugins.NOOP;
 
   startSpan(name: string, options?: SpanOptions): Span {
     const span = new SpanNoOpImpl();
