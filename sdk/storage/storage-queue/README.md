@@ -87,9 +87,7 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 
 #### Download
 
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases). Or from following links directly:
-
-- Queue [https://aka.ms/downloadazurestoragejsqueue](https://aka.ms/downloadazurestoragejsqueue)
+Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases).
 
 ### CORS
 
