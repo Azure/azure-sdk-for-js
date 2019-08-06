@@ -17,7 +17,7 @@
 
 #### Consuming events
 - Introduced the initial concept of a new version of the `EventProcessor`, intended as a neutral framework for processing events across all partitions for a given Event Hub and in the context of a specific Consumer Group. 
-  This early preview is intended to allow consumers to test the new design using a single instance that does not persist checkpoints to any durable store.
+  This early preview is intended to allow users to test the new design using a single instance of `EventProcessor`. The ability to checkpoints to a durable store will be added in future updates
 
 #### Retries and timeouts
 - The properties on the `RetryOptions` interface have been renamed for ease of use. 
