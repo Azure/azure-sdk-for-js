@@ -42,6 +42,7 @@ export function setEnviromentOnLoad() {
     customConsoleLog();
   }
 
+  // TODO - The following will be moved to the storage sdks when @azure/test-utils-recorder is imported
   if (isPlayingBack()) {
     // Providing dummy values to avoid the error [ENVs for storage packages]
     env.ACCOUNT_NAME = "fakestorageaccount";
@@ -53,6 +54,7 @@ export function setEnviromentOnLoad() {
   }
 }
 
+// TODO - skip list will be removed - #4336
 const skip = [
   // Abort
   "browsers/aborter/recording_should_abort_after_aborter_timeout.json"
@@ -101,6 +103,7 @@ export abstract class BaseRecorder {
       updatedRecording = map(updatedRecording);
     }
 
+    // TODO - The following will be moved to the storage sdks when @azure/test-utils-recorder is imported
     // Handling storage environment variables separately
     if (env.ACCOUNT_NAME) {
       updatedRecording = recording.replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount");
