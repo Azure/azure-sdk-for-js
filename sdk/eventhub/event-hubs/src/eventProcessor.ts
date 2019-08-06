@@ -31,7 +31,7 @@ export enum CloseReason {
 }
 
 /**
- * Implementations of this interface have the responsibility of updating checkpoints when appropriate.
+ * Implementations of this interface are responsible to process events, handle errors and update checkpoints
  *
  */
 export interface PartitionProcessor {
