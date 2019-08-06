@@ -188,23 +188,25 @@ Using an `EventHubConsumer` to consume events like in the previous examples puts
 
 The `EventProcessor` will delegate the processing of events to a `PartitionProcessor` that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer operations including checkpointing and load balancing. 
 
-While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below example, where we use an in memory `PartitionManager` that does checkpointing in memory.
+While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below example, where we use an `InMemoryPartitionManager` that does checkpointing in memory.
 
 ```javascript
 class SimplePartitionProcessor {
-  async processEvents(events: ReceivedEventData[]) {
-    // your code here
+  async processEvents(events) {
+    // your code to process events here
+    // you may choose to use the checkpoint manager to update checkpoints
   }
 
-  async processError(error: Error) {
+  async processError(error) {
     // your error handler here
   }
 }
 
+const client = new EventHubClient("my-connection-string", "my-event-hub");
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  () => new SimplePartitionProcessor(),
+  (partitionContext, checkpointManager) => new SimplePartitionProcessor(),
   new InMemoryPartitionManager()
 );
 await processor.start();
