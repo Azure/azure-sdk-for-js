@@ -34,7 +34,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -80,7 +80,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -100,7 +100,7 @@ describe("RequestResponseLink", function() {
           }
         }
       });
-    }, 500);
+    }, 200);
     setTimeout(() => {
       rcvr.emit("message", {
         message: {
@@ -114,11 +114,11 @@ describe("RequestResponseLink", function() {
           body: "Hello World!!"
         }
       });
-    }, 1000);
+    }, 2000);
 
     const sendRequestPromise = async (): Promise<Message> => {
       return await link.sendRequest(request, {
-        timeoutInSeconds: 5
+        timeoutInMs: 5000
       });
     };
 
@@ -126,8 +126,10 @@ describe("RequestResponseLink", function() {
       operation: sendRequestPromise,
       connectionId: "connection-1",
       operationType: RetryOperationType.management,
-      maxRetries: 3,
-      delayInSeconds: 1
+      retryOptions: {
+        maxRetries: 3,
+        retryDelayInMs: 1000
+      }
     };
 
     const message = await retry<Message>(config);
@@ -154,7 +156,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
@@ -214,7 +216,7 @@ describe("RequestResponseLink", function() {
       createReceiver: () => {
         return Promise.resolve(rcvr);
       }
-    });
+    } as any);
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();

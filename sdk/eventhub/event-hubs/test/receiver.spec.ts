@@ -721,7 +721,10 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const eventPromise = eventIterator.next();
 
       // wait 65 seconds before sending a message to give underlying receiveBatch a chance to return 0 results
-      const raceResult = await Promise.race([delay(65000, "delay"), eventPromise]);
+      const raceResult = await Promise.race([
+        delay(65000, undefined, undefined, "delay"),
+        eventPromise
+      ]);
 
       // the timeout should happen before the event is resolved
       raceResult.should.equal("delay");

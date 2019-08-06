@@ -13,35 +13,36 @@ export interface MockAuthResponse {
 }
 
 export interface MockAuthHttpClientOptions {
-  authResponse?: MockAuthResponse,
+  authResponse?: MockAuthResponse | MockAuthResponse[],
   mockTimeout?: boolean
 }
 
 export class MockAuthHttpClient implements HttpClient {
-  private requestPromise: Promise<WebResource>;
-  private requestResolve: (request: WebResource) => void;
-
-  private authResponse: MockAuthResponse;
+  private authResponses: MockAuthResponse[] = [];
+  private currentResponse: number = 0;
   private mockTimeout: boolean;
 
   public identityClientOptions: IdentityClientOptions;
-  public sendRequestCount: number = 0;
+  public requests: WebResource[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
     options = options || {};
-    this.requestResolve = () => { };
-    this.requestPromise = new Promise((resolve) => {
-      this.requestResolve = resolve;
-    });
 
-    this.authResponse = options.authResponse || {
-      status: 200,
-      headers: new HttpHeaders(),
-      parsedBody: {
-        access_token: "token",
-        expires_in: 120
+    if (Array.isArray(options.authResponse)) {
+      if (options.authResponse.length === 0) {
+        throw new Error("authResponse array must have at least one item");
       }
-    };
+      this.authResponses = options.authResponse
+    } else {
+      this.authResponses = [options.authResponse || {
+        status: 200,
+        headers: new HttpHeaders(),
+        parsedBody: {
+          access_token: "token",
+          expires_in: 120
+        }
+      }];
+    }
 
     this.mockTimeout =
       options.mockTimeout !== undefined
@@ -56,22 +57,25 @@ export class MockAuthHttpClient implements HttpClient {
   }
 
   async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    this.sendRequestCount++;
-    this.requestResolve(httpRequest);
+    this.requests.push(httpRequest);
 
     if (this.mockTimeout) {
       await delay(httpRequest.timeout);
       throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
     }
-    return {
-      request: httpRequest,
-      headers: this.authResponse.headers || new HttpHeaders(),
-      ...this.authResponse
-    };
-  }
 
-  getAuthRequest(): Promise<WebResource> {
-    return this.requestPromise;
+    if (this.requests.length > this.authResponses.length) {
+      throw new Error("The number of requests has exceeded the number of authResponses")
+    }
+
+    const response = {
+      request: httpRequest,
+      headers: this.authResponses[this.currentResponse].headers || new HttpHeaders(),
+      ...this.authResponses[this.currentResponse]
+    };
+
+    this.currentResponse++;
+    return response;
   }
 }
 

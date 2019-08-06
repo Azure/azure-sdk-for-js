@@ -16,6 +16,8 @@
 /sdk/core/core-paging/ @daviwil
 
 # Service teams
+/sdk/cosmosdb/ @southpolesteve
+
 /sdk/eventhub/ @ramya-rao-a @chradek @shivangireja
 /sdk/servicebus/ @ramya-rao-a @chradek @shivangireja
 
@@ -25,6 +27,7 @@
 
 # Management Plane
 /**/*Management*.ts @michaeljqzq
+/**/arm-*/ @michaeljqzq
 
 ###########
 # Eng Sys
@@ -32,3 +35,11 @@
 /eng/   @weshaggard @KarishmaGhiya @mikeharder @mitchdenny @danieljurek
 /**/tests.yml   @danieljurek
 /**/ci.yml      @mitchdenny
+
+###########
+# Config
+###########
+/.vscode/ @mikeharder @KarishmaGhiya
+/common/ @mikeharder @KarishmaGhiya
+/rush.json @mikeharder @KarishmaGhiya
+/tsconfig.json @mikeharder @KarishmaGhiya

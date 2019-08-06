@@ -2,6 +2,8 @@ jobs:
   - job: "Build"
     variables:
       - template: ../variables/globals.yml
+        parameters:
+          defaultFilter: "**"
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -25,15 +27,17 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
+
       - script: |
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
 
+
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/**/*.tgz
-            sdk/**/**/browser/*.zip
+            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/*.tgz
+            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"

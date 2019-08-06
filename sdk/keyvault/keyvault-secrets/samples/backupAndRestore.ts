@@ -1,6 +1,6 @@
 import { SecretsClient } from "../src";
 import fs = require("fs");
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -25,11 +25,11 @@ export function delay<T>(t: number, value?: T): Promise<T> {
 }
 
 async function main(): Promise<void> {
-  // EnvironmentCredential expects the following three environment variables:
+  // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const credential = new EnvironmentCredential();
+  const credential = new DefaultAzureCredential();
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;

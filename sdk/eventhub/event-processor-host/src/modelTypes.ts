@@ -116,12 +116,16 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
    * scan leases and renew them. In order to redistribute leases in a timely fashion after a host
    * ceases operating, we recommend a relatively short interval, such as ten seconds. Obviously it
    * should be less than half of the lease length, to prevent accidental expiration.
+   *
+   * If `Leasemanager` is provided when creating the EventProcessorHost then this value will be ignored.
    */
   leaseRenewInterval?: number;
   /**
    * @property {number} [leaseDuration] Duration of a lease **`in seconds`** before it expires
    * unless renewed. Default: **`30` seconds**, Min Value: **`15` seconds**,
    * Max value: **`60` seconds**.
+   *
+   * If `Leasemanager` is provided when creating the EventProcessorHost then this value will be ignored.
    */
   leaseDuration?: number;
   /**

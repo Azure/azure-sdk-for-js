@@ -23,7 +23,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 import { EventHubClient } from "@azure/event-hubs";
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Define Event Hubs Endpoint and related entity name here here
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
@@ -32,7 +32,7 @@ const eventHubName = "";
 // Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
 
 async function main(): Promise<void> {
-  const credential = new EnvironmentCredential();
+  const credential = new DefaultAzureCredential();
   const client = new EventHubClient(evenHubsEndpoint, eventHubName, credential);
   /*
    Refer to other samples, and place your code here

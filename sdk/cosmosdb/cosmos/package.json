@@ -51,13 +51,13 @@
     "@types/node": "^8.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^5.0.5",
-    "@types/tunnel": "^0.0.0",
+    "@types/sinon": "^7.0.13",
+    "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
@@ -70,7 +70,7 @@
     "requirejs": "^2.3.5",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.0",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.3.0",
     "typescript": "^3.2.2",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3"
@@ -82,7 +82,7 @@
     "semaphore": "1.0.5",
     "stream-http": "^2.8.3",
     "tslib": "^1.9.3",
-    "tunnel": "0.0.6"
+    "tunnel": "^0.0.6"
   },
   "repository": {
     "type": "git",

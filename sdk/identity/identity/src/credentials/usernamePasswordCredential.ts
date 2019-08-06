@@ -6,10 +6,10 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 
 /**
- * Enables authentication to Azure Active Directory using a user's
+ * Enables authentication to Azure Active Directory with a user's
  * username and password. This credential requires a high degree of
- * trust you should only use it when other, more secure, credentials
- * can't be used.
+ * trust so you should only use it when other, more secure credential
+ * types can't be used.
  */
 export class UsernamePasswordCredential implements TokenCredential {
   private identityClient: IdentityClient;
@@ -53,7 +53,7 @@ export class UsernamePasswordCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public getToken(
+  public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
@@ -77,6 +77,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       abortSignal: options && options.abortSignal
     });
 
-    return this.identityClient.sendTokenRequest(webResource);
+    const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

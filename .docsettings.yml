@@ -1,8 +1,10 @@
 omitted_paths:
   - documentation/ServicePrincipal/*
+  - eng/tools/analyze-deps/**
   - eng/tools/select-packages/**
   - "sdk/*/arm-*"
   - "sdk/cognitiveservices/*"
+  - "sdk/identity/identity/test/manual/*"
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -63,7 +65,6 @@ known_content_issues:
   - ["sdk/eventgrid/eventgrid/README.md", "#1583"]
   - ["sdk/core/abort-controller/README.md", "#1583"]
   - ["sdk/core/core-auth/README.md", "#1583"]
-  - ["sdk/core/core-arm/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/src/test/readme.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/samples/readme.md", "#1583"]
@@ -105,6 +106,7 @@ known_content_issues:
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
   - ["sdk/storage/storage-datalake/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]
+  - ["sdk/core/core-tracing/README.md", "#1583"]
 
 package_indexing_exclusion_list:
   - "@azure/template"

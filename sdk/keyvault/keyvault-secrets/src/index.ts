@@ -144,10 +144,10 @@ export class SecretsClient {
    * Example usage:
    * ```ts
    * import { SecretsClient } from "@azure/keyvault-secrets";
-   * import { EnvironmentCredential } from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new EnvironmentCredential();
+   * let credentials = new DefaultAzureCredential();
    *
    * let client = new SecretsClient(url, credentials);
    * ```

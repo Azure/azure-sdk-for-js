@@ -10,6 +10,7 @@ import {
   SendRequestOptions,
   retry,
   RetryConfig,
+  RetryOptions,
   RetryOperationType
 } from "@azure/core-amqp";
 import {
@@ -24,7 +25,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
-import { RetryOptions, getRetryAttemptTimeoutInMs } from "./eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -69,7 +70,7 @@ export interface PartitionProperties {
   /**
    * @property The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: string;
+  lastEnqueuedOffset: number;
   /**
    * @property The time of the last enqueued message in the partition's message log in UTC.
    */
@@ -315,7 +316,7 @@ export class ManagementClient extends LinkEntity {
   ): Promise<any> {
     const retryOptions = options.retryOptions || {};
     try {
-      const aborter: AbortSignalLike | undefined = options && options.abortSignal;
+      const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
       const sendOperationPromise = () =>
         new Promise<Message>(async (resolve, reject) => {
@@ -337,8 +338,8 @@ export class ManagementClient extends LinkEntity {
             reject(error);
           };
 
-          if (aborter) {
-            if (aborter.aborted) {
+          if (abortSignal) {
+            if (abortSignal.aborted) {
               return rejectOnAbort();
             }
           }
@@ -380,7 +381,7 @@ export class ManagementClient extends LinkEntity {
           const sendRequestOptions: SendRequestOptions = {
             abortSignal: options.abortSignal,
             requestName: options.requestName,
-            timeoutInSeconds: remainingOperationTimeoutInMs / 1000
+            timeoutInMs: remainingOperationTimeoutInMs
           };
 
           count++;
@@ -416,14 +417,8 @@ export class ManagementClient extends LinkEntity {
         operation: sendOperationPromise,
         connectionId: this._context.connectionId,
         operationType: RetryOperationType.management,
-        maxRetries: retryOptions.maxRetries,
-        delayInSeconds:
-          typeof retryOptions.retryInterval === "number"
-            ? retryOptions.retryInterval / 1000
-            : undefined,
-        retryPolicy: retryOptions.retryPolicy,
-        minExponentialRetryDelayInMs: retryOptions.minExponentialRetryDelayInMs,
-        maxExponentialRetryDelayInMs: retryOptions.maxExponentialRetryDelayInMs
+        abortSignal: abortSignal,
+        retryOptions: retryOptions
       };
       return (await retry<Message>(config)).body;
     } catch (err) {

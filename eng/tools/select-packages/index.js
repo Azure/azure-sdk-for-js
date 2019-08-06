@@ -69,6 +69,7 @@ glob(filter, (err, files) => {
     log(
       `Emitted variable "GeneratedPackageTargets" with content: ${packageTargets}`
     );
+
   } else {
     log("Did not find any packages under service directory.");
     process.exit(2);

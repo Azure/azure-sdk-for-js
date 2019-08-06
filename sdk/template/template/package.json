@@ -73,14 +73,14 @@
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
@@ -105,6 +105,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "typescript": "^3.2.2",
-    "util": "^0.11.1"
+    "util": "^0.12.1"
   }
 }
