@@ -2,6 +2,5 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export { record, Recorder } from "./recorder";
-export { delay } from "./delay";
-export { env } from "./utils";
+export { env, delay } from "./utils";
 export { setReplaceableVariables, setReplacements, setEnviromentOnLoad } from "./baseRecorder";
