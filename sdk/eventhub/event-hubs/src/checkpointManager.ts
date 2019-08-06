@@ -50,11 +50,14 @@ export class CheckpointManager {
   private _eTag: string;
 
   /**
+   * @ignore
+   * @internal
+   * 
    * Creates a new checkpoint manager which is passed to a `PartitionProcessor`  to update checkpoints.
    * @param partitionContext The partition context providing necessary partition and event hub information for updating
    * checkpoints.
    * @param partitionManager The `PartitionManager` implementation that will be used to store the checkpoint information.
-   * @param ownerId The event processor identifier that is responsible for updating checkpoints.
+   * @param eventProcessorId The event processor identifier that is responsible for updating checkpoints.
    */
   constructor(
     partitionContext: PartitionContext,

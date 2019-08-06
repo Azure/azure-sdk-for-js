@@ -43,9 +43,7 @@ export interface PartitionProcessor {
    */
   initialize?(): Promise<void>;
   /**
-   * This method is called before the partition processor is closed. A partition processor could be closed for various
-   * reasons and the reasons and implementations of this interface can take appropriate actions to cleanup before the
-   * partition processor is shutdown.
+   * This method is called before the partition processor is closed by the EventProcessor.
    *
    * @param closeReason The reason for closing this partition processor.
    * @return {void}
