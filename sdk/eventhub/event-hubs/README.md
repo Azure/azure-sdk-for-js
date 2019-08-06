@@ -203,7 +203,7 @@ class SimplePartitionProcessor {
   async processError(error) { /* your code here */ }
 
   // Gets called when Event Processor stops processing events for current partition.
-  async close() { /* your code here */ }
+  async close(reason) { /* your code here */ }
 }
 
 const client = new EventHubClient("my-connection-string", "my-event-hub");
