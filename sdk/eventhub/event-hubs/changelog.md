@@ -21,7 +21,7 @@
 
 #### Retries and timeouts
 - The properties on the RetryConfig interface have been refactored for ease of use. The new RetryOptions in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
-- Support for exponential retry has been added.
+- New properties `mode` and `maxRetryDelayInMs` on `RetryOptions` to configure the exponential retry mode that is now supported
 
 ### 2019-06-28 5.0.0-preview.1
 
