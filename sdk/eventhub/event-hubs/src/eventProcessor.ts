@@ -130,7 +130,7 @@ export interface PartitionProcessorFactory {
 }
 
 /**
- *  Partition manager stores and retrieves partition ownership information and checkpoint details for each partition.
+ *  Partition manager stores and retrieves partition ownership information and checkpoint details for each partition in a given consumer group of an event hub instance.
  */
 export interface PartitionManager {
   /**
