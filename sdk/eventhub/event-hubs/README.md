@@ -184,7 +184,7 @@ for await (const events of consumer.getEventIterator()){
 
 ### Consume events using an Event Processor
 
-To consume events for all partitions of an Event Hub, you'll create an `EventProcessor` for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be used to get started.
+To consume events for all partitions of an Event Hub, create an `EventProcessor` for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be used to get started.
 
 The `EventProcessor` will delegate processing of events to a `PartitionProcessor` implementation that you provide, allowing your logic to focus on the logic needed to provide value while the processor holds responsibility for managing the underlying consumer operations. In our example, we will focus on building the `EventProcessor` and use a very minimal partition processor that does no actual processing.
 
