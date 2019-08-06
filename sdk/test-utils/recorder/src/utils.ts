@@ -8,11 +8,11 @@ export interface TestInfo {
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
-export function isRecording() {
+export function isRecordMode() {
   return env.TEST_MODE === "record";
 }
 
-export function isPlayingBack() {
+export function isPlaybackMode() {
   return env.TEST_MODE === "playback";
 }
 
@@ -86,5 +86,5 @@ export function isBrowser(): boolean {
  * @returns {Promise<T>} Resolved promise
  */
 export function delay(milliseconds: number): Promise<void> | null {
-  return isPlayingBack() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
+  return isPlaybackMode() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
 }

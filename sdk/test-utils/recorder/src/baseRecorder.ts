@@ -10,8 +10,8 @@ import {
   escapeRegExp,
   env,
   TestInfo,
-  isPlayingBack,
-  isRecording
+  isPlaybackMode,
+  isRecordMode
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -20,7 +20,7 @@ let nock: any;
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
   replaceableVariables = a;
-  if (isPlayingBack()) {
+  if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
     Object.keys(a).map((k) => {
       env[k] = a[k];
@@ -34,16 +34,16 @@ export function setReplacements(maps: any): void {
 }
 
 export function setEnviromentOnLoad() {
-  if (!isBrowser() && (isRecording || isPlayingBack)) {
+  if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
     nock = require("nock");
   }
 
-  if (isBrowser() && isRecording()) {
+  if (isBrowser() && isRecordMode()) {
     customConsoleLog();
   }
 
   // TODO - The following will be moved to the storage sdks when @azure/test-utils-recorder is imported
-  if (isPlayingBack()) {
+  if (isPlaybackMode()) {
     // Providing dummy values to avoid the error [ENVs for storage packages]
     env.ACCOUNT_NAME = "fakestorageaccount";
     env.ACCOUNT_KEY = "aaaaa";

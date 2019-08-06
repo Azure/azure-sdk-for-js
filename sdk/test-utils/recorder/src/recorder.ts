@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, isRecording, isPlayingBack } from "./utils";
+import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
 import { NiseRecorder, NockRecorder, BaseRecorder, setEnviromentOnLoad } from "./baseRecorder";
 
 /**
@@ -67,20 +67,20 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  if (recorder.skip() && (isRecording() || isPlayingBack())) {
+  if (recorder.skip() && (isRecordMode() || isPlaybackMode())) {
     testContext.skip();
   }
 
   // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
-  if (isRecording()) {
+  if (isRecordMode()) {
     recorder.record();
-  } else if (isPlayingBack()) {
+  } else if (isPlaybackMode()) {
     recorder.playback(testContext.currentTest!.file!);
   }
 
   return {
     stop: function() {
-      if (isRecording()) {
+      if (isRecordMode()) {
         recorder.stop();
       }
     },
@@ -89,10 +89,10 @@ export function record(testContext: Mocha.Context): Recorder {
       if (!label) {
         label = prefix;
       }
-      if (isRecording()) {
+      if (isRecordMode()) {
         name = getUniqueName(prefix);
         recorder.uniqueTestInfo["uniqueName"][label] = name;
-      } else if (isPlayingBack()) {
+      } else if (isPlaybackMode()) {
         name = recorder.uniqueTestInfo["uniqueName"][label];
       } else {
         name = getUniqueName(prefix);
@@ -101,10 +101,10 @@ export function record(testContext: Mocha.Context): Recorder {
     },
     newDate: function(label: string): Date {
       let date: Date;
-      if (isRecording()) {
+      if (isRecordMode()) {
         date = new Date();
         recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
-      } else if (isPlayingBack()) {
+      } else if (isPlaybackMode()) {
         date = new Date(recorder.uniqueTestInfo["newDate"][label]);
       } else {
         date = new Date();
