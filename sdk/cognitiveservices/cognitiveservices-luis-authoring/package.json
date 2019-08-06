@@ -5,6 +5,8 @@
   "version": "2.1.0",
   "dependencies": {
     "@azure/ms-rest-js": "^1.6.0",
+    "@azure/ms-rest-nodeauth": "^3.0.0",
+    "assert": "^2.0.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -19,10 +21,12 @@
   "module": "./esm/lUISAuthoringClient.js",
   "types": "./esm/lUISAuthoringClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
+    "@types/mocha": "^5.2.7",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
+    "typescript": "^3.1.1",
+    "typings": "^2.1.1",
     "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-luis-authoring",
@@ -50,7 +54,8 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-luis-authoring.js.map'\" -o ./dist/cognitiveservices-luis-authoring.min.js ./dist/cognitiveservices-luis-authoring.js",
-    "prepack": "npm install && npm run build"
+    "prepack": "npm install && npm run build",
+    "test": "mocha -r ts-node/register test/**/*.test.ts --timeout 100000"
   },
   "sideEffects": false,
   "autoPublish": true
