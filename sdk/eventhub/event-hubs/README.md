@@ -202,9 +202,7 @@ class SimplePartitionProcessor {
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  () => {
-    return new SimplePartitionProcessor();
-  },
+  () => new SimplePartitionProcessor(),
   new InMemoryPartitionManager()
 );
 await processor.start();
@@ -212,14 +210,11 @@ await processor.start();
 // delegating them to the SimplePartitionProcessor instance created for that partition.  This
 // processing takes place in the background and will not block.
 //
-// It is important to note that the processor does not own the EventHubClient that was passed into it.
-// You are responsible for ensuring that it is disposed after processing.  It is also important that it
-// not be closed or disposed during the time that the EventProcessor is running.
-//
 // In this example, we'll stop processing after five seconds.
 await delay(5000);
 await processor.stop();
 ```
+
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
 
 ### Use EventHubClient to work with IotHub
