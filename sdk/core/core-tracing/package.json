@@ -56,7 +56,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "tslib": "^1.9.3"
   },
