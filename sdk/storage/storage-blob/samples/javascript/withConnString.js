@@ -9,7 +9,7 @@ async function main() {
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   const STORAGE_CONNECTION_STRING = "";
-  // Note - Account connection string can only be used in NODE.JS runtime.
+  // Note - Account connection string can only be used in node.
   const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   let i = 1;
