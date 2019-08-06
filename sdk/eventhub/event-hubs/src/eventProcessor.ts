@@ -36,7 +36,7 @@ export enum CloseReason {
  */
 export interface PartitionProcessor {
   /**
-   * This method is called when this `EventProcessor` takes ownership of a new partition and before any
+   * This method is called when the `EventProcessor` takes ownership of a new partition and before any
    * events are received.
    *
    * @return {void}
