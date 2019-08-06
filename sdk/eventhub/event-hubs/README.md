@@ -192,14 +192,18 @@ While load balancing is a feature we will be adding in the next update, you can 
 
 ```javascript
 class SimplePartitionProcessor {
-  async processEvents(events) {
-    // your code to process events here
-    // you may choose to use the checkpoint manager to update checkpoints
-  }
+  // Gets called once before the processing of events from current partition starts.
+  async initialize() { /* your code here */ }
+  
+  // Gets called for each batch of events that are received.
+  // You may choose to use the checkpoint manager to update checkpoints.
+  async processEvents(events) { /* your code here */ }
 
-  async processError(error) {
-    // your error handler here
-  }
+  // Gets called for any error when receiving events.
+  async processError(error) { /* your code here */ }
+
+  // Gets called when Event Processor stops processing events for current partition.
+  async close() { /* your code here */ }
 }
 
 const client = new EventHubClient("my-connection-string", "my-event-hub");
