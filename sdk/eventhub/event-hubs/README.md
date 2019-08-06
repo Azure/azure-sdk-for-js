@@ -119,7 +119,7 @@ For example: `body: { "message": "Hello World" }`
 
 ### Consume events from an Event Hub partition
 
-To consume events for an Event Hub partition, create an `EventHubConsumer` for that partition and consumer group combination. When an Event Hub is created, it provides a default consumer group that can be used to get started. A consumer also needs to specify where in the event stream to begin receiving events; in our example, we will read new events as they are published.
+To consume events from a single Event Hub partition in a consumer group, create an `EventHubConsumer` for that partition and consumer group combination. You will need to provide a position in the event stream from where to begin receiving events; in our example, we will read new events as they are published.
 
 ```javascript
 const client = new EventHubClient("connectionString", "eventHubName");
