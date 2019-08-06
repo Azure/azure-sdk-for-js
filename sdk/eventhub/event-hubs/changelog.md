@@ -16,7 +16,7 @@
 - Enhanced the `EventHubProducer` to allow creation of an `EventDataBatch` and to accept them for publication.
 
 #### Consuming events
-- Introduced the initial concept of a new version of the `EventProcessor`, intended as a neutral framework for processing events across all partitions for a given Event Hub and in the context of a specific Consumer Group. 
+- Introduced a new class `EventProcessor` which replaces the older concept of [Event Processor Host](https://www.npmjs.com/package/@azure/event-processor-host). 
   This early preview is intended to allow users to test the new design using a single instance of `EventProcessor`. The ability to checkpoints to a durable store will be added in future updates
 
 #### Retries and timeouts
