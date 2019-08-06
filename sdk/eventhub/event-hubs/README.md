@@ -184,9 +184,11 @@ for await (const events of consumer.getEventIterator()){
 
 ### Consume events using an Event Processor
 
-To consume events for all partitions of an Event Hub, create an `EventProcessor` for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be used to get started.
+Using an `EventHubConsumer` to consume events like in the previous examples puts the responsibility of storing the checkpoints (the last processed event) on the user. Checkpoints are important for restarting the task of processing events from the right position in a partition. Ideally, you would also want to run multiple programs targeting different partitions with some load balancing. This is where an `EventProcessor` can help.
 
-The `EventProcessor` will delegate the processing of events to a `PartitionProcessor` that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer operations. In our example, we will focus on building the `EventProcessor` and use a very minimal partition processor that does no actual processing.
+The `EventProcessor` will delegate the processing of events to a `PartitionProcessor` that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer operations including checkpointing and load balancing. 
+
+While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below example, where we use an in memory `PartitionManager` that does checkpointing in memory.
 
 ```javascript
 class SimplePartitionProcessor {
@@ -216,6 +218,8 @@ await processor.stop();
 ```
 
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
+
+**Note**: In this model, you are responsible for closing the `EventHubClient` instance to dispose it.
 
 ### Use EventHubClient to work with IotHub
 

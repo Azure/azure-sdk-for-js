@@ -8,8 +8,10 @@
 - The error `OperationTimeoutError` was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
 
 #### Publishing events
-- Added method `createBatch()` on the `EventHubProducer` to create an `EventDataBatch` that can then be used to add events until the maximum size is reached. This batch object can then be used in the `send()` method to send all the added events to Event Hubs.
-  This allows publishers to build batches without the possibility of encountering the error around the message size exceeding the supported limit when sending events. It also allows publishers with bandwidth concerns to control the size of each batch published.
+- Added method `createBatch()` on the `EventHubProducer` to create an `EventDataBatch` that can then be used to add events until the maximum size is reached. 
+  - This batch object can then be used in the `send()` method to send all the added events to Event Hubs.
+  - This allows publishers to build batches without the possibility of encountering the error around the message size exceeding the supported limit when sending events. 
+  - It also allows publishers with bandwidth concerns to control the size of each batch published.
 
 #### Consuming events
 - Introduced a new class `EventProcessor` which replaces the older concept of [Event Processor Host](https://www.npmjs.com/package/@azure/event-processor-host). 
