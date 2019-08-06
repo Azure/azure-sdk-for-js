@@ -4,7 +4,7 @@
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
-- Union type of credential is updated to `{SharedKeyCredential | AnonymousCredential | TokenCredential}` in all the client constructors.
+- Generalized the credential parameter in client constructors to support `{SharedKeyCredential | AnonymousCredential | TokenCredential}` credentials as a union type.
 - Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
   In this preview, SAS connection string support is added to the existing connection string client constructors and static methods.
   - Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
