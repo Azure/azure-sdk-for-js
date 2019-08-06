@@ -1,10 +1,15 @@
 # Changelog
 
-### Coming Soon... 12.0.0-preview.2
+### 2019.08 Version 12.0.0-preview.2
 
-- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
-  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+- Generalized the credential parameter in client constructors to support `{SharedKeyCredential | AnonymousCredential | TokenCredential}` credentials as a union type.
+- Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
+  In this preview, SAS connection string support is added to the existing connection string client constructors and static methods.
+  - Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+  - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+  - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 
 ### 2019.07 Version 12.0.0-preview.1
 
@@ -31,7 +36,7 @@
 - [Breaking] Blob/Container member methods that manage leases are removed. A new type `LeaseClient` is added to manage leases.
 - Updated dependency `@azure/ms-rest-js` to `@azure/core-http`.
 - Constructor overloads added into client types so they can be constructed from a url and a pipeline/credential and connection string.
-  - Constructors with overloads - `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlocbClient`
+  - Constructors with overloads - `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).

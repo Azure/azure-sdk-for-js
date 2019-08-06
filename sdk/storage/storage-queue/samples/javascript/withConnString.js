@@ -5,9 +5,11 @@
 const { QueueServiceClient } = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
-  // Enter your storage account name and shared key
+  // Create Queue Service Client from Account connection string or SAS connection string
+  // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+  // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   const STORAGE_CONNECTION_STRING = "";
-  // Only available in Node.js runtime
+  // Note - Account connection string can only be used in node.
   const queueServiceClient = QueueServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
   // Create a new queue
