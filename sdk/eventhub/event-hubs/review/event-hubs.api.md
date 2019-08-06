@@ -42,6 +42,7 @@ export interface Checkpoint {
 
 // @public
 export class CheckpointManager {
+    // @internal
     constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, eventProcessorId: string);
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
@@ -232,7 +233,7 @@ export interface PartitionOwnership {
     sequenceNumber?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface PartitionProcessor {
     close?(reason: CloseReason): Promise<void>;
     initialize?(): Promise<void>;
@@ -242,7 +243,6 @@ export interface PartitionProcessor {
 
 // @public
 export interface PartitionProcessorFactory {
-    // (undocumented)
     (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
 }
 

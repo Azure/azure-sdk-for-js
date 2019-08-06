@@ -40,6 +40,12 @@ export class CryptographyClient {
 
   /**
    * Retrieves the complete key from the key vault
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CryptographyClient(url, keyUrl, credentials);
+   * let result = await client.getKey();
+   * ```
    * @param options Options for retrieving key
    */
   public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
@@ -553,10 +559,10 @@ export class CryptographyClient {
    * Example usage:
    * ```ts
    * import { CryptographyClient } from "@azure/keyvault-keys";
-   * import { EnvironmentCredential } from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new EnvironmentCredential();
+   * let credentials = new DefaultAzureCredential();
    *
    * let client = new CryptographyClient(url, keyUrl, credentials);
    * // or

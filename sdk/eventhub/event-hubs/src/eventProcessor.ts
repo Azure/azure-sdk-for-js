@@ -30,30 +30,45 @@ export enum CloseReason {
   Shutdown = "Shutdown"
 }
 
+/**
+ * Implementations of this interface are responsible to process events, handle errors and update checkpoints
+ *
+ */
 export interface PartitionProcessor {
   /**
-   * Optional. Called when EPH begins processing a partition.
+   * This method is called when the `EventProcessor` takes ownership of a new partition and before any
+   * events are received.
+   *
+   * @return {void}
    */
   initialize?(): Promise<void>;
   /**
-   * Optional. Called when EPH stops processing a partition.
-   * This may occur when control of the partition switches to another EPH or when user stops EPH
-   * TODO: update string -> CloseReason
+   * This method is called before the partition processor is closed by the EventProcessor.
+   *
+   * @param closeReason The reason for closing this partition processor.
+   * @return {void}
    */
   close?(reason: CloseReason): Promise<void>;
   /**
-   * Called when a batch of events have been received.
+   * This method is called when new events are received.
+   *
+   * This is also a good place to update checkpoints as appropriate.
+   *
+   * @param eventData The received events to be processed.
+   * @return {void}
    */
   processEvents(events: ReceivedEventData[]): Promise<void>;
   /**
-   * Called when the underlying client experiences an error while receiving.
+   * This method is called when an error occurs while receiving events from Event Hub.
+   * 
+   * @param error The error to be processed.
+   * @return {void}
    */
   processError(error: Error): Promise<void>;
 }
 
 /**
- * used by PartitionManager to claim ownership.
- * returned by listOwnership
+ * Partition ownership information. Used by `PartitionManager` to claim ownership.
  */
 export interface PartitionOwnership {
   /**
@@ -96,16 +111,24 @@ export interface PartitionOwnership {
 }
 
 /**
- * The PartitionProcessorFactory is called by EPH whenever a new partition is about to be processed.
+ * A functional interface to create new instance(s) of `PartitionProcessor` when provided with a `PartitionContext` and `CheckpointManager`.
  */
 export interface PartitionProcessorFactory {
+  /**
+   * Factory method to create a new instance of `PartitionProcessor` for a partition.
+   *
+   * @param partitionContext The partition context containing partition and Event Hub information. The new instance of
+   * `PartitionProcessor` created by this method will be responsible for processing events only for this
+   * partition.
+   * @param checkpointManager The checkpoint manager for updating checkpoints when events are processed by `PartitionProcessor`.
+   *
+   * @return A new instance of `PartitionProcessor` responsible for processing events.
+   */
   (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
 }
 
 /**
- * Interface for the plugin to be passed when creating the EventProcessorHost
- * to manage partition ownership and checkpoint creation.
- * Deals mainly with read/write to the chosen storage service
+ *  Partition manager stores and retrieves partition ownership information and checkpoint details for each partition in a given consumer group of an event hub instance.
  */
 export interface PartitionManager {
   /**
@@ -157,6 +180,14 @@ export class EventProcessor {
   private _abortController?: AbortController;
   private _partitionManager: PartitionManager;
 
+  /**
+   * @param consumerGroupName The consumer group name used in this event processor to consumer events.
+   * @param eventHubAsyncClient The Event Hub client.
+   * @param partitionProcessorFactory The factory to create new partition processor(s).
+   * @param initialEventPosition Initial event position to start consuming events.
+   * @param partitionManager The partition manager.
+   * @param eventHubName The Event Hub name.
+   */
   constructor(
     consumerGroupName: string,
     eventHubClient: EventHubClient,
@@ -192,10 +223,12 @@ export class EventProcessor {
     }
   }
 
-  /**
-   * Starts the EventProcessor loop.
-   * Load-balancing and partition ownership should be checked inside the loop.
-   * @ignore
+  /*
+   * A simple implementation of an event processor that:
+   * - Fetches all partition ids from Event Hub
+   * - Gets the current ownership information of all the partitions from PartitionManager
+   * - Claims ownership of any partition that doesn't have an owner yet.
+   * - Starts a new PartitionProcessor and receives events from each of the partitions this instance owns
    */
   private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
@@ -294,9 +327,12 @@ export class EventProcessor {
   }
 
   /**
-   * Starts the event processor, fetching the list of partitions, and attempting to grab leases
-   * For each successful lease, it will get the details from the blob and start a receiver at the
-   * point where it left off previously.
+   * Starts processing of events for all partitions of the Event Hub that this event processor can own, assigning a
+   * dedicated `PartitionProcessor` to each partition. If there are other Event Processors active for the same
+   * consumer group on the Event Hub, responsibility for partitions will be shared between them.
+   *
+   * Subsequent calls to start will be ignored if this event processor is already running. Calling `start()` after `stop()`
+   * is called will restart this event processor.
    *
    * @return {void}
    */
@@ -313,8 +349,11 @@ export class EventProcessor {
   }
 
   /**
-   * Stops the EventProcessor from processing messages.
-   * @return {Promise<void>}
+   * Stops processing events for all partitions owned by this event processor. All `PartitionProcessor` will be
+   * shutdown and any open resources will be closed.
+   *
+   * Subsequent calls to stop will be ignored if the event processor is not running.
+   *
    */
   async stop(): Promise<void> {
     log.eventProcessor(`[${this._id}] Stopping an EventProcessor.`);

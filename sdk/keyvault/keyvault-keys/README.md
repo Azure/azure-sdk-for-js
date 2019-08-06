@@ -21,7 +21,16 @@ Use the client library for Azure KeyVault Keys in your Node.js application to
 - Get the versions of a key.
 - As well as obtaining the attributes of a key.
 
-**Please Note:** This is a preview version of the KeyVault Keys library and does not yet have the full capability of the Keys API. Currently missing are methods related to crypto capabilities: encrypt, decrypt, sign, verify, wrap, and unwrap. These are expected to be added in the next release.
+Using the cryptography client available in this library you also have access to
+
+- Encrypting
+- Decrypting
+- Signing
+- Verifying
+- Wrapping keys
+- Unwrapping keys
+
+**Please Note:** This is a preview version of the KeyVault Keys library
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 
@@ -92,18 +101,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeysClient, which will connect to the key vault.
 
 ```typescript
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeysClient } from "@azure/keyvault-keys";
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
-// EnvironmentCredential expects the following three environment variables:
+// DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
 // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
 // * AZURE_CLIENT_SECRET: The client secret for the registered application
-const credential = new EnvironmentCredential();
+const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";
@@ -214,18 +223,18 @@ This library also offers a set of cryptographic utilities available through `Cry
 ### Authenticate the client
 
 ```typescript
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
-// EnvironmentCredential expects the following three environment variables:
+// DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
 // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
 // * AZURE_CLIENT_SECRET: The client secret for the registered application
-const credential = new EnvironmentCredential();
+const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";

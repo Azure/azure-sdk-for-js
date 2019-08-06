@@ -78,6 +78,8 @@ export class NoOpTracePlugin implements Tracer {
     // (undocumented)
     getHttpTextFormat(): unknown;
     // (undocumented)
+    readonly pluginType = SupportedPlugins.NOOP;
+    // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
     startSpan(name: string, options?: SpanOptions): Span;
@@ -121,6 +123,8 @@ export class OpenCensusTracePlugin implements Tracer {
     getCurrentSpan(): Span;
     // (undocumented)
     getHttpTextFormat(): unknown;
+    // (undocumented)
+    readonly pluginType = SupportedPlugins.OPENCENSUS;
     // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
@@ -231,6 +235,7 @@ export interface Tracer {
     getBinaryFormat(): unknown;
     getCurrentSpan(): Span;
     getHttpTextFormat(): unknown;
+    pluginType: SupportedPlugins;
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
@@ -244,6 +249,8 @@ export class TracerNoOpImpl implements Tracer {
     getCurrentSpan(): Span;
     // (undocumented)
     getHttpTextFormat(): unknown;
+    // (undocumented)
+    readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)

@@ -28,8 +28,7 @@ glob(filter, (err, files) => {
     process.exit(1);
   }
 
-  let packageTargetsTo = "";
-  let packageTargetsFrom = "";
+  let packageTargets = "";
 
   if (files) {
     log(`Found ${files.length} packages under service directory.`);
@@ -48,8 +47,7 @@ glob(filter, (err, files) => {
             packageContents["sdk-type"]
           }".`
         );
-        packageTargetsTo += `--to "${packageContents.name}" `;
-        packageTargetsFrom += `--from "${packageContents.name}" `;
+        packageTargets += `--to "${packageContents.name}" `;
       } else {
         log(
           `Package "${
@@ -60,24 +58,16 @@ glob(filter, (err, files) => {
     }
 
     log(
-      `Finished processing packages. Emitting variable using: ${packageTargetsTo} and ${packageTargetsFrom}`
+      `Finished processing packages. Emitting variable using: ${packageTargets}`
     );
 
     // Can't use regular logging here because the pattern for Azure Pipelines requires ##vso to be the first chars.
     console.log(
-      `##vso[task.setvariable variable=GeneratedPackageTargetsTo]${packageTargetsTo}`
+      `##vso[task.setvariable variable=GeneratedPackageTargets]${packageTargets}`
     );
 
     log(
-      `Emitted variable "GeneratedPackageTargetsTo" with content: ${packageTargetsTo}`
-    );
-
-    console.log(
-      `##vso[task.setvariable variable=GeneratedPackageTargetsFrom]${packageTargetsFrom}`
-    );
-
-    log(
-      `Emitted variable "GeneratedPackageTargetsFrom" with content: ${packageTargetsFrom}`
+      `Emitted variable "GeneratedPackageTargets" with content: ${packageTargets}`
     );
 
   } else {

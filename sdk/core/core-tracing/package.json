@@ -39,7 +39,8 @@
     "dist/",
     "dist-esm/",
     "src/",
-    "types/core-tracing.d.ts"
+    "types/core-tracing.d.ts",
+    "ThirdPartyNotices.txt"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -56,7 +57,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "tslib": "^1.9.3"
   },
