@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import xhrMock, { proxy } from "xhr-mock";
 import MockAdapter from "axios-mock-adapter";
 import { isNode, HttpMethods } from "../lib/coreHttp";
-import { AxiosRequestConfig, AxiosInstance } from "axios";
+import { AxiosRequestConfig, AxiosInstance, Method } from "axios";
 
 export type UrlFilter = string | RegExp;
 
@@ -41,6 +41,10 @@ class NodeHttpMock implements HttpMockFacade {
       throw new Error("Axios instance cannot be undefined");
     }
     this._mockAdapter = new MockAdapter(axiosInstance);
+    axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => ({
+      ...config,
+      method: (config.method as Method) && (config.method as Method).toLowerCase() as Method
+    }));
   }
 
   setup(): void {

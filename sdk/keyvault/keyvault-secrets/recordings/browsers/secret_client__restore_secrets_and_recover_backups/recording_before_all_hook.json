@@ -1,0 +1,2581 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "x-ms-request-id": "9b339ce8-9fe7-4b2c-83a9-2316df66f01c",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "f7c4d5cf-c3c1-4f3e-9770-bd8661c03d00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "268",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "85ad11b6-5d13-443f-81d4-f3c5c25035c3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "x-ms-request-id": "8e80a668-0273-453f-a1d9-253260af5047",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "e1ce18c1-0187-4451-a74e-e08ae3f63d00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-\",\"deletedDate\":1564706106,\"scheduledPurgeDate\":1572482106,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "434",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:05 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "9aac10b3-db2d-442c-a32d-1741e616a550",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:06 GMT",
+    "x-ms-request-id": "50d449e4-4baf-4de1-a851-0350ea6bf502",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:06 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "2a1b46ff-4323-4908-9cbe-781ec2020000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: CRUDSecretName-canrecoveradeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "130",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:06 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "fa98a7ec-b4da-4aa2-bdc0-848d668ba09b",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:16 GMT",
+    "x-ms-request-id": "faa8d885-fa52-4d37-9eb0-e6b1df62bfc5",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:16 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "e41804c7-c546-4d7b-b052-76763b5e4000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: CRUDSecretName-canrecoveradeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "130",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "08763f72-996b-4a4e-9750-980c13080c92",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:27 GMT",
+    "x-ms-request-id": "3248a6e6-11ec-47f3-934a-ce3c7914373a",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:26 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "d9e5abdc-3616-4f06-bce7-ab4c17703700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: CRUDSecretName-canrecoveradeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "130",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:27 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6a872c86-ce34-4662-931e-69aefd95941b",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "x-ms-request-id": "5bec5fc2-fb50-43b5-a93f-772f872135a6",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:36 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "cd5eba03-04ba-4465-af6c-75df323c3a00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-\",\"deletedDate\":1564706106,\"scheduledPurgeDate\":1572482106,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "434",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f383305d-5876-4cbd-9cda-7d8dc53cbc70",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-/recover",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "x-ms-request-id": "c2581643-35fc-4b07-9d81-644e6da639cf",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "57e49fc2-9e79-42e1-9269-258e9d9b4000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-/recover",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "254",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "3775c13e-8c76-43e4-aa98-4b0fabd98c06",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "x-ms-request-id": "4f0db4ee-acc7-40fe-9ca0-a4b9cbad0ede",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "a3929cab-9198-42d4-9b31-db3846c93c00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-canrecoveradeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "122",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:37 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "0352273c-222e-4e94-8dd6-51f32ac2d2ee",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:47 GMT",
+    "x-ms-request-id": "9283f5b9-0857-45df-ad7b-715cb578553c",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:48 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "e7a7f23a-1d2a-46b2-a049-06d2dd9c3e00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-canrecoveradeletedsecret-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "122",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:48 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "a3adc354-7fbb-4b22-b456-a3718e956504",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:58 GMT",
+    "x-ms-request-id": "f1b1bc1d-8bc7-4887-b699-b726ee7b7e70",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:58 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "1ab2799c-07fc-4c0f-8844-b4d3bd7a3b00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "268",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "71ade877-7dec-4ebc-9ef1-b7832239aa24",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "x-ms-request-id": "421d979d-bd48-4e11-b600-58ce47b26348",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "18a1ab24-373e-484c-8fff-4e0b702a3800",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-\",\"deletedDate\":1564706159,\"scheduledPurgeDate\":1572482159,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrecoveradeletedsecret-/bdca1b73a5744c48b7bb3c687512aa75\",\"attributes\":{\"enabled\":true,\"created\":1564706105,\"updated\":1564706105,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "434",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "e0defc3d-b006-44a4-b113-92adcd42e257",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "x-ms-request-id": "2a66eac5-47f5-433d-8834-988bb9f765cd",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "2ecdb387-8976-4a4f-bf9a-e71a38523600",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:35:59 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "fe050dc8-5be9-41fc-b698-5f81b8eccbab",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:09 GMT",
+    "x-ms-request-id": "7ae17626-226f-4aef-873a-14ac78ac0fb8",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:09 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "fc97fedf-f777-4390-9536-44bc801d0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:09 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8e952fea-263a-490b-802f-e2350b4c7805",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:19 GMT",
+    "x-ms-request-id": "5bd02ce9-9423-4629-b7f5-e8f9f213af25",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "9e234f80-2c3f-4a3f-bfea-48d263583300",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "59163c95-1b31-434b-9cf1-e4cc2bb629b7",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 02 Aug 2019 00:36:19 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecretnonexisting-/recover",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "x-ms-request-id": "5cf2c1df-f1d7-4c9e-ae26-ef701b4ac1fc",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "3b5fea5a-110a-4e9a-8d7f-337b3d7e3300",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrecoveradeletedsecretnonexisting-/recover",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-canrecoveradeletedsecretnonexisting-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "133",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "2767ef7c-9139-484e-9491-d29a56d4564a",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "x-ms-request-id": "bc5d55eb-4016-4e5a-a94f-aef88106ffa6",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "c21ca220-7a0a-4b75-8c2c-cd0354fe3700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-/0c09617ec89a4f6f9fde9a42c778e60c\",\"attributes\":{\"enabled\":true,\"created\":1564706181,\"updated\":1564706181,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "260",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "cd819f58-cec9-4155-85e8-bc4e3b7706b3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "x-ms-request-id": "b1ac906b-2835-4047-ae06-e8385f240c3d",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "1ab2799c-07fc-4c0f-8844-b4d37c7e3b00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLnR0My1xUzg3bUNBeWVRTURuaURrUjZNdmFnd3lUZ0tsdTZSaGVzYzFNSjJSR0NMZjhuTzJnZjAyeFdIbG15M3YyV2p2MG5SWXBleWZaSS03MDNlY1ZuQTA3RVJUNl9hVDhtbHNhdUI5aUJaeVZwZnlkMWRTNWxHamVxNmJPSmlHRVB6MWV3dlItZHhWeFE5Vm1UUFZPcXdMZjZuejhXQjI5VkUzcmpXcVFxREl2bVZ0ODVnbXJhS0NFeWNZWVhtZ1JhUGYtLU16SWxFdG10ajBRUWJWRGJKOHpjY3cwcm5jOGlOek1WbXhYM0k5TVA5NjlsWWJDNkQ1Z01JQnRIM2pveHRrclVLS3dWQzNIcHdiYW5fRzB2R1VheGUtTnEwOG92ZGhFNDVDNXhVN0N2WWhkQjB2VlNIX2RtOHpIcFM1TGxiOHdKcU16Q3FfSWs2em9Gb3pOZy5PbU1UeXlOVzk3R01WWDVibUVLY3BBLl9iQWpKeEUyMW41ZTB5MU1hUEpaQ3R5R25rc2l6SnlibWFNbU9jM3hsUXM5UFVHLTdYTVZodDI0QWs4d29zeTFudV9lVkRSUG93cHRDVC1jSE95SzhzNUFLZGZCY1pTTFd3YXpLVkw2Y2VWdXJRTnVuaGNyU2RIQ3BWemZ3WWJ6Zk5pYzRQU3pKVkIxdWMteHhQVWs5ZDh3a2NaWTdxb1Flb3cxUW8zRnRyUDN0eFluVHN3M1Z3V0NqVldMS2Y0VGFqS1VCdXJZUFRXRktMZkZUYnU1VXlyWTFkVEVtSjQ1RHFTZEtLejU5NzJ3eXkwMnN1T3JILTJHbTdTRTIwdlBnTmZfY3dPQkxIWWFfMG84d2VYb0pTS3ZJU3lqajItZVRuQTY1c2xvb1lfTFBaTnFmZEJfT2N4V1EtS1VLMk5nTE9iOUs4Nk9CaDcwNFk4RGI1aUYwRWV4cU9ONXZKT0l4d3RjNUY2b0JQYzFQbTRzNjVxUjVESTBRNndIZ29ycDJVdXRBVDlDeDEwRjQ0MmE2RlRVWC1vMTNVY3B1Y2huQUU2RF91cGM5MkJPeDdjeFRFUE9wMTR2WlVab0FZVXhTRnZDbVZXNkhpLWZrX1dTNGxVQ0VGTnhhMFlCYnVKQ0tuOVcyU2lMSERjVzVTeGJXSTEzaEQ1R3VpZHdPMmZ5MHFFLTluUndtYnF2NFhPVkI0OWt3MndNQWJ3cktYWTFVdng1VWw4MHVTa2xIV2p1SnFDbVJadHNmRllnRHFGc1VvQXZHdkZaT2hDQXVlbVlfRGJsaTFmMXVoRE9qd0ZUOWRQam5NU0ZkeUpnUmJkdjF4ajVBcV8wTm5rR0FUU19iRC1UZEdiV0IwQ0k1UXpkaVlZU0dGNGJoRU5UZC13OWVhd2tSYUhxTHY2NWRDNUpPNVZFbHJ2QmtZdF9QRWRtSGhCSV93c3hJQW5LNXVFTjMyNWlmbkUwWm40bE1YS3R6dFBPcWFLckFrSFU1WHVwSGo3SXFxaDZkSVZNNVFwV2hNTGROclF5N1N5THdSNWhTUE01SXdCcGc2QzIwVmFieUJ3WktjMWJVd29JYnhneVpmdXNGYzJKVHEyclJCaWtpNjFvN0ZtbUQ1MFRoS0xxSXFUbkVLTXZuRmlEbjlqbFM3Q29TUU5nVzZIeU5pQ0hHSUxYTF9qdkNuTUttUW1FX1JFdnlieXBCcV9GUFR3Znd6LU9ENUVXRWw0X2JSa2c3OW82eGpoVjlXTXRJNlNTWkU3S3JGWjJ2M1FCNXFjbUdrQjRXX1FudS1LclU3amM2eGp3UmJLdFRHRzdONjlvcG1nTUVtTzEyMnFKdU9wd01weEcxZXFjdkphazJVT0FCSTluaF9kVGxmOTZHZzJvaHE1TTh5aUFvcnZqZ0oxdUc1ZnNRMDZqXzE2aW8zdWxDOUtNRGtVcUlpeldtRDJHT0FyaXljdzRiNTM4VUVYM3RpZ2ttR0doaVM5YTdnUFFmUklUSFFIMTltN0FELTdDaGpQbExubnlUdjdFYTJDWlJ2NmwxbXM3UGd5Q0s5R053VUppRFl1NVU0RE5aM3pWREd0UV9KTUNDX051U2p0LVRyTWNQRzhuRU9lQ0dSNlFCdlNZMVNuUzVMSGZhbE83d0xrU2FQUzJURlJxU25CbFJONnNWTE50RGlodmF1UnFybXVwVGY5Tjc0MHJFUVVVaGttQTdJeGppZGpsTXpYUHhDdWpXUzdQSnNsbnczWnpKSTNqQUlsRWp3QXJxaFZubmRhY3pjQjBHLWdPTW1vWGVkbTlWTXFoaExvUHJORDc1R3FBY2dpTkVjdE5OYWpSWmF1RGQyVzIxQWhSeGlrRy1KOUtwYjNSbVlqWHpQZml3QlRJS2hjWGdaLU5PTjJlNzVCZWRxV0ZmbGxnU3Fobm1Wd2JsMlRTeEZPM2ptbXFzTHJRemlrZFRhQ2xEazhUOXg0UVB6QWNhVVRBTjY0UDFfd1R2ZjdOTFItVTJJVjlpNjY0UmhCNVlma0o1RVlpazlsYllPQ2VSVV9BZlJPcnp4RnZNRGhabFhVMUlSVGNqT3NaUkl6ZFdMSmVfbDI4dlAzNkVXdDg1VzU2U0N1alJMalNQVGJiY3NzSUFUZm5ERXZjOTNtMm5ObU9kVXlGcEsyT3F6LTZvcG5VMW9YTDU2VEQ5U0NESXRvaUtJMlVTNEhBX1c3cktrUzBoazJVS0JqTlhHRUMwU0tuVmJpTXpBVEpsZnVkZkNRYjlhRkdqcW5ORWdBMVNrSWxRZXNBdW1xR0IxQXJsMnM5RlppNnJELUlPNTRGWnFHRFY3bklXLU5VOEN0Mk1ySXFnOUU5M1U0Wll1Yzdpb3h1anZRcHJObnU5dkd5bW1nRGJrV3pOa2lBWDRNMUVJY0JuWUpUTVplSDZ5cnJySG1GQ3RMQXVYOHlDTk4zZHVDM3Z0a25aV1pEdXAwcFphZVpSLURld1o5M0xacGkxQWM1NHloSzEtUU9KMG1yZEhPYTdZYmxaQ3YzQnBhRDBqTE9XZURWQUJVNG1RTl9TUlFtR0o3Rmt4LU9ibzBGaWhhcG44LTVxaVhXc0NfU0p1Ni04VTMyZ0twRm11aW5iTWRSZGRWNGstSWlRNUFUUENhcUV3ZDlXRzdWVEV4a1owR1VMRWxSWWxRS0hqZ0VRaklnTnVVMDRZcG04c1IyWk9QamxaMjVDMGozU1pjTlBENjRMc3lnelh2aE5nWWFPel8wZDk3VmM4ZTAyS2dUdVdNNC1aM1BGd2tZeDVkanBISVlNTVdiRGc1S2xaS1hRVGpONUpKaHI4NnhZTVpsaTNQZm5FQkpSNDR3VloyLWcyQ1F3TS1NUEs2OE13ck1pdDlhY25ObVFOcllvNGlSMW5fUk8wQTBMYXlBekp6S3UtQ3pjUmcwTGs5UUEteVRfZF9XS0d1QV9oVDRXcXc2a1Y5VjhWYTJadFJubW9waGl4MEI1T0huU05iNTJBc2RhdHZNWVd0OVNXQjZaMWJVcWtLQTBzaDQ5TGQtYmVfX09ILXJncDlROWhtX2pWalU2bUlOU2tZX2VwVlZNalczeFotOXAxdVYwU2M5cmxIQlVtbXdnbzE2TjEwSFl6VWhudXl2aEE4dmVsSXVoazkxTU8wMnp5QVdMX25XUnU3Z0RfcjdQNkhheVJhNlhkVTBpYzRSTjByYl9IN1pkclNlZ1AyZlNFbUVEaVZ6Vy0xdXVhUzhxV0JBLWhsOEJWM3pFLTViZ2hRRG1UNWs2TE9UTmZUbmxYVTVreGRxNmtNbDktN052SzNGZklHaHg1SUdyUjZFbzNVUlkwNWhVcWRKMDBBcVdBdF9wdVQ4MlZBaXkzbWFSVG9RbmZ1WnI1VC1BVFdXQW00TmRfR3p5X01UNEFzdW1NT2lrVUNtRS1tRDU5LTc5S1MwQU5ESVo5OTBCbXh6aUpjdzJ5YTYxUjdQcTJRRktCTzlDTDlPUGx5TWtTdWZxLTRxb3dULUdIN29wclVjMnFjNXpFd0lfSHQ1aUJFelh0Qm5OcWNKdVlkTF80Rjh6VmhCcVRMcEV6Q3dWeVAtcGhXRENIdW1ybHJyUS0tUGxtcUlnQy1fOHlzblBqcUtvSTlEVWxRUno0dWQ3OGhvTkVwQVpDR0RTTGk4RnVRS1dJMFdHY2hfa0NyT0huRFo2Mzh4T3dyZHl6Q0kyNjM2RnltR2xzZUFrQ1VNdGs2R1hZYkhEM0FLQ29tTjVKd0w5d2NSc3c4Z0Z3RWN6QkJKSUkyUFRvUkZCeFNmMVl1VUZTUFhpaEZ4MXdJNGNaOWpNMU1PcXczaVdmOWJpYjNpQTJxZEE4Y2Vzc3hfX043VFZqenQ4clVEOHhKaWF2M19aUjM3MC1NRXRQd0xjanRCY2d3X3NhZTR4RFJtMEM3X0p1YkMwVF9QNlRkQnJaLS1KOTRmNGcwYTc4VW56SEV4aXNZUFBobUFqNElnMkNJa2dNeml1LWlBd0ZsV0h1RWJidmtOR3hXVHZTX0FpRk9JZXhiU0U1S0k5bExjaEd0ZGJaa0tlYkFYRnJCdHpxZEZTRjgtSlZVd2ppd2U1OWt2NTR2bDM0eXJzWllxV0YtQ3plWmdyUndvOGJVeS1QbGlFUURUbmRjNFRlZlhicWxLUGFPU3BEaE5HbTVqelZVYTBFb1hyWjRkaTk2YkJKVjd6Q0ZKQUxFQmJFb3VpWWNpanFKSktwUnRUdkNzUEJqVVBGQjFSa1c5QWE3QVB0YndacXhUMk9ZNGg5cXI2NHo1SFRxZTVyTDl0a1NueEh0QnZUQVlnaWxnWFJhNlpseEFpbmRBX1NkcC1ObHY0ZllubEhxeTVzLUxoTlNRNFhjcjFXSUJCWE51MTNRTml4RHRaX1hBdHFnNC1oakU4UFZONUZaRXZNN09ybXRTYmxCbDdBV3FIcGt1MkQ3bXMwWmMxZkZJXzQySGZjRUQwNVJYaDJ2X2Mxb253UlBYejVPRDZiQ3NNRDVxUV9sTWpTYWRoSXJCVGFZeFdMY05kZVBoNEF5ck5IdlQwQXc3ZWg4bENfX1JydnkyWmVaQTRIUE5wSVBKS1RnUDBsakh1djBqV1Q3WHBDSXM3QUlHT3RlbmltRVVtbWE2Q2Jmb0tWZGtYSUdXT0FxeFgycXNQcWl3TlNJMXljVXVBWE1zMVp5ZU9yNy0yaGp5TFZTZUszMmFXbVd6M0NfWnNMUTNtZmpuQlNDcHQtTUJzaFphQVpMOF9yZnhNMk5QeTlGdTFzdmo0ck4wUFlkOUVRVnZHZ3pBV3dQTE9iZjVGTktyUWpqVHdlYmRacks3dmdGM0dQSnR4ZHhrZUMyaUUydTBCZ21PMmllVGJkV1FsQUN4VmV5d1NEcUZwNGJPUVp0aHA3N2hyemEwYWFPYU5kemg4b3Y0Q2lYQU1MNG5lcG1OMUdta2d1VmdfZ21fMjFuZ1VSakF2azA4UXMta3JNalRfZjYxamFmWlE2N0dYdTVqdzRIY21GSGJVSkR1WlFiUm9YSEl2bXRJbVVHVGozMC1IV0EybEktSXVVVE9QVlNLdE5oN1NVVktFM3RfRG1SaDF3R3BmOUQ5U0FKRmtBMUFZXzBVanVUOEpZanhNNGVpTWZpRUdHS1IteTFySlVQSVRtb1EweHowNzFBc1ZkVnY3ZUlvblhpNTBsbVRVR1VUR3JiMkhwQ0tzMFFqU2kydDB6RXd0dEEydmdNdVZoV3daTjg4QndGaWpBM1A2N1dLb051Y0gxSlkweDJXNTdXTWJYZVlCT0NOYWQ4QTF3a1NQUXR1QzFocE9hSTJVRkw5S3A1TTlOM2tXRk5sTUhkZFpxQ0t1V0VJS3o5Sy11VlVPbW9yTDl6ZjRLOHFmQ3RERmlSTEJiREYtazktSGg2dmc0SVhaYUphbGlFakVNYkxpWmpfNXl0MkFvS3NJQ1BZLUNYTnpIQUtwcEh5Q1hhSjRjbDJjX3Bkc0ZyLWtPVHJQSm1tOHoybkF4RDFsRzZyLUNVU2JqTUFrcWI1TjRkd3M4T1ROdXUwdUVBaDBQSXRnd2I4ZWtmdUVfQlF0ZDdsOHZqbUh5ZmhlRkZjTlFVOU05bW1INmFMQ2hrTzVRdVM4bzNIU09RQy5xd2lIRGRHaFFZWlNHdVFXdjBEbXN3\"}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "6372",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "dfeccc07-f8a0-4958-bd08-c2e819d33d1f",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:20 GMT",
+    "x-ms-request-id": "5a6a98ff-f9a8-4143-b584-3a031e0e28ec",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:21 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "8fa32a2e-98db-4a3b-ab68-d53d053e3900",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canbackupasecret-\",\"deletedDate\":1564706181,\"scheduledPurgeDate\":1572482181,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecret-/0c09617ec89a4f6f9fde9a42c778e60c\",\"attributes\":{\"enabled\":true,\"created\":1564706181,\"updated\":1564706181,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "418",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:22 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "4fbddff5-e95f-4184-ae10-5f0253ea2afe",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:22 GMT",
+    "x-ms-request-id": "cb930581-6915-4679-b845-ca5638401701",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:21 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "b47a52e7-afb3-4498-8a37-5904c5633f00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:22 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6786d4ea-2f60-47a1-b01f-f6da50f83ce2",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:31 GMT",
+    "x-ms-request-id": "e62c6225-63a8-4db3-b1da-7f3d15044fe4",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "97c39e16-947f-4b0a-b314-645e494d3800",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canbackupasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "93d00563-46fb-4fde-92f1-45ed458be661",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "x-ms-request-id": "22ba690d-eb80-4711-8fc1-fd7fe029465f",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "73ac7238-ae9f-4b60-9ce0-d5e9dc200000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Secret not found: CRUDSecretName-canbackupasecretnonexisting-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "125",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "eeb90104-2a82-438e-966c-517281f92d76",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "x-ms-request-id": "7ad7889e-925b-47cd-a453-9c373d390244",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "62fc18eb-8354-4878-9a8c-8993a18c3400",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602\",\"attributes\":{\"enabled\":true,\"created\":1564706193,\"updated\":1564706193,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "261",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8fce340e-283a-4441-9592-24b970a7a368",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:32 GMT",
+    "x-ms-request-id": "bf89437e-0f2d-43d4-bcc9-6bcd0d5ceb3d",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "38cc3612-c07b-4361-acd0-777e31500000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/backup",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLlBoQ1F5ZzhzSW5GRUZCYzViQlI4MDhOdTU3UklLX253MU1ndF9GSWVwQzJhbmZOeFMzdl94a0Z3V0w4UlhsWDVaNmdfZUh4OEZYWEp5VkRWRl9udWhkcWg5LVpxX0M2LUlTbGUyV0JsTG9hbHQ0UmlJX0NhRFJWWUFtdGxkUnRsb0xwdUhKcmQ0dWFmQmdoQkNZX296QWhMRFFMRVlRUVlJdlZOUUJodEJQN05TLXhHTmxuTUoydWU5V0JpVVBRV2lORHFnWm5kLUctVjVsWGtzNlVwYVVNTC1teTl3QklHeC1jNlBpT1l2UVlQeDVvRGhVWTc1Y19Gal95NDJSTjUyT0Z5cVRyem5OMU4wQ3k2Vlc1MWIxa3hZUGdnRGtfOEcyQmItS01wdVhfMkVUTGc5dGJkN3Vqd3VXMzZJSExfUzBrQmVZZ3JMTjlKOWxQV2NiejRwZy5UYy1FOUEzWERFbGNDbDVQSU1aTjZRLmZRdkpYTWdKdnREZUx5dWoxdmRqWTRvTjhsdFlsaGR3TndlR3l6UEp6UXZqNUIwcDA0QkQ0WlBFeFkxWUEzMHRBc3MyV2lRRUM4TlJZcC1DZm1qREtxNkltYkpKckt1Qjc0RUMtYmdLR2RreVViTHJVY3IxdWNEZERqcEt4TURMS3NGSDM0empBaC1qZjdjWV94a2ItODI2aTV4Q21wOXFJMmgxQU01ZW1adnVKNDd3eV9HVWtwSFNkdWdGcG0wWm56Vm1NMHJDWVozMkRHeURfaVNRZmpOcy03b3lfVHFrUm40RG9GdzFtNV9TVnloUHBVcmhwSUxSR3ZORllVMUhTSWpUVzJESTkzTTRWM1J6VkF2NGNEN3dGUnNBT2p2Yll6VDFSOTd3VUJpUFZfZllLRzNrY00telBkNFNQTUJvWG5zVnltZ3dKUmRXaVBmaVRwa3prY3BVMHNXQU1maTdNS3pqb0dJRjdTUE1ETHlxOG9LVTJ2ekJUZHN4elo1WElYTlRuUTJodDJLQTE1X0hkMWl4bS02LWpWMEFVNU9RejRjYlZjc1c5eGpaNU0ybHFSWERKcy1TZGdoY2JobzZMeHRMbjNEUUk5Wk5FQkhSVzQ2bjJRRzJaNUZiU0NwYjl3dGZIMDZWakFlSGlWeGxtR24zNjQ2SVpiMzFaal9ER2hSd2E4N1l5WHZ1b0ROZnFRX1QwVDlycjQ2bFFUT3ZYOTN2cTVwUkVoczRvUTNkV2J0MjRZR2pMVTVOZlRfVlN1b2pKWUJPeWhWeG04NDNHZl8wQ3FnbHh3S2ZJZndxR1dXRk5hb1V6QWZnQjduak5wTThteEhaYmNoemc0QktvY2dJcS16aWhUdnNteTdqeVdBcThYV2hJTW1ab0lmMG5TeldBNFliZlFILXUtVEZ2RGNEVVNNcG5ZR3lscFRVVkxKZTlWbDlubG0tNmFkMDFmTXNXNjVVTVFZWFNXN1VyczE1STdFR25ubUwtelpXdnBZVk1tbjZRWjZPMFdzU2dnS2pOZjlYT01HZ2RwS1FEa1phWGVURl9zRDBGQ0tTMmlCQzRyM0FtRjZHVDZrT3NKcnVneGd0ZmJwU0JWZEVGdnZvSVZtRFI5X0hZYUlPU3p4YUw1Q1lEZ0Iyay1JeWRsMWMzLWFRWDVaMTN3WEcxa0FXM2stcEF0bl9wZ0hfQVpPVzA0azhGNFljRV9RRkhycnNPOUxXN2M2bGdYVFJ5NUN1OER3SHJVU2Fzd0JYZmxBYklaaTJ3cTNOS1kzWllMQzRFSlk5N1ZIdVhDbmlRUkhmYW9WVXUwOHE2U2poN0FDSjZ2dGxuV3pjaGltU2txY05LLTZTMkROcnZQOHk1S2FKS3d3N29JU0I5bG9SMHVTb0pFZDFPUU85akl3TUUtM2lqWngwaG9LRi04S01uSk93RGdZY3lnMi1fVi1rWENzeHBoeVhVSmVCd3BjaGJjZHdlem1GTWN3ZmJfbU4wc1QtM3hoSl92YVJIYzhqMVBxZ3VCZzVjeTBoZ0Q5aG5OTnNxRThaYUpSNFRIRmlzdUNJVEZ5Qmd5MjdDU3p5ZjJ3NjdaTkNiWm1MZERuaXJFTnFTZGRUSXUtRUlyQ1lSV0VmZy1NUzNveEZmQVVMSFNmR0pxT3E4T2ZzbzBobWVDeG9rckpPWkthNFNuS3pSNDl6SHpLTkthUzh5NEtWMTd0bjladm1Sc2k0bTRwOGZBWW1fdm9MbDZrb0czVzhjNjViWlBjM18tcnZ5WGZzVGdva3BZYUZVOFlpMEpNbXBmckRpeWlXZVNpcllvS2VSWjZjd1ByNWVCWUZGRkRoaUszVWw5Z3BJVTBTdkNEeDY2S0tKSzFObnFPOG03YnRuRnBIcW9Ta0tvUS1jcVBjSHJHSEpsckh2M2c1dHR0a3NrVDc4RWJ3a3VUenZ3QjBpV09MQnEtWUdiZmZBdTFCX2VlVVV5MDROMUE1VjdTdDhRVV93akpsNXZwcm1PZ3VUZXZVZ2k2WUZyZHQ0eEh5NUd4Y093SVo5UFNwSjJzeHptNlk5bEJNY29LalFYYkpnR1lGYlY3QmlmT0FOQWxEYVN4cmYzaDlpTVJXYkttaHJzSjUxdllGcDJKZFRWUmxmQzB5bW84RTFZck11R2Fxa3RxVE9aWnF3amg2YXd5RWFOcEZ1Z3Ayc0oyZFh0NzR3SnlDc3MwdDBUNWtjYlJHRGg5NVNRSXNwdkNTMWJjSG1CT3JPVi0xZTBzQU1McURzVU1XSWdSU1JTOUZFQjlYZ3NGVF9CaHZ6d0djX2NBTlcwWFFfT05mOHZ0UlFtd182RUM1VE5NX2FlXzdST09jR3RYY0dNbU1FT1FRUHZnWmx3OVd0M2F2VHdWZ0g5WEluS1dfMnpybnFBdHBkNTFCOWtnYzJNUHdfOE5SSnlfZFpPeG9EZWRFSzlqSG1yMWJzNHVRcVY1dW1OYjFPSTFBNHEza3dEYWdTdzAzNUdvOFpaVE1FWGw4LTQ4VUdkUFhBMXJ6cF9HLVktT3RlWGN1MURkeEN2ckYzaWlCOTkyZlBpUFhhUTJtenFKRURLNWF5SHM5ZzJCZVlZM0tJVEdlWWxiOVZuTWh2UFJkQzg3RFltckNRTXVnVjZwTWtqY1doUE1lZ2locmxUMDlDNHhBLTdEdlB2aVc4WjhIRkhISzMwU0g1LWNJMEhVdmp3MW9lRXlDZ1I2YnJVaUUxVnozblB4cGY4RHZjNHVwd3ZKVS14c0p3QW0ySnYwdkR3aUtKZU1YUEtNSEdvYmcxMDRJWnlGRnRqZWY5VzM0ZG9NVFNzNlBoaGpHZzhXaF9WcjlqaFRoZGNxaTQ5QmRlOHdQenZoN2FlWlVFbHQ3eS1YM1J2bUY2dUYzdV91Tm5lb2wweFBhaS15YjhlS3lUVm5hbWd5Q3pWZUU0cUs2SGJjYUhJbENhdW5LbXp6NUsxMGhKZlItSE91UjR3QkxuM1g0RzUzRjJ0al9hLWVZR3I4ZlVzcFlxeFRjLXIxSUdVSWtzelp0aXU2Q1p4a0ZuSWNYelhib1NXU2o0Tng5TGtJaE5ucWlTSnp6M25kWFRBQmVzWnU5YlVjTDhfc0tMYjU3N1VtV2VWUk5zcVp4akJaR1laUTRDbmZhN05odnZ3X0VyZGhqeV9CRlVsYzZZemNvV25FT3RWaG5HVDNWUUl1SmxkdnpoOTZnX2dHeExIQjUwQ2xFV0p3OU5ZVUd5THdsa2dvcGFuSzdtZnZyVG1oV1JQZDV1Z0k5Y3VuU2hkSTVJWUc4cHdhNk5ERnc3WUFsWmZBVXRscTNUaVNvYU9qUlhhQ1o1WURYMU9mYXE4R1JNUnM2Rkk1d1BjSlRqT3dPa2hxdnJfLWdwR3QyelFOTnJSdUtqbFRZVkhNYnZZUkJ2WUxhOW5KSkJFeGZtYmVaZnRzYm5jWUQtT29NQ1Q0Um01dXVVelRnaW9YemxETjVpcl9wNkd6S1FjbXRSdk5OUTktMzBJZVNOZVJHb3NxWDdRTkVqaGkxSi1RSWMwOWVQaGpaQVNuOFFCLXZIeklxenh5R1pVdTFYNTdjRloySEl4TGYyUWxRNVE1U25Xc3dwZG8wbkZ5ZVhFWjhWX1JRd3NhWXZxS2hxWWRyOUdSb25hRzJOdmMyZklrREl5dlJ1MUg1anBVVUFTemZMbXh1bTlBSk93VWZxRGJ5WDNDNXJoczZXWnM5clRRb2hVY1pXSE5jTGhaUkNHeFUzSmVEUldiS21ZTmdvZXNaeHVMeGhYWDhieXNWY2tEb282LW1FQWpLMTEzZUtJUk54YWxBZElCV1gzOFU4WmE4TDBsdG1lY1plUmJlc2pxbUpvSXRUaWxBTlBTa0U1WUE2X3JpYXNrTkJuejIzZ2xPSWJmNEkzZHV4M0VnaU54RGxPMWsyMDJwaXRTaUh3ZWNFYW12LTdFbjk4dFJGZ0dpbG92NDhESTA2dnRmTERHV1NFbEg5SXFNWjVRbXV4TVNFX2xXa1RpTUdwNHF1OU9xbENBS1NjOUhqOXJoOEJsdWg0SkFoUzV3cW82SG1FRUlhSExOZmdhTk8tWW5iQjM3OUZfWEgyS1hEeXIxSG90b0lqOEV6aTFnUDFSbWdYNlBRbmlzRXM4N3paZzFKN2txQlowTS1UVTk0RC14aFppSE9jX0U5T3duQWl3Z3BvRVkzU3k2NnB2WVlncF9UWmRSZC10NUR1cW1XaE43SDljU1dXTmJLLWluaUw4R2g5c2xRQ2ZaNF9lcXJ6MGh6cGpGd3g1ejVOQ0tSYWtwRmJEa3NFUEVWS0ZsZkozZW9yaUVHZWtCa2lVYnlqSXRLUDdRandNN05FQmtfcUNFeklVRVpqSGFNa1VSOVpmajk3ejJ5SlVneWljMzZkNmszQzRaZTI0aEFLQlh2MEFjMmNVWUVNTWFXZGhJQl83UjNNQ0xqRUFXWG5oVTJwdlEybWZIc3ltV3phZm4xN2cwSElhUFdacVF3emhHMjRDNjNnREtoYjdUN01IMnVPSC1DQXlmV3NkeUpNdnphbng3NEJUaTRxbER6RzRJU1M4UkhVSGNpRXFtRWJuZlBnM1FyNXNDaEx1a181ak5wbUgyYjEzRWdpYnl2OS1KTWR5S2d2bjNMTTlqMjNvYnFCT3diS2tPRUo4N1RvS21rS3kyOFRUOVZUQ2RZNGhqNGhFblUxaFNjT2xjbURobl9mTnZMSUw0NURUSm5VVU4xNTNMVVJTdXlEdjJoclc2djM1TVlhN0JIVktrSlNTRlZlWk5UaHZDM3hMVDlHODRrd1pmWjVJUmZDVDB4ZVZPV3l1U1Q3VTRvSUIycFJfZEJkc05qZk5QN3RvanJFQ2FkdVhya296T2FWcWFrb09aX3BaUEpYaDlCaEZtb2stUE16LWdHTlpieTAzTFJSSlc3UWE0QXZKenFjSzZEMFZlVjVWblpqOUNsRXJhMlhpdkd3UzN4R1hvZENVNFpLNE5mRVJSWUdVM0xCdU9fWXhpbHY0RzluUHlEUHBmdHFtTFhFbmhYa1RVdXJzdDdsc0x2M2tLaTFfTXJtU3BTVFVlbkhOaWlPNy1Rb2wxZVM1ZzBmdl9GTHNNWHpqY2xrMnJiUmVzbWdMQU9obU5vS09jOFEwRTdUQmdtZkkxTGI1eThBNjdhT2FvVllYWG9sYTd6SG1STnRSQUI2M1pHaHJKOTJ0QllPdHc3a1hjcC1PbW1fTk1xelVvcno4WDN1SlBzN3RFeXQyWTdzcU5NaXd6YW9PZUh0SDdwWGhvZTdhemJVVzZpSkctcEpBSzV6OUlWTXY1cFdqQXczQjNhSTl5QVJFajNISllRSGNtMjVZOERMYXdtQ0ltWE5OYk1qMG5GQjdwYWFwbXZhRy14OFh3alNBTzZQQ0hzNmhoaWVsTGpSekdzSVhCYkdYNXcwZTJYY0pLZ0pZQUt3Ti12MVgxVGhYTXVhY0kxVUtvU0dmNzZIWTJ6MjVlTjRUWGFheUdaRVVVa2NZWGdYNlB2aTAtbC1QZUNGV0paSV9Ob1Vxb0ZfelFObmVrU2dfdkN3TWhQWHRMTDVueFJTY3hQX2stdGxsbU9yN0VYaVpySDkzeHVEVkQwcHNUT0ZUM2h6MjMyRTdyaklMTTdVSFQ5VFVJcHcuZFBoQ1dNbThTMFg4VlRKckdHSlUzUQ\"}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "6402",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "aa182516-f455-4d14-8f6f-d40496ddbc4d",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "x-ms-request-id": "260e1419-fa77-408f-b14a-531e8277ba94",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "422d626d-7a80-4d58-b0df-5c75596a3800",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-\",\"deletedDate\":1564706193,\"scheduledPurgeDate\":1572482193,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602\",\"attributes\":{\"enabled\":true,\"created\":1564706193,\"updated\":1564706193,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "420",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "d8499274-66c9-447f-9be9-d8b05bae6125",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "x-ms-request-id": "42bd2797-abc2-49a9-844f-144900d6a9f3",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:34 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "2d8c0b95-a5d0-44ce-acbb-a403ac013e00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:33 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "981e321a-01f9-4b82-9cb5-9d97c0405bc4",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "x-ms-request-id": "c77b5b92-cc87-4a64-ba13-5c3c2f4062c9",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "ece6dc80-abf8-4e86-adcd-48ffcba23800",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "f2e07555-7e9d-4aed-ab23-e06fd10a5c10",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "x-ms-request-id": "f8063057-a658-4c6b-9a18-9623c9be67a6",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "5ccad3d1-24f8-4bb3-82fa-f04ef11d0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLlBoQ1F5ZzhzSW5GRUZCYzViQlI4MDhOdTU3UklLX253MU1ndF9GSWVwQzJhbmZOeFMzdl94a0Z3V0w4UlhsWDVaNmdfZUh4OEZYWEp5VkRWRl9udWhkcWg5LVpxX0M2LUlTbGUyV0JsTG9hbHQ0UmlJX0NhRFJWWUFtdGxkUnRsb0xwdUhKcmQ0dWFmQmdoQkNZX296QWhMRFFMRVlRUVlJdlZOUUJodEJQN05TLXhHTmxuTUoydWU5V0JpVVBRV2lORHFnWm5kLUctVjVsWGtzNlVwYVVNTC1teTl3QklHeC1jNlBpT1l2UVlQeDVvRGhVWTc1Y19Gal95NDJSTjUyT0Z5cVRyem5OMU4wQ3k2Vlc1MWIxa3hZUGdnRGtfOEcyQmItS01wdVhfMkVUTGc5dGJkN3Vqd3VXMzZJSExfUzBrQmVZZ3JMTjlKOWxQV2NiejRwZy5UYy1FOUEzWERFbGNDbDVQSU1aTjZRLmZRdkpYTWdKdnREZUx5dWoxdmRqWTRvTjhsdFlsaGR3TndlR3l6UEp6UXZqNUIwcDA0QkQ0WlBFeFkxWUEzMHRBc3MyV2lRRUM4TlJZcC1DZm1qREtxNkltYkpKckt1Qjc0RUMtYmdLR2RreVViTHJVY3IxdWNEZERqcEt4TURMS3NGSDM0empBaC1qZjdjWV94a2ItODI2aTV4Q21wOXFJMmgxQU01ZW1adnVKNDd3eV9HVWtwSFNkdWdGcG0wWm56Vm1NMHJDWVozMkRHeURfaVNRZmpOcy03b3lfVHFrUm40RG9GdzFtNV9TVnloUHBVcmhwSUxSR3ZORllVMUhTSWpUVzJESTkzTTRWM1J6VkF2NGNEN3dGUnNBT2p2Yll6VDFSOTd3VUJpUFZfZllLRzNrY00telBkNFNQTUJvWG5zVnltZ3dKUmRXaVBmaVRwa3prY3BVMHNXQU1maTdNS3pqb0dJRjdTUE1ETHlxOG9LVTJ2ekJUZHN4elo1WElYTlRuUTJodDJLQTE1X0hkMWl4bS02LWpWMEFVNU9RejRjYlZjc1c5eGpaNU0ybHFSWERKcy1TZGdoY2JobzZMeHRMbjNEUUk5Wk5FQkhSVzQ2bjJRRzJaNUZiU0NwYjl3dGZIMDZWakFlSGlWeGxtR24zNjQ2SVpiMzFaal9ER2hSd2E4N1l5WHZ1b0ROZnFRX1QwVDlycjQ2bFFUT3ZYOTN2cTVwUkVoczRvUTNkV2J0MjRZR2pMVTVOZlRfVlN1b2pKWUJPeWhWeG04NDNHZl8wQ3FnbHh3S2ZJZndxR1dXRk5hb1V6QWZnQjduak5wTThteEhaYmNoemc0QktvY2dJcS16aWhUdnNteTdqeVdBcThYV2hJTW1ab0lmMG5TeldBNFliZlFILXUtVEZ2RGNEVVNNcG5ZR3lscFRVVkxKZTlWbDlubG0tNmFkMDFmTXNXNjVVTVFZWFNXN1VyczE1STdFR25ubUwtelpXdnBZVk1tbjZRWjZPMFdzU2dnS2pOZjlYT01HZ2RwS1FEa1phWGVURl9zRDBGQ0tTMmlCQzRyM0FtRjZHVDZrT3NKcnVneGd0ZmJwU0JWZEVGdnZvSVZtRFI5X0hZYUlPU3p4YUw1Q1lEZ0Iyay1JeWRsMWMzLWFRWDVaMTN3WEcxa0FXM2stcEF0bl9wZ0hfQVpPVzA0azhGNFljRV9RRkhycnNPOUxXN2M2bGdYVFJ5NUN1OER3SHJVU2Fzd0JYZmxBYklaaTJ3cTNOS1kzWllMQzRFSlk5N1ZIdVhDbmlRUkhmYW9WVXUwOHE2U2poN0FDSjZ2dGxuV3pjaGltU2txY05LLTZTMkROcnZQOHk1S2FKS3d3N29JU0I5bG9SMHVTb0pFZDFPUU85akl3TUUtM2lqWngwaG9LRi04S01uSk93RGdZY3lnMi1fVi1rWENzeHBoeVhVSmVCd3BjaGJjZHdlem1GTWN3ZmJfbU4wc1QtM3hoSl92YVJIYzhqMVBxZ3VCZzVjeTBoZ0Q5aG5OTnNxRThaYUpSNFRIRmlzdUNJVEZ5Qmd5MjdDU3p5ZjJ3NjdaTkNiWm1MZERuaXJFTnFTZGRUSXUtRUlyQ1lSV0VmZy1NUzNveEZmQVVMSFNmR0pxT3E4T2ZzbzBobWVDeG9rckpPWkthNFNuS3pSNDl6SHpLTkthUzh5NEtWMTd0bjladm1Sc2k0bTRwOGZBWW1fdm9MbDZrb0czVzhjNjViWlBjM18tcnZ5WGZzVGdva3BZYUZVOFlpMEpNbXBmckRpeWlXZVNpcllvS2VSWjZjd1ByNWVCWUZGRkRoaUszVWw5Z3BJVTBTdkNEeDY2S0tKSzFObnFPOG03YnRuRnBIcW9Ta0tvUS1jcVBjSHJHSEpsckh2M2c1dHR0a3NrVDc4RWJ3a3VUenZ3QjBpV09MQnEtWUdiZmZBdTFCX2VlVVV5MDROMUE1VjdTdDhRVV93akpsNXZwcm1PZ3VUZXZVZ2k2WUZyZHQ0eEh5NUd4Y093SVo5UFNwSjJzeHptNlk5bEJNY29LalFYYkpnR1lGYlY3QmlmT0FOQWxEYVN4cmYzaDlpTVJXYkttaHJzSjUxdllGcDJKZFRWUmxmQzB5bW84RTFZck11R2Fxa3RxVE9aWnF3amg2YXd5RWFOcEZ1Z3Ayc0oyZFh0NzR3SnlDc3MwdDBUNWtjYlJHRGg5NVNRSXNwdkNTMWJjSG1CT3JPVi0xZTBzQU1McURzVU1XSWdSU1JTOUZFQjlYZ3NGVF9CaHZ6d0djX2NBTlcwWFFfT05mOHZ0UlFtd182RUM1VE5NX2FlXzdST09jR3RYY0dNbU1FT1FRUHZnWmx3OVd0M2F2VHdWZ0g5WEluS1dfMnpybnFBdHBkNTFCOWtnYzJNUHdfOE5SSnlfZFpPeG9EZWRFSzlqSG1yMWJzNHVRcVY1dW1OYjFPSTFBNHEza3dEYWdTdzAzNUdvOFpaVE1FWGw4LTQ4VUdkUFhBMXJ6cF9HLVktT3RlWGN1MURkeEN2ckYzaWlCOTkyZlBpUFhhUTJtenFKRURLNWF5SHM5ZzJCZVlZM0tJVEdlWWxiOVZuTWh2UFJkQzg3RFltckNRTXVnVjZwTWtqY1doUE1lZ2locmxUMDlDNHhBLTdEdlB2aVc4WjhIRkhISzMwU0g1LWNJMEhVdmp3MW9lRXlDZ1I2YnJVaUUxVnozblB4cGY4RHZjNHVwd3ZKVS14c0p3QW0ySnYwdkR3aUtKZU1YUEtNSEdvYmcxMDRJWnlGRnRqZWY5VzM0ZG9NVFNzNlBoaGpHZzhXaF9WcjlqaFRoZGNxaTQ5QmRlOHdQenZoN2FlWlVFbHQ3eS1YM1J2bUY2dUYzdV91Tm5lb2wweFBhaS15YjhlS3lUVm5hbWd5Q3pWZUU0cUs2SGJjYUhJbENhdW5LbXp6NUsxMGhKZlItSE91UjR3QkxuM1g0RzUzRjJ0al9hLWVZR3I4ZlVzcFlxeFRjLXIxSUdVSWtzelp0aXU2Q1p4a0ZuSWNYelhib1NXU2o0Tng5TGtJaE5ucWlTSnp6M25kWFRBQmVzWnU5YlVjTDhfc0tMYjU3N1VtV2VWUk5zcVp4akJaR1laUTRDbmZhN05odnZ3X0VyZGhqeV9CRlVsYzZZemNvV25FT3RWaG5HVDNWUUl1SmxkdnpoOTZnX2dHeExIQjUwQ2xFV0p3OU5ZVUd5THdsa2dvcGFuSzdtZnZyVG1oV1JQZDV1Z0k5Y3VuU2hkSTVJWUc4cHdhNk5ERnc3WUFsWmZBVXRscTNUaVNvYU9qUlhhQ1o1WURYMU9mYXE4R1JNUnM2Rkk1d1BjSlRqT3dPa2hxdnJfLWdwR3QyelFOTnJSdUtqbFRZVkhNYnZZUkJ2WUxhOW5KSkJFeGZtYmVaZnRzYm5jWUQtT29NQ1Q0Um01dXVVelRnaW9YemxETjVpcl9wNkd6S1FjbXRSdk5OUTktMzBJZVNOZVJHb3NxWDdRTkVqaGkxSi1RSWMwOWVQaGpaQVNuOFFCLXZIeklxenh5R1pVdTFYNTdjRloySEl4TGYyUWxRNVE1U25Xc3dwZG8wbkZ5ZVhFWjhWX1JRd3NhWXZxS2hxWWRyOUdSb25hRzJOdmMyZklrREl5dlJ1MUg1anBVVUFTemZMbXh1bTlBSk93VWZxRGJ5WDNDNXJoczZXWnM5clRRb2hVY1pXSE5jTGhaUkNHeFUzSmVEUldiS21ZTmdvZXNaeHVMeGhYWDhieXNWY2tEb282LW1FQWpLMTEzZUtJUk54YWxBZElCV1gzOFU4WmE4TDBsdG1lY1plUmJlc2pxbUpvSXRUaWxBTlBTa0U1WUE2X3JpYXNrTkJuejIzZ2xPSWJmNEkzZHV4M0VnaU54RGxPMWsyMDJwaXRTaUh3ZWNFYW12LTdFbjk4dFJGZ0dpbG92NDhESTA2dnRmTERHV1NFbEg5SXFNWjVRbXV4TVNFX2xXa1RpTUdwNHF1OU9xbENBS1NjOUhqOXJoOEJsdWg0SkFoUzV3cW82SG1FRUlhSExOZmdhTk8tWW5iQjM3OUZfWEgyS1hEeXIxSG90b0lqOEV6aTFnUDFSbWdYNlBRbmlzRXM4N3paZzFKN2txQlowTS1UVTk0RC14aFppSE9jX0U5T3duQWl3Z3BvRVkzU3k2NnB2WVlncF9UWmRSZC10NUR1cW1XaE43SDljU1dXTmJLLWluaUw4R2g5c2xRQ2ZaNF9lcXJ6MGh6cGpGd3g1ejVOQ0tSYWtwRmJEa3NFUEVWS0ZsZkozZW9yaUVHZWtCa2lVYnlqSXRLUDdRandNN05FQmtfcUNFeklVRVpqSGFNa1VSOVpmajk3ejJ5SlVneWljMzZkNmszQzRaZTI0aEFLQlh2MEFjMmNVWUVNTWFXZGhJQl83UjNNQ0xqRUFXWG5oVTJwdlEybWZIc3ltV3phZm4xN2cwSElhUFdacVF3emhHMjRDNjNnREtoYjdUN01IMnVPSC1DQXlmV3NkeUpNdnphbng3NEJUaTRxbER6RzRJU1M4UkhVSGNpRXFtRWJuZlBnM1FyNXNDaEx1a181ak5wbUgyYjEzRWdpYnl2OS1KTWR5S2d2bjNMTTlqMjNvYnFCT3diS2tPRUo4N1RvS21rS3kyOFRUOVZUQ2RZNGhqNGhFblUxaFNjT2xjbURobl9mTnZMSUw0NURUSm5VVU4xNTNMVVJTdXlEdjJoclc2djM1TVlhN0JIVktrSlNTRlZlWk5UaHZDM3hMVDlHODRrd1pmWjVJUmZDVDB4ZVZPV3l1U1Q3VTRvSUIycFJfZEJkc05qZk5QN3RvanJFQ2FkdVhya296T2FWcWFrb09aX3BaUEpYaDlCaEZtb2stUE16LWdHTlpieTAzTFJSSlc3UWE0QXZKenFjSzZEMFZlVjVWblpqOUNsRXJhMlhpdkd3UzN4R1hvZENVNFpLNE5mRVJSWUdVM0xCdU9fWXhpbHY0RzluUHlEUHBmdHFtTFhFbmhYa1RVdXJzdDdsc0x2M2tLaTFfTXJtU3BTVFVlbkhOaWlPNy1Rb2wxZVM1ZzBmdl9GTHNNWHpqY2xrMnJiUmVzbWdMQU9obU5vS09jOFEwRTdUQmdtZkkxTGI1eThBNjdhT2FvVllYWG9sYTd6SG1STnRSQUI2M1pHaHJKOTJ0QllPdHc3a1hjcC1PbW1fTk1xelVvcno4WDN1SlBzN3RFeXQyWTdzcU5NaXd6YW9PZUh0SDdwWGhvZTdhemJVVzZpSkctcEpBSzV6OUlWTXY1cFdqQXczQjNhSTl5QVJFajNISllRSGNtMjVZOERMYXdtQ0ltWE5OYk1qMG5GQjdwYWFwbXZhRy14OFh3alNBTzZQQ0hzNmhoaWVsTGpSekdzSVhCYkdYNXcwZTJYY0pLZ0pZQUt3Ti12MVgxVGhYTXVhY0kxVUtvU0dmNzZIWTJ6MjVlTjRUWGFheUdaRVVVa2NZWGdYNlB2aTAtbC1QZUNGV0paSV9Ob1Vxb0ZfelFObmVrU2dfdkN3TWhQWHRMTDVueFJTY3hQX2stdGxsbU9yN0VYaVpySDkzeHVEVkQwcHNUT0ZUM2h6MjMyRTdyaklMTTdVSFQ5VFVJcHcuZFBoQ1dNbThTMFg4VlRKckdHSlUzUQ\"}",
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Conflict while restoring secret https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602 - secret already exists or concurrent access\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "245",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:44 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "3bbcf725-6efc-42c2-a003-523d0cc302d3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:54 GMT",
+    "x-ms-request-id": "94f5c197-1b19-415e-88f6-a254d79cf6e4",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:36:54 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "8ca8407d-2544-4f77-8e1a-5a85aed03a00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLlBoQ1F5ZzhzSW5GRUZCYzViQlI4MDhOdTU3UklLX253MU1ndF9GSWVwQzJhbmZOeFMzdl94a0Z3V0w4UlhsWDVaNmdfZUh4OEZYWEp5VkRWRl9udWhkcWg5LVpxX0M2LUlTbGUyV0JsTG9hbHQ0UmlJX0NhRFJWWUFtdGxkUnRsb0xwdUhKcmQ0dWFmQmdoQkNZX296QWhMRFFMRVlRUVlJdlZOUUJodEJQN05TLXhHTmxuTUoydWU5V0JpVVBRV2lORHFnWm5kLUctVjVsWGtzNlVwYVVNTC1teTl3QklHeC1jNlBpT1l2UVlQeDVvRGhVWTc1Y19Gal95NDJSTjUyT0Z5cVRyem5OMU4wQ3k2Vlc1MWIxa3hZUGdnRGtfOEcyQmItS01wdVhfMkVUTGc5dGJkN3Vqd3VXMzZJSExfUzBrQmVZZ3JMTjlKOWxQV2NiejRwZy5UYy1FOUEzWERFbGNDbDVQSU1aTjZRLmZRdkpYTWdKdnREZUx5dWoxdmRqWTRvTjhsdFlsaGR3TndlR3l6UEp6UXZqNUIwcDA0QkQ0WlBFeFkxWUEzMHRBc3MyV2lRRUM4TlJZcC1DZm1qREtxNkltYkpKckt1Qjc0RUMtYmdLR2RreVViTHJVY3IxdWNEZERqcEt4TURMS3NGSDM0empBaC1qZjdjWV94a2ItODI2aTV4Q21wOXFJMmgxQU01ZW1adnVKNDd3eV9HVWtwSFNkdWdGcG0wWm56Vm1NMHJDWVozMkRHeURfaVNRZmpOcy03b3lfVHFrUm40RG9GdzFtNV9TVnloUHBVcmhwSUxSR3ZORllVMUhTSWpUVzJESTkzTTRWM1J6VkF2NGNEN3dGUnNBT2p2Yll6VDFSOTd3VUJpUFZfZllLRzNrY00telBkNFNQTUJvWG5zVnltZ3dKUmRXaVBmaVRwa3prY3BVMHNXQU1maTdNS3pqb0dJRjdTUE1ETHlxOG9LVTJ2ekJUZHN4elo1WElYTlRuUTJodDJLQTE1X0hkMWl4bS02LWpWMEFVNU9RejRjYlZjc1c5eGpaNU0ybHFSWERKcy1TZGdoY2JobzZMeHRMbjNEUUk5Wk5FQkhSVzQ2bjJRRzJaNUZiU0NwYjl3dGZIMDZWakFlSGlWeGxtR24zNjQ2SVpiMzFaal9ER2hSd2E4N1l5WHZ1b0ROZnFRX1QwVDlycjQ2bFFUT3ZYOTN2cTVwUkVoczRvUTNkV2J0MjRZR2pMVTVOZlRfVlN1b2pKWUJPeWhWeG04NDNHZl8wQ3FnbHh3S2ZJZndxR1dXRk5hb1V6QWZnQjduak5wTThteEhaYmNoemc0QktvY2dJcS16aWhUdnNteTdqeVdBcThYV2hJTW1ab0lmMG5TeldBNFliZlFILXUtVEZ2RGNEVVNNcG5ZR3lscFRVVkxKZTlWbDlubG0tNmFkMDFmTXNXNjVVTVFZWFNXN1VyczE1STdFR25ubUwtelpXdnBZVk1tbjZRWjZPMFdzU2dnS2pOZjlYT01HZ2RwS1FEa1phWGVURl9zRDBGQ0tTMmlCQzRyM0FtRjZHVDZrT3NKcnVneGd0ZmJwU0JWZEVGdnZvSVZtRFI5X0hZYUlPU3p4YUw1Q1lEZ0Iyay1JeWRsMWMzLWFRWDVaMTN3WEcxa0FXM2stcEF0bl9wZ0hfQVpPVzA0azhGNFljRV9RRkhycnNPOUxXN2M2bGdYVFJ5NUN1OER3SHJVU2Fzd0JYZmxBYklaaTJ3cTNOS1kzWllMQzRFSlk5N1ZIdVhDbmlRUkhmYW9WVXUwOHE2U2poN0FDSjZ2dGxuV3pjaGltU2txY05LLTZTMkROcnZQOHk1S2FKS3d3N29JU0I5bG9SMHVTb0pFZDFPUU85akl3TUUtM2lqWngwaG9LRi04S01uSk93RGdZY3lnMi1fVi1rWENzeHBoeVhVSmVCd3BjaGJjZHdlem1GTWN3ZmJfbU4wc1QtM3hoSl92YVJIYzhqMVBxZ3VCZzVjeTBoZ0Q5aG5OTnNxRThaYUpSNFRIRmlzdUNJVEZ5Qmd5MjdDU3p5ZjJ3NjdaTkNiWm1MZERuaXJFTnFTZGRUSXUtRUlyQ1lSV0VmZy1NUzNveEZmQVVMSFNmR0pxT3E4T2ZzbzBobWVDeG9rckpPWkthNFNuS3pSNDl6SHpLTkthUzh5NEtWMTd0bjladm1Sc2k0bTRwOGZBWW1fdm9MbDZrb0czVzhjNjViWlBjM18tcnZ5WGZzVGdva3BZYUZVOFlpMEpNbXBmckRpeWlXZVNpcllvS2VSWjZjd1ByNWVCWUZGRkRoaUszVWw5Z3BJVTBTdkNEeDY2S0tKSzFObnFPOG03YnRuRnBIcW9Ta0tvUS1jcVBjSHJHSEpsckh2M2c1dHR0a3NrVDc4RWJ3a3VUenZ3QjBpV09MQnEtWUdiZmZBdTFCX2VlVVV5MDROMUE1VjdTdDhRVV93akpsNXZwcm1PZ3VUZXZVZ2k2WUZyZHQ0eEh5NUd4Y093SVo5UFNwSjJzeHptNlk5bEJNY29LalFYYkpnR1lGYlY3QmlmT0FOQWxEYVN4cmYzaDlpTVJXYkttaHJzSjUxdllGcDJKZFRWUmxmQzB5bW84RTFZck11R2Fxa3RxVE9aWnF3amg2YXd5RWFOcEZ1Z3Ayc0oyZFh0NzR3SnlDc3MwdDBUNWtjYlJHRGg5NVNRSXNwdkNTMWJjSG1CT3JPVi0xZTBzQU1McURzVU1XSWdSU1JTOUZFQjlYZ3NGVF9CaHZ6d0djX2NBTlcwWFFfT05mOHZ0UlFtd182RUM1VE5NX2FlXzdST09jR3RYY0dNbU1FT1FRUHZnWmx3OVd0M2F2VHdWZ0g5WEluS1dfMnpybnFBdHBkNTFCOWtnYzJNUHdfOE5SSnlfZFpPeG9EZWRFSzlqSG1yMWJzNHVRcVY1dW1OYjFPSTFBNHEza3dEYWdTdzAzNUdvOFpaVE1FWGw4LTQ4VUdkUFhBMXJ6cF9HLVktT3RlWGN1MURkeEN2ckYzaWlCOTkyZlBpUFhhUTJtenFKRURLNWF5SHM5ZzJCZVlZM0tJVEdlWWxiOVZuTWh2UFJkQzg3RFltckNRTXVnVjZwTWtqY1doUE1lZ2locmxUMDlDNHhBLTdEdlB2aVc4WjhIRkhISzMwU0g1LWNJMEhVdmp3MW9lRXlDZ1I2YnJVaUUxVnozblB4cGY4RHZjNHVwd3ZKVS14c0p3QW0ySnYwdkR3aUtKZU1YUEtNSEdvYmcxMDRJWnlGRnRqZWY5VzM0ZG9NVFNzNlBoaGpHZzhXaF9WcjlqaFRoZGNxaTQ5QmRlOHdQenZoN2FlWlVFbHQ3eS1YM1J2bUY2dUYzdV91Tm5lb2wweFBhaS15YjhlS3lUVm5hbWd5Q3pWZUU0cUs2SGJjYUhJbENhdW5LbXp6NUsxMGhKZlItSE91UjR3QkxuM1g0RzUzRjJ0al9hLWVZR3I4ZlVzcFlxeFRjLXIxSUdVSWtzelp0aXU2Q1p4a0ZuSWNYelhib1NXU2o0Tng5TGtJaE5ucWlTSnp6M25kWFRBQmVzWnU5YlVjTDhfc0tMYjU3N1VtV2VWUk5zcVp4akJaR1laUTRDbmZhN05odnZ3X0VyZGhqeV9CRlVsYzZZemNvV25FT3RWaG5HVDNWUUl1SmxkdnpoOTZnX2dHeExIQjUwQ2xFV0p3OU5ZVUd5THdsa2dvcGFuSzdtZnZyVG1oV1JQZDV1Z0k5Y3VuU2hkSTVJWUc4cHdhNk5ERnc3WUFsWmZBVXRscTNUaVNvYU9qUlhhQ1o1WURYMU9mYXE4R1JNUnM2Rkk1d1BjSlRqT3dPa2hxdnJfLWdwR3QyelFOTnJSdUtqbFRZVkhNYnZZUkJ2WUxhOW5KSkJFeGZtYmVaZnRzYm5jWUQtT29NQ1Q0Um01dXVVelRnaW9YemxETjVpcl9wNkd6S1FjbXRSdk5OUTktMzBJZVNOZVJHb3NxWDdRTkVqaGkxSi1RSWMwOWVQaGpaQVNuOFFCLXZIeklxenh5R1pVdTFYNTdjRloySEl4TGYyUWxRNVE1U25Xc3dwZG8wbkZ5ZVhFWjhWX1JRd3NhWXZxS2hxWWRyOUdSb25hRzJOdmMyZklrREl5dlJ1MUg1anBVVUFTemZMbXh1bTlBSk93VWZxRGJ5WDNDNXJoczZXWnM5clRRb2hVY1pXSE5jTGhaUkNHeFUzSmVEUldiS21ZTmdvZXNaeHVMeGhYWDhieXNWY2tEb282LW1FQWpLMTEzZUtJUk54YWxBZElCV1gzOFU4WmE4TDBsdG1lY1plUmJlc2pxbUpvSXRUaWxBTlBTa0U1WUE2X3JpYXNrTkJuejIzZ2xPSWJmNEkzZHV4M0VnaU54RGxPMWsyMDJwaXRTaUh3ZWNFYW12LTdFbjk4dFJGZ0dpbG92NDhESTA2dnRmTERHV1NFbEg5SXFNWjVRbXV4TVNFX2xXa1RpTUdwNHF1OU9xbENBS1NjOUhqOXJoOEJsdWg0SkFoUzV3cW82SG1FRUlhSExOZmdhTk8tWW5iQjM3OUZfWEgyS1hEeXIxSG90b0lqOEV6aTFnUDFSbWdYNlBRbmlzRXM4N3paZzFKN2txQlowTS1UVTk0RC14aFppSE9jX0U5T3duQWl3Z3BvRVkzU3k2NnB2WVlncF9UWmRSZC10NUR1cW1XaE43SDljU1dXTmJLLWluaUw4R2g5c2xRQ2ZaNF9lcXJ6MGh6cGpGd3g1ejVOQ0tSYWtwRmJEa3NFUEVWS0ZsZkozZW9yaUVHZWtCa2lVYnlqSXRLUDdRandNN05FQmtfcUNFeklVRVpqSGFNa1VSOVpmajk3ejJ5SlVneWljMzZkNmszQzRaZTI0aEFLQlh2MEFjMmNVWUVNTWFXZGhJQl83UjNNQ0xqRUFXWG5oVTJwdlEybWZIc3ltV3phZm4xN2cwSElhUFdacVF3emhHMjRDNjNnREtoYjdUN01IMnVPSC1DQXlmV3NkeUpNdnphbng3NEJUaTRxbER6RzRJU1M4UkhVSGNpRXFtRWJuZlBnM1FyNXNDaEx1a181ak5wbUgyYjEzRWdpYnl2OS1KTWR5S2d2bjNMTTlqMjNvYnFCT3diS2tPRUo4N1RvS21rS3kyOFRUOVZUQ2RZNGhqNGhFblUxaFNjT2xjbURobl9mTnZMSUw0NURUSm5VVU4xNTNMVVJTdXlEdjJoclc2djM1TVlhN0JIVktrSlNTRlZlWk5UaHZDM3hMVDlHODRrd1pmWjVJUmZDVDB4ZVZPV3l1U1Q3VTRvSUIycFJfZEJkc05qZk5QN3RvanJFQ2FkdVhya296T2FWcWFrb09aX3BaUEpYaDlCaEZtb2stUE16LWdHTlpieTAzTFJSSlc3UWE0QXZKenFjSzZEMFZlVjVWblpqOUNsRXJhMlhpdkd3UzN4R1hvZENVNFpLNE5mRVJSWUdVM0xCdU9fWXhpbHY0RzluUHlEUHBmdHFtTFhFbmhYa1RVdXJzdDdsc0x2M2tLaTFfTXJtU3BTVFVlbkhOaWlPNy1Rb2wxZVM1ZzBmdl9GTHNNWHpqY2xrMnJiUmVzbWdMQU9obU5vS09jOFEwRTdUQmdtZkkxTGI1eThBNjdhT2FvVllYWG9sYTd6SG1STnRSQUI2M1pHaHJKOTJ0QllPdHc3a1hjcC1PbW1fTk1xelVvcno4WDN1SlBzN3RFeXQyWTdzcU5NaXd6YW9PZUh0SDdwWGhvZTdhemJVVzZpSkctcEpBSzV6OUlWTXY1cFdqQXczQjNhSTl5QVJFajNISllRSGNtMjVZOERMYXdtQ0ltWE5OYk1qMG5GQjdwYWFwbXZhRy14OFh3alNBTzZQQ0hzNmhoaWVsTGpSekdzSVhCYkdYNXcwZTJYY0pLZ0pZQUt3Ti12MVgxVGhYTXVhY0kxVUtvU0dmNzZIWTJ6MjVlTjRUWGFheUdaRVVVa2NZWGdYNlB2aTAtbC1QZUNGV0paSV9Ob1Vxb0ZfelFObmVrU2dfdkN3TWhQWHRMTDVueFJTY3hQX2stdGxsbU9yN0VYaVpySDkzeHVEVkQwcHNUT0ZUM2h6MjMyRTdyaklMTTdVSFQ5VFVJcHcuZFBoQ1dNbThTMFg4VlRKckdHSlUzUQ\"}",
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Conflict while restoring secret https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602 - secret already exists or concurrent access\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "245",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:36:54 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "855ebf02-5006-4708-b13c-7a427c5b388d",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "x-ms-request-id": "9b4088a7-8194-4f99-a886-e7ade19381c1",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "d9e5abdc-3616-4f06-bce7-ab4ca9813700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLlBoQ1F5ZzhzSW5GRUZCYzViQlI4MDhOdTU3UklLX253MU1ndF9GSWVwQzJhbmZOeFMzdl94a0Z3V0w4UlhsWDVaNmdfZUh4OEZYWEp5VkRWRl9udWhkcWg5LVpxX0M2LUlTbGUyV0JsTG9hbHQ0UmlJX0NhRFJWWUFtdGxkUnRsb0xwdUhKcmQ0dWFmQmdoQkNZX296QWhMRFFMRVlRUVlJdlZOUUJodEJQN05TLXhHTmxuTUoydWU5V0JpVVBRV2lORHFnWm5kLUctVjVsWGtzNlVwYVVNTC1teTl3QklHeC1jNlBpT1l2UVlQeDVvRGhVWTc1Y19Gal95NDJSTjUyT0Z5cVRyem5OMU4wQ3k2Vlc1MWIxa3hZUGdnRGtfOEcyQmItS01wdVhfMkVUTGc5dGJkN3Vqd3VXMzZJSExfUzBrQmVZZ3JMTjlKOWxQV2NiejRwZy5UYy1FOUEzWERFbGNDbDVQSU1aTjZRLmZRdkpYTWdKdnREZUx5dWoxdmRqWTRvTjhsdFlsaGR3TndlR3l6UEp6UXZqNUIwcDA0QkQ0WlBFeFkxWUEzMHRBc3MyV2lRRUM4TlJZcC1DZm1qREtxNkltYkpKckt1Qjc0RUMtYmdLR2RreVViTHJVY3IxdWNEZERqcEt4TURMS3NGSDM0empBaC1qZjdjWV94a2ItODI2aTV4Q21wOXFJMmgxQU01ZW1adnVKNDd3eV9HVWtwSFNkdWdGcG0wWm56Vm1NMHJDWVozMkRHeURfaVNRZmpOcy03b3lfVHFrUm40RG9GdzFtNV9TVnloUHBVcmhwSUxSR3ZORllVMUhTSWpUVzJESTkzTTRWM1J6VkF2NGNEN3dGUnNBT2p2Yll6VDFSOTd3VUJpUFZfZllLRzNrY00telBkNFNQTUJvWG5zVnltZ3dKUmRXaVBmaVRwa3prY3BVMHNXQU1maTdNS3pqb0dJRjdTUE1ETHlxOG9LVTJ2ekJUZHN4elo1WElYTlRuUTJodDJLQTE1X0hkMWl4bS02LWpWMEFVNU9RejRjYlZjc1c5eGpaNU0ybHFSWERKcy1TZGdoY2JobzZMeHRMbjNEUUk5Wk5FQkhSVzQ2bjJRRzJaNUZiU0NwYjl3dGZIMDZWakFlSGlWeGxtR24zNjQ2SVpiMzFaal9ER2hSd2E4N1l5WHZ1b0ROZnFRX1QwVDlycjQ2bFFUT3ZYOTN2cTVwUkVoczRvUTNkV2J0MjRZR2pMVTVOZlRfVlN1b2pKWUJPeWhWeG04NDNHZl8wQ3FnbHh3S2ZJZndxR1dXRk5hb1V6QWZnQjduak5wTThteEhaYmNoemc0QktvY2dJcS16aWhUdnNteTdqeVdBcThYV2hJTW1ab0lmMG5TeldBNFliZlFILXUtVEZ2RGNEVVNNcG5ZR3lscFRVVkxKZTlWbDlubG0tNmFkMDFmTXNXNjVVTVFZWFNXN1VyczE1STdFR25ubUwtelpXdnBZVk1tbjZRWjZPMFdzU2dnS2pOZjlYT01HZ2RwS1FEa1phWGVURl9zRDBGQ0tTMmlCQzRyM0FtRjZHVDZrT3NKcnVneGd0ZmJwU0JWZEVGdnZvSVZtRFI5X0hZYUlPU3p4YUw1Q1lEZ0Iyay1JeWRsMWMzLWFRWDVaMTN3WEcxa0FXM2stcEF0bl9wZ0hfQVpPVzA0azhGNFljRV9RRkhycnNPOUxXN2M2bGdYVFJ5NUN1OER3SHJVU2Fzd0JYZmxBYklaaTJ3cTNOS1kzWllMQzRFSlk5N1ZIdVhDbmlRUkhmYW9WVXUwOHE2U2poN0FDSjZ2dGxuV3pjaGltU2txY05LLTZTMkROcnZQOHk1S2FKS3d3N29JU0I5bG9SMHVTb0pFZDFPUU85akl3TUUtM2lqWngwaG9LRi04S01uSk93RGdZY3lnMi1fVi1rWENzeHBoeVhVSmVCd3BjaGJjZHdlem1GTWN3ZmJfbU4wc1QtM3hoSl92YVJIYzhqMVBxZ3VCZzVjeTBoZ0Q5aG5OTnNxRThaYUpSNFRIRmlzdUNJVEZ5Qmd5MjdDU3p5ZjJ3NjdaTkNiWm1MZERuaXJFTnFTZGRUSXUtRUlyQ1lSV0VmZy1NUzNveEZmQVVMSFNmR0pxT3E4T2ZzbzBobWVDeG9rckpPWkthNFNuS3pSNDl6SHpLTkthUzh5NEtWMTd0bjladm1Sc2k0bTRwOGZBWW1fdm9MbDZrb0czVzhjNjViWlBjM18tcnZ5WGZzVGdva3BZYUZVOFlpMEpNbXBmckRpeWlXZVNpcllvS2VSWjZjd1ByNWVCWUZGRkRoaUszVWw5Z3BJVTBTdkNEeDY2S0tKSzFObnFPOG03YnRuRnBIcW9Ta0tvUS1jcVBjSHJHSEpsckh2M2c1dHR0a3NrVDc4RWJ3a3VUenZ3QjBpV09MQnEtWUdiZmZBdTFCX2VlVVV5MDROMUE1VjdTdDhRVV93akpsNXZwcm1PZ3VUZXZVZ2k2WUZyZHQ0eEh5NUd4Y093SVo5UFNwSjJzeHptNlk5bEJNY29LalFYYkpnR1lGYlY3QmlmT0FOQWxEYVN4cmYzaDlpTVJXYkttaHJzSjUxdllGcDJKZFRWUmxmQzB5bW84RTFZck11R2Fxa3RxVE9aWnF3amg2YXd5RWFOcEZ1Z3Ayc0oyZFh0NzR3SnlDc3MwdDBUNWtjYlJHRGg5NVNRSXNwdkNTMWJjSG1CT3JPVi0xZTBzQU1McURzVU1XSWdSU1JTOUZFQjlYZ3NGVF9CaHZ6d0djX2NBTlcwWFFfT05mOHZ0UlFtd182RUM1VE5NX2FlXzdST09jR3RYY0dNbU1FT1FRUHZnWmx3OVd0M2F2VHdWZ0g5WEluS1dfMnpybnFBdHBkNTFCOWtnYzJNUHdfOE5SSnlfZFpPeG9EZWRFSzlqSG1yMWJzNHVRcVY1dW1OYjFPSTFBNHEza3dEYWdTdzAzNUdvOFpaVE1FWGw4LTQ4VUdkUFhBMXJ6cF9HLVktT3RlWGN1MURkeEN2ckYzaWlCOTkyZlBpUFhhUTJtenFKRURLNWF5SHM5ZzJCZVlZM0tJVEdlWWxiOVZuTWh2UFJkQzg3RFltckNRTXVnVjZwTWtqY1doUE1lZ2locmxUMDlDNHhBLTdEdlB2aVc4WjhIRkhISzMwU0g1LWNJMEhVdmp3MW9lRXlDZ1I2YnJVaUUxVnozblB4cGY4RHZjNHVwd3ZKVS14c0p3QW0ySnYwdkR3aUtKZU1YUEtNSEdvYmcxMDRJWnlGRnRqZWY5VzM0ZG9NVFNzNlBoaGpHZzhXaF9WcjlqaFRoZGNxaTQ5QmRlOHdQenZoN2FlWlVFbHQ3eS1YM1J2bUY2dUYzdV91Tm5lb2wweFBhaS15YjhlS3lUVm5hbWd5Q3pWZUU0cUs2SGJjYUhJbENhdW5LbXp6NUsxMGhKZlItSE91UjR3QkxuM1g0RzUzRjJ0al9hLWVZR3I4ZlVzcFlxeFRjLXIxSUdVSWtzelp0aXU2Q1p4a0ZuSWNYelhib1NXU2o0Tng5TGtJaE5ucWlTSnp6M25kWFRBQmVzWnU5YlVjTDhfc0tMYjU3N1VtV2VWUk5zcVp4akJaR1laUTRDbmZhN05odnZ3X0VyZGhqeV9CRlVsYzZZemNvV25FT3RWaG5HVDNWUUl1SmxkdnpoOTZnX2dHeExIQjUwQ2xFV0p3OU5ZVUd5THdsa2dvcGFuSzdtZnZyVG1oV1JQZDV1Z0k5Y3VuU2hkSTVJWUc4cHdhNk5ERnc3WUFsWmZBVXRscTNUaVNvYU9qUlhhQ1o1WURYMU9mYXE4R1JNUnM2Rkk1d1BjSlRqT3dPa2hxdnJfLWdwR3QyelFOTnJSdUtqbFRZVkhNYnZZUkJ2WUxhOW5KSkJFeGZtYmVaZnRzYm5jWUQtT29NQ1Q0Um01dXVVelRnaW9YemxETjVpcl9wNkd6S1FjbXRSdk5OUTktMzBJZVNOZVJHb3NxWDdRTkVqaGkxSi1RSWMwOWVQaGpaQVNuOFFCLXZIeklxenh5R1pVdTFYNTdjRloySEl4TGYyUWxRNVE1U25Xc3dwZG8wbkZ5ZVhFWjhWX1JRd3NhWXZxS2hxWWRyOUdSb25hRzJOdmMyZklrREl5dlJ1MUg1anBVVUFTemZMbXh1bTlBSk93VWZxRGJ5WDNDNXJoczZXWnM5clRRb2hVY1pXSE5jTGhaUkNHeFUzSmVEUldiS21ZTmdvZXNaeHVMeGhYWDhieXNWY2tEb282LW1FQWpLMTEzZUtJUk54YWxBZElCV1gzOFU4WmE4TDBsdG1lY1plUmJlc2pxbUpvSXRUaWxBTlBTa0U1WUE2X3JpYXNrTkJuejIzZ2xPSWJmNEkzZHV4M0VnaU54RGxPMWsyMDJwaXRTaUh3ZWNFYW12LTdFbjk4dFJGZ0dpbG92NDhESTA2dnRmTERHV1NFbEg5SXFNWjVRbXV4TVNFX2xXa1RpTUdwNHF1OU9xbENBS1NjOUhqOXJoOEJsdWg0SkFoUzV3cW82SG1FRUlhSExOZmdhTk8tWW5iQjM3OUZfWEgyS1hEeXIxSG90b0lqOEV6aTFnUDFSbWdYNlBRbmlzRXM4N3paZzFKN2txQlowTS1UVTk0RC14aFppSE9jX0U5T3duQWl3Z3BvRVkzU3k2NnB2WVlncF9UWmRSZC10NUR1cW1XaE43SDljU1dXTmJLLWluaUw4R2g5c2xRQ2ZaNF9lcXJ6MGh6cGpGd3g1ejVOQ0tSYWtwRmJEa3NFUEVWS0ZsZkozZW9yaUVHZWtCa2lVYnlqSXRLUDdRandNN05FQmtfcUNFeklVRVpqSGFNa1VSOVpmajk3ejJ5SlVneWljMzZkNmszQzRaZTI0aEFLQlh2MEFjMmNVWUVNTWFXZGhJQl83UjNNQ0xqRUFXWG5oVTJwdlEybWZIc3ltV3phZm4xN2cwSElhUFdacVF3emhHMjRDNjNnREtoYjdUN01IMnVPSC1DQXlmV3NkeUpNdnphbng3NEJUaTRxbER6RzRJU1M4UkhVSGNpRXFtRWJuZlBnM1FyNXNDaEx1a181ak5wbUgyYjEzRWdpYnl2OS1KTWR5S2d2bjNMTTlqMjNvYnFCT3diS2tPRUo4N1RvS21rS3kyOFRUOVZUQ2RZNGhqNGhFblUxaFNjT2xjbURobl9mTnZMSUw0NURUSm5VVU4xNTNMVVJTdXlEdjJoclc2djM1TVlhN0JIVktrSlNTRlZlWk5UaHZDM3hMVDlHODRrd1pmWjVJUmZDVDB4ZVZPV3l1U1Q3VTRvSUIycFJfZEJkc05qZk5QN3RvanJFQ2FkdVhya296T2FWcWFrb09aX3BaUEpYaDlCaEZtb2stUE16LWdHTlpieTAzTFJSSlc3UWE0QXZKenFjSzZEMFZlVjVWblpqOUNsRXJhMlhpdkd3UzN4R1hvZENVNFpLNE5mRVJSWUdVM0xCdU9fWXhpbHY0RzluUHlEUHBmdHFtTFhFbmhYa1RVdXJzdDdsc0x2M2tLaTFfTXJtU3BTVFVlbkhOaWlPNy1Rb2wxZVM1ZzBmdl9GTHNNWHpqY2xrMnJiUmVzbWdMQU9obU5vS09jOFEwRTdUQmdtZkkxTGI1eThBNjdhT2FvVllYWG9sYTd6SG1STnRSQUI2M1pHaHJKOTJ0QllPdHc3a1hjcC1PbW1fTk1xelVvcno4WDN1SlBzN3RFeXQyWTdzcU5NaXd6YW9PZUh0SDdwWGhvZTdhemJVVzZpSkctcEpBSzV6OUlWTXY1cFdqQXczQjNhSTl5QVJFajNISllRSGNtMjVZOERMYXdtQ0ltWE5OYk1qMG5GQjdwYWFwbXZhRy14OFh3alNBTzZQQ0hzNmhoaWVsTGpSekdzSVhCYkdYNXcwZTJYY0pLZ0pZQUt3Ti12MVgxVGhYTXVhY0kxVUtvU0dmNzZIWTJ6MjVlTjRUWGFheUdaRVVVa2NZWGdYNlB2aTAtbC1QZUNGV0paSV9Ob1Vxb0ZfelFObmVrU2dfdkN3TWhQWHRMTDVueFJTY3hQX2stdGxsbU9yN0VYaVpySDkzeHVEVkQwcHNUT0ZUM2h6MjMyRTdyaklMTTdVSFQ5VFVJcHcuZFBoQ1dNbThTMFg4VlRKckdHSlUzUQ\"}",
+   "status": 200,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602\",\"attributes\":{\"enabled\":true,\"created\":1564706193,\"updated\":1564706193,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "247",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "5e825d06-f9e7-4eed-9d14-d76cc96a3c56",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "x-ms-request-id": "8b5651b9-cf73-4bb6-9037-9635fbb28c7a",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "b1c20953-741a-4c32-8e7f-4ea4133d0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":\"RSA\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602\",\"attributes\":{\"enabled\":true,\"created\":1564706193,\"updated\":1564706193,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "261",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "b3461180-1645-4e25-b29a-569ec6c9517d",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:04 GMT",
+    "x-ms-request-id": "8df398a8-8efd-4844-a205-1a6dabc5810f",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "23a4b400-bd4c-43a6-8121-f67982ae3300",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-\",\"deletedDate\":1564706226,\"scheduledPurgeDate\":1572482226,\"id\":\"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-canrestoreasecret-/f32aae01df3c426db90a4ad2f2198602\",\"attributes\":{\"enabled\":true,\"created\":1564706193,\"updated\":1564706193,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "420",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "37df639e-c6e3-4987-a685-792016b17738",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "x-ms-request-id": "5637fd42-ddaf-46ad-84bb-2cbae0ef0542",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "5e3298ab-419c-41e9-9e0c-e7ba64040000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 409,
+   "response": "{\"error\":{\"code\":\"Conflict\",\"message\":\"Secret is currently being deleted.\",\"innererror\":{\"code\":\"ObjectIsBeingDeleted\"}}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "409",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "121",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:05 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f6e62fa6-6a39-41c9-9857-d82442211f1c",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:16 GMT",
+    "x-ms-request-id": "4f3f9b69-bd04-4bd2-8159-aa551a230da8",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:15 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "4091c075-aa7d-4099-a36b-aef325c03600",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName-canrestoreasecret-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "906d4889-4828-46a2-87a6-b25e0a6a5234",
+    "x-ms-keyvault-region": "westus",
+    "date": "Fri, 02 Aug 2019 00:37:16 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "0",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:16 GMT",
+    "x-ms-request-id": "cacce7ef-9d9a-4865-a04a-009ba62b3e30",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Fri, 02 Aug 2019 00:37:16 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "9697cc87-8ec9-4f73-9d62-5f7557313a00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/secrets/restore",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"Malformed backup blob\",\"message\":\"Backup blob contains invalid or corrupt version.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.168.87.88;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "400",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "103",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.872",
+    "date": "Fri, 02 Aug 2019 00:37:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "1ebf0d4c-87b3-4cf2-a05c-74a274344aaf",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

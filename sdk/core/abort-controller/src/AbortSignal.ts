@@ -1,9 +1,35 @@
-import { AbortSignalLike } from "@azure/ms-rest-js";
-
+/// <reference path="./shims-public.d.ts" />
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
 const abortedMap = new WeakMap<AbortSignal, boolean>();
+
+/**
+ * Allows the request to be aborted upon firing of the "abort" event.
+ * Compatible with the browser built-in AbortSignal and common polyfills.
+ */
+export interface AbortSignalLike {
+  /**
+   * Indicates if the signal has already been aborted.
+   */
+  readonly aborted: boolean;
+  /**
+   * Add new "abort" event listener, only support "abort" event.
+   */
+  addEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
+  /**
+   * Remove "abort" event listener, only support "abort" event.
+   */
+  removeEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
+}
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
@@ -107,7 +133,7 @@ export class AbortSignal implements AbortSignalLike {
 
 /**
  * Helper to trigger an abort event immediately, the onabort and all abort event listeners will be triggered.
- * Will try to trigger abort event for all children AbortSignal nodes.
+ * Will try to trigger abort event for all linked AbortSignal nodes.
  *
  * - If there is a timeout, the timer will be cancelled.
  * - If aborted is true, nothing will happen.

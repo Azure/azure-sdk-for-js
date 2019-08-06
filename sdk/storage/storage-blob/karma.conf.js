@@ -21,7 +21,9 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-coverage",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
@@ -29,7 +31,8 @@ module.exports = function(config) {
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
+      "dist-test/index.browser.js",
+      "recordings/browsers/**/*.json"
     ],
 
     // list of files / patterns to exclude
@@ -41,18 +44,19 @@ module.exports = function(config) {
       "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"]
+      "dist-test/index.browser.js": ["coverage"],
+      "recordings/browsers/**/*.json": ["json"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS"],
+    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
 
     coverageReporter: { type: "in-memory" },
 
@@ -76,6 +80,28 @@ module.exports = function(config) {
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {} // key value pair of properties to add to the <properties> section of the report
+    },
+
+    jsonToFileReporter: {
+      filter: function(obj) {
+        if (obj.writeFile) {
+          const fs = require("fs-extra");
+          // Create the directories recursively incase they don't exist
+          try {
+            // Stripping away the filename from the file path and retaining the directory structure
+            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+          } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+          }
+          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
+            if (err) {
+              throw err;
+            }
+          });
+        }
+        return false;
+      },
+      outputPath: "."
     },
 
     // web server port
@@ -107,6 +133,10 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
+      terminal: process.env.TEST_MODE !== "record"
+    },
 
     client: {
       mocha: {

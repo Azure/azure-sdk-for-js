@@ -1,46 +1,50 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
 import { FileURL, ShareURL } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
-import {
-  downloadAzureFileToBuffer,
-  uploadFileToAzureFile,
-  uploadStreamToAzureFile
-} from "../../src/highlevel.node";
-import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
+import { downloadAzureFileToBuffer, uploadFileToAzureFile, uploadStreamToAzureFile } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
+import { record } from "../utils/recorder";
+
+dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
   const serviceURL = getBSU();
-  let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-  let fileName = getUniqueName("file");
-  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  let dirName: string;
+  let dirURL: DirectoryURL;
+  let fileName: string;
+  let fileURL: FileURL;
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
     await dirURL.create(Aborter.none);
-    fileName = getUniqueName("file");
+    fileName = recorder.getUniqueName("file");
     fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   before(async () => {
@@ -65,7 +69,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -75,14 +79,14 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("uploadFileToAzureFile should success for samll data", async () => {
+  it("uploadFileToAzureFile should success for small data", async () => {
     await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -169,7 +173,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
 
-    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -231,6 +235,47 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadAzureFileToBuffer should success when downloading a range inside file", async () => {
+    await fileURL.create(Aborter.none, 8);
+    await fileURL.uploadRange(Aborter.none, "aaaabbbb", 0, 8);
+
+    const buf = Buffer.alloc(4);
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 4, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 3, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 2, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 1, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
+
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, 4, {
+      rangeSize: 4,
+      maxRetryRequestsPerRange: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
   it("downloadAzureFileToBuffer should abort", async () => {
@@ -301,7 +346,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -330,7 +375,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -361,7 +406,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -377,7 +422,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -408,7 +453,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;

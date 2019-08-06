@@ -1,0 +1,25 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/",
+   "query": {
+    "comp": "properties",
+    "restype": "account"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:26:38 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-account-kind": "StorageV2",
+    "x-ms-request-id": "d495b229-c01e-0075-55cb-42b92d000000",
+    "x-ms-sku-name": "Standard_RAGRS",
+    "x-ms-version": "2018-11-09",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

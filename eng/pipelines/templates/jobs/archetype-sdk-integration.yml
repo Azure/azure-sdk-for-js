@@ -1,0 +1,76 @@
+parameters:
+  Toolchain: "rush"
+  PackageName: "" # For Rush toolchain only
+  PackagePath: "" # For NPM toolchain only
+  PreIntegrationSteps: ""
+  EnvVars: []
+  MaxParallel: 0
+  Matrix:
+    Linux_Node10:
+      OSVmImage: "ubuntu-16.04"
+      TestType: "node"
+    Windows_Node10:
+      OSVmImage: "vs2017-win2016"
+      TestType: "node"
+    macOS_Node10:
+      OSVmImage: "macOS-10.13"
+      TestType: "node"
+    Browser_Linux_Node10:
+      OSVmImage: "ubuntu-16.04"
+      TestType: "browser"
+    Browser_Windows_Node10:
+      OSVmImage: "vs2017-win2016"
+      TestType: "browser"
+    Browser_macOS_Node10:
+      OSVmImage: "macOS-10.13"
+      TestType: "browser"
+
+jobs:
+  - job: "IntegrationTest"
+
+    variables:
+      - template: ../variables/globals.yml
+
+    strategy:
+      maxParallel: ${{ parameters.MaxParallel }}
+      matrix:
+        ${{ each matrixEntry in parameters.Matrix }}:
+          ${{ matrixEntry.key }}:
+            # TestResultsFiles
+            ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
+              TestResultsFiles: "**/test-results.browser.xml"
+            ${{ if eq(matrixEntry.value.TestType, 'node') }}:
+              TestResultsFiles: "**/test-results.xml"
+
+            # Remaining entries from the matrix object
+            ${{ insert }}: ${{ matrixEntry.value }}
+
+    pool:
+      vmImage: "$(OSVmImage)"
+
+    timeoutInMinutes: 240
+
+    steps:
+      - template: ../steps/common.yml
+
+      - template: ../steps/integration-${{parameters.Toolchain}}.yml
+        parameters:
+          PackageName: ${{parameters.PackageName}}
+          PackagePath: ${{parameters.PackagePath}}
+          PreIntegrationSteps: ${{parameters.PreIntegrationSteps}}
+          TestType: $(TestType)
+          EnvVars: ${{parameters.EnvVars}}
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.xml"
+          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
+        condition: and(succeededOrFailed(), eq(variables['TestType'], 'node'))
+        displayName: "Publish NodeJS integration test results"
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
+        condition: and(succeededOrFailed(), eq(variables['TestType'], 'browser'))
+        displayName: "Publish browser integration test results"

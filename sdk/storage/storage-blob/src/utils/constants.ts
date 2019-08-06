@@ -1,5 +1,5 @@
-export const SDK_VERSION: string = "10.3.0";
-export const SERVICE_VERSION: string = "2018-03-28";
+export const SDK_VERSION: string = "10.4.0";
+export const SERVICE_VERSION: string = "2018-11-09";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 100MB

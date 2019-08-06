@@ -1,8 +1,8 @@
-import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 import {
+  ServiceClientOptions as Pipeline,
   HttpClient as IHttpClient,
   HttpPipelineLogger as IHttpPipelineLogger
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
 

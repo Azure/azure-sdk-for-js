@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { HttpHeaders } from "./httpHeaders";
 import { OperationSpec } from "./operationSpec";
@@ -459,6 +459,11 @@ export interface RequestOptionsBase {
    * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Options used to create a span when tracing is enabled.
+   */
+  spanOptions?: any;
 
   [key: string]: any;
 }

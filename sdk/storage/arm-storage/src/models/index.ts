@@ -1431,24 +1431,6 @@ export interface ListContainerItem extends AzureEntityResource {
 }
 
 /**
- * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
- * to next page of containers.
- */
-export interface ListContainerItems {
-  /**
-   * List of blobs containers returned.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: ListContainerItem[];
-  /**
-   * Request URL that can be used to query next page of containers. Returned when total number of
-   * requested containers exceed maximum page size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
  * Specifies a CORS rule for the Blob service.
  */
 export interface CorsRule {
@@ -1765,6 +1747,21 @@ export interface StorageAccountListResult extends Array<StorageAccount> {
  * @extends Array<Usage>
  */
 export interface UsageListResult extends Array<Usage> {
+}
+
+/**
+ * @interface
+ * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
+ * to next page of containers.
+ * @extends Array<ListContainerItem>
+ */
+export interface ListContainerItems extends Array<ListContainerItem> {
+  /**
+   * Request URL that can be used to query next page of containers. Returned when total number of
+   * requested containers exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -2633,5 +2630,25 @@ export type BlobContainersLeaseResponse = LeaseContainerResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LeaseContainerResponse;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type BlobContainersListNextResponse = ListContainerItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListContainerItems;
     };
 };

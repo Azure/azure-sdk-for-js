@@ -2,11 +2,22 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName, wait } from "./utils";
+import { getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("ListShares with default parameters", async () => {
     const serviceURL = getBSU();
     const result = await serviceURL.listSharesSegment(Aborter.none);
@@ -30,7 +41,7 @@ describe("ServiceURL", () => {
   it("ListShares with all parameters configured", async () => {
     const serviceURL = getBSU();
 
-    const shareNamePrefix = getUniqueName("share");
+    const shareNamePrefix = recorder.getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareURL1 = ShareURL.fromServiceURL(serviceURL, shareName1);
@@ -125,7 +136,7 @@ describe("ServiceURL", () => {
     }
 
     await serviceURL.setProperties(Aborter.none, serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await serviceURL.getProperties(Aborter.none);
     assert.ok(typeof result.requestId);

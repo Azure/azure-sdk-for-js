@@ -30,6 +30,10 @@ export interface QueryRequestOptions {
    * when ```$skipToken``` property is present.
    */
   skip?: number;
+  /**
+   * Defines in which format query result returned. Possible values include: 'table', 'objectArray'
+   */
+  resultFormat?: ResultFormat;
 }
 
 /**
@@ -93,34 +97,6 @@ export interface QueryRequest {
 }
 
 /**
- * Query result column descriptor.
- */
-export interface Column {
-  /**
-   * Column name.
-   */
-  name: string;
-  /**
-   * Column data type. Possible values include: 'string', 'integer', 'number', 'boolean', 'object'
-   */
-  type: ColumnDataType;
-}
-
-/**
- * Query output in tabular format.
- */
-export interface Table {
-  /**
-   * Query result column descriptors.
-   */
-  columns: Column[];
-  /**
-   * Query result rows.
-   */
-  rows: any[][];
-}
-
-/**
  * Contains the possible cases for Facet.
  */
 export type FacetUnion = Facet | FacetResult | FacetError;
@@ -165,11 +141,39 @@ export interface QueryResponse {
   /**
    * Query output in tabular format.
    */
-  data: Table;
+  data: any;
   /**
    * Query facets.
    */
   facets?: FacetUnion[];
+}
+
+/**
+ * Query result column descriptor.
+ */
+export interface Column {
+  /**
+   * Column name.
+   */
+  name: string;
+  /**
+   * Column data type. Possible values include: 'string', 'integer', 'number', 'boolean', 'object'
+   */
+  type: ColumnDataType;
+}
+
+/**
+ * Query output in tabular format.
+ */
+export interface Table {
+  /**
+   * Query result column descriptors.
+   */
+  columns: Column[];
+  /**
+   * Query result rows.
+   */
+  rows: any[][];
 }
 
 /**
@@ -195,7 +199,7 @@ export interface FacetResult {
   /**
    * A table containing the desired facets. Only present if the facet is valid.
    */
-  data: Table;
+  data: any;
 }
 
 /**
@@ -320,6 +324,14 @@ export interface ResourceGraphClientOptions extends AzureServiceClientOptions {
  */
 export interface OperationListResult extends Array<Operation> {
 }
+
+/**
+ * Defines values for ResultFormat.
+ * Possible values include: 'table', 'objectArray'
+ * @readonly
+ * @enum {string}
+ */
+export type ResultFormat = 'table' | 'objectArray';
 
 /**
  * Defines values for FacetSortOrder.

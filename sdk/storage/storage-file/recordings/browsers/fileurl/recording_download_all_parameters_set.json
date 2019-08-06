@@ -1,0 +1,126 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:24:51 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D710E1F30B7C07\"",
+    "x-ms-request-id": "842cc668-b01a-003e-17ca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684/dir156404691097104169",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:24:51 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D710E1F3208A5A\"",
+    "x-ms-request-id": "842cc66b-b01a-003e-19ca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684/dir156404691097104169/file156404691111002862",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:53 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D710E1F3361217\"",
+    "x-ms-request-id": "842cc66d-b01a-003e-1bca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684/dir156404691097104169/file156404691111002862",
+   "query": {
+    "comp": "range"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:53 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "etag": "\"0x8D710E1F34B99D9\"",
+    "x-ms-request-id": "842cc66f-b01a-003e-1dca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684/dir156404691097104169/file156404691111002862",
+   "query": {},
+   "requestBody": null,
+   "status": 206,
+   "response": "H",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:24:53 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D710E1F34B99D9\"",
+    "x-ms-server-encrypted": "true",
+    "content-type": "application/octet-stream",
+    "content-range": "bytes 0-0/11",
+    "x-ms-request-id": "842cc671-b01a-003e-1fca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "accept-ranges": "bytes",
+    "x-ms-type": "File",
+    "content-length": "1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156404691083309684",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "842cc673-b01a-003e-21ca-4288b7000000",
+    "x-ms-version": "2018-11-09",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Thu, 25 Jul 2019 09:24:52 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "share": "share156404691083309684",
+  "dir": "dir156404691097104169",
+  "file": "file156404691111002862"
+ }
+}

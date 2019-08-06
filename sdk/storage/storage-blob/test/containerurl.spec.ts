@@ -4,23 +4,28 @@ import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { getBSU, getUniqueName, sleep } from "./utils";
+import { getBSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerName: string;
+  let containerURL: ContainerURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -54,7 +59,7 @@ describe("ContainerURL", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cURL = ContainerURL.fromServiceURL(serviceURL, getUniqueName(containerName));
+    const cURL = ContainerURL.fromServiceURL(serviceURL, recorder.getUniqueName(containerName));
     const metadata = { key: "value" };
     const access = "container";
     await cURL.create(Aborter.none, { metadata, access });
@@ -104,7 +109,7 @@ describe("ContainerURL", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(16 * 1000);
+    await delay(16 * 1000);
     const result2 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
@@ -153,7 +158,7 @@ describe("ContainerURL", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(3 * 1000);
+    await delay(3 * 1000);
 
     const result3 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
@@ -164,7 +169,10 @@ describe("ContainerURL", () => {
   it("listBlobFlatSegment with default parameters", async () => {
     const blobURLs = [];
     for (let i = 0; i < 3; i++) {
-      const blobURL = BlobURL.fromContainerURL(containerURL, getUniqueName(`blockblob/${i}`));
+      const blobURL = BlobURL.fromContainerURL(
+        containerURL,
+        recorder.getUniqueName(`blockblob/${i}`)
+      );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
@@ -190,7 +198,10 @@ describe("ContainerURL", () => {
       keyb: "c"
     };
     for (let i = 0; i < 2; i++) {
-      const blobURL = BlobURL.fromContainerURL(containerURL, getUniqueName(`${prefix}/${i}`));
+      const blobURL = BlobURL.fromContainerURL(
+        containerURL,
+        recorder.getUniqueName(`${prefix}/${i}`)
+      );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0, {
         metadata
@@ -229,7 +240,10 @@ describe("ContainerURL", () => {
   it("listBlobHierarchySegment with default parameters", async () => {
     const blobURLs = [];
     for (let i = 0; i < 3; i++) {
-      const blobURL = BlobURL.fromContainerURL(containerURL, getUniqueName(`blockblob${i}/${i}`));
+      const blobURL = BlobURL.fromContainerURL(
+        containerURL,
+        recorder.getUniqueName(`blockblob${i}/${i}`)
+      );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
@@ -264,7 +278,7 @@ describe("ContainerURL", () => {
     for (let i = 0; i < 2; i++) {
       const blobURL = BlobURL.fromContainerURL(
         containerURL,
-        getUniqueName(`${prefix}${i}${delimiter}${i}`)
+        recorder.getUniqueName(`${prefix}${i}${delimiter}${i}`)
       );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0, {

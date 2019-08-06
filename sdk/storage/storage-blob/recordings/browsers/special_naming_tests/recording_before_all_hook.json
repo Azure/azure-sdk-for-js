@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156404701751202837",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 25 Jul 2019 09:26:38 GMT",
+    "last-modified": "Thu, 25 Jul 2019 09:26:39 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D710E232A0C263\"",
+    "x-ms-request-id": "d495b298-c01e-0075-30cb-42b92d000000",
+    "x-ms-version": "2018-11-09",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "1container-with-dash": "1container-with-dash156404701751202837"
+ }
+}

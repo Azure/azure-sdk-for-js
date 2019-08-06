@@ -17,9 +17,12 @@ export {
   CognitiveServicesResourceAndSku,
   ErrorBody,
   ErrorModel,
+  IpRule,
   MetricName,
+  NetworkRuleSet,
   RegenerateKeyParameters,
   Sku,
   Usage,
-  UsagesResult
+  UsagesResult,
+  VirtualNetworkRule
 } from "../models/mappers";

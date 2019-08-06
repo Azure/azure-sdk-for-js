@@ -139,6 +139,15 @@ test-browser
 typings
 typedoc
 types
+es
+sdk/cosmosdb/cosmos/lib
+*.test.js
+*.test.js.map
+*lintReport.html
 
 # autorest generated files
 swagger/*.json
+
+# library-specific ignores
+sdk/keyvault/*/src/**/*.js
+sdk/keyvault/*/samples/**/*.js

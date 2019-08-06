@@ -2,19 +2,27 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerName: string;
+  let containerURL: ContainerURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  });
+
+  afterEach(() => {
+    recorder.stop();
   });
 
   it("should set value and get value successfully", async () => {

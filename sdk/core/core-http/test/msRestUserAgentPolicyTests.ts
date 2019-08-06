@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import "chai/register-should";
 
@@ -78,7 +78,7 @@ describe("MsRestUserAgentPolicy", () => {
 
     it("should contain runtime information", async () => {
       const userAgent = await getUserAgent();
-      userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
+      userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
     });
 
     it("should have operating system information at the third place", async () => {
@@ -96,7 +96,7 @@ describe("MsRestUserAgentPolicy", () => {
     });
   });
 
-  browserDescribe("for browser", function() {
+  browserDescribe("for browser", function () {
     const userAgentHeaderKey = "x-ms-command-name";
 
     const emptyRequestPolicy: RequestPolicy = {
@@ -107,7 +107,7 @@ describe("MsRestUserAgentPolicy", () => {
     };
 
     const getUserAgent = async (headerValue?: string): Promise<string> => {
-      const factory = userAgentPolicy({ value: headerValue});
+      const factory = userAgentPolicy({ value: headerValue });
       const policy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
       const resource = new WebResource();
       await policy.sendRequest(resource);
@@ -149,7 +149,7 @@ describe("MsRestUserAgentPolicy", () => {
 
       it("should contain runtime information", async () => {
         const userAgent = await getUserAgent();
-        userAgent.should.match(/ms-rest-js\/[\d\.]+ .+/);
+        userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
       });
 
       it("should have operating system information at the second place", async () => {

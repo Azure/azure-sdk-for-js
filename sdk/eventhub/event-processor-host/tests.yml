@@ -1,9 +1,20 @@
 trigger: none
 
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests-node.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/event-processor-host"
+      # Remove Browser tests from matrix since they are currently a no-op
+      Matrix:
+        Linux_Node10:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+        Windows_Node10:
+          OSVmImage: "vs2017-win2016"
+          TestType: "node"
+        macOS_Node10:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
       EnvVars:
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
         EVENTHUB_NAME: $(js-event-hubs-test-name)

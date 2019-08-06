@@ -17,7 +17,6 @@ import { recreateQueue, recreateSubscription, recreateTopic } from "./aadUtils";
 
 import * as dotenv from "dotenv";
 dotenv.config();
-const env = getEnvVars();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
@@ -501,5 +500,6 @@ export function getNamespace(serviceBusConnectionString: string): string {
 }
 
 export function getServiceBusClient(): ServiceBusClient {
+  const env = getEnvVars();
   return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }

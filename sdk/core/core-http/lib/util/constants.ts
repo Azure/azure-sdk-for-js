@@ -1,13 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 export const Constants = {
   /**
-   * The ms-rest version
+   * The core-http version
    * @const
    * @type {string}
    */
-  msRestVersion: "1.8.10",
+  coreHttpVersion: "1.0.0-preview.1",
 
   /**
    * Specifies HTTP.

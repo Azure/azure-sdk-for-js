@@ -144,7 +144,7 @@ export class MeshSecretValue {
   /**
    * Gets information about all secret value resources of the specified secret resource. The
    * information includes the names of the secret value resources, but not the actual values.
-   * @summary List names of all values of the the specified secret resource.
+   * @summary List names of all values of the specified secret resource.
    * @param secretResourceName The name of the secret resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretValueListResponse>
@@ -219,7 +219,7 @@ const addValueOperationSpec: msRest.OperationSpec = {
     Parameters.secretValueResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   requestBody: {
     parameterPath: "secretValueResourceDescription",
@@ -251,7 +251,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.secretValueResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {
@@ -272,7 +272,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.secretValueResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {},
@@ -292,7 +292,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.secretResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {
@@ -313,7 +313,7 @@ const showOperationSpec: msRest.OperationSpec = {
     Parameters.secretValueResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {

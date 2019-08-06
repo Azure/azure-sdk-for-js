@@ -1,5 +1,6 @@
 import {
-  ServiceClientCredentials,
+  TokenCredential,
+  isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
@@ -10,11 +11,12 @@ import {
   proxyPolicy,
   throttlingRetryPolicy,
   getDefaultProxySettings,
+  isNode,
   userAgentPolicy
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
-import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
@@ -35,19 +37,20 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 export class CertificatesClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials} credential that implements signRequet().
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof CertificatesClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials,
+    credential: TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -57,8 +60,13 @@ export class CertificatesClient {
 
     const userAgentString: string = CertificatesClient.getUserAgentString(pipelineOptions.telemetry);
 
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+    let requestPolicyFactories: RequestPolicyFactory[] = [];
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
+    requestPolicyFactories = requestPolicyFactories.concat([
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -71,8 +79,10 @@ export class CertificatesClient {
         retryOptions.maxRetryDelayInMs
       ),
       redirectPolicy(),
-      signingPolicy(credential)
-    ];
+      isTokenCredential(credential)
+        ? challengeBasedAuthenticationPolicy(credential)
+        : signingPolicy(credential)
+    ]);
 
     return {
       httpClient: pipelineOptions.HTTPClient,
@@ -85,27 +95,27 @@ export class CertificatesClient {
 
   public readonly pipeline: Pipeline;
 
-  protected readonly credential: ServiceClientCredentials;
+  protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
    * Creates an instance of CertificatesClient.
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials} credential credential.
+   * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof CertificatesClient
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials,
+    credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
       this.pipeline = CertificatesClient.getDefaultPipeline(
-        credential as ServiceClientCredentials,
+        credential,
         pipelineOrOptions
       );
     } else {

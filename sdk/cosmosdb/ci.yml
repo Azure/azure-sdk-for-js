@@ -5,6 +5,7 @@ trigger:
   branches:
     include:
       - master
+      - feature/*
   paths:
     include:
       - sdk/cosmosdb/
@@ -13,6 +14,7 @@ pr:
   branches:
     include:
       - master
+      - feature/*
   paths:
     include:
       - sdk/cosmosdb/
@@ -20,8 +22,19 @@ pr:
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/cosmos"
+      ServiceDirectory: cosmosdb
 
-  - template: ../../eng/pipelines/templates/jobs/node6-test-sdk-client.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackagePath: "sdk/cosmosdb/cosmos/"
+      Toolchain: npm
+      Matrix:
+        Windows_Node6:
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "6.x"
+          TestType: "node"
+      PreIntegrationSteps: cosmos-integration-public
+      EnvVars:
+        ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
+        MOCHA_TIMEOUT: 100000
+        NODE_TLS_REJECT_UNAUTHORIZED: 0

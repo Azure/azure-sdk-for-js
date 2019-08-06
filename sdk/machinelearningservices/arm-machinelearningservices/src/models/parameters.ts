@@ -40,6 +40,19 @@ export const computeName: msRest.OperationURLParameter = {
     }
   }
 };
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
+    constraints: {
+      Pattern: /^[-\w\._]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -78,6 +91,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const underlyingResourceAction: msRest.OperationQueryParameter = {
+  parameterPath: "underlyingResourceAction",
+  mapper: {
+    required: true,
+    serializedName: "underlyingResourceAction",
     type: {
       name: "String"
     }

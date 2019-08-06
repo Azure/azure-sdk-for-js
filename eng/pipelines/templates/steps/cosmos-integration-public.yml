@@ -1,0 +1,5 @@
+steps:
+  - task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
+    inputs:
+      defaultPartitionCount: 25
+    displayName: "Run Azure Cosmos DB Emulator container (public)"

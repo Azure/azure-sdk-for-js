@@ -7,10 +7,10 @@ export { print };
 
 // this is a utility function from a library that should be external
 // for both node and web
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 
 // exporting some value from a dependency
-export { URLBuilder } from "@azure/ms-rest-js";
+export { URLBuilder } from "@azure/core-http";
 
 export function createEventEmitter() {
   // use event emitter
@@ -20,7 +20,7 @@ export function createEventEmitter() {
   if (isNode) {
     console.log("Node 👊");
   } else {
-    console.log("Browser 👊");
+    console.log("Browser ❤");
   }
 
   print("Created event emitter");

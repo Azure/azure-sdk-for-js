@@ -12,39 +12,45 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  getUniqueName,
   isIE
 } from "../utils/index.browser";
+import { record } from "../utils/recorder";
 
 // tslint:disable:no-empty
-describe("Highelvel", () => {
+describe("Highlevel", () => {
   const serviceURL = getBSU();
-  let containerName = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
   let tempFile1: File;
   const tempFile1Length: number = 257 * 1024 * 1024 - 1;
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
-  before(async () => {
-    tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
-    tempFile2 = getBrowserFile(getUniqueName("browserfile"), tempFile2Length);
+  before(async function() {
+    recorder = record(this);
+    tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
+    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
+    recorder.stop();
   });
 
   after(async () => {});

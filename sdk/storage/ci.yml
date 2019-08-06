@@ -5,6 +5,7 @@ trigger:
   branches:
     include:
       - master
+      - feature/*
   paths:
     include:
       - sdk/storage/
@@ -13,6 +14,7 @@ pr:
   branches:
     include:
       - master
+      - feature/*
   paths:
     include:
       - sdk/storage/
@@ -20,4 +22,4 @@ pr:
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/storage-blob"
+      ServiceDirectory: storage

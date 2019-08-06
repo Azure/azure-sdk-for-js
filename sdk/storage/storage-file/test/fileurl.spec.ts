@@ -1,39 +1,47 @@
-import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
+import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
-import * as dotenv from "dotenv";
+import { bodyToString, getBSU } from "./utils";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("FileURL", () => {
   const serviceURL = getBSU();
-  let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-  let fileName = getUniqueName("file");
-  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  let dirName: string;
+  let dirURL: DirectoryURL;
+  let fileName: string;
+  let fileURL: FileURL;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
     await dirURL.create(Aborter.none);
 
-    fileName = getUniqueName("file");
+    fileName = recorder.getUniqueName("file");
     fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -144,7 +152,7 @@ describe("FileURL", () => {
 
   it("startCopyFromURL", async () => {
     await fileURL.create(Aborter.none, 1024);
-    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, recorder.getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
 
@@ -157,10 +165,10 @@ describe("FileURL", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileURL.create(Aborter.none, content.length);
-    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, recorder.getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileURL.abortCopyFromURL(Aborter.none, result.copyId!);
@@ -249,11 +257,21 @@ describe("FileURL", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("download with with default parameters", async () => {
+  it("download with default parameters", async () => {
     await fileURL.create(Aborter.none, content.length);
     await fileURL.uploadRange(Aborter.none, content, 0, content.length);
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+
+    const aborter = Aborter.none;
+    const result = await fileURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
   });
 
   it("download all parameters set", async () => {
@@ -304,5 +322,45 @@ describe("FileURL", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("listHandles should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: FileForceCloseHandlesResponse = await fileURL.forceCloseHandlesSegment(Aborter.none, marker);
+      marker = response.marker;
+    } while (marker)
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+    
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirURL.forceCloseHandle(Aborter.none, handle.handleId);
+    }
   });
 });

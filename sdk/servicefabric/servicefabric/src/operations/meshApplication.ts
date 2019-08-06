@@ -156,7 +156,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   requestBody: {
     parameterPath: "applicationResourceDescription",
@@ -187,7 +187,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {
@@ -207,7 +207,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {},
@@ -224,7 +224,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications",
   queryParameters: [
-    Parameters.apiVersion6
+    Parameters.apiVersion7
   ],
   responses: {
     200: {

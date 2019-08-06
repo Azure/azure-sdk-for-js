@@ -1,29 +1,35 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { AppendBlobURL } from "../src/AppendBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-import * as dotenv from "dotenv";
+import { bodyToString, getBSU } from "./utils";
+import { record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let appendBlobURL: AppendBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {

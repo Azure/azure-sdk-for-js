@@ -312,6 +312,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Volume
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

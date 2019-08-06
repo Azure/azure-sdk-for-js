@@ -1,28 +1,34 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { Pipeline } from "../src/Pipeline";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import * as dotenv from "dotenv";
+import { record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerName: string;
+  let containerURL: ContainerURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -47,6 +53,37 @@ describe("RetryPolicy", () => {
 
     const result = await containerURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter < 2) {
+        injectCounter++;
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
+      }
+    });
+
+    const factories = containerURL.pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectContainerURL = containerURL.withPipeline(pipeline);
+
+    const metadata = {
+      key0: "val0",
+      keya: "vala",
+      keyb: "valb"
+    };
+
+    let hasError = false;
+    try {
+      // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
+      // happens between 2 requests
+      await injectContainerURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+    } catch (err) {
+      hasError = true;
+    }
+    assert.ok(hasError);
   });
 
   it("Retry Policy should failed when requests always fail with 500", async () => {

@@ -76,7 +76,7 @@ export const apiVersion5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.0-preview',
+    defaultValue: '6.5',
     type: {
       name: "String"
     }
@@ -88,13 +88,25 @@ export const apiVersion6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.4-preview',
+    defaultValue: '6.0-preview',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion7: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '6.4-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion8: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -353,6 +365,16 @@ export const continuationToken: msRest.OperationQueryParameter = {
   },
   skipEncoding: true
 };
+export const currentNodeName: msRest.OperationQueryParameter = {
+  parameterPath: "currentNodeName",
+  mapper: {
+    required: true,
+    serializedName: "CurrentNodeName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const dataLossMode: msRest.OperationQueryParameter = {
   parameterPath: "dataLossMode",
   mapper: {
@@ -399,6 +421,16 @@ export const deploymentName: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const enabled: msRest.OperationQueryParameter = {
+  parameterPath: "enabled",
+  mapper: {
+    required: true,
+    serializedName: "Enabled",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 export const endDateTimeFilter: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -553,6 +585,19 @@ export const gatewayResourceName: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const ignoreConstraints: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "ignoreConstraints"
+  ],
+  mapper: {
+    serializedName: "IgnoreConstraints",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const immediate: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -656,6 +701,18 @@ export const networkResourceName: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const newNodeName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "newNodeName"
+  ],
+  mapper: {
+    serializedName: "NewNodeName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nodeInstanceId: msRest.OperationQueryParameter = {
   parameterPath: "nodeInstanceId",
   mapper: {
@@ -666,11 +723,23 @@ export const nodeInstanceId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const nodeName: msRest.OperationURLParameter = {
+export const nodeName0: msRest.OperationURLParameter = {
   parameterPath: "nodeName",
   mapper: {
     required: true,
     serializedName: "nodeName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const nodeName1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "nodeName"
+  ],
+  mapper: {
+    serializedName: "NodeName",
     type: {
       name: "String"
     }
@@ -712,6 +781,19 @@ export const nodeTransitionType: msRest.OperationQueryParameter = {
     }
   }
 };
+export const onlyQueryPrimaries: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "onlyQueryPrimaries"
+  ],
+  mapper: {
+    serializedName: "OnlyQueryPrimaries",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const operationId: msRest.OperationQueryParameter = {
   parameterPath: "operationId",
   mapper: {
@@ -722,18 +804,7 @@ export const operationId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const partitionId0: msRest.OperationURLParameter = {
-  parameterPath: "partitionId",
-  mapper: {
-    required: true,
-    serializedName: "partitionId",
-    type: {
-      name: "Uuid"
-    }
-  },
-  skipEncoding: true
-};
-export const partitionId1: msRest.OperationQueryParameter = {
+export const partitionId0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "partitionId"
@@ -744,6 +815,17 @@ export const partitionId1: msRest.OperationQueryParameter = {
       name: "Uuid"
     }
   }
+};
+export const partitionId1: msRest.OperationURLParameter = {
+  parameterPath: "partitionId",
+  mapper: {
+    required: true,
+    serializedName: "partitionId",
+    type: {
+      name: "Uuid"
+    }
+  },
+  skipEncoding: true
 };
 export const partitionKeyType: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -852,17 +934,6 @@ export const recursive: msRest.OperationQueryParameter = {
     }
   }
 };
-export const replicaHealthReportServiceKind: msRest.OperationQueryParameter = {
-  parameterPath: "replicaHealthReportServiceKind",
-  mapper: {
-    required: true,
-    serializedName: "ReplicaHealthReportServiceKind",
-    defaultValue: 'Stateful',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const replicaId: msRest.OperationURLParameter = {
   parameterPath: "replicaId",
   mapper: {
@@ -961,6 +1032,17 @@ export const serviceId1: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "ServiceId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const serviceKind: msRest.OperationQueryParameter = {
+  parameterPath: "serviceKind",
+  mapper: {
+    required: true,
+    serializedName: "ServiceKind",
+    defaultValue: 'Stateful',
     type: {
       name: "String"
     }

@@ -1,4 +1,4 @@
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { CertificatePolicy } from "./core/models";
 
@@ -119,9 +119,9 @@ export interface SetCertificateOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -155,9 +155,9 @@ export interface UpdateCertificateOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -174,9 +174,9 @@ export interface GetCertificateOptions {
    */
   version?: string;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -188,9 +188,9 @@ export interface GetCertificateOptions {
  */
 export interface RequestOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 export interface CertificateIssuer {

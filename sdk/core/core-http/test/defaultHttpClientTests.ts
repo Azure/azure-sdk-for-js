@@ -1,10 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { assert, AssertionError } from "chai";
 import "chai/register-should";
 import { createReadStream } from "fs";
 import axios from "axios";
+import * as http from "http";
 
 import { DefaultHttpClient } from "../lib/defaultHttpClient";
 import { RestError } from "../lib/restError";
@@ -253,75 +254,36 @@ describe("defaultHttpClient", function () {
     response.status.should.equal(200, response.bodyAsText!);
   });
 
-  it("should send HTTP requests", async function () {
+  nodeIt("should send HTTP requests", async function () {
+    // Increase timeout to give the request time to complete
+    this.timeout(10000);
+
+    const localPort = 32293;
+    const responseContent = "<html><body><marquee>Under Construction</marquee></body></html>";
+    const localServer = http.createServer(function (_req, res) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.write(responseContent);
+      res.end();
+    }).listen(localPort);
+
     httpMock.passThrough();
-    const request = new WebResource("https://example.com", "GET");
-    request.headers.set("Access-Control-Allow-Headers", "Content-Type");
-    request.headers.set("Access-Control-Allow-Methods", "GET");
-    request.headers.set("Access-Control-Allow-Origin", "https://example.com");
+    const request = new WebResource(`http://127.0.0.1:${localPort}`, "GET");
     const httpClient = new DefaultHttpClient();
 
     const response = await httpClient.sendRequest(request);
+
+    // Clean up the server before asserting
+    localServer.close();
+
     assert.deepEqual(response.request, request);
     assert.strictEqual(response.status, 200);
     assert(response.headers);
     assert.strictEqual(response.headers.get("content-type")!.split(";")[0], "text/html");
     const responseBody: string | null | undefined = response.bodyAsText;
-    const expectedResponseBody =
-      `<!doctype html>
-<html>
-<head>
-    <title>Example Domain</title>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-    body {
-        background-color: #f0f0f2;
-        margin: 0;
-        padding: 0;
-        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    }
-    div {
-        width: 600px;
-        margin: 5em auto;
-        padding: 50px;
-        background-color: #fff;
-        border-radius: 1em;
-    }
-    a:link, a:visited {
-        color: #38488f;
-        text-decoration: none;
-    }
-    @media (max-width: 700px) {
-        body {
-            background-color: #fff;
-        }
-        div {
-            width: auto;
-            margin: 0 auto;
-            border-radius: 0;
-            padding: 1em;
-        }
-    }
-    </style>
-</head>
-
-<body>
-<div>
-    <h1>Example Domain</h1>
-    <p>This domain is established to be used for illustrative examples in documents. You may use this
-    domain in examples without prior coordination or asking for permission.</p>
-    <p><a href="http://www.iana.org/domains/example">More information...</a></p>
-</div>
-</body>
-</html>
-`;
     assert.strictEqual(
-      responseBody && responseBody.replace(/\s/g, ""),
-      expectedResponseBody.replace(/\s/g, ""));
+      responseBody,
+      responseContent);
+
     httpMock.teardown();
   });
 });

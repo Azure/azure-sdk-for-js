@@ -1223,7 +1223,7 @@ const listHostingEnvironmentDetectorResponsesOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1252,7 +1252,7 @@ const getHostingEnvironmentDetectorResponseOperationSpec: msRest.OperationSpec =
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1277,7 +1277,7 @@ const listSiteDetectorResponsesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1306,7 +1306,7 @@ const getSiteDetectorResponseOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1331,7 +1331,7 @@ const listSiteDiagnosticCategoriesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1357,7 +1357,7 @@ const getSiteDiagnosticCategoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1383,7 +1383,7 @@ const listSiteAnalysesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1410,7 +1410,7 @@ const getSiteAnalysisOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1440,7 +1440,7 @@ const executeSiteAnalysisOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1466,7 +1466,7 @@ const listSiteDetectorsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1493,7 +1493,7 @@ const getSiteDetectorOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1523,7 +1523,7 @@ const executeSiteDetectorOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1549,7 +1549,7 @@ const listSiteDetectorResponsesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1579,7 +1579,7 @@ const getSiteDetectorResponseSlotOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1605,7 +1605,7 @@ const listSiteDiagnosticCategoriesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1632,7 +1632,7 @@ const getSiteDiagnosticCategorySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1659,7 +1659,7 @@ const listSiteAnalysesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1687,7 +1687,7 @@ const getSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1718,7 +1718,7 @@ const executeSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1745,7 +1745,7 @@ const listSiteDetectorsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1773,7 +1773,7 @@ const getSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1804,7 +1804,7 @@ const executeSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
     Parameters.startTime0,
     Parameters.endTime0,
     Parameters.timeGrain0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

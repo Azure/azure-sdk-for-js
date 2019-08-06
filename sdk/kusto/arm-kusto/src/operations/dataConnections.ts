@@ -104,6 +104,46 @@ export class DataConnections {
   }
 
   /**
+   * Checks that the data connection name is valid and is not already in use.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param dataConnectionName The name of the data connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DataConnectionsCheckNameAvailabilityResponse>
+   */
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param dataConnectionName The name of the data connection.
+   * @param callback The callback
+   */
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param dataConnectionName The name of the data connection.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.DataConnectionsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        dataConnectionName,
+        options
+      },
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
+  }
+
+  /**
    * Returns a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -311,6 +351,39 @@ const dataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DataConnectionValidationListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "dataConnectionName",
+    mapper: {
+      ...Mappers.DataConnectionCheckNameRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameResult
     },
     default: {
       bodyMapper: Mappers.CloudError
