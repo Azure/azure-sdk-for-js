@@ -16,7 +16,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 Install the Azure Event Hubs client library using npm
 
-`npm install @azure/event-hubs@5.0.0-preview.1`
+`npm install @azure/event-hubs@5.0.0-preview.2`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
@@ -120,7 +120,8 @@ method until the maximum batch size limit in bytes has been reached.
 const client = new EventHubClient("connectionString", "eventHubName");
 const producer = client.createProducer();
 const eventDataBatch = await producer.createBatch();
-eventDataBatch.tryAdd({ body: "my-event-body" });
+let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+wasAdded = eventDataBatch.tryAdd({ body: "my-event-body-2" });
 await producer.send(eventDataBatch);
 ```
 
