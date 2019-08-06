@@ -100,7 +100,7 @@ In order to publish events, you'll need to create an `EventHubProducer`. Produce
 
 #### Send a single event or an array of events
 
-Use the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method to send multiple events using a single call.
+Use the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method to send a single event or multiple events using a single call.
 
 ```javascript
 const client = new EventHubClient("connectionString", "eventHubName");
