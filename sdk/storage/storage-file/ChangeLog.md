@@ -2,8 +2,7 @@
 
 ### 2019.08 Version 12.0.0-preview.2
 
-- [Breaking] Aborter class is no longer exposed from the package. You are expected to use
-  the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
 - Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
   In this preview, SAS connection string support is added to the existing connection string client constructors and static methods.
