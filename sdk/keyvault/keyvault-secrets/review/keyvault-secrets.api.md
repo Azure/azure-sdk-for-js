@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
@@ -26,14 +25,12 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 
 // @public
 export interface GetSecretOptions {
-    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetSecretsOptions {
-    abortSignal?: AbortSignalLike;
     requestOptions?: msRest.RequestOptionsBase;
 }
 
@@ -119,7 +116,6 @@ export class SecretsClient {
 
 // @public
 export interface SetSecretOptions {
-    abortSignal?: AbortSignalLike;
     contentType?: string;
     enabled?: boolean;
     expires?: Date;
@@ -138,7 +134,6 @@ export interface TelemetryOptions {
 
 // @public
 export interface UpdateSecretOptions {
-    abortSignal?: AbortSignalLike;
     contentType?: string;
     enabled?: boolean;
     expires?: Date;
