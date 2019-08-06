@@ -16,7 +16,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 Install the Azure Event Hubs client library using npm
 
-`npm install @azure/event-hubs@5.0.0-preview.1`
+`npm install @azure/event-hubs@5.0.0-preview.2`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
@@ -96,14 +96,33 @@ const partitionIds = await client.getPartitionIds();
 
 ### Publish events to an Event Hub
 
-In order to publish events, you'll need to create an `EventHubProducer`. Producers may be dedicated to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the our example, we will take advantage of automatic routing.
+In order to publish events, you'll need to create an `EventHubProducer`. Producers may be dedicated to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the below examples, we will take advantage of automatic routing.
 
-You can also use the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method to send multiple events using a single call.
+#### Send a single event or an array of events
+
+Use the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method to send a single event or multiple events using a single call.
 
 ```javascript
 const client = new EventHubClient("connectionString", "eventHubName");
 const producer = client.createProducer();
 await producer.send({ body: "my-event-body" });
+await producer.send([{ body: "foo" }, { body: "bar" }]);
+```
+
+#### Send a batch of events
+
+Use the [createBatch](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#createbatch) method to create
+an `EventDataBatch` object which can then be sent using the [send](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html#send) method.
+Events may be added to the `EventDataBatch` using the [tryAdd](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventdatabatch.html#tryadd)
+method until the maximum batch size limit in bytes has been reached.
+
+```javascript
+const client = new EventHubClient("connectionString", "eventHubName");
+const producer = client.createProducer();
+const eventDataBatch = await producer.createBatch();
+let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+wasAdded = eventDataBatch.tryAdd({ body: "my-event-body-2" });
+await producer.send(eventDataBatch);
 ```
 
 The [Inspect an Event Hub](#inspect-an-event-hub) example shows how to get the list of partition ids should you wish to specify one for a producer.
@@ -184,27 +203,45 @@ for await (const events of consumer.getEventIterator()){
 
 ### Consume events using an Event Processor
 
-Using an `EventHubConsumer` to consume events like in the previous examples puts the responsibility of storing the checkpoints (the last processed event) on the user. Checkpoints are important for restarting the task of processing events from the right position in a partition. Ideally, you would also want to run multiple programs targeting different partitions with some load balancing. This is where an `EventProcessor` can help.
+Using an `EventHubConsumer` to consume events like in the previous examples puts the responsibility of storing the checkpoints (the last processed event) on the user. Checkpoints are important for restarting the task of processing events from the right position in a partition. Ideally, you would also want to run multiple programs targeting different partitions with some load balancing.
+This is where an [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html) can help.
 
-The `EventProcessor` will delegate the processing of events to a `PartitionProcessor` that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer operations including checkpointing and load balancing. 
+The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/partitionprocessor.html)
+that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer
+operations including checkpointing and load balancing.
 
-While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below example, where we use an in memory `PartitionManager` that does checkpointing in memory.
+While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below
+example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that does checkpointing in memory.
 
 ```javascript
 class SimplePartitionProcessor {
-  async processEvents(events: ReceivedEventData[]) {
-    // your code here
+  // Gets called once before the processing of events from current partition starts.
+  async initialize() {
+    /* your code here */
   }
 
-  async processError(error: Error) {
-    // your error handler here
+  // Gets called for each batch of events that are received.
+  // You may choose to use the checkpoint manager to update checkpoints.
+  async processEvents(events) {
+    /* your code here */
+  }
+
+  // Gets called for any error when receiving events.
+  async processError(error) {
+    /* your code here */
+  }
+
+  // Gets called when Event Processor stops processing events for current partition.
+  async close(reason) {
+    /* your code here */
   }
 }
 
+const client = new EventHubClient("my-connection-string", "my-event-hub");
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  () => new SimplePartitionProcessor(),
+  (partitionContext, checkpointManager) => new SimplePartitionProcessor(),
   new InMemoryPartitionManager()
 );
 await processor.start();
