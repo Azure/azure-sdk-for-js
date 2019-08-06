@@ -80,7 +80,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Inspect an Event Hub](#inspect-an-event-hub)
 - [Publish events to an Event Hub](#publish-events-to-an-event-hub)
 - [Consume events from an Event Hub partition](#consume-events-from-an-event-hub-partition)
-- [Consume events from all partitions of an Event Hub](#consume-events-from-all-partitions-of-an-event-hub)
+- [Consume events using an Event Processor](#consume-events-using-an-event-processor)
 - [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
 
 ### Inspect an Event Hub
@@ -182,11 +182,11 @@ for await (const events of consumer.getEventIterator()){
 }
 ```
 
-### Consume events from all partitions of an Event Hub
+### Consume events using an Event Processor
 
 To consume events for all partitions of an Event Hub, you'll create an `EventProcessor` for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be used to get started.
 
-The `EventProcessor` will delegate processing of events to a `PartitionManager` implementation that you provide, allowing your logic to focus on the logic needed to provide value while the processor holds responsibility for managing the underlying consumer operations. In our example, we will focus on building the `EventProcessor` and use a very minimal partition processor that does no actual processing.
+The `EventProcessor` will delegate processing of events to a `PartitionProcessor` implementation that you provide, allowing your logic to focus on the logic needed to provide value while the processor holds responsibility for managing the underlying consumer operations. In our example, we will focus on building the `EventProcessor` and use a very minimal partition processor that does no actual processing.
 
 ```javascript
 class SimplePartitionProcessor {
@@ -197,29 +197,15 @@ class SimplePartitionProcessor {
   async processError(error: Error) {
     // your error handler here
   }
-
-  async initialize() {
-    // your code here
-  }
-
-  async close() {
-    // your code here
-  }
 }
-const eventProcessorFactory = (context: PartitionContext, checkpoint: CheckpointManager) => {
-  return new SimplePartitionProcessor();
-};
 
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  eventProcessorFactory,
-  new InMemoryPartitionManager(),
-  {
-    initialEventPosition: EventPosition.earliest(),
-    maxBatchSize: 10,
-    maxWaitTimeInSeconds: 20
-  }
+  () => {
+    return new SimplePartitionProcessor();
+  },
+  new InMemoryPartitionManager()
 );
 await processor.start();
 // At this point, the processor is consuming events from each partition of the Event Hub and
@@ -234,6 +220,7 @@ await processor.start();
 await delay(5000);
 await processor.stop();
 ```
+To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
 
 ### Use EventHubClient to work with IotHub
 
