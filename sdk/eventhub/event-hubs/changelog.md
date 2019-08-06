@@ -9,7 +9,7 @@
 
 #### Publishing events
 - Introduced the `EventDataBatch`, allowing for publication of a batch of events with known size constraint. 
-  This allows publishers to build batches without the potential for the `MaxSizeExceededError` error when sending events. It also allows publishers with bandwidth concerns to control the size of each batch published.
+  This allows publishers to build batches without the possibility of encountering the error around the message size exceeding the supported limit when sending events. It also allows publishers with bandwidth concerns to control the size of each batch published.
 - Enhanced the `EventHubProducer` to allow creation of an `EventDataBatch` and to accept them for publication.
 
 #### Consuming events
