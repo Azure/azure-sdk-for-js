@@ -35,3 +35,11 @@
 /eng/   @weshaggard @KarishmaGhiya @mikeharder @mitchdenny @danieljurek
 /**/tests.yml   @danieljurek
 /**/ci.yml      @mitchdenny
+
+###########
+# Config
+###########
+/.vscode/ @mikeharder @KarishmaGhiya
+/common/ @mikeharder @KarishmaGhiya
+/rush.json @mikeharder @KarishmaGhiya
+/tsconfig.json @mikeharder @KarishmaGhiya
