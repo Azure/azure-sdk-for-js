@@ -66,8 +66,10 @@ describe("Secret client - list secrets in various ways", () => {
       await client.deleteSecret(name);
     }
 
-    // Waiting until the key is deleted
-    await retry(async () => client.getDeletedSecret(secretNames[0]));
+    // Waiting until the secrets are deleted
+    for (const name of secretNames) {
+      await retry(async () => client.getDeletedSecret(name));
+    }
 
     let found = 0;
     for await (const secret of client.listDeletedSecrets()) {
