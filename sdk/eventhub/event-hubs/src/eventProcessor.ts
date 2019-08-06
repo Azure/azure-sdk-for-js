@@ -117,7 +117,7 @@ export interface PartitionOwnership {
  */
 export interface PartitionProcessorFactory {
   /**
-   * Factory method to create a new instance(s) of `PartitionProcessor` for a partition.
+   * Factory method to create a new instance of `PartitionProcessor` for a partition.
    *
    * @param partitionContext The partition context containing partition and Event Hub information. The new instance of
    * `PartitionProcessor` created by this method will be responsible for processing events only for this
