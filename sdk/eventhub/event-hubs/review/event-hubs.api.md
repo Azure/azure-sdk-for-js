@@ -42,6 +42,7 @@ export interface Checkpoint {
 
 // @public
 export class CheckpointManager {
+    // @internal
     constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, eventProcessorId: string);
     updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
     updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
