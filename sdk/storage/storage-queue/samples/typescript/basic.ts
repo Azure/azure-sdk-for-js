@@ -2,12 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import {
-  QueueServiceClient,
-  newPipeline,
-  SharedKeyCredential,
-  RawTokenCredential
-} from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key

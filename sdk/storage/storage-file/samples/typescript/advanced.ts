@@ -3,7 +3,13 @@
 */
 
 import fs from "fs";
-import { Aborter, AnonymousCredential, FileServiceClient, newPipeline, HttpPipelineLogLevel } from "../../src"; // Change to "@azure/storage-file" in your package
+import { AbortController } from "@azure/abort-controller";
+import {
+  AnonymousCredential,
+  FileServiceClient,
+  newPipeline,
+  HttpPipelineLogLevel
+} from "../../src"; // Change to "@azure/storage-file" in your package
 
 class ConsoleHttpPipelineLogger {
   minimumLogLevel: any;
@@ -77,7 +83,7 @@ async function main() {
   // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
   // FileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
-    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     progress: (ev: any) => console.log(ev)
   });
   console.log("uploadStream success");
@@ -97,7 +103,7 @@ async function main() {
   // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await fileClient.downloadToBuffer(buffer, 0, undefined, {
-    abortSignal: Aborter.timeout(30 * 60 * 1000),
+    abortSignal: AbortController.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: (ev) => console.log(ev)

@@ -3,9 +3,9 @@
 */
 
 const fs = require("fs");
+const { AbortController } = require("@azure/abort-controller");
 const {
   AnonymousCredential,
-  Aborter,
   FileServiceClient,
   HttpPipelineLogLevel,
   newPipeline
@@ -82,7 +82,7 @@ async function main() {
   // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
   // FileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
-    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     progress: (ev) => console.log(ev)
   });
   console.log("uploadStream success");
@@ -102,7 +102,7 @@ async function main() {
   // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await fileClient.downloadToBuffer(buffer, 0, undefined, {
-    abortSignal: Aborter.timeout(30 * 60 * 1000),
+    abortSignal: AbortController.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
@@ -119,6 +119,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
