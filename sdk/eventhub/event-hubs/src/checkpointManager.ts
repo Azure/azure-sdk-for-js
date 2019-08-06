@@ -41,7 +41,7 @@ export interface Checkpoint {
 
 /**
  * The checkpoint manager that clients should use to update checkpoints to track progress of events processed. Each
- * instance of a `PartitionProcessor` will be provided with it's own instance of a CheckpointManager.
+ * instance of a `PartitionProcessor` will be provided with it's own instance of a `CheckpointManager`.
  */
 export class CheckpointManager {
   private _partitionContext: PartitionContext;
