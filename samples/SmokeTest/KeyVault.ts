@@ -1,5 +1,11 @@
+// ------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+// ------------------------------------
 import { EnvironmentCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
+
+const uuidv1 = require('uuid/v1');
 
 export class KeyVaultSecrets {
   private static client: SecretsClient;
@@ -26,7 +32,7 @@ export class KeyVaultSecrets {
 
     KeyVaultSecrets.client = new SecretsClient(url, credential);
 
-    KeyVaultSecrets.secretName = "MySecretName";
+    KeyVaultSecrets.secretName = "MySecretName-" + uuidv1();
     KeyVaultSecrets.secretValue = "MySecretValue";
 
     try {
@@ -69,7 +75,7 @@ export class KeyVaultSecrets {
     console.log("\tdone");
   }
 
-  private static dedent(str:ReadonlyArray<string>){
-    return str[0].replace(/^\ */gm,'');
+  private static dedent(str: ReadonlyArray<string>) {
+    return str[0].replace(/^\ */gm, '');
   }
 }

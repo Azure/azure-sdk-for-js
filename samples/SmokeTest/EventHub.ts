@@ -1,3 +1,7 @@
+// ------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+// ------------------------------------
 import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 export class EventHubs {
@@ -68,7 +72,7 @@ export class EventHubs {
     console.log("\tdone");
   }
 
-  private static dedent(str:ReadonlyArray<string>){
-    return str[0].replace(/^\ */gm,'');
+  private static dedent(str: ReadonlyArray<string>) {
+    return str[0].replace(/^\ */gm, '');
   }
 }
