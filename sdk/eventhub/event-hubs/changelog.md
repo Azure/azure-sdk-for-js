@@ -15,7 +15,7 @@
 
 #### Consuming events
 - Introduced a new class `EventProcessor` which replaces the older concept of [Event Processor Host](https://www.npmjs.com/package/@azure/event-processor-host). 
-  This early preview is intended to allow users to test the new design using a single instance of `EventProcessor`. The ability to checkpoints to a durable store will be added in future updates
+   - This early preview is intended to allow users to test the new design using a single instance of `EventProcessor`. The ability to store checkpoints to a durable store will be added in future updates
 
 #### Retries and timeouts
 - The properties on the `RetryOptions` interface have been renamed for ease of use. 
