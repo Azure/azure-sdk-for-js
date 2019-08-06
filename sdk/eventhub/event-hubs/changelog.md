@@ -1,7 +1,7 @@
 ### 2019-08-06 5.0.0-preview.2
 
 #### General
-- The sender is refactored to avoid the `TooManyEventListeners` warning which would occur before if too many send requests were in flight at the same time from the same sender.
+- The sender is refactored to avoid the warning around too may listeners being attached which would occur before if too many send requests were in flight at the same time from the same sender.
 - The receiver is refactored to allow the same underlying AMQP link to be shared between streaming and batching mode. This results in seamless transition between the three different receive methods on the `EventHubConsumer`
 - All time related entites have been updated to use milli seconds as the unit of time for consistency.
 - New error `InsufficientCreditError` is introduced for the scenario where [rhea](https://www.npmjs.com/package/rhea) is unable to send events due to its internal buffer being full. This is a transient error and so is treated as retryable.
