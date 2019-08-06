@@ -20,7 +20,8 @@
   This early preview is intended to allow consumers to test the new design using a single instance that does not persist checkpoints to any durable store.
 
 #### Retries and timeouts
-- The properties on the RetryConfig interface have been refactored for ease of use. The new RetryOptions in it will hold configurations like the number of retries, delay between retries, per try timeout etc.
+- The properties on the `RetryOptions` interface have been renamed for ease of use. 
+- New property `timeoutInMs` on `RetryOptions` to configure the time to wait before declaring an attempt to have failed with `OperationTimeoutError` error which is retryable.
 - New properties `mode` and `maxRetryDelayInMs` on `RetryOptions` to configure the exponential retry mode that is now supported
 
 ### 2019-06-28 5.0.0-preview.1
