@@ -141,6 +141,15 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public playback(filePath: string): void {
+    /**
+     * `@azure/test-utils-recorder` package is used for both the browser and node tests
+     *
+     * During the playback mode,
+     *  `path` module is leveraged to import the node test recordings and `path` module can't be imported in the browser.
+     *  So, instead of `import`-ing the `path` library, `require` is being used and this code path is never executed in the browser.
+     *
+     * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
+     */
     let path = require("path");
     this.uniqueTestInfo = require(path.resolve(
       filePath,
