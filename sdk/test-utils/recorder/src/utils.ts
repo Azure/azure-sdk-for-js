@@ -76,3 +76,15 @@ export function getUniqueName(prefix: string): string {
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
+
+/**
+ * Usage - `await delay(<milliseconds>)`
+ * This `delay` has no effect if the `TEST_MODE` is `"playback"`.
+ * If the `TEST_MODE` is not `"playback"`, `delay` is a wrapper for setTimeout that resolves a promise after t milliseconds.
+ *
+ * @param {number} milliseconds The number of milliseconds to be delayed.
+ * @returns {Promise<T>} Resolved promise
+ */
+export function delay(milliseconds: number): Promise<void> | null {
+  return isPlayingBack() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
