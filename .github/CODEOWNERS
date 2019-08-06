@@ -16,6 +16,8 @@
 /sdk/core/core-paging/ @daviwil
 
 # Service teams
+/sdk/cosmosdb/ @southpolesteve
+
 /sdk/eventhub/ @ramya-rao-a @chradek @shivangireja
 /sdk/servicebus/ @ramya-rao-a @chradek @shivangireja
 
