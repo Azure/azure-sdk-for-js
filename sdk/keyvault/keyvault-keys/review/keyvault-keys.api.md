@@ -11,7 +11,10 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
+import { Span } from '@azure/core-http';
+import { SupportedPlugins } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+import { TracerProxy } from '@azure/core-http';
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
@@ -242,11 +245,17 @@ export interface SignResult {
     result: Uint8Array;
 }
 
+export { Span }
+
+export { SupportedPlugins }
+
 // @public (undocumented)
 export interface TelemetryOptions {
     // (undocumented)
     value: string;
 }
+
+export { TracerProxy }
 
 // @public
 export interface UnwrapResult {
