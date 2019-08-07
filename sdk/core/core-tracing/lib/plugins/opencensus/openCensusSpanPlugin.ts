@@ -2,6 +2,7 @@ import { Span } from "../../interfaces/span";
 import { SpanContext } from "../../interfaces/span_context";
 import { Attributes } from "../../interfaces/attributes";
 import { Status } from "../../interfaces/status";
+import { OpenCensusTraceStatePlugin } from "./openCensusTraceStatePlugin";
 
 export class OpenCensusSpanPlugin implements Span {
   private _span: any;
@@ -23,7 +24,14 @@ export class OpenCensusSpanPlugin implements Span {
   }
 
   context(): SpanContext {
-    throw new Error("Method not implemented.");
+    const openCensusSpanContext = this._span.spanContext;
+
+    return {
+      spanId: openCensusSpanContext.spanId,
+      traceId: openCensusSpanContext.traceId,
+      traceOptions: openCensusSpanContext.options,
+      traceState: new OpenCensusTraceStatePlugin(openCensusSpanContext.traceState)
+    };
   }
 
   setAttribute(key: string, value: unknown): this {
