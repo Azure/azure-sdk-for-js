@@ -74,6 +74,12 @@ const WindowsNoRouteTohost = 10065;
  */
 const LinuxConnectionReset = "ECONNRESET";
 
+// Node Error Codes
+/**
+ * @ignore
+ */
+const BrokenPipe = "EPIPE";
+
 /**
  * @ignore
  */
@@ -94,7 +100,8 @@ const CONNECTION_ERROR_CODES = [
   WindowsHostIsDown,
   WindowsNoRouteTohost,
   LinuxConnectionReset,
-  TimeoutErrorCode
+  TimeoutErrorCode,
+  BrokenPipe
 ];
 
 /**
