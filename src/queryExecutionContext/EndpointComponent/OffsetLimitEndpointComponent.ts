@@ -1,22 +1,24 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
-import { getInitialHeader } from "../headerUtils";
+import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext, private offset: number, private limit: number) {}
 
   public async nextItem(): Promise<Response<any>> {
-    if (this.offset > 0) {
+    const aggregateHeaders = getInitialHeader();
+    while (this.offset > 0) {
       // Grab next item but ignore the result. We only need the headers
       const { headers } = await this.executionContext.nextItem();
       this.offset--;
-      return { result: undefined, headers };
+      mergeHeaders(aggregateHeaders, headers);
     }
     if (this.limit > 0) {
-      const response = await this.executionContext.nextItem();
+      const { result, headers } = await this.executionContext.nextItem();
       this.limit--;
-      return response;
+      mergeHeaders(aggregateHeaders, headers);
+      return { result, headers: aggregateHeaders };
     }
     // If both limit and offset are 0, return nothing
     return { result: undefined, headers: getInitialHeader() };
