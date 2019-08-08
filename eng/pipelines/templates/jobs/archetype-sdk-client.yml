@@ -1,7 +1,7 @@
 jobs:
   - job: "Build"
     variables:
-      coalesceResultFilter: $[coalesce(variables['packageGlobFilter'], "**")]
+      - coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**'') ]
       - template: ../variables/globals.yml
 
     pool:
