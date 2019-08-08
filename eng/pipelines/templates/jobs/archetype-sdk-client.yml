@@ -32,12 +32,15 @@ jobs:
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
 
+      - script: |
+          node $(System.DefaultWorkingDirectory)/eng/tools/check-variable-filter.js $(packageGlobFilter)
+        displayName: 'Output filter variable'
 
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/*.tgz
-            sdk/**/${{coalesce(variables['packageGlobFilter'],parameters.defaultFilter)}}/browser/*.zip
+            sdk/**/$(packageFilter)/*.tgz
+            sdk/**/$(packageFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
