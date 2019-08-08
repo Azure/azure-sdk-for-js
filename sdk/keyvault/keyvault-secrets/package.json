@@ -28,6 +28,7 @@
     "LICENSE.txt",
     "README.md",
     "types/src/",
+    "types/keyvault-secrets.d.ts",
     "dist/",
     "dist-esm/",
     "src/",
