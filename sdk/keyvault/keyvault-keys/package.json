@@ -27,7 +27,7 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "types/keyvault-keys.d.ts",
+    "types/",
     "dist/",
     "dist-esm/",
     "src/",
