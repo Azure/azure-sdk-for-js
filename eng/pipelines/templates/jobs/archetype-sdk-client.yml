@@ -1,8 +1,8 @@
 jobs:
   - job: "Build"
     variables:
-      coalesceResultFilter: $[coalesce(variables['packageGlobFilter'], "**")]
       - template: ../variables/globals.yml
+      coalesceResultVariable: $[coalesce(variables['packageGlobFilter'], "**")]
 
     pool:
       vmImage: "$(OSVmImage)"
