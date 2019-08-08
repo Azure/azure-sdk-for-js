@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { assert } from "chai";
 import sinon from "sinon";
 import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceOptions } from "../../lib/coreHttp";
