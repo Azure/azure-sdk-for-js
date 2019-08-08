@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: msRest.OperationParameter = {
+export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
@@ -20,19 +20,19 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion0: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
+    defaultValue: '2019-03-01-preview',
     type: {
       name: "String"
     }
   }
 };
-export const apiVersion1: msRest.OperationQueryParameter = {
+export const apiVersion1: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -44,7 +44,41 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const enrollmentAccountName: msRest.OperationURLParameter = {
+export const apiVersion2: coreHttp.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-11-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion3: coreHttp.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-03-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingAccountName: coreHttp.OperationURLParameter = {
+  parameterPath: "billingAccountName",
+  mapper: {
+    required: true,
+    serializedName: "billingAccountName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const enrollmentAccountName: coreHttp.OperationURLParameter = {
   parameterPath: "enrollmentAccountName",
   mapper: {
     required: true,
@@ -54,7 +88,17 @@ export const enrollmentAccountName: msRest.OperationURLParameter = {
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
+export const invoiceSectionName: coreHttp.OperationURLParameter = {
+  parameterPath: "invoiceSectionName",
+  mapper: {
+    required: true,
+    serializedName: "invoiceSectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const nextPageLink: coreHttp.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
     required: true,
@@ -65,7 +109,17 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const subscriptionId: msRest.OperationURLParameter = {
+export const operationId: coreHttp.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const subscriptionId: coreHttp.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,

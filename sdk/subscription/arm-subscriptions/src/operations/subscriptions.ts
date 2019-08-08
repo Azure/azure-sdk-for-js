@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,6 +27,66 @@ export class Subscriptions {
   }
 
   /**
+   * The operation to cancel a subscription
+   * @param subscriptionId Subscription Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsCancelResponse>
+   */
+  cancel(subscriptionId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsCancelResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param callback The callback
+   */
+  cancel(subscriptionId: string, callback: coreHttp.ServiceCallback<Models.CanceledSubscriptionId>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  cancel(subscriptionId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CanceledSubscriptionId>): void;
+  cancel(subscriptionId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CanceledSubscriptionId>, callback?: coreHttp.ServiceCallback<Models.CanceledSubscriptionId>): Promise<Models.SubscriptionsCancelResponse> {
+    return this.client.sendOperationRequest(
+      {
+        subscriptionId,
+        options
+      },
+      cancelOperationSpec,
+      callback) as Promise<Models.SubscriptionsCancelResponse>;
+  }
+
+  /**
+   * The operation to rename a subscription
+   * @param subscriptionId Subscription Id.
+   * @param body Subscription Name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsRenameResponse>
+   */
+  rename(subscriptionId: string, body: Models.SubscriptionName, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsRenameResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param body Subscription Name
+   * @param callback The callback
+   */
+  rename(subscriptionId: string, body: Models.SubscriptionName, callback: coreHttp.ServiceCallback<Models.RenamedSubscriptionId>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param body Subscription Name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  rename(subscriptionId: string, body: Models.SubscriptionName, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.RenamedSubscriptionId>): void;
+  rename(subscriptionId: string, body: Models.SubscriptionName, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.RenamedSubscriptionId>, callback?: coreHttp.ServiceCallback<Models.RenamedSubscriptionId>): Promise<Models.SubscriptionsRenameResponse> {
+    return this.client.sendOperationRequest(
+      {
+        subscriptionId,
+        body,
+        options
+      },
+      renameOperationSpec,
+      callback) as Promise<Models.SubscriptionsRenameResponse>;
+  }
+
+  /**
    * This operation provides all the locations that are available for resource providers; however,
    * each resource provider may support a subset of this list.
    * @summary Gets all available geo-locations.
@@ -34,19 +94,19 @@ export class Subscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsListLocationsResponse>
    */
-  listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListLocationsResponse>;
+  listLocations(subscriptionId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsListLocationsResponse>;
   /**
    * @param subscriptionId The ID of the target subscription.
    * @param callback The callback
    */
-  listLocations(subscriptionId: string, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
+  listLocations(subscriptionId: string, callback: coreHttp.ServiceCallback<Models.LocationListResult>): void;
   /**
    * @param subscriptionId The ID of the target subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLocations(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
-  listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationListResult>, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.SubscriptionsListLocationsResponse> {
+  listLocations(subscriptionId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.LocationListResult>): void;
+  listLocations(subscriptionId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.LocationListResult>, callback?: coreHttp.ServiceCallback<Models.LocationListResult>): Promise<Models.SubscriptionsListLocationsResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -62,19 +122,19 @@ export class Subscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsGetResponse>
    */
-  get(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsGetResponse>;
+  get(subscriptionId: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsGetResponse>;
   /**
    * @param subscriptionId The ID of the target subscription.
    * @param callback The callback
    */
-  get(subscriptionId: string, callback: msRest.ServiceCallback<Models.Subscription>): void;
+  get(subscriptionId: string, callback: coreHttp.ServiceCallback<Models.Subscription>): void;
   /**
    * @param subscriptionId The ID of the target subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Subscription>): void;
-  get(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Subscription>, callback?: msRest.ServiceCallback<Models.Subscription>): Promise<Models.SubscriptionsGetResponse> {
+  get(subscriptionId: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Subscription>): void;
+  get(subscriptionId: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Subscription>, callback?: coreHttp.ServiceCallback<Models.Subscription>): Promise<Models.SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -89,17 +149,17 @@ export class Subscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListResponse>;
+  list(options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
+  list(callback: coreHttp.ServiceCallback<Models.SubscriptionListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListResponse> {
+  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SubscriptionListResult>): void;
+  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SubscriptionListResult>, callback?: coreHttp.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -114,19 +174,19 @@ export class Subscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListNextResponse>;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
+  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.SubscriptionListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListNextResponse> {
+  listNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SubscriptionListResult>): void;
+  listNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SubscriptionListResult>, callback?: coreHttp.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -138,8 +198,61 @@ export class Subscriptions {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers);
-const listLocationsOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers);
+const cancelOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CanceledSubscriptionId
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const renameOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Subscription/rename",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.SubscriptionName,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RenamedSubscriptionId
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listLocationsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/locations",
   urlParameters: [
@@ -162,7 +275,7 @@ const listLocationsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}",
   urlParameters: [
@@ -185,7 +298,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions",
   queryParameters: [
@@ -205,7 +318,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

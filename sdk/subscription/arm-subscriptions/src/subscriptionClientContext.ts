@@ -9,21 +9,21 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/arm-subscriptions";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
-export class SubscriptionClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class SubscriptionClientContext extends coreArm.AzureServiceClient {
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -32,7 +32,7 @@ export class SubscriptionClientContext extends msRestAzure.AzureServiceClient {
       options = {};
     }
     if(!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
