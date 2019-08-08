@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -31,17 +31,17 @@ export class SubscriptionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionOperationsListResponse>
    */
-  list(options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionOperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionOperationsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: coreHttp.ServiceCallback<Models.SubscriptionOperationListResult>): void;
+  list(callback: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SubscriptionOperationListResult>): void;
-  list(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SubscriptionOperationListResult>, callback?: coreHttp.ServiceCallback<Models.SubscriptionOperationListResult>): Promise<Models.SubscriptionOperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionOperationListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): Promise<Models.SubscriptionOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -52,8 +52,8 @@ export class SubscriptionOperations {
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers);
-const listOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers);
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Subscription/subscriptionOperations",
   queryParameters: [

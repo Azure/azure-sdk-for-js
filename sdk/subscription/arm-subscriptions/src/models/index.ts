@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/core-arm";
-import * as coreHttp from "@azure/core-http";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -446,7 +446,7 @@ export type SubscriptionsCancelResponse = CanceledSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -466,7 +466,7 @@ export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -486,7 +486,7 @@ export type SubscriptionsListLocationsResponse = LocationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -506,7 +506,7 @@ export type SubscriptionsGetResponse = Subscription & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -526,7 +526,7 @@ export type SubscriptionsListResponse = SubscriptionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -546,7 +546,7 @@ export type SubscriptionsListNextResponse = SubscriptionListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -566,7 +566,7 @@ export type SubscriptionOperationGetResponse = SubscriptionCreationResult & Subs
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -591,7 +591,7 @@ export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreation
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -616,7 +616,7 @@ export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = S
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -641,7 +641,7 @@ export type SubscriptionOperationsListResponse = SubscriptionOperationListResult
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -661,7 +661,7 @@ export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -681,7 +681,7 @@ export type TenantsListResponse = TenantListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */
@@ -701,7 +701,7 @@ export type TenantsListNextResponse = TenantListResult & {
   /**
    * The underlying HTTP response.
    */
-  _response: coreHttp.HttpResponse & {
+  _response: msRest.HttpResponse & {
       /**
        * The response body as text (string format)
        */

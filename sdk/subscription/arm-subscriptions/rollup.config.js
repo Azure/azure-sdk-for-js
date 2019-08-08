@@ -8,8 +8,8 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 const config = {
   input: "./esm/subscriptionClient.js",
   external: [
-    "@azure/core-http",
-    "@azure/core-arm"
+    "@azure/ms-rest-js",
+    "@azure/ms-rest-azure-js"
   ],
   output: {
     file: "./dist/arm-subscriptions.js",
@@ -17,8 +17,8 @@ const config = {
     name: "Azure.ArmSubscriptions",
     sourcemap: true,
     globals: {
-      "@azure/core-http": "coreHttp",
-      "@azure/core-arm": "coreArm"
+      "@azure/ms-rest-js": "msRest",
+      "@azure/ms-rest-azure-js": "msRestAzure"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -29,7 +29,7 @@ const config = {
  */`
   },
   plugins: [
-    nodeResolve({ module: true }),
+    nodeResolve({ mainFields: ['module', 'main'] }),
     sourcemaps()
   ]
 };

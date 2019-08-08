@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionFactoryMappers";
 import * as Parameters from "../models/parameters";
@@ -37,7 +37,7 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
    */
-  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
     return this.beginCreateSubscription(billingAccountName,invoiceSectionName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
   }
@@ -50,7 +50,7 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>
    */
-  createSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: coreHttp.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
+  createSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
     return this.beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>;
   }
@@ -63,9 +63,9 @@ export class SubscriptionFactory {
    * want to create the subscription.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
-   * @returns Promise<coreArm.LROPoller>
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
+  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
@@ -83,9 +83,9 @@ export class SubscriptionFactory {
    * be billed.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
-   * @returns Promise<coreArm.LROPoller>
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: coreHttp.RequestOptionsBase): Promise<coreArm.LROPoller> {
+  beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         enrollmentAccountName,
@@ -98,8 +98,8 @@ export class SubscriptionFactory {
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers);
-const beginCreateSubscriptionOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers);
+const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
   urlParameters: [
@@ -134,7 +134,7 @@ const beginCreateSubscriptionOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const beginCreateSubscriptionInEnrollmentAccountOperationSpec: coreHttp.OperationSpec = {
+const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountName}/providers/Microsoft.Subscription/createSubscription",
   urlParameters: [

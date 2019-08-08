@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/core-arm";
-import * as coreHttp from "@azure/core-http";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: msRest.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
     name: "Composite",
@@ -34,7 +34,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CanceledSubscriptionId: coreHttp.CompositeMapper = {
+export const CanceledSubscriptionId: msRest.CompositeMapper = {
   serializedName: "CanceledSubscriptionId",
   type: {
     name: "Composite",
@@ -51,7 +51,7 @@ export const CanceledSubscriptionId: coreHttp.CompositeMapper = {
   }
 };
 
-export const RenamedSubscriptionId: coreHttp.CompositeMapper = {
+export const RenamedSubscriptionId: msRest.CompositeMapper = {
   serializedName: "RenamedSubscriptionId",
   type: {
     name: "Composite",
@@ -68,7 +68,7 @@ export const RenamedSubscriptionId: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionName: coreHttp.CompositeMapper = {
+export const SubscriptionName: msRest.CompositeMapper = {
   serializedName: "SubscriptionName",
   type: {
     name: "Composite",
@@ -84,7 +84,7 @@ export const SubscriptionName: coreHttp.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: coreHttp.CompositeMapper = {
+export const OperationDisplay: msRest.CompositeMapper = {
   serializedName: "Operation_display",
   type: {
     name: "Composite",
@@ -112,7 +112,7 @@ export const OperationDisplay: coreHttp.CompositeMapper = {
   }
 };
 
-export const Operation: coreHttp.CompositeMapper = {
+export const Operation: msRest.CompositeMapper = {
   serializedName: "Operation",
   type: {
     name: "Composite",
@@ -135,7 +135,7 @@ export const Operation: coreHttp.CompositeMapper = {
   }
 };
 
-export const OperationListResult: coreHttp.CompositeMapper = {
+export const OperationListResult: msRest.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
     name: "Composite",
@@ -163,7 +163,7 @@ export const OperationListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionCreationResult: coreHttp.CompositeMapper = {
+export const SubscriptionCreationResult: msRest.CompositeMapper = {
   serializedName: "SubscriptionCreationResult",
   type: {
     name: "Composite",
@@ -179,7 +179,7 @@ export const SubscriptionCreationResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AdPrincipal: coreHttp.CompositeMapper = {
+export const AdPrincipal: msRest.CompositeMapper = {
   serializedName: "AdPrincipal",
   type: {
     name: "Composite",
@@ -196,7 +196,7 @@ export const AdPrincipal: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModernSubscriptionCreationParameters: coreHttp.CompositeMapper = {
+export const ModernSubscriptionCreationParameters: msRest.CompositeMapper = {
   serializedName: "ModernSubscriptionCreationParameters",
   type: {
     name: "Composite",
@@ -257,7 +257,7 @@ export const ModernSubscriptionCreationParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionOperation: coreHttp.CompositeMapper = {
+export const SubscriptionOperation: msRest.CompositeMapper = {
   serializedName: "SubscriptionOperation",
   type: {
     name: "Composite",
@@ -286,7 +286,7 @@ export const SubscriptionOperation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionOperationListResult: coreHttp.CompositeMapper = {
+export const SubscriptionOperationListResult: msRest.CompositeMapper = {
   serializedName: "SubscriptionOperationListResult",
   type: {
     name: "Composite",
@@ -308,7 +308,7 @@ export const SubscriptionOperationListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionCreationParameters: coreHttp.CompositeMapper = {
+export const SubscriptionCreationParameters: msRest.CompositeMapper = {
   serializedName: "SubscriptionCreationParameters",
   type: {
     name: "Composite",
@@ -353,7 +353,7 @@ export const SubscriptionCreationParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const Location: coreHttp.CompositeMapper = {
+export const Location: msRest.CompositeMapper = {
   serializedName: "Location",
   type: {
     name: "Composite",
@@ -405,7 +405,7 @@ export const Location: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionPolicies: coreHttp.CompositeMapper = {
+export const SubscriptionPolicies: msRest.CompositeMapper = {
   serializedName: "SubscriptionPolicies",
   type: {
     name: "Composite",
@@ -441,7 +441,7 @@ export const SubscriptionPolicies: coreHttp.CompositeMapper = {
   }
 };
 
-export const Subscription: coreHttp.CompositeMapper = {
+export const Subscription: msRest.CompositeMapper = {
   serializedName: "Subscription",
   type: {
     name: "Composite",
@@ -499,7 +499,7 @@ export const Subscription: coreHttp.CompositeMapper = {
   }
 };
 
-export const TenantIdDescription: coreHttp.CompositeMapper = {
+export const TenantIdDescription: msRest.CompositeMapper = {
   serializedName: "TenantIdDescription",
   type: {
     name: "Composite",
@@ -523,7 +523,7 @@ export const TenantIdDescription: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionOperationGetHeaders: coreHttp.CompositeMapper = {
+export const SubscriptionOperationGetHeaders: msRest.CompositeMapper = {
   serializedName: "subscriptionoperation-get-headers",
   type: {
     name: "Composite",
@@ -545,7 +545,7 @@ export const SubscriptionOperationGetHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionFactoryCreateSubscriptionHeaders: coreHttp.CompositeMapper = {
+export const SubscriptionFactoryCreateSubscriptionHeaders: msRest.CompositeMapper = {
   serializedName: "subscriptionfactory-createsubscription-headers",
   type: {
     name: "Composite",
@@ -567,7 +567,7 @@ export const SubscriptionFactoryCreateSubscriptionHeaders: coreHttp.CompositeMap
   }
 };
 
-export const SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders: coreHttp.CompositeMapper = {
+export const SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders: msRest.CompositeMapper = {
   serializedName: "subscriptionfactory-createsubscriptioninenrollmentaccount-headers",
   type: {
     name: "Composite",
@@ -589,7 +589,7 @@ export const SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders: co
   }
 };
 
-export const LocationListResult: coreHttp.CompositeMapper = {
+export const LocationListResult: msRest.CompositeMapper = {
   serializedName: "LocationListResult",
   type: {
     name: "Composite",
@@ -611,7 +611,7 @@ export const LocationListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionListResult: coreHttp.CompositeMapper = {
+export const SubscriptionListResult: msRest.CompositeMapper = {
   serializedName: "SubscriptionListResult",
   type: {
     name: "Composite",
@@ -640,7 +640,7 @@ export const SubscriptionListResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const TenantListResult: coreHttp.CompositeMapper = {
+export const TenantListResult: msRest.CompositeMapper = {
   serializedName: "TenantListResult",
   type: {
     name: "Composite",

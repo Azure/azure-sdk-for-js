@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -29,7 +29,7 @@ class SubscriptionClient extends SubscriptionClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
     super(credentials, options);
     this.subscriptions = new operations.Subscriptions(this);
     this.subscriptionOperation = new operations.SubscriptionOperationOperations(this);
