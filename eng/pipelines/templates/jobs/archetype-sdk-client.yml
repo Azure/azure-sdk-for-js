@@ -2,8 +2,7 @@ jobs:
   - job: "Build"
     variables:
       - template: ../variables/globals.yml
-        parameters:
-          defaultFilter: "**"
+        coalesceResultFilter: $[coalesce(variables['packageGlobFilter'], "**")]
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -32,15 +31,11 @@ jobs:
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
 
-      - script: |
-          node $(System.DefaultWorkingDirectory)/eng/tools/check-filter-variable.js $(packageGlobFilter)
-        displayName: 'Output filter variable'
-
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/$(packageFilter)/*.tgz
-            sdk/**/$(packageFilter)/browser/*.zip
+            sdk/**/$(coalesceResultFilter)/*.tgz
+            sdk/**/$(coalesceResultFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
