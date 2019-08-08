@@ -138,8 +138,10 @@ describe("Keys client - list keys in various ways", () => {
       await client.deleteKey(name);
     }
 
-    // Waiting until the key is deleted
-    await retry(async () => client.getDeletedKey(keyNames[0]));
+    // Waiting until the keys are deleted
+    for (const name of keyNames) {
+      await retry(async () => client.getDeletedKey(name));
+    }
 
     let found = 0;
     for await (const key of client.listDeletedKeys()) {
@@ -165,8 +167,10 @@ describe("Keys client - list keys in various ways", () => {
       await client.deleteKey(name);
     }
 
-    // Waiting until the key is deleted
-    await retry(async () => client.getDeletedKey(keyNames[0]));
+    // Waiting until the keys are deleted
+    for (const name of keyNames) {
+      await retry(async () => client.getDeletedKey(name));
+    }
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {
