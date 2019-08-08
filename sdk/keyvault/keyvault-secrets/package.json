@@ -20,7 +20,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/keyvault-secrets.d.ts",
+  "types": "./types/src/",
   "engine": {
     "node": ">=6.0.0"
   },
