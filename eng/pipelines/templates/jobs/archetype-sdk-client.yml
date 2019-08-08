@@ -1,8 +1,10 @@
 jobs:
   - job: "Build"
     variables:
-      coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
       - template: ../variables/globals.yml
+        parameters:
+          coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
+
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -34,8 +36,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/$(coalesceResultFilter)/*.tgz
-            sdk/**/$(coalesceResultFilter)/browser/*.zip
+            sdk/**/${{parameters.coalesceResultFilter}}/*.tgz
+            sdk/**/${{parameters.coalesceResultFilter}}/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
