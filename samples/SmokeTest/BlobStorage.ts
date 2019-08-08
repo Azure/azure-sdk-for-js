@@ -16,13 +16,13 @@ export class BlobStorage {
         Storage - Blobs
         ------------------------
         1) Upload Blob
-        2) Delete Blob (Clean up the resource
+        2) Delete Blob (Clean up the resource)
         `);
 
     const account = process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
     const accountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
     const containerName = "mycontainer";
-    BlobStorage.blobName = "JSNewBlob-" + uuidv1() + ".txt";
+    BlobStorage.blobName = `JSNewBlob-${uuidv1()}.txt`;
 
     const credential = new SharedKeyCredential(account, accountKey);
     const serviceClient = new BlobServiceClient(

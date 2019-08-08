@@ -32,7 +32,7 @@ export class KeyVaultSecrets {
 
     KeyVaultSecrets.client = new SecretsClient(url, credential);
 
-    KeyVaultSecrets.secretName = "MySecretName-" + uuidv1();
+    KeyVaultSecrets.secretName = `MySecretName-${uuidv1()}`;
     KeyVaultSecrets.secretValue = "MySecretValue";
 
     try {
@@ -51,7 +51,7 @@ export class KeyVaultSecrets {
       KeyVaultSecrets.secretName,
       KeyVaultSecrets.secretValue
     );
-    console.log("\tSecret = (" + result.name + "," + result.value + ")");
+    console.log(`\tSecret = (${result.name},${result.value})`);
     console.log("\tdone");
   }
 

@@ -7,7 +7,7 @@ import { CosmosClient, Database, Container } from "@azure/cosmos";
 const uuidv1 = require('uuid/v1');
 
 export class CosmosDB {
-  private static dataBaseName = "jsSolarSystem-" + uuidv1();
+  private static dataBaseName = `jsSolarSystem-${uuidv1()}`;
   private static collectionName = "PlanetsCollection";
   private static client: CosmosClient;
   private static db: Database;
