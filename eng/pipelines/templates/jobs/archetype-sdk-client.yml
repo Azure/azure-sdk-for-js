@@ -33,7 +33,7 @@ jobs:
         displayName: "Pack libraries"
 
       - script: |
-          node $(System.DefaultWorkingDirectory)/eng/tools/check-variable-filter.js $(packageGlobFilter)
+          node $(System.DefaultWorkingDirectory)/eng/tools/check-filter-variable.js $(packageGlobFilter)
         displayName: 'Output filter variable'
 
       - task: CopyFiles@2
