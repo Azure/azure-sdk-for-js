@@ -1,0 +1,29 @@
+jobs:
+  pool:
+    vmImage: 'ubuntu-16.04'
+  
+  - job: SmokeTest
+    
+    variables:
+      node_version: "10.16.0"
+      
+    steps:
+      - task: NodeTool@0 
+        displayName: "Use Node"
+        inputs:
+          versionSpec: $(node_version)
+      - scripts: npm install --prefix ./samples/SmokeTest/ ./samples/SmokeTest/
+        displayName: "Install packages"
+      - scripts: tsc --p .\samples\SmokeTest\
+        displayName: "Compile TS"
+      - scripts: node .\samples\SmokeTest\app.js
+        displayName: "Run Smoke Test "
+        env:
+          KEY_VAULT_URI: $(smoke-tests-key-vault-project-url)
+          EVENT_HUBS_CONNECTION_STRING: $(smoke-tests-event-hubs-connection-string)
+          BLOB_CONNECTION_STRING: $(smoke-tests-storage-connection-string)
+          CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          DIR_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          APP_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          COSMOS_AUTH_KEY: $(smoke-tests-cosmos-key)
+          COSMOS_URI: $(smoke-tests-cosmos-endpoint)
