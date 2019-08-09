@@ -47,7 +47,7 @@
     "build:samples": "tsc samples/helloWorld.ts",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "echo skipped",
     "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
