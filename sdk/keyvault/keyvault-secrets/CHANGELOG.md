@@ -1,5 +1,8 @@
 # Release History
 
+## 4.0.0-preview.4 (2019-08-09)
+- Added back to the released bundle the `.d.ts` files specific for TypeScript.
+
 ## 4.0.0-preview.3 (2019-08-06)
 - Added browser support.
 - Added support for challenge-based authentication.
