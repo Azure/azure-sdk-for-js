@@ -23,4 +23,4 @@ jobs:
           AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
           AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
           COSMOS_KEY: $(smoke-tests-cosmos-key)
-          COSMOS_ENDPOINT: $(smoke-tests-cosmos-endpoint)
+          
