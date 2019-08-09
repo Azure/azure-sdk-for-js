@@ -77,6 +77,81 @@ export interface SecurityProfile {
 }
 
 /**
+ * Time and capacity request parameters
+ */
+export interface AutoscaleTimeAndCapacity {
+  /**
+   * 24-hour time in the form xx:xx
+   */
+  time?: string;
+  /**
+   * The minimum instance count of the cluster
+   */
+  minInstanceCount?: number;
+  /**
+   * The maximum instance count of the cluster
+   */
+  maxInstanceCount?: number;
+}
+
+/**
+ * Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and
+ * capacity
+ */
+export interface AutoscaleSchedule {
+  /**
+   * Days of the week for a schedule-based autoscale rule
+   */
+  days?: DaysOfWeek[];
+  /**
+   * Time and capacity for a schedule-based autoscale rule
+   */
+  timeAndCapacity?: AutoscaleTimeAndCapacity;
+}
+
+/**
+ * The load-based autoscale request parameters
+ */
+export interface AutoscaleCapacity {
+  /**
+   * The minimum instance count of the cluster
+   */
+  minInstanceCount?: number;
+  /**
+   * The maximum instance count of the cluster
+   */
+  maxInstanceCount?: number;
+}
+
+/**
+ * Schedule-based autoscale request parameters
+ */
+export interface AutoscaleRecurrence {
+  /**
+   * The time zone for the autoscale schedule times
+   */
+  timeZone?: string;
+  /**
+   * Array of schedule-based autoscale rules
+   */
+  schedule?: AutoscaleSchedule[];
+}
+
+/**
+ * The autoscale request parameters
+ */
+export interface Autoscale {
+  /**
+   * Parameters for load-based autoscale
+   */
+  capacity?: AutoscaleCapacity;
+  /**
+   * Parameters for schedule-based autoscale
+   */
+  recurrence?: AutoscaleRecurrence;
+}
+
+/**
  * The hardware profile.
  */
 export interface HardwareProfile {
@@ -202,6 +277,10 @@ export interface Role {
    * The instance count of the cluster.
    */
   targetInstanceCount?: number;
+  /**
+   * The autoscale configurations.
+   */
+  autoscaleConfiguration?: Autoscale;
   /**
    * The hardware profile.
    */
@@ -833,7 +912,7 @@ export interface ApplicationGetHttpsEndpoint {
    */
   publicPort?: number;
   /**
-   * The subDomainSuffix of the application.
+   * The subdomain suffix of the application.
    */
   subDomainSuffix?: string;
   /**
@@ -933,6 +1012,154 @@ export interface Application extends ProxyResource {
 }
 
 /**
+ * The version properties.
+ */
+export interface VersionSpec {
+  /**
+   * The friendly name
+   */
+  friendlyName?: string;
+  /**
+   * The display name
+   */
+  displayName?: string;
+  /**
+   * Whether or not the version is the default version.
+   */
+  isDefault?: string;
+  /**
+   * The component version property.
+   */
+  componentVersions?: { [propertyName: string]: string };
+}
+
+/**
+ * The version capability.
+ */
+export interface VersionsCapability {
+  /**
+   * The list of version capabilities.
+   */
+  available?: VersionSpec[];
+}
+
+/**
+ * The regions capability.
+ */
+export interface RegionsCapability {
+  /**
+   * The list of region capabilities.
+   */
+  available?: string[];
+}
+
+/**
+ * The virtual machine sizes capability.
+ */
+export interface VmSizesCapability {
+  /**
+   * The list of virtual machine size capabilities.
+   */
+  available?: string[];
+}
+
+/**
+ * The virtual machine type compatibility filter.
+ */
+export interface VmSizeCompatibilityFilter {
+  /**
+   * The mode for the filter.
+   */
+  filterMode?: string;
+  /**
+   * The list of regions.
+   */
+  regions?: string[];
+  /**
+   * The list of cluster types available.
+   */
+  clusterFlavors?: string[];
+  /**
+   * The list of node types.
+   */
+  nodeTypes?: string[];
+  /**
+   * The list of cluster versions.
+   */
+  clusterVersions?: string[];
+  /**
+   * The list of virtual machine sizes.
+   */
+  vmsizes?: string[];
+}
+
+/**
+ * The regional quota capacity.
+ */
+export interface RegionalQuotaCapability {
+  /**
+   * The region name.
+   */
+  regionName?: string;
+  /**
+   * The number of cores used in the region.
+   */
+  coresUsed?: number;
+  /**
+   * The number of cores available in the region.
+   */
+  coresAvailable?: number;
+}
+
+/**
+ * The regional quota capability.
+ */
+export interface QuotaCapability {
+  /**
+   * The number of cores used in the subscription.
+   */
+  coresUsed?: number;
+  /**
+   * The number of cores that the subscription allowed.
+   */
+  maxCoresAllowed?: number;
+  /**
+   * The list of region quota capabilities.
+   */
+  regionalQuotas?: RegionalQuotaCapability[];
+}
+
+/**
+ * The Get Capabilities operation response.
+ */
+export interface CapabilitiesResult {
+  /**
+   * The version capability.
+   */
+  versions?: { [propertyName: string]: VersionsCapability };
+  /**
+   * The virtual machine size compatibility features.
+   */
+  regions?: { [propertyName: string]: RegionsCapability };
+  /**
+   * The virtual machine sizes.
+   */
+  vmSizes?: { [propertyName: string]: VmSizesCapability };
+  /**
+   * The virtual machine size compatibility filters.
+   */
+  vmSizeFilters?: VmSizeCompatibilityFilter[];
+  /**
+   * The capability features.
+   */
+  features?: string[];
+  /**
+   * The quota capability.
+   */
+  quota?: QuotaCapability;
+}
+
+/**
  * The details about the localizable name of a type of usage.
  */
 export interface LocalizedName {
@@ -976,6 +1203,119 @@ export interface UsagesListResult {
    * The list of usages.
    */
   value?: Usage[];
+}
+
+/**
+ * This class represent a single filter object that defines a multidimensional set. The dimensions
+ * of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be
+ * defined based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect
+ * of exclusion/inclusion) and the ordering of the Filters. Later filters override previous
+ * settings if conflicted.
+ */
+export interface VmSizeCompatibilityFilterV2 {
+  /**
+   * The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular
+   * set. Possible values include: 'Exclude', 'Include'
+   */
+  filterMode?: FilterMode;
+  /**
+   * The list of regions under the effect of the filter.
+   */
+  regions?: string[];
+  /**
+   * The list of cluster flavors under the effect of the filter.
+   */
+  clusterFlavors?: string[];
+  /**
+   * The list of node types affected by the filter.
+   */
+  nodeTypes?: string[];
+  /**
+   * The list of cluster versions affected in Major.Minor format.
+   */
+  clusterVersions?: string[];
+  /**
+   * The OSType affected, Windows or Linux.
+   */
+  osType?: OSType[];
+  /**
+   * The list of virtual machine sizes to include or exclude.
+   */
+  vmSizes?: string[];
+}
+
+/**
+ * The billing meters.
+ */
+export interface BillingMeters {
+  /**
+   * The virtual machine sizes.
+   */
+  meterParameter?: string;
+  /**
+   * The HDInsight meter guid.
+   */
+  meter?: string;
+  /**
+   * The unit of meter, VMHours or CoreHours.
+   */
+  unit?: string;
+}
+
+/**
+ * The disk billing meters.
+ */
+export interface DiskBillingMeters {
+  /**
+   * The managed disk meter guid.
+   */
+  diskRpMeter?: string;
+  /**
+   * The managed disk billing sku, P30 or S30.
+   */
+  sku?: string;
+  /**
+   * The managed disk billing tier, Standard or Premium. Possible values include: 'Standard',
+   * 'Premium'
+   */
+  tier?: Tier;
+}
+
+/**
+ * The billing resources.
+ */
+export interface BillingResources {
+  /**
+   * The region or location.
+   */
+  region?: string;
+  /**
+   * The billing meter information.
+   */
+  billingMeters?: BillingMeters[];
+  /**
+   * The managed disk billing information.
+   */
+  diskBillingMeters?: DiskBillingMeters[];
+}
+
+/**
+ * The response for the operation to get regional billingSpecs for a subscription.
+ */
+export interface BillingResponseListResult {
+  /**
+   * The virtual machine sizes to include or exclude.
+   */
+  vmSizes?: string[];
+  /**
+   * The virtual machine filtering mode. Effectively this can enabling or disabling the virtual
+   * machine sizes in a particular set.
+   */
+  vmSizeFilters?: VmSizeCompatibilityFilterV2[];
+  /**
+   * The billing and managed disk billing resources for a region.
+   */
+  billingResources?: BillingResources[];
 }
 
 /**
@@ -1170,6 +1510,15 @@ export interface OperationListResult extends Array<Operation> {
 export type DirectoryType = 'ActiveDirectory';
 
 /**
+ * Defines values for DaysOfWeek.
+ * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+ * 'Sunday'
+ * @readonly
+ * @enum {string}
+ */
+export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
+/**
  * Defines values for OSType.
  * Possible values include: 'Windows', 'Linux'
  * @readonly
@@ -1217,6 +1566,14 @@ export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succe
  * @enum {string}
  */
 export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
+
+/**
+ * Defines values for FilterMode.
+ * Possible values include: 'Exclude', 'Include'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterMode = 'Exclude' | 'Include';
 
 /**
  * Contains response data for the create operation.
@@ -1499,6 +1856,26 @@ export type ApplicationsListByClusterNextResponse = ApplicationListResult & {
 };
 
 /**
+ * Contains response data for the getCapabilities operation.
+ */
+export type LocationsGetCapabilitiesResponse = CapabilitiesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CapabilitiesResult;
+    };
+};
+
+/**
  * Contains response data for the listUsages operation.
  */
 export type LocationsListUsagesResponse = UsagesListResult & {
@@ -1515,6 +1892,26 @@ export type LocationsListUsagesResponse = UsagesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsagesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBillingSpecs operation.
+ */
+export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingResponseListResult;
     };
 };
 
