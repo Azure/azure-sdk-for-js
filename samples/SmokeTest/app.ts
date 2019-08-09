@@ -28,4 +28,9 @@ async function main() {
   await CosmosDB.Run();
 }
 
-main();
+try {
+  main();
+}
+catch{
+  process.exit(1);
+}
