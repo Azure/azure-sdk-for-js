@@ -34,18 +34,20 @@ function getRushVersion() {
 }
 function run() {
     const [nodePath, /* Ex: /bin/node */ scriptPath, /* /repo/common/scripts/install-run-rush.js */ ...packageBinArgs /* [build, --to, myproject] */] = process.argv;
+    const scriptName = path.basename(scriptPath);
+    const bin = scriptName.toLowerCase() === 'install-run-rushx.js' ? 'rushx' : 'rush';
     if (!nodePath || !scriptPath) {
         throw new Error('Unexpected exception: could not detect node path or script path');
     }
     if (process.argv.length < 3) {
-        console.log('Usage: install-run-rush.js <command> [args...]');
-        console.log('Example: install-run-rush.js build --to myproject');
+        console.log(`Usage: ${scriptName} <command> [args...]`);
+        console.log(`Example: ${scriptName} build`);
         process.exit(1);
     }
     install_run_1.runWithErrorAndStatusCode(() => {
         const version = getRushVersion();
         console.log(`The rush.json configuration requests Rush version ${version}`);
-        return install_run_1.installAndRun(PACKAGE_NAME, version, 'rush', packageBinArgs);
+        return install_run_1.installAndRun(PACKAGE_NAME, version, bin, packageBinArgs);
     });
 }
 run();
