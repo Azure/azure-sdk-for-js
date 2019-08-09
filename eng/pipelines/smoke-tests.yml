@@ -1,9 +1,5 @@
 jobs:
-  pool:
-    vmImage: 'ubuntu-16.04'
-  
-  - job: SmokeTest
-    
+  - job: SmokeTest   
     variables:
       node_version: "10.16.0"
       
