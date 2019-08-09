@@ -10,9 +10,9 @@ jobs:
           versionSpec: $(node_version)
       - script: npm install --prefix ./samples/SmokeTest/ ./samples/SmokeTest/
         displayName: "Install packages"
-      - script: tsc --p .\samples\SmokeTest\
+      - script: tsc --p ./samples/SmokeTest/
         displayName: "Compile TS"
-      - script: node .\samples\SmokeTest\app.js
+      - script: node ./samples/SmokeTest/app.js
         displayName: "Run Smoke Test "
         env:
           KEY_VAULT_URI: $(smoke-tests-key-vault-project-url)
