@@ -164,7 +164,7 @@ dependencies:
   rollup-plugin-terser: 5.1.1_rollup@1.19.4
   rollup-plugin-uglify: 6.0.2_rollup@1.19.4
   rollup-plugin-visualizer: 2.5.4_rollup@1.19.4
-  semaphore: 1.0.5
+  semaphore: 1.1.0
   semver: 5.7.0
   shx: 0.3.2
   sinon: 7.4.1
@@ -7956,12 +7956,12 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
-  /semaphore/1.0.5:
+  /semaphore/1.1.0:
     dev: false
     engines:
       node: '>=0.8.0'
     resolution:
-      integrity: sha1-tJJXbmavGT25XWXiXsU/Xxl5jWA=
+      integrity: sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==
   /semver-greatest-satisfied-range/1.1.0:
     dependencies:
       sver-compat: 1.5.0
@@ -10032,7 +10032,7 @@ packages:
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 2.6.3
-      semaphore: 1.0.5
+      semaphore: 1.1.0
       sinon: 7.4.1
       stream-http: 2.8.3
       ts-node: 8.3.0_typescript@3.5.3
@@ -10044,7 +10044,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-5OtuHMLHmJ9wohJDESFRqKwMm3IMXzj6ffj2BkZZqroUioGo4xLqSOAVrnaqPaiBzlQWp96viBp8mhxgc+2prA==
+      integrity: sha512-YA8ZIZcSg4+3rr7oIyW7xafwyBzEsd/eBlh7Vh1Y97UjmuUeP3OMOMkcXyvl9lXCl0Dnw2+xCY3mY6e4f8Y6zw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10775,6 +10775,7 @@ packages:
       integrity: sha512-VxrbDXfuJ6Nz4rm0DHlJ+0sMk4RMKRflIyu7WxXLZGBpri9KLivFyNA0TWfZBifpdy3T1kVXyLOccskpzczDvA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10916,7 +10917,7 @@ specifiers:
   nyc: ^14.0.0
   path-browserify: ^1.0.0
   prettier: ^1.16.4
-  priorityqueuejs: 1.0.0
+  priorityqueuejs: ^1.0.0
   process: ^0.11.10
   promise: ^8.0.3
   puppeteer: ^1.11.0
@@ -10941,7 +10942,7 @@ specifiers:
   rollup-plugin-terser: ^5.1.1
   rollup-plugin-uglify: ^6.0.0
   rollup-plugin-visualizer: ^2.0.0
-  semaphore: 1.0.5
+  semaphore: ^1.1.0
   semver: ^5.5.0
   shx: ^0.3.2
   sinon: ^7.1.0
