@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-const { spawn } = require('child_process');
+const { spawnSync } = require('child_process');
 
 const parseArgs = () => {
   if (process.argv.length < 3 || process.argv.some(a => ['-h', '--help'].includes(a.toLowerCase()))) {
@@ -56,23 +56,9 @@ const getServicePackages = (baseDir, serviceDirs) => {
 };
 
 const spawnNode = (cwd, ...args) => {
-  const y = `\u001B[33m`;
-  const x = `\u001B[39m`;
-
   console.log(`Executing: "node ${args.join(' ')}" in ${cwd}\n\n`);
-  const proc = spawn('node', args, { cwd });
-
-  proc.stdout.on('data', (data) => {
-    console.log(`${data}`);
-  });
-
-  proc.stderr.on('data', (data) => {
-    console.log(`${y}${data}${x}`);
-  });
-
-  proc.on('close', (code) => {
-    console.log(`\n\nNode process exited with code ${code}`);
-  });
+  const proc = spawnSync('node', args, { cwd, stdio: 'inherit' });
+  console.log(`\n\nNode process exited with code ${proc.status}`);
 }
 
 const flatMap = (arr, f) => {
