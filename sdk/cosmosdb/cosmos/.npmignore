@@ -1,8 +1,0 @@
-.git
-.vscode
-samples
-.gitattributes
-.gitignore
-*.code-workspace
-*.tgz
-ts-test/
