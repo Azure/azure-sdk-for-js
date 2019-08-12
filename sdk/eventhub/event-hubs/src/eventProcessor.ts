@@ -60,7 +60,7 @@ export interface PartitionProcessor {
   processEvents(events: ReceivedEventData[]): Promise<void>;
   /**
    * This method is called when an error occurs while receiving events from Event Hub.
-   * 
+   *
    * @param error The error to be processed.
    * @return {void}
    */
@@ -179,6 +179,7 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionManager: PartitionManager;
+  private readonly _ownershipExpirationTimeInMS = 35000;
 
   /**
    * @param consumerGroupName The consumer group name used in this event processor to consumer events.
@@ -224,6 +225,26 @@ export class EventProcessor {
   }
 
   /*
+   * Claim ownership of the given partition if it's available
+   */
+  private async claimPartitionOwnership(ownershipInfo: PartitionOwnership): Promise<void> {
+    // Claim ownership if:
+    // it's not previously owned by any other instance,
+    // or if the last modified time is greater than ownership expiration time
+    // and previous owner is not this instance
+    var date = new Date();
+    var currentTimeInMS = date.getMilliseconds();
+    if (
+      !ownershipInfo.lastModifiedTimeInMS ||
+      (currentTimeInMS - ownershipInfo.lastModifiedTimeInMS > this._ownershipExpirationTimeInMS &&
+        ownershipInfo.ownerId !== this._id)
+    ) {
+      ownershipInfo.ownerId = this._id;
+      await this._partitionManager.claimOwnership([ownershipInfo]);
+    }
+  }
+
+  /*
    * A simple implementation of an event processor that:
    * - Fetches all partition ids from Event Hub
    * - Gets the current ownership information of all the partitions from PartitionManager
@@ -251,14 +272,35 @@ export class EventProcessor {
             partitionId: partitionId
           };
 
-          const partitionOwnership: PartitionOwnership = {
-            eventHubName: this._eventHubClient.eventHubName,
-            consumerGroupName: this._consumerGroupName,
-            ownerId: this._id,
-            partitionId: partitionId,
-            ownerLevel: 0
-          };
-          await this._partitionManager.claimOwnership([partitionOwnership]);
+          const partitionOwnerships = await this._partitionManager.listOwnership(
+            this._eventHubClient.eventHubName,
+            this._consumerGroupName
+          );
+
+          let partitionOwnership;
+          // eventually this will 1st check if the existing PartitionOwnership has a position
+          let eventPosition =
+            this._processorOptions.initialEventPosition || EventPosition.earliest();
+
+          for (const ownership of partitionOwnerships) {
+            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
+              partitionOwnership = ownership;
+              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
+              break;
+            }
+          }
+
+          // Ownership has never been claimed, so it won't exist in the list, so we provide a default.
+          if (!partitionOwnership) {
+            partitionOwnership = {
+              eventHubName: this._eventHubClient.eventHubName,
+              consumerGroupName: this._consumerGroupName,
+              ownerId: this._id,
+              partitionId: partitionId,
+              ownerLevel: 0
+            };
+          }
+          await this.claimPartitionOwnership(partitionOwnership);
 
           const checkpointManager = new CheckpointManager(
             partitionContext,
@@ -273,21 +315,6 @@ export class EventProcessor {
             partitionContext,
             checkpointManager
           );
-
-          // eventually this will 1st check if the existing PartitionOwnership has a position
-          let eventPosition =
-            this._processorOptions.initialEventPosition || EventPosition.earliest();
-
-          const partitionOwnerships = await this._partitionManager.listOwnership(
-            this._eventHubClient.eventHubName,
-            this._consumerGroupName
-          );
-          for (const ownership of partitionOwnerships) {
-            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
-              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
-              break;
-            }
-          }
 
           tasks.push(
             this._pumpManager.createPump(
