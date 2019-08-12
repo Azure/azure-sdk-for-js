@@ -76,7 +76,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@azure/identity": "1.0.0-preview.2",
+    "@azure/identity": "1.0.0-preview.3",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
