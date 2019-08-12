@@ -28,6 +28,8 @@ import { OperationResponse } from "./operationResponse";
 import { ServiceCallback } from "./util/utils";
 import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { signingPolicy } from './policies/signingPolicy';
 
 
 /**
@@ -134,7 +136,7 @@ export class ServiceClient {
    * @param {TokenCredential} [credentials] The credentials object used for authentication.
    * @param {ServiceClientOptions} [options] The service client options that govern the behavior of the client.
    */
-  constructor(credentials?: TokenCredential, options?: ServiceClientOptions) {
+  constructor(credentials?: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
     if (!options) {
       options = {};
     }
@@ -170,6 +172,8 @@ export class ServiceClient {
         };
 
         authPolicyFactory = wrappedPolicyFactory();
+      } else if (credentials && typeof credentials.signRequest === "function") {
+        authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
