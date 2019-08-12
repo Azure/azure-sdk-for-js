@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import AbortController from "abort-controller";
+import { AbortController } from "@azure/abort-controller";
 import FormData from "form-data";
 
 import { HttpClient } from "./httpClient";

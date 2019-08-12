@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, AssertionError } from "chai";
+import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
 import { createReadStream } from "fs";
 import * as http from "http";
@@ -14,17 +15,6 @@ import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { TestFunction } from "mocha";
 
 const nodeIt = (isNode ? it : it.skip) as TestFunction;
-
-function getAbortController(): AbortController {
-  let controller: AbortController;
-  if (typeof AbortController === "function") {
-    controller = new AbortController();
-  } else {
-    const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
-    controller = new AbortControllerPonyfill();
-  }
-  return controller;
-}
 
 describe("defaultHttpClient", function () {
   function sleep(ms: number): Promise<void> {
@@ -60,7 +50,7 @@ describe("defaultHttpClient", function () {
       assert.fail();
       return { status: 201 };
     });
-    const controller = getAbortController();
+    const controller = new AbortController();
     const veryBigPayload = "very long string";
     const request = new WebResource(resourceUrl, "POST", veryBigPayload, undefined, undefined, true, undefined, controller.signal);
     const client = new DefaultHttpClient();
@@ -112,7 +102,7 @@ describe("defaultHttpClient", function () {
       return { status: 201 };
     });
 
-    const controller = getAbortController();
+    const controller = new AbortController();
     const buf = "Very large string";
     const requests = [
       new WebResource("/fileupload", "POST", buf, undefined, undefined, true, undefined, controller.signal),

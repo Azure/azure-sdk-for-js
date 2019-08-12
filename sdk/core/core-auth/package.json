@@ -57,7 +57,7 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-auth",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.1",
+    "@azure/abort-controller": "1.0.0-preview.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
