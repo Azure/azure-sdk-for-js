@@ -36,6 +36,7 @@
 | [`@azure/arm-databricks`]( sdk/databricks/arm-databricks/package.json )| [Readme](sdk/databricks/arm-databricks/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-databricks ) |
 | [`@azure/arm-datacatalog`]( sdk/datacatalog/arm-datacatalog/package.json )| [Readme](sdk/datacatalog/arm-datacatalog/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-datacatalog ) |
 | [`@azure/arm-datafactory`]( sdk/datafactory/arm-datafactory/package.json )| [Readme](sdk/datafactory/arm-datafactory/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-datafactory ) |
+| [`@azure/arm-datamigration`]( sdk/datamigration/arm-datamigration/package.json )| [Readme](sdk/datamigration/arm-datamigration/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-datamigration ) |
 | [`@azure/arm-deploymentmanager`]( sdk/deploymentmanager/arm-deploymentmanager/package.json )| [Readme](sdk/deploymentmanager/arm-deploymentmanager/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-deploymentmanager ) |
 | [`@azure/arm-deviceprovisioningservices`]( sdk/deviceprovisioningservices/arm-deviceprovisioningservices/package.json )| [Readme](sdk/deviceprovisioningservices/arm-deviceprovisioningservices/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-deviceprovisioningservices ) |
 | [`@azure/arm-devspaces`]( sdk/devspaces/arm-devspaces/package.json )| [Readme](sdk/devspaces/arm-devspaces/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-devspaces ) |
