@@ -64,7 +64,7 @@ export abstract class BaseRecorder {
   protected readonly filepath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
 
-  constructor(runtime: "node" | "browsers", testHierarchy: string, testTitle: string) {
+  constructor(runtime: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
     // File Extension
     // nock recordings for node tests - .js extension
     // recordings are saved in json format for browser tests - .json extension
@@ -73,7 +73,7 @@ export abstract class BaseRecorder {
     this.filepath =
       runtime +
       "/" +
-      this.formatPath(testHierarchy) +
+      this.formatPath(testSuiteTitle) +
       "/recording_" +
       this.formatPath(testTitle) +
       "." +
@@ -135,8 +135,8 @@ export abstract class BaseRecorder {
 }
 
 export class NockRecorder extends BaseRecorder {
-  constructor(testHierarchy: string, testTitle: string) {
-    super("node", testHierarchy, testTitle);
+  constructor(testSuiteTitle: string, testTitle: string) {
+    super("node", testSuiteTitle, testTitle);
   }
 
   public record(): void {
@@ -222,8 +222,8 @@ export class NiseRecorder extends BaseRecorder {
   private readonly sasQueryParameters = ["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"];
   private recordings: any[] = [];
 
-  constructor(testHierarchy: string, testTitle: string) {
-    super("browsers", testHierarchy, testTitle);
+  constructor(testSuiteTitle: string, testTitle: string) {
+    super("browsers", testSuiteTitle, testTitle);
   }
 
   // Inserts a request/response pair into the recordings array
