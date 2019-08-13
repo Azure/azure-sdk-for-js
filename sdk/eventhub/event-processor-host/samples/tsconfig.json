@@ -3,11 +3,6 @@
   "compilerOptions": {
     "module": "commonjs"
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "../node_modules",
-    "../typings/**",
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["../node_modules", "../typings/**"]
 }

@@ -31,15 +31,26 @@ export class PumpManager {
           await this.removePump(partitionId, CloseReason.shutdown);
         } else {
           log.pumpManager(
-            withHostAndPartition(partitionId, "Updating lease for pump since it" + "is open -> %s."),
+            withHostAndPartition(
+              partitionId,
+              "Updating lease for pump since it" + "is open -> %s."
+            ),
             partitionId,
             isOpen
           );
           capturedPump.lease = lease;
         }
       } else {
-        log.pumpManager(withHostAndPartition(partitionId, "Creating a new pump with lease %o."), lease.getInfo());
-        const pump = new PartitionPump(this._context, lease, this._context.onMessage!, this._context.onError!);
+        log.pumpManager(
+          withHostAndPartition(partitionId, "Creating a new pump with lease %o."),
+          lease.getInfo()
+        );
+        const pump = new PartitionPump(
+          this._context,
+          lease,
+          this._context.onMessage!,
+          this._context.onError!
+        );
         await pump.start();
       }
     } catch (err) {

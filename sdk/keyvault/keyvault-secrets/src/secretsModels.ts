@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as msRest from "@azure/core-http";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { DeletionRecoveryLevel } from "./core/models";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 
@@ -115,8 +114,7 @@ export interface DeletedSecret extends Secret {
 
 /**
  * @interface
- * An interface representing KeyVaultClientSetSecretOptionalParams.
- * Optional Parameters.
+ * An interface representing the optional parameters that can be passed to setSecret.
  */
 export interface SetSecretOptions {
   /**
@@ -145,16 +143,11 @@ export interface SetSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
  * @interface
- * An interface representing KeyVaultClientUpdateSecretOptionalParams.
- * Optional Parameters.
+ * An interface representing the optional parameters that can be passed to updateSecret.
  */
 export interface UpdateSecretOptions {
   /**
@@ -183,16 +176,11 @@ export interface UpdateSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
  * @interface
- * An interface representing SecretClientGetSecretOptionalParams.
- * Optional Parameters.
+ * An interface representing the optional parameters that can be passed to getSecret.
  */
 export interface GetSecretOptions {
   /**
@@ -204,24 +192,15 @@ export interface GetSecretOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.
- * Optional Parameters.
  */
 export interface ListSecretsOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
-  /**
-   * @member {AbortSignalLike} [abortSignal] Abort signal
-   */
-  abortSignal?: AbortSignalLike;
 }

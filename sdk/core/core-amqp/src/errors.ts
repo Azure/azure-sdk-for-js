@@ -481,12 +481,20 @@ export const retryableErrors: string[] = [
   "ServerBusyError",
   "ServiceUnavailableError",
   "OperationCancelledError",
+
+  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
+  // Since reasons for such failures can be transient, this is treated as a retryable error.
   "OperationTimeoutError",
+
   "SenderBusyError",
   "MessagingError",
   "DetachForcedError",
   "ConnectionForcedError",
-  "TransferLimitExceededError"
+  "TransferLimitExceededError",
+
+  // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
+  // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
+  "InsufficientCreditError"
 ];
 
 /**
@@ -553,28 +561,9 @@ export function translate(err: AmqpError | Error): MessagingError {
 
   let error: MessagingError = err as MessagingError;
 
-  // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
-  // Since reasons for such failures can be transient, this is treated as a retryable error.
-  if (
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until OperationTimeoutError is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    (err as Error).name === "OperationTimeoutError"
-  ) {
-    error.retryable = true;
-    return error;
-  }
-
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
-  if (
-    err instanceof TypeError ||
-    err instanceof RangeError ||
-    // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
-    // Must do a name check until AbortError is updated, and that doesn't break compatibility
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    (err as Error).name === "AbortError"
-  ) {
+  if (err instanceof TypeError || err instanceof RangeError) {
     error.retryable = false;
     return error;
   }
@@ -602,7 +591,10 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
-  } else if (isSystemError(err)) {
+    return error;
+  }
+
+  if (isSystemError(err)) {
     // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
@@ -617,15 +609,32 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
-  } else if (isBrowserWebsocketError(err)) {
+    return error;
+  }
+
+  if (isBrowserWebsocketError(err)) {
     // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;
-  } else {
-    // Translate a generic error into MessagingError.
-    error = new MessagingError((err as Error).message);
-    error.stack = (err as Error).stack;
+    return error;
   }
+
+  // instanceof checks on custom Errors doesn't work without manually setting the prototype within the error.
+  // Must do a name check until the custom error is updated, and that doesn't break compatibility
+  // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+  const errorName = (err as Error).name;
+  if (retryableErrors.indexOf(errorName) > -1) {
+    error.retryable = true;
+    return error;
+  }
+  if (errorName === "AbortError") {
+    error.retryable = false;
+    return error;
+  }
+
+  // Translate a generic error into MessagingError.
+  error = new MessagingError((err as Error).message);
+  error.stack = (err as Error).stack;
   return error;
 }

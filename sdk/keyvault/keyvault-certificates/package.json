@@ -44,10 +44,14 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:test": "npm run build",
-    "build": "tsc && rollup -c rollup.config.js 2>&1",
+    "build:samples": "tsc samples/helloWorld.ts",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:test": "echo skipped",
+    "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -65,6 +69,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/core-paging": "1.0.0-preview.1",
     "@azure/core-arm": "1.0.0-preview.2",
     "@azure/core-http": "1.0.0-preview.2",
     "tslib": "^1.9.3"
@@ -78,7 +83,7 @@
     "@typescript-eslint/parser": "^1.11.0",
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",

@@ -82,12 +82,15 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
       "define AZURE_CLIENT_SECRET in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.ENDPOINT],
-      "define ENDPOINT in your environment before running integration tests."
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
 
+    // This is of the form <your-namespace>.servicebus.windows.net
+    const endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
+
     const credential = new EnvironmentCredential();
-    const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME, credential);
+    const client = new EventHubClient(endpoint, env.EVENTHUB_NAME, credential);
 
     // Extra check involving actual call to the service to ensure this works
     const hubInfo = await client.getProperties();
