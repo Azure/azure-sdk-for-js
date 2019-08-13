@@ -19,6 +19,13 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - `recorder` package assumes that the tests in the sdk are leveraging [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/) (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
 
+- `record` from `@azure/test-utils-recorder` package should be imported in the test files.
+
+- `recorder = record(this);` initiates recording the HTTP requests and when `recorder.stop();` is called, the recording stops
+  and all the HTTP requests recorded in between the two calls are saved as part of the recording in the `"record"` mode.
+  In the same way, existing recordings are leveraged and played back in the `"playback"` mode when `recorder = record(this);` is invoked.
+  [Has no effect if the `TEST_MODE` is neither `"record"` nor `"playback"`. Tests hit the live-service, we don't record the requests/responses]
+
 - Follow the below template for adding a new test. `before` and `after` sections are optional, `beforeEach` and `afterEach` sections are compulsory.
 
   ```typescript
@@ -55,11 +62,15 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   });
   ```
 
-- When `recorder.stop();` is called, the recording stops and is saved as explained below.
+- Consider the `beforeEach`, `afterEach` and `it` blocks in the above test-suite.
 
-- Recordings corresponding to `before` or `after` sections are saved under `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
+  - `recorder = record(this);` is invoked in the `beforeEach` section and `recorder.stop();` in the `afterEach` section.
+  - All the HTTP requests recorded in between the two calls are saved as part of the test(`it` block) recording in the `"record"` mode.
+  - Existing test recording is played back when invoked `recorder = record(this);` in the `"playback"` mode.
 
 - Recordings corresponding to `beforeEach` or `afterEach` sections are saved along with the test recordings(`recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`).
+
+- Recordings corresponding to `before` or `after` sections are saved separately under `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
 
 - `Mocha.Context` is being leveraged to obtain the test title and other required information to save and replay the recordings.
 
@@ -222,18 +233,18 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - **UUID:** a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 
 - We leverage mocha's `.skip()` functionality to skip the test
-  `this.skip()` - https://mochajs.org/#inclusive-tests
+  `this.skip()` - https://mochajs.org/#inclusive-tests.
   By this, the tests in the skip list will only be executed if the `TEST_MODE` is neither `"record"` nor `"playback"`.
 
 - If the new test is supposed to skipped, it must be added in the skip list. Doing this would allow the tests in the skip list to be executed only if the `TEST_MODE` is neither `"record"` nor `"playback"`.
 
 ---
 
-## Setting up karma.conf.js file in the sdk
+## Setting up karma.conf.js file in the SDK
 
 ### Karma.conf.js
 
-- Install and add the plugins `"karma-json-to-file-reporter", "karma-json-preprocessor"`
+- Install and add the plugins `"karma-json-to-file-reporter", "karma-json-preprocessor"` as `devDependencies`.
 
   ```javascript
   plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor"],
