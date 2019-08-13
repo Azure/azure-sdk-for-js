@@ -64,14 +64,14 @@ export abstract class BaseRecorder {
   protected readonly filepath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
 
-  constructor(runtime: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
+  constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
     // File Extension
     // nock recordings for node tests - .js extension
     // recordings are saved in json format for browser tests - .json extension
-    const ext = runtime === "node" ? "js" : "json";
+    const ext = platform === "node" ? "js" : "json";
     // Filepath - `recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
     this.filepath =
-      runtime +
+      platform +
       "/" +
       this.formatPath(testSuiteTitle) +
       "/recording_" +
