@@ -21,7 +21,6 @@ dependencies:
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
   '@rush-temp/core-paging': 'file:projects/core-paging.tgz'
   '@rush-temp/core-tracing': 'file:projects/core-tracing.tgz'
-  '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
   '@rush-temp/identity': 'file:projects/identity.tgz'
@@ -53,15 +52,12 @@ dependencies:
   '@types/nise': 1.4.0
   '@types/nock': 10.0.3
   '@types/node': 8.10.51
-  '@types/priorityqueuejs': 1.0.1
   '@types/qs': 6.5.3
   '@types/query-string': 6.2.0
-  '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
   '@types/sinon': 7.0.13
   '@types/tough-cookie': 2.3.5
   '@types/tunnel': 0.0.1
-  '@types/underscore': 1.9.2
   '@types/uuid': 3.4.5
   '@types/webpack': 4.32.1
   '@types/webpack-dev-middleware': 2.0.3
@@ -76,12 +72,10 @@ dependencies:
   axios: 0.19.0
   axios-mock-adapter: 1.17.0_axios@0.19.0
   azure-storage: 2.10.3
-  binary-search-bounds: 2.0.3
   buffer: 5.3.0
   chai: 4.2.0
   chai-as-promised: 7.1.1_chai@4.2.0
   chai-string: 1.5.0_chai@4.2.0
-  create-hmac: 1.1.7
   cross-env: 5.2.0
   death: 1.1.0
   debug: 3.2.6
@@ -95,7 +89,6 @@ dependencies:
   eslint-plugin-no-only-tests: 2.3.1
   eslint-plugin-promise: 4.2.1
   events: 3.0.0
-  execa: 1.0.0
   express: 4.17.1
   form-data: 2.5.0
   fs-extra: 8.1.0
@@ -139,13 +132,11 @@ dependencies:
   nyc: 14.1.1
   path-browserify: 1.0.0
   prettier: 1.18.2
-  priorityqueuejs: 1.0.0
   process: 0.11.10
   promise: 8.0.3
   puppeteer: 1.19.0
   qs: 6.7.0
   query-string: 5.1.1
-  requirejs: 2.3.6
   rhea: 1.0.8
   rhea-promise: 0.1.15
   rimraf: 2.6.3
@@ -164,13 +155,11 @@ dependencies:
   rollup-plugin-terser: 5.1.1_rollup@1.19.4
   rollup-plugin-uglify: 6.0.2_rollup@1.19.4
   rollup-plugin-visualizer: 2.5.4_rollup@1.19.4
-  semaphore: 1.1.0
   semver: 5.7.1
   shx: 0.3.2
   sinon: 7.4.1
   source-map-support: 0.5.13
   stream-browserify: 2.0.2
-  stream-http: 2.8.3
   tough-cookie: 3.0.1
   ts-loader: 6.0.4_typescript@3.5.3
   ts-mocha: 6.0.0_mocha@5.2.0
@@ -692,10 +681,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-8KmlRxwbKZfjUHFIt3q8TF5S2B+/E5BaAoo/3mgc5h6FJzqxXkCK/VMetO+IRDtwtU6HUvovHMBn+XRj7SV9Qg==
-  /@types/priorityqueuejs/1.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-bqrDJHpMXO/JRILl2Hw3MLNfUFM=
   /@types/qs/6.5.3:
     dev: false
     resolution:
@@ -714,10 +699,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
-  /@types/semaphore/1.1.0:
-    dev: false
-    resolution:
-      integrity: sha512-YD+lyrPhrsJdSOaxmA9K1lzsCoN0J29IsQGMKd67SbkPDXxJPdwdqpok1sytD19NEozUaFpjIsKOWnJDOYO/GA==
   /@types/semver/5.5.0:
     dev: false
     resolution:
@@ -759,10 +740,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SudIN9TRJ+v8g5pTG8RRCqfqTMNqgWCKKd3vtynhGzkIIjxaicNAMuY5TRadJ6tzDu3Dotf3ngaMILtmOdmWEQ==
-  /@types/underscore/1.9.2:
-    dev: false
-    resolution:
-      integrity: sha512-KgOKTAD+9X+qvZnB5S1+onqKc4E+PZ+T6CM/NA5ohRPLHJXb+yCJMVf8pWOnvuBuKFNUAJW8N97IA6lba6mZGg==
   /@types/uuid/3.4.5:
     dependencies:
       '@types/node': 8.10.51
@@ -2094,10 +2071,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
-  /binary-search-bounds/2.0.3:
-    dev: false
-    resolution:
-      integrity: sha1-X/hhbW3SylOIvIWy1iZuK52lAtw=
   /blob/0.0.5:
     dev: false
     resolution:
@@ -7122,10 +7095,6 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
-  /priorityqueuejs/1.0.0:
-    dev: false
-    resolution:
-      integrity: sha1-LuTyPCVgkT4IwHzlzN1t498sWvg=
   /private/0.1.8:
     dev: false
     engines:
@@ -7642,13 +7611,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
-  /requirejs/2.3.6:
-    dev: false
-    engines:
-      node: '>=0.4.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-ipEzlWQe6RK3jkzikgCupiTbTvm4S0/CAU5GlgptkN5SO6F3u0UD0K18wy6ErDqiCyP4J4YYe1HuAShvsxePLg==
   /requires-port/1.0.0:
     dev: false
     resolution:
@@ -7968,12 +7930,6 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
-  /semaphore/1.1.0:
-    dev: false
-    engines:
-      node: '>=0.8.0'
-    resolution:
-      integrity: sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==
   /semver-greatest-satisfied-range/1.1.0:
     dependencies:
       sver-compat: 1.5.0
@@ -10024,48 +9980,6 @@ packages:
       integrity: sha512-bn/Ll8t/8EkxyT5d7wI1brmQduZ0wwAYOc9wmiXsvACidExUHHbcFUYDdzIEABYDxE1KnUGTeme0ExBk/6zJIQ==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
-  'file:projects/cosmos.tgz':
-    dependencies:
-      '@types/mocha': 5.2.7
-      '@types/node': 8.10.51
-      '@types/priorityqueuejs': 1.0.1
-      '@types/semaphore': 1.1.0
-      '@types/sinon': 7.0.13
-      '@types/tunnel': 0.0.1
-      '@types/underscore': 1.9.2
-      '@typescript-eslint/eslint-plugin': 1.13.0_0b5e999c52a893676e7127c05369c7b6
-      '@typescript-eslint/parser': 1.13.0_eslint@5.16.0
-      binary-search-bounds: 2.0.3
-      create-hmac: 1.1.7
-      eslint: 5.16.0
-      eslint-config-prettier: 6.0.0_eslint@5.16.0
-      eslint-detailed-reporter: 0.8.0_eslint@5.16.0
-      eslint-plugin-no-null: 1.0.2_eslint@5.16.0
-      eslint-plugin-no-only-tests: 2.3.1
-      eslint-plugin-promise: 4.2.1
-      execa: 1.0.0
-      mocha: 5.2.0
-      mocha-junit-reporter: 1.23.1_mocha@5.2.0
-      mocha-multi: 1.1.0_mocha@5.2.0
-      prettier: 1.18.2
-      priorityqueuejs: 1.0.0
-      requirejs: 2.3.6
-      rimraf: 2.6.3
-      semaphore: 1.1.0
-      sinon: 7.4.1
-      stream-http: 2.8.3
-      ts-node: 8.3.0_typescript@3.5.3
-      tslib: 1.10.0
-      tunnel: 0.0.6
-      typescript: 3.5.3
-      webpack: 4.39.1_webpack@4.39.1
-      webpack-cli: 3.3.6_webpack@4.39.1
-    dev: false
-    name: '@rush-temp/cosmos'
-    resolution:
-      integrity: sha512-YA8ZIZcSg4+3rr7oIyW7xafwyBzEsd/eBlh7Vh1Y97UjmuUeP3OMOMkcXyvl9lXCl0Dnw2+xCY3mY6e4f8Y6zw==
-      tarball: 'file:projects/cosmos.tgz'
-    version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
       '@azure/abort-controller': 1.0.0-preview.1
@@ -10795,6 +10709,7 @@ packages:
       integrity: sha512-VxrbDXfuJ6Nz4rm0DHlJ+0sMk4RMKRflIyu7WxXLZGBpri9KLivFyNA0TWfZBifpdy3T1kVXyLOccskpzczDvA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/abort-controller': 1.0.0-preview.1
   '@azure/amqp-common': 1.0.0-preview.6
@@ -10818,7 +10733,6 @@ specifiers:
   '@rush-temp/core-http': 'file:./projects/core-http.tgz'
   '@rush-temp/core-paging': 'file:./projects/core-paging.tgz'
   '@rush-temp/core-tracing': 'file:./projects/core-tracing.tgz'
-  '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
   '@rush-temp/identity': 'file:./projects/identity.tgz'
@@ -10850,15 +10764,12 @@ specifiers:
   '@types/nise': ^1.4.0
   '@types/nock': ^10.0.1
   '@types/node': ^8.0.0
-  '@types/priorityqueuejs': ^1.0.1
   '@types/qs': ~6.5.3
   '@types/query-string': 6.2.0
-  '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^7.0.13
   '@types/tough-cookie': ^2.3.5
   '@types/tunnel': ^0.0.1
-  '@types/underscore': ^1.8.8
   '@types/uuid': ^3.4.3
   '@types/webpack': ^4.4.13
   '@types/webpack-dev-middleware': ^2.0.2
@@ -10873,12 +10784,10 @@ specifiers:
   axios: ^0.19.0
   axios-mock-adapter: ^1.16.0
   azure-storage: ^2.10.2
-  binary-search-bounds: 2.0.3
   buffer: ^5.2.1
   chai: ^4.2.0
   chai-as-promised: ^7.1.1
   chai-string: ^1.5.0
-  create-hmac: ^1.1.7
   cross-env: ^5.2.0
   death: ^1.1.0
   debug: ^3.1.0
@@ -10892,7 +10801,6 @@ specifiers:
   eslint-plugin-no-only-tests: ^2.3.0
   eslint-plugin-promise: ^4.1.1
   events: ^3.0.0
-  execa: 1.0.0
   express: ^4.16.3
   form-data: ^2.5.0
   fs-extra: ^8.1.0
@@ -10936,13 +10844,11 @@ specifiers:
   nyc: ^14.0.0
   path-browserify: ^1.0.0
   prettier: ^1.16.4
-  priorityqueuejs: ^1.0.0
   process: ^0.11.10
   promise: ^8.0.3
   puppeteer: ^1.11.0
   qs: 6.7.0
   query-string: ^5.0.0
-  requirejs: ^2.3.5
   rhea: ^1.0.4
   rhea-promise: ^0.1.15
   rimraf: ^2.6.2
@@ -10961,13 +10867,11 @@ specifiers:
   rollup-plugin-terser: ^5.1.1
   rollup-plugin-uglify: ^6.0.0
   rollup-plugin-visualizer: ^2.0.0
-  semaphore: ^1.1.0
   semver: ^5.5.0
   shx: ^0.3.2
   sinon: ^7.1.0
   source-map-support: ^0.5.9
   stream-browserify: ^2.0.2
-  stream-http: ^2.8.3
   tough-cookie: ^3.0.1
   ts-loader: ^6.0.4
   ts-mocha: ^6.0.0
