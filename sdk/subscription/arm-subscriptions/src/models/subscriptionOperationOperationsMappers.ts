@@ -8,6 +8,6 @@
 
 export {
   CloudError,
-  TenantIdDescription,
-  TenantListResult
+  SubscriptionCreationResult,
+  SubscriptionOperationGetHeaders
 } from "../models/mappers";
