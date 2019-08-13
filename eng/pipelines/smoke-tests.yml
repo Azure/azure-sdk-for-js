@@ -1,8 +1,11 @@
 jobs:
   - job: SmokeTest   
     variables:
-      node_version: "10.16.0"
-      
+       - template: ./templates/variables/globals.yml
+    
+    pool: 
+      vmImage: $(OSVmImage)
+
     steps:
       - task: NodeTool@0 
         displayName: "Use Node"
