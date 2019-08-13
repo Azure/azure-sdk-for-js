@@ -163,7 +163,14 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public stop(): void {
-    const importNock = "let nock = require('nock');\n";
+    // Importing "nock" library in the recording and appending the testInfo part in the recording
+    const importNockStatement =
+      "let nock = require('nock');\n" +
+      "\n" +
+      "module.exports.testInfo = " +
+      JSON.stringify(this.uniqueTestInfo) +
+      "\n";
+
     const fixtures = nock.recorder.play();
 
     // Create the directories recursively incase they don't exist
@@ -187,10 +194,9 @@ export class NockRecorder extends BaseRecorder {
       throw err;
     });
 
-    file.write(
-      importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n"
-    );
+    file.write(importNockStatement);
 
+    // Saving the recording to the file
     for (const fixture of fixtures) {
       // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
       const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
