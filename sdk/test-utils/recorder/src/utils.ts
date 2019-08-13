@@ -17,7 +17,16 @@ export function isPlaybackMode() {
 }
 
 export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+  return encodeURIComponent(str)
+    .replace(
+      /[!'()*]/g,
+      (x) =>
+        `%${x
+          .charCodeAt(0)
+          .toString(16)
+          .toUpperCase()}`
+    ) // RFC 3986.
+    .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // All the RegExp sensitive characters.
 }
 
 /**
