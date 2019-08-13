@@ -32,7 +32,10 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
 const tenantId = process.env["DOMAIN"];
 
-msRestNodeAuth.interactiveLogin({ tokenAudience: "https://graph.windows.net" }).then((creds) => {
+msRestNodeAuth.interactiveLogin({ 
+  tokenAudience: "https://graph.windows.net",
+  domain: tenantId
+}).then((creds) => {
   const client = new GraphRbacManagementClient(creds, tenantId, {
     baseUri: "https://graph.windows.net"
   });
