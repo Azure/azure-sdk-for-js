@@ -10,7 +10,7 @@ jobs:
       - task: NodeTool@0 
         displayName: "Use Node"
         inputs:
-          versionSpec: $(node_version)
+          versionSpec: $(NodeVersion)
       - script: npm install --prefix ./samples/SmokeTest/ ./samples/SmokeTest/
         displayName: "Install packages"
       - script: tsc --p ./samples/SmokeTest/
