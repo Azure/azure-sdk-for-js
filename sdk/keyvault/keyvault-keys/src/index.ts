@@ -114,7 +114,7 @@ export {
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
 
-export { TracerProxy, Span, SupportedPlugins } from "@azure/core-http";
+export { TracerProxy, SupportedPlugins } from "@azure/core-http";
 
 /**
  * The client to interact with the KeyVault keys functionality
