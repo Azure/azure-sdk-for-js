@@ -66,6 +66,7 @@ export class WebResource {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
   /**
    * Options used to create a span when tracing is enabled.
    */
