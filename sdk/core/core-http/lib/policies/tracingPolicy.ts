@@ -38,14 +38,18 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       // set headers
       const spanContext = span.context();
-      request.headers.set(
-        "traceparent",
-        `${spanContext.traceId}-${spanContext.spanId}-${spanContext.traceOptions || TraceOptions.UNSAMPLED}`
-      );
-      const traceState = spanContext.traceState && spanContext.traceState.serialize();
-      if (traceState) {
-        request.headers.set("tracestate", traceState);
+      if (spanContext.spanId && spanContext.traceId) {
+        request.headers.set(
+          "traceparent",
+          `${spanContext.traceId}-${spanContext.spanId}-${spanContext.traceOptions || TraceOptions.UNSAMPLED}`
+        );
+        const traceState = spanContext.traceState && spanContext.traceState.serialize();
+        // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
+        if (traceState) {
+          request.headers.set("tracestate", traceState);
+        }
       }
+
       const response = await this._nextPolicy.sendRequest(request);
       span.end();
       return response;

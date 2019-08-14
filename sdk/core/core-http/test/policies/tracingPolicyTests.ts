@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import sinon from "sinon";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceOptions } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceOptions, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 interface MockTracer extends Tracer {
@@ -201,6 +201,22 @@ describe("tracingPolicy", function () {
       assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
       assert.equal(request.headers.get("tracestate"), mockTraceState);
     }
+  });
+
+  it("will not set headers if span is a NoOpSpan", async () => {
+    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
+      return new NoOpTracePlugin(new TracerNoOpImpl());
+    });
+
+    const request = new WebResource();
+    request.spanOptions = {
+      parent: {} // stub a parent since we aren't testing the startSpan method
+    };
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await policy.sendRequest(request);
+
+    assert.notExists(request.headers.get("traceparent"));
+    assert.notExists(request.headers.get("tracestate"));
   });
 
 
