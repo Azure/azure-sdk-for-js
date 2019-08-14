@@ -28,7 +28,7 @@ npm install @azure/ms-rest-nodeauth
 ```ts
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
-const tenantId = process.env["DOMAIN"];
+const tenantId = "<Tenant_Id>";
 
 msRestNodeAuth.interactiveLogin({ 
   tokenAudience: "https://graph.windows.net",
