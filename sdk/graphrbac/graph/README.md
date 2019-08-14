@@ -26,8 +26,6 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
 const tenantId = process.env["DOMAIN"];
