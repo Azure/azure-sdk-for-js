@@ -75,8 +75,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.1",
-    "@azure/core-http": "1.0.0-preview.2",
+    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/core-http": "1.0.0-preview.3",
     "@azure/core-paging": "1.0.0-preview.1",
     "tslib": "^1.9.3"
   },
