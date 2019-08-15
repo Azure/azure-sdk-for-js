@@ -27,8 +27,8 @@ export interface AzureServiceClientOptions extends ServiceClientOptions {
  * Initializes a new instance of the AzureServiceClient class.
  * @constructor
  *
- * @param {TokenCredential | ServiceClientCredentials} credentials - The TokenCredential used for authentication.
- * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
+ * @param credentials The credentials used for authentication with the service.
+ * @param options The parameter options used by AzureServiceClient.
  */
 export class AzureServiceClient extends ServiceClient {
   public acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
