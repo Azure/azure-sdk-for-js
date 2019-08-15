@@ -21,6 +21,9 @@ if (isPlayingBack) {
   env.ACCOUNT_NAME = "fakestorageaccount";
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
+  // Comment following line to skip user delegation key/SAS related cases in record and play
+  // which depends on this environment variable
+  env.ACCOUNT_TOKEN = "aaaaa";
 }
 
 export function delay(milliseconds: number): Promise<void> | null {

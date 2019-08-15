@@ -510,9 +510,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
     
@@ -563,9 +563,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
     
@@ -611,9 +611,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
     
@@ -683,9 +683,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
     
