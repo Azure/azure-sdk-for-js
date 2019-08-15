@@ -56,9 +56,9 @@
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --timeout 1200000 --reporter-options spec=-,mocha-junit-reporter=- --full-trace dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint \"src/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.json src tests samples --ext .ts -f html -o keyvault-certificates-lintReport.html || exit 0",
-    "lint:terminal": "eslint -c ../../.eslintrc.json src tests samples --ext .ts",
+    "lint:fix": "eslint package.json tsconfig.json \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json src tests samples --ext .ts -f html -o keyvault-certificates-lintReport.html || exit 0",
+    "lint:terminal": "eslint package.json tsconfig.json src tests samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -78,6 +78,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^2.0.0-preview.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
