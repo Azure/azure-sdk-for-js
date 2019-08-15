@@ -7,9 +7,9 @@ import tunnel from "tunnel";
 import https from "https";
 
 import { HttpHeaders } from "../lib/coreHttp";
-import { createTunnel, createProxyAgent } from "../lib/axiosHttpClient";
+import { createProxyAgent, createTunnel } from "../lib/proxyAgent";
 
-describe("AxiosHttpClient", () => {
+describe("proxyAgent", () => {
   describe("createProxyAgent", () => {
     type HttpsAgent = https.Agent & {
       defaultPort: number | undefined,

@@ -62,7 +62,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.1",
+    "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/core-amqp": "1.0.0-preview.3",
     "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
     "async-lock": "^1.1.3",

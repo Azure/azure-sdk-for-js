@@ -77,7 +77,7 @@
     "@trust/keyto": "0.3.7"
   },
   "devDependencies": {
-    "@azure/abort-controller": "1.0.0-preview.1",
+    "@azure/abort-controller": "1.0.0-preview.2",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
