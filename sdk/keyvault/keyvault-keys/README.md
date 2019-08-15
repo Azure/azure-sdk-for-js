@@ -85,11 +85,11 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform secret operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list create
   ```
 
   > --secret-permissions:
-  > Accepted values: backup, delete, get, list, purge, recover, restore, set
+  > Accepted values: backup, delete, get, list, purge, recover, restore, create
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
@@ -244,7 +244,7 @@ const url = `https://${vaultName}.vault.azure.net`;
 const keysClient = new KeysClient(url, credential);
 
 // Create or retrieve a key from the keyvault
-let myKey = await client.createKey("MyKey", "RSA");
+let myKey = await keysClient.createKey("MyKey", "RSA");
 
 // Lastly, create our cryptography client and connect to the service
 // This example uses the URL that is part of the key we created (called key ID or kid)
@@ -302,6 +302,7 @@ console.log("verify result: ", verifyResult);
 `verifyData` will cryptographically verify that the signed message was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
+const buffer = Buffer.from("My Message");
 const verifyResult = await cryptoClient.verifyData("RS256", buffer, signature.result);
 console.log("verify result: ", verifyResult);
 ```
