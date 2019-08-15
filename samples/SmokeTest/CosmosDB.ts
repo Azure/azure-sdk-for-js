@@ -1,7 +1,13 @@
+// ------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+// ------------------------------------
 import { CosmosClient, Database, Container } from "@azure/cosmos";
 
+const uuidv1 = require('uuid/v1');
+
 export class CosmosDB {
-  private static dataBaseName = "jsSolarSystem";
+  private static dataBaseName = `jsSolarSystem-${uuidv1()}`;
   private static collectionName = "PlanetsCollection";
   private static client: CosmosClient;
   private static db: Database;
@@ -25,7 +31,7 @@ export class CosmosDB {
     //Ensure that the resource is clean
     try {
       await CosmosDB.DeleteDatabase();
-    } catch {}
+    } catch { }
 
     await CosmosDB.CreateDatabase();
     await CosmosDB.CreateCollection();
@@ -90,7 +96,7 @@ export class CosmosDB {
     console.log("\tdone");
   }
 
-  private static dedent(str:ReadonlyArray<string>){
-    return str[0].replace(/^\ */gm,'');
+  private static dedent(str: ReadonlyArray<string>) {
+    return str[0].replace(/^\ */gm, '');
   }
 }

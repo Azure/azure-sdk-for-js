@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { getBSU, getConnectionStringFromEnvironment } from "../utils";
-import { PublicAccessType } from "../../src/generated/lib/models/index";
+import { PublicAccessType } from "../../src/generated/src/models/index";
 import { ContainerClient, newPipeline, SharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";

@@ -2,6 +2,7 @@ import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
+import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
@@ -62,10 +63,10 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const factories = containerURL.pipeline.factories.slice(); // clone factories array
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerURL = containerURL.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -77,7 +78,9 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await injectContainerURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+      await injectContainerClient.setMetadata(metadata, {
+        abortSignal: AbortController.timeout(2 * 1000)
+      });
     } catch (err) {
       hasError = true;
     }

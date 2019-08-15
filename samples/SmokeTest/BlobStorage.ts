@@ -1,4 +1,10 @@
+// ------------------------------------
+// Copyright(c) Microsoft Corporation.
+// Licensed under the MIT License.
+// ------------------------------------
 import { SharedKeyCredential, BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+
+const uuidv1 = require('uuid/v1');
 
 export class BlobStorage {
   private static ContainerClient: ContainerClient;
@@ -10,13 +16,13 @@ export class BlobStorage {
         Storage - Blobs
         ------------------------
         1) Upload Blob
-        2) Delete Blob (Clean up the resource
+        2) Delete Blob (Clean up the resource)
         `);
 
     const account = process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
     const accountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
     const containerName = "mycontainer";
-    BlobStorage.blobName = "JSNewBlob";
+    BlobStorage.blobName = `JSNewBlob-${uuidv1()}.txt`;
 
     const credential = new SharedKeyCredential(account, accountKey);
     const serviceClient = new BlobServiceClient(
@@ -28,7 +34,7 @@ export class BlobStorage {
     //Ensure that the blob does not already existis
     try {
       await BlobStorage.CleanUp();
-    } catch {}
+    } catch { }
 
     await BlobStorage.UploadBlob();
     await BlobStorage.CleanUp();
@@ -40,9 +46,8 @@ export class BlobStorage {
     //If the blob already exists in the container, this will override it.
     console.log("Uploading blob...");
     const content = "This is the content for the sample blob";
-    const blobName = "JSNewBlob";
 
-    const blobClient = BlobStorage.ContainerClient.getBlobClient(blobName);
+    const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
 
     await blockBlobClient.upload(content, content.length);
@@ -56,7 +61,7 @@ export class BlobStorage {
     console.log("\tdone");
   }
 
-  private static dedent(str:ReadonlyArray<string>){
-    return str[0].replace(/^\ */gm,'');
+  private static dedent(str: ReadonlyArray<string>) {
+    return str[0].replace(/^\ */gm, '');
   }
 }

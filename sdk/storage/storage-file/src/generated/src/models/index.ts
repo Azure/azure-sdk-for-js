@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
+
 /**
  * An Access policy.
  */
@@ -862,6 +863,59 @@ export interface FileAbortCopyOptionalParams extends coreHttp.RequestOptionsBase
    * Timeouts for File Service Operations.</a>
    */
   timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * A string value that identifies the portion of the list to be returned with the next list
+   * operation. The operation returns a marker value within the response body if the list returned
+   * was not complete. The marker value may then be used in a subsequent call to request the next
+   * set of list items. The marker value is opaque to the client.
+   */
+  marker?: string;
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   */
+  maxresults?: number;
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  sharesnapshot?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * A string value that identifies the portion of the list to be returned with the next list
+   * operation. The operation returns a marker value within the response body if the list returned
+   * was not complete. The marker value may then be used in a subsequent call to request the next
+   * set of list items. The marker value is opaque to the client.
+   */
+  marker?: string;
+  /**
+   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
+   * snapshot to query.
+   */
+  sharesnapshot?: string;
 }
 
 /**

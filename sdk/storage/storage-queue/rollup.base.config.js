@@ -108,10 +108,7 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
-          // modules with built-in names must have a trailing slash.
-          // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-          "assert/": ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
         }
       })
     ]

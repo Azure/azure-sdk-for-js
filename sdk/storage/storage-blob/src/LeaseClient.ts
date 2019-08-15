@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "../src/generated/src/models";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
-import { Blob, Container } from "./generated/lib/operations";
-import { StorageClientContext } from "./generated/lib/storageClient";
+import { Blob, Container } from "./generated/src/operations";
+import { StorageClientContext } from "./generated/src/storageClient";
 import { BlobClient } from "./internal";
 
 export interface Lease {

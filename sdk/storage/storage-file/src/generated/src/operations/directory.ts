@@ -198,51 +198,6 @@ export class Directory {
   }
 
   /**
-   * Returns a list of files or directories under the specified share or directory. It lists the
-   * contents only for a single level of the directory hierarchy.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>
-   */
-  listFilesAndDirectoriesSegmentNext(
-    nextPageLink: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listFilesAndDirectoriesSegmentNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listFilesAndDirectoriesSegmentNext(
-    nextPageLink: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>
-  ): void;
-  listFilesAndDirectoriesSegmentNext(
-    nextPageLink: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>,
-    callback?: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>
-  ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listFilesAndDirectoriesSegmentNextOperationSpec,
-      callback
-    ) as Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
-  }
-  /**
    * Lists handles for directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryListHandlesResponse>
@@ -408,25 +363,6 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.restype2,
     Parameters.comp1
   ],
-  headerParameters: [Parameters.version],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListFilesAndDirectoriesSegmentResponse,
-      headersMapper: Mappers.DirectoryListFilesAndDirectoriesSegmentHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listFilesAndDirectoriesSegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
   headerParameters: [Parameters.version],
   responses: {
     200: {

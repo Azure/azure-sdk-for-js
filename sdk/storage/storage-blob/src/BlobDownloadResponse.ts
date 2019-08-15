@@ -3,7 +3,7 @@
 
 import { HttpResponse, isNode } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { Metadata } from "./models";
 import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
 import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";

@@ -1,4 +1,4 @@
-Third Party Notices for ms-rest-js
+Third Party Notices for core-paging
 
 This project incorporates material from the project(s) listed below (collectively, Third Party Code).
 Microsoft, Inc. Microsoft is not the original author of the Third Party Code.

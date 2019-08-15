@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as msRest from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class Service {
    */
   setProperties(
     storageServiceProperties: Models.StorageServiceProperties,
-    callback: coreHttp.ServiceCallback<void>
+    callback: msRest.ServiceCallback<void>
   ): void;
   /**
    * @param storageServiceProperties The StorageService properties.
@@ -53,12 +53,12 @@ export class Service {
   setProperties(
     storageServiceProperties: Models.StorageServiceProperties,
     options: Models.ServiceSetPropertiesOptionalParams,
-    callback: coreHttp.ServiceCallback<void>
+    callback: msRest.ServiceCallback<void>
   ): void;
   setProperties(
     storageServiceProperties: Models.StorageServiceProperties,
-    options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
+    options?: Models.ServiceSetPropertiesOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
   ): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
@@ -82,20 +82,20 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getProperties(callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
   getProperties(
     options: Models.ServiceGetPropertiesOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>
+    callback: msRest.ServiceCallback<Models.StorageServiceProperties>
   ): void;
   getProperties(
     options?:
       | Models.ServiceGetPropertiesOptionalParams
-      | coreHttp.ServiceCallback<Models.StorageServiceProperties>,
-    callback?: coreHttp.ServiceCallback<Models.StorageServiceProperties>
+      | msRest.ServiceCallback<Models.StorageServiceProperties>,
+    callback?: msRest.ServiceCallback<Models.StorageServiceProperties>
   ): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
@@ -119,20 +119,20 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getStatistics(callback: coreHttp.ServiceCallback<Models.StorageServiceStats>): void;
+  getStatistics(callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
   getStatistics(
     options: Models.ServiceGetStatisticsOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.StorageServiceStats>
+    callback: msRest.ServiceCallback<Models.StorageServiceStats>
   ): void;
   getStatistics(
     options?:
       | Models.ServiceGetStatisticsOptionalParams
-      | coreHttp.ServiceCallback<Models.StorageServiceStats>,
-    callback?: coreHttp.ServiceCallback<Models.StorageServiceStats>
+      | msRest.ServiceCallback<Models.StorageServiceStats>,
+    callback?: msRest.ServiceCallback<Models.StorageServiceStats>
   ): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -156,7 +156,7 @@ export class Service {
    * @param callback The callback
    */
   listContainersSegment(
-    callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
+    callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>
   ): void;
   /**
    * @param options The optional parameters
@@ -164,13 +164,13 @@ export class Service {
    */
   listContainersSegment(
     options: Models.ServiceListContainersSegmentOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
+    callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>
   ): void;
   listContainersSegment(
     options?:
       | Models.ServiceListContainersSegmentOptionalParams
-      | coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>,
-    callback?: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
+      | msRest.ServiceCallback<Models.ListContainersSegmentResponse>,
+    callback?: msRest.ServiceCallback<Models.ListContainersSegmentResponse>
   ): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.client.sendOperationRequest(
       {
@@ -198,7 +198,7 @@ export class Service {
    */
   getUserDelegationKey(
     keyInfo: Models.KeyInfo,
-    callback: coreHttp.ServiceCallback<Models.UserDelegationKey>
+    callback: msRest.ServiceCallback<Models.UserDelegationKey>
   ): void;
   /**
    * @param keyInfo
@@ -208,14 +208,14 @@ export class Service {
   getUserDelegationKey(
     keyInfo: Models.KeyInfo,
     options: Models.ServiceGetUserDelegationKeyOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.UserDelegationKey>
+    callback: msRest.ServiceCallback<Models.UserDelegationKey>
   ): void;
   getUserDelegationKey(
     keyInfo: Models.KeyInfo,
     options?:
       | Models.ServiceGetUserDelegationKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.UserDelegationKey>,
-    callback?: coreHttp.ServiceCallback<Models.UserDelegationKey>
+      | msRest.ServiceCallback<Models.UserDelegationKey>,
+    callback?: msRest.ServiceCallback<Models.UserDelegationKey>
   ): Promise<Models.ServiceGetUserDelegationKeyResponse> {
     return this.client.sendOperationRequest(
       {
@@ -233,23 +233,20 @@ export class Service {
    * @returns Promise<Models.ServiceGetAccountInfoResponse>
    */
   getAccountInfo(
-    options?: coreHttp.RequestOptionsBase
+    options?: msRest.RequestOptionsBase
   ): Promise<Models.ServiceGetAccountInfoResponse>;
   /**
    * @param callback The callback
    */
-  getAccountInfo(callback: coreHttp.ServiceCallback<void>): void;
+  getAccountInfo(callback: msRest.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
+  getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   getAccountInfo(
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
-  getAccountInfo(
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
   ): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
@@ -259,57 +256,11 @@ export class Service {
       callback
     ) as Promise<Models.ServiceGetAccountInfoResponse>;
   }
-
-  /**
-   * The List Containers Segment operation returns a list of the containers under the specified
-   * account
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListContainersSegmentResponse>
-   */
-  listContainersSegmentNext(
-    nextPageLink: string,
-    options?: Models.ServiceListContainersSegmentNextOptionalParams
-  ): Promise<Models.ServiceListContainersSegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listContainersSegmentNext(
-    nextPageLink: string,
-    callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
-  ): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listContainersSegmentNext(
-    nextPageLink: string,
-    options: Models.ServiceListContainersSegmentNextOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
-  ): void;
-  listContainersSegmentNext(
-    nextPageLink: string,
-    options?:
-      | Models.ServiceListContainersSegmentNextOptionalParams
-      | coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>,
-    callback?: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>
-  ): Promise<Models.ServiceListContainersSegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listContainersSegmentNextOperationSpec,
-      callback
-    ) as Promise<Models.ServiceListContainersSegmentResponse>;
-  }
 }
 
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, true);
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const serializer = new msRest.Serializer(Mappers, true);
+const setPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   urlParameters: [Parameters.url],
   queryParameters: [Parameters.timeout, Parameters.restype0, Parameters.comp0],
@@ -334,7 +285,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [Parameters.url],
   queryParameters: [Parameters.timeout, Parameters.restype0, Parameters.comp0],
@@ -352,7 +303,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [Parameters.url],
   queryParameters: [Parameters.timeout, Parameters.restype0, Parameters.comp1],
@@ -370,7 +321,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
+const listContainersSegmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [Parameters.url],
   queryParameters: [
@@ -395,7 +346,7 @@ const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
+const getUserDelegationKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   urlParameters: [Parameters.url],
   queryParameters: [Parameters.timeout, Parameters.restype0, Parameters.comp3],
@@ -421,7 +372,7 @@ const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
-const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
+const getAccountInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [Parameters.url],
   queryParameters: [Parameters.restype1, Parameters.comp0],
@@ -429,25 +380,6 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {
       headersMapper: Mappers.ServiceGetAccountInfoHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listContainersSegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  headerParameters: [Parameters.version, Parameters.requestId],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListContainersSegmentResponse,
-      headersMapper: Mappers.ServiceListContainersSegmentHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

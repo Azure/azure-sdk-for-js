@@ -183,13 +183,7 @@ export class PageBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.PageBlobUploadPagesFromURLResponse>
    */
-  uploadPagesFromURL(
-    sourceUrl: string,
-    sourceRange: string,
-    contentLength: number,
-    range: string,
-    options?: Models.PageBlobUploadPagesFromURLOptionalParams
-  ): Promise<Models.PageBlobUploadPagesFromURLResponse>;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams): Promise<Models.PageBlobUploadPagesFromURLResponse>;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param sourceRange Bytes of source data in the specified range. The length of this range should
@@ -199,13 +193,7 @@ export class PageBlob {
    * 512 aligned and range-end is required.
    * @param callback The callback
    */
-  uploadPagesFromURL(
-    sourceUrl: string,
-    sourceRange: string,
-    contentLength: number,
-    range: string,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param sourceRange Bytes of source data in the specified range. The length of this range should
@@ -216,22 +204,8 @@ export class PageBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadPagesFromURL(
-    sourceUrl: string,
-    sourceRange: string,
-    contentLength: number,
-    range: string,
-    options: Models.PageBlobUploadPagesFromURLOptionalParams,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
-  uploadPagesFromURL(
-    sourceUrl: string,
-    sourceRange: string,
-    contentLength: number,
-    range: string,
-    options?: Models.PageBlobUploadPagesFromURLOptionalParams | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
-  ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options: Models.PageBlobUploadPagesFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         sourceUrl,
@@ -241,8 +215,7 @@ export class PageBlob {
         options
       },
       uploadPagesFromURLOperationSpec,
-      callback
-    ) as Promise<Models.PageBlobUploadPagesFromURLResponse>;
+      callback) as Promise<Models.PageBlobUploadPagesFromURLResponse>;
   }
 
   /**

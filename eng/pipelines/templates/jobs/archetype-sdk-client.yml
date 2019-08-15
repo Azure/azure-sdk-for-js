@@ -25,6 +25,7 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
+
       - script: |
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
@@ -32,8 +33,8 @@ jobs:
       - task: CopyFiles@2
         inputs:
           contents: |
-            sdk/**/**/*.tgz
-            sdk/**/**/browser/*.zip
+            sdk/**/$(coalesceResultFilter)/*.tgz
+            sdk/**/$(coalesceResultFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
@@ -67,8 +68,18 @@ jobs:
         displayName: "Verify Readmes"
 
       - script: |
+          npm ci
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Install tool dependencies"
+
+      - script: |
+          node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Analyze library dependencies"
+
+      - script: |
           node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
+        displayName: "Install library dependencies"
 
       - script: |
           node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
@@ -83,7 +94,7 @@ jobs:
 
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
-        displayName: "Publish lint reports"
+        displayName: "Publish Report Artifacts"
         inputs:
           artifactName: reports
           path: $(Build.ArtifactStagingDirectory)

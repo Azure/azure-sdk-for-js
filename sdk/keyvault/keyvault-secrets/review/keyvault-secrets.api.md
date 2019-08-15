@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
@@ -117,7 +116,6 @@ export class SecretsClient {
 
 // @public
 export interface SetSecretOptions {
-    abortSignal?: AbortSignalLike;
     contentType?: string;
     enabled?: boolean;
     expires?: Date;

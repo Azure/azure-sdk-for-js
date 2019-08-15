@@ -593,7 +593,7 @@ export function flattenResponse(_response: HttpOperationResponse, responseSpec: 
     }
   }
 
-  if (bodyMapper || _response.request.method === "HEAD") {
+  if (bodyMapper || _response.request.method === "HEAD" || utils.isPrimitiveType(_response.parsedBody)) {
     // primitive body types and HEAD booleans
     return addOperationResponse({
       ...parsedHeaders,

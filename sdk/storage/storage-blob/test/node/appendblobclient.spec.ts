@@ -1,6 +1,15 @@
+import * as assert from "assert";
+
 import * as dotenv from "dotenv";
-import { AppendBlobClient, newPipeline, SharedKeyCredential, ContainerClient } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment } from "../utils";
+import {
+  AppendBlobClient,
+  newPipeline,
+  SharedKeyCredential,
+  ContainerClient,
+  generateBlobSASQueryParameters,
+  BlobSASPermissions
+} from "../../src";
+import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "../utils/recorder";
@@ -80,5 +89,38 @@ describe("AppendBlobClient Node.js only", () => {
 
     await newClient.create();
     await newClient.download();
+  });
+
+  it("appendBlockFromURL", async () => {
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload(content, content.length);
+
+    // Get a SAS for blobURL
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (blockBlobClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      credential
+    );
+
+    await appendBlobClient.appendBlock(content, content.length);
+    await appendBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length);
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
+    assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 });

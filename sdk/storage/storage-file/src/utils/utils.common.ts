@@ -258,7 +258,9 @@ export function getURLQueries(url: string): { [key: string]: string } {
   querySubStrings = querySubStrings.filter((value: string) => {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
-    return indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual;
+    return (
+      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual
+    );
   });
 
   const queries: { [key: string]: string } = {};

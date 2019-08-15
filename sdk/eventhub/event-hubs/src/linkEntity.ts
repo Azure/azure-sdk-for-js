@@ -10,7 +10,7 @@ import {
   TokenType
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
-import { Sender, Receiver } from "rhea-promise";
+import { AwaitableSender, Receiver } from "rhea-promise";
 import * as log from "./log";
 
 /**
@@ -97,10 +97,10 @@ export class LinkEntity {
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout
+   * @property _tokenTimeout Indicates token timeout in milliseconds
    * @protected
    */
-  protected _tokenTimeout?: number;
+  protected _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
    * @ignore
@@ -147,7 +147,7 @@ export class LinkEntity {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
       // renew sas token in every 45 minutess
-      this._tokenTimeout = (3600 - 900) * 1000;
+      this._tokenTimeoutInMs = (3600 - 900) * 1000;
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
       if (!aadToken) {
@@ -155,7 +155,7 @@ export class LinkEntity {
       }
       tokenObject = aadToken;
       tokenType = TokenType.CbsTokenTypeJwt;
-      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
+      this._tokenTimeoutInMs = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
     }
 
     log.link(
@@ -195,7 +195,7 @@ export class LinkEntity {
    * @returns
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    if (!this._tokenTimeout) {
+    if (!this._tokenTimeoutInMs) {
       return;
     }
     this._tokenRenewalTimer = setTimeout(async () => {
@@ -211,15 +211,15 @@ export class LinkEntity {
           err
         );
       }
-    }, this._tokenTimeout);
+    }, this._tokenTimeoutInMs);
     log.link(
-      "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
+      "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
       this._type,
       this.name,
       this.address,
-      this._tokenTimeout / 1000,
-      new Date(Date.now() + this._tokenTimeout).toString()
+      this._tokenTimeoutInMs,
+      new Date(Date.now() + this._tokenTimeoutInMs).toString()
     );
   }
 
@@ -230,7 +230,7 @@ export class LinkEntity {
    * @param [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
+  protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {

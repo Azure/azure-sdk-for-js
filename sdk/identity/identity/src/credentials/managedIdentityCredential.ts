@@ -190,7 +190,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       ...authRequestOptions
     });
 
-    return this.identityClient.sendTokenRequest(webResource, expiresInParser);
+    const tokenResponse = await this.identityClient.sendTokenRequest(webResource, expiresInParser);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 
   /**

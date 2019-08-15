@@ -1,7 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { AbortSignal } from "@azure/abort-controller";
 import { isNode } from "@azure/core-http";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";

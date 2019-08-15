@@ -7,7 +7,9 @@ import {
   newPipeline,
   SharedKeyCredential,
   ContainerClient,
-  BlockBlobClient
+  BlockBlobClient,
+  generateBlobSASQueryParameters,
+  BlobSASPermissions
 } from "../../src";
 import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { TokenCredential } from "@azure/core-http";
@@ -219,6 +221,35 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
     assert.deepStrictEqual(properties2.copySource, blobClient.url);
+  });
+
+  it("syncCopyFromURL", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        containerName,
+        blobName
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await newBlobClient.syncCopyFromURL(copyURL);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {

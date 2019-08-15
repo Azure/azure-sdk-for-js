@@ -100,7 +100,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageError: msRest.CompositeMapper = {
+export const StorageError: coreHttp.CompositeMapper = {
   serializedName: "StorageError",
   type: {
     name: "Composite",

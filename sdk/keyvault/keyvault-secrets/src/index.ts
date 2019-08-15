@@ -8,7 +8,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  bearerTokenAuthenticationPolicy,
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -31,6 +30,8 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+
 import {
   Secret,
   DeletedSecret,
@@ -110,7 +111,7 @@ export class SecretsClient {
       ),
       redirectPolicy(),
       isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
 
@@ -143,10 +144,10 @@ export class SecretsClient {
    * Example usage:
    * ```ts
    * import { SecretsClient } from "@azure/keyvault-secrets";
-   * import { EnvironmentCredential } from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new EnvironmentCredential();
+   * let credentials = new DefaultAzureCredential();
    *
    * let client = new SecretsClient(url, credentials);
    * ```

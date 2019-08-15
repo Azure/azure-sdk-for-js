@@ -19,6 +19,7 @@ import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { rangeToString } from "./Range";
 
 /**
  * Options to configure Append Blob - Create operation.
@@ -379,6 +380,7 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
