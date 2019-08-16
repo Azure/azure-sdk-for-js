@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { WebResource, HttpRequestBody, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase, TransferProgressEvent, AbortSignalLike } from "./webResource";
+export { WebResource, HttpRequestBody, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase, TransferProgressEvent } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
@@ -41,6 +41,7 @@ export {
   applyMixins, isNode, isDuration
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
+export { AbortSignalLike } from "@azure/abort-controller";
 
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential, SimpleTokenCredential } from "@azure/core-auth";
