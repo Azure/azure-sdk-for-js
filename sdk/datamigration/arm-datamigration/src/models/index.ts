@@ -172,7 +172,7 @@ export interface CommandProperties {
   /**
    * Polymorphic Discriminator
    */
-  commandType: "Unknown";
+  commandType: "CommandProperties";
   /**
    * Array of errors. This is ignored if submitted.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -456,7 +456,7 @@ export interface ConnectionInfo {
   /**
    * Polymorphic Discriminator
    */
-  type: "Unknown";
+  type: "ConnectionInfo";
   /**
    * User name
    */
@@ -672,7 +672,7 @@ export interface ProjectTaskProperties {
   /**
    * Polymorphic Discriminator
    */
-  taskType: "Unknown";
+  taskType: "ProjectTaskProperties";
   /**
    * Array of errors. This is ignored if submitted.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
