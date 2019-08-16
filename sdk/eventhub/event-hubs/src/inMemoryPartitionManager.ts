@@ -38,6 +38,8 @@ export class InMemoryPartitionManager implements PartitionManager {
     for (const ownership of partitionOwnership) {
       if (!this._partitionOwnershipMap.has(ownership.partitionId)) {
         ownership.eTag = generate_uuid();
+        var date = new Date();
+        ownership.lastModifiedTimeInMS = date.getMilliseconds();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }
