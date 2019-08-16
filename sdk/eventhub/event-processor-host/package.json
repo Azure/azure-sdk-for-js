@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-processor-host",
   "sdk-type": "client",
-  "version": "2.1.0",
+  "version": "2.1.0-dev-20190815.1",
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",

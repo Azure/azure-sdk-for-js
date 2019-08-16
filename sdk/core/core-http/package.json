@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.3-dev-20190815.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -110,7 +110,7 @@
     "all": true
   },
   "dependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/abort-controller": "1.0.0-preview.2-dev-20190815.1",
     "@azure/core-auth": "1.0.0-preview.2",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",

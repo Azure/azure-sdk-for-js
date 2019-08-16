@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.2-dev-20190815.1",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -79,7 +79,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/abort-controller": "1.0.0-preview.2-dev-20190815.1",
     "@types/jws": "~3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
