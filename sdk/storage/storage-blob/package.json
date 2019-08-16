@@ -85,7 +85,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/identity": "1.0.0-preview.2",
+    "@azure/identity": "1.0.0-preview.3",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "^8.0.0",
