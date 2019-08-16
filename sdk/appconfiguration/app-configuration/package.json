@@ -55,5 +55,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": false
 }
