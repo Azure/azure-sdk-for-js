@@ -28,6 +28,15 @@ describe("Keys client - list keys in various ways", () => {
 
   // The tests follow
 
+  it("can purge all keys", async function() {
+    for await (const key of client.listKeys(includePending)) {
+      await testClient.flushKey(key.name);
+    }
+    for await (const key of client.listDeletedKeys(includePending)) {
+      await testClient.purgeKey(key.name);
+    }
+  });
+
   it("can get the versions of a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
