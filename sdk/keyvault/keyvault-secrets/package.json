@@ -77,7 +77,7 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
-    "@azure/eslint-plugin-azure-sdk": "^2.0.0-preview.1",
+    "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "^8.0.0",

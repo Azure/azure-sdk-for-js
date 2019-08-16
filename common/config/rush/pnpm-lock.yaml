@@ -7,7 +7,7 @@ dependencies:
   '@azure/core-http': 1.0.0-preview.2
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/core-tracing': 1.0.0-preview.1
-  '@azure/eslint-plugin-azure-sdk': 2.0.0-preview.1_7830d4962db4ecd4b7527998d8c475fd
+  '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-js': 2.0.4
@@ -264,7 +264,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nDfxQopw7lfJG5N845BOS6Vcl84GcB1Q3BHKJAHghLOmdHQjV9Z92M4ziFAQ60UnOj2zrUefM6yDZcKjANCcyg==
-  /@azure/eslint-plugin-azure-sdk/2.0.0-preview.1_7830d4962db4ecd4b7527998d8c475fd:
+  /@azure/eslint-plugin-azure-sdk/2.0.1_7830d4962db4ecd4b7527998d8c475fd:
     dependencies:
       '@typescript-eslint/parser': 2.0.0_eslint@6.1.0
       eslint: 6.1.0
@@ -278,7 +278,7 @@ packages:
       '@typescript-eslint/parser': ^2.0.0
       eslint: ^6.1.0
     resolution:
-      integrity: sha512-+bjKM9t0kMcNSm/+QJQ6AVb9zamHUJRYEPIkqXpWPJbu0rHkj8+Wi38dokRbA31teSD/YizgP9PFEUeZwUAwcQ==
+      integrity: sha512-HszGr6szVke1FOr07hy+JojKm36qh9n3IfYdehZRx7Wi19cY1EUmFq1PT5OasbNC/DoVqB3yx8Olfw4t5YBxVA==
   /@azure/event-hubs/2.1.1:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
@@ -10021,6 +10021,7 @@ packages:
   'file:projects/event-hubs.tgz':
     dependencies:
       '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@microsoft/api-extractor': 7.3.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.0
@@ -10091,11 +10092,12 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-p59YbjeFA58ih+uJwCLXeNuNeHipIAjltKVyBWBuoketwzEm3gvjs1H7FT3uzT1jsqsgEbAOynld5/KrzGJ+Kg==
+      integrity: sha512-UbcF1qFLCtGY0Dk0AUN3f4cI/IqacJJbNvRvjJuGKLF6EESiLC2gyIdMEM3vwyLT9E3f8jecip2IweKxIcsKNw==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@azure/event-hubs': 2.1.1
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.3.8
@@ -10148,7 +10150,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-xGmUL6qWotI3HXUCpFmTc2GPunbglcrS1k8Rw35kMNojt+U0on+JAdm78BF2lhaxD8Ae1vVdd1Ue544Z1jflTg==
+      integrity: sha512-uyoza4rYH0b4+YqQ6nuaz7klX3+aM1nIwmYkkDBmX6QzOTMbiImURpBggeRO/Bnq8yLsoXcRXcpMo9HcL6f+lA==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10210,6 +10212,7 @@ packages:
       '@azure/core-http': 1.0.0-preview.2
       '@azure/core-paging': 1.0.0-preview.1
       '@azure/core-tracing': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@microsoft/api-extractor': 7.3.8
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
@@ -10271,7 +10274,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-8ZLDI87YInmz5S+J6KnPj5/q+tGzJrw7aTCyfB5sW9KUyiSr+oQHxhywMWi4KzWJaOCLl9PMi+iwHgawM6HeRQ==
+      integrity: sha512-Lls2WkpgenbXdERwwJ+eGXcTNGH3skwly31SpejjfUdf6cHa24a++NXQ6TdU+vRXSODnye1Q4G7c/wnMidYLAg==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10280,6 +10283,7 @@ packages:
       '@azure/core-http': 1.0.0-preview.2
       '@azure/core-paging': 1.0.0-preview.1
       '@azure/core-tracing': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@microsoft/api-extractor': 7.3.8
       '@trust/keyto': 0.3.7
       '@types/chai': 4.2.0
@@ -10342,7 +10346,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-oFKTa4gZBitS/Clv1BEwx2JssC4DlpXldXKTgA3x65PIj3ttNi9NAxifp2aJ3Uw1BbRkhUMcmt4FvDy78sWTcw==
+      integrity: sha512-b9ocbKYe+L4JP8Xp7kPlCV3XLf7EFm2mJSZxqIu+GheqrMIumhSqh5Xp3VCvG3xQTFgy59SXIHYb4h0M/0lYCA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10350,6 +10354,7 @@ packages:
       '@azure/core-arm': 1.0.0-preview.2
       '@azure/core-http': 1.0.0-preview.2
       '@azure/core-paging': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@microsoft/api-extractor': 7.3.8
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
@@ -10411,14 +10416,14 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-h14uHxmNMSeR2AggHDJkmFk90U9+RPAU55rpC0ap5ydU8w9VHW+rw7Db/9BPHCiAAXtNIW/hHWYsZwFMMImgzg==
+      integrity: sha512-AYvKieNDBbsJ21Zq4CdYbvFksYt2S9zxtNdV/TASh4A7pwGt7AEiiAsmDeN+B5kavO3kPp5Y857q0eWljUFVgg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
       '@azure/arm-servicebus': 3.2.0
-      '@azure/eslint-plugin-azure-sdk': 2.0.0-preview.1_7830d4962db4ecd4b7527998d8c475fd
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_7830d4962db4ecd4b7527998d8c475fd
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.3.8
       '@types/async-lock': 1.1.1
@@ -10489,7 +10494,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-BJpKIC+Ur6GyP94m67eU6ay8mLM0dEGktIHTM7MHmYpqp2jeoL7Gv//diQZ1jFfWyW605qlVqWW1m5N2wUXrCg==
+      integrity: sha512-y/q3FIY1hLGMdm9BtsRAgg8Jw3L3HSrSt+anH7Gcpq2E8dkKcqcsO8JziPKOiE6TwLiv21iOlRinmfGe5hf3VA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10773,6 +10778,7 @@ packages:
       integrity: sha512-VxrbDXfuJ6Nz4rm0DHlJ+0sMk4RMKRflIyu7WxXLZGBpri9KLivFyNA0TWfZBifpdy3T1kVXyLOccskpzczDvA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -10782,7 +10788,7 @@ specifiers:
   '@azure/core-http': 1.0.0-preview.2
   '@azure/core-paging': 1.0.0-preview.1
   '@azure/core-tracing': 1.0.0-preview.1
-  '@azure/eslint-plugin-azure-sdk': ^2.0.0-preview.1
+  '@azure/eslint-plugin-azure-sdk': ^2.0.1
   '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
   '@azure/ms-rest-js': ^2.0.0
