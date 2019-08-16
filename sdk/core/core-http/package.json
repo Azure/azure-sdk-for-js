@@ -111,7 +111,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-auth": "1.0.0-preview.2",
+    "@azure/core-auth": "1.0.0-preview.3",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
     "form-data": "^2.5.0",
