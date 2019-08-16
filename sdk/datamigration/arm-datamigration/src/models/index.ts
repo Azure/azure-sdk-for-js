@@ -456,7 +456,7 @@ export interface ConnectionInfo {
   /**
    * Polymorphic Discriminator
    */
-  type: "Unknown";
+  type: "ConnectionInfo";
   /**
    * User name
    */

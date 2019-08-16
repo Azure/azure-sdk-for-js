@@ -630,7 +630,7 @@ export const SsisMigrationInfo: msRest.CompositeMapper = {
 };
 
 export const ConnectionInfo: msRest.CompositeMapper = {
-  serializedName: "Unknown",
+  serializedName: "ConnectionInfo",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
@@ -11067,7 +11067,7 @@ export const discriminators = {
   'ConnectionInfo.OracleConnectionInfo' : OracleConnectionInfo,
   'ConnectionInfo.MySqlConnectionInfo' : MySqlConnectionInfo,
   'ConnectionInfo.MongoDbConnectionInfo' : MongoDbConnectionInfo,
-  'Unknown' : ConnectionInfo,
+  'ConnectionInfo' : ConnectionInfo,
   'ConnectionInfo.SqlConnectionInfo' : SqlConnectionInfo,
   'ProjectTaskProperties.Migrate.Ssis' : MigrateSsisTaskProperties,
   'ProjectTaskProperties.GetTDECertificates.Sql' : GetTdeCertificatesSqlTaskProperties,
