@@ -21,11 +21,16 @@ function welcomeMessage() {
 
 async function main() {
   welcomeMessage();
-
-  await KeyVaultSecrets.Run();
-  await BlobStorage.Run();
-  await EventHubs.Run();
-  await CosmosDB.Run();
+  try {
+    await KeyVaultSecrets.Run();
+    await BlobStorage.Run();
+    await EventHubs.Run();
+    await CosmosDB.Run();
+  }
+  catch {
+    console.error("UNEXPECTED ERROR");
+    process.exit(1);
+  }
 }
 
 main();

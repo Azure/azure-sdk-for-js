@@ -43,7 +43,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "echo skipped",
     "lint:fix": "eslint -c ../../.eslintrc.json src --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o storage-datalake-lintReport.html || exit 0",
+    "lint": "eslint -c ../../.eslintrc.json src --ext .ts -f html -o storage-datalake-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "echo skipped",
@@ -62,11 +62,10 @@
     "uglify": "^0.1.5"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.11.0",
-    "@typescript-eslint/parser": "^1.11.0",
-    "eslint": "^5.16.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.1.0",
     "eslint-config-prettier": "^4.2.0",
-    "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
