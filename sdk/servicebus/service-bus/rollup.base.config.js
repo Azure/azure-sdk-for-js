@@ -139,10 +139,14 @@ export function browserConfig({ test = false, production = false } = {}) {
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
+        dedupe: ["buffer"]
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
+        // modules with built-in names must have a trailing slash.
+        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
+        namedExports: { "events/": ["EventEmitter"], long: ["ZERO"] }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires

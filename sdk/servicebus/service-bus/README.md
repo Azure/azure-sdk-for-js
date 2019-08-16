@@ -211,13 +211,13 @@ export DEBUG=azure*,rhea*
 - If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransformer
 ```
 
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file

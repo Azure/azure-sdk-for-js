@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError } from "@azure/amqp-common";
+import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import {
@@ -71,7 +71,7 @@ export class BatchingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInMs;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
