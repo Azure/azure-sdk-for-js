@@ -1,6 +1,8 @@
-## Azure ConfigurationClient SDK for JavaScript
+# Azure App Configuration client library for JS
 
 This package contains an isomorphic SDK for ConfigurationClient.
+
+## Getting started
 
 ### Currently supported environments
 
@@ -12,6 +14,7 @@ This package contains an isomorphic SDK for ConfigurationClient.
 ```bash
 npm install @azure/app-config
 ```
+## Key concepts
 
 ### How to use
 
@@ -22,6 +25,8 @@ npm install @azure/app-config
 ```bash
 npm install @azure/ms-rest-nodeauth
 ```
+
+## Examples
 
 ##### Sample code
 
@@ -98,6 +103,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <body></body>
 </html>
 ```
+
+## Troubleshooting
+
+## Next steps
+
+## Contributing
 
 ## Related projects
 
