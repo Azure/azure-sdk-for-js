@@ -282,9 +282,8 @@ export class MessageSession extends LinkEntity {
             this.sessionId!,
             this.name,
             {
-              delayInSeconds: 0,
-              timeoutInSeconds: 10,
-              times: 4
+
+              timeoutInMs: 10000
             }
           );
           log.receiver(
@@ -936,7 +935,7 @@ export class MessageSession extends LinkEntity {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     if (idleTimeoutInSeconds == null) {
-      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];

@@ -10,7 +10,8 @@ export {
   TokenCredential,
   DataTransformer,
   delay,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 
 export { QueueClient } from "./queueClient";

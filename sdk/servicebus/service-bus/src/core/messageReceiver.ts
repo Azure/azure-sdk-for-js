@@ -955,9 +955,11 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
-          connectionHost: this._context.namespace.config.host,
-          delayInSeconds: 15
+          retryOptions: {
+            maxRetries: Constants.defaultMaxRetries,
+            retryDelayInMs: 15000
+          },
+          connectionHost: this._context.namespace.config.host
         };
         if (!this.wasCloseInitiated) {
           await retry<void>(config);
