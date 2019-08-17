@@ -32,10 +32,10 @@ describe("Secret client - list secrets in various ways", () => {
   // The tests follow
 
   it("can purge all secrets", async function() {
-    for await (const secret of client.listSecrets(includePending)) {
+    for await (const secret of client.listSecrets()) {
       await testClient.flushSecret(secret.name);
     }
-    for await (const secret of client.listDeletedSecrets(includePending)) {
+    for await (const secret of client.listDeletedSecrets()) {
       await testClient.purgeSecret(secret.name);
     }
   });

@@ -29,10 +29,10 @@ describe("Keys client - list keys in various ways", () => {
   // The tests follow
 
   it("can purge all keys", async function() {
-    for await (const key of client.listKeys(includePending)) {
+    for await (const key of client.listKeys()) {
       await testClient.flushKey(key.name);
     }
-    for await (const key of client.listDeletedKeys(includePending)) {
+    for await (const key of client.listDeletedKeys()) {
       await testClient.purgeKey(key.name);
     }
   });
