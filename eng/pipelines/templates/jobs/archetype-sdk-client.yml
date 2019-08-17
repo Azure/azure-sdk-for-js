@@ -116,6 +116,18 @@ jobs:
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: "specific"
+          project: "internal"
+          buildVersionToDownload: "latest"
+          allowPartiallySucceededBuilds: false
+          branchName: "refs/heads/master"
+          downloadType: "single"
+          artifactName: packages
+          downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
+        displayName: "Download Latest Master artifacts"
+
   - job: "UnitTest"
 
     strategy:
