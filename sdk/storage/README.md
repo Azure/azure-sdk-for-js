@@ -167,13 +167,6 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use RawTokenCredential with OAuth token.  You can find more
-  // TokenCredential implementations in the @azure/identity library
-  // to use client secrets, certificates, or managed identities for
-  // authentication.
-  const tokenCredential = new RawTokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
 
