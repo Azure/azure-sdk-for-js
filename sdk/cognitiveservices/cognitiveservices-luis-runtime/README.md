@@ -17,54 +17,52 @@ npm install @azure/cognitiveservices-luis-runtime
 
 #### nodejs - Authentication, client creation and getVersionPrediction prediction as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { LUISRuntimeClient, LUISRuntimeModels, LUISRuntimeMappers } from "@azure/cognitiveservices-luis-runtime";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new LUISRuntimeClient(creds, subscriptionId);
-  const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  const versionId = "testversionId";
-  const predictionRequest: LUISRuntimeModels.PredictionRequest = {
+let subscriptionId = "<luis-authoring-key>";
+const creds = new CognitiveServicesCredentials(subscriptionId);
+const client = new LUISRuntimeClient(creds, "https://westus.api.cognitive.microsoft.com/");
+const appId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a"; // replace this with your appId.
+const versionId = "0.1"; // This is the first versionId, replace it with yours.
+const predictionRequest = {
     query: "testquery",
     options: {
-      datetimeReference: new Date().toISOString(),
-      overridePredictions: true
+        datetimeReference: new Date(),
+        overridePredictions: true
     },
     externalEntities: [{
-      entityName: "testentityName",
-      startIndex: 1,
-      entityLength: 1,
-      resolution: {}
+        entityName: "testentityName",
+        startIndex: 1,
+        entityLength: 1,
+        resolution: {}
     }],
     dynamicLists: [{
-      listEntityName: "testlistEntityName",
-      requestLists: [{
-        name: "testname",
-        canonicalForm: "testcanonicalForm",
-        synonyms: ["testsynonyms"]
-      }]
+        listEntityName: "testlistEntityName",
+        requestLists: [{
+            name: "testname",
+            canonicalForm: "testcanonicalForm",
+            synonyms: ["testsynonyms"]
+        }]
     }]
-  };
-  const verbose = true;
-  const showAllIntents = true;
-  const log = true;
-  client.prediction.getVersionPrediction(appId, versionId, predictionRequest, verbose, showAllIntents, log).then((result) => {
+};
+const verbose = true;
+const showAllIntents = true;
+
+client.prediction.getVersionPrediction(appId, versionId, predictionRequest, { verbose, showAllIntents }).then((result) => {
     console.log("The result is:");
     console.log(result);
-  });
 }).catch((err) => {
-  console.error(err);
+    console.error(err);
 });
 ```
 
@@ -145,4 +143,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-runtime/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
