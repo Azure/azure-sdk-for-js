@@ -17,32 +17,32 @@ npm install @azure/cognitiveservices-luis-authoring
 
 #### nodejs - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { LUISAuthoringClient, LUISAuthoringModels, LUISAuthoringMappers } from "@azure/cognitiveservices-luis-authoring";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+import { LUISAuthoringClient } from "@azure/cognitiveservices-luis-authoring";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new LUISAuthoringClient(creds, subscriptionId);
-  const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  const versionId = "testversionId";
-  const skip = 1;
-  const take = 1;
-  client.features.listApplicationVersionPatternFeatures(appId, versionId, skip, take).then((result) => {
+
+let subscriptionId = "b15ebe3a1ec446a08f8021fe6f95f0f6";
+const creds = new CognitiveServicesCredentials(subscriptionId);
+const client = new LUISAuthoringClient(creds, "https://westus.api.cognitive.microsoft.com/");
+const appId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a"; // replace this with your appId.
+const versionId = "0.1"; // This is the first versionId, replace it with yours.
+
+const skip = 1;
+const take = 1;
+client.features.listApplicationVersionPatternFeatures(appId, versionId, { skip, take }).then((result) => {
     console.log("The result is:");
     console.log(result);
-  });
 }).catch((err) => {
-  console.error(err);
+    console.error(err);
 });
 ```
 
