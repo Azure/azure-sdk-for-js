@@ -36,7 +36,7 @@ describe("Utility Helpers Node.js only", () => {
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
       assert.equal(
-        "Invalid Account Connection String",
+        "Invalid AccountName in the provided Connection String",
         error.message,
         "Connection string error message is different than expected"
       );
