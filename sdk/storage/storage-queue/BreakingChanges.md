@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### Coming soon... Version 12.0.0-preview.3
+
+- [Breaking] `RawTokenCredential` is dropped in favour of `SimpleTokenCredential` from [@azure/core-http](https://www.npmjs.com/package/@azure/core-http)
+
 ### 2019.08 Version 12.0.0-preview.2
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
