@@ -16,7 +16,6 @@ export * from "./PageBlobClient";
 export * from "./BrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./credentials/RawTokenCredential";
 export { IPRange } from "./IPRange";
 export { Range } from "./Range";
 export * from "./LeaseClient";

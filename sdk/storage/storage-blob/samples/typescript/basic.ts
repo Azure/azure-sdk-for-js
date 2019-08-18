@@ -26,10 +26,6 @@ async function main() {
   // will be used as a fallback authentication source.
   // const defaultAzureCredential = new DefaultAzureCredential();
 
-  // Use TokenCredential with OAuth token
-  // const tokenCredential = new RawTokenCredential("token");
-  // tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();
 
