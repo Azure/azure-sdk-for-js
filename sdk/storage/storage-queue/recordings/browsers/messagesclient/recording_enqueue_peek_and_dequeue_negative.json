@@ -1,0 +1,144 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "2b15108c-8003-0095-2881-541ba2000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696/messages",
+   "query": {
+    "messagettl": "40",
+    "timeout": "30"
+   },
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
+   "status": 201,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>d2fe1841-dbb0-4248-b574-b420b6daf6ce</MessageId><InsertionTime>Fri, 16 Aug 2019 22:25:18 GMT</InsertionTime><ExpirationTime>Fri, 16 Aug 2019 22:25:58 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA297ke4FU1QE=</PopReceipt><TimeNextVisible>Fri, 16 Aug 2019 22:25:18 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "2b1510b5-8003-0095-4f81-541ba2000000",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696/messages",
+   "query": {
+    "messagettl": "30",
+    "timeout": "30",
+    "visibilitytimeout": "30"
+   },
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:2b1510e5-8003-0095-7981-541ba2000000\nTime:2019-08-16T22:25:18.4961244Z</Message><QueryParameterName>visibilitytimeout</QueryParameterName><QueryParameterValue>30</QueryParameterValue><Reason>messagettl must be greater than visibilitytimeout</Reason></Error>",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "InvalidQueryParameterValue",
+    "content-type": "application/xml",
+    "x-ms-request-id": "2b1510e5-8003-0095-7981-541ba2000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "442"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696/messages",
+   "query": {
+    "numofmessages": "100",
+    "peekonly": "true",
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>OutOfRangeQueryParameterValue</Code><Message>One of the query parameters specified in the request URI is outside the permissible range.\nRequestId:2b15110c-8003-0095-1d81-541ba2000000\nTime:2019-08-16T22:25:18.6402279Z</Message><QueryParameterName>numofmessages</QueryParameterName><QueryParameterValue>100</QueryParameterValue><MinimumAllowed>1</MinimumAllowed><MaximumAllowed>32</MaximumAllowed></Error>",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "OutOfRangeQueryParameterValue",
+    "content-type": "application/xml",
+    "x-ms-request-id": "2b15110c-8003-0095-1d81-541ba2000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "457"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696/messages",
+   "query": {
+    "numofmessages": "2",
+    "peekonly": "true",
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>d2fe1841-dbb0-4248-b574-b420b6daf6ce</MessageId><InsertionTime>Fri, 16 Aug 2019 22:25:18 GMT</InsertionTime><ExpirationTime>Fri, 16 Aug 2019 22:25:58 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "2b15112b-8003-0095-3a81-541ba2000000",
+    "cache-control": "no-cache",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696/messages",
+   "query": {
+    "numofmessages": "2",
+    "timeout": "30",
+    "visibilitytimeout": "40"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>d2fe1841-dbb0-4248-b574-b420b6daf6ce</MessageId><InsertionTime>Fri, 16 Aug 2019 22:25:18 GMT</InsertionTime><ExpirationTime>Fri, 16 Aug 2019 22:25:58 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAALwEYlIFU1QE=</PopReceipt><TimeNextVisible>Fri, 16 Aug 2019 22:25:58 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:25:18 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "2b15114f-8003-0095-5b81-541ba2000000",
+    "cache-control": "no-cache",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156599431809802696",
+   "query": {
+    "timeout": "30"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "2b151198-8003-0095-1d81-541ba2000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Fri, 16 Aug 2019 22:25:19 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "queue": "queue156599431809802696"
+ }
+}

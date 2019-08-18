@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156599453923605763",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 16 Aug 2019 22:28:58 GMT",
+    "last-modified": "Fri, 16 Aug 2019 22:28:59 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D722992215AC06\"",
+    "x-ms-request-id": "becd3f34-d01a-00eb-1f81-54846d000000",
+    "x-ms-version": "2018-11-09",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "share": "share156599453923605763"
+ }
+}

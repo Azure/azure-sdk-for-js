@@ -1,0 +1,87 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156610736099001139",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "last-modified": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7239FD1187682\"",
+    "x-ms-request-id": "e4d63cd6-601e-003e-0f88-55ccb0000000",
+    "x-ms-version": "2018-11-09",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156610736099001139",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-lease-status": "unlocked",
+    "date": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "x-ms-meta-key": "value",
+    "x-ms-has-legal-hold": "false",
+    "last-modified": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7239FD1187682\"",
+    "x-ms-blob-public-access": "container",
+    "x-ms-request-id": "e4d63ce4-601e-003e-1a88-55ccb0000000",
+    "x-ms-version": "2018-11-09",
+    "x-ms-has-immutability-policy": "false",
+    "content-length": "0",
+    "x-ms-lease-state": "available"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156610736099001139",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "e4d63d03-601e-003e-3488-55ccb0000000",
+    "x-ms-version": "2018-11-09",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156610736099001139",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:e4d63d2b-601e-003e-5788-55ccb0000000\nTime:2019-08-18T05:49:21.5671412Z</Message></Error>",
+   "responseHeaders": {
+    "date": "Sun, 18 Aug 2019 05:49:21 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "ContainerNotFound",
+    "content-type": "application/xml",
+    "x-ms-request-id": "e4d63d2b-601e-003e-5788-55ccb0000000",
+    "x-ms-version": "2018-11-09",
+    "content-length": "225"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156610736099001139"
+ }
+}
