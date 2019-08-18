@@ -1184,11 +1184,11 @@ export class BlobClient extends StorageClient {
     for (let off = offset; off < offset + count; off = off + options.blockSize) {
       batch.addOperation(async () => {
         // Exclusive chunk end position
-        let chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+        let chunkEnd = offset + count!;
         if (off + options.blockSize! < chunkEnd) {
           chunkEnd = off + options.blockSize!;
         }
-        const response = await this.download(off, chunkEnd - off + 1, {
+        const response = await this.download(off, chunkEnd - off, {
           abortSignal: options.abortSignal,
           blobAccessConditions: options.blobAccessConditions,
           maxRetryRequests: options.maxRetryRequestsPerBlock

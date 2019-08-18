@@ -287,7 +287,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(buf.toString(), "aaab");
   });
 
-  it("downloadBlobToBuffer should abort", async () => {
+  it("downloadToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 

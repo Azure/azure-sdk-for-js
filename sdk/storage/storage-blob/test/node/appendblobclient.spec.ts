@@ -96,7 +96,7 @@ describe("AppendBlobClient Node.js only", () => {
 
     const content = "Hello World!";
     const blockBlobName = recorder.getUniqueName("blockblob");
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
