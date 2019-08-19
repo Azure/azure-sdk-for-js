@@ -1,35 +1,30 @@
 # Azure KeyVault Certificates client library for JS
 
-TODO: update for certificates
-
 Azure KeyVault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs).
 
-Azure KeyVault Certificates management allows you to securely store and
-tightly control access to tokens, passwords, certificates, API keys,
-and other secrets.
-
 Use the client library for Azure KeyVault Certificates in your Node.js application to
 
-- Get, set and delete a secret.
-- Update a secret and it's attributes.
-- Backup and restore a secret.
-- Get, purge or recover a deleted secret.
-- Get all the versions of a secret.
-- Get all secrets.
-- Get all deleted secrets.
+- Get, set and delete a certificate.
+- Update a certificate, as well as it's policy, issuer, opperation or contacts.
+- Backup and restore a certificate.
+- Get, purge or recover a deleted certificate.
+- Get all the versions of a certificate.
+- Get all certificates.
+- Get all deleted certificates.
+- Merge certificates.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/keyvault/) | [Product documentation](https://azure.microsoft.com/en-us/services/keyvault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-services/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/keyvault/) | [Product documentation](https://azure.microsoft.com/en-us/services/keyvault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-services/samples)
 
 ## Getting started
 
 ### Install the package
 
-Install the Azure Event KeyVault Secrets client library using npm
+Install the Azure Event KeyVault Certificates client library using npm
 
-`npm install @azure/keyvault-secrets`
+`npm install @azure/keyvault-certificates`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [KeyVault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
@@ -50,11 +45,11 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 Here's an example authentication:
 
 ```typescript
-import { SecretsClient } from "@azure/keyvault-secrets";
+import { CertificatesClient } from "@azure/keyvault-certificates";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 const clientId = process.env["CLIENT_ID"] || "";
-const clientSecret = process.env["CLIENT_SECRET"] || "";
+const clientCertificate = process.env["CLIENT_SECRET"] || "";
 const tenantId = process.env["TENANT_ID"] || "";
 const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
 
@@ -68,7 +63,7 @@ const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
   }
 );
 
-const client = new SecretsClient(url, credential);
+const client = new CertificatesClient(url, credential);
 ```
 
 ## Key concepts
@@ -78,34 +73,52 @@ const client = new SecretsClient(url, credential);
 ## Examples
 
 The following sections provide code snippets that cover some of the
-common tasks using Azure KeyVault Secrets
+common tasks using Azure KeyVault Certificates
 
-- [Single secret](#single-secret)
+- [Single certificate](#single-certificate)
 
-### Single secret
+### Single certificate
 
-Once you have created an instance of an `SecretsClient` class, you can:
+Once you have created an instance of an `CertificatesClient` class, you can:
 
 ```javascript
-const secretName = "MySecretName";
-const result = await client.setSecret("MySecretName", "MySecretValue");
+const certificateName = "MyCertificateName";
+const result = await client.createCertificate(certificateName, {
+  certificatePolicy: {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
+  }
+});
 
-for await (let secretAttr of client.getAllSecrets()) {
-  const secret = await client.getSecret(secretAttr.name);
-  console.log("secret: ", secret);
+for await (const certificateAttr of client.getAllCertificates()) {
+  const certificate = await client.getCertificate(certificateAttr.name);
+  console.log("certificate: ", certificate);
 }
 
 console.log("result: ", result);
 
-await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
+await client.updateCertificate(certificateName, "", {
+  tags: {
+    customTag: "value"
+  }
+});
 
-await client.setSecret("MySecretName", "My new SecretValue");
-for await (let version of client.getSecretVersions(secretName)) {
-  const secret = await client.getSecret(secretName, { version: version.version });
-  console.log("secret: ", secret);
+await client.createCertificate(certificateName, {
+  certificatePolicy: {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
+  },
+  tags: {
+    customTag: "value"
+  }
+});
+
+for await (const version of client.getCertificateVersions(certificateName)) {
+  const certificate = await client.getCertificate(certificateName, version.version);
+  console.log("certificate: ", certificate);
 }
 
-await client.deleteSecret(secretName);
+await client.deleteCertificate(certificateName);
 ```
 
 ## Troubleshooting
@@ -114,13 +127,13 @@ await client.deleteSecret(secretName);
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the KeyVault Secrets SDK
+- Getting debug logs from the KeyVault Certificates SDK
 
 ```bash
 export DEBUG=azure*
 ```
 
-- Getting debug logs from the KeyVault Secrets SDK and the protocol level library.
+- Getting debug logs from the KeyVault Certificates SDK and the protocol level library.
 
 ```bash
 export DEBUG=azure*,rhea*
@@ -135,7 +148,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransfo
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:keyvault-certificates:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file
@@ -159,7 +172,7 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -178,4 +191,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault-secrets/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault-certificates/README.png)
