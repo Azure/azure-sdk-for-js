@@ -179,15 +179,15 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionManager: PartitionManager;
-  private _partitionLoadBalancer: PartitionLoadBalancer | undefined;
+  private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
    * @param consumerGroupName The consumer group name used in this event processor to consumer events.
-   * @param eventHubAsyncClient The Event Hub client.
+   * @param eventHubClient The Event Hub client.
    * @param partitionProcessorFactory The factory to create new partition processor(s).
-   * @param initialEventPosition Initial event position to start consuming events.
-   * @param partitionManager The partition manager.
-   * @param eventHubName The Event Hub name.
+   * @param partitionManager The partition manager this Event Processor will use for reading and writing partition
+   * ownership and checkpoint information.
+   * @param options Optional parameters for creating an EventProcessor.
    */
   constructor(
     consumerGroupName: string,
@@ -197,6 +197,8 @@ export class EventProcessor {
     options?: EventProcessorOptions
   ) {
     if (!options) options = {};
+    // The time to wait for an update on an ownership record before assuming the owner of the partition is inactive.
+    const inactiveTimeLimitInMS = 5000;
 
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
@@ -204,6 +206,16 @@ export class EventProcessor {
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
+    this._partitionLoadBalancer = new PartitionLoadBalancer(
+      this._partitionManager,
+      this._eventHubClient,
+      this._consumerGroupName,
+      this._id,
+      inactiveTimeLimitInMS,
+      this._partitionProcessorFactory,
+      this._pumpManager,
+      this._processorOptions
+    );
   }
 
   /**
@@ -234,15 +246,7 @@ export class EventProcessor {
     this._isRunning = true;
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
-    this._partitionLoadBalancer = new PartitionLoadBalancer(
-      this._partitionManager,
-      this._eventHubClient,
-      this._consumerGroupName,
-      this._id,
-      this._partitionProcessorFactory,
-      this._pumpManager,
-      this._processorOptions
-    );
+
     this._loopTask = this._partitionLoadBalancer._runLoop(this._abortController.signal);
   }
 
@@ -264,9 +268,8 @@ export class EventProcessor {
     try {
       // remove all existing pumps
       this._pumpManager.removeAllPumps(CloseReason.Shutdown);
-      if (this._partitionLoadBalancer) {
-        this._partitionLoadBalancer = void 0;
-      }
+      // TODO : cleanup this._partitionLoadBalancer
+
       // waits for the event processor loop to complete
       // will complete immediately if _loopTask is undefined
       await this._loopTask;

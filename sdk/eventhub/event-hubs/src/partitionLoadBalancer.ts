@@ -16,28 +16,46 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
 import * as log from "./log";
 
+/**
+ *This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
+ * distributing the number of partitions uniformly among all the active EventProcessors.
+ *
+ * This load balancer will retrieve partition ownership details from the PartitionManager to find the number of
+ * active EventProcessor. It uses the last modified time to decide if an EventProcessor is active. If a
+ * partition ownership entry has not be updated for a specified duration of time, the owner of that partition is
+ * considered inactive and the partition is available for other EventProcessors to own.
+ * @class EventProcessorHost
+ */
 export class PartitionLoadBalancer {
   private _consumerGroupName: string;
   private _eventHubClient: EventHubClient;
   private _partitionProcessorFactory: PartitionProcessorFactory;
   private _ownerId: string;
+  private _inactiveTimeLimitInMS: number;
   private _pumpManager: PumpManager;
   private _partitionManager: PartitionManager;
   private _processorOptions: EventProcessorOptions;
 
   /**
-   * @param consumerGroupName The consumer group name used in this event processor to consumer events.
-   * @param eventHubAsyncClient The Event Hub client.
+   * Creates an instance of PartitionBasedLoadBalancer for the given Event Hub name and consumer group.
+   *
+   * @param partitionManager The partition manager that this load balancer will use to read/update ownership details.
+   * @param eventHubClient The Event Hub client used to consume events.
+   * @param consumerGroupName The consumer group name.
+   * @param ownerId The identifier of the Event Processor that owns this load balancer.
+   * @param inactiveTimeLimitInMS The time to wait for an update on an ownership record before
+   * assuming the owner of the partition is inactive.
    * @param partitionProcessorFactory The factory to create new partition processor(s).
-   * @param initialEventPosition Initial event position to start consuming events.
-   * @param partitionManager The partition manager.
-   * @param eventHubName The Event Hub name.
-   */
+   * @param partitionPumpManager The partition pump manager that keeps track of all the partitions
+   * that this EventProcessor is processing.
+   * @param options Optional parameters for creating a PartitionLoadBalancer.
+   * */
   constructor(
     partitionManager: PartitionManager,
     eventHubClient: EventHubClient,
     consumerGroupName: string,
     ownerId: string,
+    inactiveTimeLimitInMS: number,
     partitionProcessorFactory: PartitionProcessorFactory,
     pumpManager: PumpManager,
     options?: EventProcessorOptions
@@ -50,9 +68,14 @@ export class PartitionLoadBalancer {
     this._ownerId = ownerId;
     this._partitionProcessorFactory = partitionProcessorFactory;
     this._pumpManager = pumpManager;
+    this._inactiveTimeLimitInMS = inactiveTimeLimitInMS;
     this._processorOptions = options;
   }
 
+  /*
+   * Find the event processor that owns the maximum number of partitions and steal a random partition
+   * from it.
+   */
   private _findPartitionToSteal(ownerPartitionMap: Map<string, PartitionOwnership[]>): string {
     let maxList: PartitionOwnership[] = [];
     let maxPartitionsOwnedByAnyEventProcessor = Number.MIN_VALUE;
@@ -137,6 +160,12 @@ export class PartitionLoadBalancer {
     }
   }
 
+  /*
+   * This method is called after determining that the load is not balanced. This method will evaluate
+   * if the current event processor should own more partitions. Specifically, this method returns true if the
+   * current event processor owns less than the minimum number of partitions or if it owns the minimum number
+   * and no other event processor owns lesser number of partitions than this event processor.
+   */
   private _shouldOwnMorePartitions(
     minPartitionsPerEventProcessor: number,
     ownerPartitionMap: Map<string, PartitionOwnership[]>
@@ -162,6 +191,11 @@ export class PartitionLoadBalancer {
     return true;
   }
 
+  /*
+   * When the load is balanced, all active event processors own at least minPartitionsPerEventProcessor
+   * and only numberOfEventProcessorsWithAdditionalPartition event processors will own 1 additional
+   * partition.
+   */
   private _isLoadBalanced(
     minPartitionsPerEventProcessor: number,
     numberOfEventProcessorsWithAdditionalPartition: number,
@@ -188,6 +222,12 @@ export class PartitionLoadBalancer {
     return false;
   }
 
+  /*
+   * This method will create a new map of partition id and PartitionOwnership containing only those partitions
+   * that are actively owned. All entries in the original map returned by PartitionManager that haven't been
+   * modified for a duration of time greater than the allowed inactivity time limit are assumed to be owned by
+   * dead event processors. These will not be included in the map returned by this method.
+   */
   private _removeInactivePartitionOwnerships(
     partitionOwnershipMap: Map<string, PartitionOwnership>
   ): Map<string, PartitionOwnership> {
@@ -195,7 +235,10 @@ export class PartitionLoadBalancer {
     partitionOwnershipMap.forEach((value: PartitionOwnership, key: string) => {
       var date = new Date();
       var currentTimeInMS = date.getMilliseconds();
-      if (value.lastModifiedTimeInMS && currentTimeInMS - value.lastModifiedTimeInMS < 5000) {
+      if (
+        value.lastModifiedTimeInMS &&
+        currentTimeInMS - value.lastModifiedTimeInMS < this._inactiveTimeLimitInMS
+      ) {
         activePartitionOwnershipMap.set(key, value);
       }
     });
@@ -203,12 +246,16 @@ export class PartitionLoadBalancer {
     return activePartitionOwnershipMap;
   }
 
+  /*
+   * This method works with the given partition ownership details and Event Hub partitions to evaluate whether the
+   * current Event Processor should take on the responsibility of processing more partitions.
+   */
   private async _loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]
   ): Promise<void> {
     /*
-     * Remove all partitions ownerships that have not be modified for a long time. This means that the previous
+     * Remove all partitions ownership that have not been modified within the configured period. This means that the previous
      * event processor that owned the partition is probably down and the partition is now eligible to be
      * claimed by other event processors.
      */
@@ -216,11 +263,9 @@ export class PartitionLoadBalancer {
       partitionOwnershipMap
     );
     if (Object.keys(activePartitionOwnershipMap).length === 0) {
-      /*
-       * If the active partition ownership map is empty, this is the first time an event processor is
-       * running or all Event Processors are down for this Event Hub, consumer group combination. All
-       * partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
-       */
+      // If the active partition ownership map is empty, this is the first time an event processor is
+      // running or all Event Processors are down for this Event Hub, consumer group combination. All
+      // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
       await this._claimOwnership(
         partitionOwnershipMap,
         partitionIds[Math.floor(Math.random() * partitionIds.length)]
@@ -228,9 +273,8 @@ export class PartitionLoadBalancer {
       return;
     }
 
-    /*
-     * Create a map of owner id and a list of partitions it owns
-     */
+    // Create a map of owner id and a list of partitions it owns
+
     const ownerPartitionMap: Map<string, PartitionOwnership[]> = new Map();
     for (const activePartitionOwnership of activePartitionOwnershipMap.values()) {
       if (!ownerPartitionMap.has(activePartitionOwnership.ownerId)) {
@@ -247,16 +291,13 @@ export class PartitionLoadBalancer {
     if (!ownerPartitionMap.has(this._ownerId)) {
       ownerPartitionMap.set(this._ownerId, []);
     }
-    /*
-     * Find the minimum number of partitions every event processor should own when the load is
-     * evenly distributed.
-     */
+
+    // Find the minimum number of partitions every event processor should own when the load is
+    // evenly distributed.
     const minPartitionsPerEventProcessor = partitionIds.length / ownerPartitionMap.size;
-    /*
-     * Due to the number of partitions in Event Hub and number of event processors running,
-     * a few Event Processors may own 1 additional partition than the minimum. Calculate
-     * the number of event processors that can own additional partition.
-     */
+    // If the number of partitions in Event Hub is not evenly divisible by number of active event processors,
+    // a few Event Processors may own 1 additional partition than the minimum when the load is balanced. Calculate
+    // the number of event processors that can own additional partition.
     const numberOfEventProcessorsWithAdditionalPartition =
       partitionIds.length % ownerPartitionMap.size;
 
@@ -267,6 +308,7 @@ export class PartitionLoadBalancer {
         ownerPartitionMap
       )
     ) {
+      // If the partitions are evenly distributed among all active event processors, no change required.
       return;
     }
 
@@ -276,17 +318,16 @@ export class PartitionLoadBalancer {
     }
     // If we have reached this stage, this event processor has to claim/steal ownership of at least 1 more partition
 
-    /*
-     * If some partitions are unclaimed, this could be because an event processor is down and
-     * it's partitions are now available for others to own or because event processors are just
-     * starting up and gradually claiming partitions to own or new partitions were added to Event Hub.
-     * Find any partition that is not actively owned and claim it.
-     *
-     * OR
-     *
-     * Find a partition to steal from another event processor. Pick the event processor that owns the highest
-     * number of partitions.
-     */
+    //   If some partitions are unclaimed, this could be because an event processor is down and
+    //  it's partitions are now available for others to own or because event processors are just
+    //  starting up and gradually claiming partitions to own or new partitions were added to Event Hub.
+    //  Find any partition that is not actively owned and claim it.
+
+    //   OR
+
+    //  Find a partition to steal from another event processor. Pick the event processor that owns the highest
+    //  number of partitions.
+
     let partitionToClaim: string | undefined;
     for (const partitionId of partitionIds) {
       if (!activePartitionOwnershipMap.has(partitionId)) {
@@ -318,13 +359,18 @@ export class PartitionLoadBalancer {
     }
   }
 
-  /*
-   * A simple implementation of an event processor that:
-   * - Fetches all partition ids from Event Hub
-   * - Gets the current ownership information of all the partitions from PartitionManager
-   * - Claims ownership of any partition that doesn't have an owner yet.
-   * - Starts a new PartitionProcessor and receives events from each of the partitions this instance owns
+  /**
+   * This method is expected to be invoked by the EventProcessor. Every loop to this method will result in this EventProcessor owning at
+   * most one new partition.
+   *
+   * The load is considered balanced when no active EventProcessor owns 2 partitions more than any other active
+   * EventProcessor. Given that each invocation to this method results in ownership claim of at most one partition,
+   * this algorithm converges gradually towards a steady state.
+   *
+   * When a new partition is claimed, this method is also responsible for starting a partition pump that creates an
+   * EventHubConsumer for processing events from that partition.
    */
+
   async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
     const waitIntervalInMs = 10000;
@@ -336,6 +382,7 @@ export class PartitionLoadBalancer {
         }
 
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
+        // Retrieve current partition ownership details from the datastore.
         const partitionOwnership = await this._partitionManager.listOwnership(
           this._eventHubClient.eventHubName,
           this._consumerGroupName
@@ -345,7 +392,6 @@ export class PartitionLoadBalancer {
         }
         // get a list of partition ids that are not being processed by this EventProcessor
         const partitionsToAdd = await this._getInactivePartitions();
-        //   const partitionsToAdd = await this._eventHubClient.getPartitionIds();
 
         if (partitionsToAdd.length > 0) {
           await this._loadBalance(partitionOwnershipMap, partitionsToAdd);
