@@ -29,6 +29,7 @@ describe("Keys client - list keys in various ways", () => {
   // The tests follow
 
   it("can purge all keys", async function() {
+    // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const key of client.listKeys()) {
       await testClient.flushKey(key.name);
     }

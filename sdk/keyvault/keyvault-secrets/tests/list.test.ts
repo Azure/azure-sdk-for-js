@@ -32,6 +32,7 @@ describe("Secret client - list secrets in various ways", () => {
   // The tests follow
 
   it("can purge all secrets", async function() {
+    // WARNING: When running integration-tests, or having TEST_MODE="record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const secret of client.listSecrets()) {
       await testClient.flushSecret(secret.name);
     }
