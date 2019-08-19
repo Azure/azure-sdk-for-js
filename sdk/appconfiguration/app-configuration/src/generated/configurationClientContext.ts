@@ -37,7 +37,7 @@ export class ConfigurationClientContext extends coreArm.AzureServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials as any, options);
+    super(credentials, options);
 
     this.apiVersion = '2019-01-01';
     this.acceptLanguage = 'en-US';

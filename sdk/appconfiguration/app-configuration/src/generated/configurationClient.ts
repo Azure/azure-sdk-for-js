@@ -22,7 +22,7 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The parameter options
    */
   constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, options?: Models.ConfigurationClientOptions) {
-    super(credentials as any, options);
+    super(credentials, options);
   }
 
   /**
