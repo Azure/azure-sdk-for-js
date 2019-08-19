@@ -105,11 +105,11 @@ Go through the following setup in order to delete and create the required servic
 
 **Assign owner role to the registered application**
 
-- In the azure-portal, go to your servicebus-namespace and assign **owner** role to the registered application.
-- This can be done from `Access control (IAM)` tab(in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
-_Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
-_**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions._
-
+- In the azure-portal, go to your servicebus-namespace and assign **Azure Service Bus Data Owner (Preview)** role to the registered application.
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
+  _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
+  _**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions._
+- For more information on Service Bus RBAC setup - [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
 
 **Update your environment variables**
 
