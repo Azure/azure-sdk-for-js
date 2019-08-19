@@ -181,14 +181,10 @@ export class PartitionLoadBalancer {
         leastPartitionsOwnedByAnyEventProcessor = ownershipList.length;
       }
     }
-    if (
-      numberOfPartitionsOwned > minPartitionsPerEventProcessor ||
-      numberOfPartitionsOwned > leastPartitionsOwnedByAnyEventProcessor
-    ) {
-      return false;
-    }
-
-    return true;
+    return (
+      numberOfPartitionsOwned < minPartitionsPerEventProcessor ||
+      numberOfPartitionsOwned === leastPartitionsOwnedByAnyEventProcessor
+    );
   }
 
   /*
@@ -201,25 +197,20 @@ export class PartitionLoadBalancer {
     numberOfEventProcessorsWithAdditionalPartition: number,
     ownerPartitionMap: Map<string, PartitionOwnership[]>
   ): boolean {
-    let matchCount = 0;
+    let count = 0;
     for (const ownershipList of ownerPartitionMap.values()) {
+      const numberOfPartitions = ownershipList.length;
       if (
-        ownershipList.length > minPartitionsPerEventProcessor ||
-        ownershipList.length < minPartitionsPerEventProcessor + 1
+        numberOfPartitions < minPartitionsPerEventProcessor ||
+        numberOfPartitions > minPartitionsPerEventProcessor + 1
       ) {
-        matchCount++;
+        return false;
+      }
+      if (numberOfPartitions === minPartitionsPerEventProcessor + 1) {
+        count++;
       }
     }
-    if (matchCount === ownerPartitionMap.size) {
-      let count = 0;
-      for (const ownershipList of ownerPartitionMap.values()) {
-        if (ownershipList.length === minPartitionsPerEventProcessor + 1) {
-          count++;
-        }
-      }
-      return count === numberOfEventProcessorsWithAdditionalPartition;
-    }
-    return false;
+    return count === numberOfEventProcessorsWithAdditionalPartition;
   }
 
   /*
@@ -254,8 +245,9 @@ export class PartitionLoadBalancer {
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]
   ): Promise<void> {
+    const numberOfPartitions = partitionIds.length;
     /*
-     * Remove all partitions ownership that have not been modified within the configured period. This means that the previous
+     * Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
      * event processor that owned the partition is probably down and the partition is now eligible to be
      * claimed by other event processors.
      */
@@ -268,7 +260,7 @@ export class PartitionLoadBalancer {
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
       await this._claimOwnership(
         partitionOwnershipMap,
-        partitionIds[Math.floor(Math.random() * partitionIds.length)]
+        partitionIds[Math.floor(Math.random() * numberOfPartitions)]
       );
       return;
     }
@@ -294,12 +286,12 @@ export class PartitionLoadBalancer {
 
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.
-    const minPartitionsPerEventProcessor = partitionIds.length / ownerPartitionMap.size;
+    const minPartitionsPerEventProcessor = numberOfPartitions / ownerPartitionMap.size;
     // If the number of partitions in Event Hub is not evenly divisible by number of active event processors,
     // a few Event Processors may own 1 additional partition than the minimum when the load is balanced. Calculate
     // the number of event processors that can own additional partition.
     const numberOfEventProcessorsWithAdditionalPartition =
-      partitionIds.length % ownerPartitionMap.size;
+      numberOfPartitions % ownerPartitionMap.size;
 
     if (
       this._isLoadBalanced(
