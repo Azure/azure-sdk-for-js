@@ -21,8 +21,12 @@ import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
-  CertificateBundle, Contacts, KeyVaultClientCreateCertificateOptionalParams,
-  KeyVaultClientGetCertificateVersionsOptionalParams, KeyVaultClientGetCertificateIssuersOptionalParams,
+  CertificateBundle,
+  Contacts,
+  KeyVaultClientGetCertificatesOptionalParams,
+  KeyVaultClientCreateCertificateOptionalParams,
+  KeyVaultClientGetCertificateVersionsOptionalParams,
+  KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientImportCertificateOptionalParams,
@@ -207,7 +211,7 @@ export class CertificatesClient {
     options?: RequestOptions
   ): AsyncIterableIterator<CertificateAttributes[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete = {
+      const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
@@ -731,8 +735,8 @@ export class CertificatesClient {
   }
 
   /**
-   * Recovers the deleted secret in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
-   * requires the secrets/recover permission.
+   * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
+   * requires the certificate/recover permission.
    * @param name The name of the deleted certificate
    * @param options The optional parameters
    * @returns Promise<Certificate>
