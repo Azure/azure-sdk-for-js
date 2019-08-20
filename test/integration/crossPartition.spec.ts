@@ -4,7 +4,7 @@ import { Container, ContainerDefinition } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
 import { QueryIterator } from "../../dist-esm/queryIterator";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases, generateDocuments } from "../common/TestHelpers";
 import { FeedResponse, FeedOptions } from "../../dist-esm";
 
 function compare(key: string) {
@@ -21,24 +21,6 @@ function compare(key: string) {
 
 describe("Cross Partition", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
-  const generateDocuments = function(docSize: number) {
-    const docs = [];
-    for (let i = 0; i < docSize; i++) {
-      const d = {
-        id: i.toString(),
-        name: "sample document",
-        spam: "eggs" + i.toString(),
-        cnt: i,
-        key: "value",
-        spam2: i === 3 ? "eggs" + i.toString() : i,
-        spam3: `eggs${i % 3}`,
-        boolVar: i % 2 === 0,
-        number: 1.1 * i
-      };
-      docs.push(d);
-    }
-    return docs;
-  };
 
   describe("Validate Query", function() {
     const documentDefinitions = generateDocuments(20);
