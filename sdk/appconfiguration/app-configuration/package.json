@@ -18,8 +18,15 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "devDependencies": {
+    "@types/dotenv": "^6.1.0",
+    "@types/mocha": "^5.2.5",
+    "assert": "^1.4.1",
+    "dotenv": "^8.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha-multi": "^1.0.1",
     "rimraf": "^2.6.2",
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^5.0.2",
@@ -53,6 +60,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -61,7 +69,7 @@
     "prebuild": "npm run clean",
     "prepack": "npm install && npm run build",
     "pack": "npm package 2>&1",
-    "test": "echo skipped"
+    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-"
   },
   "sideEffects": false,
   "autoPublish": false

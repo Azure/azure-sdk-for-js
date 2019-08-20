@@ -15,10 +15,14 @@ const deserializationContentTypes = {
   ]
 }
 
+export interface ETagOption {
+  etag?: string;
+}
+
 export type AddConfigurationSettingConfig = Pick<Models.ConfigurationSetting, Exclude<keyof Models.ConfigurationSetting, "key">>;
 export type AddConfigurationSettingOptions = Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type AddConfigurationSettingsResponse = Models.CreateOrUpdateConfigurationSettingResponse;
-export type DeleteConfigurationSettingOptions = Models.ConfigurationClientDeleteConfigurationSettingOptionalParams;
+export type DeleteConfigurationSettingOptions = Models.ConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
 export type DeleteConfigurationSettingResponse = Models.DeleteConfigurationSettingResponse;
 export type GetConfigurationSettingOptions = Models.ConfigurationClientGetConfigurationSettingOptionalParams;
 export type GetConfigurationSettingResponse = Models.GetConfigurationSettingResponse;
@@ -44,7 +48,7 @@ export class AppConfigurationClient {
       const credential = new AppConfigCredential(regexMatch[2], regexMatch[3])
       this.client = new ConfigurationClient(credential, {
         baseUri: regexMatch[1],
-        deserializationContentTypes  
+        deserializationContentTypes
       });
     } else if (credential && credential.constructor.name === "ManagedIdentityCredential") {
       this.client = new ConfigurationClient(credential, {
@@ -59,8 +63,8 @@ export class AppConfigurationClient {
   addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options: AddConfigurationSettingOptions = {}): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
     // create a copy of the options to avoid modifying the user's options
-    options = {...options};
-    const customHeaders: typeof options.customHeaders = {...options.customHeaders};
+    options = { ...options };
+    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     customHeaders["if-none-match"] = "*";
     options.customHeaders = customHeaders;
 
@@ -71,9 +75,9 @@ export class AppConfigurationClient {
   }
 
   deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse> {
-    // hoist the etag into a custom header to prevent race conditions on the service-side
-    options = {...options};
-    const customHeaders: typeof options.customHeaders = {...options.customHeaders};
+    // hoist the etag into a custom header to ensure this update fails if the setting has been updated
+    options = { ...options };
+    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     options.customHeaders = customHeaders;
 
     const etag = options.etag;
@@ -96,10 +100,10 @@ export class AppConfigurationClient {
   }
 
   setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options: SetConfigurationSettingOptions = {}): Promise<SetConfigurationSettingResponse> {
-    // hoist the etag into a custom header to prevent race conditions on the service-side
-    options = {...options};
+    // hoist the etag into a custom header to ensure this update fails if the setting has been updated
+    options = { ...options };
 
-    const customHeaders: typeof options.customHeaders = {...options.customHeaders};
+    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     options.customHeaders = customHeaders;
 
     const etag = configSettings.etag;
@@ -110,7 +114,7 @@ export class AppConfigurationClient {
     if (configSettings.label) {
       options.label = configSettings.label;
     }
-    return this.client.createOrUpdateConfigurationSetting(configSettings, key, {...options, customHeaders});
+    return this.client.createOrUpdateConfigurationSetting(configSettings, key, { ...options, customHeaders });
   }
 
   async updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options: UpdateConfigurationSettingOptions = {}): Promise<UpdateConfigurationSettingResponse> {
@@ -120,7 +124,7 @@ export class AppConfigurationClient {
       label: configSettings.label || options.label
     });
 
-    const updateConfigSettings = {...configSettings};
+    const updateConfigSettings = { ...configSettings };
     if (typeof updateConfigSettings.value === "undefined") {
       updateConfigSettings.value = existingConfigurationSettings.value;
     }
@@ -135,7 +139,7 @@ export class AppConfigurationClient {
       options.label = configSettings.label;
     }
 
-    const customHeaders: typeof options.customHeaders = {...options.customHeaders};
+    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     options.customHeaders = customHeaders;
 
     const etag = updateConfigSettings.etag;
