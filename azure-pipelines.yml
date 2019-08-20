@@ -82,6 +82,7 @@ jobs:
           npm run ContainerManagement --prefix ./samples
           npm run ServerSideScripts --prefix ./samples
           npm run ChangeFeed --prefix ./samples
+          npm run BulkUpdateWithSproc --prefix ./samples
         displayName: "Run Samples"
   # - job: NightlyEmulator
   #   pool:

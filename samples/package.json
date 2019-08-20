@@ -12,6 +12,7 @@
     "ItemManagement": "npx ts-node ./ItemManagement",
     "DatabaseManagement": "npx ts-node ./DatabaseManagement",
     "IndexeManagement": "npx ts-node ./IndexeManagement",
-    "ChangeFeed": "npx ts-node ./ChangeFeed"
+    "ChangeFeed": "npx ts-node ./ChangeFeed",
+    "BulkUpdateWithSproc": "npx ts-node ./BulkUpdateWithSproc"
   }
 }
