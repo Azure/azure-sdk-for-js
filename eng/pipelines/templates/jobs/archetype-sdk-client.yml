@@ -50,7 +50,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
-
+    dependsOn: "Build"
     variables:
       - template: ../variables/globals.yml
 
