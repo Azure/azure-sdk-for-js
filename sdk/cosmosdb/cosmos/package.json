@@ -34,6 +34,7 @@
     "compile": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "compile:samples": "tsc -b samples",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
+    "extract-api": "tsc --version && tsc -b --pretty && api-extractor run --local",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && node writeSDKVersion.js && npm run docs && npm run bundle && npm run bundle-types",
