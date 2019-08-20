@@ -12,12 +12,10 @@ import { CheckpointManager } from "./checkpointManager";
 import { PumpManager } from "./pumpManager";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "@azure/core-amqp";
 import * as log from "./log";
 
 /**
- *This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
+ * This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
  * distributing the number of partitions uniformly among all the active EventProcessors.
  *
  * This load balancer will retrieve partition ownership details from the PartitionManager to find the number of
@@ -241,7 +239,7 @@ export class PartitionLoadBalancer {
    * This method works with the given partition ownership details and Event Hub partitions to evaluate whether the
    * current Event Processor should take on the responsibility of processing more partitions.
    */
-  private async _loadBalance(
+  async loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]
   ): Promise<void> {
@@ -254,7 +252,7 @@ export class PartitionLoadBalancer {
     const activePartitionOwnershipMap = this._removeInactivePartitionOwnerships(
       partitionOwnershipMap
     );
-    if (Object.keys(activePartitionOwnershipMap).length === 0) {
+    if (activePartitionOwnershipMap.size === 0) {
       // If the active partition ownership map is empty, this is the first time an event processor is
       // running or all Event Processors are down for this Event Hub, consumer group combination. All
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
@@ -331,72 +329,5 @@ export class PartitionLoadBalancer {
     }
 
     return await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
-  }
-
-  private async _getInactivePartitions(): Promise<string[]> {
-    try {
-      // get all partition ids on the event hub
-      const partitionIds = await this._eventHubClient.getPartitionIds();
-      // get partitions this EventProcessor is actively processing
-      const activePartitionIds = this._pumpManager.receivingFromPartitions();
-
-      // get a list of partition ids that are not being processed by this EventProcessor
-      const inactivePartitionIds: string[] = partitionIds.filter(
-        (id) => activePartitionIds.indexOf(id) === -1
-      );
-      return inactivePartitionIds;
-    } catch (err) {
-      log.error(`[${this._ownerId}] An error occured when retrieving partition ids: ${err}`);
-      throw err;
-    }
-  }
-
-  /**
-   * This method is expected to be invoked by the EventProcessor. Every loop to this method will result in this EventProcessor owning at
-   * most one new partition.
-   *
-   * The load is considered balanced when no active EventProcessor owns 2 partitions more than any other active
-   * EventProcessor. Given that each invocation to this method results in ownership claim of at most one partition,
-   * this algorithm converges gradually towards a steady state.
-   *
-   * When a new partition is claimed, this method is also responsible for starting a partition pump that creates an
-   * EventHubConsumer for processing events from that partition.
-   */
-
-  async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
-    // periodically check if there is any partition not being processed and process it
-    const waitIntervalInMs = 10000;
-    while (!abortSignal.aborted) {
-      try {
-        // check if the loop has been cancelled
-        if (abortSignal.aborted) {
-          return;
-        }
-
-        const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
-        // Retrieve current partition ownership details from the datastore.
-        const partitionOwnership = await this._partitionManager.listOwnership(
-          this._eventHubClient.eventHubName,
-          this._consumerGroupName
-        );
-        for (const ownership of partitionOwnership) {
-          partitionOwnershipMap.set(ownership.partitionId, ownership);
-        }
-        // get a list of partition ids that are not being processed by this EventProcessor
-        const partitionsToAdd = await this._getInactivePartitions();
-
-        if (partitionsToAdd.length > 0) {
-          await this._loadBalance(partitionOwnershipMap, partitionsToAdd);
-        }
-
-        // sleep
-        log.eventProcessor(
-          `[${this._ownerId}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
-        );
-        await delay(waitIntervalInMs, abortSignal);
-      } catch (err) {
-        log.error(`[${this._ownerId}] An error occured within the EventProcessor loop: ${err}`);
-      }
-    }
   }
 }

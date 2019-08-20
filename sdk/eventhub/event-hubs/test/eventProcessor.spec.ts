@@ -22,10 +22,10 @@ import {
   ReceivedEventData
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { generate_uuid } from "rhea-promise";
+import { generate_uuid, Dictionary } from "rhea-promise";
 const env = getEnvVars();
 
-describe("Event Processor", function(): void {
+describe("Single Event Processor", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -122,6 +122,7 @@ describe("Event Processor", function(): void {
       await producer.close();
     }
 
+    await delay(15000);
     // shutdown the processor
     await processor.stop();
 
@@ -227,7 +228,7 @@ describe("Event Processor", function(): void {
     }
 
     // set a delay to give a consumers a chance to receive a message
-    await delay(3000);
+    await delay(15000);
 
     // shutdown the processor
     await processor.stop();
@@ -253,7 +254,7 @@ describe("Event Processor", function(): void {
     processor.start();
 
     // set a delay to give a consumers a chance to receive a message
-    await delay(3000);
+    await delay(15000);
 
     await processor.stop();
 
@@ -323,7 +324,7 @@ describe("Event Processor", function(): void {
       }
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(1000);
+      await delay(15000);
 
       // shutdown the processor
       await processor.stop();
@@ -386,7 +387,7 @@ describe("Event Processor", function(): void {
       }
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(1000);
+      await delay(15000);
 
       // shutdown the processor
       await processor.stop();
@@ -445,8 +446,8 @@ describe("Event Processor", function(): void {
       await producer.close();
 
       await processor.start();
-      // after 2 seconds, stop processing
-      await delay(2000);
+      // after 15 seconds, stop processing
+      await delay(15000);
       await processor.stop();
       isinitializeCalled.should.equal(true);
       receivedEvents.length.should.equal(1);
@@ -565,7 +566,7 @@ describe("Event Processor", function(): void {
       }
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(5000);
+      await delay(15000);
 
       // shutdown the first processor
       await processor1.stop();
@@ -592,7 +593,7 @@ describe("Event Processor", function(): void {
       processor2.start();
 
       // set a delay to give a consumers a chance to receive a message
-      await delay(5000);
+      await delay(15000);
 
       // shutdown the second processor
       await processor2.stop();
@@ -615,5 +616,130 @@ describe("Event Processor", function(): void {
         index++;
       }
     });
+  });
+}).timeout(90000);
+
+describe("Multi Event Processor", function(): void {
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
+  const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
+  before("validate environment", async function(): Promise<void> {
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_NAME],
+      "define EVENTHUB_NAME in your environment before running integration tests."
+    );
+  });
+
+  after("close the connection", async function(): Promise<void> {
+    await client.close();
+  });
+
+  it.only("should be able to run 2 event processors successfully", async function(): Promise<void> {
+    const partitionIds = await client.getPartitionIds();
+    const now = Date.now();
+    const processorByName: Dictionary<EventProcessor> = {};
+    const inMemory = new InMemoryPartitionManager();
+
+    // ensure we have at least 2 partitions
+    partitionIds.length.should.gte(2);
+
+    const partitionResultsMap = new Map<
+      string,
+      { events: string[]; initialized: boolean; closeReason?: CloseReason }
+    >();
+    partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
+    let didError = false;
+
+    // The partitionProcess will need to add events to the partitionResultsMap as they are received
+    const factory: PartitionProcessorFactory = (context) => {
+      return {
+        async initialize() {
+          partitionResultsMap.get(context.partitionId)!.initialized = true;
+        },
+        async close(reason) {
+          partitionResultsMap.get(context.partitionId)!.closeReason = reason;
+        },
+        async processEvents(events) {
+          const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
+          events.forEach((event) => {
+            existingEvents.push(event.body);
+            console.log(`Event ${event.body} partition id ${context.partitionId}`);
+          });
+        },
+        async processError() {
+          didError = true;
+        }
+      };
+    };
+
+    // create messages
+    const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
+    for (const partitionId of partitionIds) {
+      const producer = client.createProducer({ partitionId });
+      await producer.send({ body: expectedMessagePrefix + partitionId });
+      await producer.close();
+    }
+
+    for (let i = 0; i <=2; i++) {
+      const processorName = `processor-${i}`;
+      processorByName[processorName] = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        factory,
+        inMemory,
+        {
+          initialEventPosition: EventPosition.fromEnqueuedTime(now)
+        }
+      );
+
+      processorByName[processorName].start();
+      await delay(12000);
+    }
+
+    for (const processor in processorByName) {
+      await processorByName[processor].stop();
+    }
+
+    // map of ownerId as a key and partitionIds as a value
+    const partitionOwnershipMap: Map<string, string[]> = new Map();
+
+    const partitionOwnership = await inMemory.listOwnership(
+      client.eventHubName,
+      EventHubClient.defaultConsumerGroupName
+    );
+    for (const ownership of partitionOwnership) {
+      if (!partitionOwnershipMap.has(ownership.ownerId)) {
+        partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
+      } else {
+        let arr = partitionOwnershipMap.get(ownership.ownerId);
+        arr!.push(ownership.partitionId);
+        partitionOwnershipMap.set(ownership.ownerId, arr!);
+      }
+    }
+
+    partitionOwnershipMap.forEach((value: string[], key: string) => {
+      console.log(` owner ${key} partitionId  ${value.toString()}`);
+    });
+
+    didError.should.be.false;
+    const n = Math.floor(partitionIds.length/2);
+    partitionOwnershipMap.get(processorByName[`processor-0`].id)!.length.should.oneOf([n, n+1]);
+    partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n+1]);
+
+    // validate correct events captured for each partition
+    // validate correct events captured for each partition
+    for (const partitionId of partitionIds) {
+      const results = partitionResultsMap.get(partitionId)!;
+      const events = results.events;
+      events[0].should.equal(expectedMessagePrefix + partitionId);
+      results.initialized.should.be.true;
+      (results.closeReason === CloseReason.Shutdown).should.be.true;
+    }
   });
 }).timeout(90000);

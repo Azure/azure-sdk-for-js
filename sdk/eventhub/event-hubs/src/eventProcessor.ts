@@ -11,6 +11,8 @@ import { PumpManager } from "./pumpManager";
 import { AbortController } from "@azure/abort-controller";
 import * as log from "./log";
 import { PartitionLoadBalancer } from "./partitionLoadBalancer";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-amqp";
 
 /**
  * Reason for closing a PartitionProcessor.
@@ -166,7 +168,7 @@ export interface EventProcessorOptions {
 
 /**
  * Describes the Event Processor Host to process events from an EventHub.
- * @class EventProcessorHost
+ * @class EventProcessor
  */
 export class EventProcessor {
   private _consumerGroupName: string;
@@ -227,6 +229,73 @@ export class EventProcessor {
     return this._id;
   }
 
+  private async _getInactivePartitions(): Promise<string[]> {
+    try {
+      // get all partition ids on the event hub
+      const partitionIds = await this._eventHubClient.getPartitionIds();
+      // get partitions this EventProcessor is actively processing
+      const activePartitionIds = this._pumpManager.receivingFromPartitions();
+
+      // get a list of partition ids that are not being processed by this EventProcessor
+      const inactivePartitionIds: string[] = partitionIds.filter(
+        (id) => activePartitionIds.indexOf(id) === -1
+      );
+      return inactivePartitionIds;
+    } catch (err) {
+      log.error(`[${this.id}] An error occured when retrieving partition ids: ${err}`);
+      throw err;
+    }
+  }
+
+  /**
+   * This method is expected to be invoked by the EventProcessor. Every loop to this method will result in this EventProcessor owning at
+   * most one new partition.
+   *
+   * The load is considered balanced when no active EventProcessor owns 2 partitions more than any other active
+   * EventProcessor. Given that each invocation to this method results in ownership claim of at most one partition,
+   * this algorithm converges gradually towards a steady state.
+   *
+   * When a new partition is claimed, this method is also responsible for starting a partition pump that creates an
+   * EventHubConsumer for processing events from that partition.
+   */
+
+  async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
+    // periodically check if there is any partition not being processed and process it
+    const waitIntervalInMs = 10000;
+    while (!abortSignal.aborted) {
+      try {
+        // check if the loop has been cancelled
+        if (abortSignal.aborted) {
+          return;
+        }
+
+        const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
+        // Retrieve current partition ownership details from the datastore.
+        const partitionOwnership = await this._partitionManager.listOwnership(
+          this._eventHubClient.eventHubName,
+          this._consumerGroupName
+        );
+        for (const ownership of partitionOwnership) {
+          partitionOwnershipMap.set(ownership.partitionId, ownership);
+        }
+        // get a list of partition ids that are not being processed by this EventProcessor
+        const partitionsToAdd = await this._getInactivePartitions();
+
+        if (partitionsToAdd.length > 0) {
+          await this._partitionLoadBalancer.loadBalance(partitionOwnershipMap, partitionsToAdd);
+        }
+
+        // sleep
+        log.eventProcessor(
+          `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
+        );
+        await delay(waitIntervalInMs, abortSignal);
+      } catch (err) {
+        log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+      }
+    }
+  }
+
   /**
    * Starts processing of events for all partitions of the Event Hub that this event processor can own, assigning a
    * dedicated `PartitionProcessor` to each partition. If there are other Event Processors active for the same
@@ -247,7 +316,7 @@ export class EventProcessor {
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
 
-    this._loopTask = this._partitionLoadBalancer._runLoop(this._abortController.signal);
+    this._loopTask = this._runLoop(this._abortController.signal);
   }
 
   /**
@@ -267,8 +336,7 @@ export class EventProcessor {
     this._isRunning = false;
     try {
       // remove all existing pumps
-      this._pumpManager.removeAllPumps(CloseReason.Shutdown);
-      // TODO : cleanup this._partitionLoadBalancer
+      await this._pumpManager.removeAllPumps(CloseReason.Shutdown);
 
       // waits for the event processor loop to complete
       // will complete immediately if _loopTask is undefined
