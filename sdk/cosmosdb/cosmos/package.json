@@ -35,7 +35,7 @@
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log .tsbuildinfo test/**/*.{js,js.map,d.ts}",
+    "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
     "extract-api": "npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
