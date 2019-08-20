@@ -64,11 +64,11 @@ jobs:
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-      # - script: |
-      #     pip install setuptools wheel
-      #     pip install doc-warden
-      #     ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
-      #   displayName: "Verify Readmes"
+      - script: |
+          pip install setuptools wheel
+          pip install doc-warden
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
+        displayName: "Verify Readmes"
 
       - script: |
           npm ci
@@ -120,7 +120,7 @@ jobs:
         inputs:
           buildType: "specific"
           project: "internal"
-          pipeline: "js - client"
+          pipeline: "js-client"
           buildVersionToDownload: "latest"
           allowPartiallySucceededBuilds: false
           branchName: "master"
