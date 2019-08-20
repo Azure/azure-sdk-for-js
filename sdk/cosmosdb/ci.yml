@@ -27,7 +27,7 @@ jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackagePath: "sdk/cosmosdb/cosmos/"
-      Toolchain: npm
+      Toolchain: rush
       Matrix:
         Windows_Node8:
           OSVmImage: "vs2017-win2016"
