@@ -160,10 +160,10 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo) $(GeneratedPackageTargetsFrom)
+          node common/scripts/install-run-rush.js build --verbose
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargetsFrom)
+          node common/scripts/install-run-rush.js build:test --verbose
         displayName: "Build test assets"
       - script: |
           node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
