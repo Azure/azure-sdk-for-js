@@ -73,8 +73,8 @@
     "@azure/core-paging": "1.0.0-preview.1",
     "@azure/core-tracing": "1.0.0-preview.1",
     "@azure/identity": "1.0.0-preview.3",
-    "tslib": "^1.9.3",
-    "@trust/keyto": "0.3.7"
+    "@trust/keyto": "0.3.7",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
@@ -114,7 +114,7 @@
     "karma-remap-coverage": "^0.1.5",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.0.1",
+    "mocha-multi": "1.1.0",
     "nise": "^1.4.10",
     "nock": "^10.0.6",
     "nyc": "^14.0.0",
