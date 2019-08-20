@@ -11,7 +11,7 @@
     "ServerSideScripts": "npx ts-node ./ServerSideScripts",
     "ItemManagement": "npx ts-node ./ItemManagement",
     "DatabaseManagement": "npx ts-node ./DatabaseManagement",
-    "IndexeManagement": "npx ts-node ./IndexeManagement",
+    "IndexManagement": "npx ts-node ./IndexManagement",
     "ChangeFeed": "npx ts-node ./ChangeFeed"
   }
 }
