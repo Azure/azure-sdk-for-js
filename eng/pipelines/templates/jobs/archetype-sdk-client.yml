@@ -120,7 +120,7 @@ jobs:
         inputs:
           buildType: "specific"
           project: "internal"
-          pipeline: "js-client"
+          pipeline: "js - client"
           buildVersionToDownload: "latest"
           allowPartiallySucceededBuilds: false
           branchName: "master"
