@@ -88,9 +88,11 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
+    "@types/debug": "^4.1.4",
     "atob": "2.1.2",
     "binary-search-bounds": "2.0.3",
     "crypto-hash": "1.1.0",
+    "debug": "^4.1.1",
     "fast-json-stable-stringify": "2.0.0",
     "node-abort-controller": "1.0.3",
     "node-fetch": "2.6.0",
