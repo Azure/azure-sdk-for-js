@@ -1,0 +1,151 @@
+import { BaseTest } from "../baseTest";
+import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
+import * as chai from "chai";
+
+
+describe("Example Module Functionality Tests", () => {
+    it("should list all examples", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const examples = await client.examples.list(BaseTest.GlobalAppId, "0.1");
+            chai.expect(examples.length).not.to.eql(0);
+        });
+    });
+
+    it("should list all examples in empty application returning empty", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const appId = await client.apps.add({
+                name: "Examples Test App",
+                description: "New LUIS App",
+                culture: "en-us",
+                domain: "Comics",
+                usageScenario: "IoT"
+            });
+            const examples = await client.examples.list(appId.body, "0.1");
+            await client.apps.deleteMethod(appId.body);
+            chai.expect(examples.length).to.eql(0);
+        });
+    });
+
+
+    it("should add example", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const appId = await client.apps.add({
+                name: "Examples Test App",
+                description: "New LUIS App",
+                culture: "en-us",
+                domain: "Comics",
+                usageScenario: "IoT"
+            });
+            await client.model.addIntent(appId.body, "0.1", { name: "WeatherInPlace" });
+            await client.model.addEntity(appId.body, "0.1", { name: "Place" });
+            let example = {
+                text: "whats the weather in buenos aires?",
+                intentName: "WeatherInPlace",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 34
+                }]
+            };
+            const result = await client.examples.add(appId.body, "0.1", example);
+            await client.apps.deleteMethod(appId.body);
+            chai.expect(result.utteranceText).to.eql(example.text)
+        });
+    });
+
+    it("should add examples in batch", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const appId = await client.apps.add({
+                name: "Examples Test App",
+                description: "New LUIS App",
+                culture: "en-us",
+                domain: "Comics",
+                usageScenario: "IoT"
+            });
+            await client.model.addIntent(appId.body, "0.1", { name: "WeatherInPlace" });
+            await client.model.addEntity(appId.body, "0.1", { name: "Place" });
+            let examples = [{
+                text: "whats the weather in seattle?",
+                intentName: "WeatherInPlace",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 34
+                }]
+            }, {
+                text: "whats the weather in buenos aires?",
+                intentName: "WeatherInPlace",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 29
+                }]
+            }];
+            const result = await client.examples.batch(appId.body, "0.1", examples);
+            await client.apps.deleteMethod(appId.body);
+            chai.expect(examples.length).to.eql(result.length);
+            // To-Do add missing asserts
+        });
+    });
+
+
+    it("should add examples in batch with some invalid examples returning some errors", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const appId = await client.apps.add({
+                name: "Examples Test App",
+                description: "New LUIS App",
+                culture: "en-us",
+                domain: "Comics",
+                usageScenario: "IoT"
+            });
+            await client.model.addIntent(appId.body, "0.1", { name: "WeatherInPlace" });
+            await client.model.addEntity(appId.body, "0.1", { name: "Place" });
+            let examples = [{
+                text: "whats the weather in seattle?",
+                intentName: "WeatherInPlace",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 34
+                }]
+            }, {
+                text: "whats the weather in buenos aires?",
+                intentName: "WeatherInPlace",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 29
+                }]
+            }];
+            const result = await client.examples.batch(appId.body, "0.1", examples);
+            await client.apps.deleteMethod(appId.body);
+            chai.expect(examples.length).to.eql(result.length);
+            // To-Do add missing asserts
+        });
+    });
+
+
+    it("should delete example", async () => {
+        await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+            const appId = await client.apps.add({
+                name: "Examples Test App",
+                description: "New LUIS App",
+                culture: "en-us",
+                domain: "Comics",
+                usageScenario: "IoT"
+            });
+            let example = {
+                text: "Abuamra is awesome",
+                intentName: "None",
+                entityLabels: []
+            };
+            const result = await client.examples.add(appId.body, "0.1", example);
+            let exampleId = result.exampleId;
+            await client.examples.deleteMethod(appId.body, "0.1", exampleId);
+            const examples = await client.examples.list(appId.body, "0.1");
+            await client.apps.deleteMethod(appId.body);
+            chai.expect(BaseTest.doesListContain(examples, "id", exampleId)).to.be.false;
+        });
+    });
+});
+
