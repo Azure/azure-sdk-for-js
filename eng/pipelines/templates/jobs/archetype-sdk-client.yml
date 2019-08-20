@@ -129,6 +129,14 @@ jobs:
           downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
         displayName: "Download Latest Master artifacts"
 
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "current"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
+        displayName: "Download Current Build artifacts"
+
   - job: "UnitTest"
 
     strategy:
