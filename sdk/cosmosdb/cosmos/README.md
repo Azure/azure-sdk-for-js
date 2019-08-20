@@ -32,12 +32,13 @@ async function helloCosmos() {
   console.log("Deleted database");
 }
 
-helloCosmos().catch(err => {
+helloCosmos().catch((err) => {
   console.error(err);
 });
 ```
 
 ## Install via NPM
+
 You can install the npm package using the following command:
 
 ```bash
@@ -49,7 +50,7 @@ npm install @azure/cosmos
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
 - [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started)
 - [Tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application)
-- [Samples](https://github.com/Azure/azure-cosmos-js/tree/master/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples)
 - [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-resources)
 - [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query)
 - [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
@@ -65,4 +66,4 @@ For our rules and guidelines on contributing, please see [Microsoft's contributo
 
 For information on how build and test this repo, please see [./dev.md](./dev.md).
 
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-cosmos-js/issues) section of the project.
+If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
