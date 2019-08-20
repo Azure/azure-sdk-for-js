@@ -119,8 +119,8 @@ jobs:
       - task: DownloadBuildArtifacts@0
         inputs:
           buildType: "specific"
-          project: "internal"
-          pipeline: "js - client"
+          project: "public"
+          pipeline: "js - client - ci"
           buildVersionToDownload: "latest"
           allowPartiallySucceededBuilds: false
           branchName: "master"
