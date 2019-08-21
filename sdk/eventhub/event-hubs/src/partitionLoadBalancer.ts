@@ -244,11 +244,9 @@ export class PartitionLoadBalancer {
     partitionIds: string[]
   ): Promise<void> {
     const numberOfPartitions = partitionIds.length;
-    /*
-     * Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
-     * event processor that owned the partition is probably down and the partition is now eligible to be
-     * claimed by other event processors.
-     */
+    //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
+    //  event processor that owned the partition is probably down and the partition is now eligible to be
+    //  claimed by other event processors.
     const activePartitionOwnershipMap = this._removeInactivePartitionOwnerships(
       partitionOwnershipMap
     );
