@@ -41,15 +41,15 @@ export interface ISignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active. A validate ISO string format, or Date
+     * @member {Date} start Optional. The date-time the policy is active
      */
-    start: Date;
+    start?: Date;
     /**
-     * @member {string} expiry the date-time the policy expires. A validate ISO string format, or Date
+     * @member {string} expiry Optional. The date-time the policy expires
      */
-    expiry: Date;
+    expiry?: Date;
     /**
-     * @member {string} permission the permissions for the acl policy
+     * @member {string} permission The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
     permission: string;
@@ -371,12 +371,20 @@ export class ContainerURL extends StorageURL {
     };
 
     for (const identifier of response) {
+      const accessPolicy: any = {
+        permission: identifier.accessPolicy.permission,
+      };
+
+      if (identifier.accessPolicy.expiry) {
+        accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+      }
+
+      if (identifier.accessPolicy.start) {
+        accessPolicy.start = new Date(identifier.accessPolicy.start);
+      }
+
       res.signedIdentifiers.push({
-        accessPolicy: {
-          expiry: new Date(identifier.accessPolicy.expiry),
-          permission: identifier.accessPolicy.permission,
-          start: new Date(identifier.accessPolicy.start)
-        },
+        accessPolicy,
         id: identifier.id
       });
     }
@@ -412,9 +420,9 @@ export class ContainerURL extends StorageURL {
     for (const identifier of containerAcl || []) {
       acl.push({
         accessPolicy: {
-          expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+          expiry: identifier.accessPolicy.expiry ? truncatedISO8061Date(identifier.accessPolicy.expiry) : "",
           permission: identifier.accessPolicy.permission,
-          start: truncatedISO8061Date(identifier.accessPolicy.start)
+          start: identifier.accessPolicy.start? truncatedISO8061Date(identifier.accessPolicy.start) : ""
         },
         id: identifier.id
       });
