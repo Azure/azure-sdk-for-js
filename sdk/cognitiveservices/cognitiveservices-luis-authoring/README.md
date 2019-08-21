@@ -29,15 +29,22 @@ npm install @azure/ms-rest-azure-js
 import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 import { LUISAuthoringClient } from "@azure/cognitiveservices-luis-authoring";
 
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
 
-const subscriptionId = "<luis-authoring-key>";
+let subscriptionId = "<luis-authoring-key>";
 const creds = new CognitiveServicesCredentials(subscriptionId);
+
+// change "westus" in the endpoint url based on your region, check the following link
+// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
 const client = new LUISAuthoringClient(creds, "https://westus.api.cognitive.microsoft.com/");
+
 const appId = "<your-app-id>"; // replace this with your appId.
-const versionId = "0.1"; // This is the first versionId, replace it with yours.
+const versionId = "0.1"; // This is the default version ID after creating new luis application.
 
 const skip = 1;
 const take = 1;
+
 client.features.listApplicationVersionPatternFeatures(appId, versionId, { skip, take }).then((result) => {
     console.log("The result is:");
     console.log(result);
