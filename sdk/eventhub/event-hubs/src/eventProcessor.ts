@@ -206,7 +206,7 @@ export class EventProcessor {
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
-    const inactiveTimeLimitInMS = 300000; // ownership expiration time (5 mintues)
+    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
     this._partitionLoadBalancer = new PartitionLoadBalancer(
       this._partitionManager,
       this._eventHubClient,

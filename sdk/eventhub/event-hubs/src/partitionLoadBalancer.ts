@@ -223,7 +223,7 @@ export class PartitionLoadBalancer {
     const activePartitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
     partitionOwnershipMap.forEach((value: PartitionOwnership, key: string) => {
       var date = new Date();
-      var currentTimeInMS = date.getMilliseconds();
+      var currentTimeInMS = date.getTime();
       if (
         value.lastModifiedTimeInMS &&
         currentTimeInMS - value.lastModifiedTimeInMS < this._inactiveTimeLimitInMS
