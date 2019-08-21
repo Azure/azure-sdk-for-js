@@ -31,9 +31,14 @@ import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
 
 let subscriptionId = "<luis-authoring-key>";
 const creds = new CognitiveServicesCredentials(subscriptionId);
+
+// change "westus" in the endpoint url based on your region, check the following link
+// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
 const client = new LUISRuntimeClient(creds, "https://westus.api.cognitive.microsoft.com/");
-const appId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a"; // replace this with your appId.
-const versionId = "0.1"; // This is the first versionId, replace it with yours.
+
+const appId = "<your-app-id>"; // replace this with your appId.
+const versionId = "0.1"; // This is the default version ID after creating new luis application.
+
 const predictionRequest = {
     query: "testquery",
     options: {
