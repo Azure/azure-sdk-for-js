@@ -38,7 +38,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-09-01',
+    defaultValue: '2019-04-01',
     type: {
       name: "String"
     }
@@ -50,7 +50,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-09-30',
+    defaultValue: '2019-07-01',
     type: {
       name: "String"
     }
@@ -116,7 +116,10 @@ export const expand0: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "instanceView"
+      ]
     }
   }
 };
@@ -128,10 +131,7 @@ export const expand1: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "Enum",
-      allowedValues: [
-        "instanceView"
-      ]
+      name: "String"
     }
   }
 };
@@ -142,6 +142,26 @@ export const filter: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const galleryApplicationName: msRest.OperationURLParameter = {
+  parameterPath: "galleryApplicationName",
+  mapper: {
+    required: true,
+    serializedName: "galleryApplicationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const galleryApplicationVersionName: msRest.OperationURLParameter = {
+  parameterPath: "galleryApplicationVersionName",
+  mapper: {
+    required: true,
+    serializedName: "galleryApplicationVersionName",
     type: {
       name: "String"
     }
@@ -172,6 +192,26 @@ export const galleryName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "galleryName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const hostGroupName: msRest.OperationURLParameter = {
+  parameterPath: "hostGroupName",
+  mapper: {
+    required: true,
+    serializedName: "hostGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const hostName: msRest.OperationURLParameter = {
+  parameterPath: "hostName",
+  mapper: {
+    required: true,
+    serializedName: "hostName",
     type: {
       name: "String"
     }
@@ -260,6 +300,16 @@ export const platformUpdateDomain: msRest.OperationQueryParameter = {
     serializedName: "platformUpdateDomain",
     type: {
       name: "Number"
+    }
+  }
+};
+export const proximityPlacementGroupName: msRest.OperationURLParameter = {
+  parameterPath: "proximityPlacementGroupName",
+  mapper: {
+    required: true,
+    serializedName: "proximityPlacementGroupName",
+    type: {
+      name: "String"
     }
   }
 };
