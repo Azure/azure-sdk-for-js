@@ -52,8 +52,11 @@ export class Serializer {
       if (MultipleOf != undefined && value % MultipleOf !== 0) {
         failValidation("MultipleOf", MultipleOf);
       }
-      if (Pattern && value.match(Pattern) === null) {
-        failValidation("Pattern", Pattern);
+      if (Pattern) {
+        const pattern: RegExp = typeof Pattern === "string" ? new RegExp(Pattern) : Pattern;
+        if ((typeof value !== "string") || (value.match(pattern) === null)) {
+          failValidation("Pattern", Pattern);
+        }
       }
       if (UniqueItems && value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)) {
         failValidation("UniqueItems", UniqueItems);
@@ -82,7 +85,7 @@ export class Serializer {
       payload = [];
     }
 
-    if (object == undefined && (mapper.defaultValue != undefined || mapper.isConstant)) {
+    if (mapper.isConstant) {
       object = mapper.defaultValue;
     }
 
@@ -155,6 +158,10 @@ export class Serializer {
         // between the list being empty versus being missing,
         // so let's do the more user-friendly thing and return an empty list.
         responseBody = [];
+      }
+      // specifically check for undefined as default value can be a falsey value `0, "", false, null`
+      if (mapper.defaultValue !== undefined) {
+        responseBody = mapper.defaultValue;
       }
       return responseBody;
     }
@@ -594,7 +601,16 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       }
       propertyInstance = res;
       const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
-      if (polymorphicDiscriminator && propertyMapper.serializedName === polymorphicDiscriminator.serializedName && propertyInstance == undefined) {
+      // checking that the model property name (key)(ex: "fishtype") and the
+      // clientName of the polymorphicDiscriminator {metadata} (ex: "fishtype")
+      // instead of the serializedName of the polymorphicDiscriminator (ex: "fish.type")
+      // is a better approach. The generator is not consistent with escaping '\.' in the
+      // serializedName of the property (ex: "fish\.type") that is marked as polymorphic discriminator
+      // and the serializedName of the metadata polymorphicDiscriminator (ex: "fish.type"). However,
+      // the clientName transformation of the polymorphicDiscriminator (ex: "fishtype") and
+      // the transformation of model property name (ex: "fishtype") is done consistently.
+      // Hence, it is a safer bet to rely on the clientName of the polymorphicDiscriminator.
+      if (polymorphicDiscriminator && key === polymorphicDiscriminator.clientName && propertyInstance == undefined) {
         propertyInstance = mapper.serializedName;
       }
 
@@ -603,7 +619,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
         propertyInstance = responseBody[key];
         instance = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
-      } else if (propertyInstance !== undefined) {
+      } else if (propertyInstance !== undefined || propertyMapper.defaultValue !== undefined) {
         serializedValue = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
         instance[key] = serializedValue;
       }

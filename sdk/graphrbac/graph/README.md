@@ -26,14 +26,15 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+const tenantId = "<Tenant_Id>";
 
-msRestNodeAuth.interactiveLogin({{ tokenAudience: "https://graph.windows.net" }}).then((creds) => {
-  const client = new GraphRbacManagementClient(creds, subscriptionId, {
+msRestNodeAuth.interactiveLogin({ 
+  tokenAudience: "https://graph.windows.net",
+  domain: tenantId
+}).then((creds) => {
+  const client = new GraphRbacManagementClient(creds, tenantId, {
     baseUri: "https://graph.windows.net"
   });
   client.signedInUser.get().then((result) => {
@@ -68,7 +69,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/graph/dist/graph.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
+      const tenantId = "<Tenant_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
@@ -78,7 +79,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, subscriptionId, {
+        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, tenantId, {
           baseUri: "https://graph.windows.net"
         });
         client.signedInUser.get().then((result) => {

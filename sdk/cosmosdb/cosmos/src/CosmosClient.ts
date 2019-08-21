@@ -1,15 +1,13 @@
-import { Agent, AgentOptions } from "https";
-import * as tunnel from "tunnel";
-import * as url from "url";
-import { Constants, RequestOptions } from ".";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Helper, Platform } from "./common";
+import { parseConnectionString } from "./common";
+import { Constants } from "./common/constants";
+import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { DatabaseAccount } from "./documents";
+import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { CosmosResponse } from "./request";
+import { RequestOptions, ResourceResponse } from "./request";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -38,7 +36,7 @@ export class CosmosClient {
    *
    * @example Create a new database
    * ```typescript
-   * const {body: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
+   * const {resource: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
    * ```
    */
   public readonly databases: Databases;
@@ -48,65 +46,46 @@ export class CosmosClient {
    * Use `.offer(id)` to read, or replace existing offers.
    */
   public readonly offers: Offers;
+  private clientContext: ClientContext;
+  /**
+   * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
+   */
+  constructor(connectionString: string);
   /**
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
    * @param options bag of options - require at least endpoint and auth to be configured
    */
-
-  private clientContext: ClientContext;
-  constructor(private options: CosmosClientOptions) {
-    options.auth = options.auth || {};
-    if (options.key) {
-      options.auth.key = options.key;
+  constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
+  constructor(optionsOrConnectionString: string | CosmosClientOptions) {
+    if (typeof optionsOrConnectionString === "string") {
+      optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
     }
 
-    options.connectionPolicy = Helper.parseConnectionPolicy(options.connectionPolicy);
+    optionsOrConnectionString.connectionPolicy = Object.assign(
+      {},
+      defaultConnectionPolicy,
+      optionsOrConnectionString.connectionPolicy
+    );
 
-    options.defaultHeaders = options.defaultHeaders || {};
-    options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-    options.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
-    if (options.consistencyLevel !== undefined) {
-      options.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
+    optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
+    if (optionsOrConnectionString.consistencyLevel !== undefined) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
+        optionsOrConnectionString.consistencyLevel;
     }
 
-    const platformDefaultHeaders = Platform.getPlatformDefaultHeaders() || {};
+    const platformDefaultHeaders = getPlatformDefaultHeaders() || {};
     for (const platformDefaultHeader of Object.keys(platformDefaultHeaders)) {
-      options.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
+      optionsOrConnectionString.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
     }
 
-    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = Platform.getUserAgent();
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
 
-    if (!this.options.agent) {
-      // Initialize request agent
-      const requestAgentOptions: AgentOptions & tunnel.HttpsOverHttpsOptions & tunnel.HttpsOverHttpOptions = {
-        keepAlive: true
-      };
-      if (!!this.options.connectionPolicy.ProxyUrl) {
-        const proxyUrl = url.parse(this.options.connectionPolicy.ProxyUrl);
-        const port = parseInt(proxyUrl.port, 10);
-        requestAgentOptions.proxy = {
-          host: proxyUrl.hostname,
-          port,
-          headers: {}
-        };
-
-        if (!!proxyUrl.auth) {
-          requestAgentOptions.proxy.proxyAuth = proxyUrl.auth;
-        }
-
-        this.options.agent =
-          proxyUrl.protocol.toLowerCase() === "https:"
-            ? tunnel.httpsOverHttps(requestAgentOptions)
-            : tunnel.httpsOverHttp(requestAgentOptions); // TODO: type coersion
-      } else {
-        this.options.agent = new Agent(requestAgentOptions); // TODO: Move to request?
-      }
-    }
-
-    const globalEndpointManager = new GlobalEndpointManager(this.options, async (opts: RequestOptions) =>
+    const globalEndpointManager = new GlobalEndpointManager(optionsOrConnectionString, async (opts: RequestOptions) =>
       this.getDatabaseAccount(opts)
     );
-    this.clientContext = new ClientContext(options, globalEndpointManager);
+    this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
 
     this.databases = new Databases(this, this.clientContext);
     this.offers = new Offers(this, this.clientContext);
@@ -115,9 +94,9 @@ export class CosmosClient {
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
-  public async getDatabaseAccount(options?: RequestOptions): Promise<CosmosResponse<DatabaseAccount, CosmosClient>> {
+  public async getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(options);
-    return { body: response.result, headers: response.headers, ref: this };
+    return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.code);
   }
 
   /**

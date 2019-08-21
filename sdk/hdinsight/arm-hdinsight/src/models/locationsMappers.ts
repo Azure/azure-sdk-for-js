@@ -7,8 +7,21 @@
  */
 
 export {
+  BillingMeters,
+  BillingResources,
+  BillingResponseListResult,
+  CapabilitiesResult,
+  DiskBillingMeters,
   ErrorResponse,
   LocalizedName,
+  QuotaCapability,
+  RegionalQuotaCapability,
+  RegionsCapability,
   Usage,
-  UsagesListResult
+  UsagesListResult,
+  VersionsCapability,
+  VersionSpec,
+  VmSizeCompatibilityFilter,
+  VmSizeCompatibilityFilterV2,
+  VmSizesCapability
 } from "../models/mappers";

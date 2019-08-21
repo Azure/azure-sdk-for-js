@@ -9,6 +9,7 @@ module.exports = function (config: any) {
     plugins: [
       "karma-mocha",
       "karma-chrome-launcher",
+      "karma-firefox-launcher"
     ],
 
     // frameworks to use
@@ -58,6 +59,10 @@ module.exports = function (config: any) {
       ChromeDebugging: {
         base: "Chrome",
         flags: [`http://localhost:${defaults.port}/debug.html`, "--auto-open-devtools-for-tabs", "--disable-web-security"]
+      },
+      FirefoxDebugging: {
+        base: "Firefox",
+        flags: ["-url", `http://localhost:${defaults.port}/debug.html`, "-devtools"]
       }
     },
   });

@@ -1,0 +1,17 @@
+{
+  "name": "cosmos-samples",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cosmos DB Samples",
+  "main": "app.js",
+  "dependencies": {},
+  "scripts": {
+    "ContainerManagement": "npx ts-node ./ContainerManagement",
+    "UserManagement": "npx ts-node ./UserManagement",
+    "ServerSideScripts": "npx ts-node ./ServerSideScripts",
+    "ItemManagement": "npx ts-node ./ItemManagement",
+    "DatabaseManagement": "npx ts-node ./DatabaseManagement",
+    "IndexeManagement": "npx ts-node ./IndexeManagement",
+    "ChangeFeed": "npx ts-node ./ChangeFeed"
+  }
+}
