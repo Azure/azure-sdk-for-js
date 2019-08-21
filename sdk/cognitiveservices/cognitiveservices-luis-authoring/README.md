@@ -30,10 +30,10 @@ import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 import { LUISAuthoringClient } from "@azure/cognitiveservices-luis-authoring";
 
 
-let subscriptionId = "b15ebe3a1ec446a08f8021fe6f95f0f6";
+const subscriptionId = "<luis-authoring-key>";
 const creds = new CognitiveServicesCredentials(subscriptionId);
 const client = new LUISAuthoringClient(creds, "https://westus.api.cognitive.microsoft.com/");
-const appId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a"; // replace this with your appId.
+const appId = "<your-app-id>"; // replace this with your appId.
 const versionId = "0.1"; // This is the first versionId, replace it with yours.
 
 const skip = 1;
