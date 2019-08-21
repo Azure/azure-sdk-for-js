@@ -138,9 +138,9 @@ describe("Apps Module Functionality Tests", () => {
         usageScenario: "IoT"
       });
       const stream = await client.apps.downloadQueryLogs(appId.body);
-      // const csv = stream.readableStreamBody.read().toString();
-      // chai.expect(csv).to.be.exist;
-      // await client.apps.deleteMethod(appId.body);
+      const csv = stream.readableStreamBody.read().toString();
+      chai.expect(csv).to.be.exist;
+      await client.apps.deleteMethod(appId.body);
     });
   });
 

@@ -84,7 +84,19 @@ describe("Example Module Functionality Tests", () => {
             const result = await client.examples.batch(appId.body, "0.1", examples);
             await client.apps.deleteMethod(appId.body);
             chai.expect(examples.length).to.eql(result.length);
-            // To-Do add missing asserts
+            let pass = true;
+            for (let r of result) {
+                if (r.hasError)
+                    pass = false;
+
+                let found = false;
+                for (let e of examples)
+                    if (e.text.toLowerCase() == r.value.utteranceText.toLowerCase())
+                        found = true;
+
+                pass = (pass && found);
+            }
+            chai.expect(pass).to.be.true;
         });
     });
 
@@ -102,25 +114,30 @@ describe("Example Module Functionality Tests", () => {
             await client.model.addEntity(appId.body, "0.1", { name: "Place" });
             let examples = [{
                 text: "whats the weather in seattle?",
-                intentName: "WeatherInPlace",
-                entityLabels: [{
-                    entityName: "Place",
-                    startCharIndex: 21,
-                    endCharIndex: 34
-                }]
-            }, {
-                text: "whats the weather in buenos aires?",
-                intentName: "WeatherInPlace",
+                intentName: "InvalidIntent",
                 entityLabels: [{
                     entityName: "Place",
                     startCharIndex: 21,
                     endCharIndex: 29
                 }]
+            }, {
+                text: "whats the weather in buenos aires?",
+                intentName: "IntentDoesNotExist",
+                entityLabels: [{
+                    entityName: "Place",
+                    startCharIndex: 21,
+                    endCharIndex: 34
+                }]
             }];
             const result = await client.examples.batch(appId.body, "0.1", examples);
             await client.apps.deleteMethod(appId.body);
             chai.expect(examples.length).to.eql(result.length);
-            // To-Do add missing asserts
+            let pass = true;
+            for (let r of result) {
+                if (r.hasError)
+                    pass = false;
+            }
+            chai.expect(pass).to.be.false;
         });
     });
 
