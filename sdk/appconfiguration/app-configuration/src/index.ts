@@ -1,8 +1,39 @@
 import { AppConfigCredential } from "./appConfigCredential";
 import { TokenCredential } from "@azure/core-http";
-import { ConfigurationClient, ConfigurationClientContext } from "./generated/configurationClient";
+import { ConfigurationClient } from "./generated/configurationClient";
 
-import * as Models from "./generated/models";
+import {
+  ConfigurationSetting as ModelConfigurationSetting,
+  ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams as ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams,
+  CreateOrUpdateConfigurationSettingResponse as ModelCreateOrUpdateConfigurationSettingResponse,
+  ConfigurationClientDeleteConfigurationSettingOptionalParams as ModelConfigurationClientDeleteConfigurationSettingOptionalParams,
+  ConfigurationClientGetConfigurationSettingOptionalParams as ModelConfigurationClientGetConfigurationSettingOptionalParams,
+  ConfigurationClientListConfigurationSettingsOptionalParams as ModelConfigurationClientListConfigurationSettingsOptionalParams,
+  ConfigurationClientListRevisionsOptionalParams as ModelConfigurationClientListRevisionsOptionalParams,
+  DeleteConfigurationSettingResponse as ModelDeleteConfigurationSettingResponse,
+  GetConfigurationSettingResponse as ModelGetConfigurationSettingResponse,
+  ListConfigurationSettingsResponse as ModelListConfigurationSettingsResponse,
+  ListRevisionsResponse as ModelListRevisionsResponse,
+} from "./generated/models";
+
+export {
+  ConfigurationSettingList,
+  GetConfigurationSettingHeaders
+} from "./generated/models";
+
+export {
+  ModelConfigurationSetting,
+  ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams,
+  ModelCreateOrUpdateConfigurationSettingResponse,
+  ModelConfigurationClientDeleteConfigurationSettingOptionalParams,
+  ModelConfigurationClientGetConfigurationSettingOptionalParams,
+  ModelConfigurationClientListConfigurationSettingsOptionalParams,
+  ModelConfigurationClientListRevisionsOptionalParams,
+  ModelDeleteConfigurationSettingResponse,
+  ModelGetConfigurationSettingResponse,
+  ModelListConfigurationSettingsResponse,
+  ModelListRevisionsResponse
+}
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -19,23 +50,23 @@ export interface ETagOption {
   etag?: string;
 }
 
-export type AddConfigurationSettingConfig = Pick<Models.ConfigurationSetting, Exclude<keyof Models.ConfigurationSetting, "key">>;
-export type AddConfigurationSettingOptions = Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type AddConfigurationSettingsResponse = Models.CreateOrUpdateConfigurationSettingResponse;
-export type DeleteConfigurationSettingOptions = Models.ConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
-export type DeleteConfigurationSettingResponse = Models.DeleteConfigurationSettingResponse;
-export type GetConfigurationSettingOptions = Models.ConfigurationClientGetConfigurationSettingOptionalParams;
-export type GetConfigurationSettingResponse = Models.GetConfigurationSettingResponse;
-export type ListConfigurationSettingsOptions = Models.ConfigurationClientListConfigurationSettingsOptionalParams;
-export type ListConfigurationSettingsResponse = Models.ListConfigurationSettingsResponse;
-export type ListRevisionsOptions = Models.ConfigurationClientListRevisionsOptionalParams;
-export type ListRevisionsResponse = Models.ListRevisionsResponse;
-export type SetConfigurationSettingConfig = Pick<Models.ConfigurationSetting, Exclude<keyof Models.ConfigurationSetting, "key">>;
-export type SetConfigurationSettingOptions = Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type SetConfigurationSettingResponse = Models.CreateOrUpdateConfigurationSettingResponse;
-export type UpdateConfigurationSettingConfig = Pick<Models.ConfigurationSetting, Exclude<keyof Models.ConfigurationSetting, "key">>;
-export type UpdateConfigurationSettingOptions = Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type UpdateConfigurationSettingResponse = Models.CreateOrUpdateConfigurationSettingResponse;
+export type AddConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
+export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
+export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
+export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
+export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
+export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
+export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
+export type ListRevisionsResponse = ModelListRevisionsResponse;
+export type SetConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+export type UpdateConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
 
 export class AppConfigurationClient {
   private client: ConfigurationClient;
