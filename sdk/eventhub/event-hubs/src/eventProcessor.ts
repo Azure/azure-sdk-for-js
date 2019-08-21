@@ -199,8 +199,6 @@ export class EventProcessor {
     options?: EventProcessorOptions
   ) {
     if (!options) options = {};
-    // Time to wait for an update on an ownership record before assuming the owner of the partition is inactive.
-    const inactiveTimeLimitInMS = 300000; // 5 mintues
 
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
@@ -208,6 +206,7 @@ export class EventProcessor {
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
+    const inactiveTimeLimitInMS = 300000; // ownership expiration time (5 mintues)
     this._partitionLoadBalancer = new PartitionLoadBalancer(
       this._partitionManager,
       this._eventHubClient,

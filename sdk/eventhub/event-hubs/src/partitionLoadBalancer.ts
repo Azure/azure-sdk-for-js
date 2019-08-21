@@ -22,7 +22,7 @@ import * as log from "./log";
  * active EventProcessor. It uses the last modified time to decide if an EventProcessor is active. If a
  * partition ownership entry has not be updated for a specified duration of time, the owner of that partition is
  * considered inactive and the partition is available for other EventProcessors to own.
- * @class EventProcessorHost
+ * @class PartitionLoadBalancer
  */
 export class PartitionLoadBalancer {
   private _consumerGroupName: string;
