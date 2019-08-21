@@ -4,9 +4,9 @@ import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { UserDelegationKeyCredential } from "./credentials/UserDelegationKeyCredential";
 import { IIPRange, ipRangeToString } from "./IIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import { UserDelegationKey } from "./ServiceURL";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
-import { UserDelegationKey } from "./ServiceURL";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -221,37 +221,7 @@ export function generateBlobSASQueryParameters(
   blobSASSignatureValues: IBlobSASSignatureValues,
   sharedKeyCredential: SharedKeyCredential
 ): SASQueryParameters;
-/**
- * ONLY AVAILABLE IN NODE.JS RUNTIME.
- *
- * Creates an instance of SASQueryParameters.
- * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiryTime are required.
- *
- * @example
- * // Generate user delegation SAS for a container
- * const userDelegationKey = await serviceURL.getUserDelegationKey(aborter, startTime, expiryTime);
- * const userDelegationKeyCredential = new UserDelegationKeyCredential(accountName, userDelegationKey);
- * const containerSAS = generateBlobSASQueryParameters({
- *     containerName, // Required
- *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
- *     startTime, // Required. Date type
- *     expiryTime, // Optional. Date type
- *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
- *     protocol: SASProtocol.HTTPSandHTTP, // Optional
- *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
- *   },
- *   userDelegationKeyCredential // UserDelegationKeyCredential
- * ).toString();
- *
- * @export
- * @param {IBlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
- */
-export function generateBlobSASQueryParameters(
-  blobSASSignatureValues: IBlobSASSignatureValues,
-  userDelegationKeyCredential: UserDelegationKeyCredential
-): SASQueryParameters;
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -285,43 +255,38 @@ export function generateBlobSASQueryParameters(
   userDelegationKey: UserDelegationKey,
   accountName: string
 ): SASQueryParameters;
+
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: IBlobSASSignatureValues,
-  sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential:
+  sharedKeyCredentialOrUserDelegationKey:
     | SharedKeyCredential
-    | UserDelegationKeyCredential
     | UserDelegationKey,
   accountName?: string
 ): SASQueryParameters {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
 
   const sharedKeyCredential =
-    sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential instanceof SharedKeyCredential
-      ? sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential
+    sharedKeyCredentialOrUserDelegationKey instanceof SharedKeyCredential
+      ? sharedKeyCredentialOrUserDelegationKey
       : undefined;
-  let userDelegationKeyCredential =
-    sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential instanceof
-    UserDelegationKeyCredential
-      ? sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential
-      : undefined;
+  let userDelegationKeyCredential: UserDelegationKeyCredential | undefined;
 
   if (
     sharedKeyCredential === undefined &&
-    userDelegationKeyCredential === undefined &&
     accountName !== undefined
   ) {
     userDelegationKeyCredential = new UserDelegationKeyCredential(
       accountName,
-      sharedKeyCredentialOrUserDelegationKeyOrUserDelegationCredential as UserDelegationKey
+      sharedKeyCredentialOrUserDelegationKey as UserDelegationKey
     );
   }
 
   if (sharedKeyCredential === undefined && userDelegationKeyCredential === undefined) {
     throw TypeError(
-      "Invalid sharedKeyCredential, userDelegationKey, accountName or userDelegationKeyCredential."
+      "Invalid sharedKeyCredential, userDelegationKey or accountName."
     );
   }
-
+  
   // Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields.
   // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
   if (version >= "2018-11-09") {
