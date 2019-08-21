@@ -1,10 +1,12 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, isSuperSet } from "./utils";
-import { record } from "./utils/recorder";
-import { ContainerClient, BlockBlobTier } from "../src";
+
+import { BlockBlobTier, ContainerClient } from "../src";
 import { BlobMetadata } from "../src/generated/src/models";
+import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, isSuperSet } from "./utils";
 import { Test_CPK_INFO } from "./utils/constants";
+import { record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
