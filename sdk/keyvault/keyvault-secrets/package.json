@@ -51,7 +51,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --timeout 1200000 --reporter-options spec=-,mocha-junit-reporter=- --full-trace dist-test/index.node.js",
+    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 1200000 --full-trace dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src tests samples --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint -c ../../.eslintrc.json src tests samples --ext .ts -f html -o keyvault-secrets-lintReport.html || exit 0",

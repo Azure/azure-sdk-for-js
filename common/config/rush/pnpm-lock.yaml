@@ -119,7 +119,6 @@ dependencies:
   mocha-chrome: 2.0.0
   mocha-junit-reporter: 1.23.1_mocha@5.2.0
   mocha-multi: 1.1.0_mocha@5.2.0
-  mocha-multi-reporters: 1.1.7
   moment: 2.24.0
   msal: 1.1.3
   nise: 1.5.1
@@ -6187,13 +6186,6 @@ packages:
       mocha: '>=2.2.5'
     resolution:
       integrity: sha512-qeDvKlZyAH2YJE1vhryvjUQ06t2hcnwwu4k5Ddwn0GQINhgEYFhlGM0DwYCVUHq5cuo32qAW6HDsTHt7zz99Ng==
-  /mocha-multi-reporters/1.1.7:
-    dependencies:
-      debug: 3.2.6
-      lodash: 4.17.15
-    dev: false
-    resolution:
-      integrity: sha1-zH8/TTL0eFIJQdhSq7ZNmYhYfYI=
   /mocha-multi/1.1.0_mocha@5.2.0:
     dependencies:
       debug: 3.2.6
@@ -9661,7 +9653,7 @@ packages:
       karma-remap-coverage: 0.1.5_karma-coverage@1.1.2
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
-      mocha-multi-reporters: 1.1.7
+      mocha-multi: 1.1.0_mocha@5.2.0
       nyc: 14.1.1
       prettier: 1.18.2
       rimraf: 2.7.1
@@ -9678,7 +9670,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-BoVxHViVS71lSi8IASIY6SKhDSjSoG1xLh/P1D8yG0LGNECg2BU9pm2WwXs5qIOWtg5+zIvJqA4YAWK7F/d0Ig==
+      integrity: sha512-LIc9cJYm9NCHuKFc7fCv6UZSd/WjF/pnCcp0yx2xDGDvKNu/uC1c8lXZ8fhnvhbfprqYaZEExq3qe4/Sdcdv/g==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -9764,7 +9756,7 @@ packages:
       eslint-plugin-promise: 4.2.1
       mocha: 5.2.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
-      mocha-multi-reporters: 1.1.7
+      mocha-multi: 1.1.0_mocha@5.2.0
       npm-run-all: 4.1.5
       nyc: 14.1.1
       rimraf: 2.7.1
@@ -9781,7 +9773,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-JI2m7cTc6e8DV1ZOYmMgkdnbj8z8l1HAYfLblLd+ZztiDP4AMw9BxO1oDkbKorhCKJbY4g/uU/mwqqSCBv3pbw==
+      integrity: sha512-D3RlRvLMQwrLhsqM6Tjnxl9/594t3IFI1AZSjOyomQf0Z2BvHfgg61tCLHYEuBWAJCwNK7WE68+JezcRs47OIA==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -9883,7 +9875,7 @@ packages:
       mocha: 5.2.0
       mocha-chrome: 2.0.0
       mocha-junit-reporter: 1.23.1_mocha@5.2.0
-      mocha-multi-reporters: 1.1.7
+      mocha-multi: 1.1.0_mocha@5.2.0
       node-fetch: 2.6.0
       npm-run-all: 4.1.5
       nyc: 14.1.1
@@ -9920,7 +9912,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-pIlwOcrF8c5S7GeL8kjCnhUlwKvycLA8fEHlgz7YBXT8nP13TlR7FCTZJ//NXQ4YjOelX9hhr+nHuQz8s87LRg==
+      integrity: sha512-ph0PlxxS+dylhINIHyIFphskvAO7gHAKF52Y7kvARK/iMPTyTzH7bMXoL7gQG4fuM+kE39BblS8F5iwdvLyLDw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10847,7 +10839,6 @@ specifiers:
   mocha-chrome: ^2.0.0
   mocha-junit-reporter: ^1.18.0
   mocha-multi: 1.1.0
-  mocha-multi-reporters: ^1.1.7
   moment: ^2.24.0
   msal: ^1.0.2
   nise: ^1.4.10
