@@ -672,6 +672,7 @@ describe("Event Processor", function(): void {
       >();
       partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
       let didError = false;
+      let errorName = "";
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       const factory: PartitionProcessorFactory = (context) => {
@@ -689,8 +690,9 @@ describe("Event Processor", function(): void {
               existingEvents.push(event.body);
             });
           },
-          async processError() {
+          async processError(err) {
             didError = true;
+            errorName = err.name;
           }
         };
       };
@@ -756,7 +758,8 @@ describe("Event Processor", function(): void {
         }
       }
 
-      didError.should.be.false;
+      didError.should.be.true;
+      errorName.should.equal("ReceiverDisconnectedError");
       const n = Math.floor(partitionIds.length / 2);
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
       partitionOwnershipMap.get(processorByName[`processor-2`].id)!.length.should.oneOf([n, n + 1]);
