@@ -137,6 +137,11 @@ jobs:
           targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
         displayName: "Download Current Build artifacts"
 
+      - script: |
+        
+
+
+
   - job: "UnitTest"
 
     strategy:
