@@ -242,7 +242,7 @@ export class EventProcessor {
       );
       return inactivePartitionIds;
     } catch (err) {
-      log.error(`[${this.id}] An error occured when retrieving partition ids: ${err}`);
+      log.error(`[${this._id}] An error occured when retrieving partition ids: ${err}`);
       throw err;
     }
   }
@@ -314,7 +314,6 @@ export class EventProcessor {
     this._isRunning = true;
     this._abortController = new AbortController();
     log.eventProcessor(`[${this._id}] Starting an EventProcessor.`);
-
     this._loopTask = this._runLoop(this._abortController.signal);
   }
 
