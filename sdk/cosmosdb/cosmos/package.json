@@ -107,7 +107,7 @@
     "karma-webpack": "^4.0.0-rc.6",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi-reporters": "^1.1.7",
+    "mocha-multi": "1.1.0",
     "prettier": "^1.16.4",
     "proxy-agent": "3.0.3",
     "requirejs": "^2.3.5",
