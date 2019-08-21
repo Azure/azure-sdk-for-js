@@ -3,6 +3,7 @@
 ## 2019.08 10.4.1
 
 * Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+* `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
 
 ## 2019.07 10.4.0
 

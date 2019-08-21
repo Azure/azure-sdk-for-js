@@ -19,7 +19,6 @@ import {
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getTokenBSU } from "../utils";
 import { record } from "../utils/recorder";
-import { UserDelegationKeyCredential } from '../../src/credentials/UserDelegationKeyCredential';
 
 describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getBSU();
@@ -584,7 +583,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
         expiryTime: tmr,
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
       },
-      new UserDelegationKeyCredential(accountName, userDelegationKey)
+      userDelegationKey,
+      accountName
     );
 
     const sasURL = `${containerURL.url}?${containerSAS}`;
@@ -724,7 +724,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
         startTime: now,
         snapshotTime: response.snapshot
       },
-      new UserDelegationKeyCredential(accountName, userDelegationKey)
+      userDelegationKey,
+      accountName
     );
 
     const sasURL = `${blobURL.withSnapshot(response.snapshot!).url}&${blobSAS}`;
