@@ -7,12 +7,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is
  * regenerated.
  */
-
 import * as coreHttp from "@azure/core-http";
+
 import * as Models from "../models";
 import * as Mappers from "../models/directoryMappers";
 import * as Parameters from "../models/parameters";
 import { StorageClientContext } from "../storageClientContext";
+
 
 /** Class representing a Directory. */
 export class Directory {
@@ -44,14 +45,21 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.DirectoryCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.DirectoryCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
+  create(
+    options: Models.DirectoryCreateOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  create(
+    options?: Models.DirectoryCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.DirectoryCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.DirectoryCreateResponse>;
+      callback
+    ) as Promise<Models.DirectoryCreateResponse>;
   }
 
   /**
@@ -66,7 +74,10 @@ export class Directory {
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryRenameResponse>
    */
-  rename(renameSource: string, options?: Models.DirectoryRenameOptionalParams): Promise<Models.DirectoryRenameResponse>;
+  rename(
+    renameSource: string,
+    options?: Models.DirectoryRenameOptionalParams
+  ): Promise<Models.DirectoryRenameResponse>;
   /**
    * @param renameSource The file or directory to be renamed. The value must have the following
    * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
@@ -81,15 +92,24 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rename(renameSource: string, options: Models.DirectoryRenameOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  rename(renameSource: string, options?: Models.DirectoryRenameOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryRenameResponse> {
+  rename(
+    renameSource: string,
+    options: Models.DirectoryRenameOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  rename(
+    renameSource: string,
+    options?: Models.DirectoryRenameOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.DirectoryRenameResponse> {
     return this.client.sendOperationRequest(
       {
         renameSource,
         options
       },
       renameOperationSpec,
-      callback) as Promise<Models.DirectoryRenameResponse>;
+      callback
+    ) as Promise<Models.DirectoryRenameResponse>;
   }
 
   /**
@@ -99,7 +119,10 @@ export class Directory {
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryDeleteResponse>
    */
-  deleteMethod(recursiveDirectoryDelete: boolean, options?: Models.DirectoryDeleteMethodOptionalParams): Promise<Models.DirectoryDeleteResponse>;
+  deleteMethod(
+    recursiveDirectoryDelete: boolean,
+    options?: Models.DirectoryDeleteMethodOptionalParams
+  ): Promise<Models.DirectoryDeleteResponse>;
   /**
    * @param recursiveDirectoryDelete If "true", all paths beneath the directory will be deleted. If
    * "false" and the directory is non-empty, an error occurs.
@@ -112,15 +135,24 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(recursiveDirectoryDelete: boolean, options: Models.DirectoryDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(recursiveDirectoryDelete: boolean, options?: Models.DirectoryDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
+  deleteMethod(
+    recursiveDirectoryDelete: boolean,
+    options: Models.DirectoryDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    recursiveDirectoryDelete: boolean,
+    options?: Models.DirectoryDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.DirectoryDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         recursiveDirectoryDelete,
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.DirectoryDeleteResponse>;
+      callback
+    ) as Promise<Models.DirectoryDeleteResponse>;
   }
 
   /**
@@ -128,7 +160,9 @@ export class Directory {
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectorySetAccessControlResponse>
    */
-  setAccessControl(options?: Models.DirectorySetAccessControlOptionalParams): Promise<Models.DirectorySetAccessControlResponse>;
+  setAccessControl(
+    options?: Models.DirectorySetAccessControlOptionalParams
+  ): Promise<Models.DirectorySetAccessControlResponse>;
   /**
    * @param callback The callback
    */
@@ -137,14 +171,21 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControl(options: Models.DirectorySetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessControl(options?: Models.DirectorySetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectorySetAccessControlResponse> {
+  setAccessControl(
+    options: Models.DirectorySetAccessControlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setAccessControl(
+    options?: Models.DirectorySetAccessControlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.DirectorySetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setAccessControlOperationSpec,
-      callback) as Promise<Models.DirectorySetAccessControlResponse>;
+      callback
+    ) as Promise<Models.DirectorySetAccessControlResponse>;
   }
 
   /**
@@ -152,7 +193,9 @@ export class Directory {
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryGetAccessControlResponse>
    */
-  getAccessControl(options?: Models.DirectoryGetAccessControlOptionalParams): Promise<Models.DirectoryGetAccessControlResponse>;
+  getAccessControl(
+    options?: Models.DirectoryGetAccessControlOptionalParams
+  ): Promise<Models.DirectoryGetAccessControlResponse>;
   /**
    * @param callback The callback
    */
@@ -161,14 +204,21 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessControl(options: Models.DirectoryGetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getAccessControl(options?: Models.DirectoryGetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryGetAccessControlResponse> {
+  getAccessControl(
+    options: Models.DirectoryGetAccessControlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getAccessControl(
+    options?: Models.DirectoryGetAccessControlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.DirectoryGetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAccessControlOperationSpec,
-      callback) as Promise<Models.DirectoryGetAccessControlResponse>;
+      callback
+    ) as Promise<Models.DirectoryGetAccessControlResponse>;
   }
 }
 
@@ -177,13 +227,8 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.resource
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.resource],
   headerParameters: [
     Parameters.directoryProperties,
     Parameters.posixPermissions,
@@ -216,14 +261,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const renameOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.marker1,
-    Parameters.pathRenameMode
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.marker1, Parameters.pathRenameMode],
   headerParameters: [
     Parameters.renameSource,
     Parameters.directoryProperties,
@@ -262,14 +301,8 @@ const renameOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.recursiveDirectoryDelete,
-    Parameters.marker1
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.recursiveDirectoryDelete, Parameters.marker1],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -294,13 +327,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.action5
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.action5],
   headerParameters: [
     Parameters.owner,
     Parameters.group,
@@ -329,14 +357,8 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
 const getAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.upn,
-    Parameters.action6
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.upn, Parameters.action6],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,

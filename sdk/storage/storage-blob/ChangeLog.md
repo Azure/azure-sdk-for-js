@@ -12,6 +12,22 @@
 - Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
 - Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
 - `expiry` and `start` in `AccessPolicy` are now optional in `ContainerClient.setAccessPolicy` and `ContainerClient.getAccessPolicy`.
+
+### 2019.08 12.0.0-preview.2
+
+- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+  `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+- Generalized the credential parameter in client constructors to support `{SharedKeyCredential | AnonymousCredential | TokenCredential}` credentials as a union type.
+- Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
+  In this preview, SAS connection string support is added to the existing connection string client constructors and static methods.
+- Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+- SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+- SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
+
+### 2019.07 10.4.0
+
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
+- Improved comments for `BlockBlobURL.upload()`.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 - Fixed a bug of `BlobClient.downloadToBuffer()` when provided offset is not 0.
 - Fixed a bug that `Aborter` cannot work during retry interval.
