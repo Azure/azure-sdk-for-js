@@ -294,5 +294,3 @@ describe("Apps Module Functionality Tests", () => {
   });
 
 });
-
-
