@@ -27,9 +27,8 @@ export interface AzureServiceClientOptions extends ServiceClientOptions {
  * Initializes a new instance of the AzureServiceClient class.
  * @constructor
  *
- * @param {ServiceClientCredentials | TokenCredential} credentials - ApplicationTokenCredentials,
- * UserTokenCredentials, or TokenCredential object used for authentication.
- * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
+ * @param credentials The credentials used for authentication with the service.
+ * @param options The parameter options used by AzureServiceClient.
  */
 export class AzureServiceClient extends ServiceClient {
   public acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
@@ -38,7 +37,7 @@ export class AzureServiceClient extends ServiceClient {
    */
   public longRunningOperationRetryTimeout?: number;
 
-  constructor(credentials: ServiceClientCredentials | TokenCredential, options?: AzureServiceClientOptions) {
+  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
 
     // For convenience, if the credentials have an associated AzureEnvironment,

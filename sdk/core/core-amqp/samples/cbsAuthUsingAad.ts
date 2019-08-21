@@ -24,7 +24,7 @@ import {
   TokenType,
   Constants
 } from "@azure/core-amqp";
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -48,7 +48,7 @@ async function authenticate(
   closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const credential = new EnvironmentCredential();
+  const credential = new DefaultAzureCredential();
   const tokenObject = await credential.getToken(Constants.aadEventHubsScope);
   if (!tokenObject) {
     throw new Error("Aad token cannot be null");

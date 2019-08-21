@@ -7,7 +7,7 @@ import {
   ErrorNameConditionMapper,
   MessagingError,
   Func
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import {
   Receiver,
   OnAmqpEvent,

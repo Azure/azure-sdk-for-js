@@ -130,19 +130,12 @@ export function browserConfig(test = false) {
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false,
-        // Following packages are de-duped in order to get module resolution to work with npm + rollup
-        // This will be in place until we have a solution for issue
-        // https://github.com/Azure/azure-sdk-for-js/issues/3326
-        dedupe: ["buffer", "events", "util", "process", "assert"]
+        preferBuiltins: false
       }),
 
       cjs({
-        // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
-        // modules with built-in names must have a trailing slash.
-        // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         namedExports: {
-          "events/": ["EventEmitter"]
+          events: ["EventEmitter"]
         }
       }),
 

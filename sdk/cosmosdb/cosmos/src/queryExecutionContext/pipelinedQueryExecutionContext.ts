@@ -1,26 +1,22 @@
-import {
-  HeaderUtils,
-  IExecutionContext,
-  IHeaders,
-  OrderByQueryExecutionContext,
-  ParallelQueryExecutionContext,
-  PartitionedQueryExecutionContextInfo,
-  PartitionedQueryExecutionContextInfoParser
-} from ".";
 import { ClientContext } from "../ClientContext";
-import { Response } from "../request/request";
-import {
-  AggregateEndpointComponent,
-  IEndpointComponent,
-  OrderByEndpointComponent,
-  TopEndpointComponent
-} from "./EndpointComponent";
+import { Response } from "../request";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import { CosmosHeaders } from "./CosmosHeaders";
+import { AggregateEndpointComponent } from "./EndpointComponent/AggregateEndpointComponent";
+import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
+import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
+import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
+import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
+import { ExecutionContext } from "./ExecutionContext";
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
+import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
+import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 
 /** @hidden */
-export class PipelinedQueryExecutionContext implements IExecutionContext {
+export class PipelinedQueryExecutionContext implements ExecutionContext {
   private fetchBuffer: any[];
-  private fetchMoreRespHeaders: IHeaders;
-  private endpoint: IEndpointComponent;
+  private fetchMoreRespHeaders: CosmosHeaders;
+  private endpoint: ExecutionContext;
   private pageSize: number;
   private static DEFAULT_PAGE_SIZE = 10;
   constructor(
@@ -28,7 +24,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     private collectionLink: string,
     private query: any, // TODO: any query
     private options: any, // TODO: any options
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -37,7 +33,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     }
 
     // Pick between parallel vs order by execution context
-    const sortOrders = PartitionedQueryExecutionContextInfoParser.parseOrderBy(partitionedQueryExecutionInfo);
+    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     if (Array.isArray(sortOrders) && sortOrders.length > 0) {
       // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
       //      "payload" property.
@@ -61,15 +57,31 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     }
 
     // If aggregate then add that to the pipeline
-    const aggregates = PartitionedQueryExecutionContextInfoParser.parseAggregates(partitionedQueryExecutionInfo);
+    const aggregates = partitionedQueryExecutionInfo.queryInfo.aggregates;
     if (Array.isArray(aggregates) && aggregates.length > 0) {
       this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
     }
 
-    // If top then add that to the pipeline
-    const top = PartitionedQueryExecutionContextInfoParser.parseTop(partitionedQueryExecutionInfo);
+    // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
+    const top = partitionedQueryExecutionInfo.queryInfo.top;
     if (typeof top === "number") {
-      this.endpoint = new TopEndpointComponent(this.endpoint, top);
+      this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
+    }
+
+    // If offset+limit then add that to the pipeline
+    const limit = partitionedQueryExecutionInfo.queryInfo.limit;
+    const offset = partitionedQueryExecutionInfo.queryInfo.offset;
+    if (typeof limit === "number" && typeof offset === "number") {
+      this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
+    }
+
+    // If distinct then add that to the pipeline
+    const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+    if (distinctType === "Ordered") {
+      this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+    }
+    if (distinctType === "Unordered") {
+      this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
     }
   }
 
@@ -93,7 +105,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
       return this.endpoint.fetchMore();
     } else {
       this.fetchBuffer = [];
-      this.fetchMoreRespHeaders = HeaderUtils.getInitialHeader();
+      this.fetchMoreRespHeaders = getInitialHeader();
       return this._fetchMoreImplementation();
     }
   }
@@ -101,7 +113,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
   private async _fetchMoreImplementation(): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem();
-      HeaderUtils.mergeHeaders(this.fetchMoreRespHeaders, headers);
+      mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
         if (this.fetchBuffer.length === 0) {
@@ -130,7 +142,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
         }
       }
     } catch (err) {
-      HeaderUtils.mergeHeaders(this.fetchMoreRespHeaders, err.headers);
+      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
       if (err) {
         throw err;

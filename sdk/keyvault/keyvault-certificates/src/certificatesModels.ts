@@ -2,6 +2,10 @@ import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { CertificatePolicy } from "./core/models";
 
+/**
+ * @interface
+ * An interface representing a full certificate
+ */
 export interface Certificate extends CertificateAttributes {
   /**
    * @member {string} [kid] The key id.
@@ -31,6 +35,10 @@ export interface Certificate extends CertificateAttributes {
   contentType?: string;
 }
 
+/**
+ * @interface
+ * An interface representing the attributes of a certificate
+ */
 export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The certificate id.
@@ -67,6 +75,10 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   readonly x509Thumbprint?: Uint8Array;
 }
 
+/**
+ * @interface
+ * An interface representing a deleted certificate
+ */
 export interface DeletedCertificate extends Certificate {
   /**
    * @member {string} [recoveryId] The url of the recovery object, used to
@@ -90,10 +102,8 @@ export interface DeletedCertificate extends Certificate {
 
 /**
  * @interface
- * An interface representing KeyVaultClientSetCertificateOptionalParams.
+ * An interface representing options for setting a certificate.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface SetCertificateOptions {
   /**
@@ -193,6 +203,10 @@ export interface RequestOptions {
   requestOptions?: coreHttp.RequestOptionsBase;
 }
 
+/**
+ * @interface
+ * An interface representing the issuer of a certificate
+ */
 export interface CertificateIssuer {
   /**
    * @member {string} [id] Certificate Identifier.
@@ -204,6 +218,10 @@ export interface CertificateIssuer {
   provider?: string;
 }
 
+/**
+ * @interface
+ * An interface representing the attributes of an issuer
+ */
 export interface IssuerAttributes {
   /**
    * @member {string} [id] Certificate Identifier.
@@ -229,11 +247,4 @@ export interface IssuerAttributes {
    * @member {string} [name] Name of the issuer
    */
   name?: string;
-}
-
-export interface Issuer extends IssuerAttributes {
-  accountId?: string;
-  password?: string;
-  organizationId?: string;
-  adminDetails?: string;
 }

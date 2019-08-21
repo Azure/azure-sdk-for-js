@@ -10,7 +10,7 @@ import {
   RetryConfig,
   ConditionErrorNameMapper,
   ErrorNameConditionMapper
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import {
   Receiver,
   OnAmqpEvent,

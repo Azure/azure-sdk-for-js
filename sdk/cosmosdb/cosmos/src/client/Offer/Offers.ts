@@ -1,4 +1,5 @@
 import { ClientContext } from "../../ClientContext";
+import { ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -32,7 +33,14 @@ export class Offers {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed<T>("/offers", "offers", "", result => result.Offers, query, innerOptions);
+      return this.clientContext.queryFeed<T>({
+        path: "/offers",
+        resourceType: ResourceType.offer,
+        resourceId: "",
+        resultFn: result => result.Offers,
+        query,
+        options: innerOptions
+      });
     });
   }
 
@@ -41,7 +49,7 @@ export class Offers {
    * @param options
    * @example Read all offers to array.
    * ```typescript
-   * const {body: offerList} = await client.offers.readAll().toArray();
+   * const {body: offerList} = await client.offers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource> {

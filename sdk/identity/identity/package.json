@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-preview.3",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -11,6 +11,8 @@
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
     "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
+    "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
+    "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
     "./dist/index.js": "./browser/index.js"
   },
   "scripts": {
@@ -23,7 +25,7 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-esm browser test-dist test-browser typings *.tgz *.log",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -68,27 +70,29 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/identity/identity",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.0.0-preview.1",
+    "@azure/core-http": "1.0.0-preview.3",
     "events": "^3.0.0",
-    "jws": "~3.2.2",
-    "qs": "6.7.0",
+    "jws": "^3.2.2",
+    "msal": "^1.0.2",
+    "qs": "^6.7.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@types/jws": "~3.2.0",
+    "@azure/abort-controller": "1.0.0-preview.2",
+    "@types/jws": "^3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
-    "@types/qs": "~6.5.3",
+    "@types/qs": "^6.5.3",
     "@types/uuid": "^3.4.3",
-    "@typescript-eslint/eslint-plugin": "^1.11.0",
-    "@typescript-eslint/parser": "^1.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.1.0",
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-json-preprocessor": "^0.3.3",
@@ -99,7 +103,7 @@
     "karma-remap-coverage": "^0.1.5",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.0.1",
+    "mocha-multi": "1.1.0",
     "prettier": "^1.16.4",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
@@ -113,6 +117,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.0.0",
     "typescript": "^3.2.2",
-    "util": "^0.11.1"
+    "util": "^0.12.1"
   }
 }

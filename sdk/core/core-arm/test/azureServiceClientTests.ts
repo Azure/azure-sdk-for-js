@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/core-http";
+import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, SimpleTokenCredential, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/core-http";
 import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
 import * as msAssert from "./msAssert";
 import { LROPoller } from "../lib/lroPoller";
@@ -11,28 +11,27 @@ import { CloudErrorMapper } from "../lib/cloudError";
 describe("AzureServiceClient", () => {
   describe("constructor", () => {
     it("with no options provided", () => {
-      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
+      const client = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"));
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
     });
 
     it("with acceptLanguage provided", () => {
-      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"), { acceptLanguage: "my-fake-language" });
+      const client = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"), { acceptLanguage: "my-fake-language" });
       assert.strictEqual(client.acceptLanguage, "my-fake-language");
       assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
     });
 
     it("with longRunningOperationRetryTimeout provided", () => {
-      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"), { longRunningOperationRetryTimeout: 2 });
+      const client = new AzureServiceClient(new SimpleTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 2 });
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, 2);
     });
 
     it("should apply the resourceManagerEndpointUrl from credentials", async function() {
-      const creds = {
-        signRequest: (request: WebResource) => Promise.resolve(request),
-        environment: { resourceManagerEndpointUrl: "foo" }
-      };
+      const creds = new SimpleTokenCredential("my-fake-token");
+      (creds as any).environment = { resourceManagerEndpointUrl: "foo" };
+
       const client = new AzureServiceClient(creds);
       // accessing protected property by casting
       assert.strictEqual((client as any).baseUri, "foo");
@@ -2551,7 +2550,7 @@ describe("AzureServiceClient", () => {
 
   describe("sendRequest", () => {
     it ("adds custom user agent if specified", async () => {
-      const client = new AzureServiceClient(new TokenCredentials("fake-token"), { userAgent: "custom-ua" });
+      const client = createServiceClientWithOptions({ userAgent: "custom-ua" }, [{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
@@ -2560,7 +2559,7 @@ describe("AzureServiceClient", () => {
     });
 
     it ("adds user agent header that looks similar to \"core-arm/0.1.0 core-http/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
-      const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
+      const client = createServiceClient([{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
 
@@ -2582,7 +2581,11 @@ interface HttpResponse {
 }
 
 function createServiceClient(responses: HttpResponse[]): AzureServiceClient {
-  return new AzureServiceClient(new TokenCredentials("my-fake-token"), {
+  return createServiceClientWithOptions({}, responses);
+}
+
+function createServiceClientWithOptions(options: AzureServiceClientOptions, responses: HttpResponse[]): AzureServiceClient {
+  return new AzureServiceClient(new SimpleTokenCredential("my-fake-token"), Object.assign({
     httpClient: {
       sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
         const response: HttpResponse | undefined = responses.shift();
@@ -2599,5 +2602,5 @@ function createServiceClient(responses: HttpResponse[]): AzureServiceClient {
       }
     },
     longRunningOperationRetryTimeout: 0
-  });
+  }, options));
 }

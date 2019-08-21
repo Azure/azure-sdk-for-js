@@ -10,6 +10,7 @@ import {
   SharedKeyCredential,
   ConnectionConfig,
   isTokenCredential,
+  RetryOptions,
   Constants
 } from "@azure/core-amqp";
 
@@ -23,42 +24,13 @@ import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
 
-/**
- * Retry policy options for operations on the EventHubClient.
- */
-export interface RetryOptions {
-  /**
-   * The maximum number of times an operation will be retried.
-   */
-  maxRetries?: number;
-  /**
-   * Number of milliseconds to wait between attempts.
-   */
-  retryInterval?: number;
-  /**
-   * Number of milliseconds to wait before declaring that current attempt has timed out which will trigger a retry
-   * A minimum value of 60 seconds will be used if a value not greater than this is provided.
-   */
-  timeoutInMs?: number;
-  // /**
-  //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
-  //  * Not applicable, when `isExponential` is set to `false`.
-  //  */
-  // maxRetryInterval?: number;
-  // /**
-  //  * Boolean denoting if the `retryInterval` should be incremented exponentially between
-  //  * retries or kept the same.
-  //  */
-  // isExponential?: boolean;
-}
-
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInSeconds * 1000
-      ? Constants.defaultOperationTimeoutInSeconds * 1000
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
+      ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
 }

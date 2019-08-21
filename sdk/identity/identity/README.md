@@ -31,13 +31,16 @@ do not accept these credentials.
 
 Credentials differ mostly in configuration:
 
-| credential class              | identity                              | configuration                                                                                    |
-| ----------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `DefaultAzureCredential`      | service principal or managed identity | none for managed identity; [environment variables](#environment-variables) for service principal |
-| `ManagedIdentityCredential`   | managed identity                      | none                                                                                             |
-| `EnvironmentCredential`       | service principal                     | [environment variables](#environment-variables)                                                  |
-| `ClientSecretCredential`      | service principal                     | constructor parameters                                                                           |
-| `ClientCertificateCredential` | service principal                     | constructor parameters                                                                           |
+| credential class                   | identity                              | configuration                                                                                    |
+| ---------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [`DefaultAzureCredential`][1]      | service principal or managed identity | none for managed identity; [environment variables](#environment-variables) for service principal |
+| [`ManagedIdentityCredential`][2]   | managed identity                      | none                                                                                             |
+| [`EnvironmentCredential`][3]       | service principal                     | [environment variables](#environment-variables)                                                  |
+| [`ClientSecretCredential`][4]      | service principal                     | constructor parameters                                                                           |
+| [`ClientCertificateCredential`][5] | service principal                     | constructor parameters                                                                           |
+| [`DeviceCodeCredential`][6]        | app registration details              | constructor parameters                                                                           |
+| [`InteractiveBrowserCredential`][7]| app registration details              | constructor parameters                                                                           |
+| [`UsernamePasswordCredential`][8]  | user principal                        | constructor parameters                                                                           |
 
 Credentials can be chained and tried in turn until one succeeds; see [chaining credentials](#chaining-credentials) for details.
 
@@ -117,6 +120,10 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ## Next steps
 
+### Read the documentation
+
+API documentation for this library can be found on our [documentation site](https://azure.github.io/azure-sdk-for-js/identity/index.html).
+
 ### Provide Feedback
 
 If you encounter bugs or have suggestions, please [open an issue](https://github.com/Azure/azure-sdk-for-js/issues).
@@ -136,3 +143,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
 or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+[1]: https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html
+[2]: https://azure.github.io/azure-sdk-for-js/identity/classes/managedidentitycredential.html
+[3]: https://azure.github.io/azure-sdk-for-js/identity/classes/environmentcredential.html
+[4]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html
+[5]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html
+[6]: https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html
+[7]: https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html
+[8]: https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html

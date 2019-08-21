@@ -9,13 +9,13 @@
     Please ensure that your Azure Service Bus resource is in US East, US East 2, or West Europe
     region. AAD Role Based Access Control is not supported in other regions yet.
 
-    Register a new application in AAD and assign the "owner" role to it
+    Register a new application in AAD and assign the "Azure Service Bus Data Owner (Preview)" role to it
      - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app 
        to register a new application in the Azure Active Directory.
      - Note down the CLIENT_ID and TENANT_ID from the above step.
      - In the "Certificates & Secrets" tab, create a secret and note that down.
      - In the Azure portal, go to your Service Bus resource and click on the Access control (IAM) 
-       tab. Here, assign "owner" role to the registered application.
+       tab. Here, assign "Azure Service Bus Data Owner (Preview)" role to the registered application.
 */
 
 import { ServiceBusClient } from "@azure/service-bus";

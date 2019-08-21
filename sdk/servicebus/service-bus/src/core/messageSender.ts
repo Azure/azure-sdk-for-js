@@ -24,7 +24,7 @@ import {
   RetryOperationType,
   Constants,
   randomNumberFromInterval
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import {
   SendableMessageInfo,
   toAmqpMessage,

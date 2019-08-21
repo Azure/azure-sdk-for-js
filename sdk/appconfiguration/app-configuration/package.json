@@ -1,0 +1,59 @@
+{
+  "name": "@azure/app-configuration",
+  "author": "Microsoft Corporation",
+  "description": "An isomorphic client library for the Azure App Configuration service.",
+  "version": "1.0.0-preview.1",
+  "dependencies": {
+    "@azure/core-arm": "1.0.0-preview.1",
+    "@azure/core-http": "1.0.0-preview.1",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/app-configuration.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "devDependencies": {
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.1.1",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/app-configuration.js.map'\" -o ./dist/app-configuration.min.js ./dist/app-configuration.js",
+    "prepack": "npm install && npm run build"
+  },
+  "sideEffects": false,
+  "autoPublish": false
+}

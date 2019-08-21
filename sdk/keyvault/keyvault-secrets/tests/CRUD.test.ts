@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { isNode, retry, env } from "./utils/recorder";
+import { retry, env } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
@@ -46,7 +46,9 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const controller = new AbortController();
     const resultPromise = client.setSecret(secretName, secretValue, {
-      abortSignal: controller.signal
+      requestOptions: {
+        abortSignal: controller.signal
+      }
     });
     controller.abort();
     let error;
@@ -55,11 +57,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    if (isNode) {
-      assert.equal(error.message, "The request was aborted");
-    } else {
-      assert.equal(error.message, "Failed to send the request.");
-    }
+    assert.equal(error.message, "The request was aborted");
   });
 
   it("cannot create a secret with an empty name", async function() {
@@ -178,7 +176,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       error.message,
       "Operation get is not allowed on a disabled secret.",
-      "Unexpected error after tryign to get a disabled secret"
+      "Unexpected error after trying to get a disabled secret"
     );
     await testClient.flushSecret(secretName);
   });
@@ -210,7 +208,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       error.message,
       `Secret not found: ${secretName}`,
-      "Unexpected error after tryign to get a disabled secret"
+      "Unexpected error after trying to get a disabled secret"
     );
   });
 
@@ -219,7 +217,12 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    await client.deleteSecret(secretName);
+    const result = await client.deleteSecret(secretName);
+
+    assert.equal(typeof result.recoveryId, "string");
+    assert.ok(result.deletedDate instanceof Date);
+    assert.ok(result.scheduledPurgeDate instanceof Date);
+
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
@@ -247,7 +250,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       error.message,
       `Secret not found: ${secretName}`,
-      "Unexpected error after tryign to get a disabled secret"
+      "Unexpected error after trying to get a disabled secret"
     );
   });
 

@@ -42,7 +42,7 @@ async function main(): Promise<void> {
     // ];
     console.log("Sending single event...");
     const scientist = listOfScientists[0];
-    producer.send({ body: `${scientist.firstName} ${scientist.name}` });
+    await producer.send({ body: `${scientist.firstName} ${scientist.name}` });
 
     console.log("Sending multiple events...");
     const events: EventData[] = [];
@@ -52,18 +52,17 @@ async function main(): Promise<void> {
     }
     await producer.send(events);
 
-    // Below variation of send will be available in the upcoming release
-    // console.log("Creating and sending a batch of events...");
-    // const eventDatabatch = await producer.createBatch();
-    // for (let index = 0; index < listOfScientists.length; index++) {
-    //   const scientist = listOfScientists[index];
-    //   const isAdded = eventDatabatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
-    //   if (!isAdded) {
-    //     console.log(`Unable to add event ${index} to the batch`);
-    //     break;
-    //   }
-    // }
-    // await producer.send(eventDatabatch);
+    console.log("Creating and sending a batch of events...");
+    const eventDataBatch = await producer.createBatch();
+    for (let index = 0; index < listOfScientists.length; index++) {
+      const scientist = listOfScientists[index];
+      const isAdded = eventDataBatch.tryAdd({ body: `${scientist.firstName} ${scientist.name}` });
+      if (!isAdded) {
+        console.log(`Unable to add event ${index} to the batch`);
+        break;
+      }
+    }
+    await producer.send(eventDataBatch);
 
     await producer.close();
   } finally {

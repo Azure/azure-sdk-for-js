@@ -54,8 +54,7 @@ export const apiId1: msRest.OperationURLParameter = {
     serializedName: "apiId",
     constraints: {
       MaxLength: 80,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -109,8 +108,7 @@ export const backendId: msRest.OperationURLParameter = {
     serializedName: "backendId",
     constraints: {
       MaxLength: 80,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -335,8 +333,7 @@ export const groupId: msRest.OperationURLParameter = {
     serializedName: "groupId",
     constraints: {
       MaxLength: 256,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -503,8 +500,7 @@ export const operationId: msRest.OperationURLParameter = {
     serializedName: "operationId",
     constraints: {
       MaxLength: 80,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -556,8 +552,7 @@ export const productId: msRest.OperationURLParameter = {
     serializedName: "productId",
     constraints: {
       MaxLength: 256,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
@@ -782,8 +777,7 @@ export const userId: msRest.OperationURLParameter = {
     serializedName: "userId",
     constraints: {
       MaxLength: 80,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"

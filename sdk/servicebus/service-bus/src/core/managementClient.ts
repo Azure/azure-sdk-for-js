@@ -21,7 +21,7 @@ import {
   ConditionErrorNameMapper,
   AmqpMessage,
   SendRequestOptions
-} from "@azure/core-amqp";
+} from "@azure/amqp-common";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   ReceivedMessageInfo,

@@ -1,11 +1,12 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { ServiceURL } from "../src/ServiceURL";
-import { getAlternateBSU, getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
-import * as dotenv from "dotenv";
+import { getAlternateBSU, getBSU, getTokenBSU } from "./utils";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", () => {
@@ -196,5 +197,33 @@ describe("ServiceURL", () => {
     const accountInfo = await serviceURL.getAccountInfo(Aborter.none);
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
+  });
+
+  it("getUserDelegationKey should work", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    const response = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
+    assert.notDeepStrictEqual(response.value, undefined);
+    assert.notDeepStrictEqual(response.signedVersion, undefined);
+    assert.notDeepStrictEqual(response.signedTid, undefined);
+    assert.notDeepStrictEqual(response.signedStart, undefined);
+    assert.notDeepStrictEqual(response.signedService, undefined);
+    assert.notDeepStrictEqual(response.signedOid, undefined);
+    assert.notDeepStrictEqual(response.signedExpiry, undefined);
   });
 });
