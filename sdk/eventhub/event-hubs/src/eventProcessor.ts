@@ -200,7 +200,7 @@ export class EventProcessor {
   ) {
     if (!options) options = {};
     // Time to wait for an update on an ownership record before assuming the owner of the partition is inactive.
-    const inactiveTimeLimitInMS = 5000;
+    const inactiveTimeLimitInMS = 300000; // 5 mintues
 
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
