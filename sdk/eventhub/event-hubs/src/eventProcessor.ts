@@ -248,8 +248,7 @@ export class EventProcessor {
   }
 
   /**
-   * This method is expected to be invoked by the EventProcessor. Every loop to this method will result in this EventProcessor owning at
-   * most one new partition.
+   * Every loop to this method will result in this EventProcessor owning at most one new partition.
    *
    * The load is considered balanced when no active EventProcessor owns 2 partitions more than any other active
    * EventProcessor. Given that each invocation to this method results in ownership claim of at most one partition,
@@ -259,7 +258,7 @@ export class EventProcessor {
    * EventHubConsumer for processing events from that partition.
    */
 
-  async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
+  private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
     // periodically check if there is any partition not being processed and process it
     const waitIntervalInMs = 10000;
     while (!abortSignal.aborted) {
