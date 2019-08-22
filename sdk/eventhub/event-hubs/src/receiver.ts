@@ -39,7 +39,7 @@ export interface EventIteratorOptions {
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
  * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
- * You can pass the below in the `options` when creating a producer.
+ * You can pass the below in the `options` when creating a consumer.
  * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.

@@ -6,7 +6,15 @@ import { ReceivedEventData } from "./eventData";
 import { PartitionManager } from "./eventProcessor";
 
 /**
- * A checkpoint represents the last successfully processed event by a `PartitionProcessor` for a particular partition of an Event Hub.
+ * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ * partition of a consumer group in an Event Hub instance.
+ *
+ * This is internal to how an `EventProcessor` works and the user of `EventHubClient` or `EventProcessor`
+ * never interacts with `Checkpoint` directly.
+ *
+ * When the `updateCheckpoint()` method on the `CheckpointManager` class is called by the user, a
+ * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
+ * `PartitionManager` chosen by the user when creating an `EventProcessor`.
  **/
 export interface Checkpoint {
   /**
@@ -40,8 +48,13 @@ export interface Checkpoint {
 }
 
 /**
- * The checkpoint manager is used to update checkpoints to track progress of events processed. Each
- * instance of a `PartitionProcessor` will be provided with it's own instance of a `CheckpointManager`.
+ * Users of the `EventProcessor` class use the `CheckpointManager` to update checkpoints.
+ *
+ * `EventProcessor` class instantiates this class for each partition it is processing and passes it to
+ * the user code. The user never has to instantiate this class directly.
+ *
+ * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ * partition of a consumer group in an Event Hub instance.
  */
 export class CheckpointManager {
   private _partitionContext: PartitionContext;
@@ -52,7 +65,7 @@ export class CheckpointManager {
   /**
    * @ignore
    * @internal
-   * 
+   *
    * Creates a new checkpoint manager which is passed to a `PartitionProcessor`  to update checkpoints.
    * @param partitionContext The partition context providing necessary partition and event hub information for updating
    * checkpoints.
@@ -70,19 +83,23 @@ export class CheckpointManager {
     this._eTag = "";
   }
   /**
-   * Updates the checkpoint for this partition using the event data. This will serve as the last known successfully
-   * processed event in this partition if the update is successful.
+   * Updates the checkpoint for the partition associated with the current `CheckpointManager`.
    *
-   * @param eventData The event data to use for updating the checkpoint.
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
    * @return Promise<void>
    */
   public async updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
   /**
-   * Updates a checkpoint using the given offset and sequence number. This will serve as the last known successfully
-   * processed event in this partition if the update is successful.
+   * Updates the checkpoint for the partition associated with the current `CheckpointManager`.
    *
-   * @param sequenceNumber The sequence number to update the checkpoint.
-   * @param offset The offset to update the checkpoint.
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
+   * @param offset The offset of the event that you want to update the checkpoint with.
    * @return  Promise<void>.
    */
   public async updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;

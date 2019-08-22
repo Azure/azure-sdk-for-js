@@ -13,7 +13,8 @@ import * as log from "./log";
 import { delay } from "@azure/core-amqp";
 
 /**
- * Reason for closing a PartitionProcessor.
+ * An enum representing the different reasons for the `EventProcessor` to stop processing
+ * events from a partition in a consumer group of an Event Hub instance.
  */
 export enum CloseReason {
   /**
@@ -31,7 +32,11 @@ export enum CloseReason {
 }
 
 /**
- * Implementations of this interface are responsible to process events, handle errors and update checkpoints
+ * An interface to be implemented by the user in order to be used by the `EventProcessor` via 
+ * the `PartitionProcessorFactory` to process events from a partition in a consumer group of an Event Hub instance.
+ * 
+ * The interface supports methods that are called at various points of the lifecyle of processing events
+ * from a partition like initialize, error and close.
  *
  */
 export interface PartitionProcessor {
@@ -68,7 +73,10 @@ export interface PartitionProcessor {
 }
 
 /**
- * Partition ownership information. Used by `PartitionManager` to claim ownership.
+ * An interface representing the details on which instance of a `EventProcessor` owns processing
+ * of a given partition from a consumer group of an Event Hub instance.
+ * 
+ * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
  */
 export interface PartitionOwnership {
   /**
@@ -111,7 +119,10 @@ export interface PartitionOwnership {
 }
 
 /**
- * A functional interface to create new instance(s) of `PartitionProcessor` when provided with a `PartitionContext` and `CheckpointManager`.
+ * A functional interface to create new instance(s) of `PartitionProcessor`.
+ * 
+ * The `EventProcessor` calls this factory each time it begins processing a new partition 
+ * from a consumer group of an Event Hub instance.
  */
 export interface PartitionProcessorFactory {
   /**
@@ -128,7 +139,16 @@ export interface PartitionProcessorFactory {
 }
 
 /**
- *  Partition manager stores and retrieves partition ownership information and checkpoint details for each partition in a given consumer group of an event hub instance.
+ * A Partition manager stores and retrieves partition ownership information and checkpoint details 
+ * for each partition in a given consumer group of an event hub instance.
+ * 
+ * This is used to construct an `EventProcessor` meant to process events from multiple partitions from a 
+ * consumer group of an Event Hub instance.
+ * 
+ * To get started, you can use the `InMemoryPartitionManager` which will store the relevant information in memory.
+ * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * store the checkpoints and partition ownerships to a durable store instead.
+ * 
  */
 export interface PartitionManager {
   /**
@@ -165,7 +185,16 @@ export interface EventProcessorOptions {
 }
 
 /**
- * Describes the Event Processor Host to process events from an EventHub.
+ * `EventProcessor` is a high level construct that 
+ * - uses an `EventHubClient` to receive events from multiple partitions in a consumer group of an Event Hub instance
+ * - provides the ability to checkpoint and load balance across multiple instances of itself using the `PartitionManager`
+ * 
+ * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ * partition of a consumer group in an Event Hub instance.
+ * 
+ * By setting up multiple instances of the `EventProcessor` over different machines, the partitions will be distributed
+ * for processing among the different instances. This achieves load balancing.
+ * 
  * @class EventProcessorHost
  */
 export class EventProcessor {

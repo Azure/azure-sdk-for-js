@@ -392,11 +392,17 @@ export class EventHubClient {
    * @param consumerGroup The name of the consumer group this consumer is associated with. Events are read in the context of this group.
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
+   * The easiest way to create an instance of EventPosition is to use the static helpers on it like
+   * - `EventPosition.fromOffset()`
+   * - `EventPosition.fromSequenceNumber()`
+   * - `EventPosition.fromEnqueuedTime()`
+   * - `EventPosition.earliest()`
+   * - `EventPosition.latest()`
    * @param options The set of options to apply when creating the consumer where you can specify retry options and ownerLevel.
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
-   * 
+   *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
