@@ -11,7 +11,12 @@ import { EventDataBatch } from "./eventDataBatch";
 
 /**
  * A producer responsible for sending `EventData` to a specific Event Hub.
- * If `partitionId` is specified in the `options`, all event data sent using the producer
+ * To create a producer use the `createProducer()` method on your `EventHubClient`.
+ * You can pass the below in the `options` when creating a producer.
+ * - `partitionId`  : The identifier of the partition that the producer can be bound to.
+ * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
+ *
+ * If `partitionId` is specified when creating a producer, all event data sent using the producer
  * will be sent to the specified partition.
  * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
  *
@@ -19,7 +24,6 @@ import { EventDataBatch } from "./eventDataBatch";
  *  - The sending of events needs to be highly available.
  *  - The event data should be evenly distributed among all available partitions.
  *
- * Use the `createProducer` function on the EventHubClient to instantiate an EventHubProducer.
  * @class
  */
 export class EventHubProducer {
@@ -45,6 +49,9 @@ export class EventHubProducer {
   }
 
   /**
+   * EventHubProducer should not be constructed using `new EventHubProduer()`
+   * Use the `createProducer()` method on your `EventHubClient` instead.
+   * @private
    * @constructor
    * @internal
    * @ignore
@@ -61,8 +68,11 @@ export class EventHubProducer {
 
   /**
    * Creates an instance of EventDataBatch to which one can add events until the maximum supported size is reached.
-   * The batch can be passed to the send method of the EventHubProducer to be sent to Azure Event Hubs
+   * The batch can be passed to the send method of the EventHubProducer to be sent to Azure Event Hubs.
    * @param options  Options to define partition key and max message size.
+   * - `partitionKey`  : A value that is hashed to produce a partition assignment.
+   * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+   * - `abortSignal`   : A signal the request to cancel the send operation.
    * @returns Promise<EventDataBatch>
    */
   async createBatch(options?: BatchOptions): Promise<EventDataBatch> {
@@ -110,7 +120,9 @@ export class EventHubProducer {
    *
    * @param eventData  An individual event data or array of event data objects to send.
    * @param options The set of options that can be specified to influence the way in which
-   * events are sent to the associated Event Hub, including an abort signal to cancel the operation.
+   * events are sent to the associated Event Hub.
+   * - `partitionKey` : A value that is hashed to produce a partition assignment.
+   * - `abortSignal`  : A signal the request to cancel the send operation.
    *
    * @returns Promise<void>
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
