@@ -33,6 +33,16 @@ export function setReplacements(maps: any): void {
   replacements = maps;
 }
 
+let queryParameters: string[] = [];
+/**
+ *  Query Parameters, for example from the SAS token may contain sensitive information.
+ *  Query Parameters provided by calling this method will be skipped.
+ * @param {string[]} [params] Query Parameters to be skipped
+ */
+export function skipQueryParams(params: string[]): void {
+  queryParameters = params;
+}
+
 export function setEnviromentOnLoad() {
   if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
     nock = require("nock");
@@ -40,17 +50,6 @@ export function setEnviromentOnLoad() {
 
   if (isBrowser() && isRecordMode()) {
     customConsoleLog();
-  }
-
-  // TODO - The following will be moved to the storage sdks when @azure/test-utils-recorder is imported
-  if (isPlaybackMode()) {
-    // Providing dummy values to avoid the error [ENVs for storage packages]
-    env.ACCOUNT_NAME = "fakestorageaccount";
-    env.ACCOUNT_KEY = "aaaaa";
-    env.ACCOUNT_SAS = "aaaaa";
-    env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${
-      env.ACCOUNT_NAME
-    };AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
   }
 }
 
@@ -108,20 +107,6 @@ export abstract class BaseRecorder {
       updatedRecording = map(updatedRecording);
     }
 
-    // TODO - The following will be moved to the storage sdks when @azure/test-utils-recorder is imported
-    // Handling storage environment variables separately
-    if (env.ACCOUNT_NAME) {
-      updatedRecording = recording.replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount");
-    }
-    if (env.ACCOUNT_KEY) {
-      updatedRecording = updatedRecording.replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa");
-    }
-    if (env.ACCOUNT_SAS) {
-      updatedRecording = updatedRecording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        "aaaaa"
-      );
-    }
     return updatedRecording;
   }
 
@@ -225,7 +210,6 @@ export class NockRecorder extends BaseRecorder {
 // Nise module does not have a native implementation of record/playback like Nock does
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
-  private readonly sasQueryParameters = ["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"];
   private recordings: any[] = [];
 
   constructor(testSuiteTitle: string, testTitle: string) {
@@ -241,13 +225,13 @@ export class NiseRecorder extends BaseRecorder {
       responseHeaders[key] = value;
     }
 
-    // We're not storing SAS Query Parameters because they may contain sensitive information
+    // We're not storing Query Parameters because they may contain sensitive information
     // We're ignoring the "_" parameter as well because it's not being added by our code
     // More info on "_": https://stackoverflow.com/questions/3687729/who-add-single-underscore-query-parameter
     const parsedUrl = queryString.parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
-      if (!this.sasQueryParameters.includes(param) && param !== "_") {
+      if (!queryParameters.includes(param) && param !== "_") {
         query[param] = parsedUrl.query[param];
       }
     }
@@ -277,7 +261,7 @@ export class NiseRecorder extends BaseRecorder {
     for (const param in request.query) {
       if (
         recording.query[param] === undefined &&
-        !this.sasQueryParameters.includes(param) &&
+        !queryParameters.includes(param) &&
         param !== "_"
       ) {
         return false;

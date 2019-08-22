@@ -215,8 +215,6 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - The above methods can be called from the `before` section so that the tests can leverage the environment variables.
 
-- Currently, the environment variables for storage-packages are managed by the recorder. `ACCOUNT_NAME` is replaced with `"fakestorageaccount"`, secret part of `ACCOUNT_SAS` and `ACCOUNT_KEY` are replaced with `"aaaaa"`.
-
   The same dummy values are used as the environment variables during the playback mode.
 
 ---
