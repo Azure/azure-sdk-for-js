@@ -152,7 +152,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   For example
 
   ```typescript
-  describe("Aborter", () => {
+  describe("Some Random Test Suite", () => {
     beforeEach(async function() {
       recorder = record(this);
       /*Place your code here*/
@@ -171,7 +171,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   ```
 
   (Node Test) Recording corresponding to the above test is placed at
-  `./recordings/node/aborter/recording_should_abort_when_abort_is_called.js`
+  `./recordings/node/some_random_test_suite/recording_should_abort_when_abort_is_called.js`
 
   [ Following this rule - `./recordings/node/<describe-block-title>/recording_<test-title>.js` ]
 
