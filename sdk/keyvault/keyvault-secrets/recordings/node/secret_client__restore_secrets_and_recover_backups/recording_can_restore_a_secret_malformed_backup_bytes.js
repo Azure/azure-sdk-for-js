@@ -1,6 +1,45 @@
 let nock = require('nock');
 
-module.exports.testInfo = {}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/secrets/restore')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'bc7da86a-ba44-4f19-8247-ab40836e9417',
+  'x-ms-keyvault-service-version',
+  '1.1.0.876',
+  'x-ms-keyvault-network-info',
+  'addr=52.168.64.178;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Fri, 16 Aug 2019 22:56:00 GMT',
+  'Connection',
+  'close' ]);
+
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
@@ -17,17 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '168d22b9-c048-4a3f-8904-4982b7221000',
+  '8f458ba4-c099-4612-891d-d971e14c2600',
+  'x-ms-ests-server',
+  '2.1.9261.9 - EST ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AkXFNW4cBGhPs71Wag8ck-g_aSJHDAAAAAZLmtQOAAAA; expires=Thu, 18-Jul-2019 03:05:53 GMT; path=/; secure; HttpOnly',
+  'fpc=AqFj1jutYOVMvPg3tWLn9hU_aSJHAQAAAIEr6dQOAAAA; expires=Sun, 15-Sep-2019 22:56:01 GMT; path=/; secure; HttpOnly',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Tue, 18 Jun 2019 03:05:52 GMT',
+  'Fri, 16 Aug 2019 22:56:00 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -52,11 +93,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '71c0d8b3-126f-48f9-8c1c-1c45ecd74197',
+  '19ad9a69-f431-450c-a1e7-5194bd6326fb',
   'x-ms-keyvault-service-version',
-  '1.1.0.866',
+  '1.1.0.876',
   'x-ms-keyvault-network-info',
-  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'addr=52.168.64.178;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -66,7 +107,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 18 Jun 2019 03:05:59 GMT',
+  'Fri, 16 Aug 2019 22:56:01 GMT',
   'Connection',
   'close' ]);
 
