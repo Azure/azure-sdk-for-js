@@ -20,8 +20,12 @@
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js"
   },
   "files": [
-    "dist",
-    "dist-esm"
+    "changelog.md",
+    "dist/",
+    "dist-esm/",
+    "LICENSE",
+    "src/",
+    "tsconfig.json"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
   "types": "./dist/index.d.ts",
