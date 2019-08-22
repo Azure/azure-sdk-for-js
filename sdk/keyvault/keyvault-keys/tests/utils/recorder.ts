@@ -391,7 +391,7 @@ export function record(testContext: any): any {
   let testHierarchy: string;
   let testTitle: string;
 
-  if (testContext.currentTest) {
+  if (testContext.test.type == "hook" && testContext.test.title.includes("each")) {
     testHierarchy = testContext.currentTest.parent.fullTitle();
     testTitle = testContext.currentTest.title;
   } else {
