@@ -51,9 +51,16 @@ export function record(testContext: Mocha.Context): Recorder {
   let testHierarchy: string;
   let testTitle: string;
 
-  if (testContext.currentTest) {
-    testHierarchy = testContext.currentTest.parent!.fullTitle();
-    testTitle = testContext.currentTest.title;
+  // In a hook ("before all" or "before each"), testContext.test points to the hook, while testContext.currentTest
+  // points to the individual test that will be run next.  A "before all" hook is run once before all tests,
+  // so the hook itself should be used to identify recordings.  However, a "before each" hook is run once before each
+  // test, so the individual test should be used instead.
+  if (
+    (testContext as any).test.type == "hook" &&
+    (testContext as any).test.title.includes("each")
+  ) {
+    testHierarchy = testContext.currentTest!.parent!.fullTitle();
+    testTitle = testContext.currentTest!.title;
   } else {
     testHierarchy = testContext.test!.parent!.fullTitle();
     testTitle = testContext.test!.title;
