@@ -32,7 +32,7 @@ import { LUISAuthoringClient } from "@azure/cognitiveservices-luis-authoring";
 import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
 
-let subscriptionId = "<luis-authoring-key>";
+let authoringKey = "<luis-authoring-key>";
 const creds = new CognitiveServicesCredentials(subscriptionId);
 
 // change "westus" in the endpoint url based on your region, check the following link
@@ -40,7 +40,7 @@ const creds = new CognitiveServicesCredentials(subscriptionId);
 const client = new LUISAuthoringClient(creds, "https://westus.api.cognitive.microsoft.com/");
 
 const appId = "<your-app-id>"; // replace this with your appId.
-const versionId = "0.1"; // This is the default version ID after creating new luis application.
+const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
 
 const skip = 1;
 const take = 1;
@@ -108,4 +108,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-authoring/README.png)
