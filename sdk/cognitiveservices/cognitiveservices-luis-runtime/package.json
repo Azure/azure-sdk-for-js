@@ -4,11 +4,7 @@
   "description": "LUISRuntimeClient Library with typescript type definitions for node.js and browser.",
   "version": "3.0.1",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.3",
-    "@types/chai": "^4.2.0",
-    "@types/mocha": "^5.2.7",
-    "ts-mocha": "^6.0.0",
     "tslib": "^1.10.0"
   },
   "keywords": [
@@ -23,6 +19,7 @@
   "module": "./esm/lUISRuntimeClient.js",
   "types": "./esm/lUISRuntimeClient.d.ts",
   "devDependencies": {
+    "@azure/ms-rest-azure-js": "^2.0.1",
     "mocha": "^6.1.4",
     "nock": "^10.0.0",
     "rollup": "^0.66.2",
@@ -30,7 +27,10 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "ts-node": "^8.3.0",
     "typescript": "^3.1.1",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.4.9",
+    "@types/chai": "^4.2.0",
+    "@types/mocha": "^5.2.7",
+    "ts-mocha": "^6.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
