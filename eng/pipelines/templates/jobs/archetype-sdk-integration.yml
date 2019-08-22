@@ -71,7 +71,7 @@ jobs:
               # TODO: DO we need to wait?
               az group wait --created --resource-group $resourceGroupName
 
-              az group deployment create --resource-group $resourceGroupName --template-file ${{ parameters.ResourceFileLocation }} --parameters unique_id=$uniqueIdentifier location="$env:PROVISIONER_RG_LOCATION" tenant_id="$env:PROVISIONER_AAD_TENANT" test_app_id="$env:TEST_APP_ID" --debug
+              az group deployment create --resource-group $resourceGroupName --template-file ${{ parameters.ResourceFileLocation }} --parameters unique_id=$uniqueIdentifier location="$env:PROVISIONER_RG_LOCATION" tenant_id="$env:PROVISIONER_AAD_TENANT" test_app_id="$env:TEST_APP_ID"
 
             env:
               PROVISIONER_AAD_ID: $(provisioner-aad-id)
@@ -95,7 +95,7 @@ jobs:
               az login --service-principal -u $env:PROVISIONER_AAD_ID -p $env:PROVISIONER_AAD_SECRET --tenant $env:PROVISIONER_AAD_TENANT
               az account set --subscription $env:PROVISIONER_SUBSCRIPTION
 
-              az group delete $(ResourceGroupName)
+              az group delete --resource-group $(ResourceGroupName) -y --no-wait
             env:
               PROVISIONER_AAD_ID: $(provisioner-aad-id)
               PROVISIONER_AAD_SECRET: $(provisioner-aad-secret)
