@@ -168,11 +168,8 @@ export class PartitionLoadBalancer {
     minPartitionsPerEventProcessor: number,
     ownerPartitionMap: Map<string, PartitionOwnership[]>
   ): boolean {
-    let numberOfPartitionsOwned = 0;
-    const ownershipList = ownerPartitionMap.get(this._ownerId);
-    if (ownershipList) {
-      numberOfPartitionsOwned = ownershipList.length;
-    }
+    const numberOfPartitionsOwned = ownerPartitionMap.get(this._ownerId)!.length;
+
     let leastPartitionsOwnedByAnyEventProcessor = Number.MAX_VALUE;
     for (const ownershipList of ownerPartitionMap.values()) {
       if (ownershipList.length < leastPartitionsOwnedByAnyEventProcessor) {
