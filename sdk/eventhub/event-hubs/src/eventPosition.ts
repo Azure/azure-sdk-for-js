@@ -35,7 +35,14 @@ export interface EventPositionOptions {
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used in the creation of
- * an `EventHubProducer`.
+ * an `EventHubConsumer` to specify the position in the partition to begin receiving events from.
+ *
+ * Make use of the below static helpers to create an instance of `EventPosition`
+ * - `fromOffset()`
+ * - `fromSequenceNumber()`
+ * - `fromEnqueuedTime()`
+ * - `earliest()`
+ * - `latest()`
  * @class
  */
 export class EventPosition {
@@ -83,6 +90,13 @@ export class EventPosition {
   sequenceNumber?: number;
 
   /**
+   * Instead of constructing an event position using `new Event Position()`, make use of the below static helpers
+   * - `fromOffset()`
+   * - `fromSequenceNumber()`
+   * - `fromEnqueuedTime()`
+   * - `earliest()`
+   * - `latest()`
+   *
    * @constructor
    * @internal
    * @ignore

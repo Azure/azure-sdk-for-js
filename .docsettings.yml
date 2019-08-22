@@ -5,6 +5,7 @@ omitted_paths:
   - "sdk/*/arm-*"
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
+  - "sdk/cosmosdb/cosmos/samples/*"
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -66,7 +67,7 @@ known_content_issues:
   - ["sdk/core/abort-controller/README.md", "#1583"]
   - ["sdk/core/core-auth/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/README.md", "#1583"]
-  - ["sdk/cosmosdb/cosmos/src/test/readme.md", "#1583"]
+  - ["sdk/cosmosdb/cosmos/test/readme.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/samples/readme.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/samples/UserManagement/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/samples/TodoApp/readme.md", "#1583"]

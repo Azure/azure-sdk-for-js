@@ -38,14 +38,18 @@ export interface EventIteratorOptions {
 /**
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
+ * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
+ * You can pass the below in the `options` when creating a producer.
+ * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
+ * consumers to fail if their `ownerLevel` is lower or doesn't exist.
+ * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  *
  * Multiple consumers are allowed on the same partition in a consumer group.
  * If there is a need to have an exclusive consumer for a partition in a consumer group,
  * then specify the `ownerLevel` in the `options`.
  * Exclusive consumers were previously referred to as "Epoch Receivers".
  *
- * The consumer can be used to receive messages in a batch or by registering handlers.
- * Use the `createConsumer` function on the EventHubClient to instantiate an EventHubConsumer.
+ * The consumer can be used to receive messages in a batch or by registering handlers or by using an async iterator.
  * @class
  */
 export class EventHubConsumer {
@@ -125,6 +129,9 @@ export class EventHubConsumer {
   }
 
   /**
+   * EventHubConsumer should not be constructed using `new EventHubConsumer()`
+   * Use the `createConsumer()` method on your `EventHubClient` instead.
+   * @private
    * @constructor
    * @internal
    * @ignore

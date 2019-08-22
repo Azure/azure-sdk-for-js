@@ -391,6 +391,25 @@ provided by the bot. You will only need to do this once across all repos using o
 
 If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
+To run our tests, first install the dependencies (with `npm install` or `rush install`),
+then run the unit tests with: `npm run unit-test`.
+Our unit tests that target the behavior of our library against remotely
+available endpoints are executed using previously recorded HTTP request and
+responses.
+
+Our integration tests will run against the live resources, which are determined
+by the environment variables you provide. To run the integration tests, you can
+run `npm run integration-test`, but make sure to provide the following
+environment variables:
+
+- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
+- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
+- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
+- `KEYVAULT_NAME`: The name of the KeyVault you want to run the tests against.
+
+**WARNING:** 
+Integration tests will wipe all of the existing records in the targetted KeyVault.
+
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

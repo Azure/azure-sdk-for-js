@@ -38,6 +38,8 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
  * These can be specified when creating the producer via the `createProducer` method.
+ * - `partitionId`  : The identifier of the partition that the producer can be bound to.
+ * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
  */
 export interface EventHubProducerOptions {
   /**
@@ -57,6 +59,8 @@ export interface EventHubProducerOptions {
 
 /**
  * The set of options to configure the send operation on the `EventHubProducer`.
+ * - `partitionKey` : A value that is hashed to produce a partition assignment.
+ * - `abortSignal`  : A signal the request to cancel the send operation.
  */
 export interface SendOptions {
   /**
@@ -76,6 +80,9 @@ export interface SendOptions {
 
 /**
  * The set of options to configure the createBatch operation on the `EventProducer`.
+ * - `partitionKey`  : A value that is hashed to produce a partition assignment.
+ * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+ * - `abortSignal`   : A signal the request to cancel the send operation.
  */
 export interface BatchOptions {
   /**
@@ -87,7 +94,7 @@ export interface BatchOptions {
   partitionKey?: string;
   /**
    * @property
-   * The maximum size allowed for the batch.
+   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
   /**
@@ -101,6 +108,9 @@ export interface BatchOptions {
 /**
  * The set of options to configure the behavior of an `EventHubConsumer`.
  * These can be specified when creating the consumer using the `createConsumer` method.
+ * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
+ * consumers to fail if their `ownerLevel` is lower or doesn't exist.
+ * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  */
 export interface EventHubConsumerOptions {
   /**
@@ -123,6 +133,15 @@ export interface EventHubConsumerOptions {
 
 /**
  * Describes the options that can be provided while creating the EventHubClient.
+ * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+ * and to decode the event received from the service
+ * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+ * to the service.
+ * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+ * over a WebSocket.
+ * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+ * over a WebSocket.
+ * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -202,6 +221,15 @@ export class EventHubClient {
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
@@ -209,27 +237,45 @@ export class EventHubClient {
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
    * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
-   * @param eventHubPath - The path of the specific Event Hub to connect the client to.
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
    * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    */
-  constructor(connectionString: string, eventHubPath: string, options?: EventHubClientOptions);
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   /**
    * @constructor
    * @param host - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
-   * @param eventHubPath - The path of the specific Event Hub to connect the client to.
+   * @param eventHubName - The path of the specific Event Hub to connect the client to.
    * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
-   * @param options -  A set of options to apply when configuring the client.
+   * @param options - A set of options to apply when configuring the client.
+   * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
+   * and to decode the event received from the service
+   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
    */
   constructor(
     host: string,
-    eventHubPath: string,
+    eventHubName: string,
     credential: TokenCredential,
     options?: EventHubClientOptions
   );
   constructor(
     hostOrConnectionString: string,
-    eventHubPathOrOptions?: string | EventHubClientOptions,
+    eventHubNameOrOptions?: string | EventHubClientOptions,
     credentialOrOptions?: TokenCredential | EventHubClientOptions,
     options?: EventHubClientOptions
   ) {
@@ -240,26 +286,26 @@ export class EventHubClient {
 
     if (!isTokenCredential(credentialOrOptions)) {
       connectionString = hostOrConnectionString;
-      if (typeof eventHubPathOrOptions !== "string") {
+      if (typeof eventHubNameOrOptions !== "string") {
         // connectionstring and/or options were passed to constructor
         config = EventHubConnectionConfig.create(connectionString);
-        options = eventHubPathOrOptions;
+        options = eventHubNameOrOptions;
       } else {
-        // connectionstring, eventHubPath and/or options were passed to constructor
-        const eventHubPath = eventHubPathOrOptions;
-        config = EventHubConnectionConfig.create(connectionString, eventHubPath);
+        // connectionstring, eventHubName and/or options were passed to constructor
+        const eventHubName = eventHubNameOrOptions;
+        config = EventHubConnectionConfig.create(connectionString, eventHubName);
         options = credentialOrOptions;
       }
       // Since connectionstring was passed, create a SharedKeyCredential
       credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
     } else {
-      // host, eventHubPath, a TokenCredential and/or options were passed to constructor
-      const eventHubPath = eventHubPathOrOptions;
+      // host, eventHubName, a TokenCredential and/or options were passed to constructor
+      const eventHubName = eventHubNameOrOptions;
       let host = hostOrConnectionString;
       credential = credentialOrOptions;
 
       if (!host.endsWith("/")) host += "/";
-      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
       config = EventHubConnectionConfig.create(connectionString);
     }
 
@@ -315,6 +361,8 @@ export class EventHubClient {
    *
    * @param options The set of options to apply when creating the producer where you can specify the id of the partition
    * to which events need to be sent to, and retry options.
+   * - `partitionId`  : The identifier of the partition that the producer can be bound to.
+   * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
    *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @returns Promise<void>
@@ -345,6 +393,10 @@ export class EventHubClient {
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
    * @param options The set of options to apply when creating the consumer where you can specify retry options and ownerLevel.
+   * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
+   * consumers to fail if their `ownerLevel` is lower or doesn't exist.
+   * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
+   * 
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
