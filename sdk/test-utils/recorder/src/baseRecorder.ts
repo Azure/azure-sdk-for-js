@@ -304,8 +304,12 @@ export class NiseRecorder extends BaseRecorder {
           // Now we can finally override 'onreadystatechange' because 'send' has already been called
           const reqStateChange = req.onreadystatechange;
           req.onreadystatechange = function() {
-            // Record the request once the response is obtained
+            // .readyState property returns the state an XMLHttpRequest client is in
+            // readyState = 4 refers to the completion of the operation.
+            // This could mean that either the data transfer has been completed successfully or failed.
+            // More info on readyState - https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
             if (req.readyState === 4) {
+              // Record the request once the response is obtained
               self.recordRequest(req, data);
             }
             // Sometimes the client doesn't implement an 'onreadystatechange' function, so we need to make sure it exists before calling the original implementation
