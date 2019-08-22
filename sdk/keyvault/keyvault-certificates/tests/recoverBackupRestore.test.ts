@@ -68,14 +68,14 @@ describe("Certificates client - restore certificates and recover backups", () =>
   });
 
   // This is taking forever
-  it.skip("can restore a certificate", async function() {
+  it("can restore a certificate", async function() {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
     await client.createCertificate(certificateName, basicCertificateProperties);
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
-    await retry(async () => client.restoreCertificate(backup as Uint8Array));
+    await retry(async () => client.restoreCertificate(backup.value!));
     const getResult = await client.getCertificate(certificateName, "");
     assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificate().");
     await testClient.flushCertificate(certificateName);

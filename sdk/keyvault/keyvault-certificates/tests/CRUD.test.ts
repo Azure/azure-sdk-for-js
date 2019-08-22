@@ -58,7 +58,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     );
   });
 
-  it("can update a certificate", async function() {
+  it("can update the tags of a certificate", async function() {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
@@ -188,5 +188,16 @@ describe("Certificates client - create, read, update and delete operations", () 
       `Certificate not found: ${certificateName}`,
       "Unexpected certificate name in result from getKey()."
     );
+  });
+
+  it.only("can create, read, update and delete operations on a certificate's issuer", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await client.createCertificate(certificateName, basicCertificateProperties);
+
+    // Get
+    const getResponse = await client.getCertificateIssuer(certificateName);
+    console.log({ getResponse });
+
+    await testClient.flushCertificate(certificateName);
   });
 });
