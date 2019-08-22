@@ -81,7 +81,7 @@ jobs:
               PROVISIONER_AAD_TENANT: $(provisioner-aad-tenant)
               PROVISIONER_SUBSCRIPTION: $(provisioner-subscription)
               PROVISIONER_RG_LOCATION: westus2
-              TEST_APP_ID: $(aad-azure-sdk-test-client-id)
+              TEST_APP_ID: $(provisioner-test-app-id)
 
       - template: ../steps/integration-${{parameters.Toolchain}}.yml
         parameters:
