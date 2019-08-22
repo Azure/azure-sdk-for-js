@@ -73,7 +73,7 @@ jobs:
 
               # TODO: grant Contributor rights to TEST_APP_ID for the resource group
 
-              az group deployment create --resource-group $resourceGroupName --template-file ${{ parameters.ResourceFileLocation }} --parameters unique_id=$uniqueIdentifier location="$env:PROVISIONER_RG_LOCATION" tenant_id="$env:PROVISIONER_AAD_TENANT" test_app_id="$env:PROVISIONER_AAD_ID" --debug
+              az group deployment create --resource-group $resourceGroupName --template-file ${{ parameters.ResourceFileLocation }} --parameters unique_id=$uniqueIdentifier location="$env:PROVISIONER_RG_LOCATION" tenant_id="$env:PROVISIONER_AAD_TENANT" test_app_id="$env:TEST_APP_ID" --debug
 
             env:
               PROVISIONER_AAD_ID: $(provisioner-aad-id)
