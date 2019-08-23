@@ -52,7 +52,6 @@
     "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o cosmos-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "prepack": "npm install && npm run build",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test-browser": "karma start ./karma.config.js --single-run",
