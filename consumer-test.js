@@ -21,8 +21,10 @@ async function exec(cmd) {
     await exec("npm install --save ./..");
     console.log("Installing @azure/cosmos as a file dependency");
     for (const version of versions) {
-      console.log(`Compling with typescript@${version}`);
+      console.log(`Compling with typescript@${version} - Basic`);
       await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true`);
+      console.log(`Compling with typescript@${version} - Custom lib`);
+      await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`);
     }
     process.exit(0);
   } catch (error) {
