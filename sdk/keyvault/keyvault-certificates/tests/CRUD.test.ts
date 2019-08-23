@@ -7,7 +7,7 @@ import { env, retry } from "./utils/recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
-describe("Certificates client - create, read, update and delete operations", () => {
+describe("Certificates client - create, read, update and delete", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificatesClient;
@@ -190,14 +190,98 @@ describe("Certificates client - create, read, update and delete operations", () 
     );
   });
 
-  it.only("can create, read, update and delete operations on a certificate's issuer", async function() {
+  it("can create, read, and delete a certificate's issuer", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await client.createCertificate(certificateName, basicCertificateProperties);
+    const issuerName = "issuerName";
+
+    // Create
+    await client.setCertificateIssuer(certificateName, "Test", {
+      name: issuerName
+    });
+
+    let getResponse: any;
+
+    // Read
+    getResponse = await client.getCertificateIssuer(certificateName);
+    assert.equal(getResponse.provider, "Test");
+
+    // Delete
+    await client.deleteCertificateIssuer(certificateName);
+    let error;
+    try {
+      await client.getCertificateIssuer(certificateName);
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, "Issuer not found"); 
+
+    await testClient.flushCertificate(certificateName);
+  });
+
+  it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.createCertificate(certificateName, basicCertificateProperties);
 
-    // Get
-    const getResponse = await client.getCertificateIssuer(certificateName);
-    console.log({ getResponse });
+    let getResponse: any;
+
+    // Read
+    getResponse = await client.getCertificateOperation(certificateName);
+    assert.equal(getResponse.status, "inProgress"); 
+    assert.equal(getResponse.cancellationRequested, false); 
+
+    // Cancel
+    await client.cancelCertificateOperation(certificateName);
+    getResponse = await client.getCertificateOperation(certificateName);
+    assert.equal(getResponse.cancellationRequested, true); 
+
+    // Delete
+    await client.deleteCertificateOperation(certificateName);
+
+    let error;
+    try {
+      await client.getCertificateOperation(certificateName);
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      `Pending certificate not found: ${certificateName}`,
+    ); 
 
     await testClient.flushCertificate(certificateName);
+  });
+
+  it("can set, read and delete a certificate's contacts", async function() {
+    const contacts = [{
+      emailAddress: "a@a.com",
+      name: "a",
+      phone: "111111111111"
+    }, {
+      emailAddress: "b@b.com",
+      name: "b",
+      phone: "222222222222" 
+    }];
+
+    let getResponse: any;
+
+    await client.setCertificateContacts(contacts);
+
+    getResponse = await client.getCertificateContacts();
+    assert.equal(getResponse.contactList![0].name, "a")
+    assert.equal(getResponse.contactList![1].name, "b")
+
+    await client.deleteCertificateContacts();
+
+    let error;
+    try {
+      await client.getCertificateContacts();
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, "Contacts not found"); 
   });
 });
