@@ -11,7 +11,12 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
  * A class representing a batch of events which can be passed to the `send` method of a `EventConsumer` instance.
  * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
  *
- * Use the `tryAdd` function on the EventDataBatch to add events in a batch.
+ * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
+ * instead of using `new EventDataBatch()`. You can specify an upper limit for the size of the batch
+ * via options when calling `createBatch()`.
+ *
+ * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
+ * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
  * @class
  */
 export class EventDataBatch {
@@ -47,6 +52,8 @@ export class EventDataBatch {
   private _batchMessage: Buffer | undefined;
 
   /**
+   * EventDataBatch should not be constructed using `new EventDataBatch()`
+   * Use the `createBatch()` method on your `EventHubProducer` instead.
    * @constructor
    * @internal
    * @ignore
@@ -60,7 +67,8 @@ export class EventDataBatch {
   }
 
   /**
-   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to produce a partition assignment when the consumer is created without a `partitionId`
+   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to 
+   * produce a partition assignment when the consumer is created without a `partitionId`
    * @readonly
    */
   get partitionKey(): string | undefined {
@@ -68,7 +76,8 @@ export class EventDataBatch {
   }
 
   /**
-   * @property Size of a batch of events.
+   * @property Size of the `EventDataBatch` instance after the events added to it have been
+   * encoded into a single AMQP message.
    * @readonly
    */
   get sizeInBytes(): number {
@@ -76,7 +85,7 @@ export class EventDataBatch {
   }
 
   /**
-   * @property Number of events in the batch.
+   * @property Number of events in the `EventDataBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -84,7 +93,13 @@ export class EventDataBatch {
   }
 
   /**
-   * @property Encoded batch message.
+   * @property Represents the single AMQP message which is the result of encoding all the events
+   * added into the `EventDataBatch` instance.
+   * 
+   * This is not meant for the user to use directly.
+   * 
+   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
+   * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
   get batchMessage(): Buffer | undefined {
@@ -93,6 +108,9 @@ export class EventDataBatch {
 
   /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
+   * **NOTE**: Always remember to check the return value of this method, before calling it again
+   * for the next event.
+   * 
    * @param eventData  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */

@@ -9,12 +9,12 @@ import { PartitionManager } from "./eventProcessor";
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.
  *
- * This is internal to how an `EventProcessor` works and the user of `EventHubClient` or `EventProcessor`
- * never interacts with `Checkpoint` directly.
- *
  * When the `updateCheckpoint()` method on the `CheckpointManager` class is called by the user, a
  * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
  * `PartitionManager` chosen by the user when creating an `EventProcessor`.
+ *
+ * Users are never expected to interact with `Checkpoint` directly. This interface exists to support the
+ * internal workings of `EventProcessor` and `PartitionManager`.
  **/
 export interface Checkpoint {
   /**
@@ -48,10 +48,9 @@ export interface Checkpoint {
 }
 
 /**
- * Users of the `EventProcessor` class use the `CheckpointManager` to update checkpoints.
- *
  * `EventProcessor` class instantiates this class for each partition it is processing and passes it to
- * the user code. The user never has to instantiate this class directly.
+ * the user code. The user never has to instantiate this class directly, but is responsible to call the
+ * `updateCheckpoint()` method on it when required to update a checkpoint.
  *
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.

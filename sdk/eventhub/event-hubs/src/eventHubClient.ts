@@ -38,8 +38,9 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
  * These can be specified when creating the producer via the `createProducer` method.
- * - `partitionId`  : The identifier of the partition that the producer can be bound to.
+ * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
  * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
+ * A simple usage can be `{ "maxRetries": 4 }`.
  */
 export interface EventHubProducerOptions {
   /**
@@ -58,7 +59,7 @@ export interface EventHubProducerOptions {
 }
 
 /**
- * The set of options to configure the send operation on the `EventHubProducer`.
+ * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal the request to cancel the send operation.
  */
@@ -79,8 +80,9 @@ export interface SendOptions {
 }
 
 /**
- * The set of options to configure the createBatch operation on the `EventProducer`.
+ * The set of options to configure the `createBatch` operation on the `EventProducer`.
  * - `partitionKey`  : A value that is hashed to produce a partition assignment.
+ * Not applicable if the `EventHubProducer` was created using a `partitionId`.
  * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
  * - `abortSignal`   : A signal the request to cancel the send operation.
  */
@@ -111,6 +113,7 @@ export interface BatchOptions {
  * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
+ * A simple usage can be `{ "maxRetries": 4 }`.
  */
 export interface EventHubConsumerOptions {
   /**
@@ -142,6 +145,7 @@ export interface EventHubConsumerOptions {
  * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
  * over a WebSocket.
  * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+ * A simple usage can be `{ "maxRetries": 4 }`.
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -194,6 +198,14 @@ export interface EventHubClientOptions {
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace along with
  * operations for sending event data, receiving events, and inspecting the connected Event Hub.
+ * 
+ * There are multiple ways to create an `EventHubClient`
+ * - Use the connection string from the SAS policy created for your Event Hub instance.
+ * - Use the connection string from the SAS policy created for your Event Hub namespace, 
+ * and the name of the Event Hub instance
+ * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`),
+ * and a credentials object.
+ * 
  */
 export class EventHubClient {
   /**
@@ -230,6 +242,7 @@ export class EventHubClient {
    * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
    * over a WebSocket.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
@@ -248,6 +261,7 @@ export class EventHubClient {
    * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
    * over a WebSocket.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   /**
@@ -266,6 +280,7 @@ export class EventHubClient {
    * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
    * over a WebSocket.
    * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+   * A simple usage can be `{ "maxRetries": 4 }`.
    */
   constructor(
     host: string,
@@ -350,22 +365,22 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an Event Hub producer responsible for sending `EventData` to the Event Hub.
+   * Creates an Event Hub producer that can send events to the Event Hub.
    * If `partitionId` is specified in the `options`, all event data sent using the producer
    * will be sent to the specified partition.
    * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
    *
-   * Allowing automatic routing of partitions is recommended when:
-   *  - The sending of events needs to be highly available.
-   *  - The event data should be evenly distributed among all available partitions.
+   * Automatic routing of partitions is recommended because:
+   *  - The sending of events will be highly available.
+   *  - The event data will be evenly distributed among all available partitions.
    *
-   * @param options The set of options to apply when creating the producer where you can specify the id of the partition
-   * to which events need to be sent to, and retry options.
+   * @param options The set of options to apply when creating the producer.
    * - `partitionId`  : The identifier of the partition that the producer can be bound to.
    * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
+   * A simple usage can be `{ "maxRetries": 4 }`.
    *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @returns Promise<void>
+   * @returns EventHubProducer
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
     if (!options) {
@@ -379,7 +394,7 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an Event Hub consumer responsible for reading `EventData` from a specific Event Hub partition,
+   * Creates an Event Hub consumer that can receive events from a specific Event Hub partition,
    * in the context of a specific consumer group.
    *
    * Multiple consumers are allowed on the same partition in a consumer group.
@@ -387,10 +402,10 @@ export class EventHubClient {
    * then specify the `ownerLevel` in the `options`.
    * Exclusive consumers were previously referred to as "Epoch Receivers".
    *
-   * Designating a consumer as exclusive may be specified in the `options` via `ownerLevel`.
-   *
-   * @param consumerGroup The name of the consumer group this consumer is associated with. Events are read in the context of this group.
+   * @param consumerGroup The name of the consumer group this consumer is associated with.
+   * Events are read in the context of this group. You can get this information from Azure portal.
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
+   * You can get identifiers for all partitions by using the `getPartitionProperties` method on the `EventHubClient`.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
    * The easiest way to create an instance of EventPosition is to use the static helpers on it like
    * - `EventPosition.fromOffset()`
@@ -398,10 +413,11 @@ export class EventHubClient {
    * - `EventPosition.fromEnqueuedTime()`
    * - `EventPosition.earliest()`
    * - `EventPosition.latest()`
-   * @param options The set of options to apply when creating the consumer where you can specify retry options and ownerLevel.
+   * @param options The set of options to apply when creating the consumer.
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
+   * A simple usage can be `{ "maxRetries": 4 }`.
    *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.

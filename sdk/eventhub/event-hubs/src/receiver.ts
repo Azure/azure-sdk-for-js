@@ -21,7 +21,8 @@ import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
 
 /**
- * Options to pass when creating an iterator to iterate over events
+ * Options to pass when creating an async iteratable using the `getEventIterator()` method on the 
+ * `EventHubConsumer`.
  */
 export interface EventIteratorOptions {
   /**
@@ -39,6 +40,7 @@ export interface EventIteratorOptions {
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
  * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
+ * 
  * You can pass the below in the `options` when creating a consumer.
  * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
@@ -49,7 +51,8 @@ export interface EventIteratorOptions {
  * then specify the `ownerLevel` in the `options`.
  * Exclusive consumers were previously referred to as "Epoch Receivers".
  *
- * The consumer can be used to receive messages in a batch or by registering handlers or by using an async iterator.
+ * The consumer can be used to receive messages in a batch using `receiveBatch()` or by registering handlers 
+ * by using `receive()` or via an async iterable got by using `getEventIterator()`
  * @class
  */
 export class EventHubConsumer {
@@ -157,12 +160,11 @@ export class EventHubConsumer {
     );
   }
   /**
-   * Starts the consumer by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
-   * the provided onMessage handler and error will be passed to the provided onError handler.
+   * Starts receiving events from the service and calls the user provided message handler for each event.
+   * Returns an object that can be used to query the state of the receiver and to stop receiving events as well.
    *
    * @param onMessage The message handler to receive event data objects.
-   * @param onError The error handler to receive an error that occurs
-   * while receiving messages.
+   * @param onError The error handler for errora that can occur when receiving events.
    * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
@@ -232,7 +234,7 @@ export class EventHubConsumer {
    * Returns an async iterable that retrieves events.
    *
    * The async iterable cannot indicate that it is done.
-   * When using `for..await..of` to iterate over the events returned
+   * When using `for await (let event of consumer.getEventIterator()) {}` to iterate over the events returned
    * by the async iterable, take care to exit the for loop after receiving the
    * desired number of messages, or provide an `AbortSignal` to control when to exit the loop.
    *
@@ -258,11 +260,10 @@ export class EventHubConsumer {
   }
 
   /**
-   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first. This method can be used directly after creating the consumer object and **MUST NOT** be used along with the `start()` method.
-   *
-   * @param maxMessageCount The maximum number of messages to receive in this batch. Must be a value greater than 0.
-   * @param [maxWaitTimeInSeconds] The maximum amount of time to wait to build up the requested message count for the batch;
+   * Returns a promise that resolves to an array of events received from the service.
+   * 
+   * @param maxMessageCount The maximum number of messages to receive.
+   * @param maxWaitTimeInSeconds The maximum amount of time to wait to build up the requested message count;
    * If not provided, it defaults to 60 seconds.
    * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
