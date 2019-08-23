@@ -1,12 +1,13 @@
+import { AbortController } from "@azure/abort-controller";
+import { isNode } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { BlobClient, BlockBlobClient, BlockBlobTier, ContainerClient } from "../src";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
-import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -428,5 +429,36 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
+  it("set blob permissions should work", async () => {
+    await blobClient.setPermissions("0666");
+    const permissions = await blobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
+  });
+
+  it("set blob permissions with all parameters should work", async () => {
+    await blobClient.setPermissions("0666", { owner: "$superuser", group: "$superuser" });
+    const permissions = await blobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
+    assert.deepStrictEqual(permissions.xMsOwner, "$superuser");
+    assert.deepStrictEqual(permissions.xMsGroup, "$superuser");
+  });
+
+  it("set blob access control should work", async () => {
+    await blobClient.setAccessControl("user::rwx,group::r-x,other::-w-");
+    const permissions = await blobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rwxr-x-w-");
+    assert.deepStrictEqual(permissions.xMsOwner, "$superuser");
+    assert.deepStrictEqual(permissions.xMsGroup, "$superuser");
+  });
+
+  it("set blob access control with all parameters should work", async () => {
+    await blobClient.setAccessControl("user::rwx,group::r-x,other::-w-", {
+      owner: "$superuser",
+      group: "$superuser"
+    });
+    const permissions = await blobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rwxr-x-w-");
+    assert.deepStrictEqual(permissions.xMsOwner, "$superuser");
+    assert.deepStrictEqual(permissions.xMsGroup, "$superuser");
   });
 });

@@ -1,0 +1,66 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654463191802937",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:14 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:14 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727995D1D6B8F\"",
+    "x-ms-request-id": "a3cd16c6-301e-0040-0382-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "96cbfe70-aff1-417a-85e4-1c3aff30432b",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654463191802937/directory156654463252004147",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:14 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:14 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727995D7B0D3D\"",
+    "x-ms-request-id": "d6bc0b6c-101f-0047-6d82-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "9a920cf6-c113-4c76-8633-2e9a99a8873e",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654463191802937",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:15 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "a3cd16e1-301e-0040-1b82-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "69a58fb7-7a38-4e09-8a7d-a9faea4b916b",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156654463191802937",
+  "directory": "directory156654463252004147"
+ }
+}

@@ -24,6 +24,7 @@ import {
   BlobClient,
   BlockBlobClient,
   PageBlobClient,
+  DirectoryClient,
   StorageClient,
   BlockBlobUploadOptions,
   BlobDeleteOptions
@@ -562,22 +563,17 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a new container under the specified account. If the container with
-   * the same name already exists, the operation fails.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Create a DirectoryClient object under current container.
    *
-   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
-   * @returns {Promise<Models.ContainerCreateResponse>}
+   * @param {string} directoryName
+   * @returns {DirectoryClient}
    * @memberof ContainerClient
    */
-  public async create(
-    options: ContainerCreateOptions = {}
-  ): Promise<Models.ContainerCreateResponse> {
-    // Spread operator in destructuring assignments,
-    // this will filter out unwanted properties from the response object into result object
-    return this.containerContext.create({
-      ...options
-    });
+  public getDirectoryClient(directoryName: string): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(this.url, encodeURIComponent(directoryName)),
+      this.pipeline
+    );
   }
 
   /**
@@ -631,6 +627,28 @@ export class ContainerClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a new container under the specified account. If the container with
+   * the same name already exists, the operation fails.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
+   * @returns {Promise<Models.ContainerCreateResponse>}
+   * @memberof ContainerClient
+   */
+  public async create(
+    options: ContainerCreateOptions = {}
+  ): Promise<Models.ContainerCreateResponse> {
+    if (!options.abortSignal) {
+      options.abortSignal = AbortSignal.none;
+    }
+    // Spread operator in destructuring assignments,
+    // this will filter out unwanted properties from the response object into result object
+    return this.containerContext.create({
+      ...options
+    });
   }
 
   /**

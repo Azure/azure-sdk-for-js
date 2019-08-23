@@ -1,45 +1,41 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { isNode, isTokenCredential, TokenCredential, TransferProgressEvent } from "@azure/core-http";
 
-import {
-  isNode,
-  TransferProgressEvent,
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-http";
-
-import * as Models from "./generated/src/models";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
+import { ContextAborter } from "./ContextAborter";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import * as Models from "./generated/src/models";
 import { Blob } from "./generated/src/operations";
-import { rangeToString } from "./Range";
+import { AppendBlobClient, BlockBlobClient, PageBlobClient, StorageClient } from "./internal";
+import { LeaseClient } from "./LeaseClient";
 import {
   BlobAccessConditions,
-  Metadata,
-  ensureCpkIfSpecified,
   BlockBlobTier,
+  ensureCpkIfSpecified,
+  Metadata,
   PremiumPageBlobTier,
-  toAccessTier
+  toAccessTier,
 } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { DfsContext } from "./policies/DfsPolicy";
+import { rangeToString } from "./Range";
+import { Batch } from "./utils/Batch";
 import {
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import {
-  setURLParameter,
   extractConnectionStringParts,
-  readStreamToLocalFile
+  getURLHost,
+  getURLPath,
+  readStreamToLocalFile,
+  setURLParameter,
 } from "./utils/utils.common";
-import { AppendBlobClient, StorageClient } from "./internal";
-import { BlockBlobClient } from "./internal";
-import { PageBlobClient } from "./internal";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
-import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Blob - Download operation.
@@ -194,7 +190,7 @@ export interface BlobDeleteOptions {
 }
 
 /**
- * Options to confgiure Blob - Undelete operation.
+ * Options to configure Blob - Undelete operation.
  *
  * @export
  * @interface BlobUndeleteOptions
@@ -653,6 +649,155 @@ export interface DownloadFromBlobOptions {
    * @memberof DownloadFromBlobOptions
    */
   parallelism?: number;
+}
+
+export interface BlobSetAccessControlOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use &commat;azure/abort-controller create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobSetAccessControlOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. The owner of the blob or directory.
+   *
+   * @type {string}
+   * @memberof BlobSetAccessControlOptions
+   */
+  owner?: string;
+
+  /**
+   * Optional. The owning group of the blob or directory.
+   *
+   * @type {string}
+   * @memberof BlobSetAccessControlOptions
+   */
+  group?: string;
+
+  /**
+   * Conditions to meet for blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetAccessControlOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+}
+
+export interface BlobSetPermissionsOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use &commat;azure/abort-controller create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobSetPermissionsOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. The owner of the blob or directory.
+   *
+   * @type {string}
+   * @memberof BlobSetPermissionsOptions
+   */
+  owner?: string;
+
+  /**
+   * Optional. The owning group of the blob or directory.
+   *
+   * @type {string}
+   * @memberof BlobSetPermissionsOptions
+   */
+  group?: string;
+
+  /**
+   * Conditions to meet for directory.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetPermissionsOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+}
+
+export interface BlobGetAccessControlOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use &commat;azure/abort-controller create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobGetAccessControlOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Conditions to meet for directory.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobGetAccessControlOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+}
+
+export interface BlobMoveOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use &commat;azure/abort-controller create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobMoveOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. Valid only when namespace is enabled.
+   * This parameter determines the behavior of the rename or move operation.
+   * The value must be "legacy" or "posix", and the default value will be "posix".
+   *
+   * Legacy: if the destination of the move is an existing directory and that directory is empty,
+   * the source will overwrite the destination. If the directory is not empty, the move will fail.
+   *
+   * Posix: if the destination of the move is an existing empty directory,
+   * destination will be overwritten. Otherwise, the source will be moved into the destination directory.
+   * If the destination is an existing file, the file will be overwritten.
+   *
+   * @type {Models.PathRenameMode}
+   * @memberof BlobMoveOptions
+   */
+  mode?: Models.PathRenameMode;
+
+  /**
+   * Source blob access conditions.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobMoveOptions
+   */
+  sourceAccessConditions?: BlobAccessConditions;
+
+  /**
+   * Destination blob access conditions.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobMoveOptions
+   */
+  destAccessConditions?: BlobAccessConditions;
+
+  /**
+   * Override default source path for move operations.
+   *
+   * By default, SDK will use path of BlobClient.url as move source.
+   * For example, "/mycontainer/mydirectory/myblob" will be used as move source path regarding url
+   * "https://myaccount.blob.core.windows.net/mycontainer/mydirectory/blob".
+   *
+   * However, the default path in url may not correct.
+   * For example, "/devstoreaccount1/mycontainer/mydirectory/blob" will be parsed from emulator url "http://localhost:10000/devstoreaccount1/mycontainer/mydirectory/blob".
+   * In this case, use this option to force override the move source path.
+   *
+   * @type {string}
+   * @memberof BlobMoveOptions
+   */
+  sourcePath?: string;
 }
 
 /**
@@ -1215,6 +1360,151 @@ export class BlobClient extends StorageClient {
       abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions,
       rehydratePriority: options.rehydratePriority
+    });
+  }
+
+  /**
+   * Set the owner, owner group or access control list for a directory.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   *
+   * @param {string} accessControl Sets POSIX access control rights on files and directories. The value is a comma-separated list
+   *                               of access control entries. Each access control entry (ACE) consists of a scope, a type, a user
+   *                               or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".
+   *
+   * @param {string} accessControl
+   * @param {BlobSetAccessControlOptions} [options={}]
+   * @returns {Promise<Models.BlobSetAccessControlResponse>}
+   * @memberof BlobClient
+   */
+  public async setAccessControl(
+    accessControl: string,
+    options: BlobSetAccessControlOptions = {}
+  ): Promise<Models.BlobSetAccessControlResponse> {
+    options.blobAccessConditions = options.blobAccessConditions || {};
+    const aborter = new ContextAborter(options.abortSignal || AbortSignal.none, DfsContext);
+    return this.blobContext.setAccessControl({
+      abortSignal: aborter,
+      owner: options.owner,
+      group: options.group,
+      posixAcl: accessControl,
+      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+    });
+  }
+
+  /**
+   * Set the owner, owner group and their permissions for a blob.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   *
+   * @param {string} [permissions] Optional only when `options.owner` or `options.group` is provided.
+   *                               Valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   *                               access permissions for the file owner, the file owning group, and others. Each class may be
+   *                               granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   *                               (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   * @param {string} [permissions]
+   * @param {BlobSetPermissionsOptions} [options={}]
+   * @returns {Promise<Models.BlobSetAccessControlResponse>}
+   * @memberof BlobClient
+   */
+  public async setPermissions(
+    permissions?: string,
+    options: BlobSetPermissionsOptions = {}
+  ): Promise<Models.BlobSetAccessControlResponse> {
+    if (!permissions && !options.owner && !options.group) {
+      throw TypeError(
+        "options.owner or options.group must be provided when permissions parameter is empty."
+      );
+    }
+    options.blobAccessConditions = options.blobAccessConditions || {};
+    const aborter = new ContextAborter(options.abortSignal || AbortSignal.none, DfsContext);
+    return this.blobContext.setAccessControl({
+      abortSignal: aborter,
+      owner: options.owner,
+      group: options.group,
+      posixPermissions: permissions,
+      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+    });
+  }
+
+  /**
+   * Get the owner, group, permissions, or access control list for a blob.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
+   *
+   * @param {boolean} [upn] Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the
+   *                        identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
+   *                        transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the
+   *                        values will be returned as Azure Active Directory Object IDs. The default value is false.
+   * @param {BlobGetAccessControlOptions} [options={}]
+   * @returns {Promise<Models.BlobGetAccessControlResponse>}
+   * @memberof BlobClient
+   */
+  public async getAccessControl(
+    upn?: boolean,
+    options: BlobGetAccessControlOptions = {}
+  ): Promise<Models.BlobGetAccessControlResponse> {
+    options.blobAccessConditions = options.blobAccessConditions || {};
+    const aborter = new ContextAborter(options.abortSignal || AbortSignal.none, DfsContext);
+    return this.blobContext.getAccessControl({
+      abortSignal: aborter,
+      upn,
+      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+    });
+  }
+
+  /**
+   * Rename current blob to another blob. By default, the destination is overwritten and if the destination already
+   * exists and has a lease the lease is broken. This operation supports conditional HTTP requests.
+   * For more information, see [Specifying Conditional Headers for Blob Service
+   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * To fail if the destination already exists, use a conditional request with If-None-Match: "*".
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {BlobClient} destination Destination `BlobClient` object. Must be same storage account with source.
+   * @param {BlobMoveOptions} [options={}]
+   * @returns {Promise<Models.BlobRenameResponse>}
+   * @memberof BlobClient
+   */
+  public async move(
+    destination: BlobClient,
+    options: BlobMoveOptions = {}
+  ): Promise<Models.BlobRenameResponse> {
+    options.sourceAccessConditions = options.sourceAccessConditions || {};
+    options.sourceAccessConditions.leaseAccessConditions =
+      options.sourceAccessConditions.leaseAccessConditions || {};
+    options.sourceAccessConditions.modifiedAccessConditions =
+      options.sourceAccessConditions.modifiedAccessConditions || {};
+    options.destAccessConditions = options.destAccessConditions || {};
+
+    if (getURLHost(this.url) !== getURLHost(destination.url)) {
+      throw RangeError(`Destination BlobClient must be in the same storage account with source.`);
+    }
+
+    const source = options.sourcePath || getURLPath(this.url);
+    if (source === undefined) {
+      throw RangeError(`Invalid move source path ${source}`);
+    }
+
+    const aborter = new ContextAborter(options.abortSignal || AbortSignal.none, DfsContext);
+    return destination.blobContext.rename(source, {
+      abortSignal: aborter,
+      pathRenameMode: options.mode,
+      sourceLeaseId: options.sourceAccessConditions.leaseAccessConditions.leaseId,
+      sourceModifiedAccessConditions: {
+        sourceIfModifiedSince:
+          options.sourceAccessConditions.modifiedAccessConditions.ifModifiedSince,
+        sourceIfUnmodifiedSince:
+          options.sourceAccessConditions.modifiedAccessConditions.ifUnmodifiedSince,
+        sourceIfMatch: options.sourceAccessConditions.modifiedAccessConditions.ifMatch,
+        sourceIfNoneMatch: options.sourceAccessConditions.modifiedAccessConditions.ifNoneMatch
+      },
+      leaseAccessConditions: options.destAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.destAccessConditions.modifiedAccessConditions
     });
   }
 

@@ -556,7 +556,7 @@ export class BlobServiceClient extends StorageClient {
     do {
       listContainersSegmentResponse = await this.listContainersSegment(marker, options);
       marker = listContainersSegmentResponse.nextMarker;
-      yield await listContainersSegmentResponse;
+      yield listContainersSegmentResponse;
     } while (marker);
   }
 
@@ -565,7 +565,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @private
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListcontainersSegmentResponse>}
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
    * @memberof BlobServiceClient
    */
   private async *listItems(

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-import * as fs from "fs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import * as fs from "fs";
+
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -70,6 +70,24 @@ export function escapeURLPath(url: string): string {
   urlParsed.setPath(path);
 
   return urlParsed.toString();
+}
+
+/**
+ * Compatible Object.entries support.
+ * For example, {a: 1, b: 2} will return [["a", "1"], ["b", "2"]].
+ *
+ * @export
+ * @param {*} obj
+ * @returns {Array<Array<string>>}
+ */
+export function objectEntries(obj: any): Array<Array<string>> {
+  const ownProps = Object.keys(obj);
+  let i = ownProps.length;
+  const resArray = new Array(i);
+  while (i--) {
+    resArray[i] = [ownProps[i], obj[ownProps[i]]];
+  }
+  return resArray;
 }
 
 /**
@@ -279,6 +297,18 @@ export function getURLPathAndQuery(url: string): string | undefined {
   }
 
   return `${pathString}${queryString}`;
+
+/**
+ * Get URL scheme from an URL string.
+ * Get URL host from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLHost(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getHost();
 }
 
 /**
