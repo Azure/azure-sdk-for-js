@@ -30,6 +30,8 @@ jobs:
           node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo)
         displayName: "Pack libraries"
 
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
         inputs:
           sourceFolder: sdk
@@ -86,6 +88,8 @@ jobs:
           node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
         displayName: "Lint libraries"
 
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
         inputs:
           sourceFolder: sdk
