@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 
 
-import { RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
+import { GetCertificateOptions, RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -522,8 +522,8 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Certificate>
    */
-  public async getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate> {
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, options);
+  public async getCertificate(name: string, options?: GetCertificateOptions): Promise<Certificate> {
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, options.version || "", options);
 
     return this.getCertificateFromCertificateBundle(result);
   }
