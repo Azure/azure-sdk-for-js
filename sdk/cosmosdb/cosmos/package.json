@@ -43,6 +43,7 @@
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
+    "execute:samples": "cd samples && npm run all-samples",
     "extract-api": "npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",

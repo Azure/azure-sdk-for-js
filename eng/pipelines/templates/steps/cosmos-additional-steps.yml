@@ -1,0 +1,20 @@
+parameters:
+  PackagePath: "sdk/cosmosdb/cosmos/"
+  PackageName: "@azure/cosmos"
+
+steps:
+  - script: |
+      node common/scripts/install-run-rush.js test-consumer -t "${{parameters.PackageName}}" --verbose
+    condition: succeededOrFailed()
+    displayName: "TypeScript Consumer Tests - Cosmos"
+
+  - script: |
+      node common/scripts/install-run-rush.js build:samples -t "${{parameters.PackageName}}" --verbose
+    condition: succeededOrFailed()
+    displayName: "Typecheck Samples - Cosmos"
+
+  - script: |
+      npm run execute:samples
+    condition: succeededOrFailed()
+    displayName: "Run Samples - Cosmos"
+    workingDirectory: "${{parameters.PackagePath}}"
