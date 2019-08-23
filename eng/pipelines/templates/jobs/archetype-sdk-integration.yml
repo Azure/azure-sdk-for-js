@@ -3,7 +3,6 @@ parameters:
   PackageName: "" # For Rush toolchain only
   PackagePath: "" # For NPM toolchain only
   PreIntegrationSteps: ""
-  ProvisionScopedResources: false
   ResourceFileLocation: ""
   EnvVars: []
   MaxParallel: 0
@@ -55,7 +54,7 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      - ${{ if eq(parameters.ProvisionScopedResources, true) }}:
+      - ${{ if ne(parameters.ResourceFileLocation, "") }}:
           - pwsh: |
               # $uniqueIdentifier generates a pseudorandom value that represents a unique name that can be used with all resources
               $uniqueIdentifier =  "t" + [guid]::NewGuid().ToString().Replace("-", "").Substring(0,16)
@@ -89,7 +88,7 @@ jobs:
           TestType: $(TestType)
           EnvVars: ${{parameters.EnvVars}}
 
-      - ${{ if eq(parameters.ProvisionScopedResources, true) }}:
+      - ${{ if ne(parameters.ResourceFileLocation, "") }}:
           - pwsh: |
               az login --service-principal -u $env:PROVISIONER_AAD_ID -p $env:PROVISIONER_AAD_SECRET --tenant $env:PROVISIONER_AAD_TENANT
               az account set --subscription $env:PROVISIONER_SUBSCRIPTION
