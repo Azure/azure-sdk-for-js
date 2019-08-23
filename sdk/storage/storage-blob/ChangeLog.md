@@ -1,6 +1,11 @@
 # Changelog
 
-2019.07 10.4.0
+## 2019.08 10.4.1
+
+* Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+* `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
+
+## 2019.07 10.4.0
 
 * Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 * Improved comments for `BlockBlobURL.upload()`.
@@ -20,7 +25,7 @@
 * Updated HTTP client from axios to node-fetch in Node.js runtime.
 * A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 
-2018.12 10.3.0
+## 2018.12 10.3.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 * [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new BlobURL(url, pipeline)`.
@@ -33,7 +38,7 @@
 * Removed default 60s server timeout value for retry options `tryTimeoutInMs` to avoid large blob download stream unexcepted ending.
 * Fixed an issue that when body is string with special characters, `BlockBlobULR.upload` will fail to upload.
 
-2018.11 10.2.0-preview
+## 2018.11 10.2.0-preview
 
 * [Breaking] Updated names of exported interfaces `IHTTPPipelineLogger` & `IHTTPClient` to `IHttpPipelineLogger` & `IHttpClient`.
 * [Breaking] For `setMetadata()` and `setHTTPHeaders()`, `metadata` and `blobHTTPHeaders` are moved from `options` into top level parameter list.
@@ -47,7 +52,7 @@
 * Fixed a bug that `timeout` parameter should use second as unit instead of millisecond.
 * Added stream retry when `BlobURL.download` response stream unexcepted ends.
 
-2018.09 10.1.0-preview
+## 2018.09 10.1.0-preview
 
 * Fixed sharedkey authentication error when blob names have spaces.
 * Updated samples in readme and sample folder to fix undefined headers.
@@ -66,6 +71,6 @@
   * `String.prototype.includes`
 * [Breaking] `Aborter.None` is renamed to `Aborter.none` for JavaScript naming conventions.
 
-2018.09 Version 10.0.0-preview
+## 2018.09 Version 10.0.0-preview
 
 * Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
