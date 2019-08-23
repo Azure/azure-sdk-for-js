@@ -1,5 +1,12 @@
 # Changelog
 
+## Next release
+
+- Added ADLSgen2 related APIs.
+  - Added new `DirectoryClient` for directory related operations.
+  - Added `ContainerClient.getDirectoryClient()` to get a sub directory client under specific container.
+  - Added `BlobClient.move()`, `BlobClient.setPermissions()`, `BlobClient.setAccessControl()` and `BlobClient.getAccessControl()`.
+
 ## 2019.09 12.0.0-preview.3
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
@@ -12,6 +19,7 @@
 - Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
 - Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
 - `expiry` and `start` in `AccessPolicy` are now optional in `ContainerClient.setAccessPolicy` and `ContainerClient.getAccessPolicy`.
+- Updated Azure Storage API version to 2019-02-02.
 
 ### 2019.08 12.0.0-preview.2
 

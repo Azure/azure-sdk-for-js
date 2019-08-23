@@ -355,4 +355,23 @@ describe("BlobClient Node.js only", () => {
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
+
+  it("move blob should work", async () => {
+    const destBlobName = recorder.getUniqueName("blob_move");
+    const destBlobClient = containerClient.getBlobClient(destBlobName);
+    await blobClient.move(destBlobClient);
+    await destBlobClient.getProperties();
+  });
+
+  it("move blob should work with all parameters", async () => {
+    await blobClient.setPermissions("0666");
+
+    const destBlobName = recorder.getUniqueName("blob_move");
+    const destBlobClient = containerClient.getBlobClient(destBlobName);
+
+    await blobClient.move(destBlobClient, { mode: "posix" });
+    const permissions = await destBlobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
+    await destBlobClient.getProperties();
+  });
 });

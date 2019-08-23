@@ -837,7 +837,10 @@ export const pageWrite1: coreHttp.OperationParameter = {
   }
 };
 export const pathRenameMode: coreHttp.OperationQueryParameter = {
-  parameterPath: "pathRenameMode",
+  parameterPath: [
+    "options",
+    "pathRenameMode"
+  ],
   mapper: {
     serializedName: "mode",
     type: {

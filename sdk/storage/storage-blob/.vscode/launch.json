@@ -54,7 +54,7 @@
       ],
       "env": { "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}" },
       "envFile": "${workspaceFolder}/../.env",
-      "console": "integratedTerminal",
+      "console": "internalConsole",
       "internalConsoleOptions": "neverOpen",
       "protocol": "inspector"
     },

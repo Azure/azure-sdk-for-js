@@ -1,37 +1,37 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import {
   BaseRequestPolicy,
+  bearerTokenAuthenticationPolicy,
   deserializationPolicy,
+  getDefaultProxySettings,
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
   HttpPipelineLogger as IHttpPipelineLogger,
   HttpPipelineLogLevel,
   HttpRequestBody,
+  isNode,
+  isTokenCredential,
+  proxyPolicy,
+  ProxySettings,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource,
-  proxyPolicy,
-  getDefaultProxySettings,
-  isNode,
   TokenCredential,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  ProxySettings
+  WebResource,
 } from "@azure/core-http";
 
-import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { DfsPolicyFactory } from "./DfsPolicyFactory";
+import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { DefaultStorageScope } from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
@@ -191,6 +191,7 @@ export function newPipeline(
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
+    new DfsPolicyFactory(),
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.telemetry),
     new UniqueRequestIDPolicyFactory(),

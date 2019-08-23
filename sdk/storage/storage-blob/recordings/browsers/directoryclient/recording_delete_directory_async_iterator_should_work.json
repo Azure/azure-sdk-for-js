@@ -1,0 +1,127 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654464263101312",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:24 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:24 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996380B765\"",
+    "x-ms-request-id": "a3cd179f-301e-0040-3d82-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "48713ce5-11da-48f9-8f57-0cd02e9be099",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464263101312/directory156654464324403174/directory_delete_async0156654464326405713",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:25 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:25 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7279963E4300C\"",
+    "x-ms-request-id": "d6bc0b80-101f-0047-0182-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "2b2c3939-82ae-4fc3-879d-aa46fdae08ed",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464263101312/directory156654464324403174/directory_delete_async1156654464386403835",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:25 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:26 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D72799643E9F39\"",
+    "x-ms-request-id": "d6bc0b84-101f-0047-0582-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "430ff3e7-89af-4209-b887-84c25dcbd851",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464263101312/directory156654464324403174/directory_delete_async2156654464445608087",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:26 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:26 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996497FB7B\"",
+    "x-ms-request-id": "d6bc0b86-101f-0047-0782-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "31d05569-5c0b-47ea-a87a-3ba04e184d9c",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464263101312/directory156654464324403174",
+   "query": {
+    "recursive": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:26 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "d6bc0b89-101f-0047-0982-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "02f0c7c6-2c2e-40dd-bb2e-4932c4680300",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654464263101312",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:27 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "a3cd17c7-301e-0040-6182-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "5ecc904f-5d63-42c4-8ea4-e7d66b0d8783",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156654464263101312",
+  "directory": "directory156654464324403174",
+  "directory_delete_async0": "directory_delete_async0156654464326405713",
+  "directory_delete_async1": "directory_delete_async1156654464386403835",
+  "directory_delete_async2": "directory_delete_async2156654464445608087"
+ }
+}

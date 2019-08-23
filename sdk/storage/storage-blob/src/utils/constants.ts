@@ -64,3 +64,7 @@ export const HTTP_LINE_ENDING = "\r\n";
 export const HTTP_VERSION_1_1 = "HTTP/1.1";
 
 export const EncryptionAlgorithmAES25 = "AES256";
+export const REQUIRE_DFS_ENDPOINT_FLAG = "REQUIRE_DFS_ENDPOINT_FLAG";
+
+export const BLOB_SERVICE_PUBLIC_CLOUD_HOST = "blob.core.windows.net";
+export const DFS_SERVICE_PUBLIC_CLOUD_HOST = "dfs.core.windows.net";

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
+import multiEntry from "rollup-plugin-multi-entry";
+import nodeResolve from "rollup-plugin-node-resolve";
 import replace from "rollup-plugin-replace";
-import { terser } from "rollup-plugin-terser";
-import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import sourcemaps from "rollup-plugin-sourcemaps";
+import { terser } from "rollup-plugin-terser";
+
+
 // import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
@@ -115,7 +116,7 @@ export function browserConfig(test = false, production = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "notDeepStrictEqual"]
+          assert: ["ok", "deepEqual", "notEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "notStrictEqual"]
         }
       })
     ]

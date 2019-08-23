@@ -1,0 +1,154 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654464621501063",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:28 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:28 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7279965A98BC0\"",
+    "x-ms-request-id": "a3cd17d3-301e-0040-6a82-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "bd5fe0e6-18a6-4502-9042-740eb780a564",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464621501063/directory156654464686805674",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:28 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996606ED45\"",
+    "x-ms-request-id": "d6bc0b91-101f-0047-0b82-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "72ed2b31-97fd-400c-9323-7faf7725fcfb",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464621501063/directory156654464686805674",
+   "query": {
+    "action": "setAccessControl"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996606ED45\"",
+    "x-ms-request-id": "d6bc0b93-101f-0047-0d82-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "ba475fb5-e30b-4f03-a8e5-c816e759b369",
+    "x-ms-namespace-enabled": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464621501063/directory156654464686805674",
+   "query": {
+    "action": "getAccessControl"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-acl": "user::---,group::---,other::---",
+    "date": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "x-ms-permissions": "---------",
+    "last-modified": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996606ED45\"",
+    "x-ms-owner": "$superuser",
+    "x-ms-request-id": "d6bc0b95-101f-0047-0f82-59f960000000",
+    "x-ms-group": "$superuser",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "71df5fc1-f2e8-46ff-a342-8accd6e68588"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464621501063/directory156654464686805674",
+   "query": {
+    "action": "setAccessControl"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:30 GMT",
+    "last-modified": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996606ED45\"",
+    "x-ms-request-id": "d6bc0b97-101f-0047-1182-59f960000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "9ec8e655-f346-443b-8562-955e85349249",
+    "x-ms-namespace-enabled": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156654464621501063/directory156654464686805674",
+   "query": {
+    "action": "getAccessControl"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-acl": "user::---,group::---,other::---",
+    "date": "Fri, 23 Aug 2019 07:13:30 GMT",
+    "x-ms-permissions": "---------",
+    "last-modified": "Fri, 23 Aug 2019 07:13:29 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D727996606ED45\"",
+    "x-ms-owner": "$superuser",
+    "x-ms-request-id": "d6bc0b99-101f-0047-1382-59f960000000",
+    "x-ms-group": "$superuser",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "f3d1cf76-714a-4f4d-9b9c-9373d5dcaa05"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156654464621501063",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 23 Aug 2019 07:13:32 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "a3cd1804-301e-0040-0e82-599503000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "56ceff8e-38ae-4835-a637-9e19efa8945a",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156654464621501063",
+  "directory": "directory156654464686805674"
+ }
+}
