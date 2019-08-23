@@ -21,9 +21,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:06:48 GMT",
+    "date": "Fri, 23 Aug 2019 03:49:57 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "7820351e-5812-4c85-8ba7-9a7c0d20c7d5",
+    "x-ms-request-id": "c2745c1a-2f04-4c5b-86b4-3cd6c1713801",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -35,18 +35,18 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "date": "Fri, 23 Aug 2019 03:06:49 GMT",
+    "date": "Fri, 23 Aug 2019 03:49:57 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "256516bb-b6d1-49e7-b617-536eada45700",
+    "x-ms-request-id": "abc00729-fc61-4aff-ab8a-dd11dbdd5300",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9288.13 - WUS ProdSlices",
+    "x-ms-ests-server": "2.1.9288.13 - NCUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -72,9 +72,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:06:49 GMT",
+    "date": "Fri, 23 Aug 2019 03:49:57 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "fe8038af-bfcc-4e3d-aa65-24977bb9cd6d",
+    "x-ms-request-id": "9bc99c49-0bb1-442a-88e4-af06086fb20f",
     "cache-control": "no-cache",
     "expires": "-1"
    }

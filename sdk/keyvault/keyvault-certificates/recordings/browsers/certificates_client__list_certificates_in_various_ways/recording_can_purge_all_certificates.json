@@ -22,9 +22,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:02:03 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:34 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "d4c74e89-1323-427c-a2f4-994426d0db9e",
+    "x-ms-request-id": "4faa9c49-3fc3-425f-8651-430471e497e2",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -36,18 +36,18 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "date": "Fri, 23 Aug 2019 03:02:04 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:33 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "5cdc6cc6-adc2-47d3-81f1-7ae9b91f5600",
+    "x-ms-request-id": "e552accc-a60b-4164-9831-cf88db063500",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9288.13 - NCUS ProdSlices",
+    "x-ms-ests-server": "2.1.9288.13 - SCUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -74,9 +74,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:02:03 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:34 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "d7876b3f-c031-4536-929d-a15482248c10",
+    "x-ms-request-id": "7c2f42b3-8f66-4c10-ac4f-692e117ed007",
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -103,9 +103,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:02:03 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:34 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "a49b8013-c180-4974-a6a2-ab5f6116a05e",
+    "x-ms-request-id": "72730e5a-3606-415d-8bcf-73e83bc4f6f0",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -122,13 +122,13 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "date": "Fri, 23 Aug 2019 03:02:05 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:34 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "391840aa-9f6c-4ba3-a218-f51e4f013200",
+    "x-ms-request-id": "2c00aeb2-d115-419a-9043-d4c022625600",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9288.13 - EUS ProdSlices",
+    "x-ms-ests-server": "2.1.9288.13 - NCUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -155,9 +155,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:02:04 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:34 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "3456e0dc-742f-4f85-81ba-a2150990812d",
+    "x-ms-request-id": "fa05f5bf-f7a4-4c5b-9c57-a5568d4e2e16",
     "cache-control": "no-cache",
     "expires": "-1"
    }

@@ -21,9 +21,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:01:22 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:04 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "579e148e-f9e7-4a84-aced-68e7979989b7",
+    "x-ms-request-id": "5dd7605e-c3ba-4f0e-8feb-bb4beff40170",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -40,13 +40,13 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "date": "Fri, 23 Aug 2019 03:01:23 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:04 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "391840aa-9f6c-4ba3-a218-f51ed7fb3100",
+    "x-ms-request-id": "1bc78bbb-3f78-44eb-8f9f-7c14ec983500",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9288.13 - EUS ProdSlices",
+    "x-ms-ests-server": "2.1.9288.13 - SCUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -72,9 +72,9 @@
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 23 Aug 2019 03:01:23 GMT",
+    "date": "Fri, 23 Aug 2019 03:43:04 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "e188bc66-5b4f-4eb8-b65b-090c608b31a4",
+    "x-ms-request-id": "b3bbe0c4-fe7d-4fd0-9555-b997c5c51050",
     "cache-control": "no-cache",
     "expires": "-1"
    }
