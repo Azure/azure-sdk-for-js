@@ -399,6 +399,10 @@
       "projectFolder": "sdk/template/template"
     },
     {
+      "packageName": "@azure/test-utils-recorder",
+      "projectFolder": "sdk/test-utils/recorder"
+    },
+    {
       "packageName": "@azure/core-tracing",
       "projectFolder": "sdk/core/core-tracing"
     }
