@@ -4,7 +4,8 @@
 import * as assert from "assert";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { RestError } from "@azure/core-http";
-import { retry, env } from "./utils/recorder";
+import { retry } from "./utils/recorderUtils";
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";

@@ -9,7 +9,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { CryptographyClient, Key, KeysClient } from "../src";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { isRecording } from "./utils/recorder";
+import { isRecording } from "./utils/recorderUtils";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
 let keyto: any;

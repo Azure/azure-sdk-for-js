@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env } from "./recorder";
+import { env } from "@azure/test-utils-recorder";
 
 // Async iterator's polyfill for Node 8
 if (!Symbol || !(Symbol as any).asyncIterator) {

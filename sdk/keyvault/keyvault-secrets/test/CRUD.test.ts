@@ -3,7 +3,8 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { retry, env } from "./utils/recorder";
+import { retry } from "./utils/recorderUtils";
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";

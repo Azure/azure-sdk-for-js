@@ -3,7 +3,9 @@
 
 import * as assert from "assert";
 import { KeysClient } from "../src";
-import { retry, isNode, env } from "./utils/recorder";
+import { isNode } from "@azure/core-http";
+import { retry } from "./utils/recorderUtils";
+import { env } from "@azure/test-utils-recorder"; 
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
