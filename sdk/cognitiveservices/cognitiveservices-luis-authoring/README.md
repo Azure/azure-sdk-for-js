@@ -35,11 +35,13 @@ import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
 let authoringKey = "<luis-authoring-key>";
 const creds = new CognitiveServicesCredentials(authoringKey);
 
-
 // check the following link to find your region
 // https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
-const region = "<your-region>"
-const client = new LUISAuthoringClient(creds, "https://" + region + ".api.cognitive.microsoft.com/");
+const region = "<your-region>";
+const client = new LUISAuthoringClient(
+  creds,
+  "https://" + region + ".api.cognitive.microsoft.com/"
+);
 
 const appId = "<your-app-id>"; // replace this with your appId.
 const versionId = "0.1"; // replace with version of your luis application. Initial value will be 0.1
@@ -47,12 +49,15 @@ const versionId = "0.1"; // replace with version of your luis application. Initi
 const skip = 1;
 const take = 1;
 
-client.features.listApplicationVersionPatternFeatures(appId, versionId, { skip, take }).then((result) => {
+client.features
+  .listApplicationVersionPatternFeatures(appId, versionId, { skip, take })
+  .then((result) => {
     console.log("The result is:");
     console.log(result);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.error(err);
-});
+  });
 ```
 
 #### browser - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in JavaScript.
@@ -68,6 +73,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +98,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const versionId = "testversionId";
         const skip = 1;
         const take = 1;
-        client.features.listApplicationVersionPatternFeatures(appId, versionId, skip, take).then((result) => {
+        client.features.listApplicationVersionPatternFeatures(appId, versionId, {skip, take}).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
