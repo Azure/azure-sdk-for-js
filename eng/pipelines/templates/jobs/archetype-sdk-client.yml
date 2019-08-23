@@ -32,9 +32,10 @@ jobs:
 
       - task: CopyFiles@2
         inputs:
+          sourceFolder: sdk
           contents: |
-            sdk/**/$(coalesceResultFilter)/*.tgz
-            sdk/**/$(coalesceResultFilter)/browser/*.zip
+            **/$(coalesceResultFilter)/*.tgz
+            **/$(coalesceResultFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
@@ -87,7 +88,8 @@ jobs:
 
       - task: CopyFiles@2
         inputs:
-          contents: "sdk/**/**/*lintReport.html"
+          sourceFolder: sdk
+          contents: "**/**/*lintReport.html"
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy lint reports"
