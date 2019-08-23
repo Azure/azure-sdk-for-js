@@ -156,7 +156,7 @@ dependencies:
   requirejs: 2.3.6
   rhea: 1.0.8
   rhea-promise: 0.1.15
-  rimraf: 2.7.1
+  rimraf: 3.0.0
   rollup: 1.20.1
   rollup-plugin-alias: 1.5.2
   rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
@@ -8068,6 +8068,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
+  /rimraf/3.0.0:
+    dependencies:
+      glob: 7.1.4
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-NDGVxTsjqfunkds7CqsOiEnxln4Bo7Nddl3XhS4pXg5OzwkLqJ971ZVAAnB+DDLnF76N+VnDEiBHaVV8I06SUg==
   /ripemd160/2.0.2:
     dependencies:
       hash-base: 3.0.4
@@ -10168,7 +10175,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.0
       nyc: 14.1.1
       prettier: 1.18.2
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -10182,7 +10189,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-bOazCplSYAusToKu3B9vUnNASGvMSR9Yyj4i1PFTGdOfMyd5t+VZcS6RgEdtcAr+6MoUwJ230UkC/7JZ+HkdVQ==
+      integrity: sha512-FjeNGI0azY3AZwK1UQ2RunsKtOsm3pxdX6FL/iiTMUghHiDoa8Ls1fMWBmLBqVgrjBPEk+ytX+TE917vKJgunQ==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -10227,7 +10234,7 @@ packages:
       puppeteer: 1.19.0
       rhea: 1.0.8
       rhea-promise: 1.0.0
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-inject: 3.0.1
@@ -10250,7 +10257,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-zOQxTAzv2RDm8YmYZ8Tr+y82OmJANT0b3iJuBg+e02gcCSAS7N57zjeaZYSjq6dNEND7Jseo+xVZ/QdDNVGIsA==
+      integrity: sha512-v+i2VeZ1ijc4rCk6umVSTLABXXVaOAp1q9fgjkpBJ2++ggdwkYSBO5VlDxY/fc6Jv2FctMTjWEYh8AFpMQhoNQ==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10271,7 +10278,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.0
       npm-run-all: 4.1.5
       nyc: 14.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-node-resolve: 5.2.0_rollup@1.20.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.20.1
@@ -10285,7 +10292,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-9uqsxSLJiO0MSCXGkCe42Kf/kJO0w7GuYc4efzzjMJOsbsjBfu4wpt5IJOyzMUznyaPBFKOiR8wKboyhNfbzmg==
+      integrity: sha512-YLO+Lu8+QdbGXNectrQzC9OCK5HlWogISjARKZSp+sU5/qxtkPpogIJUOctgReTgx3yK4bh/wNBegLsYeXVxvg==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -10325,7 +10332,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       prettier: 1.18.2
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-json: 4.0.0
@@ -10341,7 +10348,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-WcJPwF+dNlpEQW1GRzGQIY6YEI+uz6ChF3PISTFVyFbZjK1k+5r0ly2DRCplHUd6tVJ2GoqbqmSHR8Doz/E4Mw==
+      integrity: sha512-JoX/IlUf7c0++3R8YQsxpckD+FS0Qhiiixg9YrgCoQmTkMv9lUsi3LprMidIRbLY4Hos4HeOTshMZRL4PZz5Gg==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -10394,7 +10401,7 @@ packages:
       process: 0.11.10
       puppeteer: 1.19.0
       regenerator-runtime: 0.13.3
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-alias: 1.5.2
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
@@ -10424,7 +10431,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-tnBnNKZPZvmwesatSPql50OdGqX9w/Hi2qEbvu2ATsp93+M6E5Ofg37iul2dlUdzwkfwa3tX97eTikU96MyvXw==
+      integrity: sha512-exS9x9f/wsDz+M/PbrYNdcBf4hRz0MxC5+3qAFMtlsQzgYEjAeDncW0rNkLaP9FF9OPDWHBCmb0nC3osn+2BDQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10465,7 +10472,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       prettier: 1.18.2
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-json: 4.0.0
@@ -10481,7 +10488,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-yAQfqHw4bMOPRFf2Q0SGJtgtdw+RPhMQtkNBh1s8TO5kk1HV7cE6S4Fh3kH3msRmRFM3M9yLmdcVt5asCcRjtg==
+      integrity: sha512-78rkxAffDWO3NFQY96u6b+9tqe/jsn1oB6qcAQs0V+7cgzcTSfpZyO/giuyZlD7KCeVJfMXQAAEj8XdZ27Hl6A==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz_webpack@4.39.2':
@@ -10532,7 +10539,7 @@ packages:
       priorityqueuejs: 1.0.0
       proxy-agent: 3.0.3
       requirejs: 2.3.6
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-json: 4.0.0
       rollup-plugin-local-resolve: 1.0.7
@@ -10552,7 +10559,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-rrzMjQx77cKMm6LhF4kSZmQyqRFJYy3Q7FZLaQ5r9s/gw4kIKahVuYEmc6d56I1pRfM1HUqGeZ2Ko+H3EvXZsQ==
+      integrity: sha512-tylj4SugyP6OiYrW01JH0FnPylrt7JkY1TvkRYZXshMe9X8dm4Zg2KfB2xA+lyFA2tY16Y5N7lVgPEeVIaVggw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10608,7 +10615,7 @@ packages:
       process: 0.11.10
       puppeteer: 1.19.0
       rhea-promise: 1.0.0
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-inject: 3.0.1
@@ -10628,7 +10635,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-ij9RrsZTCY20A1azLf+CQ2/sC3oz8FwzxNv+of934zmASFqNxTqwylat1zRPj/zQ+5WHpfq5BoNmXpTgshzzRg==
+      integrity: sha512-hkXDClTG2hICYuWTpT1wDBwUhRuchSDUhHaoZZniBWOElh+hYsbkeD6VzkyeCUSkhNpIztkLdbpyZDPK8tXhvg==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10668,7 +10675,7 @@ packages:
       nyc: 14.1.1
       path-browserify: 1.0.0
       prettier: 1.18.2
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-json: 4.0.0
@@ -10685,7 +10692,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-7/7AixJ0rDkzWSL4l0i3DbufYn8MgykQREWpVm5pTMaNi6HqQZGwCMSyCiVqRBSheWcn+shtaCNlRTAOA7nw2g==
+      integrity: sha512-D0XpWRy8UensKTR5GgyvjKrV5e+Djmt8GC6ilVfB/+jMd4RmR3y455FeITb7QE4pvib9lDpY8U+vStPFiFPiCg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10720,7 +10727,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       qs: 6.8.0
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-json: 4.0.0
@@ -10737,7 +10744,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-zBuzYgT0J+3USAuHuU/4bUU5W++5Fsp3U747YIjXOR2tSbiX9QVv9DKUgtJD8lQm1jdvZduzwIhMBTJd68lk8Q==
+      integrity: sha512-ue/MtT+n/wEnx5UpQb7NPFdCNtCIRAUlANi2jS5ov15sK7SIJARKnpFHwRUnnsi/jkGWk/zunG1oFbYPH3zl5g==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10787,7 +10794,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -10805,7 +10812,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-RGwQyIALGePUl3hTCS4uu9E8RIKUpOvv/MYZDgwfQOo5ZvGrWN1HkDd0OaafAnfDFFM7aalGt1JnZBh9RCGFFQ==
+      integrity: sha512-x86kIkdSGP54qDU4wCsaSp4Hnly0j1+uNfS6FMAt6Num0Qr68wtw/rpw/jkpCyeEqIGFTVU3BGsTVduy6dnsEQ==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10856,7 +10863,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -10874,7 +10881,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-jxZzHCbuJfaD39hHIzP3fyE2eidbNN7iXcHNptZk8qt+rp9E0d5MgpGrgdFbqVPFhUl5AqAbrRfUlOdYvvHR2Q==
+      integrity: sha512-rwVrmbO+9x3rfX/A+SxBlKJ+bgOZH6HmW5qJyOY8G72GxNj0cdt8dtxe3QhMysxODrBRL33MVemj2Fd+mYSlVw==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10923,7 +10930,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -10941,7 +10948,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-KKRhMhKadWkVD6YNbv0oc5hUwWXePFshonrEk8sPqWCJy2wmxDQcByw5kXfvu4ff1pBu5YU2/WGJea+78lvg4Q==
+      integrity: sha512-A2BPIBfPm1U5u9yD987lD0/gMhb9WsrMKc/doPF6eqlZgJwH28U8P2/XqMLptFs40D1RIX08ophK/Dc3SKxpNQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -11000,7 +11007,7 @@ packages:
       puppeteer: 1.19.0
       rhea: 1.0.8
       rhea-promise: 0.1.15
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-inject: 3.0.1
@@ -11018,7 +11025,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-afJ8wnIxTmCpYPotxye4XswCWAlNTlXQIU8MJh7Tf0YRxLZXtUZSndz8Z9LjXcKyOJst5u1Cub0GTONIs0ZS9Q==
+      integrity: sha512-utOBopShks6WqPEcrwAWRmFX4se/ovSK//RYJm90AWaWOy3/w+tlG8HEyihsNG6eaRAoqtvKS+fi3JI74eg6yA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11070,7 +11077,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -11088,7 +11095,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-hxiIH/jGLBocF8uWR2vDOwx7w+bFJvNGW/k+Ds1FDZxQatiZLLgQvutwzTLc2oKNBxUrXKssQGIG7e7oHl08+A==
+      integrity: sha512-B09vHPevdZL8FiyzINX/OBz4Wk/2159GgUXRopC28enJPn+oN+jZkOjsmIR25PUjzBXQMPTognNiw3fKDiQXrQ==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -11140,7 +11147,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -11158,7 +11165,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-Om0AwUAkaQ2MXCiO3Tbr9o7dAHIAORNMEGG/vHmjsQT1TcMnQtxkj6W3Vi12arC7Befc2eRBK6qCx4dmAWUc0g==
+      integrity: sha512-vdwmWAkHSZ1vuV2chFDaiIWkYGXyUHsBbKpHXxq3XQwSlwW4MwhZivEdicrYxRh4RpYPK0b4WxCVaNfkgLjlwg==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11209,7 +11216,7 @@ packages:
       prettier: 1.18.2
       puppeteer: 1.19.0
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -11227,7 +11234,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-emEeCElwVRQ9uXdWyORLRGge2NTOWtKaZ1UNKrzC8EOToJuJapl7SG6SxCpvXuLOxVyhMXLQCOx+IRAWLi9XlA==
+      integrity: sha512-ShQz7rgVSFhhrLT+nVkMOPQQQ7zSMUMkzWGDXt482qk16FuxnEKklF/Mh23zWtOh5NTI2BLCpJXO7Gq8B48XFA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11261,7 +11268,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       prettier: 1.18.2
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-json: 4.0.0
@@ -11277,7 +11284,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-CT4vFqfIOTwrzlk0gsSp71MNMAgA6cbt4Sa3BkCVhr81N6oXnvIoGIMCtzSerpvI8j1auYc0yM4rKldxNSFTqA==
+      integrity: sha512-Xk1YVYif5Qiw5+geoqA7zv1fvvOyIH4G6f5fiMRkt3umXCaxtc6DVCdHWvxXZIAP97BC7wsXMjPmdPF92Gv0mw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/test-utils-recorder.tgz':
@@ -11291,7 +11298,7 @@ packages:
       nise: 1.5.1
       nock: 10.0.6
       query-string: 5.1.1
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       rollup: 1.20.1
       rollup-plugin-commonjs: 10.0.2_rollup@1.20.1
       rollup-plugin-multi-entry: 2.1.0
@@ -11305,7 +11312,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-GTOfxWUv++j6o1isCo9mmxYvhxndiDXGpAYQajAYajDB38RoMRQ8CB1yrxdvwb7iqt4X7SE8N2ztcmF4e1zaBQ==
+      integrity: sha512-tOjyuSqDEbemnL7/3exeBk77FZ9RphrCuwch12PmDMn7vg+TkbadsrnARbIV2sw1kI6jyTuGiuArc2T16pgH7A==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11318,7 +11325,7 @@ packages:
       death: 1.1.0
       debug: 3.2.6
       rhea: 1.0.8
-      rimraf: 2.7.1
+      rimraf: 3.0.0
       tslib: 1.10.0
       typescript: 3.5.3
       uuid: 3.3.3
@@ -11326,9 +11333,10 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-VxrbDXfuJ6Nz4rm0DHlJ+0sMk4RMKRflIyu7WxXLZGBpri9KLivFyNA0TWfZBifpdy3T1kVXyLOccskpzczDvA==
+      integrity: sha512-SI91SUlFw2ep6+o6or1n7+D9r5Owhwfn8SaT/Z6QVSs3tgh4MV+1fJKytW8ysS8HusEqsUw2rGeyB5HqVjq6eA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -11487,7 +11495,7 @@ specifiers:
   requirejs: ^2.3.5
   rhea: ^1.0.4
   rhea-promise: ^0.1.15
-  rimraf: ^2.6.2
+  rimraf: ^3.0.0
   rollup: ^1.16.3
   rollup-plugin-alias: ^1.4.0
   rollup-plugin-commonjs: ^10.0.0
