@@ -118,7 +118,7 @@ export class EventHubProducer {
   }
 
   /**
-   * Send a one or more of events to the associated Event Hub.
+   * Send one or more of events to the associated Event Hub.
    *
    * @param eventData  An individual `EventData` object, or an array of `EventData` objects or an
    * instance of `EventDataBatch`.

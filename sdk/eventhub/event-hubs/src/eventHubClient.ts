@@ -203,7 +203,7 @@ export interface EventHubClientOptions {
  * - Use the connection string from the SAS policy created for your Event Hub instance.
  * - Use the connection string from the SAS policy created for your Event Hub namespace, 
  * and the name of the Event Hub instance
- * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`),
+ * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
  * 
  */
