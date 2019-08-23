@@ -201,8 +201,12 @@ export interface EventProcessorOptions {
 
 /**
  * `EventProcessor` is a high level construct that
- * - uses an `EventHubClient` to receive events from multiple partitions in a consumer group of an Event Hub instance
- * - provides the ability to checkpoint and load balance across multiple instances of itself using the `PartitionManager`
+ * - uses an `EventHubClient` to receive events from multiple partitions in a consumer group of
+ * an Event Hub instance.
+ * - uses a factory method implemented by the user to create new processors for each partition.
+ * These processors hold user code to process events.
+ * - provides the ability to checkpoint and load balance across multiple instances of itself
+ * using the `PartitionManager`.
  *
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.
@@ -214,6 +218,16 @@ export interface EventProcessorOptions {
  * - The name of the consumer group from which you want to process events
  * - An instance of `EventHubClient` that was created for the Event Hub instance.
  * - A factory method that can return an object that implements the `PartitionProcessor` interface.
+ * This method should be implemented by the user. For example:
+ * (context, checkpointManager) => { 
+ *    return { 
+ *      processEvents: (events) => { 
+ *        // user code here
+ *        // use the context to get information on the partition
+ *        // use the checkpointManager to update checkpoints if needed
+ *       }
+ *     }
+ * }
  * - An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  *
