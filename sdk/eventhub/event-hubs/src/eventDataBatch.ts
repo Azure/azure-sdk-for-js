@@ -8,7 +8,7 @@ import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
- * A class representing a batch of events which can be passed to the `send` method of a `EventConsumer` instance.
+ * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
  * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
  *
  * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
@@ -68,7 +68,7 @@ export class EventDataBatch {
 
   /**
    * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to 
-   * produce a partition assignment when the consumer is created without a `partitionId`
+   * produce a partition assignment when the producer is created without a `partitionId`
    * @readonly
    */
   get partitionKey(): string | undefined {
