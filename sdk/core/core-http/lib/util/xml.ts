@@ -35,3 +35,71 @@ export function parseXML(str: string): Promise<any> {
     }
   });
 }
+
+export function parseAtomXML(body: any): any {
+  var parsed;
+  var parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
+  parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
+    if (err) {
+      throw err;
+    } else {
+      parsed = parsedBody;
+    }
+  });
+
+  return parsed;
+}
+
+export function parseStringError(body: any): any {
+  body = _removeBOM(body.toString());
+
+  var splitBody = body.split(/:|\r\n/g);
+  var locateSplitBody = splitBody.map(function(el: any) {
+    return el.toLowerCase();
+  });
+
+  var codeIndex = locateSplitBody.indexOf("code");
+  if (codeIndex !== -1) {
+    var resultObject: any = {
+      code: splitBody[codeIndex + 1].trim()
+    };
+
+    var detailIndex = locateSplitBody.indexOf("detail");
+    if (detailIndex !== -1) {
+      resultObject.detail = splitBody[detailIndex + 1].trim();
+    }
+
+    return { error: resultObject };
+  } else {
+    throw new Error("Invalid string error");
+  }
+}
+
+/**
+ * Gets the default xml2js settings applicable for Atom based XML operations.
+ * @ignore
+ * @return {object} The default settings
+ */
+function _getDefaultSettingsForAtomXmlOperations(): any {
+  var xml2jsSettings = xml2js.defaults["0.2"];
+  xml2jsSettings.normalize = false;
+  xml2jsSettings.trim = false;
+  xml2jsSettings.attrkey = "$";
+  xml2jsSettings.charkey = "_";
+  xml2jsSettings.explicitArray = false;
+  xml2jsSettings.ignoreAttrs = true;
+
+  return xml2jsSettings;
+}
+
+/**
+ * 
+ * @param str Helper utility to clean up unintended characters that get appended by OS.
+ */
+function _removeBOM(str: any) {
+  if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
+    str = str.substring(1);
+  }
+
+  return str;
+}

@@ -114,6 +114,7 @@
     "@azure/core-auth": "1.0.0-preview.3",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
+    "buffer": "^5.2.1",
     "form-data": "^2.5.0",
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
@@ -121,7 +122,9 @@
     "tslib": "^1.9.3",
     "tunnel": "^0.0.6",
     "uuid": "^3.3.2",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "underscore": "1.4.x",
+    "xmlbuilder": "0.4.3"
   },
   "devDependencies": {
     "@azure/logger-js": "^1.0.2",

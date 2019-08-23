@@ -9,13 +9,13 @@ if (!process.env.ONLY_BROWSER) {
   inputs.push(base.nodeConfig());
 }
 
-if (!process.env.ONLY_NODE) {
+/* if (!process.env.ONLY_NODE) {
   inputs.push(base.browserConfig());
   inputs.push(base.browserConfig({ production: true }));
 }
 
 if (process.env.BROWSER_TEST) {
   inputs.push(base.browserConfig({ test: true }));
-}
+} */
 
 export default inputs;
