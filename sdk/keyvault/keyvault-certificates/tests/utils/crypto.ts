@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "./recorder";
+import { isNode } from "@azure/core-http";
 
 export function stringToUint8Array(str: string): Uint8Array {
   if (isNode) {

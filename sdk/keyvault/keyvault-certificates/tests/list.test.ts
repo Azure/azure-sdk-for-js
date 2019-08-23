@@ -4,7 +4,8 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificatesClient } from "../src";
-import { env, retry, isRecording } from "./utils/recorder";
+import { retry, isRecording } from "./utils/recorder"; 
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 const { expect } = chai;
@@ -135,7 +136,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list deleted certificates", async function() {
+  it("can list deleted certificates by page", async function() {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );

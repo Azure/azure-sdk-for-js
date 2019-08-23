@@ -78,6 +78,7 @@
   },
   "devDependencies": {
     "@azure/identity": "1.0.0-preview.3",
+    "@azure/test-utils-recorder": "1.0.0",
     "@azure/keyvault-secrets": "4.0.0-preview.5",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
