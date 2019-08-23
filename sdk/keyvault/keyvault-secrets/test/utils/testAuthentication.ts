@@ -1,7 +1,7 @@
 import { ClientSecretCredential } from "@azure/identity";
 import { getKeyvaultName } from "./utils.common";
 import { SecretsClient } from "../../src";
-import { env, record, setReplaceableVariables, setReplacements } from "./recorder";
+import { env, record, setReplaceableVariables, setReplacements } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 
