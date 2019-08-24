@@ -1,0 +1,18 @@
+/node_modules
+
+output/*
+package-lock.json
+
+# Typescript output
+.nyc_output/
+coverage/
+dist/
+*.d.ts
+*.d.ts.map
+*.js
+*.js.map
+test-results.xml
+
+# Rollup
+!rollup.config.js
+*-stats.html 
