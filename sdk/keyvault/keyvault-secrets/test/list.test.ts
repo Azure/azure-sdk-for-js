@@ -4,7 +4,8 @@
 import * as assert from "assert";
 import chai from "chai";
 import { SecretsClient } from "../src";
-import { retry, env } from "./utils/recorder";
+import { retry } from "./utils/recorderUtils";
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 const { expect } = chai;
@@ -146,7 +147,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets", async function() {
+  it("can list secrets by page", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -168,7 +169,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list deleted secrets", async function() {
+  it("can list deleted secrets by page", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -199,7 +200,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can retrieve all versions of a secret", async function() {
+  it("can retrieve all versions of a secret by page", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -232,7 +233,7 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can list secret versions (non existing)", async function() {
+  it("can list secret versions by page (non existing)", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
