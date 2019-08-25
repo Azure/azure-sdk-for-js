@@ -83,11 +83,7 @@ client.prediction
 
 #### browser - Authentication, client creation and getVersionPrediction prediction as an example written in JavaScript.
 
-##### Install @azure/ms-rest-azure-js
 
-```bash
-npm install @azure/ms-rest-azure-js
-```
 
 ##### Sample code
 
@@ -98,16 +94,17 @@ npm install @azure/ms-rest-azure-js
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-luis-runtime sample</title>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/cognitiveServicesCredentials.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-luis-runtime/dist/cognitiveservices-luis-runtime.js"></script>
     <script type="text/javascript">
       let authoringKey = process.env["luis-authoring-key"];
-      const creds = new CognitiveServicesCredentials(authoringKey);
+      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
+
 
       // check the following link to find your region
       // https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
       const region = "<your-region>";
-      const client = new LUISRuntimeClient(
+      const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(
         creds,
         "https://" + region + ".api.cognitive.microsoft.com/"
       );
