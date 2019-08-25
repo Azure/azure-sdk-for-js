@@ -73,10 +73,10 @@ client.features
     <script src="node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"></script>
     <script type="text/javascript">
       let authoringKey = process.env["luis-authoring-key"];
-      const creds = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
+      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
 
       const region = "<your-region>";
-      const client = new LUISAuthoringClient(
+      const client = new Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(
         creds,
         "https://" + region + ".api.cognitive.microsoft.com/"
       );
