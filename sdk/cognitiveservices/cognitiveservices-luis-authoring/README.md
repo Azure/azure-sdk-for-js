@@ -59,11 +59,6 @@ client.features
 
 #### browser - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in JavaScript.
 
-##### Install @azure/ms-rest-azure-js
-
-```bash
-npm install @azure/ms-rest-azure-js
-```
 
 ##### Sample code
 
@@ -74,11 +69,12 @@ npm install @azure/ms-rest-azure-js
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-luis-authoring sample</title>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/cognitiveServicesCredentials.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"></script>
     <script type="text/javascript">
       let authoringKey = process.env["luis-authoring-key"];
-      const creds = new CognitiveServicesCredentials(authoringKey);
+      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': authoringKey } });
+
       const region = "<your-region>";
       const client = new LUISAuthoringClient(
         creds,
