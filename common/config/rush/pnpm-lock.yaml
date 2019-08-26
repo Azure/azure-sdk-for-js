@@ -37,7 +37,7 @@ dependencies:
   '@types/chai': 4.2.0
   '@types/chai-as-promised': 7.1.2
   '@types/chai-string': 1.4.2
-  '@types/debug': 0.0.31
+  '@types/debug': 4.1.5
   '@types/dotenv': 6.1.1
   '@types/express': 4.17.1
   '@types/fast-json-stable-stringify': 2.0.0
@@ -84,7 +84,7 @@ dependencies:
   cross-env: 5.2.0
   crypto-hash: 1.1.0
   death: 1.1.0
-  debug: 3.2.6
+  debug: 4.1.1
   delay: 4.3.0
   dotenv: 8.1.0
   es6-promise: 4.2.8
@@ -527,10 +527,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-4r8qa0quOvh7lGD0pre62CAb1oni1OO6ecJLGCezTmhQ8Fz50Arx9RUszryR8KlgK6avuSXvviL6yWyViQABOg==
-  /@types/debug/0.0.31:
+  /@types/debug/4.1.5:
     dev: false
     resolution:
-      integrity: sha512-LS1MCPaQKqspg7FvexuhmDbWUhE2yIJ+4AgVIyObfc06/UKZ8REgxGNjZc82wPLWmbeOm7S+gSsLgo75TanG4A==
+      integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
   /@types/dotenv/6.1.1:
     dependencies:
       '@types/node': 8.10.52
@@ -10211,7 +10211,7 @@ packages:
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.0
       '@types/chai-as-promised': 7.1.2
-      '@types/debug': 0.0.31
+      '@types/debug': 4.1.5
       '@types/dotenv': 6.1.1
       '@types/is-buffer': 2.0.0
       '@types/jssha': 2.0.0
@@ -10226,7 +10226,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 5.2.0
-      debug: 3.2.6
+      debug: 4.1.1
       dotenv: 8.1.0
       eslint: 6.2.1
       eslint-config-prettier: 6.1.0_eslint@6.2.1
@@ -10271,7 +10271,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-v+i2VeZ1ijc4rCk6umVSTLABXXVaOAp1q9fgjkpBJ2++ggdwkYSBO5VlDxY/fc6Jv2FctMTjWEYh8AFpMQhoNQ==
+      integrity: sha512-Ea/iTbFAKk7cE3Eq8geKJ4Q/XYoIyoVgQSuPHsqPSFtVIgcZnGifdEJxE6tEcXIm1vcH6zrGTiNFRLgtnK//gA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10584,7 +10584,7 @@ packages:
       '@types/chai': 4.2.0
       '@types/chai-as-promised': 7.1.2
       '@types/chai-string': 1.4.2
-      '@types/debug': 0.0.31
+      '@types/debug': 4.1.5
       '@types/dotenv': 6.1.1
       '@types/long': 4.0.0
       '@types/mocha': 5.2.7
@@ -10600,7 +10600,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
       cross-env: 5.2.0
-      debug: 3.2.6
+      debug: 4.1.1
       dotenv: 8.1.0
       eslint: 6.2.1
       eslint-config-prettier: 6.1.0_eslint@6.2.1
@@ -10649,7 +10649,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-hkXDClTG2hICYuWTpT1wDBwUhRuchSDUhHaoZZniBWOElh+hYsbkeD6VzkyeCUSkhNpIztkLdbpyZDPK8tXhvg==
+      integrity: sha512-4gXmjD68ICUKKMLJXWp0rXDq1/6/7yUog9T/K5sGjlpLzV6EQ6Fd0BQHT/ZzhuEpi0HBfqAbTHT+eYA1vYBlPw==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10661,7 +10661,7 @@ packages:
       '@types/chai': 4.2.0
       '@types/chai-as-promised': 7.1.2
       '@types/chai-string': 1.4.2
-      '@types/debug': 0.0.31
+      '@types/debug': 4.1.5
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.52
@@ -10675,7 +10675,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
       cross-env: 5.2.0
-      debug: 3.2.6
+      debug: 4.1.1
       dotenv: 8.1.0
       eslint: 6.2.1
       eslint-config-prettier: 6.1.0_eslint@6.2.1
@@ -10706,7 +10706,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-D0XpWRy8UensKTR5GgyvjKrV5e+Djmt8GC6ilVfB/+jMd4RmR3y455FeITb7QE4pvib9lDpY8U+vStPFiFPiCg==
+      integrity: sha512-p3sNIrFFM3fCUUYcXbrj4RLVMuh84XX8jipT7xc9Nyd+4pVouE11Xewed7jDfUjHm9CeVCBFqReHpd2OgcnTAw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10895,7 +10895,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-rwVrmbO+9x3rfX/A+SxBlKJ+bgOZH6HmW5qJyOY8G72GxNj0cdt8dtxe3QhMysxODrBRL33MVemj2Fd+mYSlVw==
+      integrity: sha512-JfeB58HmJ4gM2fKOhBQFAO/4vN18cGSijGhbKRqunlCX7/2USiJOGqXRfWFUVNDenli6hYE+eDWtoF30pDMbgg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10962,7 +10962,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-A2BPIBfPm1U5u9yD987lD0/gMhb9WsrMKc/doPF6eqlZgJwH28U8P2/XqMLptFs40D1RIX08ophK/Dc3SKxpNQ==
+      integrity: sha512-Ew47T7kqurXX3BIV/kySILXfL3XWDf/3f0puWph/ctTaXZdPQTrjd9kDg+D+JpoPLxh3SRsMXq6ceRnsmh8OBw==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10974,7 +10974,7 @@ packages:
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.0
       '@types/chai-as-promised': 7.1.2
-      '@types/debug': 0.0.31
+      '@types/debug': 4.1.5
       '@types/dotenv': 6.1.1
       '@types/is-buffer': 2.0.0
       '@types/long': 4.0.0
@@ -10988,7 +10988,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 5.2.0
-      debug: 3.2.6
+      debug: 4.1.1
       delay: 4.3.0
       dotenv: 8.1.0
       eslint: 6.2.1
@@ -11039,7 +11039,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-utOBopShks6WqPEcrwAWRmFX4se/ovSK//RYJm90AWaWOy3/w+tlG8HEyihsNG6eaRAoqtvKS+fi3JI74eg6yA==
+      integrity: sha512-BVwk8tkgc/2ug4PHMsfH/xwW5BUaJHdnitagzhlvvMPZ69jOWJ4Wjp1VWH2oQdDVJW2hkhtU1Vtxl6P+ypR7lQ==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11337,7 +11337,7 @@ packages:
       '@types/yargs': 13.0.2
       async-lock: 1.2.2
       death: 1.1.0
-      debug: 3.2.6
+      debug: 4.1.1
       rhea: 1.0.8
       rimraf: 3.0.0
       tslib: 1.10.0
@@ -11347,7 +11347,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-HPQ8j7WMPF3/NBRcK9nZJOVpNDWRqDdjkU1dNof4bEgccyQkEjk6/aa7pAjckCVxHefnX0DjpanZCZFdyuZcYw==
+      integrity: sha512-RkYcAmpRKuAXwbssMJGmc8uzm3LoQikdGvIqdwioQqURgLagimtd01yH+757XDMvMyOfVwejTTSCZHpqa2Bf6Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -11390,7 +11390,7 @@ specifiers:
   '@types/chai': ^4.1.6
   '@types/chai-as-promised': ^7.1.0
   '@types/chai-string': ^1.4.1
-  '@types/debug': ^0.0.31
+  '@types/debug': ^4.1.4
   '@types/dotenv': ^6.1.0
   '@types/express': ^4.16.0
   '@types/fast-json-stable-stringify': 2.0.0
@@ -11437,7 +11437,7 @@ specifiers:
   cross-env: ^5.2.0
   crypto-hash: 1.1.0
   death: ^1.1.0
-  debug: ^3.1.0
+  debug: ^4.1.1
   delay: ^4.2.0
   dotenv: ^8.0.0
   es6-promise: ^4.2.5
