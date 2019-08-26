@@ -4,7 +4,7 @@
 import assert from "assert";
 import { HttpHeaders, HttpOperationResponse, SimpleTokenCredential, WebResource } from "@azure/core-http";
 import { AzureServiceClient } from "@azure/core-arm";
-import { getDelayInSeconds, isFinished } from "../lib";
+import { getDelayInSeconds, isFinished } from "../src";
 
 describe("LROPollStrategy", function () {
   describe("getDelayInMilliseconds()", function () {
