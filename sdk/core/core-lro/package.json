@@ -27,19 +27,21 @@
     "polling" 
   ],
   "main": "./dist/index.js",
-  "module": "./es/src/index.js",
-  "types": "./es/src/index.d.ts",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/core-lro.d.ts",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "es/src/**/*.js",
-    "es/src/**/*.js.map",
-    "es/src/**/*.d.ts",
-    "es/src/**/*.d.ts.map",
-    "src/**/*.ts",
+    "types/core-lro.d.ts",
+    "dist/",
+    "dist-esm/",
+    "src/", 
     "LICENSE",
     "README.md"
   ],
+  "browser": {
+    "./dist/index.js": "./browser/azure-core-lro.min.js",
+    "os": false,
+    "process": false
+  }, 
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-lro",
   "repository": {
@@ -73,7 +75,7 @@
     "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "build:test": "npm run build",
-    "clean": "rimraf ./es ./dist",
+    "clean": "rimraf dist dist-esm dist-test types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
