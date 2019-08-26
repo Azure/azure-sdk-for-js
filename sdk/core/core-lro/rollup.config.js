@@ -11,7 +11,7 @@ const banner = `/** @license @azure/core-lro
  * @type {import('rollup').RollupFileOptions}
  */
 const config = {
-  input: './es/src/index.js',
+  input: './dist-esm/src/index.js',
   external: ["@azure/core-http"],
   output: {
     file: "./dist/index.js",
