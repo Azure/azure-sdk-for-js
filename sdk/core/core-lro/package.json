@@ -1,5 +1,5 @@
 {
-  "name": "@azure/core-arm",
+  "name": "@azure/core-lro",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
@@ -67,8 +67,8 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "run-p build:lib",
-    "build:lib": "run-s build:tsc build:rollup build:minify",
+    "build": "npm run build:lib",
+    "build:lib": "npm run build:tsc && npm run build:rollup && npm run build:minify",
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
@@ -91,6 +91,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/core-arm": "1.0.0-preview.3",
     "@azure/core-http": "1.0.0-preview.3",
     "tslib": "^1.9.3"
   },

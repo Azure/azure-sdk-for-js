@@ -351,6 +351,10 @@
       "projectFolder": "sdk/core/core-http"
     },
     {
+      "packageName": "@azure/core-lro",
+      "projectFolder": "sdk/core/core-lro"
+    }, 
+    {
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging"
     },
