@@ -53,12 +53,6 @@ export function setEnviromentOnLoad() {
   }
 }
 
-// TODO - skip list will be removed - #4336
-const skip = [
-  // Abort
-  "browsers/aborter/recording_should_abort_after_aborter_timeout.json"
-];
-
 export abstract class BaseRecorder {
   protected readonly filepath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
@@ -108,10 +102,6 @@ export abstract class BaseRecorder {
     }
 
     return updatedRecording;
-  }
-
-  public skip(): boolean {
-    return skip.includes(this.filepath);
   }
 
   public abstract record(): void;

@@ -15,6 +15,11 @@ export interface Recorder {
    */
   stop(): void;
   /**
+   * `skip()` method is supposed to be called at the end of the test, stops and saves the recording in the "record" mode.
+   * Has no effect in the live test mode.
+   */
+  skip(runtime?: "node" | "browser"): void;
+  /**
    * In live test mode, random string is generated, appended to `prefix` and returned.
    *
    * In record mode, random string is generated, appended to `prefix` and returned, and is saved in the recordings by assigning the `label`.
@@ -74,10 +79,6 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  if (recorder.skip() && (isRecordMode() || isPlaybackMode())) {
-    testContext.skip();
-  }
-
   // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecordMode()) {
     recorder.record();
@@ -89,6 +90,32 @@ export function record(testContext: Mocha.Context): Recorder {
     stop: function() {
       if (isRecordMode()) {
         recorder.stop();
+      }
+    },
+    /**
+     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+     * If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
+     * @param runtime Can either be "node" or "browser"
+     */
+    skip: function(runtime?: "node" | "browser"): void {
+      // 1. skipping the test only in node
+      // 2. skipping the test only in browser
+      // 3. skipping the test in both the node and browser runtimes
+      if (
+        (runtime === "node" && !isBrowser()) ||
+        (runtime === "browser" && isBrowser()) ||
+        !runtime
+      ) {
+        if (isRecordMode()) {
+          // record mode - recorder is stopped, test is skipped
+          recorder.stop();
+          testContext.skip();
+        } else if (isPlaybackMode()) {
+          // playback mode - test is skipped
+          testContext.skip();
+        } else {
+          // live mode - no effect
+        }
       }
     },
     getUniqueName: function(prefix: string, label?: string): string {
