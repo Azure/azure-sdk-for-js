@@ -58,7 +58,8 @@ jobs:
           - pwsh: |
               # $uniqueIdentifier generates a pseudorandom value that represents a unique name that can be used with all resources
               $uniqueIdentifier =  "t" + [guid]::NewGuid().ToString().Replace("-", "").Substring(0,16)
-              $resourceGroupName = "Tests-" + $uniqueIdentifier
+              $jobName = "$(Agent.JobName)".Replace(" ", "_")
+              $resourceGroupName = "Tests-$(Build.BuildId)-" + $jobName + "-" + $uniqueIdentifier
               echo "##vso[task.setvariable variable=ResourceGroupName]$resourceGroupName"
               echo "##vso[task.setvariable variable=ScopedIdentifier]$uniqueIdentifier"
               $resourceGroupExpiration = (Get-Date).ToUniversalTime().AddHours(24).ToString("o")
