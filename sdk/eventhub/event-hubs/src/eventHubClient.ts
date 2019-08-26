@@ -11,7 +11,9 @@ import {
   ConnectionConfig,
   isTokenCredential,
   RetryOptions,
-  Constants
+  Constants,
+  parseConnectionString,
+  EventHubConnectionStringModel
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -283,6 +285,26 @@ export class EventHubClient {
     let config;
     let credential: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
+    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
+    if (
+      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
+    ) {
+      throw new TypeError(
+        `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
+          `must contain EntityPath="<path-to-the-entity>".`
+      );
+    }
+    if (
+      parsedCS.EntityPath &&
+      typeof eventHubNameOrOptions === "string" &&
+      eventHubNameOrOptions &&
+      parsedCS.EntityPath !== eventHubNameOrOptions
+    ) {
+      throw new TypeError(
+        `EntityPath="${parsedCS.EntityPath}" in "connectionString": "${hostOrConnectionString}" ` +
+          `donesn't match with "eventHubName": "${eventHubNameOrOptions}".`
+      );
+    }
 
     if (!isTokenCredential(credentialOrOptions)) {
       connectionString = hostOrConnectionString;
@@ -396,7 +418,7 @@ export class EventHubClient {
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
-   * 
+   *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
