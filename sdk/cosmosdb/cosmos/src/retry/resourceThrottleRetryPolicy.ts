@@ -1,5 +1,4 @@
-﻿import { StatusCodes } from "../common";
-import { ErrorResponse } from "../request/request";
+﻿import { ErrorResponse } from "../request";
 
 /**
  * This class implements the resource throttle retry policy for requests.
@@ -24,9 +23,9 @@ export class ResourceThrottleRetryPolicy {
    * retries are happening.
    */
   constructor(
-    private maxRetryAttemptCount: number,
-    private fixedRetryIntervalInMilliseconds: number,
-    maxWaitTimeInSeconds: number
+    private maxRetryAttemptCount: number = 9,
+    private fixedRetryIntervalInMilliseconds: number = 0,
+    maxWaitTimeInSeconds: number = 30
   ) {
     this.maxWaitTimeInMilliseconds = maxWaitTimeInSeconds * 1000;
     this.currentRetryAttemptCount = 0;

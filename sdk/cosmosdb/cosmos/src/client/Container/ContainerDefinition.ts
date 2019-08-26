@@ -1,4 +1,4 @@
-import { IndexingPolicy, PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 

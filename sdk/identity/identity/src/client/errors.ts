@@ -5,7 +5,7 @@
  * See the official documentation for more details:
  *
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
- * 
+ *
  * NOTE: This documentation is for v1 OAuth support but the same error
  * response details still apply to v2.
  */
@@ -18,6 +18,12 @@ export interface ErrorResponse {
   correlation_id?: string;
 }
 
+function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
+  return errorResponse &&
+    typeof errorResponse.error === "string" &&
+    typeof errorResponse.error_description === "string";
+}
+
 /**
  * Provides details about a failure to authenticate with Azure Active
  * Directory.  The `errorResponse` field contains more details about
@@ -27,13 +33,15 @@ export class AuthenticationError extends Error {
   public readonly statusCode: number;
   public readonly errorResponse: ErrorResponse;
 
-  constructor(statusCode: number, errorBody: string | undefined | null) {
+  constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse = {
       error: "unknown",
       error_description: "An unknown error occurred and no additional details are available."
     };
 
-    if (errorBody) {
+    if (isErrorResponse(errorBody)) {
+      errorResponse = errorBody;
+    } else if (typeof errorBody === "string") {
       try {
         // Most error responses will contain JSON-formatted error details
         // in the response body

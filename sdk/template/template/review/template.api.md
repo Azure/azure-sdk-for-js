@@ -5,7 +5,7 @@
 ```ts
 
 import EventEmitter from 'events';
-import { URLBuilder } from '@azure/ms-rest-js';
+import { URLBuilder } from '@azure/core-http';
 
 // @public (undocumented)
 export function createEventEmitter(): EventEmitter;

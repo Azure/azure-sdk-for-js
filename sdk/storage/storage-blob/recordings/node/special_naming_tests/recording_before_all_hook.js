@@ -1,24 +1,26 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"1container-with-dash":"1container-with-dash156058666873503521"}
+module.exports.testInfo = {"1container-with-dash":"1container-with-dash156585819285600712"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1container-with-dash156058666873503521')
+  .put('/1container-with-dash156585819285600712')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Sat, 15 Jun 2019 08:17:48 GMT',
+  'Thu, 15 Aug 2019 08:32:34 GMT',
   'ETag',
-  '"0x8D6F169F3C6CDC0"',
+  '"0x8D7215B1F59F018"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '746cd7e1-101e-0090-7252-23efdd000000',
+  '9d1b6cd7-201e-00de-1943-536e3f000000',
   'x-ms-version',
-  '2018-03-28',
+  '2018-11-09',
   'Date',
-  'Sat, 15 Jun 2019 08:17:47 GMT',
+  'Thu, 15 Aug 2019 08:32:34 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 

@@ -1,8 +1,7 @@
-import { ConnectionPolicy, ConsistencyLevel, CosmosClient } from "../../lib";
+import { ConsistencyLevel, CosmosClient } from "../../dist";
 import config from "./config";
 import { ConflictWorker } from "./ConflictWorker";
 import { Worker } from "./Worker";
-// tslint:disable:no-console
 export class MultiRegionWriteScenario {
   private basicWorkers: Worker[] = [];
   private conflictWorker: ConflictWorker;
@@ -15,13 +14,12 @@ export class MultiRegionWriteScenario {
       config.udpCollectionName
     );
     for (const region of config.regions) {
-      const connectionPolicy: ConnectionPolicy = new ConnectionPolicy();
-      connectionPolicy.UseMultipleWriteLocations = true;
-      connectionPolicy.PreferredLocations = [region];
       const client = new CosmosClient({
         endpoint: config.endpoint,
-        auth: { masterKey: config.key },
-        connectionPolicy,
+        key: config.key,
+        connectionPolicy: {
+          preferredLocations: [region]
+        },
         consistencyLevel: ConsistencyLevel.Eventual
       });
       this.conflictWorker.addClient(region, client);

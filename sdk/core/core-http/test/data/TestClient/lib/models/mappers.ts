@@ -226,6 +226,81 @@ internalMappers.Pet = {
     }
   }
 };
+internalMappers.PetAP = {
+  required: false,
+  serializedName: "PetAP",
+  type: {
+    name: "Composite",
+    additionalProperties: {
+      type: {
+        name: "String"
+      }
+    },
+    className: "PetAP",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        required: false,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      eyeColor: {
+        required: true,
+        serializedName: "eyeColor",
+        isConstant: true,
+        defaultValue: "brown",
+        type: {
+          name: "String"
+        }
+      },
+      favoriteFood: {
+        required: false,
+        serializedName: "favoriteFood",
+        defaultValue: "bones",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        required: false,
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Boolean"
+        }
+      },
+      odatalocation: {
+        required: true,
+        serializedName: "@odata\\.location",
+        type: {
+          name: "String"
+        }
+      },
+      additionalProperties1: {
+        required: false,
+        serializedName: "additionalProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            required: false,
+            serializedName: "NumberElementType",
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
 internalMappers.PetGallery = {
   required: false,
   serializedName: "PetGallery",
@@ -289,6 +364,11 @@ internalMappers.Product = {
         required: true,
         type: {
           name: "String"
+        },
+        constraints: {
+          MaxLength: 256,
+          MinLength: 1,
+          Pattern: /^[A-Za-z0-9-._]+$/
         }
       },
       provisioningState: {

@@ -2,6 +2,8 @@ import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azur
 
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
+export { RetryPolicyType } from "./policies/RetryPolicy";
+
 /**
  * Retry options interface.
  *

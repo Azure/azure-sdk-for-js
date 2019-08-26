@@ -19,6 +19,8 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 - Get all secrets.
 - Get all deleted secrets.
 
+**Please Note:** This is a preview version of the KeyVault Secrets library
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
@@ -72,11 +74,11 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform secret operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list create
   ```
 
   > --secret-permissions:
-  > Accepted values: backup, delete, get, list, purge, recover, restore, set
+  > Accepted values: backup, delete, get, list, purge, recover, restore, create
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
@@ -88,18 +90,18 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
 ```
 
 Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
-// EnvironmentCredential expects the following three environment variables:
+// DefaultAzureCredential expects the following three environment variables:
 // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
 // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
 // * AZURE_CLIENT_SECRET: The client secret for the registered application
-const credential = new EnvironmentCredential();
+const credential = new DefaultAzureCredential();
 
 // Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";
@@ -227,6 +229,7 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
 ### Logging to a file
 
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
     node your-test-script.js > out.log 2>debug.log
@@ -263,6 +266,25 @@ a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow th
 provided by the bot. You will only need to do this once across all repos using our CLA.
 
 If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+
+To run our tests, first install the dependencies (with `npm install` or `rush install`),
+then run the unit tests with: `npm run unit-test`.
+Our unit tests that target the behavior of our library against remotely
+available endpoints are executed using previously recorded HTTP request and
+responses.
+
+Our integration tests will run against the live resources, which are determined
+by the environment variables you provide. To run the integration tests, you can
+run `npm run integration-test`, but make sure to provide the following
+environment variables:
+
+- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
+- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
+- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
+- `KEYVAULT_NAME`: The name of the KeyVault you want to run the tests against.
+
+**WARNING:** 
+Integration tests will wipe all of the existing records in the targetted KeyVault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

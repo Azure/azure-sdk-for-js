@@ -34,14 +34,24 @@ export class PredictionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionGetVersionPredictionResponse>
    */
-  getVersionPrediction(appId: string, versionId: string, predictionRequest: Models.PredictionRequest, options?: Models.PredictionGetVersionPredictionOptionalParams): Promise<Models.PredictionGetVersionPredictionResponse>;
+  getVersionPrediction(
+    appId: string,
+    versionId: string,
+    predictionRequest: Models.PredictionRequest,
+    options?: Models.PredictionGetVersionPredictionOptionalParams
+  ): Promise<Models.PredictionGetVersionPredictionResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The application version ID.
    * @param predictionRequest The prediction request parameters.
    * @param callback The callback
    */
-  getVersionPrediction(appId: string, versionId: string, predictionRequest: Models.PredictionRequest, callback: msRest.ServiceCallback<Models.PredictionResponse>): void;
+  getVersionPrediction(
+    appId: string,
+    versionId: string,
+    predictionRequest: Models.PredictionRequest,
+    callback: msRest.ServiceCallback<Models.PredictionResponse>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The application version ID.
@@ -49,8 +59,22 @@ export class PredictionOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getVersionPrediction(appId: string, versionId: string, predictionRequest: Models.PredictionRequest, options: Models.PredictionGetVersionPredictionOptionalParams, callback: msRest.ServiceCallback<Models.PredictionResponse>): void;
-  getVersionPrediction(appId: string, versionId: string, predictionRequest: Models.PredictionRequest, options?: Models.PredictionGetVersionPredictionOptionalParams | msRest.ServiceCallback<Models.PredictionResponse>, callback?: msRest.ServiceCallback<Models.PredictionResponse>): Promise<Models.PredictionGetVersionPredictionResponse> {
+  getVersionPrediction(
+    appId: string,
+    versionId: string,
+    predictionRequest: Models.PredictionRequest,
+    options: Models.PredictionGetVersionPredictionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PredictionResponse>
+  ): void;
+  getVersionPrediction(
+    appId: string,
+    versionId: string,
+    predictionRequest: Models.PredictionRequest,
+    options?:
+      | Models.PredictionGetVersionPredictionOptionalParams
+      | msRest.ServiceCallback<Models.PredictionResponse>,
+    callback?: msRest.ServiceCallback<Models.PredictionResponse>
+  ): Promise<Models.PredictionGetVersionPredictionResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -59,7 +83,8 @@ export class PredictionOperations {
         options
       },
       getVersionPredictionOperationSpec,
-      callback) as Promise<Models.PredictionGetVersionPredictionResponse>;
+      callback
+    ) as Promise<Models.PredictionGetVersionPredictionResponse>;
   }
 
   /**
@@ -70,14 +95,24 @@ export class PredictionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionGetSlotPredictionResponse>
    */
-  getSlotPrediction(appId: string, slotName: string, predictionRequest: Models.PredictionRequest, options?: Models.PredictionGetSlotPredictionOptionalParams): Promise<Models.PredictionGetSlotPredictionResponse>;
+  getSlotPrediction(
+    appId: string,
+    slotName: string,
+    predictionRequest: Models.PredictionRequest,
+    options?: Models.PredictionGetSlotPredictionOptionalParams
+  ): Promise<Models.PredictionGetSlotPredictionResponse>;
   /**
    * @param appId The application ID.
    * @param slotName The application slot name.
    * @param predictionRequest The prediction request parameters.
    * @param callback The callback
    */
-  getSlotPrediction(appId: string, slotName: string, predictionRequest: Models.PredictionRequest, callback: msRest.ServiceCallback<Models.PredictionResponse>): void;
+  getSlotPrediction(
+    appId: string,
+    slotName: string,
+    predictionRequest: Models.PredictionRequest,
+    callback: msRest.ServiceCallback<Models.PredictionResponse>
+  ): void;
   /**
    * @param appId The application ID.
    * @param slotName The application slot name.
@@ -85,8 +120,22 @@ export class PredictionOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSlotPrediction(appId: string, slotName: string, predictionRequest: Models.PredictionRequest, options: Models.PredictionGetSlotPredictionOptionalParams, callback: msRest.ServiceCallback<Models.PredictionResponse>): void;
-  getSlotPrediction(appId: string, slotName: string, predictionRequest: Models.PredictionRequest, options?: Models.PredictionGetSlotPredictionOptionalParams | msRest.ServiceCallback<Models.PredictionResponse>, callback?: msRest.ServiceCallback<Models.PredictionResponse>): Promise<Models.PredictionGetSlotPredictionResponse> {
+  getSlotPrediction(
+    appId: string,
+    slotName: string,
+    predictionRequest: Models.PredictionRequest,
+    options: Models.PredictionGetSlotPredictionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PredictionResponse>
+  ): void;
+  getSlotPrediction(
+    appId: string,
+    slotName: string,
+    predictionRequest: Models.PredictionRequest,
+    options?:
+      | Models.PredictionGetSlotPredictionOptionalParams
+      | msRest.ServiceCallback<Models.PredictionResponse>,
+    callback?: msRest.ServiceCallback<Models.PredictionResponse>
+  ): Promise<Models.PredictionGetSlotPredictionResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -95,7 +144,8 @@ export class PredictionOperations {
         options
       },
       getSlotPredictionOperationSpec,
-      callback) as Promise<Models.PredictionGetSlotPredictionResponse>;
+      callback
+    ) as Promise<Models.PredictionGetSlotPredictionResponse>;
   }
 }
 
@@ -104,16 +154,8 @@ const serializer = new msRest.Serializer(Mappers);
 const getVersionPredictionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/predict",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId
-  ],
-  queryParameters: [
-    Parameters.verbose,
-    Parameters.showAllIntents,
-    Parameters.log
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId],
+  queryParameters: [Parameters.verbose, Parameters.showAllIntents, Parameters.log],
   requestBody: {
     parameterPath: "predictionRequest",
     mapper: {
@@ -135,16 +177,8 @@ const getVersionPredictionOperationSpec: msRest.OperationSpec = {
 const getSlotPredictionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/slots/{slotName}/predict",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.slotName
-  ],
-  queryParameters: [
-    Parameters.verbose,
-    Parameters.showAllIntents,
-    Parameters.log
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.slotName],
+  queryParameters: [Parameters.verbose, Parameters.showAllIntents, Parameters.log],
   requestBody: {
     parameterPath: "predictionRequest",
     mapper: {

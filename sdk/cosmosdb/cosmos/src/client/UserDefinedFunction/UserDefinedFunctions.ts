@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -34,11 +34,18 @@ export class UserDefinedFunctions {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
+    const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "udfs", id, result => result.UserDefinedFunctions, query, innerOptions);
+      return this.clientContext.queryFeed({
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        resultFn: result => result.UserDefinedFunctions,
+        query,
+        options: innerOptions
+      });
     });
   }
 
@@ -47,7 +54,7 @@ export class UserDefinedFunctions {
    * @param options
    * @example Read all User Defined Functions to array.
    * ```typescript
-   * const {body: udfList} = await container.userDefinedFunctions.readAll().toArray();
+   * const {body: udfList} = await container.userDefinedFunctions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition & Resource> {
@@ -71,58 +78,21 @@ export class UserDefinedFunctions {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
+    const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<UserDefinedFunctionDefinition>(
+    const response = await this.clientContext.create<UserDefinedFunctionDefinition>({
       body,
       path,
-      "udfs",
-      id,
-      undefined,
+      resourceType: ResourceType.udf,
+      resourceId: id,
       options
-    );
+    });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
-  }
-
-  /**
-   * Upsert a UserDefinedFunction.
-   *
-   * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers.
-   *
-   * For additional details, refer to the server-side JavaScript API documentation.
-   *
-   */
-  public async upsert(
-    body: UserDefinedFunctionDefinition,
-    options?: RequestOptions
-  ): Promise<UserDefinedFunctionResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
-
-    const err = {};
-    if (!Helper.isResourceValid(body, err)) {
-      throw err;
-    }
-
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
-
-    const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>(
-      body,
-      path,
-      "udfs",
-      id,
-      undefined,
-      options
-    );
-    const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, ref);
   }
 }

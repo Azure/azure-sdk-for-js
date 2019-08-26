@@ -1,13 +1,14 @@
-import * as assert from "assert";
-
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
+
 import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { bodyToString, getBSU } from "./utils";
-import { record, delay } from "./utils/recorder";
-import * as dotenv from "dotenv";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("BlobURL", () => {
@@ -40,6 +41,13 @@ describe("BlobURL", () => {
   it("download with default parameters", async () => {
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    const aborter = Aborter.none;
+    const result = await blobURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
   });
 
   it("download all parameters set", async () => {

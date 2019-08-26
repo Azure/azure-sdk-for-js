@@ -154,25 +154,6 @@ export namespace HostContext {
     }
   }
 
-  function _eitherLeaseManagerOrleaseDurationAndRenewal(options: EventProcessorHostOptions): void {
-    validateType("options", options, true, "object");
-    const leaseManager = options.leaseManager;
-    const leaseDuration = options.leaseDuration;
-    const leaseRenewInterval = options.leaseRenewInterval;
-    if (leaseManager) {
-      if (leaseDuration || leaseRenewInterval) {
-        throw new Error(
-          "Either provide ('leaseDuration' and 'leaseRenewInterval') or " +
-            "provide 'leaseManager'."
-        );
-      }
-    } else if (!(leaseDuration && leaseRenewInterval)) {
-      throw new Error(
-        "Either provide ('leaseDuration' and 'leaseRenewInterval') or " + "provide 'leaseManager'."
-      );
-    }
-  }
-
   function _createBase(hostName: string, options: EventProcessorHostOptions): BaseHostContext {
     validateType("hostName", hostName, true, "string");
 
@@ -187,9 +168,6 @@ export namespace HostContext {
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
     if (!options.eventHubPath) options.eventHubPath = config.entityPath;
-    if (!options.leaseRenewInterval)
-      options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
-    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
     if (!options.dataTransformer) options.dataTransformer = new DefaultDataTransformer();
     if (!options.startupScanDelay) options.startupScanDelay = defaultStartupScanDelayInSeconds;
@@ -215,10 +193,18 @@ export namespace HostContext {
     validateType("options.storageContainerName", options.storageContainerName, false, "string");
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
+    _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
+
+    if (options.leaseManager) {
+      options.leaseDuration = options.leaseManager.leaseDuration;
+      options.leaseRenewInterval = options.leaseManager.leaseRenewInterval;
+    }
+    if (!options.leaseRenewInterval)
+      options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
+    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
+
     validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
     validateType("options.leaseDuration", options.leaseDuration, false, "number");
-    _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
-    _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
     const context: BaseHostContext = {
       hostName: hostName,

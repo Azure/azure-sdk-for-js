@@ -14,7 +14,7 @@ export interface EventPositionOptions {
    * @property The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
    */
-  offset?: string;
+  offset?: number | "@latest";
   /**
    * @property Indicates if the current event at the specified offset is
    * included or not. It is only applicable if offset is set. Default value: false.
@@ -35,17 +35,24 @@ export interface EventPositionOptions {
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used in the creation of
- * an `EventHubProducer`.
+ * an `EventHubConsumer` to specify the position in the partition to begin receiving events from.
+ *
+ * Make use of the below static helpers to create an instance of `EventPosition`
+ * - `fromOffset()`
+ * - `fromSequenceNumber()`
+ * - `fromEnqueuedTime()`
+ * - `earliest()`
+ * - `latest()`
  * @class
  */
 export class EventPosition {
   /**
-   * @property The token that represents the beginning event in the stream of a partition: `"-1"`.
+   * @property The token that represents the beginning event in the stream of a partition: `-1`.
    * @static
    * @readonly
    * @ignore
    */
-  private static readonly startOfStream: string = "-1";
+  private static readonly startOfStream: number = -1;
 
   /**
    * @property The token that represents the last event in the stream of a partition: `"@latest"`.
@@ -53,7 +60,7 @@ export class EventPosition {
    * @readonly
    * @ignore
    */
-  private static readonly endOfStream: string = "@latest";
+  private static readonly endOfStream = "@latest";
   /**
    * @property The offset of the event identified by this position.
    * Expected to be undefined if the position is just created from a sequence number or an enqueued time.
@@ -63,7 +70,7 @@ export class EventPosition {
    * The same offset may refer to a different event as events reach the age limit for
    * retention and are no longer visible within the partition.
    */
-  offset?: string;
+  offset?: number | "@latest";
   /**
    * @property Indicates if the specified offset is inclusive of the event which it identifies.
    * This information is only relevent if the event position was identified by an offset or sequence number.
@@ -83,6 +90,13 @@ export class EventPosition {
   sequenceNumber?: number;
 
   /**
+   * Instead of constructing an event position using `new Event Position()`, make use of the below static helpers
+   * - `fromOffset()`
+   * - `fromSequenceNumber()`
+   * - `fromEnqueuedTime()`
+   * - `earliest()`
+   * - `latest()`
+   *
    * @constructor
    * @internal
    * @ignore
@@ -106,11 +120,11 @@ export class EventPosition {
    * Default: `false`.
    * @returns EventPosition
    */
-  static fromOffset(offset: string, isInclusive?: boolean): EventPosition {
+  static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
     if (offset == undefined) {
       throw new Error('Missing parameter "offset"');
     }
-    return new EventPosition({ offset: String(offset), isInclusive: isInclusive });
+    return new EventPosition({ offset: offset, isInclusive: isInclusive });
   }
 
   /**
@@ -165,7 +179,7 @@ export class EventPosition {
    */
 
   static latest(): EventPosition {
-    return EventPosition.fromOffset(EventPosition.endOfStream);
+    return new EventPosition({ offset: EventPosition.endOfStream });
   }
 }
 

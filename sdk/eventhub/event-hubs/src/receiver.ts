@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions, RetryOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
@@ -11,7 +11,8 @@ import {
   Constants,
   RetryOperationType,
   retry,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -37,14 +38,18 @@ export interface EventIteratorOptions {
 /**
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
+ * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
+ * You can pass the below in the `options` when creating a producer.
+ * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
+ * consumers to fail if their `ownerLevel` is lower or doesn't exist.
+ * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  *
  * Multiple consumers are allowed on the same partition in a consumer group.
  * If there is a need to have an exclusive consumer for a partition in a consumer group,
  * then specify the `ownerLevel` in the `options`.
  * Exclusive consumers were previously referred to as "Epoch Receivers".
  *
- * The consumer can be used to receive messages in a batch or by registering handlers.
- * Use the `createConsumer` function on the EventHubClient to instantiate an EventHubConsumer.
+ * The consumer can be used to receive messages in a batch or by registering handlers or by using an async iterator.
  * @class
  */
 export class EventHubConsumer {
@@ -73,7 +78,7 @@ export class EventHubConsumer {
   /**
    * @property The set of retry options to configure the receiveBatch operation.
    */
-  private _retryOptions: Required<Pick<RetryOptions, "maxRetries" | "retryInterval">>;
+  private _retryOptions: RetryOptions;
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -112,7 +117,7 @@ export class EventHubConsumer {
    * @readonly
    */
   get ownerLevel(): number | undefined {
-    return this._receiverOptions && this._receiverOptions.ownerLevel;
+    return this._receiverOptions.ownerLevel;
   }
 
   /**
@@ -124,6 +129,9 @@ export class EventHubConsumer {
   }
 
   /**
+   * EventHubConsumer should not be constructed using `new EventHubConsumer()`
+   * Use the `createConsumer()` method on your `EventHubClient` instead.
+   * @private
    * @constructor
    * @internal
    * @ignore
@@ -139,7 +147,7 @@ export class EventHubConsumer {
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
-    this._retryOptions = this._initRetryOptions(this._receiverOptions.retryOptions);
+    this._retryOptions = this._receiverOptions.retryOptions || {};
     this._baseConsumer = new EventHubReceiver(
       context,
       consumerGroup,
@@ -234,7 +242,7 @@ export class EventHubConsumer {
     options: EventIteratorOptions = {}
   ): AsyncIterableIterator<ReceivedEventData> {
     const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
 
     while (true) {
       const currentBatch = await this.receiveBatch(
@@ -370,7 +378,7 @@ export class EventHubConsumer {
         );
 
         const addTimeout = (): void => {
-          let msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
           log.batching(
             msg,
             this._context.connectionId,
@@ -404,10 +412,10 @@ export class EventHubConsumer {
     const config: RetryConfig<ReceivedEventData[]> = {
       connectionHost: this._context.config.host,
       connectionId: this._context.connectionId,
-      delayInSeconds: retryOptions.retryInterval,
       operation: retrieveEvents,
       operationType: RetryOperationType.receiveMessage,
-      maxRetries: retryOptions.maxRetries
+      abortSignal: abortSignal,
+      retryOptions: retryOptions
     };
     return retry<ReceivedEventData[]>(config);
   }
@@ -434,24 +442,6 @@ export class EventHubConsumer {
     } finally {
       this._isClosed = true;
     }
-  }
-
-  private _initRetryOptions(
-    retryOptions: RetryOptions = {}
-  ): Required<Pick<RetryOptions, "maxRetries" | "retryInterval">> {
-    const maxRetries =
-      typeof retryOptions.maxRetries === "number"
-        ? retryOptions.maxRetries
-        : Constants.defaultMaxRetries;
-    const retryInterval =
-      typeof retryOptions.retryInterval === "number" && retryOptions.retryInterval > 0
-        ? retryOptions.retryInterval / 1000
-        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-
-    return {
-      maxRetries,
-      retryInterval
-    };
   }
 
   private _throwIfAlreadyReceiving(): void {

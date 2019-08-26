@@ -57,7 +57,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/tests/*.test.js"];
+    baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -118,17 +118,14 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
-          // modules with built-in names must have a trailing slash.
-          // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-          "assert/": ["ok", "equal", "strictEqual"]
+          assert: ["ok", "equal", "strictEqual"]
         }
       })
     ]
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/tests/*.test.js"];
+    baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external

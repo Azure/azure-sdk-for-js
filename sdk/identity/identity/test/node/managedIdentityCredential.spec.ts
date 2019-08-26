@@ -9,9 +9,8 @@ import { MockAuthHttpClient, MockAuthHttpClientOptions } from "../authTestUtils"
 import { WebResource, AccessToken } from "@azure/core-http";
 
 interface AuthRequestDetails {
-  request: WebResource,
-  token: AccessToken | null,
-  sendRequestCount: number
+  requests: WebResource[],
+  token: AccessToken | null
 };
 
 describe("ManagedIdentityCredential", function () {
@@ -20,10 +19,20 @@ describe("ManagedIdentityCredential", function () {
     delete process.env.MSI_SECRET
   });
 
-  it("sends an authorization request with a modified resource name", async () => {
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client");
-    const authRequest = authDetails.request;
+  it("sends an authorization request with a modified resource name", async function () {
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: [
+        { status: 200 }, // Respond to IMDS ping
+        { status: 200,
+          parsedBody: {
+            token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          }
+        },
+      ]
+    });
 
+    const authRequest = authDetails.requests[0];
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.method, "GET");
@@ -35,9 +44,19 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("sends an authorization request with an unmodified resource name", async () => {
-    const authDetails = await getMsiTokenAuthRequest("someResource");
-    const authRequest = authDetails.request;
+    const authDetails = await getMsiTokenAuthRequest("someResource", undefined, {
+      authResponse: [
+        { status: 200 }, // Respond to IMDS ping
+        { status: 200,
+          parsedBody: {
+            token: "token",
+            expires_on: "06/20/2019 02:57:58 +00:00"
+          }
+        },
+      ]
+    });
 
+    const authRequest = authDetails.requests[1];
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.query["client_id"], undefined);
@@ -53,7 +72,7 @@ describe("ManagedIdentityCredential", function () {
         "client",
         { mockTimeout: true });
 
-    assert.strictEqual(authDetails.request.timeout, 500);
+    assert.strictEqual(authDetails.requests[0].timeout, 500);
     assert.strictEqual(authDetails.token, null);
   });
 
@@ -72,7 +91,7 @@ describe("ManagedIdentityCredential", function () {
 
     assert.strictEqual(firstGetToken, null);
     assert.strictEqual(secondGetToken, null);
-    assert.strictEqual(mockHttpClient.sendRequestCount, 1);
+    assert.strictEqual(mockHttpClient.requests.length, 1);
   });
 
   it("sends an authorization request correctly in an App Service environment", async () => {
@@ -89,8 +108,8 @@ describe("ManagedIdentityCredential", function () {
         }
       }
     });
-    const authRequest = authDetails.request;
 
+    const authRequest = authDetails.requests[0];
     assert.ok(authRequest.query, "No query string parameters on request");
     if (authRequest.query) {
       assert.equal(authRequest.method, "GET");
@@ -112,7 +131,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
 
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client");
-    const authRequest = authDetails.request;
+    const authRequest = authDetails.requests[0];
 
     assert.ok(authRequest.body !== undefined, "No body on request");
     if (authRequest.body) {
@@ -139,8 +158,7 @@ describe("ManagedIdentityCredential", function () {
     const token = await credential.getToken(scopes);
     return {
       token,
-      request: await mockHttpClient.getAuthRequest(),
-      sendRequestCount: mockHttpClient.sendRequestCount
+      requests: mockHttpClient.requests
     };
   }
 });

@@ -15,7 +15,7 @@ const packageName = "@azure/keyvault-secrets";
 const packageVersion = "4.0.0-preview.2";
 
 export class KeyVaultClientContext extends coreArm.AzureServiceClient {
-  credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
+  credentials: coreHttp.TokenCredential;
   apiVersion?: string;
 
   /**
@@ -24,7 +24,7 @@ export class KeyVaultClientContext extends coreArm.AzureServiceClient {
    * @param [options] The parameter options
    */
   constructor(
-    credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential,
+    credentials: coreHttp.TokenCredential,
     options?: coreArm.AzureServiceClientOptions
   ) {
     if (credentials == undefined) {

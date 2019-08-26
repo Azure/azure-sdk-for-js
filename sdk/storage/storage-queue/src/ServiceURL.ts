@@ -1,6 +1,6 @@
-import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
-import { ListQueuesIncludeType } from "./generated/lib/models/index";
+import * as Models from "./generated/lib/models";
+import { ListQueuesIncludeType } from "./generated/lib/models";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";

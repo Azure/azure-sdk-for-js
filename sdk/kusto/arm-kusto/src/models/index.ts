@@ -22,17 +22,64 @@ export interface TrustedExternalTenant {
 }
 
 /**
+ * A class that contains the optimized auto scale definition.
+ */
+export interface OptimizedAutoscale {
+  /**
+   * The version of the template defined, for instance 1.
+   */
+  version: number;
+  /**
+   * A boolean value that indicate if the optimized autoscale feature is enabled or not.
+   */
+  isEnabled: boolean;
+  /**
+   * Minimum allowed instances count.
+   */
+  minimum: number;
+  /**
+   * Maximum allowed instances count.
+   */
+  maximum: number;
+}
+
+/**
+ * A class that contains virtual network definition.
+ */
+export interface VirtualNetworkConfiguration {
+  /**
+   * The subnet resource id.
+   */
+  subnetId: string;
+  /**
+   * Engine service's public IP address resource id.
+   */
+  enginePublicIpId: string;
+  /**
+   * Data management's service public IP address resource id.
+   */
+  dataManagementPublicIpId: string;
+}
+
+/**
  * Azure SKU definition.
  */
 export interface AzureSku {
   /**
-   * SKU name. Possible values include: 'D13_v2', 'D14_v2', 'L8', 'L16', 'D11_v2', 'D12_v2', 'L4'
+   * SKU name. Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
+   * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
+   * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
+   * SLA)_Standard_D11_v2'
    */
   name: AzureSkuName;
   /**
-   * SKU capacity.
+   * The number of instances of the cluster.
    */
   capacity?: number;
+  /**
+   * SKU tier. Possible values include: 'Basic', 'Standard'
+   */
+  tier: AzureSkuTier;
 }
 
 /**
@@ -70,9 +117,59 @@ export interface AzureResourceSku {
    */
   sku?: AzureSku;
   /**
-   * The SKU capacity.
+   * The number of instances of the cluster.
    */
   capacity?: AzureCapacity;
+}
+
+/**
+ * The locations and zones info for SKU.
+ */
+export interface SkuLocationInfoItem {
+  /**
+   * The available location of the SKU.
+   */
+  location: string;
+  /**
+   * The available zone of the SKU.
+   */
+  zones?: string[];
+}
+
+/**
+ * The Kusto SKU description of given resource type
+ */
+export interface SkuDescription {
+  /**
+   * The resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * The name of the SKU
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The tier of the SKU
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tier?: string;
+  /**
+   * The set of locations that the SKU is available
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: string[];
+  /**
+   * Locations and zones
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locationInfo?: SkuLocationInfoItem[];
+  /**
+   * The restrictions because of which SKU cannot be used
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restrictions?: any[];
 }
 
 /**
@@ -131,6 +228,10 @@ export interface Cluster extends TrackedResource {
    */
   sku: AzureSku;
   /**
+   * The availability zones of the cluster.
+   */
+  zones?: string[];
+  /**
    * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
    * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -138,7 +239,7 @@ export interface Cluster extends TrackedResource {
   readonly state?: State;
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed'
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
@@ -156,6 +257,22 @@ export interface Cluster extends TrackedResource {
    * The cluster's external tenants.
    */
   trustedExternalTenants?: TrustedExternalTenant[];
+  /**
+   * Optimized auto scale definition.
+   */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /**
+   * A boolean value that indicates if the cluster's disks are encrypted.
+   */
+  enableDiskEncryption?: boolean;
+  /**
+   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
+   */
+  enableStreamingIngest?: boolean;
+  /**
+   * Virtual network definition.
+   */
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
 }
 
 /**
@@ -182,7 +299,7 @@ export interface ClusterUpdate extends Resource {
   readonly state?: State;
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed'
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
@@ -200,6 +317,22 @@ export interface ClusterUpdate extends Resource {
    * The cluster's external tenants.
    */
   trustedExternalTenants?: TrustedExternalTenant[];
+  /**
+   * Optimized auto scale definition.
+   */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /**
+   * A boolean value that indicates if the cluster's disks are encrypted.
+   */
+  enableDiskEncryption?: boolean;
+  /**
+   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
+   */
+  enableStreamingIngest?: boolean;
+  /**
+   * Virtual network definition.
+   */
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
 }
 
 /**
@@ -219,7 +352,7 @@ export interface Database extends ProxyResource {
   location?: string;
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed'
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
@@ -228,7 +361,7 @@ export interface Database extends ProxyResource {
    */
   softDeletePeriod?: string;
   /**
-   * The time the data that should be kept in cache for fast queries in TimeSpan.
+   * The time the data should be kept in cache for fast queries in TimeSpan.
    */
   hotCachePeriod?: string;
   /**
@@ -247,7 +380,7 @@ export interface DatabaseUpdate extends Resource {
   location?: string;
   /**
    * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed'
+   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
@@ -256,7 +389,7 @@ export interface DatabaseUpdate extends Resource {
    */
   softDeletePeriod?: string;
   /**
-   * The time the data that should be kept in cache for fast queries in TimeSpan.
+   * The time the data should be kept in cache for fast queries in TimeSpan.
    */
   hotCachePeriod?: string;
   /**
@@ -294,12 +427,17 @@ export interface DatabasePrincipal {
    * Application id - relevant only for application principal type.
    */
   appId?: string;
+  /**
+   * The tenant name of the principal
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantName?: string;
 }
 
 /**
  * Contains the possible cases for DataConnection.
  */
-export type DataConnectionUnion = DataConnection | EventHubDataConnection | EventGridDataConnection;
+export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
 
 /**
  * Class representing an data connection.
@@ -419,6 +557,73 @@ export interface EventHubDataConnection {
    * 'RAW', 'SINGLEJSON', 'AVRO'
    */
   dataFormat?: DataFormat;
+  /**
+   * System properties of the event hub
+   */
+  eventSystemProperties?: string[];
+}
+
+/**
+ * Class representing an iot hub data connection.
+ */
+export interface IotHubDataConnection {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "IotHub";
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location?: string;
+  /**
+   * The resource ID of the Iot hub to be used to create a data connection.
+   */
+  iotHubResourceId: string;
+  /**
+   * The iot hub consumer group.
+   */
+  consumerGroup: string;
+  /**
+   * The table where the data should be ingested. Optionally the table information can be added to
+   * each message.
+   */
+  tableName?: string;
+  /**
+   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
+   * added to each message.
+   */
+  mappingRuleName?: string;
+  /**
+   * The data format of the message. Optionally the data format can be added to each message.
+   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
+   * 'RAW', 'SINGLEJSON', 'AVRO'
+   */
+  dataFormat?: DataFormat;
+  /**
+   * System properties of the iot hub
+   */
+  eventSystemProperties?: string[];
+  /**
+   * The name of the share access policy name
+   */
+  sharedAccessPolicyName: string;
 }
 
 /**
@@ -618,15 +823,15 @@ export interface ClusterListResult extends Array<Cluster> {
 
 /**
  * @interface
- * List of available SKUs for a new Kusto Cluster.
- * @extends Array<AzureSku>
+ * The list of the EngagementFabric SKU descriptions
+ * @extends Array<SkuDescription>
  */
-export interface ListSkusResult extends Array<AzureSku> {
+export interface SkuDescriptionList extends Array<SkuDescription> {
 }
 
 /**
  * @interface
- * List of available SKUs for an existing Kusto Cluster.
+ * List of available SKUs for a Kusto Cluster.
  * @extends Array<AzureResourceSku>
  */
 export interface ListResourceSkusResult extends Array<AzureResourceSku> {
@@ -678,19 +883,30 @@ export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Delet
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Running', 'Creating', 'Deleting', 'Succeeded', 'Failed'
+ * Possible values include: 'Running', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Moving'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed';
+export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Moving';
 
 /**
  * Defines values for AzureSkuName.
- * Possible values include: 'D13_v2', 'D14_v2', 'L8', 'L16', 'D11_v2', 'D12_v2', 'L4'
+ * Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
+ * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
+ * 'Standard_L8s', 'Standard_L16s', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_L4s', 'Dev(No
+ * SLA)_Standard_D11_v2'
  * @readonly
  * @enum {string}
  */
-export type AzureSkuName = 'D13_v2' | 'D14_v2' | 'L8' | 'L16' | 'D11_v2' | 'D12_v2' | 'L4';
+export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2';
+
+/**
+ * Defines values for AzureSkuTier.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureSkuTier = 'Basic' | 'Standard';
 
 /**
  * Defines values for AzureScaleType.
@@ -737,26 +953,6 @@ export type Reason = 'Invalid' | 'AlreadyExists';
  * Contains response data for the get operation.
  */
 export type ClustersGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ClustersCreateOrUpdateResponse = Cluster & {
   /**
    * The underlying HTTP response.
    */
@@ -836,7 +1032,7 @@ export type ClustersListResponse = ClusterListResult & {
 /**
  * Contains response data for the listSkus operation.
  */
-export type ClustersListSkusResponse = ListSkusResult & {
+export type ClustersListSkusResponse = SkuDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -849,7 +1045,7 @@ export type ClustersListSkusResponse = ListSkusResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ListSkusResult;
+      parsedBody: SkuDescriptionList;
     };
 };
 
@@ -890,26 +1086,6 @@ export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListResourceSkusResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ClustersBeginCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
     };
 };
 

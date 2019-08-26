@@ -28,6 +28,21 @@ export class SubscriptionFactory {
   }
 
   /**
+   * The operation to create a new Azure subscription
+   * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
+   * you want to create the subscription.
+   * @param invoiceSectionName The name of the invoice section in the billing account for which you
+   * want to create the subscription.
+   * @param body The subscription creation parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
+   */
+  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+    return this.beginCreateSubscription(billingAccountName,invoiceSectionName,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
+  }
+
+  /**
    * Creates an Azure subscription
    * @param enrollmentAccountName The name of the enrollment account to which the subscription will
    * be billed.
@@ -38,6 +53,28 @@ export class SubscriptionFactory {
   createSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
     return this.beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>;
+  }
+
+  /**
+   * The operation to create a new Azure subscription
+   * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
+   * you want to create the subscription.
+   * @param invoiceSectionName The name of the invoice section in the billing account for which you
+   * want to create the subscription.
+   * @param body The subscription creation parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        billingAccountName,
+        invoiceSectionName,
+        body,
+        options
+      },
+      beginCreateSubscriptionOperationSpec,
+      options);
   }
 
   /**
@@ -62,6 +99,41 @@ export class SubscriptionFactory {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.invoiceSectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.ModernSubscriptionCreationParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCreationResult,
+      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionHeaders
+    },
+    202: {
+      headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountName}/providers/Microsoft.Subscription/createSubscription",
@@ -69,7 +141,7 @@ const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationS
     Parameters.enrollmentAccountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage

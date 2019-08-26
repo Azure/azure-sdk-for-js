@@ -1,6 +1,7 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
-import { CosmosResponse, RequestOptions } from "../../request";
+import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { undefinedPartitionKey } from "../../extractPartitionKey";
+import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
@@ -15,7 +16,7 @@ export class StoredProcedure {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
+    return createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
   }
   /**
    * Creates a new instance of {@link StoredProcedure} linked to the parent {@link Container}.
@@ -34,11 +35,15 @@ export class StoredProcedure {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
-
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.read<StoredProcedureDefinition>({
+      path,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
+      options
+    });
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -52,23 +57,21 @@ export class StoredProcedure {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<StoredProcedureDefinition>(
+    const response = await this.clientContext.replace<StoredProcedureDefinition>({
       body,
       path,
-      "sprocs",
-      id,
-      undefined,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
       options
-    );
-
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    });
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -76,31 +79,38 @@ export class StoredProcedure {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    const response = await this.clientContext.delete<StoredProcedureDefinition>({
+      path,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
+      options
+    });
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
-  /**
-   * Execute the given {@link StoredProcedure}.
-   * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
-   * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
-   */
-  public async execute(params?: any[], options?: RequestOptions): Promise<CosmosResponse<any, StoredProcedure>>;
   /**
    * Execute the given {@link StoredProcedure}.
    *
    * The specified type, T, is not enforced by the client.
    * Be sure to validate the response from the stored procedure matches the type, T, you provide.
    *
+   * @param partitionKey The partition key to use when executing the stored procedure
    * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
    * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>>;
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>> {
-    const response = await this.clientContext.execute<T>(this.url, params, options);
-    return { body: response.result, headers: response.headers, ref: this };
+  public async execute<T = any>(
+    partitionKey: any,
+    params?: any[],
+    options?: RequestOptions
+  ): Promise<ResourceResponse<T>> {
+    if (partitionKey === undefined) {
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+    }
+    const response = await this.clientContext.execute<T>({ sprocLink: this.url, params, options, partitionKey });
+    return new ResourceResponse<T>(response.result, response.headers, response.code);
   }
 }
