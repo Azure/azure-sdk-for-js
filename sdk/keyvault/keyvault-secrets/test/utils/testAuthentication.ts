@@ -1,7 +1,8 @@
 import { ClientSecretCredential } from "@azure/identity";
 import { getKeyvaultName } from "./utils.common";
-import { KeysClient } from "../../src";
-import { env, record, setReplaceableVariables, setReplacements, uniqueString } from "./recorder";
+import { SecretsClient } from "../../src";
+import { env, record, setReplaceableVariables, setReplacements } from "@azure/test-utils-recorder";
+import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 
 export async function authenticate(that: any): Promise<any> {
@@ -12,12 +13,12 @@ export async function authenticate(that: any): Promise<any> {
     KEYVAULT_NAME: "keyvault_name"
   });
 
-  const keySuffix = uniqueString();
+  const secretSuffix = uniqueString();
   setReplacements([
     (recording: any): any =>
       recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
     (recording: any): any =>
-      keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
+      secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
   ]);
 
   const recorder = record(that);
@@ -29,8 +30,8 @@ export async function authenticate(that: any): Promise<any> {
 
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
-  const client = new KeysClient(keyVaultUrl, credential);
+  const client = new SecretsClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);
 
-  return { recorder, client, credential, testClient, keySuffix };
+  return { recorder, client, testClient, secretSuffix };
 }

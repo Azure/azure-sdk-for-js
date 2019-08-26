@@ -1,4 +1,4 @@
-import { retry } from "./recorder";
+import { retry } from "./recorderUtils";
 import { SecretsClient } from "../../src";
 
 export default class TestClient {
