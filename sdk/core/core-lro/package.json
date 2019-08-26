@@ -6,7 +6,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "sdk-type": "client",
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "description": "LRO Polling strtegy for the Azure SDK in TypeScript",
   "tags": [
     "isomorphic",
