@@ -23,15 +23,28 @@ import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
 describe("Create EventHubClient #RunnableInBrowser", function(): void {
-  it("throws when it cannot find the Event Hub path", function(): void {
+  it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
       return new EventHubClient(connectionString);
     };
     test.should.throw(
       Error,
-      `Either provide "path" or the "connectionString": "${connectionString}", ` +
+      `Either provide "eventHubName" or the "connectionString": "${connectionString}", ` +
         `must contain EntityPath="<path-to-the-entity>".`
+    );
+  });
+
+  it("throws when EntityPath in Connection string doesn't match with event hub name parameter", function(): void {
+    const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-path";
+    const eventHubName = "event-hub-path";
+    const test = function(): EventHubClient {
+      return new EventHubClient(connectionString, eventHubName);
+    };
+    test.should.throw(
+      Error,
+      `EntityPath="my-event-hub-path" in "connectionString": "${connectionString}" ` +
+          `donesn't match with "eventHubName": "${eventHubName}".`
     );
   });
 
