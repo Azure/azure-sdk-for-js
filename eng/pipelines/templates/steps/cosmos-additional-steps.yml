@@ -3,7 +3,7 @@ parameters:
   PackageName: "@azure/cosmos"
 
 steps:
-  - script: |
+  - bash: |
       node common/scripts/install-run-rush.js test-consumer -t "${{parameters.PackageName}}" --verbose
     condition: succeededOrFailed()
     displayName: "TypeScript Consumer Tests - Cosmos"
