@@ -183,7 +183,7 @@ describe("Certificates client - list certificates in various ways", () => {
       await retry(async () => client.createCertificate(certificateName, basicCertificatePolicy, true, { tag }));
       let response: any;
       await retry(async () => {
-        response = await client.getCertificate(certificateName, "");
+        response = await client.getCertificate(certificateName);
         if (response.tags!.tag !== tag) throw "retrying due to mismatched tag";
       });
       // Versions don't match. Something must be happening under the hood.
@@ -194,7 +194,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const results: VersionTagPair[] = [];
     for await (const item of client.listCertificateVersions(certificateName, includePending)) {
       const version = item.version!;
-      const certificate = await client.getCertificate(certificateName, version);
+      const certificate = await client.getCertificate(certificateName, { version });
       // Versions don't match. Something must be happening under the hood.
       // results.push({ version: item.version!, tag: certificate.tags!.tag! });
       results.push({ tag: certificate.tags!.tag! });

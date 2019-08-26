@@ -67,14 +67,21 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
+<<<<<<< HEAD
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate>;
+=======
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
+    createCertificate(name: string, options?: CreateCertificateOptions): Promise<Certificate>;
+>>>>>>> progress
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptions): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
-    getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate>;
+    // Warning: (ae-forgotten-export) The symbol "GetCertificateOptions" needs to be exported by the entry point index.d.ts
+    getCertificate(name: string, options?: GetCertificateOptions): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;

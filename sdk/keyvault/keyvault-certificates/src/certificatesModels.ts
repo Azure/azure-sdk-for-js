@@ -1,6 +1,9 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy } from "./core/models";
+import {
+  CertificatePolicy,
+  KeyVaultClientCreateCertificateOptionalParams,
+} from "./core/models";
 
 /**
  * @interface
@@ -102,37 +105,10 @@ export interface DeletedCertificate extends Certificate {
 
 /**
  * @interface
- * An interface representing options for setting a certificate.
+ * An interface representing options for creating a certificate.
  * Optional Parameters.
  */
-export interface SetCertificateOptions {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: CertificateTags;
-  /**
-   * @member {string} [contentType] Type of the certificate value such as a
-   * password.
-   */
-  contentType?: string;
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
 
 export type CertificateTags = { [propertyName: string]: string };
 

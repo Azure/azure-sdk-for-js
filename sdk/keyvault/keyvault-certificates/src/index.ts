@@ -523,7 +523,7 @@ export class CertificatesClient {
    * @returns Promise<Certificate>
    */
   public async getCertificate(name: string, options?: GetCertificateOptions): Promise<Certificate> {
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, options.version || "", options);
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, (options && options.version) || "", options);
 
     return this.getCertificateFromCertificateBundle(result);
   }
