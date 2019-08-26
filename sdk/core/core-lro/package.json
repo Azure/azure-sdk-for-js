@@ -79,7 +79,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json lib test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint -c ../../.eslintrc.json lib test  --ext .ts -f html -o core-lro-lintReport.html || exit 0",
-    "lint:terminal": "eslint -c ../../.eslintrc.json lib test samples --ext .ts",
+    "lint:terminal": "eslint -c ../../.eslintrc.json lib test --ext .ts",
     "test:browser": "npm run build && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build && npm run unit-test && npm run integration-test",
