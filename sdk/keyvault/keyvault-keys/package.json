@@ -22,7 +22,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-keys.d.ts",
   "engine": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "files": [
     "LICENSE.txt",
