@@ -167,7 +167,11 @@ export interface EventProcessorOptions {
 }
 
 /**
- * Describes the Event Processor Host to process events from an EventHub.
+ * This is the starting point for event processor.
+ * 
+ * Event Processor based application consists of one or more instances of EventProcessor which have been
+ * configured to consume events from the same Event Hub and consumer group. Event Processors balance the
+ * workload across different instances and track progress when events are processed.
  * @class EventProcessor
  */
 export class EventProcessor {
