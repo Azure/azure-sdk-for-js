@@ -8,7 +8,8 @@ function read(filename) {
     .replace(/\n/gm, "«")
     .replace(/\/\*.*?\*\//gm, "")
     .replace(/«/gm, "\n")
-    .replace(/\s+\/\/.*/g, "");
+    .replace(/\s+\/\/.*/g, "")
+    .replace(/,[\s\n\r]+(\}|\])/g, "$1");
   return JSON.parse(txt);
 }
 
