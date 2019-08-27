@@ -137,8 +137,13 @@ jobs:
           targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
         displayName: "Download Current Build artifacts"
 
-      - script: |
-          eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
+      - task: PowerShell@2
+        inputs:
+          targetType: 'filePath'
+          filePath: eng/tools/compare-packages.ps1
+          arguments: "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
+          errorActionPreference: 'continue'
+          pwsh: true
         displayName: "Diff Generated Packages"
 
   - job: "UnitTest"
