@@ -17,9 +17,9 @@
 import { stringIsEmpty, stringStartsWith } from "./util/utils";
 import { Constants } from "./util/constants";
 import { AtomHandler } from "./util/atomHandler";
+import { each, isUndefined, isArray, isObject, isDate } from "./util/utils";
 const url = require("url");
 const xmlbuilder = require("xmlbuilder");
-const _ = require("underscore");
 
 const atomHandler = new AtomHandler();
 
@@ -43,8 +43,8 @@ export class AtomResourceSerializerBase {
 
     if (resource) {
       // Sort properties according to what is allowed by the service
-      _.each(properties, function(property: any): any {
-        if (!_.isUndefined(resource[property])) {
+      each(properties, function(property: any): any {
+        if (!isUndefined(resource[property])) {
           content[resourceName][property] = resource[property];
         }
       });
@@ -59,8 +59,8 @@ export class AtomResourceSerializerBase {
     if (!result) {
       return undefined;
     }
-    if (_.isArray(result)) {
-      _.each(result, function(entry: any): any {
+    if (isArray(result)) {
+      each(result, function(entry: any): any {
         AtomResourceSerializerBase.setName(entry, nameProperty);
       });
     } else {
@@ -72,7 +72,7 @@ export class AtomResourceSerializerBase {
   static serializeEntry(content: any, namespaces?: any, properties?: any): any {
     var doc = xmlbuilder.create("entry").att("xmlns", "http://www.w3.org/2005/Atom");
 
-    _.each(namespaces, function(namespace: any): any {
+    each(namespaces, function(namespace: any): any {
       doc = doc.att("xmlns:" + namespace.key, namespace.url);
     });
 
@@ -95,7 +95,7 @@ export class AtomResourceSerializerBase {
     var ignored = false;
     var propertyTagName = name;
 
-    if (!stringIsEmpty(value) && _.isObject(value) && !_.isDate(value)) {
+    if (!stringIsEmpty(value) && isObject(value) && !isDate(value)) {
       if (Array.isArray(value) && value.length > 0) {
         // Example:
         // JSON: element: [ { property1: 'hi there' }, { property2: 'hello there' } ]

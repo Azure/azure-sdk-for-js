@@ -11,9 +11,9 @@ import {
 } from "./requestPolicy";
 import { Constants } from "../util/constants";
 import { parseAtomXML, parseStringError } from "../util/xml";
+import { isString, extend } from "../util/utils";
 import { Buffer } from "buffer";
 import { ResourceSerializer } from "../resourceSerializer";
-const _ = require("underscore");
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialize/deserialize
@@ -128,7 +128,7 @@ export class ServiceBusAtomSerializationPolicy extends BaseRequestPolicy {
   }
 
   _normalizeError(error: any, response: HttpOperationResponse): any {
-    if (_.isString(error)) {
+    if (isString(error)) {
       return new Error(error);
     } else if (error) {
       var normalizedError: any = {};
@@ -141,7 +141,7 @@ export class ServiceBusAtomSerializationPolicy extends BaseRequestPolicy {
             var value = null;
             if (
               property === Constants.ODATA_ERROR_MESSAGE &&
-              !_.isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
+              !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
             ) {
               if (
                 errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]
@@ -190,7 +190,7 @@ export class ServiceBusAtomSerializationPolicy extends BaseRequestPolicy {
       }
 
       var errorObject = new Error(errorMessage);
-      return _.extend(errorObject, normalizedError);
+      return extend(errorObject, normalizedError);
     }
 
     return undefined;

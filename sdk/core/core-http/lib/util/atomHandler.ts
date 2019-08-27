@@ -14,13 +14,10 @@
 // limitations under the License.
 //
 
-import { Js2xml } from "./js2xml";
 import { Constants } from "./constants";
 import util from "util";
-const _ = require("underscore");
+import { isArray, each, stringIsEmpty, stringStartsWith, isDate, isObject } from "./utils";
 const xmlbuilder = require("xmlbuilder");
-
-const js2xml = new Js2xml();
 
 export class AtomHandler {
   parseEntryResult(entry: any): any {
@@ -54,8 +51,8 @@ export class AtomHandler {
     var result = [];
     var self = this;
     if (feed.entry) {
-      if (_.isArray(feed.entry)) {
-        _.each(feed.entry, function(entry: any) {
+      if (isArray(feed.entry)) {
+        each(feed.entry, function(entry: any) {
           result.push(self.parseEntryResult(entry));
         });
       } else {
@@ -83,7 +80,7 @@ export class AtomHandler {
   }
 
   /**
-   * @param {object} content     The content payload as it is to be serialized by js2xml. It should include any root node(s).
+   * @param {object} content     The content payload as it is to be serialized. It should include any root node(s).
    * @param {array}  namespaces  An array of top level namespaces to be defined.
    */
   serializeEntry(content: any, namespaces?: any, properties?: any): any {
@@ -93,7 +90,7 @@ export class AtomHandler {
       .begin("entry", { version: "1.0", encoding: "utf-8", standalone: "yes" })
       .att("xmlns", "http://www.w3.org/2005/Atom");
 
-    _.each(namespaces, function(namespace: any): any {
+    each(namespaces, function(namespace: any): any {
       doc = doc.att("xmlns:" + namespace.key, namespace.url);
     });
 
@@ -107,8 +104,96 @@ export class AtomHandler {
 
     content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
 
-    doc = js2xml._writeElementValue(doc, "content", content);
+    doc = this._writeElementValue(doc, "content", content);
 
     return doc.doc().toString();
+  }
+
+  /*
+   * Writes a single property for an entry or complex type.
+   *
+   * @param {object} parentElement         Parent DOM element under which the property should be added.
+   * @param {string} name                  Property name.
+   * @param {object} value                 Property value.
+   * @return {object} The current DOM element.
+   *
+   * {Deprecated}
+   */
+  _writeElementValue(parentElement: any, name: any, value: any): any {
+    var self = this;
+    var ignored = false;
+    var propertyTagName = name;
+
+    if (!stringIsEmpty(value) && isObject(value) && !isDate(value)) {
+      if (Array.isArray(value) && value.length > 0) {
+        // Example:
+        // JSON: element: [ { property1: 'hi there' }, { property2: 'hello there' } ]
+        // XML: <element><property1>hi there</property1></element><element><property2>hello there</property2></element>
+
+        Object.keys(value).forEach(function(i: any) {
+          parentElement = self._writeElementValue(parentElement, name, value[i]);
+        });
+
+        // For an array no element was actually added at this level, so skip uping level.
+        ignored = true;
+      } else if (
+        value[Constants.XML_METADATA_MARKER] !== undefined &&
+        value[Constants.XML_VALUE_MARKER] !== undefined
+      ) {
+        // Example:
+        // JSON: element: { '$': { 'm:type' = 'Edm.String' }, '_': 'hi there' }
+        // XML: <element m:type="Edm.String">hi there</element>
+
+        parentElement = parentElement.ele(propertyTagName);
+        if (!stringIsEmpty(value[Constants.XML_VALUE_MARKER])) {
+          if (stringStartsWith(value[Constants.XML_VALUE_MARKER], "<![CDATA[")) {
+            parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
+          } else {
+            parentElement = parentElement.txt(value[Constants.XML_VALUE_MARKER]);
+          }
+        }
+      } else {
+        // Example:
+        // JSON: element: { '$': { 'metadata' = 'value' }, 'property1': 'hi there', 'property2': 'hello there' }
+        // XML: <element metadata="value"><property1>hi there</property1><property2>hello there</property2></element>
+
+        parentElement = parentElement.ele(propertyTagName);
+        for (var propertyName in value) {
+          if (
+            propertyName !== Constants.XML_METADATA_MARKER &&
+            value.hasOwnProperty(propertyName)
+          ) {
+            parentElement = self._writeElementValue(
+              parentElement,
+              propertyName,
+              value[propertyName]
+            );
+          }
+        }
+      }
+    } else {
+      parentElement = parentElement.ele(propertyTagName);
+      if (!stringIsEmpty(value)) {
+        if (stringStartsWith(value.toString().trim(), "<![CDATA[")) {
+          parentElement = parentElement.raw(value.toString());
+        } else {
+          parentElement = parentElement.txt(value.toString());
+        }
+      }
+    }
+
+    if (value && value[Constants.XML_METADATA_MARKER]) {
+      // include the metadata
+      var attributeList = value[Constants.XML_METADATA_MARKER];
+      Object.keys(attributeList).forEach(function(attribute) {
+        parentElement = parentElement.att(attribute, attributeList[attribute]);
+      });
+    }
+
+    if (!ignored) {
+      parentElement = parentElement.up();
+    }
+
+    return parentElement;
   }
 }
