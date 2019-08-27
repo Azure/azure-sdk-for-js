@@ -1,15 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const parse = require("../lib/json5/lib/parse");
 
 function read(filename) {
-  const txt = fs
-    .readFileSync(filename, "utf8")
-    .replace(/\r/gm, "")
-    .replace(/\n/gm, "«")
-    .replace(/\/\*.*?\*\//gm, "")
-    .replace(/«/gm, "\n")
-    .replace(/\s+\/\/.*/g, "");
-  return JSON.parse(txt);
+  const txt = fs.readFileSync(filename, "utf8");
+  return parse(txt);
 }
 
 function walk(dir) {
