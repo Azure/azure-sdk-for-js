@@ -328,6 +328,9 @@ export class EventHubClient {
       const eventHubName = eventHubNameOrOptions;
       let host = hostOrConnectionString;
       credential = credentialOrOptions;
+      if (!eventHubName) {
+        throw new TypeError(`"eventHubName" is missing`);
+      }
 
       if (!host.endsWith("/")) host += "/";
       connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
