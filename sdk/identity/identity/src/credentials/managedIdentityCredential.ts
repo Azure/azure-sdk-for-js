@@ -136,7 +136,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     try {
       await this.identityClient.sendRequest(webResource);
     } catch (err) {
-      if (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) {
+      if (
+        err instanceof RestError &&
+        (err.code === RestError.REQUEST_SEND_ERROR || err.code === RestError.REQUEST_ABORTED_ERROR)
+      ) {
         // Either request failed or IMDS endpoint isn't available
         return false;
       }
