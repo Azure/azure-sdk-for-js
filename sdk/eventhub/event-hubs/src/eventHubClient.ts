@@ -301,7 +301,7 @@ export class EventHubClient {
       parsedCS.EntityPath !== eventHubNameOrOptions
     ) {
       throw new TypeError(
-        `EntityPath="${parsedCS.EntityPath}" in "connectionString": "${hostOrConnectionString}" ` +
+        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
           `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
       );
     }
