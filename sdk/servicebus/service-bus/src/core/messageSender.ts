@@ -23,7 +23,8 @@ import {
   RetryConfig,
   RetryOperationType,
   Constants,
-  randomNumberFromInterval
+  randomNumberFromInterval, 
+  delay
 } from "@azure/amqp-common";
 import {
   SendableMessageInfo,
@@ -253,7 +254,7 @@ export class MessageSender extends LinkEntity {
    */
   private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
     const sendEventPromise = () =>
-      new Promise<void>((resolve, reject) => {
+      new Promise<void>(async (resolve, reject) => {
         let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -262,6 +263,15 @@ export class MessageSender extends LinkEntity {
           this._sender!.credit,
           this._sender!.session.outgoing.available()
         );
+        if (!this._sender!.sendable()) {
+          log.sender(
+            "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
+            this._context.namespace.connectionId,
+            this.name
+          );
+          
+          await delay(1000);
+        }
         if (this._sender!.sendable()) {
           let onRejected: Func<EventContext, void>;
           let onReleased: Func<EventContext, void>;
