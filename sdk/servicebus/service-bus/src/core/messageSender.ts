@@ -271,6 +271,14 @@ export class MessageSender extends LinkEntity {
           );
           
           await delay(1000);
+
+          log.sender(
+            "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
+            this._context.namespace.connectionId,
+            this.name,
+            this._sender!.credit,
+            this._sender!.session.outgoing.available()
+          );
         }
         if (this._sender!.sendable()) {
           let onRejected: Func<EventContext, void>;
