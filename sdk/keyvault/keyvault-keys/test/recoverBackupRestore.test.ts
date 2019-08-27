@@ -63,7 +63,7 @@ describe("Keys client - restore keys and recover backups", () => {
     } else {
       assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
     }
-    assert.ok(result!.length > 8300, "Unexpected length of buffer from backupKey()");
+    assert.ok(result!.length > 0, "Unexpected length of buffer from backupKey()");
     await testClient.flushKey(keyName);
   });
 

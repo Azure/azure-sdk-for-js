@@ -74,7 +74,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
     }
     assert.ok(
-      result!.length > 4500,
+      result!.length > 0,
       `Unexpected length (${result.length}) of buffer from backupSecret()`
     );
     await testClient.flushSecret(secretName);
