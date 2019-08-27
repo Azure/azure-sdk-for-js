@@ -1,5 +1,5 @@
 import { Constants } from "./common";
-import { IHeaders } from "./queryExecutionContext";
+import { CosmosHeaders } from "./queryExecutionContext";
 
 /**
  * A single response page from the Azure Cosmos DB Change Feed
@@ -27,7 +27,7 @@ export class ChangeFeedResponse<T> {
      * Gets the status code of the response from Azure Cosmos DB
      */
     public readonly statusCode: number,
-    headers: IHeaders
+    headers: CosmosHeaders
   ) {
     this.headers = Object.freeze(headers);
   }
@@ -79,5 +79,5 @@ export class ChangeFeedResponse<T> {
   /**
    * Response headers of the response from Azure Cosmos DB
    */
-  public headers: IHeaders;
+  public headers: CosmosHeaders;
 }

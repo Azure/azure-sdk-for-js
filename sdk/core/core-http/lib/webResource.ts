@@ -8,6 +8,7 @@ import { generateUuid } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
@@ -21,16 +22,6 @@ export type TransferProgressEvent = {
    */
   loadedBytes: number
 };
-
-/**
- * Allows the request to be aborted upon firing of the "abort" event.
- * Compatible with the browser built-in AbortSignal and common polyfills.
- */
-export interface AbortSignalLike {
-  readonly aborted: boolean;
-  addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-  removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
 
 /**
  * Creates a new WebResource object.
@@ -66,6 +57,7 @@ export class WebResource {
   withCredentials: boolean;
   timeout: number;
   proxySettings?: ProxySettings;
+  keepAlive?: boolean;
 
   abortSignal?: AbortSignalLike;
 
@@ -87,7 +79,8 @@ export class WebResource {
     timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
-    proxySettings?: ProxySettings) {
+    proxySettings?: ProxySettings,
+    keepAlive?: boolean) {
 
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
@@ -102,6 +95,7 @@ export class WebResource {
     this.onUploadProgress = onUploadProgress;
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
+    this.keepAlive = keepAlive;
   }
 
   /**

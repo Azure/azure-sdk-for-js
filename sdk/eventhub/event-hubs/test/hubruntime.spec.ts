@@ -108,7 +108,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties("0");
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubPath.should.equal(service.path);
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
       partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
@@ -121,7 +121,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubPath.should.equal(service.path);
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
       partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);

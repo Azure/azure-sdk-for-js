@@ -3,6 +3,7 @@ parameters:
   PackageName: "" # For Rush toolchain only
   PackagePath: "" # For NPM toolchain only
   PreIntegrationSteps: ""
+  ResourceFileLocation: ""
   EnvVars: []
   MaxParallel: 0
   Matrix:
@@ -53,6 +54,33 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - ${{ if ne(parameters.ResourceFileLocation, '') }}:
+          - pwsh: |
+              # $uniqueIdentifier generates a pseudorandom value that represents a unique name that can be used with all resources
+              $uniqueIdentifier =  "t" + [guid]::NewGuid().ToString().Replace("-", "").Substring(0,16)
+              $jobName = "$(Agent.JobName)".Replace(" ", "_")
+              $resourceGroupName = "Tests-$(Build.BuildId)-" + $jobName + "-" + $uniqueIdentifier
+              echo "##vso[task.setvariable variable=ResourceGroupName]$resourceGroupName"
+              echo "##vso[task.setvariable variable=ScopedIdentifier]$uniqueIdentifier"
+              $resourceGroupExpiration = (Get-Date).ToUniversalTime().AddHours(24).ToString("o")
+
+              az login --service-principal -u $env:PROVISIONER_AAD_ID -p $env:PROVISIONER_AAD_SECRET --tenant $env:PROVISIONER_AAD_TENANT
+              az account set --subscription $env:PROVISIONER_SUBSCRIPTION
+
+              az group create --name $resourceGroupName --location $env:PROVISIONER_RG_LOCATION --tags DeleteAfter=$resourceGroupExpiration
+              az group wait --created --resource-group $resourceGroupName
+
+              az group deployment create --resource-group $resourceGroupName --template-file ${{ parameters.ResourceFileLocation }} --parameters unique_id=$uniqueIdentifier location="$env:PROVISIONER_RG_LOCATION" tenant_id="$env:PROVISIONER_AAD_TENANT" test_app_id="$env:TEST_APP_ID"
+
+            env:
+              PROVISIONER_AAD_ID: $(provisioner-aad-id)
+              PROVISIONER_AAD_SECRET: $(provisioner-aad-secret)
+              PROVISIONER_AAD_TENANT: $(provisioner-aad-tenant)
+              PROVISIONER_SUBSCRIPTION: $(provisioner-subscription)
+              PROVISIONER_RG_LOCATION: westus2
+              TEST_APP_ID: $(provisioner-test-app-id)
+            displayName: Provision Test-Specific Azure Resources
+
       - template: ../steps/integration-${{parameters.Toolchain}}.yml
         parameters:
           PackageName: ${{parameters.PackageName}}
@@ -60,6 +88,20 @@ jobs:
           PreIntegrationSteps: ${{parameters.PreIntegrationSteps}}
           TestType: $(TestType)
           EnvVars: ${{parameters.EnvVars}}
+
+      - ${{ if ne(parameters.ResourceFileLocation, '') }}:
+          - pwsh: |
+              az login --service-principal -u $env:PROVISIONER_AAD_ID -p $env:PROVISIONER_AAD_SECRET --tenant $env:PROVISIONER_AAD_TENANT
+              az account set --subscription $env:PROVISIONER_SUBSCRIPTION
+
+              az group delete --resource-group $(ResourceGroupName) -y --no-wait
+            env:
+              PROVISIONER_AAD_ID: $(provisioner-aad-id)
+              PROVISIONER_AAD_SECRET: $(provisioner-aad-secret)
+              PROVISIONER_AAD_TENANT: $(provisioner-aad-tenant)
+              PROVISIONER_SUBSCRIPTION: $(provisioner-subscription)
+            displayName: Delete Test-Specific Azure Resources
+            condition: succeededOrFailed()
 
       - task: PublishTestResults@2
         inputs:

@@ -34,7 +34,6 @@ export class ChangeFeedIterator<T> {
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: string | number | boolean,
-    private isPartitionedContainer: () => Promise<boolean>,
     private changeFeedOptions: ChangeFeedOptions
   ) {
     // partition key XOR partition key range id
@@ -76,7 +75,7 @@ export class ChangeFeedIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>> {
     do {
-      const result = await this.executeNext();
+      const result = await this.fetchNext();
       if (result.count > 0) {
         yield result;
       }
@@ -86,7 +85,7 @@ export class ChangeFeedIterator<T> {
   /**
    * Read feed and retrieves the next page of results in Azure Cosmos DB.
    */
-  public async executeNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
+  public async fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     const response = await this.getFeedResponse();
     this.lastStatusCode = response.statusCode;
     this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];
@@ -94,11 +93,10 @@ export class ChangeFeedIterator<T> {
   }
 
   private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
-    const isParittionedContainer = await this.isPartitionedContainer();
-    if (!this.isPartitionSpecified && isParittionedContainer) {
+    if (!this.isPartitionSpecified) {
       throw new Error("Container is partitioned, but no partition key or partition key range id was specified.");
     }
-    const feedOptions: FeedOptions = { initialHeaders: {}, a_im: "Incremental feed" };
+    const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
@@ -119,23 +117,20 @@ export class ChangeFeedIterator<T> {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.ifModifiedSince;
     }
 
-    if (this.partitionKey !== undefined) {
-      feedOptions.partitionKey = this.partitionKey as any; // TODO: our partition key is too restrictive on the main object
-    }
-
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>(
-      this.resourceLink,
-      ResourceType.item,
-      this.resourceId,
-      result => (result ? result.Documents : []),
-      undefined,
-      feedOptions
-    ) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
+    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
+      path: this.resourceLink,
+      resourceType: ResourceType.item,
+      resourceId: this.resourceId,
+      resultFn: result => (result ? result.Documents : []),
+      query: undefined,
+      options: feedOptions,
+      partitionKey: this.partitionKey
+    }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(
       response.result,
       response.result ? response.result.length : 0,
-      response.statusCode,
+      response.code,
       response.headers
     );
   }

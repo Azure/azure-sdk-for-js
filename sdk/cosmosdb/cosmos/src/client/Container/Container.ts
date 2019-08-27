@@ -1,16 +1,23 @@
-import { PartitionKey } from "../..";
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import {
+  createDocumentCollectionUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType
+} from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
-import { CosmosResponse, FeedOptions, RequestOptions } from "../../request";
+import { SqlQuerySpec } from "../../queryExecutionContext";
+import { QueryIterator } from "../../queryIterator";
+import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
+import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
-import { StoredProcedure, StoredProcedures } from "../StoredProcedure";
-import { Trigger, Triggers } from "../Trigger";
-import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
+import { Scripts } from "../Script/Scripts";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
+import { PartitionKeyRange } from "./PartitionKeyRange";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -23,6 +30,7 @@ import { ContainerResponse } from "./ContainerResponse";
  * do this once on application start up.
  */
 export class Container {
+  private $items: Items;
   /**
    * Operations for creating new items, and reading/querying all items
    *
@@ -33,33 +41,42 @@ export class Container {
    * const {body: createdItem} = await container.items.create({id: "<item id>", properties: {}});
    * ```
    */
-  public readonly items: Items;
-  /**
-   * Operations for creating new stored procedures, and reading/querying all stored procedures.
-   *
-   * For reading, replacing, or deleting an existing stored procedure, use `.storedProcedure(id)`.
-   */
-  public readonly storedProcedures: StoredProcedures;
-  /**
-   * Operations for creating new triggers, and reading/querying all triggers.
-   *
-   * For reading, replacing, or deleting an existing trigger, use `.trigger(id)`.
-   */
-  public readonly triggers: Triggers;
-  /**
-   * Operations for creating new user defined functions, and reading/querying all user defined functions.
-   *
-   * For reading, replacing, or deleting an existing user defined function, use `.userDefinedFunction(id)`.
-   */
-  public readonly userDefinedFunctions: UserDefinedFunctions;
+  public get items(): Items {
+    if (!this.$items) {
+      this.$items = new Items(this, this.clientContext);
+    }
+    return this.$items;
+  }
 
-  public readonly conflicts: Conflicts;
+  private $scripts: Scripts;
+  /**
+   * All operations for Stored Procedures, Triggers, and User Defined Functions
+   */
+  public get scripts(): Scripts {
+    if (!this.$scripts) {
+      this.$scripts = new Scripts(this, this.clientContext);
+    }
+    return this.$scripts;
+  }
+
+  private $conflicts: Conflicts;
+  /**
+   * Opertaions for reading and querying conflicts for the given container.
+   *
+   * For reading or deleting a specific conflict, use `.conflict(id)`.
+   */
+  public get conflicts(): Conflicts {
+    if (!this.$conflicts) {
+      this.$conflicts = new Conflicts(this, this.clientContext);
+    }
+    return this.$conflicts;
+  }
 
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createDocumentCollectionUri(this.database.id, this.id);
+    return createDocumentCollectionUri(this.database.id, this.id);
   }
 
   /**
@@ -72,13 +89,7 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext
-  ) {
-    this.items = new Items(this, this.clientContext);
-    this.storedProcedures = new StoredProcedures(this, this.clientContext);
-    this.triggers = new Triggers(this, this.clientContext);
-    this.userDefinedFunctions = new UserDefinedFunctions(this, this.clientContext);
-    this.conflicts = new Conflicts(this, this.clientContext);
-  }
+  ) {}
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -86,22 +97,12 @@ export class Container {
    * Use `.items` for creating new items, or querying/reading all items.
    *
    * @param id The id of the {@link Item}.
-   * @param partitionKey The partition key of the {@link Item}. (Required for partitioned containers).
+   * @param partitionKey The partition key of the {@link Item}
    * @example Replace an item
    * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
-  public item(id: string, partitionKey?: string): Item {
+  public item(id: string, partitionKey: any): Item {
     return new Item(this, id, partitionKey, this.clientContext);
-  }
-
-  /**
-   * Used to read, replace, or delete a specific, existing {@link UserDefinedFunction} by id.
-   *
-   * Use `.userDefinedFunctions` for creating new user defined functions, or querying/reading all user defined functions.
-   * @param id The id of the {@link UserDefinedFunction}.
-   */
-  public userDefinedFunction(id: string): UserDefinedFunction {
-    return new UserDefinedFunction(this, id, this.clientContext);
   }
 
   /**
@@ -114,72 +115,53 @@ export class Container {
     return new Conflict(this, id, this.clientContext);
   }
 
-  /**
-   * Used to read, replace, or delete a specific, existing {@link StoredProcedure} by id.
-   *
-   * Use `.storedProcedures` for creating new stored procedures, or querying/reading all stored procedures.
-   * @param id The id of the {@link StoredProcedure}.
-   */
-  public storedProcedure(id: string): StoredProcedure {
-    return new StoredProcedure(this, id, this.clientContext);
-  }
-
-  /**
-   * Used to read, replace, or delete a specific, existing {@link Trigger} by id.
-   *
-   * Use `.triggers` for creating new triggers, or querying/reading all triggers.
-   * @param id The id of the {@link Trigger}.
-   */
-  public trigger(id: string): Trigger {
-    return new Trigger(this, id, this.clientContext);
-  }
-
   /** Read the container's definition */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ContainerDefinition>(path, "colls", id, undefined, options);
+    const response = await this.clientContext.read<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    return new ContainerResponse(response.result, response.headers, response.code, this);
   }
 
   /** Replace the container's definition */
   public async replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<ContainerDefinition>(body, path, "colls", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    const response = await this.clientContext.replace<ContainerDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
+    return new ContainerResponse(response.result, response.headers, response.code, this);
   }
 
   /** Delete the container */
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>(path, "colls", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    const response = await this.clientContext.delete<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
+    return new ContainerResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -189,53 +171,32 @@ export class Container {
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
    */
-  public async getPartitionKeyDefinition(): Promise<CosmosResponse<PartitionKeyDefinition, Container>> {
+  public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
-      return {
-        body: this.clientContext.partitionKeyDefinitionCache[this.url],
-        ref: this
-      };
+      return new ResourceResponse<PartitionKeyDefinition>(
+        this.clientContext.partitionKeyDefinitionCache[this.url],
+        {},
+        0
+      );
     }
 
-    const { headers } = await this.read();
-    return {
-      body: this.clientContext.partitionKeyDefinitionCache[this.url],
+    const { headers, statusCode } = await this.read();
+    return new ResourceResponse<PartitionKeyDefinition>(
+      this.clientContext.partitionKeyDefinitionCache[this.url],
       headers,
-      ref: this
-    };
+      statusCode
+    );
   }
 
-  public readPartitionKeyRanges(feedOptions?: FeedOptions) {
+  public async getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>> {
+    const path = getPathFromLink(this.url);
+    return this.clientContext.getQueryPlan(path + "/docs", ResourceType.item, getIdFromLink(this.url), query);
+  }
+
+  public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
-  }
-
-  // TODO: The ParitionKey type is REALLY weird. Now that it's being exported, we should clean it up.
-  public extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[] {
-    // TODO: any
-    if (partitionKeyDefinition && partitionKeyDefinition.paths && partitionKeyDefinition.paths.length > 0) {
-      const partitionKey: PartitionKey[] = [];
-      partitionKeyDefinition.paths.forEach((path: string) => {
-        const pathParts = Helper.parsePath(path);
-
-        let obj = document;
-        for (const part of pathParts) {
-          if (!(typeof obj === "object" && part in obj)) {
-            obj = {};
-            break;
-          }
-
-          obj = obj[part];
-        }
-
-        partitionKey.push(obj);
-      });
-
-      return partitionKey;
-    }
-
-    return undefined;
   }
 }

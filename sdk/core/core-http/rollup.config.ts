@@ -23,8 +23,10 @@ const banner = `/** @license @azure/core-http
 const nodeConfig = {
   input: "./es/lib/coreHttp.js",
   external: [
-    "axios",
     "form-data",
+    "http",
+    "https",
+    "node-fetch",
     "os",
     "stream",
     "tough-cookie",
@@ -41,7 +43,7 @@ const nodeConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ['module']
+      mainFields: ["module", "main"],
     }),
     commonjs(),
     sourcemaps(),
@@ -75,8 +77,7 @@ const browserConfig = {
       "./util/base64": "./util/base64.browser",
     }),
     nodeResolve({
-      mainFields: ['module'],
-      browser: true
+      mainFields: ["module", "main", "browser"]
     }),
     commonjs(),
     sourcemaps(),

@@ -28,6 +28,75 @@ export const TrustedExternalTenant: msRest.CompositeMapper = {
   }
 };
 
+export const OptimizedAutoscale: msRest.CompositeMapper = {
+  serializedName: "OptimizedAutoscale",
+  type: {
+    name: "Composite",
+    className: "OptimizedAutoscale",
+    modelProperties: {
+      version: {
+        required: true,
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      minimum: {
+        required: true,
+        serializedName: "minimum",
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        required: true,
+        serializedName: "maximum",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkConfiguration: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkConfiguration",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkConfiguration",
+    modelProperties: {
+      subnetId: {
+        required: true,
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      enginePublicIpId: {
+        required: true,
+        serializedName: "enginePublicIpId",
+        type: {
+          name: "String"
+        }
+      },
+      dataManagementPublicIpId: {
+        required: true,
+        serializedName: "dataManagementPublicIpId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSku: msRest.CompositeMapper = {
   serializedName: "AzureSku",
   type: {
@@ -49,9 +118,7 @@ export const AzureSku: msRest.CompositeMapper = {
       },
       tier: {
         required: true,
-        isConstant: true,
         serializedName: "tier",
-        defaultValue: 'Standard',
         type: {
           name: "String"
         }
@@ -122,6 +189,102 @@ export const AzureResourceSku: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureCapacity"
+        }
+      }
+    }
+  }
+};
+
+export const SkuLocationInfoItem: msRest.CompositeMapper = {
+  serializedName: "SkuLocationInfoItem",
+  type: {
+    name: "Composite",
+    className: "SkuLocationInfoItem",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SkuDescription: msRest.CompositeMapper = {
+  serializedName: "SkuDescription",
+  type: {
+    name: "Composite",
+    className: "SkuDescription",
+    modelProperties: {
+      resourceType: {
+        readOnly: true,
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        readOnly: true,
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
+      },
+      locations: {
+        readOnly: true,
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      locationInfo: {
+        readOnly: true,
+        serializedName: "locationInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuLocationInfoItem"
+            }
+          }
+        }
+      },
+      restrictions: {
+        readOnly: true,
+        serializedName: "restrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
@@ -214,10 +377,20 @@ export const Cluster: msRest.CompositeMapper = {
       sku: {
         required: true,
         serializedName: "sku",
-        defaultValue: {},
         type: {
           name: "Composite",
           className: "AzureSku"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       state: {
@@ -258,6 +431,33 @@ export const Cluster: msRest.CompositeMapper = {
               className: "TrustedExternalTenant"
             }
           }
+        }
+      },
+      optimizedAutoscale: {
+        serializedName: "properties.optimizedAutoscale",
+        type: {
+          name: "Composite",
+          className: "OptimizedAutoscale"
+        }
+      },
+      enableDiskEncryption: {
+        serializedName: "properties.enableDiskEncryption",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableStreamingIngest: {
+        serializedName: "properties.enableStreamingIngest",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      virtualNetworkConfiguration: {
+        serializedName: "properties.virtualNetworkConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkConfiguration"
         }
       }
     }
@@ -333,6 +533,33 @@ export const ClusterUpdate: msRest.CompositeMapper = {
               className: "TrustedExternalTenant"
             }
           }
+        }
+      },
+      optimizedAutoscale: {
+        serializedName: "properties.optimizedAutoscale",
+        type: {
+          name: "Composite",
+          className: "OptimizedAutoscale"
+        }
+      },
+      enableDiskEncryption: {
+        serializedName: "properties.enableDiskEncryption",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableStreamingIngest: {
+        serializedName: "properties.enableStreamingIngest",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      virtualNetworkConfiguration: {
+        serializedName: "properties.virtualNetworkConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkConfiguration"
         }
       }
     }
@@ -480,6 +707,13 @@ export const DatabasePrincipal: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      tenantName: {
+        readOnly: true,
+        serializedName: "tenantName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -610,6 +844,78 @@ export const EventHubDataConnection: msRest.CompositeMapper = {
       },
       dataFormat: {
         serializedName: "properties.dataFormat",
+        type: {
+          name: "String"
+        }
+      },
+      eventSystemProperties: {
+        serializedName: "properties.eventSystemProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IotHubDataConnection: msRest.CompositeMapper = {
+  serializedName: "IotHub",
+  type: {
+    name: "Composite",
+    className: "IotHubDataConnection",
+    modelProperties: {
+      ...DataConnection.type.modelProperties,
+      iotHubResourceId: {
+        required: true,
+        serializedName: "properties.iotHubResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      consumerGroup: {
+        required: true,
+        serializedName: "properties.consumerGroup",
+        type: {
+          name: "String"
+        }
+      },
+      tableName: {
+        serializedName: "properties.tableName",
+        type: {
+          name: "String"
+        }
+      },
+      mappingRuleName: {
+        serializedName: "properties.mappingRuleName",
+        type: {
+          name: "String"
+        }
+      },
+      dataFormat: {
+        serializedName: "properties.dataFormat",
+        type: {
+          name: "String"
+        }
+      },
+      eventSystemProperties: {
+        serializedName: "properties.eventSystemProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      sharedAccessPolicyName: {
+        required: true,
+        serializedName: "properties.sharedAccessPolicyName",
         type: {
           name: "String"
         }
@@ -913,20 +1219,21 @@ export const ClusterListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ListSkusResult: msRest.CompositeMapper = {
-  serializedName: "ListSkusResult",
+export const SkuDescriptionList: msRest.CompositeMapper = {
+  serializedName: "SkuDescriptionList",
   type: {
     name: "Composite",
-    className: "ListSkusResult",
+    className: "SkuDescriptionList",
     modelProperties: {
       value: {
+        readOnly: true,
         serializedName: "",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "AzureSku"
+              className: "SkuDescription"
             }
           }
         }
@@ -1054,6 +1361,7 @@ export const OperationListResult: msRest.CompositeMapper = {
 export const discriminators = {
   'BaseResource.DataConnection' : DataConnection,
   'BaseResource.EventHub' : EventHubDataConnection,
+  'BaseResource.IotHub' : IotHubDataConnection,
   'BaseResource.EventGrid' : EventGridDataConnection
 
 };

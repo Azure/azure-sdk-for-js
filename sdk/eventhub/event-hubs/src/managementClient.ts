@@ -54,7 +54,7 @@ export interface PartitionProperties {
   /**
    * @property The name of the Event Hub.
    */
-  eventHubPath: string;
+  eventHubName: string;
   /**
    * @property Identifier of the partition within the Event Hub.
    */
@@ -207,7 +207,7 @@ export class ManagementClient extends LinkEntity {
     });
     const partitionInfo: PartitionProperties = {
       beginningSequenceNumber: info.begin_sequence_number,
-      eventHubPath: info.name,
+      eventHubName: info.name,
       lastEnqueuedOffset: info.last_enqueued_offset,
       lastEnqueuedTimeUtc: new Date(info.last_enqueued_time_utc),
       lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,

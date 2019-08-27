@@ -1,5 +1,5 @@
 import { v4 as guid } from "uuid";
-import { Container, CosmosClient } from "../../lib";
+import { Container } from "../../dist";
 
 // tslint:disable:no-console
 export class Worker {
@@ -23,7 +23,7 @@ export class Worker {
 
   public async ReadAll(expectedNumberOfItems: number) {
     while (true) {
-      const { result: items } = await this.container.items.readAll().toArray();
+      const { resources: items } = await this.container.items.readAll().fetchAll();
       if (items.length < expectedNumberOfItems) {
         console.log(
           `Total item read ${items.length} from ${
@@ -40,9 +40,9 @@ export class Worker {
   }
 
   public async DeleteAll() {
-    const { result: items } = await this.container.items.readAll().toArray();
+    const { resources: items } = await this.container.items.readAll().fetchAll();
     for (const item of items) {
-      await this.container.item(item.id).delete();
+      await this.container.item(item.id, undefined).delete();
     }
     console.log(`Deleted all documents from region ${this.regionName}`);
   }

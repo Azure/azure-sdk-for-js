@@ -1,4 +1,4 @@
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { getRequestChargeIfAny } from "../queryExecutionContext";
 
 export class ClientSideMetrics {
   constructor(public readonly requestCharge: number) {}
@@ -7,17 +7,13 @@ export class ClientSideMetrics {
    * Adds one or more ClientSideMetrics to a copy of this instance and returns the result.
    */
   public add(...clientSideMetricsArray: ClientSideMetrics[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let requestCharge = this.requestCharge;
     for (const clientSideMetrics of clientSideMetricsArray) {
       if (clientSideMetrics == null) {
         throw new Error("clientSideMetrics has null or undefined item(s)");
       }
 
-      requestCharge += clientSideMetrics.requestCharge;
+      requestCharge += getRequestChargeIfAny(clientSideMetrics.requestCharge);
     }
 
     return new ClientSideMetrics(requestCharge);

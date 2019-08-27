@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export interface PartitionKeyRange {
   id: string;
   minInclusive: string;

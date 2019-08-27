@@ -21,6 +21,9 @@ if (isPlayingBack) {
   env.ACCOUNT_NAME = "fakestorageaccount";
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
+  // Comment following line to skip user delegation key/SAS related cases in record and play
+  // which depends on this environment variable
+  env.ACCOUNT_TOKEN = "aaaaa";
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
@@ -413,7 +416,11 @@ export function record(testContext: any) {
   let testHierarchy: string;
   let testTitle: string;
 
-  if (testContext.currentTest) {
+  // In a hook ("before all" or "before each"), testContext.test points to the hook, while testContext.currentTest
+  // points to the individual test that will be run next.  A "before all" hook is run once before all tests,
+  // so the hook itself should be used to identify recordings.  However, a "before each" hook is run once before each
+  // test, so the individual test should be used instead.
+  if (testContext.test.type == "hook" && testContext.test.title.includes("each")) {
     testHierarchy = testContext.currentTest.parent.fullTitle();
     testTitle = testContext.currentTest.title;
   } else {

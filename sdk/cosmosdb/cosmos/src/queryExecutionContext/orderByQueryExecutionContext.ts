@@ -1,14 +1,12 @@
-import {
-  DocumentProducer,
-  IExecutionContext,
-  OrderByDocumentProducerComparator,
-  ParallelQueryExecutionContextBase,
-  PartitionedQueryExecutionContextInfo
-} from ".";
 import { ClientContext } from "../ClientContext";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import { DocumentProducer } from "./documentProducer";
+import { ExecutionContext } from "./ExecutionContext";
+import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
+import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
+export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -29,7 +27,7 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
     collectionLink: string,
     query: any, // TODO: any query
     options: any, // TODO: any options
-    partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     // Calling on base class constructor
     super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);

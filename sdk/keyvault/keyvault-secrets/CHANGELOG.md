@@ -1,5 +1,8 @@
 # Release History
 
+## 4.0.0-preview.4 (2019-08-09)
+- Fixed the missing TypeScript types by adding back the generated `.d.ts` file to the package.json
+
 ## 4.0.0-preview.3 (2019-08-06)
 - Added browser support.
 - Added support for challenge-based authentication.

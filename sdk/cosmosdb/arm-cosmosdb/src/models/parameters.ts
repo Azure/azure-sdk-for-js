@@ -27,7 +27,8 @@ export const accountName: msRest.OperationURLParameter = {
     serializedName: "accountName",
     constraints: {
       MaxLength: 50,
-      MinLength: 3
+      MinLength: 3,
+      Pattern: /^[a-z0-9]+(-[a-z0-9]+)*/
     },
     type: {
       name: "String"

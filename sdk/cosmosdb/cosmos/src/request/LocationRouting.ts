@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export class LocationRouting {
   private pIgnorePreferredLocation: boolean;
   private pLocationIndexToRoute: number;
@@ -17,11 +20,11 @@ export class LocationRouting {
   public routeToLocation(locationEndpoint: string): void;
   public routeToLocation(locationIndex: number, ignorePreferredLocation: boolean): void;
   public routeToLocation(endpointOrIndex: string | number, ignorePreferredLocation?: boolean) {
-    if (arguments.length === 2 && typeof endpointOrIndex === "number") {
+    if (typeof ignorePreferredLocation !== "undefined" && typeof endpointOrIndex === "number") {
       this.pLocationIndexToRoute = endpointOrIndex;
       this.pIgnorePreferredLocation = ignorePreferredLocation;
       this.pLocationEndpointToRoute = undefined;
-    } else if (arguments.length === 1 && typeof endpointOrIndex === "string") {
+    } else if (typeof ignorePreferredLocation === "undefined" && typeof endpointOrIndex === "string") {
       this.pLocationEndpointToRoute = endpointOrIndex;
       this.pLocationIndexToRoute = undefined;
       this.pIgnorePreferredLocation = undefined;

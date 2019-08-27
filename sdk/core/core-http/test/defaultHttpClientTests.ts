@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert, AssertionError } from "chai";
+import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
 import { createReadStream } from "fs";
-import axios from "axios";
 import * as http from "http";
 
 import { DefaultHttpClient } from "../lib/defaultHttpClient";
@@ -16,17 +16,6 @@ import { TestFunction } from "mocha";
 
 const nodeIt = (isNode ? it : it.skip) as TestFunction;
 
-function getAbortController(): AbortController {
-  let controller: AbortController;
-  if (typeof AbortController === "function") {
-    controller = new AbortController();
-  } else {
-    const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
-    controller = new AbortControllerPonyfill();
-  }
-  return controller;
-}
-
 describe("defaultHttpClient", function () {
   function sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,14 +23,14 @@ describe("defaultHttpClient", function () {
 
   let httpMock: HttpMockFacade;
   beforeEach(() => {
-    httpMock = getHttpMock(axios);
+    httpMock = getHttpMock();
     httpMock.setup();
   });
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
 
   it("should return a response instead of throwing for awaited 404", async function () {
-    const resourceUrl = "/nonexistent/";
+    const resourceUrl = "/nonexistent";
 
     httpMock.get(resourceUrl, async () => {
       return { status: 404 };
@@ -61,7 +50,7 @@ describe("defaultHttpClient", function () {
       assert.fail();
       return { status: 201 };
     });
-    const controller = getAbortController();
+    const controller = new AbortController();
     const veryBigPayload = "very long string";
     const request = new WebResource(resourceUrl, "POST", veryBigPayload, undefined, undefined, true, undefined, controller.signal);
     const client = new DefaultHttpClient();
@@ -113,7 +102,7 @@ describe("defaultHttpClient", function () {
       return { status: 201 };
     });
 
-    const controller = getAbortController();
+    const controller = new AbortController();
     const buf = "Very large string";
     const requests = [
       new WebResource("/fileupload", "POST", buf, undefined, undefined, true, undefined, controller.signal),
@@ -144,8 +133,8 @@ describe("defaultHttpClient", function () {
     };
 
     it("for simple bodies", async function () {
-      httpMock.post("/fileupload", async (_url, _method, body) => {
-        return { status: 251, body: body, headers: { "Content-Length": "200" } };
+      httpMock.post("/fileupload", async (_url, _method, _body) => {
+        return { status: 251, body: body.repeat(9).substring(0, 200), headers: { "Content-Length": "200" } };
       });
 
       const upload: Notified = { notified: false };
@@ -174,14 +163,14 @@ describe("defaultHttpClient", function () {
 
       const size = isNode ? payload.toString().length : undefined;
 
-      httpMock.post("/fileupload", async (_url, _method, _body) => {
+      httpMock.post("/bigfileupload", async (_url, _method, _body) => {
         return { status: 250, body: payload, headers: { "Content-Type": "text/javascript", "Content-length": size } };
       });
 
       const upload: Notified = { notified: false };
       const download: Notified = { notified: false };
 
-      const request = new WebResource("/fileupload", "POST", payload, undefined, undefined, true, undefined, undefined, 0,
+      const request = new WebResource("/bigfileupload", "POST", payload, undefined, undefined, true, undefined, undefined, 0,
         ev => listener(upload, ev),
         ev => listener(download, ev));
 
@@ -213,7 +202,7 @@ describe("defaultHttpClient", function () {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
     } catch (err) {
-      err.message.should.match(/timeout/);
+      err.message.should.not.match(/request did not fail as expected/);
     }
   });
 
@@ -255,9 +244,6 @@ describe("defaultHttpClient", function () {
   });
 
   nodeIt("should send HTTP requests", async function () {
-    // Increase timeout to give the request time to complete
-    this.timeout(10000);
-
     const localPort = 32293;
     const responseContent = "<html><body><marquee>Under Construction</marquee></body></html>";
     const localServer = http.createServer(function (_req, res) {

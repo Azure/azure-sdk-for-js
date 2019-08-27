@@ -39,15 +39,24 @@ export class Permissions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserAccessList>): void;
-  list(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAccessList>, callback?: msRest.ServiceCallback<Models.UserAccessList>): Promise<Models.PermissionsListResponse> {
+  list(
+    appId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserAccessList>
+  ): void;
+  list(
+    appId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserAccessList>,
+    callback?: msRest.ServiceCallback<Models.UserAccessList>
+  ): Promise<Models.PermissionsListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PermissionsListResponse>;
+      callback
+    ) as Promise<Models.PermissionsListResponse>;
   }
 
   /**
@@ -58,21 +67,39 @@ export class Permissions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PermissionsAddResponse>
    */
-  add(appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsAddResponse>;
+  add(
+    appId: string,
+    userToAdd: Models.UserCollaborator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PermissionsAddResponse>;
   /**
    * @param appId The application ID.
    * @param userToAdd A model containing the user's email address.
    * @param callback The callback
    */
-  add(appId: string, userToAdd: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  add(
+    appId: string,
+    userToAdd: Models.UserCollaborator,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param userToAdd A model containing the user's email address.
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(appId: string, userToAdd: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  add(appId: string, userToAdd: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsAddResponse> {
+  add(
+    appId: string,
+    userToAdd: Models.UserCollaborator,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  add(
+    appId: string,
+    userToAdd: Models.UserCollaborator,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.PermissionsAddResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -80,7 +107,8 @@ export class Permissions {
         options
       },
       addOperationSpec,
-      callback) as Promise<Models.PermissionsAddResponse>;
+      callback
+    ) as Promise<Models.PermissionsAddResponse>;
   }
 
   /**
@@ -91,21 +119,39 @@ export class Permissions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PermissionsDeleteMethodResponse>
    */
-  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsDeleteMethodResponse>;
+  deleteMethod(
+    appId: string,
+    userToDelete: Models.UserCollaborator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PermissionsDeleteMethodResponse>;
   /**
    * @param appId The application ID.
    * @param userToDelete A model containing the user's email address.
    * @param callback The callback
    */
-  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteMethod(
+    appId: string,
+    userToDelete: Models.UserCollaborator,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param userToDelete A model containing the user's email address.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteMethod(appId: string, userToDelete: Models.UserCollaborator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsDeleteMethodResponse> {
+  deleteMethod(
+    appId: string,
+    userToDelete: Models.UserCollaborator,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  deleteMethod(
+    appId: string,
+    userToDelete: Models.UserCollaborator,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.PermissionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -113,7 +159,8 @@ export class Permissions {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.PermissionsDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.PermissionsDeleteMethodResponse>;
   }
 
   /**
@@ -124,21 +171,39 @@ export class Permissions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PermissionsUpdateResponse>
    */
-  update(appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsUpdateResponse>;
+  update(
+    appId: string,
+    collaborators: Models.CollaboratorsArray,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PermissionsUpdateResponse>;
   /**
    * @param appId The application ID.
    * @param collaborators A model containing a list of user email addresses.
    * @param callback The callback
    */
-  update(appId: string, collaborators: Models.CollaboratorsArray, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  update(
+    appId: string,
+    collaborators: Models.CollaboratorsArray,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param collaborators A model containing a list of user email addresses.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(appId: string, collaborators: Models.CollaboratorsArray, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  update(appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PermissionsUpdateResponse> {
+  update(
+    appId: string,
+    collaborators: Models.CollaboratorsArray,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  update(
+    appId: string,
+    collaborators: Models.CollaboratorsArray,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.PermissionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -146,7 +211,8 @@ export class Permissions {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PermissionsUpdateResponse>;
+      callback
+    ) as Promise<Models.PermissionsUpdateResponse>;
   }
 }
 
@@ -155,10 +221,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/permissions",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
   responses: {
     200: {
       bodyMapper: Mappers.UserAccessList
@@ -173,10 +236,7 @@ const listOperationSpec: msRest.OperationSpec = {
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/permissions",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
   requestBody: {
     parameterPath: "userToAdd",
     mapper: {
@@ -198,10 +258,7 @@ const addOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/permissions",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
   requestBody: {
     parameterPath: "userToDelete",
     mapper: {
@@ -223,10 +280,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/permissions",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
   requestBody: {
     parameterPath: "collaborators",
     mapper: {

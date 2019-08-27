@@ -84,7 +84,7 @@ export class AbortSignal implements AbortSignalLike {
    *
    * @memberof AbortSignal
    */
-  public onabort?: (ev?: Event) => any;
+  public onabort: ((ev?: Event) => any) | null = null;
 
   /**
    * Added new "abort" event listener, only support "abort" event.
@@ -129,6 +129,13 @@ export class AbortSignal implements AbortSignalLike {
       listeners.splice(index, 1);
     }
   }
+
+  /**
+    * Dispatches a synthetic event to the AbortSignal.
+    */
+  dispatchEvent(event: Event): boolean {
+    throw new Error("This is a stub dispatchEvent implementation that should not be used.  It only exists for type-checking purposes.")
+  }
 }
 
 /**
@@ -151,9 +158,11 @@ export function abortSignal(signal: AbortSignal) {
   }
 
   const listeners = listenersMap.get(signal)!;
-  listeners.forEach((listener) => {
-    listener.call(signal);
-  });
+  if (listeners) {
+    listeners.forEach((listener) => {
+      listener.call(signal, { type: "abort" });
+    });
+  }
 
   abortedMap.set(signal, true);
 }
