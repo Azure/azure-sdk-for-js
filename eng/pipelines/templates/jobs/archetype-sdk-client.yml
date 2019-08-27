@@ -138,9 +138,8 @@ jobs:
         displayName: "Download Current Build artifacts"
 
       - script: |
-        
-
-
+          eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
+        displayName: "Diff Generated Packages"
 
   - job: "UnitTest"
 

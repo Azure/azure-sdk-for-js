@@ -1,9 +1,30 @@
 param (
   $pathToMasterPkg,
   $pathToCurrentPkg,
-  $dailyDevBuild
+  $dailyDevBuildNo
 )
 
-foreach ($p in $(dir $pathToMasterPkg -r -i *.tgz)){
-  
+function ExtractTGZPackages($pathToPkg){
+  $regExp = "-\d\.\d\.\d(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
+  foreach ($p in $(dir $pathToPkg -r -i *.tgz)){
+    $extractDir = (get-item $p.FullName).Directoryname + "/" + $p.BaseName
+    if($p.BaseName -match $regExp){
+      $newDirName = ($p.BaseName -split $Matches.0)[0]
+      $extractDir = (get-item $p.FullName).Directoryname + "/" + $newDirName
+    }
+    mkdir "$extractDir"
+    pushd "$extractDir"
+    tar -xzf $p.FullName
+    popd
+  }
 }
+
+ExtractTGZPackages($pathToMasterPkg)
+ExtractTGZPackages($pathToCurrentPkg)
+echo "Finished unzipping of all .tgz packages"
+
+$diffFile = "Change_"+$dailyDevBuildNo + ".diff"
+echo "created filename variable"
+
+git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
+echo "created the diff file - $diffFile"
