@@ -147,7 +147,6 @@ jobs:
         displayName: "Diff Generated Packages"
 
   - job: "UnitTest"
-
     strategy:
       matrix:
         Linux_Node8:
