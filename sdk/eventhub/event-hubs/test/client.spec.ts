@@ -44,7 +44,7 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     };
     test.should.throw(
       Error,
-      `The entity path "event-hub-path" in connectionString: "${connectionString}" ` +
+      `The entity path "my-event-hub-path" in connectionString: "${connectionString}" ` +
         `doesn't match with eventHubName: "${eventHubName}".`
     );
   });
