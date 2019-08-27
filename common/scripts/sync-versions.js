@@ -29,9 +29,7 @@ const pjs = {};
 for (const each of rush.projects) {
   const packageName = each.packageName;
   const projectFolder = each.projectFolder;
-  pjs[
-    packageName
-  ] = require(`${__dirname}/../../${projectFolder}/package.json`);
+  pjs[packageName] = require(`${__dirname}/../../${projectFolder}/package.json`);
 }
 
 function setPeerDependencies(pj, dependencies) {
@@ -76,9 +74,7 @@ function fixDeps(pj, dependencies) {
   for (const packageName in dependencies) {
     if (dependencies[packageName] !== packageList[packageName]) {
       console.log(
-        `updating ${pj}:${packageName} from '${
-          dependencies[packageName]
-        }' to '${packageList[packageName]}'`
+        `updating ${pj}:${packageName} from '${dependencies[packageName]}' to '${packageList[packageName]}'`
       );
       dependencies[packageName] = packageList[packageName];
     }
