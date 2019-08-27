@@ -50,7 +50,35 @@
                 "update",
                 "verify",
                 "wrapKey"
-              ]
+              ],
+              "secrets": [
+                "backup",
+                "delete",
+                "get",
+                "list",
+                "purge",
+                "recover",
+                "restore",
+                "set"
+              ],
+              "certificates": [
+                "backup",
+                "create",
+                "delete",
+                "deleteissuers",
+                "get",
+                "getissuers",
+                "import",
+                "list",
+                "listissuers",
+                "managecontacts",
+                "manageissuers",
+                "purge",
+                "recover",
+                "restore",
+                "setissuers",
+                "update"
+              ] 
             }
           }
         ],

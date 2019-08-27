@@ -33,6 +33,34 @@
             "tenantId": "[parameters('tenant_id')]",
             "objectId": "[parameters('test_app_id')]",
             "permissions": {
+              "keys": [
+                "backup",
+                "create",
+                "decrypt",
+                "delete",
+                "encrypt",
+                "get",
+                "import",
+                "list",
+                "purge",
+                "recover",
+                "restore",
+                "sign",
+                "unwrapKey",
+                "update",
+                "verify",
+                "wrapKey"
+              ],
+              "secrets": [
+                "backup",
+                "delete",
+                "get",
+                "list",
+                "purge",
+                "recover",
+                "restore",
+                "set"
+              ],
               "certificates": [
                 "backup",
                 "create",
@@ -50,7 +78,7 @@
                 "restore",
                 "setissuers",
                 "update"
-              ]
+              ]  
             }
           }
         ],
