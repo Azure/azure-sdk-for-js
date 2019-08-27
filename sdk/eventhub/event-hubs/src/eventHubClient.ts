@@ -285,28 +285,31 @@ export class EventHubClient {
     let config;
     let credential: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
-    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
-    if (
-      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
-    ) {
-      throw new TypeError(
-        `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-          `must contain "EntityPath=<your-event-hub-name>".`
-      );
-    }
-    if (
-      parsedCS.EntityPath &&
-      typeof eventHubNameOrOptions === "string" &&
-      eventHubNameOrOptions &&
-      parsedCS.EntityPath !== eventHubNameOrOptions
-    ) {
-      throw new TypeError(
-        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
-          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
-      );
-    }
 
     if (!isTokenCredential(credentialOrOptions)) {
+      const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
+      if (
+        !(
+          parsedCS.EntityPath ||
+          (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
+        )
+      ) {
+        throw new TypeError(
+          `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
+            `must contain "EntityPath=<your-event-hub-name>".`
+        );
+      }
+      if (
+        parsedCS.EntityPath &&
+        typeof eventHubNameOrOptions === "string" &&
+        eventHubNameOrOptions &&
+        parsedCS.EntityPath !== eventHubNameOrOptions
+      ) {
+        throw new TypeError(
+          `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
+            `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+        );
+      }
       connectionString = hostOrConnectionString;
       if (typeof eventHubNameOrOptions !== "string") {
         // connectionstring and/or options were passed to constructor
