@@ -291,7 +291,7 @@ export class EventHubClient {
     ) {
       throw new TypeError(
         `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-          `must contain EntityPath="<path-to-the-entity>".`
+          `must contain "EntityPath=<your-event-hub-name>".`
       );
     }
     if (
