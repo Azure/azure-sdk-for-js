@@ -25,7 +25,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
-import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * @internal
@@ -1021,7 +1020,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          messageDispositionTimeout
+          Constants.defaultOperationTimeoutInSeconds
         );
 
         const e: AmqpError = {
@@ -1031,7 +1030,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, messageDispositionTimeout);
+      }, Constants.defaultOperationTimeoutInSeconds);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

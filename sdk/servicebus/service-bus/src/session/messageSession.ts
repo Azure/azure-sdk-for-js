@@ -30,7 +30,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -1159,7 +1158,7 @@ export class MessageSession extends LinkEntity {
             "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
-          messageDispositionTimeout
+          Constants.defaultOperationTimeoutInSeconds
         );
 
         const e: AmqpError = {
@@ -1169,7 +1168,7 @@ export class MessageSession extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, messageDispositionTimeout);
+      }, Constants.defaultOperationTimeoutInSeconds);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,
