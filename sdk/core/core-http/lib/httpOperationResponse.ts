@@ -29,7 +29,7 @@ declare global {
    * Stub declaration of the browser-only Blob type.
    * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
    */
-  interface Blob { }
+  interface Blob {}
 }
 
 /**
@@ -51,6 +51,11 @@ export interface HttpOperationResponse extends HttpResponse {
    * The response body as parsed JSON or XML
    */
   parsedBody?: any;
+
+  /**
+   * The error information in JSON or XML
+   */
+  errorBody?: any;
 
   /**
    * BROWSER ONLY

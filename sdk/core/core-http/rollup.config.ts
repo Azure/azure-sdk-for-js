@@ -33,7 +33,7 @@ const nodeConfig = {
     "tslib",
     "tunnel",
     "uuid/v4",
-    "xml2js",
+    "xml2js"
   ],
   output: {
     file: "./dist/coreHttp.node.js",
@@ -43,7 +43,7 @@ const nodeConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ["module", "main"],
+      mainFields: ["module", "main"]
     }),
     commonjs(),
     sourcemaps(),
@@ -74,10 +74,11 @@ const browserConfig = {
       "./policies/msRestUserAgentPolicy": "./policies/msRestUserAgentPolicy.browser",
       "./policies/proxyPolicy": "./policies/proxyPolicy.browser",
       "./util/xml": "./util/xml.browser",
-      "./util/base64": "./util/base64.browser",
+      "./util/base64": "./util/base64.browser"
     }),
     nodeResolve({
-      mainFields: ["module", "main", "browser"]
+      mainFields: ["module", "browser"],
+      preferBuiltins: true
     }),
     commonjs(),
     sourcemaps(),

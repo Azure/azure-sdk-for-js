@@ -94,5 +94,59 @@ export const Constants = {
      * @type {string}
      */
     USER_AGENT: "User-Agent"
+  },
+
+  /**
+   * Constant representing the Odata Error 'message' property
+   *
+   * @const
+   * @type {string}
+   */
+  ODATA_ERROR_MESSAGE: "message",
+  /**
+   * Constant representing the 'value' property of Odata Error 'message' property
+   *
+   * @const
+   * @type {string}
+   */
+  ODATA_ERROR_MESSAGE_VALUE: "value",
+
+  /**
+   * Constant representing the property where the atom default elements are stored.
+   *
+   * @const
+   * @type {string}
+   */
+  ATOM_METADATA_MARKER: "_",
+
+  /**
+   * Marker for atom metadata.
+   *
+   * @const
+   * @type {string}
+   */
+  XML_METADATA_MARKER: "$",
+
+  /**
+   * Marker for atom value.
+   *
+   * @const
+   * @type {string}
+   */
+  XML_VALUE_MARKER: "_",
+
+  HttpResponseCodes: {
+    Ok: 200,
+    Created: 201,
+    Accepted: 202,
+    NoContent: 204,
+    PartialContent: 206,
+    BadRequest: 400,
+    Unauthorized: 401,
+    Forbidden: 403,
+    NotFound: 404,
+    Conflict: 409,
+    LengthRequired: 411,
+    PreconditionFailed: 412
   }
 };

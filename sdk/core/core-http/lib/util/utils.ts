@@ -10,7 +10,11 @@ import { Constants } from "./constants";
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-export const isNode = (typeof process !== "undefined") && !!process.version && !!process.versions && !!process.versions.node;
+export const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 /**
  * Checks if a parsed URL is HTTPS
@@ -77,7 +81,10 @@ export function stripRequest(request: WebResource): WebResource {
  * @return {boolean} True if the uuid is valid; false otherwise.
  */
 export function isValidUuid(uuid: string): boolean {
-  const validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
+  const validUuidRegex = new RegExp(
+    "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+    "ig"
+  );
   return validUuidRegex.test(uuid);
 }
 
@@ -89,7 +96,7 @@ export function isValidUuid(uuid: string): boolean {
  *
  * @return {any[]} An array of values of the given object.
  */
-export function objectValues(obj: { [key: string]: any; }): any[] {
+export function objectValues(obj: { [key: string]: any }): any[] {
   const result: any[] = [];
   if (obj && obj instanceof Object) {
     for (const key in obj) {
@@ -98,8 +105,13 @@ export function objectValues(obj: { [key: string]: any; }): any[] {
       }
     }
   } else {
-    throw new Error(`The provided object ${JSON.stringify(obj, undefined, 2)} is not a valid object that can be ` +
-      `enumerated to provide its values as an array.`);
+    throw new Error(
+      `The provided object ${JSON.stringify(
+        obj,
+        undefined,
+        2
+      )} is not a valid object that can be ` + `enumerated to provide its values as an array.`
+    );
   }
   return result;
 }
@@ -140,7 +152,7 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
  *
  * @returns {object} Returns the merged target object.
  */
-export function mergeObjects(source: { [key: string]: any; }, target: { [key: string]: any; }) {
+export function mergeObjects(source: { [key: string]: any }, target: { [key: string]: any }) {
   Object.keys(source).forEach((key) => {
     target[key] = source[key];
   });
@@ -168,7 +180,12 @@ export interface ServiceCallback<TResult> {
    * @param {WebResource} [request] The raw/actual request sent to the server if an error did not occur.
    * @param {HttpOperationResponse} [response] The raw/actual response from the server if an error did not occur.
    */
-  (err: Error | RestError | null, result?: TResult, request?: WebResource, response?: HttpOperationResponse): void;
+  (
+    err: Error | RestError | null,
+    result?: TResult,
+    request?: WebResource,
+    response?: HttpOperationResponse
+  ): void;
 }
 
 /**
@@ -182,11 +199,14 @@ export function promiseToCallback(promise: Promise<any>): Function {
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: Function): void => {
-    promise.then((data: any) => {
-      cb(undefined, data);
-    }, (err: Error) => {
-      cb(err);
-    });
+    promise.then(
+      (data: any) => {
+        cb(undefined, data);
+      },
+      (err: Error) => {
+        cb(err);
+      }
+    );
   };
 }
 
@@ -200,11 +220,14 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: ServiceCallback<T>): void => {
-    promise.then((data: HttpOperationResponse) => {
-      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
-    }, (err: Error) => {
-      process.nextTick(cb, err);
-    });
+    promise.then(
+      (data: HttpOperationResponse) => {
+        process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
+      },
+      (err: Error) => {
+        process.nextTick(cb, err);
+      }
+    );
   };
 }
 
@@ -221,8 +244,8 @@ export function prepareXMLRootList(obj: any, elementName: string) {
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
 export function applyMixins(targetCtor: any, sourceCtors: any[]): void {
-  sourceCtors.forEach(sourceCtors => {
-    Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+  sourceCtors.forEach((sourceCtors) => {
+    Object.getOwnPropertyNames(sourceCtors.prototype).forEach((name) => {
       targetCtor.prototype[name] = sourceCtors.prototype[name];
     });
   });
@@ -246,16 +269,265 @@ export function isDuration(value: string): boolean {
  * @param {string} replaceValue The value to replace searchValue with in the value argument.
  * @returns {string | undefined} The value where each instance of searchValue was replaced with replacedValue.
  */
-export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
+export function replaceAll(
+  value: string | undefined,
+  searchValue: string,
+  replaceValue: string
+): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
 
 /**
- * Determines whether the given enity is a basic/primitive type
+ * Determines whether the given entity is a basic/primitive type
  * (string, number, boolean, null, undefined).
- * @param value Any entity
- * @return boolean - true is it is primitive type, false otherwise.
+ * @param {any} value Any entity
+ * @return {boolean} - true is it is primitive type, false otherwise.
  */
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
+}
+
+/**
+ * Determines whether the given `value` is an empty string or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if it is equivalent to an empty string, false otherwise.
+ */
+export function stringIsEmpty(value: any) {
+  return isNull(value) || isUndefined(value) || value === "";
+}
+
+/**
+ * Checks if given `text` starts with the specified `prefix`
+ * @param text Input string
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export function stringStartsWith(text: string, prefix: string) {
+  if (isNull(prefix)) {
+    return true;
+  }
+
+  return text.substr(0, prefix.length) === prefix;
+}
+
+/**
+ * Returns the number of keys (properties) in an object.
+ *
+ * @param {object} value The object which keys are to be counted.
+ * @return {number} The number of keys in the object.
+ */
+export function objectKeysLength(value: any) {
+  if (!value) {
+    return 0;
+  }
+
+  return keys(value).length;
+}
+
+/**
+ * Returns the name of the first property in an object.
+ *
+ * @param {object} value The object which key is to be returned.
+ * @return {number} The name of the first key in the object.
+ */
+export function objectFirstKey(value: any) {
+  if (value && Object.keys(value).length > 0) {
+    return Object.keys(value)[0];
+  }
+
+  // Object has no properties
+  return null;
+}
+
+/**
+ * Determines whether the given `value` is a null object or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export function objectIsNull(value: any) {
+  return isNull(value) || isUndefined(value);
+}
+
+/**
+ * Determines whether the given `value` is a `Date` object or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export function isDate(value: any) {
+  return Object.prototype.toString.call(value) == "[object Date]";
+}
+
+/**
+ * Determines whether the given `value` is a `string` object or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export function isString(value: any) {
+  return Object.prototype.toString.call(value) == "[object String]";
+}
+
+/**
+ * Determines whether the given `value` is a `Array` object or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export const isArray =
+  Array.isArray ||
+  function(value: any) {
+    return Object.prototype.toString.call(value) == "[object Array]";
+  };
+
+/**
+ * Determines whether the given `value` is a `Object` or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export const isObject = function(value: any) {
+  return value === Object(value);
+};
+
+/**
+ * Determines whether the given `value` is an undefined entity or not.
+ * @param {any} value Any entity
+ * @return {boolean} - true if yes, false otherwise.
+ */
+export const isUndefined = function(value: any) {
+  return value === void 0;
+};
+
+/**
+ * Utility to iterate over given entity's values.
+ * @param {any} obj - The object to execute operation(s) on.
+ * @param {any} iterator - The iterator callback to use
+ * @param {any} context - Optional context for use with iterator
+ * @return {any} - the final extended object
+ */
+export const each = function(obj: any, iterator: any, context?: any) {
+  if (obj == null) return;
+  if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
+    obj.forEach(iterator, context);
+  } else if (obj.length === +obj.length) {
+    for (var i = 0, l = obj.length; i < l; i++) {
+      if (iterator.call(context, obj[i], i, obj) === {}) return;
+    }
+  } else {
+    for (var key in obj) {
+      if (has(obj, key)) {
+        if (iterator.call(context, obj[key], key, obj) === {}) return;
+      }
+    }
+  }
+};
+
+/**
+ * Extends given object `obj` with the passed in `source` object.
+ * @param {any} obj
+ * @param {any} source
+ * @return {any} - the final extended object
+ */
+export const extend = function(obj: any, source: any) {
+  if (source) {
+    for (var prop in source) {
+      obj[prop] = source[prop];
+    }
+  }
+  return obj;
+};
+
+// Private helper utilities
+const has = function(obj: any, key: any) {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+};
+
+const isNull = function(value: any) {
+  return value === null;
+};
+
+const keys =
+  Object.keys ||
+  function(obj: any) {
+    if (obj !== Object(obj)) throw new TypeError("Invalid object");
+    var keys = [];
+    for (var key in obj) if (has(obj, key)) keys[keys.length] = key;
+    return keys;
+  };
+
+export function byteLength(string: any) {
+  return utf8ToBytes(string).length; // assume utf8
+}
+
+function utf8ToBytes(string: any, units?: any) {
+  units = units || Infinity;
+  var codePoint;
+  var length = string.length;
+  var leadSurrogate = null;
+  var bytes = [];
+
+  for (var i = 0; i < length; ++i) {
+    codePoint = string.charCodeAt(i);
+
+    // is surrogate component
+    if (codePoint > 0xd7ff && codePoint < 0xe000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xdbff) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
+          continue;
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
+          continue;
+        }
+
+        // valid lead
+        leadSurrogate = codePoint;
+
+        continue;
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xdc00) {
+        if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
+        leadSurrogate = codePoint;
+        continue;
+      }
+
+      // valid surrogate pair
+      codePoint = (((leadSurrogate - 0xd800) << 10) | (codePoint - 0xdc00)) + 0x10000;
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
+    }
+
+    leadSurrogate = null;
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break;
+      bytes.push(codePoint);
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break;
+      bytes.push((codePoint >> 0x6) | 0xc0, (codePoint & 0x3f) | 0x80);
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break;
+      bytes.push(
+        (codePoint >> 0xc) | 0xe0,
+        ((codePoint >> 0x6) & 0x3f) | 0x80,
+        (codePoint & 0x3f) | 0x80
+      );
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break;
+      bytes.push(
+        (codePoint >> 0x12) | 0xf0,
+        ((codePoint >> 0xc) & 0x3f) | 0x80,
+        ((codePoint >> 0x6) & 0x3f) | 0x80,
+        (codePoint & 0x3f) | 0x80
+      );
+    } else {
+      throw new Error("Invalid code point");
+    }
+  }
+
+  return bytes;
 }
