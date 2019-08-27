@@ -11,7 +11,9 @@ import {
   ConnectionConfig,
   isTokenCredential,
   RetryOptions,
-  Constants
+  Constants,
+  parseConnectionString,
+  EventHubConnectionStringModel
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
@@ -285,6 +287,29 @@ export class EventHubClient {
     hostOrConnectionString = String(hostOrConnectionString);
 
     if (!isTokenCredential(credentialOrOptions)) {
+      const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
+      if (
+        !(
+          parsedCS.EntityPath ||
+          (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
+        )
+      ) {
+        throw new TypeError(
+          `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
+            `must contain "EntityPath=<your-event-hub-name>".`
+        );
+      }
+      if (
+        parsedCS.EntityPath &&
+        typeof eventHubNameOrOptions === "string" &&
+        eventHubNameOrOptions &&
+        parsedCS.EntityPath !== eventHubNameOrOptions
+      ) {
+        throw new TypeError(
+          `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
+            `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+        );
+      }
       connectionString = hostOrConnectionString;
       if (typeof eventHubNameOrOptions !== "string") {
         // connectionstring and/or options were passed to constructor
@@ -303,6 +328,9 @@ export class EventHubClient {
       const eventHubName = eventHubNameOrOptions;
       let host = hostOrConnectionString;
       credential = credentialOrOptions;
+      if (!eventHubName) {
+        throw new TypeError(`"eventHubName" is missing`);
+      }
 
       if (!host.endsWith("/")) host += "/";
       connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
@@ -396,7 +424,7 @@ export class EventHubClient {
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
-   * 
+   *
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {TypeError} Thrown if a required parameter is missing.
    */
