@@ -149,9 +149,7 @@ function buildNode(obj: any, elementName: string): Node[] {
 }
 
 export function parseAtomXML(body: any): any {
-  throw new Error(`parseAtomXML(${body}) is not supported in browser yet.`);
-}
-
-export function parseStringError(body: any): any {
-  throw new Error(`parseStringError(${body}) is not supported in browser yet.`);
+  const dom = parser.parseFromString(body, "text/xml");
+  throwIfError(dom);
+  return domToObject(dom.childNodes[0]);
 }

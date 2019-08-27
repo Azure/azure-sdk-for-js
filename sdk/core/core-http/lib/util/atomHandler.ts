@@ -20,63 +20,26 @@ import { isArray, each, stringIsEmpty, stringStartsWith, isDate, isObject } from
 const xmlbuilder = require("xmlbuilder");
 
 export class AtomHandler {
-  parseEntryResult(entry: any): any {
-    var contentElementName = Object.keys(entry.content).filter(function(key) {
-      return key !== Constants.XML_METADATA_MARKER;
-    })[0];
-
-    delete entry.content[contentElementName][Constants.XML_METADATA_MARKER];
-    var result = entry.content[contentElementName];
-
-    if (result) {
-      if (entry[Constants.XML_METADATA_MARKER]) {
-        result[Constants.ATOM_METADATA_MARKER] = entry[Constants.XML_METADATA_MARKER];
-      } else {
-        result[Constants.ATOM_METADATA_MARKER] = {};
-      }
-
-      result[Constants.ATOM_METADATA_MARKER]["ContentRootElement"] = contentElementName;
-
-      for (var property in entry) {
-        if (property !== "content" && property !== Constants.XML_METADATA_MARKER) {
-          result[Constants.ATOM_METADATA_MARKER][property] = entry[property];
-        }
-      }
-    }
-
-    return result;
-  }
-
-  parseFeedResult(feed: any): any {
-    var result = [];
+  /**
+   * Utility to deserialize the given content even further based on
+   * if it's a single `entry` or `feed`
+   * @param {object} xmlInJson
+   * */
+  parse(xmlInJson: any): any {
     var self = this;
-    if (feed.entry) {
-      if (isArray(feed.entry)) {
-        each(feed.entry, function(entry: any) {
-          result.push(self.parseEntryResult(entry));
-        });
-      } else {
-        result.push(self.parseEntryResult(feed.entry));
-      }
-    }
-    return result;
-  }
-
-  parse(xml: any): any {
-    var self = this;
-    if (!xml) {
+    if (!xmlInJson) {
       return;
     }
 
-    if (xml.feed) {
-      return self.parseFeedResult(xml.feed);
+    if (xmlInJson.feed) {
+      return self.parseFeedResult(xmlInJson.feed);
     }
 
-    if (xml.entry) {
-      return self.parseEntryResult(xml.entry);
+    if (xmlInJson.entry) {
+      return self.parseEntryResult(xmlInJson.entry);
     }
 
-    throw new Error("Unrecognized result " + util.inspect(xml));
+    throw new Error("Unrecognized result " + util.inspect(xmlInJson));
   }
 
   /**
@@ -119,7 +82,7 @@ export class AtomHandler {
    *
    * {Deprecated}
    */
-  _writeElementValue(parentElement: any, name: any, value: any): any {
+  private _writeElementValue(parentElement: any, name: any, value: any): any {
     var self = this;
     var ignored = false;
     var propertyTagName = name;
@@ -195,5 +158,47 @@ export class AtomHandler {
     }
 
     return parentElement;
+  }
+
+  private parseEntryResult(entry: any): any {
+    var contentElementName = Object.keys(entry.content).filter(function(key) {
+      return key !== Constants.XML_METADATA_MARKER;
+    })[0];
+
+    delete entry.content[contentElementName][Constants.XML_METADATA_MARKER];
+    var result = entry.content[contentElementName];
+
+    if (result) {
+      if (entry[Constants.XML_METADATA_MARKER]) {
+        result[Constants.ATOM_METADATA_MARKER] = entry[Constants.XML_METADATA_MARKER];
+      } else {
+        result[Constants.ATOM_METADATA_MARKER] = {};
+      }
+
+      result[Constants.ATOM_METADATA_MARKER]["ContentRootElement"] = contentElementName;
+
+      for (var property in entry) {
+        if (property !== "content" && property !== Constants.XML_METADATA_MARKER) {
+          result[Constants.ATOM_METADATA_MARKER][property] = entry[property];
+        }
+      }
+    }
+
+    return result;
+  }
+
+  private parseFeedResult(feed: any): any {
+    var result = [];
+    var self = this;
+    if (feed.entry) {
+      if (isArray(feed.entry)) {
+        each(feed.entry, function(entry: any) {
+          result.push(self.parseEntryResult(entry));
+        });
+      } else {
+        result.push(self.parseEntryResult(feed.entry));
+      }
+    }
+    return result;
   }
 }
