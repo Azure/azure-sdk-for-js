@@ -302,7 +302,7 @@ export class EventHubClient {
     ) {
       throw new TypeError(
         `EntityPath="${parsedCS.EntityPath}" in "connectionString": "${hostOrConnectionString}" ` +
-          `donesn't match with "eventHubName": "${eventHubNameOrOptions}".`
+          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
       );
     }
 
