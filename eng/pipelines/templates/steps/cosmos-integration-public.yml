@@ -1,5 +1,39 @@
 steps:
-  - task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
-    inputs:
-      defaultPartitionCount: 25
-    displayName: "Run Azure Cosmos DB Emulator container (public)"
+  - powershell: |
+      $localEtag = ""
+      try {
+        $localEtag = Get-Content "$env:ProgramFiles\Azure Cosmos DB Emulator\etag.txt"
+      } 
+      catch {}
+      Write-Host "Local emulator etag $localEtag"
+      $headResponse = Invoke-WebRequest 'https://aka.ms/cosmosdb-emulator' -Method 'HEAD'
+      Write-Host $headResponse.headers
+      $remoteEtag = $headResponse.headers.ETag
+      Write-Host "Remote emulator etag $remoteEtag"
+      if($localEtag -ne $remoteEtag){
+        Write-Host "Emulator is out of date"
+        Write-Host "Downloading Cosmos Emulator"
+        wget "https://aka.ms/cosmosdb-emulator" -outfile "$env:temp\azure-cosmosdb-emulator.msi"
+        Write-Host "Finished Downloading Cosmos Emulator - $env:temp\azure-cosmosdb-emulator.msi"
+        dir "$env:temp"
+        Write-Host "Deleting Azure Cosmos DB Emulator directory"
+        dir "$env:ProgramFiles\"
+        rm "$env:ProgramFiles\Azure Cosmos DB Emulator" -Recurse -Force
+        Write-Host "Directory after deleting"
+        dir "$env:ProgramFiles\"
+        choco install lessmsi
+        choco upgrade lessmsi
+        Write-Host "Checking directory" 
+        dir "$env:ProgramFiles"
+        mkdir "$env:ProgramFiles\Azure Cosmos DB Emulator"
+        lessmsi x "$env:temp\azure-cosmosdb-emulator.msi" "$env:ProgramFiles\Azure Cosmos DB Emulator\"
+        Set-Content -Path "$env:ProgramFiles\Azure Cosmos DB Emulator\etag.txt" -Value $remoteEtag
+        dir "$env:ProgramFiles\Azure Cosmos DB Emulator"
+        Get-Content "$env:ProgramFiles\Azure Cosmos DB Emulator\etag.txt" | Write-Host
+      } else {
+        Write-Host "Emulator is already up to date"
+      }
+
+      Write-Host "Starting Comsos DB Emulator"
+      Start-Process "$env:ProgramFiles\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe" "/NoExplorer /NoUI" -Verb RunAs
+    displayName: "Refresh and Run Public Cosmos DB Emulator"
