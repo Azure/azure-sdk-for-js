@@ -249,9 +249,8 @@ export class PartitionLoadBalancer {
    */
   async loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIds: string[]
+    partitionsToAdd: string[]
   ): Promise<void> {
-    const numberOfPartitions = partitionIds.length;
     //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
     //  event processor that owned the partition is probably down and the partition is now eligible to be
     //  claimed by other event processors.
@@ -267,7 +266,7 @@ export class PartitionLoadBalancer {
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
       await this._claimOwnership(
         partitionOwnershipMap,
-        partitionIds[Math.floor(Math.random() * numberOfPartitions)]
+        partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]
       );
       return;
     }
@@ -276,16 +275,11 @@ export class PartitionLoadBalancer {
 
     const ownerPartitionMap: Map<string, PartitionOwnership[]> = new Map();
     for (const activePartitionOwnership of activePartitionOwnershipMap.values()) {
-      if (!ownerPartitionMap.has(activePartitionOwnership.ownerId)) {
-        const partitionOwnershipArr = [];
-        partitionOwnershipArr.push(activePartitionOwnership);
-        ownerPartitionMap.set(activePartitionOwnership.ownerId, partitionOwnershipArr!);
-      } else {
-        const partitionOwnershipArr = ownerPartitionMap.get(activePartitionOwnership.ownerId);
-        partitionOwnershipArr!.push(activePartitionOwnership);
-        ownerPartitionMap.set(activePartitionOwnership.ownerId, partitionOwnershipArr!);
-      }
+      const partitionOwnershipArray = ownerPartitionMap.get(activePartitionOwnership.ownerId) || [];
+      partitionOwnershipArray.push(activePartitionOwnership);
+      ownerPartitionMap.set(activePartitionOwnership.ownerId, partitionOwnershipArray);
     }
+
     // add the current event processor to the map if it doesn't exist
     if (!ownerPartitionMap.has(this._ownerId)) {
       ownerPartitionMap.set(this._ownerId, []);
@@ -294,14 +288,16 @@ export class PartitionLoadBalancer {
       `[${this._ownerId}] Number of active event processors: ${ownerPartitionMap.size}.`
     );
 
+    const partitionIds = await this._eventHubClient.getPartitionIds();
+
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.
-    const minPartitionsPerEventProcessor = numberOfPartitions / ownerPartitionMap.size;
+    const minPartitionsPerEventProcessor = Math.floor(partitionIds.length / ownerPartitionMap.size);
     // If the number of partitions in Event Hub is not evenly divisible by number of active event processors,
     // a few Event Processors may own 1 additional partition than the minimum when the load is balanced. Calculate
     // the number of event processors that can own additional partition.
     const numberOfEventProcessorsWithAdditionalPartition =
-      numberOfPartitions % ownerPartitionMap.size;
+      partitionIds.length % ownerPartitionMap.size;
 
     log.partitionLoadBalancer(
       `[${this._ownerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
@@ -345,7 +341,7 @@ export class PartitionLoadBalancer {
     //  number of partitions.
 
     let partitionToClaim: string | undefined;
-    for (const partitionId of partitionIds) {
+    for (const partitionId of partitionsToAdd) {
       if (!activePartitionOwnershipMap.has(partitionId)) {
         partitionToClaim = partitionId;
       }

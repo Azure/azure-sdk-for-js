@@ -8,10 +8,9 @@ import { PartitionContext } from "./partitionContext";
 import { CheckpointManager, Checkpoint } from "./checkpointManager";
 import { ReceivedEventData } from "./eventData";
 import { PumpManager } from "./pumpManager";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
 import { PartitionLoadBalancer } from "./partitionLoadBalancer";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
 
 /**
@@ -266,11 +265,6 @@ export class EventProcessor {
     const waitIntervalInMs = 10000;
     while (!abortSignal.aborted) {
       try {
-        // check if the loop has been cancelled
-        if (abortSignal.aborted) {
-          return;
-        }
-
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
         // Retrieve current partition ownership details from the datastore.
         const partitionOwnership = await this._partitionManager.listOwnership(
