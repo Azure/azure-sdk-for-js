@@ -15,7 +15,8 @@ export interface Recorder {
    */
   stop(): void;
   /**
-   * `skip()` method is supposed to be called at the end of the test, stops and saves the recording in the "record" mode.
+   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+   * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
   skip(runtime?: "node" | "browser"): void;
