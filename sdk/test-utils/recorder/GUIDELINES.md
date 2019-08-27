@@ -232,9 +232,8 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - We leverage mocha's `.skip()` functionality to skip the test
   `this.skip()` - https://mochajs.org/#inclusive-tests.
-  By this, the tests in the skip list will only be executed if the `TEST_MODE` is neither `"record"` nor `"playback"`.
 
-- If the new test is supposed to skipped, it must be added in the skip list. Doing this would allow the tests in the skip list to be executed only if the `TEST_MODE` is neither `"record"` nor `"playback"`.
+- `{recorder.skip(runtime?: "node" | "browser")}` will skip the test in node or browser runtimes based on the `{runtime}` argument. If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes. Has no effect if the `TEST_MODE` is neither `"record"` nor `"playback"`.
 
 ---
 
