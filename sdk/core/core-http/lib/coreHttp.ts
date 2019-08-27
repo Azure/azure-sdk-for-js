@@ -104,9 +104,7 @@ export {
   atomSerializationPolicy,
   AtomSerializationPolicy
 } from "./policies/atomSerializationPolicy";
-export {
-  SasServiceClientCredentials as ServiceBusSASServiceClientCredentials
-} from "./credentials/sasServiceClientCredentials";
+export { SasServiceClientCredentials } from "./credentials/sasServiceClientCredentials";
 export { ResourceSerializer } from "./resourceSerializer";
 export { AtomResourceSerializerBase } from "./atomResourceSerializerBase";
 export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
