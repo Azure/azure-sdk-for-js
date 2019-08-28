@@ -29,7 +29,7 @@ try{
   git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
   echo "created the diff file - $diffFile"
 }
-catch(){
+catch{
   Write-Host "An error occurred:"
   Write-Host $_
 }
