@@ -24,9 +24,9 @@ try{
   echo "Finished unzipping of all .tgz packages"
 
   $diffFile = "Change_"+$dailyDevBuildNo + ".diff"
-  echo "created filename variable"
+  echo "created filename variable $diffFile"
 
-  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
+  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile --exit-code
   echo "created the diff file - $diffFile"
 }
 catch{
