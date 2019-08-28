@@ -140,7 +140,7 @@ jobs:
       - script: ls $(System.ArtifactsDirectory)/packagesMaster
         displayName: "Check package master"
 
-      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(Build.ArtifactStagingDirectory)"
+      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
         displayName: "Diff Generated Packages"
         errorActionPreference: "continue"
 
