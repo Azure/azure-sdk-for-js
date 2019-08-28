@@ -129,6 +129,8 @@ jobs:
           downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
         displayName: "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
 
+      - script: ls $(System.ArtifactsDirectory)/packagesMaster
+        displayName: "Check package master"
       # - task: DownloadPipelineArtifact@2
       #   inputs:
       #     buildType: "specific"
