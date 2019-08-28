@@ -129,35 +129,36 @@ jobs:
       - script: ls $(System.ArtifactsDirectory)/packagesCurrent
         displayName: "Check package master"
 
-      - task: DownloadBuildArtifacts@0
+      # - task: DownloadBuildArtifacts@0
+      #   inputs:
+      #     buildType: "specific"
+      #     project: "public"
+      #     pipeline: "js - client - ci"
+      #     buildVersionToDownload: "latest"
+      #     allowPartiallySucceededBuilds: false
+      #     branchName: "master"
+      #     downloadType: "single"
+      #     artifactName: packages
+      #     downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
+      #   displayName:
+      #     "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
+      - task: DownloadPipelineArtifact@2
         inputs:
           buildType: "specific"
-          project: "public"
-          pipeline: "js - client - ci"
+          project: "29ec6040-b234-4e31-b139-33dc4287b756"
+          definition: 614
           buildVersionToDownload: "latest"
-          allowPartiallySucceededBuilds: false
           branchName: "master"
-          downloadType: "single"
           artifactName: packages
-          downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
-        displayName: "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
+          itemPattern: "*.tgz"
+          targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
+        displayName: "Download Latest Master (PipelineTask) artifacts"
 
       - script: ls $(System.ArtifactsDirectory)
         displayName: "Check artifacts directory"
 
       - script: ls $(System.ArtifactsDirectory)/packagesMaster
         displayName: "Check package master"
-      # - task: DownloadPipelineArtifact@2
-      #   inputs:
-      #     buildType: "specific"
-      #     project: "public"
-      #     definition: "js - client - ci"
-      #     buildVersionToDownload: "latest"
-      #     branchName: "master"
-      #     artifactName: packages
-      #     itemPattern: "*.tgz"
-      #     targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
-      #   displayName: "Download Latest Master (PipelineTask) artifacts"
 
       - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
         displayName: "Diff Generated Packages"
