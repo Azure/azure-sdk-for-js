@@ -79,6 +79,7 @@
     "@azure/test-utils-recorder": "1.0.0",
     "@azure/keyvault-keys": "4.0.0-preview.4",
     "@azure/keyvault-secrets": "4.0.0-preview.5",
+    "@fidm/x509": "1.2.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/dotenv": "^6.1.0",
