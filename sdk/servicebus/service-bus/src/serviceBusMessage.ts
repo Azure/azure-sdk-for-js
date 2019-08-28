@@ -16,6 +16,8 @@ import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { Buffer } from "buffer";
+
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
@@ -547,14 +549,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props

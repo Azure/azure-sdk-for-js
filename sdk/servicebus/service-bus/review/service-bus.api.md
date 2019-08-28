@@ -10,12 +10,19 @@ import { DataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { HttpOperationResponse } from '@azure/core-http';
+import { logPolicy } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
+import { proxyPolicy } from '@azure/core-http';
+import { ResourceSerializer } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-http';
+import { ServiceClientOptions } from '@azure/core-http';
 import { TokenInfo } from '@azure/amqp-common';
 import { TokenProvider } from '@azure/amqp-common';
 import { TokenType } from '@azure/amqp-common';
+import { userAgentPolicy } from '@azure/core-http';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
@@ -44,6 +51,10 @@ export { delay }
 
 export { Delivery }
 
+export { HttpOperationResponse }
+
+export { logPolicy }
+
 // @public
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
@@ -63,13 +74,15 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
+export { proxyPolicy }
+
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
 // 
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode): Receiver;
     createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
+    createReceiver(receiveMode: ReceiveMode): Receiver;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterQueuePath(queueName: string): string;
@@ -151,6 +164,39 @@ export class Sender {
     }
 
 // @public
+export class ServiceBusAtomManagementClient extends ServiceClient {
+    constructor(connectionString: any, options?: ServiceClientOptions);
+    createQueue(queuePath: string, options: any): Promise<HttpOperationResponse>;
+    createRule(topicPath: string, subscriptionPath: string, rule: string, options: any): Promise<HttpOperationResponse>;
+    createSubscription(topicPath: string, subscriptionPath: string, options: any): Promise<HttpOperationResponse>;
+    createTopic(topicPath: string, options: any): Promise<HttpOperationResponse>;
+    deleteQueue(queuePath: any): any;
+    deleteRule(topicPath: string, subscriptionPath: string, rule: string): any;
+    deleteSubscription(topicPath: string, subscriptionPath: string): any;
+    deleteTopic(topicPath: any): any;
+    // (undocumented)
+    endpoint: any;
+    formatDeadLetterPath(queuePath: any): any;
+    getQueue(queuePath: string): Promise<HttpOperationResponse>;
+    getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<HttpOperationResponse>;
+    getSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse>;
+    getTopic(topicPath: string): Promise<HttpOperationResponse>;
+    listQueues(options?: any): Promise<HttpOperationResponse>;
+    listRules(topicPath: string, subscriptionPath: string, options?: any): Promise<HttpOperationResponse>;
+    listSubscriptions(topicPath: string, options?: any): Promise<HttpOperationResponse>;
+    listTopics(options?: any): Promise<HttpOperationResponse>;
+    // (undocumented)
+    queueResourceSerializer: ResourceSerializer;
+    // (undocumented)
+    ruleResourceSerializer: ResourceSerializer;
+    // (undocumented)
+    subscriptionResourceSerializer: ResourceSerializer;
+    // (undocumented)
+    topicResourceSerializer: ResourceSerializer;
+    updateQueue(queuePath: any, options: any): Promise<HttpOperationResponse>;
+}
+
+// @public
 export class ServiceBusClient {
     close(): Promise<any>;
     static createFromAadTokenCredentials(host: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ServiceBusClientOptions): ServiceBusClient;
@@ -210,6 +256,8 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
     viaPartitionKey?: string;
 }
+
+export { ServiceClientOptions }
 
 // @public
 export interface SessionMessageHandlerOptions {
@@ -274,6 +322,8 @@ export class TopicClient implements Client {
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
 }
+
+export { userAgentPolicy }
 
 export { WebSocketImpl }
 

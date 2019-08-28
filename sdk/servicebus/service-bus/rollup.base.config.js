@@ -99,7 +99,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 export function browserConfig({ test = false, production = false } = {}) {
   const baseConfig = {
     input: input,
-    external: [],
+    external: ["crypto"],
     output: {
       file: "browser/service-bus.js",
       format: "umd",
@@ -150,7 +150,8 @@ export function browserConfig({ test = false, production = false } = {}) {
       inject({
         modules: {
           Buffer: ["buffer", "Buffer"],
-          process: "process"
+          process: "process",
+          CryptoJS: path.resolve("./crypto-js.min.js")
         },
         exclude: ["./**/package.json"]
       }),
