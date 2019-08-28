@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-textanalytics";
-const packageVersion = "2.1.0";
+const packageVersion = "4.0.0";
 
 export class TextAnalyticsClientContext extends msRest.ServiceClient {
   endpoint: string;
