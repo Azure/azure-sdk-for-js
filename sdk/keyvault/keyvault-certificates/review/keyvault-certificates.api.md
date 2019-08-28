@@ -26,9 +26,8 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
     readonly expires?: Date;
     readonly id?: string;
     readonly notBefore?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    // Warning: (ae-forgotten-export) The symbol "CertificateTags" needs to be exported by the entry point index.d.ts
+    tags?: CertificateTags;
     readonly updated?: Date;
     readonly x509Thumbprint?: Uint8Array;
 }
@@ -68,9 +67,8 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
-    // Warning: (ae-forgotten-export) The symbol "KeyVaultClientCreateCertificateOptionalParams" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate>;
+    createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptions): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;

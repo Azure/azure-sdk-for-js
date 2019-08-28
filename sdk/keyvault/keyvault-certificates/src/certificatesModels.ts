@@ -68,7 +68,7 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
    * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
    */
@@ -110,7 +110,7 @@ export interface SetCertificateOptions {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
    * @member {string} [contentType] Type of the certificate value such as a
    * password.
@@ -133,6 +133,8 @@ export interface SetCertificateOptions {
    */
   requestOptions?: coreHttp.RequestOptionsBase;
 }
+
+export type CertificateTags = { [propertyName: string]: string };
 
 /**
  * @interface
@@ -163,7 +165,7 @@ export interface UpdateCertificateOptions {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

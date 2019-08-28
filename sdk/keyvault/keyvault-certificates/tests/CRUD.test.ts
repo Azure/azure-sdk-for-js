@@ -14,11 +14,9 @@ describe("Certificates client - create, read, update and delete operations", () 
   let testClient: TestClient;
   let recorder: any;
 
-  const basicCertificateProperties = {
-    certificatePolicy: {
-      issuerParameters: { name: "Self" },
-      x509CertificateProperties: { subject: "cn=MyCert" }
-    }
+  const basicCertificatePolicy = {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
   };
 
   beforeEach(async function() {
@@ -37,7 +35,7 @@ describe("Certificates client - create, read, update and delete operations", () 
 
   it("can create a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const result = await client.createCertificate(certificateName, basicCertificateProperties);
+    const result = await client.createCertificate(certificateName, basicCertificatePolicy);
     assert.equal(result.name, certificateName, "Unexpected key name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
   });
@@ -46,7 +44,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     const certificateName = "";
     let error;
     try {
-      await client.createCertificate(certificateName, basicCertificateProperties);
+      await client.createCertificate(certificateName, basicCertificatePolicy);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -63,7 +61,7 @@ describe("Certificates client - create, read, update and delete operations", () 
       `${prefix}-${this!.test!.title}-${suffix}`
     );
 
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
     await client.updateCertificate(certificateName, "", {
       tags: {
         customTag: "value"
@@ -83,7 +81,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
     const result = await client.getCertificate(certificateName, "");
     assert.equal(result.name, certificateName, "Unexpected certificate name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
@@ -93,7 +91,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
 
     const result = await client.getCertificate(certificateName, "");
 
@@ -123,7 +121,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
     const result = await client.deleteCertificate(certificateName);
 
     assert.equal(typeof result.recoveryId, "string");
@@ -165,7 +163,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
     await client.deleteCertificate(certificateName);
     const getResult = await retry(async () => client.getDeletedCertificate(certificateName));
     assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificate().");

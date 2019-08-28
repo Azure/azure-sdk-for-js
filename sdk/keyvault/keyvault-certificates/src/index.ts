@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 
 
-import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
+import { RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -24,7 +24,6 @@ import {
   CertificateBundle,
   Contacts,
   KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
@@ -499,11 +498,19 @@ export class CertificatesClient {
   /**
    * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
    * @param name The name of the certificate
-   * @param options The optional parameters
+   * @param certificatePolicy The certificate's policy
+   * @param enabled Wether this certificate is enabled or not
+   * @param tags Tags for this certificate
    * @returns Promise<Certificate>
    */
-  public async createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate> {
-    let result = await this.client.createCertificate(this.vaultBaseUrl, name, options);
+  public async createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate> {
+    let result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+      certificateAttributes: {
+        enabled,
+      },
+      tags,
+      certificatePolicy,
+    });
 
     return this.getCertificateFromCertificateBundle(result);
   }
