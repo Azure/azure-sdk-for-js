@@ -105,12 +105,10 @@ export function objectValues(obj: { [key: string]: any }): any[] {
       }
     }
   } else {
+    const stringifiedObj = JSON.stringify(obj, undefined, 2);
     throw new Error(
-      `The provided object ${JSON.stringify(
-        obj,
-        undefined,
-        2
-      )} is not a valid object that can be ` + `enumerated to provide its values as an array.`
+      `The provided object ${stringifiedObj} is not a valid object that can be ` +
+        `enumerated to provide its values as an array.`
     );
   }
   return result;
