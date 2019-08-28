@@ -84,9 +84,9 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install library dependencies"
 
-      - script: |
-          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
-        displayName: "Lint libraries"
+      # - script: |
+      #     node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
+      #   displayName: "Lint libraries"
 
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
       # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
@@ -105,16 +105,16 @@ jobs:
       #     artifactName: reports
       #     path: $(Build.ArtifactStagingDirectory)
 
-      - script: |
-          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
-        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit libraries"
+      # - script: |
+      #     node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
+      #   condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+      #   displayName: "Audit libraries"
 
-      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-        # builds should be sufficient.
-        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-        displayName: "Component Detection"
+      # - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+      #   # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+      #   # builds should be sufficient.
+      #   condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+      #   displayName: "Component Detection"
 
       - task: DownloadBuildArtifacts@0
         inputs:
