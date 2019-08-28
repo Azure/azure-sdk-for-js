@@ -35,7 +35,7 @@ try{
 
   git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
   if($LastExitCode -ne 0){
-    Write-Host "error >> git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile failed with exit code $LastExitCode"
+    Write-Host "error >> git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile executes with exit code $LastExitCode"
   }
   echo "created the diff file - $diffFile"
   exit 0
