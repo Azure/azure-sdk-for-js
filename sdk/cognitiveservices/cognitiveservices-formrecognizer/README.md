@@ -17,12 +17,12 @@ npm install @azure/cognitiveservices-formrecognizer
 
 #### nodejs - Authentication, client creation and getExtractedKeys as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+- Please install minimum version of `"@azure/ms-rest-azure-js": "^2.0.0"`.
 
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js@"^2.0.0"
 ```
 
 ##### Sample code
