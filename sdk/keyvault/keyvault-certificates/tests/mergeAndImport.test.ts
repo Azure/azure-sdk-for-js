@@ -9,11 +9,8 @@ import { isNode } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-// import { KeysClient, CryptographyClient } from "@azure/keyvault-keys";
 import { SecretsClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
-// import { stringToUint8Array } from "./utils/crypto"
-// import { uint8ArrayToString } from "./utils/crypto"
 
 describe.only("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,7 +20,6 @@ describe.only("Certificates client - merge and import certificates", () => {
   let recorder: any;
   let keyVaultUrl: string;
   let credential: ClientSecretCredential;
-//   let keysClient: KeysClient;
   let secretsClient: SecretsClient;
 
   beforeEach(async function() {
@@ -34,7 +30,6 @@ describe.only("Certificates client - merge and import certificates", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-//     keysClient = new KeysClient(keyVaultUrl, credential);
     secretsClient = new SecretsClient(keyVaultUrl, credential);
   });
 
