@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-customimagesearch";
-const packageVersion = "0.1.0";
+const packageVersion = "2.0.0";
 
 export class CustomImageSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
@@ -24,14 +24,15 @@ export class CustomImageSearchClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.CustomImageSearchClientOptions) {
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -39,11 +40,10 @@ export class CustomImageSearchClientContext extends msRest.ServiceClient {
     super(credentials, options);
 
     this.endpoint = 'https://api.cognitive.microsoft.com';
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/bingcustomsearch/v7.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-
-    if(options.endpoint !== null && options.endpoint !== undefined) {
+    if (options.endpoint !== null && options.endpoint !== undefined) {
       this.endpoint = options.endpoint;
     }
   }
