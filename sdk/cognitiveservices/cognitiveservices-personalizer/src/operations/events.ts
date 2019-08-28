@@ -106,7 +106,9 @@ const rewardOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   serializer
 };
@@ -120,7 +122,9 @@ const activateOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   serializer
 };
