@@ -123,7 +123,10 @@ jobs:
           targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
         displayName: "Download Current Build artifacts"
 
-      - script: ls $(System.ArtifactsDirectory)/packagesMaster
+      - script: ls $(System.ArtifactsDirectory)
+        displayName: "Check artifacts directory"
+
+      - script: ls $(System.ArtifactsDirectory)/packagesCurrent
         displayName: "Check package master"
 
       - task: DownloadBuildArtifacts@0
