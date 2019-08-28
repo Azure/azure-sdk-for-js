@@ -20,27 +20,25 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/keyvault-keys.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
   "files": [
     "LICENSE.txt",
     "README.md",
+    "types/keyvault-keys.d.ts",
     "lib/",
-    "types/lib/",
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "src/**/*.ts",
-    "rollup.config.js",
+    "dist/",
+    "dist-esm/",
+    "src/",
     "tsconfig.json"
   ],
+  "browser": {
+    "./dist/index.js": "./browser/azure-keyvault-certificates.min.js",
+    "os": false,
+    "process": false
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
@@ -79,6 +77,7 @@
   "devDependencies": {
     "@azure/identity": "1.0.0-preview.3",
     "@azure/test-utils-recorder": "1.0.0",
+    "@azure/keyvault-keys": "4.0.0-preview.4",
     "@azure/keyvault-secrets": "4.0.0-preview.5",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",

@@ -29,7 +29,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["fs", "os", "url", "assert"];
+  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -88,7 +88,9 @@ export function browserConfig(test = false) {
       name: "azurekeyvaultcertificates",
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM"
+        "@azure/core-arm": "Azure.Core.ARM",
+        "@azure/keyvault-keys": "Azure.KeyVault.Keys",
+        "@azure/keyvault-secrets": "Azure.KeyVault.Secrets"
       },
       sourcemap: true
     },
@@ -124,7 +126,7 @@ export function browserConfig(test = false) {
     ]
   };
 
-  baseConfig.external = ["fs-extra", "path"];
+  baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
   if (test) {
     baseConfig.input = ["dist-esm/tests/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
