@@ -5,7 +5,7 @@ param (
 )
 
 function ExtractTGZPackages($pathToPkg){
-  $regExp = "-\d\.\d\.\d(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
+  $regExp = "-\d+\.\d+\.\d+(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
   foreach ($p in $(dir $pathToPkg -r -i *.tgz)){
     $extractDir = (get-item $p.FullName).Directoryname + "/" + $p.BaseName
     if($p.BaseName -match $regExp){
