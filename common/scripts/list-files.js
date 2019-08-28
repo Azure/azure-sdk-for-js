@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const parse = require("../lib/json5/lib/parse");
+const parse = require("../lib/jju/parse").parse;
 
 function read(filename) {
   const txt = fs.readFileSync(filename, "utf8");

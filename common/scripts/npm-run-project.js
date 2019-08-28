@@ -1,7 +1,7 @@
 const fs = require("fs");
 const process = require("process");
 const childProcess = require("child_process");
-const parse = require("../lib/json5/lib/parse");
+const parse = require("../lib/jju/parse").parse;
 
 function read(filename) {
   const txt = fs.readFileSync(filename, "utf8");
