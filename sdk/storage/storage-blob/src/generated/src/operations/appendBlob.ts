@@ -133,7 +133,10 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeout,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -173,11 +176,15 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -219,13 +226,18 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentcrc64,
     Parameters.contentLength,
+    Parameters.transactionalContentMD5,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,

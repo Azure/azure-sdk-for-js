@@ -226,11 +226,15 @@ const uploadOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeout,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.metadata,
+    Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
     Parameters.blobType2,
@@ -278,11 +282,15 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0
@@ -319,13 +327,17 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentcrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -354,10 +366,16 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp16
+    Parameters.comp17,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
+    Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.metadata,
+    Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
     Parameters.blobCacheControl,
@@ -402,7 +420,7 @@ const getBlockListOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.listType,
     Parameters.timeout,
-    Parameters.comp16
+    Parameters.comp17
   ],
   headerParameters: [
     Parameters.version,

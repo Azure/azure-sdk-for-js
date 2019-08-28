@@ -4,6 +4,8 @@ import * as Models from "./generated/src/models";
 
 export * from "./Aborter";
 export * from "./AppendBlobURL";
+export * from "./BatchRequest";
+export * from "./BatchResponse";
 export * from "./BlobURL";
 export * from "./BlockBlobURL";
 export * from "./BrowserPolicyFactory";

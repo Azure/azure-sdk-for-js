@@ -8,6 +8,8 @@ export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
 export * from "./IAccountSASSignatureValues";
 export * from "./AppendBlobURL";
+export * from "./BatchRequest";
+export * from "./BatchResponse";
 export * from "./BlobSASPermissions";
 export * from "./IBlobSASSignatureValues";
 export * from "./BlobURL";
