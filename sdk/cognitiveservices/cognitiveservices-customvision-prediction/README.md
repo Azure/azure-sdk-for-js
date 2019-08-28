@@ -19,8 +19,9 @@ npm install @azure/cognitiveservices-customvision-prediction
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
@@ -33,7 +34,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PredictionAPIClient(creds, subscriptionId);
-  const projectId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a";
+  const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
   const publishedName = "testpublishedName";
   const imageUrl: PredictionAPIModels.ImageUrl = {
     url: "testurl"
@@ -104,3 +105,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-customvision-prediction/README.png)
