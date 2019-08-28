@@ -39,6 +39,5 @@ jobs:
       PreIntegrationSteps: cosmos-integration-public
       PostIntegrationSteps: cosmos-additional-steps
       EnvVars:
-        ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
         MOCHA_TIMEOUT: 100000
         NODE_TLS_REJECT_UNAUTHORIZED: 0
