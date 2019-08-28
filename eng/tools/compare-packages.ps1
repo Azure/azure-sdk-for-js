@@ -26,7 +26,7 @@ try{
   $diffFile = "Change_"+$dailyDevBuildNo + ".diff"
   echo "created filename variable $diffFile"
 
-  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile --exit-code
+  git diff --exit-code $pathToMasterPkg $pathToCurrentPkg > $diffFile
   echo "created the diff file - $diffFile"
 }
 catch{
