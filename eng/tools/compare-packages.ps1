@@ -18,13 +18,18 @@ function ExtractTGZPackages($pathToPkg){
     popd
   }
 }
+try{
+  ExtractTGZPackages($pathToMasterPkg)
+  ExtractTGZPackages($pathToCurrentPkg)
+  echo "Finished unzipping of all .tgz packages"
 
-ExtractTGZPackages($pathToMasterPkg)
-ExtractTGZPackages($pathToCurrentPkg)
-echo "Finished unzipping of all .tgz packages"
+  $diffFile = "Change_"+$dailyDevBuildNo + ".diff"
+  echo "created filename variable"
 
-$diffFile = "Change_"+$dailyDevBuildNo + ".diff"
-echo "created filename variable"
-
-git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
-echo "created the diff file - $diffFile"
+  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
+  echo "created the diff file - $diffFile"
+}
+catch(){
+  Write-Host "An error occurred:"
+  Write-Host $_
+}
