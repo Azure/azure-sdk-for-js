@@ -67,14 +67,8 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
-<<<<<<< HEAD
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate>;
-=======
-    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, options?: CreateCertificateOptions): Promise<Certificate>;
->>>>>>> progress
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptions): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;

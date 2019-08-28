@@ -82,7 +82,7 @@ describe("Certificates client - create, read, update and delete operations", () 
       `${prefix}-${this!.test!.title}-${suffix}`
     );
     await client.createCertificate(certificateName, basicCertificatePolicy);
-    const result = await client.getCertificate(certificateName, "");
+    const result = await client.getCertificate(certificateName);
     assert.equal(result.name, certificateName, "Unexpected certificate name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
   });
