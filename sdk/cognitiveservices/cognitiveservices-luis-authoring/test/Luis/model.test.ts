@@ -64,7 +64,6 @@ describe("model Module Functionality", () => {
             let entityId = await client.model.addCompositeEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, { name: "CompositeTest", children: [childEntity[0].name] });
             await client.model.deleteCompositeEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, entityId.body);
             let entities = await client.model.listCompositeEntities(BaseTest.GlobalAppId, BaseTest.GlobalVersionId);
-            // This Line Is Added By Me.
             await client.model.deletePrebuilt(BaseTest.GlobalAppId, "0.1", childEntity[0].id);
             chai.expect(BaseTest.doesListContain(entities, "id", entityId.body)).to.be.false;
         });

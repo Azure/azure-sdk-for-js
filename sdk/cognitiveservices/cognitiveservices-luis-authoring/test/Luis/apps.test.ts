@@ -233,11 +233,27 @@ describe("Apps Module Functionality Tests", () => {
 
   it("should list supported cultures", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+      let cultures_map = {
+        'en-us': 'English',
+        'zh-cn': 'Chinese',
+        'fr-fr': 'French',
+        'fr-ca': 'French Canadian',
+        'es-es': 'Spanish',
+        'es-mx': 'Spanish Mexican',
+        'it-it': 'Italian',
+        'de-de': 'German',
+        'ja-jp': 'Japanese',
+        'pt-br': 'Brazilian Portuguese',
+        'ko-kr': 'Korean',
+        'nl-nl': 'Dutch',
+        'tr-tr': 'Turkish'
+      };
 
       const result = await client.apps.listSupportedCultures();
+
       for (let culture of result) {
-        // TO-Do 
-        // uses lib in c# didn't find it in typescript
+        const culture_name: string = cultures_map[culture.code];
+        chai.expect(culture_name.toLowerCase()).to.eql(culture.name.toLowerCase());
       }
     });
   });
@@ -265,8 +281,6 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  // APIERROR
-  // Fails: Cannot find prebuilt domain metadata for the culture zh-cn.
   it.skip("should list available custom prebuilt domains for culture", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let resultsUS = await client.apps.listAvailableCustomPrebuiltDomainsForCulture("en-us");

@@ -18,7 +18,7 @@ describe("Model Prebuilt Domain Tests", () => {
             let prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
             await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
             await client.apps.deleteMethod(appId.body);
-            // is prebuiltModels subset of results?
+            // to check if prebuiltModels is subset of results
             let fine = true;
             for (let model of prebuiltModels) {
                 let found = false;

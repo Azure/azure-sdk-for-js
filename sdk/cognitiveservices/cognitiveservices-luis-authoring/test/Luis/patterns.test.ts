@@ -113,7 +113,6 @@ describe("Patterns Module Functionality Tests", () => {
     });
 
 
-    // Check GlobalNoneId
     it('should get intent patterns', async () => {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
             let version = "0.1";
