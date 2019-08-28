@@ -359,6 +359,10 @@
       "projectFolder": "sdk/eventhub/event-hubs"
     },
     {
+      "packageName": "@azure/storage-blob-partition-manager",
+      "projectFolder": "sdk/eventhub/storage-blob-partition-manager"
+    },
+    {
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
