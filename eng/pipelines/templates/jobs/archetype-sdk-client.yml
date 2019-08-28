@@ -115,6 +115,16 @@ jobs:
       #   # builds should be sufficient.
       #   condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
       #   displayName: "Component Detection"
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "current"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
+        displayName: "Download Current Build artifacts"
+
+      - script: ls $(System.ArtifactsDirectory)/packagesMaster
+        displayName: "Check package master"
 
       - task: DownloadBuildArtifacts@0
         inputs:
@@ -129,6 +139,9 @@ jobs:
           downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
         displayName: "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
 
+      - script: ls $(System.ArtifactsDirectory)
+        displayName: "Check artifacts directory"
+
       - script: ls $(System.ArtifactsDirectory)/packagesMaster
         displayName: "Check package master"
       # - task: DownloadPipelineArtifact@2
@@ -142,14 +155,6 @@ jobs:
       #     itemPattern: "*.tgz"
       #     targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
       #   displayName: "Download Latest Master (PipelineTask) artifacts"
-
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: "current"
-          artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
-        displayName: "Download Current Build artifacts"
 
       - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
         displayName: "Diff Generated Packages"
