@@ -98,13 +98,6 @@ jobs:
           flattenFolders: true
         displayName: "Copy lint reports"
 
-      - task: PublishPipelineArtifact@1
-        condition: succeededOrFailed()
-        displayName: "Publish Report Artifacts"
-        inputs:
-          artifactName: reports
-          path: $(Build.ArtifactStagingDirectory)
-
       - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
@@ -147,9 +140,17 @@ jobs:
       - script: ls $(System.ArtifactsDirectory)/packagesMaster
         displayName: "Check package master"
 
-      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)"
+      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(Build.ArtifactStagingDirectory)"
         displayName: "Diff Generated Packages"
         errorActionPreference: "continue"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
+
   - job: "UnitTest"
     strategy:
       matrix:

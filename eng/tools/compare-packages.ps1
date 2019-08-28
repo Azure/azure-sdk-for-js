@@ -1,7 +1,8 @@
 param (
   $pathToMasterPkg,
   $pathToCurrentPkg,
-  $dailyDevBuildNo
+  $dailyDevBuildNo,
+  $pathForDiffFile
 )
 
 function ExtractTGZPackages($pathToPkg){
@@ -30,7 +31,7 @@ try{
   }
   echo "Finished unzipping of all .tgz packages"
 
-  $diffFile = "Change_"+$dailyDevBuildNo + ".diff"
+  $diffFile = $pathForDiffFile+"Change_"+$dailyDevBuildNo + ".diff"
   echo "created filename variable $diffFile"
 
   git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
