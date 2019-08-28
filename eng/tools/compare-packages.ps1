@@ -20,14 +20,25 @@ function ExtractTGZPackages($pathToPkg){
 }
 try{
   ExtractTGZPackages($pathToMasterPkg)
+  if($LastExitCode -ne 0){
+    Write-Host "error >> ExtractTGZPackages($pathToMasterPkg) failed with exit code $LastExitCode"
+  }
+
   ExtractTGZPackages($pathToCurrentPkg)
+  if($LastExitCode -ne 0){
+    Write-Host "error >> ExtractTGZPackages($pathToCurrentPkg) failed with exit code $LastExitCode"
+  }
   echo "Finished unzipping of all .tgz packages"
 
   $diffFile = "Change_"+$dailyDevBuildNo + ".diff"
   echo "created filename variable $diffFile"
 
-  git diff --exit-code $pathToMasterPkg $pathToCurrentPkg > $diffFile
+  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
+  if($LastExitCode -ne 0){
+    Write-Host "error >> git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile failed with exit code $LastExitCode"
+  }
   echo "created the diff file - $diffFile"
+  exit 0
 }
 catch{
   Write-Host "An error occurred:"
