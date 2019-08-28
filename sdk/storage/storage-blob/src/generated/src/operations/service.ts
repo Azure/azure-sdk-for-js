@@ -183,6 +183,45 @@ export class Service {
       getAccountInfoOperationSpec,
       callback) as Promise<Models.ServiceGetAccountInfoResponse>;
   }
+
+  /**
+   * The Batch operation allows multiple API calls to be embedded into a single HTTP request.
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
+   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceSubmitBatchResponse>
+   */
+  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams): Promise<Models.ServiceSubmitBatchResponse>;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
+   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
+   * @param callback The callback
+   */
+  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param body Initial data
+   * @param contentLength The length of the request.
+   * @param multipartContentType Required. The value of this header must be multipart/mixed with a
+   * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options: Models.ServiceSubmitBatchOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSubmitBatchResponse> {
+    return this.client.sendOperationRequest(
+      {
+        body,
+        contentLength,
+        multipartContentType,
+        options
+      },
+      submitBatchOperationSpec,
+      callback) as Promise<Models.ServiceSubmitBatchResponse>;
+  }
 }
 
 // Operation Specifications
@@ -282,7 +321,7 @@ const listContainersSegmentOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.prefix,
-    Parameters.marker,
+    Parameters.marker0,
     Parameters.maxresults,
     Parameters.include0,
     Parameters.timeout,
@@ -355,6 +394,50 @@ const getAccountInfoOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       headersMapper: Mappers.ServiceGetAccountInfoHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const submitBatchOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.comp4
+  ],
+  headerParameters: [
+    Parameters.contentLength,
+    Parameters.multipartContentType,
+    Parameters.version,
+    Parameters.requestId
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      required: true,
+      serializedName: "body",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/xml; charset=utf-8",
+  responses: {
+    202: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      },
+      headersMapper: Mappers.ServiceSubmitBatchHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

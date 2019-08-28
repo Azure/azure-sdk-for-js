@@ -8,7 +8,6 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -18,6 +17,7 @@ class StorageClient extends StorageClientContext {
   // Operation groups
   service: operations.Service;
   container: operations.Container;
+  directory: operations.Directory;
   blob: operations.Blob;
   pageBlob: operations.PageBlob;
   appendBlob: operations.AppendBlob;
@@ -29,10 +29,11 @@ class StorageClient extends StorageClientContext {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
+  constructor(url: string, options?: Models.StorageClientOptions) {
     super(url, options);
     this.service = new operations.Service(this);
     this.container = new operations.Container(this);
+    this.directory = new operations.Directory(this);
     this.blob = new operations.Blob(this);
     this.pageBlob = new operations.PageBlob(this);
     this.appendBlob = new operations.AppendBlob(this);

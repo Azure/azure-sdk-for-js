@@ -334,7 +334,10 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeout,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -376,11 +379,15 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.range0,
     Parameters.version,
     Parameters.requestId,
@@ -425,7 +432,7 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -462,12 +469,16 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   headerParameters: [
     Parameters.sourceUrl,
     Parameters.sourceRange0,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentcrc64,
     Parameters.contentLength,
     Parameters.range1,
     Parameters.version,
@@ -507,7 +518,7 @@ const getPageRangesOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.timeout,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.range0,
@@ -542,7 +553,7 @@ const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.timeout,
     Parameters.prevsnapshot,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.range0,
@@ -640,7 +651,7 @@ const copyIncrementalOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp13
+    Parameters.comp14
   ],
   headerParameters: [
     Parameters.copySource,
