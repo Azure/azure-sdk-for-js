@@ -409,6 +409,14 @@
     {
       "packageName": "@azure/core-tracing",
       "projectFolder": "sdk/core/core-tracing"
+    },
+    {
+      "packageName": "@azure/logging-example",
+      "projectFolder": "sdk/template/logging"
+    },
+    {
+      "packageName": "@azure/logger",
+      "projectFolder": "sdk/core/logger"
     }
   ]
 }

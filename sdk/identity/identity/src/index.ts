@@ -22,3 +22,5 @@ export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
 }
+
+export { log } from "./logging";

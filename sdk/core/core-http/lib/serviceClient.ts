@@ -5,7 +5,6 @@ import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
-import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
 import { isStreamOperation, OperationSpec } from "./operationSpec";
@@ -30,7 +29,7 @@ import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from './policies/signingPolicy';
-
+import { logger } from './log';
 
 /**
  * HTTP proxy settings (Node.js only)
@@ -56,10 +55,6 @@ export interface ServiceClientOptions {
    * The HttpClient that will be used to send HTTP requests.
    */
   httpClient?: HttpClient;
-  /**
-   * The HttpPipelineLogger that can be used to debug RequestPolicies within the HTTP pipeline.
-   */
-  httpPipelineLogger?: HttpPipelineLogger;
   /**
    * If set to true, turn off the default retry policy.
    */
@@ -143,14 +138,16 @@ export class ServiceClient {
 
     this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
-    this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
+    this._requestPolicyOptions = {};
 
     let requestPolicyFactories: RequestPolicyFactory[];
     if (Array.isArray(options.requestPolicyFactories)) {
+      logger.info('ServiceClient: using custom request policies');
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
       let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
+        logger.info('ServiceClient: creating bearer token authentication policy from provided credentials');
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
         // one is requested.  This is needed because generated ServiceClient
@@ -173,11 +170,13 @@ export class ServiceClient {
 
         authPolicyFactory = wrappedPolicyFactory();
       } else if (credentials && typeof credentials.signRequest === "function") {
-        authPolicyFactory = signingPolicy(credentials);
+        logger.info('ServiceClient: creating signing policy from provided credentials');        authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
+        logger.error('ServiceClient: The provided credentials argument must implement the TokenCredential interface');
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
+      logger.info('ServiceClient: adding default request policies')
       requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
@@ -198,6 +197,7 @@ export class ServiceClient {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
+
 
     let httpRequest: WebResource;
     try {

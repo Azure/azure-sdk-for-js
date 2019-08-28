@@ -4,7 +4,7 @@
 import "chai/register-should";
 
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
+import { RequestPolicy } from "../lib/policies/requestPolicy";
 import { Constants } from "../lib/util/constants";
 import { WebResource } from "../lib/webResource";
 import { userAgentPolicy } from "../lib/policies/userAgentPolicy";
@@ -21,7 +21,7 @@ const emptyRequestPolicy: RequestPolicy = {
 
 const getPlainUserAgentPolicy = (headerValue?: string): RequestPolicy => {
   const factory = userAgentPolicy({ value: headerValue });
-  return factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+  return factory.create(emptyRequestPolicy, {});
 };
 
 const getUserAgent = async (headerValue?: string): Promise<string> => {
@@ -49,7 +49,7 @@ describe("MsRestUserAgentPolicy", () => {
     it("should not set the user agent header if custom user agent is empty", async () => {
       const customUserAgent = "";
       const factory = userAgentPolicy({ value: customUserAgent });
-      const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+      const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, {});
       const resource = new WebResource();
       await nodeUserAgentPolicy.sendRequest(resource);
 
@@ -61,7 +61,7 @@ describe("MsRestUserAgentPolicy", () => {
     it("should use injected user agent string if provided", async () => {
       const customUserAgent = "my custom user agent";
       const factory = userAgentPolicy({ value: customUserAgent });
-      const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+      const nodeUserAgentPolicy = factory.create(emptyRequestPolicy, {});
       const resource = new WebResource();
       await nodeUserAgentPolicy.sendRequest(resource);
 
@@ -108,7 +108,7 @@ describe("MsRestUserAgentPolicy", () => {
 
     const getUserAgent = async (headerValue?: string): Promise<string> => {
       const factory = userAgentPolicy({ value: headerValue });
-      const policy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+      const policy = factory.create(emptyRequestPolicy, {});
       const resource = new WebResource();
       await policy.sendRequest(resource);
       const userAgent = resource.headers.get(userAgentHeaderKey);
@@ -118,7 +118,7 @@ describe("MsRestUserAgentPolicy", () => {
     describe("MsRestUserAgentPolicy (Browser)", () => {
       it("should not modify user agent header if already present", async () => {
         const factory = userAgentPolicy();
-        const browserUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+        const browserUserAgentPolicy = factory.create(emptyRequestPolicy, {});
         const customUserAgent = "my custom user agent";
         const resource = new WebResource();
         resource.headers.set(userAgentHeaderKey, customUserAgent);
@@ -132,7 +132,7 @@ describe("MsRestUserAgentPolicy", () => {
       it("should use injected user agent string if provided", async () => {
         const customUserAgent = "my custom user agent";
         const factory = userAgentPolicy({ value: customUserAgent });
-        const browserUserAgentPolicy = factory.create(emptyRequestPolicy, new RequestPolicyOptions());
+        const browserUserAgentPolicy = factory.create(emptyRequestPolicy, {});
         const resource = new WebResource();
         await browserUserAgentPolicy.sendRequest(resource);
 

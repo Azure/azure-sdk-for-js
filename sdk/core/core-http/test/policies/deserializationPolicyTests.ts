@@ -6,7 +6,7 @@ import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { HttpClient, OperationSpec, Serializer } from "../../lib/coreHttp";
 import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../lib/policies/deserializationPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { RequestPolicy } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 
 describe("deserializationPolicy", function () {
@@ -21,7 +21,7 @@ describe("deserializationPolicy", function () {
   };
 
   it(`should not modify a request that has no request body mapper`, async function () {
-    const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, new RequestPolicyOptions());
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, {});
 
     const request = createRequest();
     request.body = "hello there!";
@@ -41,7 +41,7 @@ describe("deserializationPolicy", function () {
       })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, {});
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -57,7 +57,7 @@ describe("deserializationPolicy", function () {
       })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, {});
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -73,7 +73,7 @@ describe("deserializationPolicy", function () {
       })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, {});
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -89,7 +89,7 @@ describe("deserializationPolicy", function () {
       })
     };
 
-    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, {});
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });

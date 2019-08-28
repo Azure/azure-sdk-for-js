@@ -6,7 +6,7 @@ import sinon from "sinon";
 import { ThrottlingRetryPolicy } from "../../lib/policies/throttlingRetryPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
+import { HttpHeaders } from "../../lib/coreHttp";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
@@ -33,7 +33,7 @@ describe("ThrottlingRetryPolicy", () => {
     }
 
     const passThroughPolicy = new PassThroughPolicy(response);
-    return new ThrottlingRetryPolicy(passThroughPolicy, new RequestPolicyOptions(), actionHandler);
+    return new ThrottlingRetryPolicy(passThroughPolicy, {}, actionHandler);
   }
 
   describe("sendRequest", () => {
@@ -45,7 +45,7 @@ describe("ThrottlingRetryPolicy", () => {
           return Promise.resolve(defaultResponse);
         }
       };
-      const policy = new ThrottlingRetryPolicy(nextPolicy, new RequestPolicyOptions());
+      const policy = new ThrottlingRetryPolicy(nextPolicy, {});
       await policy.sendRequest(request);
     });
 

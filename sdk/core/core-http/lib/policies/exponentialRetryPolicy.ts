@@ -6,6 +6,7 @@ import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 import { RestError } from "../restError";
+import { logger } from "../log";
 
 export interface RetryData {
   retryCount: number;
@@ -70,6 +71,12 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     this.retryInterval = isNumber(retryInterval) ? retryInterval : DEFAULT_CLIENT_RETRY_INTERVAL;
     this.minRetryInterval = isNumber(minRetryInterval) ? minRetryInterval : DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
     this.maxRetryInterval = isNumber(maxRetryInterval) ? maxRetryInterval : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+    logger.info('initialized exponential retry policy with options:', {
+      retryCount: this.retryCount,
+      retryInterval: this.retryInterval,
+      minRetryInterval: this.minRetryInterval,
+      maxRetryInterval: this.maxRetryInterval
+    });
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -143,11 +150,14 @@ function retry(policy: ExponentialRetryPolicy, request: WebResource, response?: 
   retryData = updateRetryData(policy, retryData, requestError);
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
   if (!isAborted && shouldRetry(policy, response && response.status, retryData)) {
+    logger.error(`Retrying request in ${retryData.retryInterval}`);
+
     return utils.delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
       .then(res => retry(policy, request, res, retryData, undefined))
       .catch(err => retry(policy, request, response, retryData, err));
   } else if (isAborted || requestError || !response) {
+    logger.error('Failed to send the request; no further retries are possible');
     // If the operation failed in the end, return all errors instead of just the last one
     const err = retryData.error ||
       new RestError(

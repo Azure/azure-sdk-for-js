@@ -9,8 +9,9 @@ import {
   RestError,
   TokenCredential
 } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { log } from "../logging";
 
+import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
 export const ImdsApiVersion = "2018-02-01";
@@ -141,11 +142,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         (err.code === RestError.REQUEST_SEND_ERROR || err.code === RestError.REQUEST_ABORTED_ERROR)
       ) {
         // Either request failed or IMDS endpoint isn't available
+        log.info("ManagedIdentityCredential: IMDS endpoint is not available");
         return false;
       }
     }
 
     // If we received any response, the endpoint is available
+    log.info('ManagedIdentityCredential: IMDS endpoint is available');
     return true;
   }
 
@@ -161,8 +164,11 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     // Detect which type of environment we are running in
     if (process.env.MSI_ENDPOINT) {
+      log.info('ManagedIdentityCredential: found environment variable MSI_ENDPOINT');
       if (process.env.MSI_SECRET) {
+        log.info('ManagedIdentityCredential: found environment variable MSI_SECRET');
         // Running in App Service
+        log.info('ManagedIdentityCredential: detected App Service environment');
         authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
         expiresInParser = (requestBody: any) => {
           // Parse a date format like "06/20/2019 02:57:58 +00:00" and
@@ -171,15 +177,21 @@ export class ManagedIdentityCredential implements TokenCredential {
           return Date.parse(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`)
         };
       } else {
+        log.info('ManagedIdentityCredential: detected Cloud Shell environment')
         // Running in Cloud Shell
         authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
       }
     } else {
+      log.info('ManagedIdentityCredential: checking IMDS endpoint');
+
       // Ping the IMDS endpoint to see if it's available
       if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId)) {
+        log.info('ManagedIdentityCredential: detected Azure VM environment');
+
         // Running in an Azure VM
         authRequestOptions = this.createImdsAuthRequest(resource, clientId);
       } else {
+        log.warning('ManagedIdentityCredential: no MSI authentication endpoints available');
         // Returning null tells the ManagedIdentityCredential that
         // no MSI authentication endpoints are available
         return null;
@@ -194,7 +206,14 @@ export class ManagedIdentityCredential implements TokenCredential {
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource, expiresInParser);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+
+    if (tokenResponse && tokenResponse.accessToken) {
+      log.info('ManagedIdentityCredential: token acquisition successful');
+      return tokenResponse.accessToken;
+    }
+
+    log.warning('ManagedIdentityCredential: failed token acquisition');
+    return null;
   }
 
   /**
@@ -213,10 +232,12 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     let result: AccessToken | null = null;
 
+    log.info('ManagedIdentityCredential: authenticating with Azure Active Directory');
     // isEndpointAvailable can be true, false, or null,
     // the latter indicating that we don't yet know whether
     // the endpoint is available and need to check for it.
     if (this.isEndpointUnavailable !== true) {
+      log.info('ManagedIdentityCredential: checking endpoint availability');
       result =
         await this.authenticateManagedIdentity(
           scopes,
@@ -228,6 +249,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       // endpoints are available.  In this case, don't try them in future
       // requests.
       this.isEndpointUnavailable = result === null;
+
+      if (this.isEndpointUnavailable) {
+        log.warning('ManagedIdentityCredential: MSI endpoint is unavailable');
+      }
     }
 
     return result;

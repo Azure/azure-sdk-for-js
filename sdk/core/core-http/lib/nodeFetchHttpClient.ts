@@ -4,7 +4,7 @@
 import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
-import "node-fetch";
+import nodeFetch from "node-fetch";
 
 import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
@@ -17,10 +17,8 @@ interface GlobalWithFetch extends NodeJS.Global {
 
 const globalWithFetch = global as GlobalWithFetch;
 if (typeof globalWithFetch.fetch !== "function") {
-  const fetch = require("node-fetch");
-  globalWithFetch.fetch = fetch;
+  globalWithFetch.fetch = nodeFetch as any;
 }
-
 
 export class NodeFetchHttpClient extends FetchHttpClient {
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });

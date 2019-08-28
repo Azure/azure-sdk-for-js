@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { HttpHeaders } from "../lib/httpHeaders";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { LogPolicy } from "../lib/policies/logPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
+import { RequestPolicy } from "../lib/policies/requestPolicy";
 import { WebResource } from "../lib/webResource";
 
 const emptyRequestPolicy: RequestPolicy = {
@@ -35,7 +35,7 @@ describe("Log filter", () => {
 `;
     let output = "";
     const logger = (message: string): void => { output += message + "\n"; };
-    const lf = new LogPolicy(emptyRequestPolicy, new RequestPolicyOptions(), logger);
+    const lf = new LogPolicy(emptyRequestPolicy, {}, logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     lf.sendRequest(req).then(() => {
       // console.dir(output, { depth: null });

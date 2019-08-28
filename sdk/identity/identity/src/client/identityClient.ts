@@ -10,7 +10,10 @@ import {
   RequestPrepareOptions,
   GetTokenOptions
 } from "@azure/core-http";
+import { log } from "../logging";
+
 import { AuthenticationError } from "./errors";
+import { error } from 'util';
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -54,6 +57,8 @@ export class IdentityClient extends ServiceClient {
     webResource: WebResource,
     expiresOnParser?: (responseBody: any) => number,
   ): Promise<TokenResponse | null> {
+    log.info('IdentityClient: sending token request');
+
     const response = await this.sendRequest(webResource);
 
     expiresOnParser = expiresOnParser || ((responseBody: any) => {
@@ -69,6 +74,7 @@ export class IdentityClient extends ServiceClient {
         refreshToken: response.parsedBody.refresh_token,
       };
     } else {
+      log.error(`IdentityClient: authentication failed with status code ${response.status}`);
       throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
     }
   }
@@ -82,6 +88,8 @@ export class IdentityClient extends ServiceClient {
     expiresOnParser?: (responseBody: any) => number,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
+    log.info('IdentityClient: refreshing token');
+
     if (refreshToken === undefined) {
       return null;
     }
@@ -117,8 +125,10 @@ export class IdentityClient extends ServiceClient {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
+        log.warning('IdentityClient: refresh token likely expired')
         return null;
       } else {
+        log.error('IdentityClient: could not refresh token')
         throw err;
       }
     }

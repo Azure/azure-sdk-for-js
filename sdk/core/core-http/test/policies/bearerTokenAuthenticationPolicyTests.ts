@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
+import { RequestPolicy } from "../../lib/policies/requestPolicy";
 import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { HttpHeaders, } from "../../lib/httpHeaders";
@@ -75,7 +75,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   function createBearerTokenPolicy(scopes: string | string[], credential: TokenCredential) {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
-      new RequestPolicyOptions(),
+      {},
       credential,
       scopes,
       new ExpiringAccessTokenCache());

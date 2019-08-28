@@ -6,8 +6,6 @@ export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
-export { HttpPipelineLogger } from "./httpPipelineLogger";
-export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
 export { OperationArguments } from "./operationArguments";
 export { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";

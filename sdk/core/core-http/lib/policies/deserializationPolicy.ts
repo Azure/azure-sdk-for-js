@@ -10,6 +10,7 @@ import * as utils from "../util/utils";
 import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import { logger } from "../log";
 
 /**
  * The content-types that will indicate that an operation response should be deserialized in a
@@ -60,7 +61,15 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) => deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response));
+    const response = await this._nextPolicy.sendRequest(request)
+    try {
+      deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response);
+      logger.info('response body deserialized successfully');
+    } catch(e) {
+      logger.error('error deserializing response body:', e);
+      throw e;
+    }
+    return response;
   }
 }
 

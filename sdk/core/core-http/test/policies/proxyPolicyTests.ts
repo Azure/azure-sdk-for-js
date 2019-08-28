@@ -4,7 +4,6 @@
 import "chai/register-should";
 import { should } from "chai";
 import { ProxySettings } from "../../lib/serviceClient";
-import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
@@ -27,7 +26,7 @@ describe("ProxyPolicy", function () {
     })
   };
 
-  const emptyPolicyOptions = new RequestPolicyOptions();
+  const emptyPolicyOptions = {};
 
   nodeDescribe("for Node.js", function () {
     it("factory passes correct proxy settings", function (done) {
