@@ -85,6 +85,7 @@ dependencies:
   eslint-plugin-promise: 4.2.1
   events: 3.0.0
   express: 4.17.1
+  fast-xml-parser: 3.12.20
   fetch-mock: 7.3.9
   form-data: 2.5.0
   fs-extra: 8.1.0
@@ -165,7 +166,6 @@ dependencies:
   tunnel: 0.0.6
   typescript: 3.5.3
   uglify-js: 3.6.0
-  underscore: 1.4.4
   url: 0.11.0
   util: 0.12.1
   uuid: 3.3.3
@@ -175,7 +175,6 @@ dependencies:
   ws: 7.1.2
   xhr-mock: 2.5.0
   xml2js: 0.4.19
-  xmlbuilder: 0.4.3
   yargs: 13.3.0
   yarn: 1.17.3
 lockfileVersion: 5.1
@@ -758,6 +757,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-O6Xgai01b9PB3IGA0lRIp1Ex3JBcxGDhdO0n3NIIpCyDOAjxcIGQFmkvgJpP8anTrthxOUQjBfLdRRi0Zn/TXA==
+  /@types/xmlbuilder/11.0.1:
+    dependencies:
+      xmlbuilder: 0.4.3
+    deprecated: 'This is a stub types definition. xmlbuilder provides its own type definitions, so you do not need this installed.'
+    dev: false
+    resolution:
+      integrity: sha512-ScJDpWPSAyO7s2BO5eUQTqyhO7i8c4r7Waj5eEwQYGApaNXW6E0pb9l1llDZ1VKGiBdGLMtLmqAi4eaKbzJ0dQ==
   /@types/yargs-parser/13.0.0:
     dev: false
     resolution:
@@ -3801,6 +3807,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+  /fast-xml-parser/3.12.20:
+    dependencies:
+      nimnjs: 1.3.2
+    dev: false
+    hasBin: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-viadHdefuuqkyJWUhF2r2Ymb5LJ0T7uQhzSRv4OZzYxpoPQnY05KtaX0pLkolabD7tLzIE8q/OytIAEhqPyYbw==
   /fd-slicer/1.0.1:
     dependencies:
       pend: 1.2.0
@@ -6370,6 +6384,21 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+  /nimn-date-parser/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-1Nf+x3EeMvHUiHsVuEhiZnwA8RMeOBVTQWfB1S2n9+i6PYCofHd2HRMD+WOHIHYshy4T4Gk8wQoCol7Hq3av8Q==
+  /nimn_schema_builder/1.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-DK5/B8CM4qwzG2URy130avcwPev4uO0ev836FbQyKo1ms6I9z/i6EJyiZ+d9xtgloxUri0W+5gfR8YbPq7SheA==
+  /nimnjs/1.3.2:
+    dependencies:
+      nimn-date-parser: 1.0.0
+      nimn_schema_builder: 1.1.0
+    dev: false
+    resolution:
+      integrity: sha512-TIOtI4iqkQrUM1tiM76AtTQem0c7e56SkDZ7sj1d1MfUsqRcq2ZWQvej/O+HBTZV7u/VKnwlKTDugK/75IRPPw==
   /nise/1.5.1:
     dependencies:
       '@sinonjs/formatio': 3.2.1
@@ -9986,9 +10015,11 @@ packages:
       '@types/webpack': 4.39.0
       '@types/webpack-dev-middleware': 2.0.3
       '@types/xml2js': 0.4.4
+      '@types/xmlbuilder': 11.0.1
       '@typescript-eslint/eslint-plugin': 2.0.0_3cafee28902d96627d4743e014bc28ff
       '@typescript-eslint/parser': 2.0.0_eslint@6.2.1
       babel-runtime: 6.26.0
+      buffer: 5.4.0
       chai: 4.2.0
       eslint: 6.2.1
       eslint-config-prettier: 6.1.0_eslint@6.2.1
@@ -9996,6 +10027,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
+      fast-xml-parser: 3.12.20
       fetch-mock: 7.3.9
       form-data: 2.5.0
       glob: 7.1.4
@@ -10049,7 +10081,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-jZg32+noo1+LHfWEkWzu/cwN4vaxXenspeoozEwNiA3hgD7PI2DKZfrbVBOp1zj6Wp3VSkG3Kv2NydKXm971rw==
+      integrity: sha512-9XQ12/wFXJSTZV162Y/HEK9GoOtwggro+S2/G55qMwgL6zVjGfPI0/AkU/jzP+qsXjybV9LkUg9ixmchWvr5Xg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10943,6 +10975,7 @@ specifiers:
   eslint-plugin-promise: ^4.1.1
   events: ^3.0.0
   express: ^4.16.3
+  fast-xml-parser: ^3.12.20
   fetch-mock: ^7.3.9
   form-data: ^2.5.0
   fs-extra: ^8.1.0
@@ -11023,7 +11056,6 @@ specifiers:
   tunnel: ^0.0.6
   typescript: ^3.2.2
   uglify-js: ^3.4.9
-  underscore: 1.4.x
   url: ^0.11.0
   util: ^0.12.1
   uuid: ^3.3.2
@@ -11033,6 +11065,5 @@ specifiers:
   ws: ^7.1.1
   xhr-mock: ^2.4.1
   xml2js: ^0.4.19
-  xmlbuilder: 0.4.3
   yargs: ^13.0.0
   yarn: ^1.6.0

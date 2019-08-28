@@ -5,9 +5,8 @@ import { HttpHeaders } from "../httpHeaders";
 import { WebResource } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
 import { Constants } from "../util/constants";
-import { objectIsNull } from "../util/utils";
+import { objectIsNull, isNode } from "../util/utils";
 import crypto from "crypto";
-import util from "util";
 
 const HeaderConstants = Constants.HeaderConstants;
 
@@ -62,13 +61,22 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
 
     var stringToSign = getvalueToAppend(targetUri) + getvalueToAppend(expirationDate, true);
 
-    // HmacSha256Sign
-    return encodeURIComponent(
-      crypto
-        .createHmac("sha256", this.keyValue)
-        .update(stringToSign)
-        .digest("base64")
-    );
+    if (isNode) {
+      // HmacSha256Sign
+      const result = encodeURIComponent(
+        crypto
+          .createHmac("sha256", this.keyValue)
+          .update(stringToSign)
+          .digest("base64")
+      );
+      return result;
+    } else {
+      // @ts-ignore
+      var hash = CryptoJS.HmacSHA256(stringToSign, this.keyValue);
+      // @ts-ignore
+      const result = encodeURIComponent(CryptoJS.enc.Base64.stringify(hash));
+      return result;
+    }
   }
 
   /**
@@ -88,15 +96,10 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     var signature = this._generateSignature(targetUri, expirationDate);
     webResource.headers.set(
       HeaderConstants.AUTHORIZATION,
-      util.format(
-        "SharedAccessSignature sig=%s&se=%s&skn=%s&sr=%s",
-        signature,
-        expirationDate,
-        this.keyName,
-        targetUri
-      )
+      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this.keyName}&sr=${targetUri}`
     );
-
+    // TODO: Fix server side configuration on response headers
+    webResource.headers.set("access-control-allow-origin", "*");
     return Promise.resolve(webResource);
   }
 }

@@ -80,7 +80,8 @@ export {
   isValidUuid,
   applyMixins,
   isNode,
-  isDuration
+  isDuration,
+  byteLength
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";

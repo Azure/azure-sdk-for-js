@@ -15,9 +15,13 @@
 //
 
 import { Constants } from "./constants";
-import util from "util";
-import { isArray, each, stringIsEmpty, stringStartsWith, isDate, isObject } from "./utils";
-const xmlbuilder = require("xmlbuilder");
+import { isArray, each, stringIsEmpty, stringStartsWith, isDate, isObject, isNode } from "./utils";
+let xmlbuilder: any;
+if (isNode) {
+  xmlbuilder = require("xmlbuilder");
+} else {
+  xmlbuilder = {};
+}
 
 export class AtomHandler {
   /**
@@ -39,7 +43,7 @@ export class AtomHandler {
       return self.parseEntryResult(xmlInJson.entry);
     }
 
-    throw new Error("Unrecognized result " + util.inspect(xmlInJson));
+    throw new Error("Unrecognized result: " + xmlInJson);
   }
 
   /**
@@ -47,29 +51,82 @@ export class AtomHandler {
    * @param {array}  namespaces  An array of top level namespaces to be defined.
    */
   serializeEntry(content: any, namespaces?: any, properties?: any): any {
-    var doc = xmlbuilder.create();
+    if (isNode) {
+      var doc = xmlbuilder.create();
 
-    doc = doc
-      .begin("entry", { version: "1.0", encoding: "utf-8", standalone: "yes" })
-      .att("xmlns", "http://www.w3.org/2005/Atom");
+      doc = doc
+        .begin("entry", { version: "1.0", encoding: "utf-8", standalone: "yes" })
+        .att("xmlns", "http://www.w3.org/2005/Atom");
 
-    each(namespaces, function(namespace: any): any {
-      doc = doc.att("xmlns:" + namespace.key, namespace.url);
-    });
-
-    if (properties) {
-      Object.keys(properties).forEach(function(property) {
-        doc = doc.ele(property, properties[property]).up();
+      each(namespaces, function(namespace: any): any {
+        doc = doc.att("xmlns:" + namespace.key, namespace.url);
       });
+
+      if (properties) {
+        Object.keys(properties).forEach(function(property) {
+          doc = doc.ele(property, properties[property]).up();
+        });
+      }
+
+      doc = doc.ele("updated", new Date().toISOString()).up();
+
+      content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
+
+      doc = this._writeElementValue(doc, "content", content);
+
+      return doc.doc().toString();
     }
 
-    doc = doc.ele("updated", new Date().toISOString()).up();
+    const serializer = new XMLSerializer();
+    const dom = this.buildNode(content, "content")[0];
+    return (
+      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    );
+  }
 
-    content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
+  buildNode(obj: any, elementName: string): Node[] {
+    // tslint:disable-next-line:no-null-keyword
 
-    doc = this._writeElementValue(doc, "content", content);
+    const doc = document.implementation.createDocument(null, "entry", null);
+    if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
+      const elem = doc.createElement(elementName);
+      elem.textContent = obj.toString();
+      return [elem];
+    } else if (Array.isArray(obj)) {
+      const result = [];
+      for (const arrayElem of obj) {
+        for (const child of this.buildNode(arrayElem, elementName)) {
+          result.push(child);
+        }
+      }
+      return result;
+    } else if (typeof obj === "object") {
+      const elem = doc.createElement(elementName);
+      for (const key of Object.keys(obj)) {
+        if (key === "$") {
+          for (const attr of this.buildAttributes(doc, obj[key])) {
+            elem.attributes.setNamedItem(attr);
+          }
+        } else {
+          for (const child of this.buildNode(obj[key], key)) {
+            elem.appendChild(child);
+          }
+        }
+      }
+      return [elem];
+    } else {
+      throw new Error(`Illegal value passed to buildObject: ${obj}`);
+    }
+  }
 
-    return doc.doc().toString();
+  buildAttributes(doc: any, attrs: { [key: string]: { toString(): string } }): Attr[] {
+    const result = [];
+    for (const key of Object.keys(attrs)) {
+      const attr = doc.createAttribute(key);
+      attr.value = attrs[key].toString();
+      result.push(attr);
+    }
+    return result;
   }
 
   /*

@@ -60,7 +60,7 @@ const nodeConfig = {
  */
 const browserConfig = {
   input: "./es/lib/coreHttp.js",
-  external: [],
+  external: ["crypto"],
   output: {
     file: "./dist/coreHttp.browser.js",
     format: "umd",
@@ -78,7 +78,7 @@ const browserConfig = {
     }),
     nodeResolve({
       mainFields: ["module", "browser"],
-      preferBuiltins: true
+      preferBuiltins: false
     }),
     commonjs(),
     sourcemaps(),
