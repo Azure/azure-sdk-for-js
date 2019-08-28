@@ -116,30 +116,30 @@ jobs:
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
 
-      # - task: DownloadBuildArtifacts@0
-      #   inputs:
-      #     buildType: "specific"
-      #     project: "public"
-      #     pipeline: "js - client - ci"
-      #     buildVersionToDownload: "latest"
-      #     allowPartiallySucceededBuilds: false
-      #     branchName: "master"
-      #     downloadType: "single"
-      #     artifactName: packages
-      #     downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
-      #   displayName: "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
-
-      - task: DownloadPipelineArtifact@2
+      - task: DownloadBuildArtifacts@0
         inputs:
           buildType: "specific"
           project: "public"
-          definition: "js - client - ci"
+          pipeline: "js - client - ci"
           buildVersionToDownload: "latest"
+          allowPartiallySucceededBuilds: false
           branchName: "master"
+          downloadType: "single"
           artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
-        displayName: "Download Latest Master (PipelineTask) artifacts"
+          downloadPath: "$(System.ArtifactsDirectory)/packagesMaster"
+        displayName: "Download Latest Master artifacts" #/home/vsts/work/1/a/packagesMaster
+
+      # - task: DownloadPipelineArtifact@2
+      #   inputs:
+      #     buildType: "specific"
+      #     project: "public"
+      #     definition: "js - client - ci"
+      #     buildVersionToDownload: "latest"
+      #     branchName: "master"
+      #     artifactName: packages
+      #     itemPattern: "*.tgz"
+      #     targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
+      #   displayName: "Download Latest Master (PipelineTask) artifacts"
 
       - task: DownloadPipelineArtifact@2
         inputs:
