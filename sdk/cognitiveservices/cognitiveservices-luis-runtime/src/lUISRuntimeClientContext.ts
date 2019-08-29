@@ -10,7 +10,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-luis-runtime";
-const packageVersion = "3.0.1";
+const packageVersion = "4.0.1";
 
 export class LUISRuntimeClientContext extends msRest.ServiceClient {
   endpoint: string;
