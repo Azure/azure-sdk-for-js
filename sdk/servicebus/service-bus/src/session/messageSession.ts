@@ -942,7 +942,7 @@ export class MessageSession extends LinkEntity {
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let firstMessageWaitTimer: any;
+      let totalWaitTimer: NodeJS.Timer | undefined;;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
@@ -980,10 +980,6 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-          firstMessageWaitTimer = undefined;
-        }
         resetTimerOnNewMessageReceived();
         try {
           const data: ServiceBusMessage = new ServiceBusMessage(
@@ -1020,8 +1016,8 @@ export class MessageSession extends LinkEntity {
         // Resetting the newMessageWaitTimeoutInSeconds to undefined since we are done receiving
         // a batch of messages.
         setnewMessageWaitTimeoutInSeconds();
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
         }
         // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
@@ -1036,8 +1032,8 @@ export class MessageSession extends LinkEntity {
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
         }
 
         // Unsetting the newMessageWaitTimeoutInSeconds to undefined since we are done receiving
@@ -1114,7 +1110,7 @@ export class MessageSession extends LinkEntity {
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
-        firstMessageWaitTimer = setTimeout(
+        totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
           (idleTimeoutInSeconds as number) * 1000
         );
