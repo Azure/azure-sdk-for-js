@@ -27,8 +27,8 @@ function prettyPrint(result: any) {
 }
 
 entityType = "Queue";
-describe(`Atom management - Basic CRUD on ${entityType} entities`, function(): void {
-  it(`Creates a non-existent ${entityType} entity successfully #RunInBrowser`, async () => {
+describe(`Atom management - Basic CRUD on ${entityType} entities #RunInBrowser`, function(): void {
+  it(`Creates a non-existent ${entityType} entity successfully`, async () => {
     await serviceBusAtomManagementClient.deleteQueue(alwaysBeExistingQueue);
 
     const response = await serviceBusAtomManagementClient.createQueue(alwaysBeExistingQueue, {
@@ -63,7 +63,7 @@ describe(`Atom management - Basic CRUD on ${entityType} entities`, function(): v
     prettyPrint(result);
   });
 
-  it(`Lists available ${entityType} entities successfully #RunInBrowser`, async () => {
+  it(`Lists available ${entityType} entities successfully`, async () => {
     const response = await serviceBusAtomManagementClient.listQueues({ top: 10 });
 
     const result = response.parsedBody;
