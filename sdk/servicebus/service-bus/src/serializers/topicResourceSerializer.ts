@@ -17,7 +17,7 @@
 import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
 import { ServiceBusAtomXmlConstants } from "../util/constants";
 
-export class TopicResourceSerializer extends ResourceSerializer {
+export class TopicResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
     var properties = [
       ServiceBusAtomXmlConstants.DEFAULT_MESSAGE_TIME_TO_LIVE,
@@ -31,10 +31,14 @@ export class TopicResourceSerializer extends ResourceSerializer {
       ServiceBusAtomXmlConstants.ENABLE_PARTITIONING
     ];
 
-    return AtomResourceSerializerBase._serialize("TopicDescription", resource, properties);
+    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+      "TopicDescription",
+      resource,
+      properties
+    );
   }
 
-  parse(xml: any): any {
-    return AtomResourceSerializerBase._parse(["TopicName"], xml);
+  parse(atomResponseInJson: any): any {
+    return AtomResourceSerializerBase.deserializeAtomResponse(["TopicName"], atomResponseInJson);
   }
 }

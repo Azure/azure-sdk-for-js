@@ -16,7 +16,7 @@
 
 import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
 
-export class RuleResourceSerializer extends ResourceSerializer {
+export class RuleResourceSerializer implements ResourceSerializer {
   serialize(rule: any): any {
     var properties = ["Filter", "Action"];
 
@@ -94,10 +94,17 @@ export class RuleResourceSerializer extends ResourceSerializer {
         resource.Action = actions;
       }
     }
-    return AtomResourceSerializerBase._serialize("RuleDescription", resource, properties);
+    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+      "RuleDescription",
+      resource,
+      properties
+    );
   }
 
-  parse(xml: any): any {
-    return AtomResourceSerializerBase._parse(["TopicName", "SubscriptionName", "RuleName"], xml);
+  parse(atomResponseInJson: any): any {
+    return AtomResourceSerializerBase.deserializeAtomResponse(
+      ["TopicName", "SubscriptionName", "RuleName"],
+      atomResponseInJson
+    );
   }
 }

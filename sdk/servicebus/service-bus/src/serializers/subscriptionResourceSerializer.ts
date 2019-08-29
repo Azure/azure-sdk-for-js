@@ -17,7 +17,7 @@
 import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
 import { ServiceBusAtomXmlConstants } from "../util/constants";
 
-export class SubscriptionResourceSerializer extends ResourceSerializer {
+export class SubscriptionResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
     var properties = [
       ServiceBusAtomXmlConstants.LOCK_DURATION,
@@ -31,10 +31,17 @@ export class SubscriptionResourceSerializer extends ResourceSerializer {
       ServiceBusAtomXmlConstants.AUTO_DELETE_ON_IDLE
     ];
 
-    return AtomResourceSerializerBase._serialize("SubscriptionDescription", resource, properties);
+    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+      "SubscriptionDescription",
+      resource,
+      properties
+    );
   }
 
-  parse(xml: any): any {
-    return AtomResourceSerializerBase._parse(["TopicName", "SubscriptionName"], xml);
+  parse(atomResponseInJson: any): any {
+    return AtomResourceSerializerBase.deserializeAtomResponse(
+      ["TopicName", "SubscriptionName"],
+      atomResponseInJson
+    );
   }
 }

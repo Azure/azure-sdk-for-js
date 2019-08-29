@@ -17,7 +17,7 @@
 import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
 import { ServiceBusAtomXmlConstants } from "../util/constants";
 
-export class QueueResourceSerializer extends ResourceSerializer {
+export class QueueResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
     var properties = [
       ServiceBusAtomXmlConstants.LOCK_DURATION,
@@ -34,10 +34,14 @@ export class QueueResourceSerializer extends ResourceSerializer {
       ServiceBusAtomXmlConstants.ENABLE_PARTITIONING
     ];
 
-    return AtomResourceSerializerBase._serialize("QueueDescription", resource, properties);
+    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+      "QueueDescription",
+      resource,
+      properties
+    );
   }
 
-  parse(xml: any): any {
-    return AtomResourceSerializerBase._parse(["QueueName"], xml);
+  parse(atomResponseInJson: any): any {
+    return AtomResourceSerializerBase.deserializeAtomResponse(["QueueName"], atomResponseInJson);
   }
 }
