@@ -28,6 +28,7 @@
     "LICENSE.txt",
     "README.md",
     "types/keyvault-keys.d.ts",
+    "browser/",
     "dist/",
     "dist-esm/",
     "src/",
