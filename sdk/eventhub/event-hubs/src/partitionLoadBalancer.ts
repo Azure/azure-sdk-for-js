@@ -1,17 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  PartitionManager,
-  PartitionProcessorFactory,
-  PartitionOwnership,
-  EventProcessorOptions
-} from "./eventProcessor";
-import { PartitionContext } from "./partitionContext";
-import { CheckpointManager } from "./checkpointManager";
-import { PumpManager } from "./pumpManager";
-import { EventHubClient } from "./eventHubClient";
-import { EventPosition } from "./eventPosition";
+import { PartitionOwnership } from "./eventProcessor";
 import * as log from "./log";
 
 /**
@@ -25,49 +15,19 @@ import * as log from "./log";
  * @class PartitionLoadBalancer
  */
 export class PartitionLoadBalancer {
-  private _consumerGroupName: string;
-  private _eventHubClient: EventHubClient;
-  private _partitionProcessorFactory: PartitionProcessorFactory;
   private _ownerId: string;
   private _inactiveTimeLimitInMS: number;
-  private _pumpManager: PumpManager;
-  private _partitionManager: PartitionManager;
-  private _processorOptions: EventProcessorOptions;
 
   /**
-   * Creates an instance of PartitionBasedLoadBalancer for the given Event Hub name and consumer group.
+   * Creates an instance of PartitionBasedLoadBalancer.
    *
-   * @param partitionManager The partition manager that this load balancer will use to read/update ownership details.
-   * @param eventHubClient The Event Hub client used to consume events.
-   * @param consumerGroupName The consumer group name.
    * @param ownerId The identifier of the Event Processor that owns this load balancer.
    * @param inactiveTimeLimitInMS The time to wait for an update on an ownership record before
    * assuming the owner of the partition is inactive.
-   * @param partitionProcessorFactory The factory to create new partition processor(s).
-   * @param partitionPumpManager The partition pump manager that keeps track of all the partitions
-   * that this EventProcessor is processing.
-   * @param options Optional parameters for creating a PartitionLoadBalancer.
    * */
-  constructor(
-    partitionManager: PartitionManager,
-    eventHubClient: EventHubClient,
-    consumerGroupName: string,
-    ownerId: string,
-    inactiveTimeLimitInMS: number,
-    partitionProcessorFactory: PartitionProcessorFactory,
-    pumpManager: PumpManager,
-    options?: EventProcessorOptions
-  ) {
-    if (!options) options = {};
-
-    this._partitionManager = partitionManager;
-    this._eventHubClient = eventHubClient;
-    this._consumerGroupName = consumerGroupName;
+  constructor(ownerId: string, inactiveTimeLimitInMS: number) {
     this._ownerId = ownerId;
-    this._partitionProcessorFactory = partitionProcessorFactory;
-    this._pumpManager = pumpManager;
     this._inactiveTimeLimitInMS = inactiveTimeLimitInMS;
-    this._processorOptions = options;
   }
 
   /*
@@ -89,84 +49,6 @@ export class PartitionLoadBalancer {
       `[${this._ownerId}] Owner id ${ownerId} owns ${maxList.length} partitions, stealing a partition from it.`
     );
     return maxList[Math.floor(Math.random() * maxList.length)].partitionId;
-  }
-
-  private _createPartitionOwnershipRequest(
-    partitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIdToClaim: string
-  ): PartitionOwnership {
-    const previousPartitionOwnership = partitionOwnershipMap.get(partitionIdToClaim);
-    const partitionOwnership: PartitionOwnership = {
-      ownerId: this._ownerId,
-      partitionId: partitionIdToClaim,
-      consumerGroupName: this._consumerGroupName,
-      eventHubName: this._eventHubClient.eventHubName,
-      sequenceNumber: previousPartitionOwnership
-        ? previousPartitionOwnership.sequenceNumber
-        : undefined,
-      offset: previousPartitionOwnership ? previousPartitionOwnership.offset : undefined,
-      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined,
-      ownerLevel: 0
-    };
-
-    return partitionOwnership;
-  }
-
-  /*
-   * Claim ownership of the given partition if it's available
-   */
-  private async _claimOwnership(
-    partitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIdToClaim: string
-  ): Promise<void> {
-    log.partitionLoadBalancer(
-      `[${this._ownerId}] Attempting to claim ownership of partition ${partitionIdToClaim}.`
-    );
-    const ownershipRequest = this._createPartitionOwnershipRequest(
-      partitionOwnershipMap,
-      partitionIdToClaim
-    );
-    try {
-      await this._partitionManager.claimOwnership([ownershipRequest]);
-      log.partitionLoadBalancer(
-        `[${this._ownerId}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
-      );
-      const partitionContext: PartitionContext = {
-        consumerGroupName: this._consumerGroupName,
-        eventHubName: this._eventHubClient.eventHubName,
-        partitionId: ownershipRequest.partitionId
-      };
-
-      const checkpointManager = new CheckpointManager(
-        partitionContext,
-        this._partitionManager,
-        this._ownerId
-      );
-
-      log.partitionLoadBalancer(
-        `[${this._ownerId}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
-      );
-      const partitionProcessor = this._partitionProcessorFactory(
-        partitionContext,
-        checkpointManager
-      );
-
-      const eventPosition = ownershipRequest.sequenceNumber
-        ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
-        : this._processorOptions.initialEventPosition || EventPosition.earliest();
-
-      await this._pumpManager.createPump(
-        this._eventHubClient,
-        partitionContext,
-        eventPosition,
-        partitionProcessor
-      );
-      log.partitionLoadBalancer(`[${this._ownerId}] PartitionPump created successfully.`);
-    } catch (err) {
-      log.error(
-        `[${this._ownerId}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
-      );
-    }
   }
 
   /*
@@ -248,10 +130,10 @@ export class PartitionLoadBalancer {
    * This method works with the given partition ownership details and Event Hub partitions to evaluate whether the
    * current Event Processor should take on the responsibility of processing more partitions.
    */
-  async loadBalance(
+  loadBalance(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
-  ): Promise<void> {
+  ): string {
     //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
     //  event processor that owned the partition is probably down and the partition is now eligible to be
     //  claimed by other event processors.
@@ -265,11 +147,7 @@ export class PartitionLoadBalancer {
       // If the active partition ownership map is empty, this is the first time an event processor is
       // running or all Event Processors are down for this Event Hub, consumer group combination. All
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
-      await this._claimOwnership(
-        partitionOwnershipMap,
-        partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]
-      );
-      return;
+      return partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)];
     }
 
     // Create a map of owner id and a list of partitions it owns
@@ -288,16 +166,16 @@ export class PartitionLoadBalancer {
       `[${this._ownerId}] Number of active event processors: ${ownerPartitionMap.size}.`
     );
 
-    const partitionIds = await this._eventHubClient.getPartitionIds();
-
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.
-    const minPartitionsPerEventProcessor = Math.floor(partitionIds.length / ownerPartitionMap.size);
+    const minPartitionsPerEventProcessor = Math.floor(
+      partitionsToAdd.length / ownerPartitionMap.size
+    );
     // If the number of partitions in Event Hub is not evenly divisible by number of active event processors,
     // a few Event Processors may own 1 additional partition than the minimum when the load is balanced. Calculate
     // the number of event processors that can own additional partition.
     const numberOfEventProcessorsWithAdditionalPartition =
-      partitionIds.length % ownerPartitionMap.size;
+      partitionsToAdd.length % ownerPartitionMap.size;
 
     log.partitionLoadBalancer(
       `[${this._ownerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
@@ -313,7 +191,7 @@ export class PartitionLoadBalancer {
     ) {
       log.partitionLoadBalancer(`[${this._ownerId}] Load is balanced.`);
       // If the partitions are evenly distributed among all active event processors, no change required.
-      return;
+      return "";
     }
 
     if (
@@ -329,7 +207,7 @@ export class PartitionLoadBalancer {
         } partitions and shouldn't own more.`
       );
       // This event processor already has enough partitions and shouldn't own more yet
-      return;
+      return "";
     }
     log.partitionLoadBalancer(
       `[${this._ownerId}] Load is unbalanced and this event processor should own more partitions.`
@@ -362,6 +240,6 @@ export class PartitionLoadBalancer {
         unOwnedPartitionIds[Math.floor(Math.random() * unOwnedPartitionIds.length)];
     }
 
-    await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+    return partitionToClaim;
   }
 }
