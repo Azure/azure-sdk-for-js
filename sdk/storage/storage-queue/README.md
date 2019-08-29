@@ -7,7 +7,7 @@
 
 This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+Please note that this version of the SDK is a complete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
 
 ### Features
 
@@ -156,10 +156,7 @@ async function main() {
   console.log(`List queues`);
   let marker;
   do {
-    const listQueuesResponse = await serviceURL.listQueuesSegment(
-      Aborter.none,
-      marker
-    );
+    const listQueuesResponse = await serviceURL.listQueuesSegment(Aborter.none, marker);
 
     marker = listQueuesResponse.nextMarker;
     for (const queue of listQueuesResponse.queueItems) {
@@ -172,30 +169,19 @@ async function main() {
   const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
   const createQueueResponse = await queueURL.create(Aborter.none);
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${
-      createQueueResponse.requestId
-    }`
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
   );
 
   // Enqueue a message into the queue using the enqueue method.
   const messagesURL = MessagesURL.fromQueueURL(queueURL);
-  const enqueueQueueResponse = await messagesURL.enqueue(
-    Aborter.none,
-    "Hello World!"
-  );
+  const enqueueQueueResponse = await messagesURL.enqueue(Aborter.none, "Hello World!");
   console.log(
-    `Enqueue message successfully, service assigned message Id: ${
-      enqueueQueueResponse.messageId
-    }, service assigned request Id: ${enqueueQueueResponse.requestId}`
+    `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
   );
 
   // Peek a message using peek method.
   const peekQueueResponse = await messagesURL.peek(Aborter.none);
-  console.log(
-    `The peeked message is: ${
-      peekQueueResponse.peekedMessageItems[0].messageText
-    }`
-  );
+  console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
 
   // You de-queue a message in two steps. Call GetMessage at which point the message becomes invisible to any other code reading messages
   // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
@@ -204,32 +190,21 @@ async function main() {
   const dequeueResponse = await messagesURL.dequeue(Aborter.none);
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-    console.log(
-      `Processing & deleting message with content: ${
-        dequeueMessageItem.messageText
-      }`
-    );
-    const messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      dequeueMessageItem.messageId
-    );
+    console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
+    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dequeueMessageItem.messageId);
     const deleteMessageResponse = await messageIdURL.delete(
       Aborter.none,
       dequeueMessageItem.popReceipt
     );
     console.log(
-      `Delete message succesfully, service assigned request Id: ${
-        deleteMessageResponse.requestId
-      }`
+      `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
     );
   }
 
   // Delete the queue.
   const deleteQueueResponse = await queueURL.delete(Aborter.none);
   console.log(
-    `Delete queue successfully, service assigned request Id: ${
-      deleteQueueResponse.requestId
-    }`
+    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
   );
 }
 
@@ -238,7 +213,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```
