@@ -6,6 +6,14 @@ import {
 } from "./core/models";
 
 /**
+ * Defines values for contentType.
+ * Possible values include: 'application/pem', 'application/x-pkcs12'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateContentType = 'application/pem' | 'application/x-pkcs12' | undefined;
+
+/**
  * @interface
  * An interface representing a full certificate
  */
@@ -33,9 +41,9 @@ export interface Certificate extends CertificateAttributes {
    */
   cer?: Uint8Array;
   /**
-   * @member {string} [contentType] The content type of the secret.
+   * @member {CertificateContentType} [contentType] The content type of the secret.
    */
-  contentType?: string;
+  contentType?: CertificateContentType;
 }
 
 /**
@@ -121,10 +129,10 @@ export type CertificateTags = { [propertyName: string]: string };
  */
 export interface UpdateCertificateOptions {
   /**
-   * @member {string} [contentType] Type of the certificate value such as a
+   * @member {CertificateContentType} [contentType] Type of the certificate value such as a
    * password.
    */
-  contentType?: string;
+  contentType?: CertificateContentType;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */

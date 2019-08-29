@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 
 
-import { GetCertificateOptions, RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
+import { GetCertificateOptions, RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -772,11 +772,15 @@ export class CertificatesClient {
       }
     }
 
-    return resultObject;
+    return {
+      ...resultObject,
+      contentType: resultObject.contentType as CertificateContentType
+    }; 
   }
 
   private getDeletedCertificateFromDeletedCertificateBundle(certificateBundle: DeletedCertificateBundle): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
 
     let resultObject;
     if (certificateBundle.attributes) {
@@ -793,7 +797,10 @@ export class CertificatesClient {
       }
     }
 
-    return resultObject;
+    return {
+      ...resultObject,
+      contentType: resultObject.contentType as CertificateContentType
+    };
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
