@@ -21,7 +21,7 @@ npm install @azure/cognitiveservices-formrecognizer
 
 
 ```bash
-npm install @azure/ms-rest-azure-js@"^2.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
