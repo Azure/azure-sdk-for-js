@@ -43,8 +43,13 @@ export class InMemoryPartitionManager implements PartitionManager {
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     for (const ownership of partitionOwnership) {
-      if (!this._partitionOwnershipMap.has(ownership.partitionId)) {
+      if (
+        !this._partitionOwnershipMap.has(ownership.partitionId) ||
+        this._partitionOwnershipMap.get(ownership.partitionId)!.eTag === ownership.eTag
+      ) {
         ownership.eTag = generate_uuid();
+        var date = new Date();
+        ownership.lastModifiedTimeInMS = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }

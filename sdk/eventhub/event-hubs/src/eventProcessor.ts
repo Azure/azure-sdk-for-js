@@ -8,8 +8,9 @@ import { PartitionContext } from "./partitionContext";
 import { CheckpointManager, Checkpoint } from "./checkpointManager";
 import { ReceivedEventData } from "./eventData";
 import { PumpManager } from "./pumpManager";
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
+import { PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 
 /**
@@ -200,6 +201,10 @@ export interface EventProcessorOptions {
 }
 
 /**
+ * Event Processor based application consists of one or more instances of EventProcessor which have been
+ * configured to consume events from the same Event Hub and consumer group. Event Processors balance the
+ * workload across different instances and track progress when events are processed.
+ *
  * `EventProcessor` is a high level construct that
  * - uses an `EventHubClient` to receive events from multiple partitions in a consumer group of
  * an Event Hub instance.
@@ -219,9 +224,9 @@ export interface EventProcessorOptions {
  * - An instance of `EventHubClient` that was created for the Event Hub instance.
  * - A factory method that can return an object that implements the `PartitionProcessor` interface.
  * This method should be implemented by the user. For example:
- * (context, checkpointManager) => { 
- *    return { 
- *      processEvents: (events) => { 
+ * (context, checkpointManager) => {
+ *    return {
+ *      processEvents: (events) => {
  *        // user code here
  *        // use the context to get information on the partition
  *        // use the checkpointManager to update checkpoints if needed
@@ -231,7 +236,7 @@ export interface EventProcessorOptions {
  * - An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  *
- * @class EventProcessorHost
+ * @class EventProcessor
  */
 export class EventProcessor {
   private _consumerGroupName: string;
@@ -244,6 +249,7 @@ export class EventProcessor {
   private _loopTask?: PromiseLike<void>;
   private _abortController?: AbortController;
   private _partitionManager: PartitionManager;
+  private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
    * @param consumerGroupName The name of the consumer group from which you want to process events
@@ -272,118 +278,8 @@ export class EventProcessor {
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, options);
-  }
-
-  private async _getInactivePartitions(): Promise<string[]> {
-    try {
-      // get all partition ids on the event hub
-      const partitionIds = await this._eventHubClient.getPartitionIds();
-      // get partitions this EventProcessor is actively processing
-      const activePartitionIds = this._pumpManager.receivingFromPartitions();
-
-      // get a list of partition ids that are not being processed by this EventProcessor
-      const inactivePartitionIds: string[] = partitionIds.filter(
-        (id) => activePartitionIds.indexOf(id) === -1
-      );
-      return inactivePartitionIds;
-    } catch (err) {
-      log.error(`[${this._id}] An error occured when retrieving partition ids: ${err}`);
-      throw err;
-    }
-  }
-
-  /*
-   * A simple implementation of an event processor that:
-   * - Fetches all partition ids from Event Hub
-   * - Gets the current ownership information of all the partitions from PartitionManager
-   * - Claims ownership of any partition that doesn't have an owner yet.
-   * - Starts a new PartitionProcessor and receives events from each of the partitions this instance owns
-   */
-  private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
-    // periodically check if there is any partition not being processed and process it
-    const waitIntervalInMs = 30000;
-    while (!abortSignal.aborted) {
-      try {
-        // get a list of partition ids that are not being processed by this EventProcessor
-        const partitionsToAdd = await this._getInactivePartitions();
-        // check if the loop has been cancelled
-        if (abortSignal.aborted) {
-          return;
-        }
-
-        const tasks: PromiseLike<void>[] = [];
-        // create partition pumps to process any partitions we should be processing
-        for (const partitionId of partitionsToAdd) {
-          const partitionContext: PartitionContext = {
-            consumerGroupName: this._consumerGroupName,
-            eventHubName: this._eventHubClient.eventHubName,
-            partitionId: partitionId
-          };
-
-          const partitionOwnership: PartitionOwnership = {
-            eventHubName: this._eventHubClient.eventHubName,
-            consumerGroupName: this._consumerGroupName,
-            ownerId: this._id,
-            partitionId: partitionId,
-            ownerLevel: 0
-          };
-          await this._partitionManager.claimOwnership([partitionOwnership]);
-
-          const checkpointManager = new CheckpointManager(
-            partitionContext,
-            this._partitionManager,
-            this._id
-          );
-
-          log.eventProcessor(
-            `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
-          );
-          const partitionProcessor = this._partitionProcessorFactory(
-            partitionContext,
-            checkpointManager
-          );
-
-          // eventually this will 1st check if the existing PartitionOwnership has a position
-          let eventPosition =
-            this._processorOptions.initialEventPosition || EventPosition.earliest();
-
-          const partitionOwnerships = await this._partitionManager.listOwnership(
-            this._eventHubClient.eventHubName,
-            this._consumerGroupName
-          );
-          for (const ownership of partitionOwnerships) {
-            if (ownership.partitionId === partitionId && ownership.sequenceNumber) {
-              eventPosition = EventPosition.fromSequenceNumber(ownership.sequenceNumber);
-              break;
-            }
-          }
-
-          tasks.push(
-            this._pumpManager.createPump(
-              this._eventHubClient,
-              partitionContext,
-              eventPosition,
-              partitionProcessor
-            )
-          );
-        }
-
-        // wait for all the new pumps to be created
-        await Promise.all(tasks);
-        log.eventProcessor(`[${this._id}] PartitionPumps created within EventProcessor.`);
-
-        // sleep
-        log.eventProcessor(
-          `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
-        );
-        await delay(waitIntervalInMs, abortSignal);
-      } catch (err) {
-        log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
-      }
-    }
-
-    // loop has completed, remove all existing pumps
-    return this._pumpManager.removeAllPumps(CloseReason.Shutdown);
+    const inactiveTimeLimitInMS = 60000; // ownership expiration time (1 mintue)
+    this._partitionLoadBalancer = new PartitionLoadBalancer(this._id, inactiveTimeLimitInMS);
   }
 
   /**
@@ -395,13 +291,142 @@ export class EventProcessor {
     return this._id;
   }
 
+  private _createPartitionOwnershipRequest(
+    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    partitionIdToClaim: string
+  ): PartitionOwnership {
+    const previousPartitionOwnership = partitionOwnershipMap.get(partitionIdToClaim);
+    const partitionOwnership: PartitionOwnership = {
+      ownerId: this._id,
+      partitionId: partitionIdToClaim,
+      consumerGroupName: this._consumerGroupName,
+      eventHubName: this._eventHubClient.eventHubName,
+      sequenceNumber: previousPartitionOwnership
+        ? previousPartitionOwnership.sequenceNumber
+        : undefined,
+      offset: previousPartitionOwnership ? previousPartitionOwnership.offset : undefined,
+      eTag: previousPartitionOwnership ? previousPartitionOwnership.eTag : undefined,
+      ownerLevel: 0
+    };
+
+    return partitionOwnership;
+  }
+
+  /*
+   * Claim ownership of the given partition if it's available
+   */
+  private async _claimOwnership(
+    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    partitionIdToClaim: string
+  ): Promise<void> {
+    log.partitionLoadBalancer(
+      `[${this._id}] Attempting to claim ownership of partition ${partitionIdToClaim}.`
+    );
+    const ownershipRequest = this._createPartitionOwnershipRequest(
+      partitionOwnershipMap,
+      partitionIdToClaim
+    );
+    try {
+      await this._partitionManager.claimOwnership([ownershipRequest]);
+      log.partitionLoadBalancer(
+        `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
+      );
+      const partitionContext: PartitionContext = {
+        consumerGroupName: this._consumerGroupName,
+        eventHubName: this._eventHubClient.eventHubName,
+        partitionId: ownershipRequest.partitionId
+      };
+
+      const checkpointManager = new CheckpointManager(
+        partitionContext,
+        this._partitionManager,
+        this._id
+      );
+
+      log.partitionLoadBalancer(
+        `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
+      );
+      const partitionProcessor = this._partitionProcessorFactory(
+        partitionContext,
+        checkpointManager
+      );
+
+      const eventPosition = ownershipRequest.sequenceNumber
+        ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
+        : this._processorOptions.initialEventPosition || EventPosition.earliest();
+
+      await this._pumpManager.createPump(
+        this._eventHubClient,
+        partitionContext,
+        eventPosition,
+        partitionProcessor
+      );
+      log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
+    } catch (err) {
+      log.error(
+        `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
+      );
+    }
+  }
+
+  /**
+   * Every loop to this method will result in this EventProcessor owning at most one new partition.
+   *
+   * The load is considered balanced when no active EventProcessor owns 2 partitions more than any other active
+   * EventProcessor. Given that each invocation to this method results in ownership claim of at most one partition,
+   * this algorithm converges gradually towards a steady state.
+   *
+   * When a new partition is claimed, this method is also responsible for starting a partition pump that creates an
+   * EventHubConsumer for processing events from that partition.
+   */
+
+  private async _runLoop(abortSignal: AbortSignalLike): Promise<void> {
+    // periodically check if there is any partition not being processed and process it
+    const waitIntervalInMs = 10000;
+    while (!abortSignal.aborted) {
+      try {
+        const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
+        // Retrieve current partition ownership details from the datastore.
+        const partitionOwnership = await this._partitionManager.listOwnership(
+          this._eventHubClient.eventHubName,
+          this._consumerGroupName
+        );
+        for (const ownership of partitionOwnership) {
+          partitionOwnershipMap.set(ownership.partitionId, ownership);
+        }
+        const partitionIds = await this._eventHubClient.getPartitionIds();
+        if (abortSignal.aborted) {
+          return;
+        }
+
+        if (partitionIds.length > 0) {
+          const partitionToClaim = this._partitionLoadBalancer.loadBalance(
+            partitionOwnershipMap,
+            partitionIds
+          );
+          if (partitionToClaim) {
+            await this._claimOwnership(partitionOwnershipMap, partitionToClaim);
+          }
+        }
+
+        // sleep
+        log.eventProcessor(
+          `[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`
+        );
+        await delay(waitIntervalInMs, abortSignal);
+      } catch (err) {
+        log.error(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+      }
+    }
+  }
+
   /**
    * Starts the `EventProcessor`. Based on the number of instances of `EventProcessor` that are running for the
    * same consumer group, the partitions are distributed among these instances to process events.
-   * 
+   *
    * For each partition, the user provided `PartitionProcessorFactory` is called to create a `PartitionProcessor`.
-   * 
-   * Subsequent calls to start will be ignored if this event processor is already running. 
+   *
+   * Subsequent calls to start will be ignored if this event processor is already running.
    * Calling `start()` after `stop()` is called will restart this event processor.
    *
    * @return {void}
@@ -419,7 +444,7 @@ export class EventProcessor {
   }
 
   /**
-   * Stops processing events for all partitions owned by this event processor. 
+   * Stops processing events for all partitions owned by this event processor.
    * All `PartitionProcessor` will be shutdown and any open resources will be closed.
    *
    * Subsequent calls to stop will be ignored if the event processor is not running.
@@ -434,6 +459,9 @@ export class EventProcessor {
 
     this._isRunning = false;
     try {
+      // remove all existing pumps
+      await this._pumpManager.removeAllPumps(CloseReason.Shutdown);
+
       // waits for the event processor loop to complete
       // will complete immediately if _loopTask is undefined
       await this._loopTask;

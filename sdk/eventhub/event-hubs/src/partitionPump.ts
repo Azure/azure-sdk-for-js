@@ -54,7 +54,8 @@ export class PartitionPump {
     this._receiver = this._eventHubClient.createConsumer(
       this._partitionContext.consumerGroupName,
       partitionId,
-      this._processorOptions.initialEventPosition || EventPosition.earliest()
+      this._processorOptions.initialEventPosition || EventPosition.earliest(),
+      { ownerLevel: 0 }
     );
 
     while (this._isReceiving) {
@@ -87,6 +88,11 @@ export class PartitionPump {
         // close the partition processor if a non-retryable error was encountered
         if (typeof err !== "object" || !(err as MessagingError).retryable) {
           try {
+            // If the exception indicates that the partition was stolen (i.e some other consumer with same ownerlevel
+            // started consuming the partition), update the closeReason
+            if (err.name === "ReceiverDisconnectedError") {
+              return await this.stop(CloseReason.OwnershipLost);
+            }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.EventHubException);
           } catch (err) {
