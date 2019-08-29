@@ -68,7 +68,7 @@ describe("Certificates client - create, read, update and delete operations", () 
       }
     });
 
-    const updated = await client.getCertificate(certificateName);
+    const updated = await client.getCertificateWithPolicy(certificateName);
     assert.equal(
       updated!.tags!.customTag!,
       "value",
@@ -77,12 +77,13 @@ describe("Certificates client - create, read, update and delete operations", () 
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate", async function() {
+  it.only("can get a certificate", async function() {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
     await client.createCertificate(certificateName, basicCertificatePolicy);
-    const result = await client.getCertificate(certificateName);
+    const result = await client.getCertificateWithPolicy(certificateName);
+    console.log({ result });
     assert.equal(result.name, certificateName, "Unexpected certificate name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
   });
@@ -93,7 +94,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     );
     await client.createCertificate(certificateName, basicCertificatePolicy);
 
-    const result = await client.getCertificate(certificateName);
+    const result = await client.getCertificateWithPolicy(certificateName);
 
     assert.equal(result.name, certificateName, "Unexpected certificate name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
@@ -105,7 +106,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     );
     let error;
     try {
-      await client.getCertificate(certificateName);
+      await client.getCertificateWithPolicy(certificateName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -129,7 +130,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     assert.ok(result.scheduledPurgeDate instanceof Date);
 
     try {
-      await client.getCertificate(certificateName);
+      await client.getCertificateWithPolicy(certificateName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
@@ -166,7 +167,7 @@ describe("Certificates client - create, read, update and delete operations", () 
     await client.createCertificate(certificateName, basicCertificatePolicy);
     await client.deleteCertificate(certificateName);
     const getResult = await retry(async () => client.getDeletedCertificate(certificateName));
-    assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificate().");
+    assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
     await testClient.purgeCertificate(certificateName);
   });
 

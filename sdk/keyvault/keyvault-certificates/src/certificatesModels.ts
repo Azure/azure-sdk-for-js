@@ -15,7 +15,7 @@ export type CertificateContentType = 'application/pem' | 'application/x-pkcs12' 
 
 /**
  * @interface
- * An interface representing a full certificate
+ * An interface representing a certificate without the certificate's policy
  */
 export interface Certificate extends CertificateAttributes {
   /**
@@ -31,12 +31,6 @@ export interface Certificate extends CertificateAttributes {
    */
   readonly sid?: string;
   /**
-   * @member {CertificatePolicy} [policy] The management policy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly policy?: CertificatePolicy;
-  /**
    * @member {Uint8Array} [cer] CER contents of x509 certificate.
    */
   cer?: Uint8Array;
@@ -44,6 +38,19 @@ export interface Certificate extends CertificateAttributes {
    * @member {CertificateContentType} [contentType] The content type of the secret.
    */
   contentType?: CertificateContentType;
+}
+
+/**
+ * @interface
+ * An interface representing a full certificate
+ */
+export interface CertificateWithPolicy extends Certificate { 
+  /**
+   * @member {CertificatePolicy} [policy] The management policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policy?: CertificatePolicy;
 }
 
 /**
@@ -150,25 +157,6 @@ export interface UpdateCertificateOptions {
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
-
-/**
- * @interface
- * An interface representing CertificateClientGetCertificateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface GetCertificateOptions {
-  /**
-   * @member {string} [version] The version of the certificate to retrieve.  If not 
-   * specified the latest version of the certificate will be retrieved.
-   */
-  version?: string;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

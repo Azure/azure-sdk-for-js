@@ -21,7 +21,7 @@ async function main(): Promise<void> {
 
   // await delay(150000);
 
-  let result2 = await cc.getCertificate("MyCertificate2");
+  let result2 = await cc.getCertificateWithPolicy("MyCertificate2");
   console.log("result: ", result2);
 
   for await (let cert of cc.listCertificates()) {

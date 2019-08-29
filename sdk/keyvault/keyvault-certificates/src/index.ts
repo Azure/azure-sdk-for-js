@@ -1,3 +1,4 @@
+import * as coreHttp from "@azure/core-http";
 import {
   TokenCredential,
   isTokenCredential,
@@ -14,9 +15,7 @@ import {
   isNode,
   userAgentPolicy
 } from "@azure/core-http";
-
-
-import { GetCertificateOptions, RequestOptions, CertificateAttributes, Certificate, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
+import { RequestOptions, CertificateAttributes, Certificate, CertificateWithPolicy, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -50,7 +49,6 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
@@ -516,14 +514,26 @@ export class CertificatesClient {
   }
 
   /**
-   * Gets information about a specific certificate. This operation requires the certificates/get permission.
+   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
    * @param name The name of the certificate
-   * @param version The specific version of the certificate
-   * @param options The optional parameters
+   * @param requestOptions The optional parameters
    * @returns Promise<Certificate>
    */
-  public async getCertificate(name: string, options?: GetCertificateOptions): Promise<Certificate> {
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, (options && options.version) || "", options);
+  public async getCertificateWithPolicy(name: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<CertificateWithPolicy> {
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, "", { requestOptions });
+
+    return this.getCertificateFromCertificateBundle(result);
+  }
+
+  /**
+   * Gets information about a specific certificate on a specific version. It won't return the certificate's policy. This operation requires the certificates/get permission.
+   * @param name The name of the certificate
+   * @param version The specific version of the certificate
+   * @param requestOptions The optional parameters
+   * @returns Promise<Certificate>
+   */
+  public async getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate> {
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, { requestOptions });
 
     return this.getCertificateFromCertificateBundle(result);
   }
