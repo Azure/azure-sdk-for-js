@@ -6,7 +6,14 @@ import { Checkpoint } from "./checkpointManager";
 import { generate_uuid } from "rhea-promise";
 
 /**
- * A simple in-memory implementation of a `PartitionManager`
+ * The `EventProcessor` relies on a `PartitionManager` to store checkpoints and handle partition
+ * ownerships. `InMemoryPartitionManager` is simple partition manager that stores checkpoints and
+ * partition ownerships in memory of your program.
+ * 
+ * You can use the `InMemoryPartitionManager` to get started with using the `EventProcessor`.
+ * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * store the checkpoints and partition ownerships to a durable store instead.
+ * 
  * @class
  */
 export class InMemoryPartitionManager implements PartitionManager {
