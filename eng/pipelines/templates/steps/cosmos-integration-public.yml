@@ -1,5 +1,34 @@
+parameters:
+  EmulatorMsiUrl: "https://aka.ms/cosmosdb-emulator"
+
 steps:
-  - task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
-    inputs:
-      defaultPartitionCount: 25
-    displayName: "Run Azure Cosmos DB Emulator container (public)"
+  - powershell: |
+      Write-Host "Downloading Cosmos Emulator - ${{ parameters.EmulatorMsiUrl }}"
+      wget  "${{ parameters.EmulatorMsiUrl }}" -outfile "$env:temp\azure-cosmosdb-emulator.msi"
+      Write-Host "Finished Downloading Cosmos Emulator - $env:temp\azure-cosmosdb-emulator.msi"
+      dir "$env:temp"
+    displayName: "Download Public Cosmos DB Emulator"
+
+  - script: |
+      choco install lessmsi
+      choco upgrade lessmsi
+      mkdir "%TEMP%\Azure Cosmos DB Emulator"
+      lessmsi x "%TEMP%\azure-cosmosdb-emulator.msi" "%TEMP%\Azure Cosmos DB Emulator\"
+    displayName: "Install Public Cosmos DB Emulator"
+
+  - powershell: |
+      Write-Host "Starting Comsos DB Emulator"
+      Start-Process "$env:Temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe" "/NoExplorer /NoUI" -Verb RunAs
+    displayName: "Run Public Cosmos DB Emulator"
+
+  - powershell: |
+      Import-Module "$env:Temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+
+      Do {
+          sleep 5
+          $cosmosStatus = Get-CosmosDbEmulatorStatus
+          Write-Host "Cosmos Status: $cosmosStatus"
+      } While ($cosmosStatus -ne 'Running')
+
+      Write-Host "Done"
+    displayName: "Check Public Cosmos DB Emulator Status"
