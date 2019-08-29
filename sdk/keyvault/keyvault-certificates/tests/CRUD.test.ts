@@ -191,34 +191,28 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can create, read, and delete a certificate's issuer", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificateProperties);
-    const issuerName = "issuerName";
+  it("can create, read, and delete a certificate issuer", async function() {
+    const issuerName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setCertificateIssuer(certificateName, "Test", {
-      name: issuerName
-    });
+    await client.setCertificateIssuer(issuerName, "Test");
 
     let getResponse: any;
 
     // Read
-    getResponse = await client.getCertificateIssuer(certificateName);
+    getResponse = await client.getCertificateIssuer(issuerName);
     assert.equal(getResponse.provider, "Test");
 
     // Delete
-    await client.deleteCertificateIssuer(certificateName);
+    await client.deleteCertificateIssuer(issuerName);
     let error;
     try {
-      await client.getCertificateIssuer(certificateName);
+      await client.getCertificateIssuer(issuerName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
     }
     assert.equal(error.message, "Issuer not found"); 
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can read, cancel and delete a certificate's operation", async function() {
