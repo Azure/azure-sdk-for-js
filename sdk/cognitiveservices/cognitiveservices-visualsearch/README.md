@@ -17,54 +17,64 @@ npm install @azure/cognitiveservices-visualsearch
 
 #### nodejs - Authentication, client creation and visualSearch images as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { VisualSearchClient, VisualSearchModels, VisualSearchMappers } from "@azure/cognitiveservices-visualsearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  VisualSearchClient,
+  VisualSearchModels
+} from "@azure/cognitiveservices-visualsearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new VisualSearchClient(creds, subscriptionId);
-  const acceptLanguage = "testacceptLanguage";
-  const contentType = "testcontentType";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const market = "testmarket";
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  const knowledgeRequest = "testknowledgeRequest";
-  const image = new require("stream").Readable();
-  client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const visualSearchKey = process.env["visualSearchKey"] || "<visualSearchKey>";
+  const visualSearchEndPoint =
+    process.env["visualSearchEndPoint"] || "<visualSearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    visualSearchKey
+  );
+  const client = new VisualSearchClient(cognitiveServiceCredentials, {
+    endpoint: visualSearchEndPoint
   });
-}).catch((err) => {
-  console.error(err);
-});
+
+  const insightsToken =
+    "ccid_tmaGQ2eU*mid_D12339146CFEDF3D409CC7A66D2C98D0D71904D4*simid_608022145667564759*thid_OIP.tmaGQ2eUI1yq3yll!_jn9kwHaFZ";
+
+  const knowledgeRequest = JSON.stringify({
+    imageInfo: {
+      imageInsightsToken: insightsToken
+    }
+  });
+
+  const options: VisualSearchModels.ImagesVisualSearchOptionalParams = {
+    acceptLanguage: "en-US",
+    knowledgeRequest: knowledgeRequest
+  };
+
+  client.images
+    .visualSearch(options)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and visualSearch images as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -73,39 +83,46 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-visualsearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-visualsearch/dist/cognitiveservices-visualsearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const visualSearchKey = "<YOUR_VISUAL_SEARCH_KEY>";
+      const visualSearchEndPoint = "<YOUR_VISUAL_SEARCH_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": visualSearchKey
         }
-        const client = new Azure.CognitiveservicesVisualsearch.VisualSearchClient(res.creds, subscriptionId);
-        const acceptLanguage = "testacceptLanguage";
-        const contentType = "testcontentType";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const market = "testmarket";
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        const knowledgeRequest = "testknowledgeRequest";
-        const image = new ReadableStream();
-        client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesVisualsearch.VisualSearchClient(
+        cognitiveServiceCredentials,
+        {
+          endpoint: visualSearchEndPoint
+        }
+      );
+
+      const insightsToken =
+        "ccid_tmaGQ2eU*mid_D12339146CFEDF3D409CC7A66D2C98D0D71904D4*simid_608022145667564759*thid_OIP.tmaGQ2eUI1yq3yll!_jn9kwHaFZ";
+
+      const knowledgeRequest = JSON.stringify({
+        imageInfo: {
+          imageInsightsToken: insightsToken
+        }
+      });
+
+      const options = {
+        acceptLanguage: "en-US",
+        knowledgeRequest: knowledgeRequest
+      };
+
+      client.images
+        .visualSearch(options)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
