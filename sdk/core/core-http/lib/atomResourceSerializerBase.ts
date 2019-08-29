@@ -16,13 +16,47 @@
 
 import { isNode } from "./util/utils";
 import { Constants } from "./util/constants";
-import { AtomHandler } from "./util/atomHandler";
-import { each, isUndefined, isArray } from "./util/utils";
-
-const atomHandler = new AtomHandler();
+import { serializeJsonToAtomXml } from "./util/xml";
+import { parseResultFromAtomResponse } from "./util/atomHandler";
 
 export class AtomResourceSerializerBase {
-  static setName(entry: any, nameProperty: any): any {
+  static serializeToAtomXmlRequest(resourceName: any, resource: any, properties: any): any {
+    var content: any = {};
+    content[resourceName] = {
+      $: {
+        xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
+      }
+    };
+
+    if (resource) {
+      // Sort properties according to what is allowed by the service
+      properties.forEach((property: any) => {
+        if (resource[property] !== undefined) {
+          content[resourceName][property] = resource[property];
+        }
+      });
+    }
+
+    return serializeJsonToAtomXml(content);
+  }
+
+  static deserializeAtomResponse(nameProperty: any, atomResponseInJson: any): any {
+    var result = parseResultFromAtomResponse(atomResponseInJson);
+
+    if (!result) {
+      return undefined;
+    }
+    if (Array.isArray(result)) {
+      result.forEach((entry: any) => {
+        AtomResourceSerializerBase.setName(entry, nameProperty);
+      });
+    } else {
+      AtomResourceSerializerBase.setName(result, nameProperty);
+    }
+    return result;
+  }
+
+  private static setName(entry: any, nameProperty: any): any {
     let parsedUrl: any;
     if (isNode) {
       parsedUrl = new URL(entry[Constants.ATOM_METADATA_MARKER].id);
@@ -34,41 +68,5 @@ export class AtomResourceSerializerBase {
     for (var i = 0; i * 2 < parts.length - 1; i++) {
       entry[nameProperty[i]] = parts[i * 2 + 1];
     }
-  }
-
-  static _serialize(resourceName: any, resource: any, properties: any): any {
-    var content: any = {};
-    content[resourceName] = {
-      $: {
-        xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
-      }
-    };
-
-    if (resource) {
-      // Sort properties according to what is allowed by the service
-      each(properties, function(property: any): any {
-        if (!isUndefined(resource[property])) {
-          content[resourceName][property] = resource[property];
-        }
-      });
-    }
-
-    return atomHandler.serializeEntry(content);
-  }
-
-  static _parse(nameProperty: any, xml: any): any {
-    var result = atomHandler.parse(xml);
-
-    if (!result) {
-      return undefined;
-    }
-    if (isArray(result)) {
-      each(result, function(entry: any): any {
-        AtomResourceSerializerBase.setName(entry, nameProperty);
-      });
-    } else {
-      AtomResourceSerializerBase.setName(result, nameProperty);
-    }
-    return result;
   }
 }

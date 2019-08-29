@@ -7,8 +7,13 @@ import { RestError } from "../restError";
 import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 
+const validUuidRegex = new RegExp(
+  "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+  "ig"
+);
 /**
- * A constant that indicates whether the environment is node.js or browser based.
+ 
+* A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
   typeof process !== "undefined" &&
@@ -81,10 +86,6 @@ export function stripRequest(request: WebResource): WebResource {
  * @return {boolean} True if the uuid is valid; false otherwise.
  */
 export function isValidUuid(uuid: string): boolean {
-  const validUuidRegex = new RegExp(
-    "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-    "ig"
-  );
   return validUuidRegex.test(uuid);
 }
 
@@ -288,63 +289,16 @@ export function isPrimitiveType(value: any): boolean {
 }
 
 /**
- * Determines whether the given `value` is an empty string or not.
- * @param {any} value Any entity
- * @return {boolean} - true if it is equivalent to an empty string, false otherwise.
- */
-export function stringIsEmpty(value: any) {
-  return isNull(value) || isUndefined(value) || value === "";
-}
-
-/**
  * Checks if given `text` starts with the specified `prefix`
  * @param text Input string
  * @return {boolean} - true if yes, false otherwise.
  */
 export function stringStartsWith(text: string, prefix: string) {
-  if (isNull(prefix)) {
+  if (prefix == null) {
     return true;
   }
 
   return text.substr(0, prefix.length) === prefix;
-}
-
-/**
- * Returns the number of keys (properties) in an object.
- *
- * @param {object} value The object which keys are to be counted.
- * @return {number} The number of keys in the object.
- */
-export function objectKeysLength(value: any) {
-  if (!value) {
-    return 0;
-  }
-
-  return keys(value).length;
-}
-
-/**
- * Returns the name of the first property in an object.
- *
- * @param {object} value The object which key is to be returned.
- * @return {number} The name of the first key in the object.
- */
-export function objectFirstKey(value: any) {
-  if (value && Object.keys(value).length > 0) {
-    return Object.keys(value)[0];
-  }
-
-  // Object has no properties
-  return null;
-}
-
-/**
- * Determines whether the given `value` is a null object or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export function objectIsNull(value: any) {
-  return isNull(value) || isUndefined(value);
 }
 
 /**
@@ -366,17 +320,6 @@ export function isString(value: any) {
 }
 
 /**
- * Determines whether the given `value` is a `Array` object or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export const isArray =
-  Array.isArray ||
-  function(value: any) {
-    return Object.prototype.toString.call(value) == "[object Array]";
-  };
-
-/**
  * Determines whether the given `value` is a `Object` or not.
  * @param {any} value Any entity
  * @return {boolean} - true if yes, false otherwise.
@@ -384,72 +327,6 @@ export const isArray =
 export const isObject = function(value: any) {
   return value === Object(value);
 };
-
-/**
- * Determines whether the given `value` is an undefined entity or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export const isUndefined = function(value: any) {
-  return value === void 0;
-};
-
-/**
- * Utility to iterate over given entity's values.
- * @param {any} obj - The object to execute operation(s) on.
- * @param {any} iterator - The iterator callback to use
- * @param {any} context - Optional context for use with iterator
- * @return {any} - the final extended object
- */
-export const each = function(obj: any, iterator: any, context?: any) {
-  if (obj == null) return;
-  if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-    obj.forEach(iterator, context);
-  } else if (obj.length === +obj.length) {
-    for (var i = 0, l = obj.length; i < l; i++) {
-      if (iterator.call(context, obj[i], i, obj) === {}) return;
-    }
-  } else {
-    for (var key in obj) {
-      if (has(obj, key)) {
-        if (iterator.call(context, obj[key], key, obj) === {}) return;
-      }
-    }
-  }
-};
-
-/**
- * Extends given object `obj` with the passed in `source` object.
- * @param {any} obj
- * @param {any} source
- * @return {any} - the final extended object
- */
-export const extend = function(obj: any, source: any) {
-  if (source) {
-    for (var prop in source) {
-      obj[prop] = source[prop];
-    }
-  }
-  return obj;
-};
-
-// Private helper utilities
-const has = function(obj: any, key: any) {
-  return Object.prototype.hasOwnProperty.call(obj, key);
-};
-
-const isNull = function(value: any) {
-  return value === null;
-};
-
-const keys =
-  Object.keys ||
-  function(obj: any) {
-    if (obj !== Object(obj)) throw new TypeError("Invalid object");
-    var keys = [];
-    for (var key in obj) if (has(obj, key)) keys[keys.length] = key;
-    return keys;
-  };
 
 export function byteLength(string: any) {
   return utf8ToBytes(string).length; // assume utf8

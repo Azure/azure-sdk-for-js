@@ -3,7 +3,7 @@ import * as glob from "glob";
 import * as path from "path";
 
 const config: webpack.Configuration = {
-  entry: glob.sync(path.join(__dirname, "test/**/*[^node\.].ts")),
+  entry: glob.sync(path.join(__dirname, "test/**/*[^node.].ts")),
   mode: "development",
   devtool: "source-map",
   stats: {
@@ -27,11 +27,30 @@ const config: webpack.Configuration = {
     path: path.resolve(__dirname, "test")
   },
   plugins: [
-    new webpack.NormalModuleReplacementPlugin(/(\.).+util\/base64/, path.resolve(__dirname, "./lib/util/base64.browser.ts")),
-    new webpack.NormalModuleReplacementPlugin(/(\.).+util\/xml/, path.resolve(__dirname, "./lib/util/xml.browser.ts")),
-    new webpack.NormalModuleReplacementPlugin(/(\.).+defaultHttpClient/, path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts")),
-    new webpack.NormalModuleReplacementPlugin(/(\.).+msRestUserAgentPolicy/, path.resolve(__dirname, "./lib/policies/msRestUserAgentPolicy.browser.ts")),
-    new webpack.NormalModuleReplacementPlugin(/(\.).+proxyPolicy/, path.resolve(__dirname, "./lib/policies/proxyPolicy.browser.ts"))
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+util\/base64/,
+      path.resolve(__dirname, "./lib/util/base64.browser.ts")
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+util\/xml/,
+      path.resolve(__dirname, "./lib/util/xml.browser.ts")
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+util\/crypto/,
+      path.resolve(__dirname, "./lib/util/crypto.browser.ts")
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+defaultHttpClient/,
+      path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts")
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+msRestUserAgentPolicy/,
+      path.resolve(__dirname, "./lib/policies/msRestUserAgentPolicy.browser.ts")
+    ),
+    new webpack.NormalModuleReplacementPlugin(
+      /(\.).+proxyPolicy/,
+      path.resolve(__dirname, "./lib/policies/proxyPolicy.browser.ts")
+    )
   ],
   module: {
     rules: [
@@ -55,7 +74,7 @@ const config: webpack.Configuration = {
     tls: "empty",
     tty: false,
     tunnel: "empty",
-    v8: false,
+    v8: false
   }
 };
 

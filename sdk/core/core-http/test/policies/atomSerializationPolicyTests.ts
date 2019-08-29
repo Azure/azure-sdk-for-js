@@ -115,14 +115,18 @@ function getCustomResult(error: any, result: any, response: any): any {
   };
 }
 
-class MockSerializer extends ResourceSerializer {
+class MockSerializer implements ResourceSerializer {
   serialize(resource: any): any {
     var properties = ["LockDuration", "MaxSizeInMegabytes"];
 
-    return AtomResourceSerializerBase._serialize("QueueDescription", resource, properties);
+    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+      "QueueDescription",
+      resource,
+      properties
+    );
   }
 
   parse(xml: any): any {
-    return AtomResourceSerializerBase._parse(["QueueName"], xml);
+    return AtomResourceSerializerBase.deserializeAtomResponse(["QueueName"], xml);
   }
 }

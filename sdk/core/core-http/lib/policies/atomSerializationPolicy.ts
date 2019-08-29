@@ -10,8 +10,8 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { Constants } from "../util/constants";
-import { parseAtomXmlDataToJson } from "../util/xml";
-import { isString, extend, byteLength } from "../util/utils";
+import { deserializeAtomXmlToJson } from "../util/xml";
+import { isString, byteLength } from "../util/utils";
 import { ResourceSerializer } from "../resourceSerializer";
 
 /**
@@ -102,7 +102,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     const parsedResponse = responseInXml;
     try {
       if (responseInXml.bodyAsText && byteLength(responseInXml.bodyAsText.toString()) > 0) {
-        parsedResponse.parsedBody = parseAtomXmlDataToJson(responseInXml.bodyAsText);
+        parsedResponse.parsedBody = deserializeAtomXmlToJson(responseInXml.bodyAsText);
       }
     } catch (e) {
       parsedResponse.errorBody = {
@@ -112,41 +112,37 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     return parsedResponse;
   }
 
-  _normalizeError(error: any, response: HttpOperationResponse): any {
+  private _normalizeError(error: any, response: HttpOperationResponse): any {
     if (isString(error)) {
       return new Error(error);
     } else if (error) {
-      var normalizedError: any = {};
+      const normalizedError: any = {};
+      const odataErrorFormat = !!error["odata.error"];
+      const errorProperties = error.Error || error.error || error["odata.error"] || error;
 
-      var odataErrorFormat = !!error["odata.error"];
-      var errorProperties = error.Error || error.error || error["odata.error"] || error;
       if (odataErrorFormat) {
-        for (var property in errorProperties) {
-          if (errorProperties.hasOwnProperty(property)) {
-            var value = null;
+        Object.keys(errorProperties).forEach((property: any) => {
+          let value = null;
+          if (
+            property === Constants.ODATA_ERROR_MESSAGE &&
+            !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
+          ) {
             if (
-              property === Constants.ODATA_ERROR_MESSAGE &&
-              !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
+              errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]
             ) {
-              if (
-                errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]
-              ) {
-                value =
-                  errorProperties[Constants.ODATA_ERROR_MESSAGE][
-                    Constants.ODATA_ERROR_MESSAGE_VALUE
-                  ];
-              } else {
-                value = "missing value in the message property of the odata error format";
-              }
+              value =
+                errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
             } else {
-              value = errorProperties[property];
+              value = "missing value in the message property of the odata error format";
             }
-            normalizedError[property.toLowerCase()] = value;
+          } else {
+            value = errorProperties[property];
           }
-        }
+          normalizedError[property.toLowerCase()] = value;
+        });
       } else {
-        for (var property in errorProperties) {
-          if (errorProperties.hasOwnProperty(property)) {
+        Object.keys(errorProperties).forEach((property: any) => {
+          {
             var value = null;
             if (property !== "$") {
               if (errorProperties[property] && errorProperties[property]["_"]) {
@@ -157,7 +153,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
               normalizedError[property.toLowerCase()] = value;
             }
           }
-        }
+        });
       }
       var errorMessage = normalizedError.code;
       if (normalizedError.detail) {
@@ -174,8 +170,11 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
         }
       }
 
-      var errorObject = new Error(errorMessage);
-      return extend(errorObject, normalizedError);
+      var errorObject: any = { error: { code: errorMessage } };
+      Object.keys(normalizedError).forEach((property: any) => {
+        errorObject[property] = normalizedError[property];
+      });
+      return errorObject;
     }
 
     return undefined;

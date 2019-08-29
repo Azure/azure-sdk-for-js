@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-export abstract class ResourceSerializer {
-  abstract serialize(resource: any): any;
+export interface ResourceSerializer {
+  serialize(resource: any): any;
 
-  abstract parse(xml: any): any;
+  parse(xml: any): any;
 }
