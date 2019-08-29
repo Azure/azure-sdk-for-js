@@ -98,6 +98,13 @@ jobs:
           flattenFolders: true
         displayName: "Copy lint reports"
 
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
+
       - script: |
           node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
@@ -181,33 +188,43 @@ jobs:
         Windows_Node12:
           OSVmImage: "vs2017-win2016"
           NodeVersion: "12.x"
+
     pool:
       vmImage: "$(OSVmImage)"
+
     variables:
       - template: ../variables/globals.yml
+
     steps:
       - template: ../steps/common.yml
+
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
+
       - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
+
       - script: |
           node common/scripts/install-run-rush.js build --verbose
         displayName: "Build libraries"
+
       - script: |
           node common/scripts/install-run-rush.js build:test --verbose
         displayName: "Build test assets"
+
       - script: |
           node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Test libraries"
+
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
           testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
         condition: succeededOrFailed()
         displayName: "Publish NodeJS unit test results"
+
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.browser.xml"
