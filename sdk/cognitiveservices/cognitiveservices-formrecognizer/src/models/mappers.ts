@@ -9,6 +9,32 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
+export const TrainSourceFilter: msRest.CompositeMapper = {
+  serializedName: "TrainSourceFilter",
+  type: {
+    name: "Composite",
+    className: "TrainSourceFilter",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        constraints: {
+          MaxLength: 128,
+          MinLength: 0
+        },
+        type: {
+          name: "String"
+        }
+      },
+      includeSubFolders: {
+        serializedName: "includeSubFolders",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const TrainRequest: msRest.CompositeMapper = {
   serializedName: "TrainRequest",
   type: {
@@ -24,6 +50,13 @@ export const TrainRequest: msRest.CompositeMapper = {
         },
         type: {
           name: "String"
+        }
+      },
+      sourceFilter: {
+        serializedName: "sourceFilter",
+        type: {
+          name: "Composite",
+          className: "TrainSourceFilter"
         }
       }
     }
@@ -501,4 +534,401 @@ export const AnalyzeResult: msRest.CompositeMapper = {
       }
     }
   }
+};
+
+export const Word: msRest.CompositeMapper = {
+  serializedName: "Word",
+  type: {
+    name: "Composite",
+    className: "Word",
+    modelProperties: {
+      boundingBox: {
+        required: true,
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      confidence: {
+        nullable: true,
+        serializedName: "confidence",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "High",
+            "Low"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const Line: msRest.CompositeMapper = {
+  serializedName: "Line",
+  type: {
+    name: "Composite",
+    className: "Line",
+    modelProperties: {
+      boundingBox: {
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      words: {
+        serializedName: "words",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Word"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TextRecognitionResult: msRest.CompositeMapper = {
+  serializedName: "TextRecognitionResult",
+  type: {
+    name: "Composite",
+    className: "TextRecognitionResult",
+    modelProperties: {
+      page: {
+        serializedName: "page",
+        type: {
+          name: "Number"
+        }
+      },
+      clockwiseOrientation: {
+        serializedName: "clockwiseOrientation",
+        type: {
+          name: "Number"
+        }
+      },
+      width: {
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      },
+      unit: {
+        nullable: true,
+        serializedName: "unit",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "pixel",
+            "inch"
+          ]
+        }
+      },
+      lines: {
+        required: true,
+        serializedName: "lines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Line"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ElementReference: msRest.CompositeMapper = {
+  serializedName: "elementReference",
+  type: {
+    name: "Composite",
+    className: "ElementReference",
+    modelProperties: {
+      ref: {
+        serializedName: "$ref",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FieldValue: msRest.CompositeMapper = {
+  serializedName: "fieldValue",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "valueType",
+      clientName: "valueType"
+    },
+    uberParent: "FieldValue",
+    className: "FieldValue",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      elements: {
+        serializedName: "elements",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ElementReference"
+            }
+          }
+        }
+      },
+      valueType: {
+        required: true,
+        serializedName: "valueType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UnderstandingResult: msRest.CompositeMapper = {
+  serializedName: "understandingResult",
+  type: {
+    name: "Composite",
+    className: "UnderstandingResult",
+    modelProperties: {
+      pages: {
+        serializedName: "pages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      fields: {
+        serializedName: "fields",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "FieldValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ReadReceiptResult: msRest.CompositeMapper = {
+  serializedName: "readReceiptResult",
+  type: {
+    name: "Composite",
+    className: "ReadReceiptResult",
+    modelProperties: {
+      status: {
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Not Started",
+            "Running",
+            "Failed",
+            "Succeeded"
+          ]
+        }
+      },
+      recognitionResults: {
+        serializedName: "recognitionResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextRecognitionResult"
+            }
+          }
+        }
+      },
+      understandingResults: {
+        serializedName: "understandingResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UnderstandingResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StringValue: msRest.CompositeMapper = {
+  serializedName: "stringValue",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: FieldValue.type.polymorphicDiscriminator,
+    uberParent: "FieldValue",
+    className: "StringValue",
+    modelProperties: {
+      ...FieldValue.type.modelProperties,
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NumberValue: msRest.CompositeMapper = {
+  serializedName: "numberValue",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: FieldValue.type.polymorphicDiscriminator,
+    uberParent: "FieldValue",
+    className: "NumberValue",
+    modelProperties: {
+      ...FieldValue.type.modelProperties,
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ComputerVisionError: msRest.CompositeMapper = {
+  serializedName: "ComputerVisionError",
+  type: {
+    name: "Composite",
+    className: "ComputerVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "Object"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ImageUrl: msRest.CompositeMapper = {
+  serializedName: "ImageUrl",
+  type: {
+    name: "Composite",
+    className: "ImageUrl",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BatchReadReceiptHeaders: msRest.CompositeMapper = {
+  serializedName: "batchreadreceipt-headers",
+  type: {
+    name: "Composite",
+    className: "BatchReadReceiptHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BatchReadReceiptInStreamHeaders: msRest.CompositeMapper = {
+  serializedName: "batchreadreceiptinstream-headers",
+  type: {
+    name: "Composite",
+    className: "BatchReadReceiptInStreamHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const discriminators = {
+  'fieldValue' : FieldValue,
+  'FieldValue.stringValue' : StringValue,
+  'FieldValue.numberValue' : NumberValue
+
 };

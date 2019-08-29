@@ -25,10 +25,15 @@ export {
   DataConnection,
   EventGridDataConnection,
   EventHubDataConnection,
+  IotHubDataConnection,
   ListResourceSkusResult,
-  ListSkusResult,
+  OptimizedAutoscale,
   ProxyResource,
   Resource,
+  SkuDescription,
+  SkuDescriptionList,
+  SkuLocationInfoItem,
   TrackedResource,
-  TrustedExternalTenant
+  TrustedExternalTenant,
+  VirtualNetworkConfiguration
 } from "../models/mappers";

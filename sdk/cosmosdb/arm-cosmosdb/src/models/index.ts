@@ -210,6 +210,15 @@ export interface DatabaseAccount extends Resource {
    * Enables the account to write in multiple locations
    */
   enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
 }
 
 /**
@@ -659,6 +668,15 @@ export interface DatabaseAccountCreateUpdateParameters extends Resource {
    * Enables the account to write in multiple locations
    */
   enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
 }
 
 /**
@@ -691,7 +709,7 @@ export interface DatabaseAccountListReadOnlyKeysResult {
 /**
  * The access keys for the given database account.
  */
-export interface DatabaseAccountListKeysResult {
+export interface DatabaseAccountListKeysResult extends DatabaseAccountListReadOnlyKeysResult {
   /**
    * Base 64 encoded value of the primary read-write key.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -702,16 +720,6 @@ export interface DatabaseAccountListKeysResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly secondaryMasterKey?: string;
-  /**
-   * Base 64 encoded value of the primary read-only key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly primaryReadonlyMasterKey?: string;
-  /**
-   * Base 64 encoded value of the secondary read-only key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly secondaryReadonlyMasterKey?: string;
 }
 
 /**
@@ -1679,6 +1687,14 @@ export type DatabaseAccountOfferType = 'Standard';
  * @enum {string}
  */
 export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness' | 'Strong' | 'ConsistentPrefix';
+
+/**
+ * Defines values for ConnectorOffer.
+ * Possible values include: 'Small'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectorOffer = 'Small';
 
 /**
  * Defines values for IndexingMode.

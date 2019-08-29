@@ -14,7 +14,8 @@ import { PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 
 /**
- * Reason for closing a PartitionProcessor.
+ * An enum representing the different reasons for an `EventProcessor` to stop processing
+ * events from a partition in a consumer group of an Event Hub instance.
  */
 export enum CloseReason {
   /**
@@ -32,7 +33,11 @@ export enum CloseReason {
 }
 
 /**
- * Implementations of this interface are responsible to process events, handle errors and update checkpoints
+ * An interface to be implemented by the user in order to be used by the `EventProcessor` via
+ * the `PartitionProcessorFactory` to process events from a partition in a consumer group of an Event Hub instance.
+ *
+ * The interface supports methods that are called at various points of the lifecyle of processing events
+ * from a partition like initialize, error and close.
  *
  */
 export interface PartitionProcessor {
@@ -69,7 +74,10 @@ export interface PartitionProcessor {
 }
 
 /**
- * Partition ownership information. Used by `PartitionManager` to claim ownership.
+ * An interface representing the details on which instance of a `EventProcessor` owns processing
+ * of a given partition from a consumer group of an Event Hub instance.
+ *
+ * **Note**: This is used internally by the `EventProcessor` and user never has to create it directly.
  */
 export interface PartitionOwnership {
   /**
@@ -112,7 +120,12 @@ export interface PartitionOwnership {
 }
 
 /**
- * A functional interface to create new instance(s) of `PartitionProcessor` when provided with a `PartitionContext` and `CheckpointManager`.
+ * `PartitionProcessorFactory` is the interface for the function to be implemented by the user and passed
+ * to the constructor of `EventProcessor`.
+ * This function acts as a factory that should return an object that implements the `PartitionProcessor`.
+ *
+ * An instance of `EventProcessor` calls this factory each time it begins processing a new partition
+ * from a consumer group of an Event Hub instance.
  */
 export interface PartitionProcessorFactory {
   /**
@@ -129,7 +142,17 @@ export interface PartitionProcessorFactory {
 }
 
 /**
- *  Partition manager stores and retrieves partition ownership information and checkpoint details for each partition in a given consumer group of an event hub instance.
+ * A Partition manager stores and retrieves partition ownership information and checkpoint details
+ * for each partition in a given consumer group of an event hub instance.
+ *
+ * Users are not meant to implement an `PartitionManager`.
+ * Users are expected to choose existing implementations of this interface, instantiate it, and pass
+ * it to the constructor of `EventProcessor`.
+ *
+ * To get started, you can use the `InMemoryPartitionManager` which will store the relevant information in memory.
+ * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * store the checkpoints and partition ownerships to a durable store instead.
+ *
  */
 export interface PartitionManager {
   /**
@@ -158,19 +181,61 @@ export interface PartitionManager {
   updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
-// Options passed when creating EventProcessor, everything is optional
+/**
+ * A set of options to pass to the constructor of `EventProcessor`
+ */
 export interface EventProcessorOptions {
+  /**
+   * @property The position from where to start processing events.
+   */
   initialEventPosition?: EventPosition;
+  /**
+   * The max size of the batch of events passed each time to user code for processing.
+   */
   maxBatchSize?: number;
+  /**
+   * The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+   */
   maxWaitTimeInSeconds?: number;
 }
 
 /**
- * This is the starting point for event processor.
- *
  * Event Processor based application consists of one or more instances of EventProcessor which have been
  * configured to consume events from the same Event Hub and consumer group. Event Processors balance the
  * workload across different instances and track progress when events are processed.
+ * 
+ * `EventProcessor` is a high level construct that
+ * - uses an `EventHubClient` to receive events from multiple partitions in a consumer group of
+ * an Event Hub instance.
+ * - uses a factory method implemented by the user to create new processors for each partition.
+ * These processors hold user code to process events.
+ * - provides the ability to checkpoint and load balance across multiple instances of itself
+ * using the `PartitionManager`.
+ *
+ * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ * partition of a consumer group in an Event Hub instance.
+ *
+ * By setting up multiple instances of the `EventProcessor` over different machines, the partitions will be distributed
+ * for processing among the different instances. This achieves load balancing.
+ *
+ * You need the below to create an instance of `EventProcessor`
+ * - The name of the consumer group from which you want to process events
+ * - An instance of `EventHubClient` that was created for the Event Hub instance.
+ * - A factory method that can return an object that implements the `PartitionProcessor` interface.
+ * This method should be implemented by the user. For example:
+ * (context, checkpointManager) => { 
+ *    return { 
+ *      processEvents: (events) => { 
+ *        // user code here
+ *        // use the context to get information on the partition
+ *        // use the checkpointManager to update checkpoints if needed
+ *       }
+ *     }
+ * }
+ * - An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
+ * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
+ *
  * @class EventProcessor
  */
 export class EventProcessor {
@@ -187,12 +252,16 @@ export class EventProcessor {
   private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
-   * @param consumerGroupName The consumer group name used in this event processor to consumer events.
-   * @param eventHubClient The Event Hub client.
-   * @param partitionProcessorFactory The factory to create new partition processor(s).
-   * @param partitionManager The partition manager this Event Processor will use for reading and writing partition
-   * ownership and checkpoint information.
-   * @param options Optional parameters for creating an EventProcessor.
+   * @param consumerGroupName The name of the consumer group from which you want to process events
+   * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
+   * @param partitionProcessorFactory A factory method that can return an object that implements the `PartitionProcessor` interface.
+   * @param partitionManager An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
+   * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
+   * @param options A set of options to configure the Event Processor
+   * - `initialEventPosition` : The position from where to start processing events.
+   * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
+   * - `maxWaitTimeInSeconds` : The maximum amount of time to wait to build up the requested message count before
+   * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   constructor(
     consumerGroupName: string,
@@ -277,12 +346,13 @@ export class EventProcessor {
   }
 
   /**
-   * Starts processing of events for all partitions of the Event Hub that this event processor can own, assigning a
-   * dedicated `PartitionProcessor` to each partition. If there are other Event Processors active for the same
-   * consumer group on the Event Hub, responsibility for partitions will be shared between them.
-   *
-   * Subsequent calls to start will be ignored if this event processor is already running. Calling `start()` after `stop()`
-   * is called will restart this event processor.
+   * Starts the `EventProcessor`. Based on the number of instances of `EventProcessor` that are running for the
+   * same consumer group, the partitions are distributed among these instances to process events.
+   * 
+   * For each partition, the user provided `PartitionProcessorFactory` is called to create a `PartitionProcessor`.
+   * 
+   * Subsequent calls to start will be ignored if this event processor is already running. 
+   * Calling `start()` after `stop()` is called will restart this event processor.
    *
    * @return {void}
    */
@@ -299,8 +369,8 @@ export class EventProcessor {
   }
 
   /**
-   * Stops processing events for all partitions owned by this event processor. All `PartitionProcessor` will be
-   * shutdown and any open resources will be closed.
+   * Stops processing events for all partitions owned by this event processor. 
+   * All `PartitionProcessor` will be shutdown and any open resources will be closed.
    *
    * Subsequent calls to stop will be ignored if the event processor is not running.
    *
