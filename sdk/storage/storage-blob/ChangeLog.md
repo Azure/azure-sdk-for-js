@@ -1,5 +1,10 @@
 # Changelog
 
+### 2019.08 10.4.1
+
+- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
+
 ### 2019.08 Version 12.0.0-preview.2
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.

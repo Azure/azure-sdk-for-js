@@ -85,8 +85,8 @@ export class EventDataBatch {
 // @public
 export class EventHubClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubPath: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubPath: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
@@ -249,7 +249,7 @@ export interface PartitionProcessorFactory {
 // @public
 export interface PartitionProperties {
     beginningSequenceNumber: number;
-    eventHubPath: string;
+    eventHubName: string;
     lastEnqueuedOffset: number;
     lastEnqueuedSequenceNumber: number;
     lastEnqueuedTimeUtc: Date;

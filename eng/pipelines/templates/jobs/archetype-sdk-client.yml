@@ -23,18 +23,21 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo)
         displayName: "Build libraries"
 
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo)
         displayName: "Pack libraries"
 
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
         inputs:
+          sourceFolder: sdk
           contents: |
-            sdk/**/$(coalesceResultFilter)/*.tgz
-            sdk/**/$(coalesceResultFilter)/browser/*.zip
+            **/$(coalesceResultFilter)/*.tgz
+            **/$(coalesceResultFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
@@ -82,12 +85,15 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
         displayName: "Lint libraries"
 
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
         inputs:
-          contents: "sdk/**/**/*lintReport.html"
+          sourceFolder: sdk
+          contents: "**/**/*lintReport.html"
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy lint reports"
@@ -100,7 +106,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
-          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit libraries"
 
@@ -160,13 +166,13 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build --verbose
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build:test --verbose
         displayName: "Build test assets"
       - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Test libraries"
 
       - task: PublishTestResults@2
