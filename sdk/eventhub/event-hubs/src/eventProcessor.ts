@@ -167,7 +167,7 @@ export interface EventProcessorOptions {
 
 /**
  * This is the starting point for event processor.
- * 
+ *
  * Event Processor based application consists of one or more instances of EventProcessor which have been
  * configured to consume events from the same Event Hub and consumer group. Event Processors balance the
  * workload across different instances and track progress when events are processed.
@@ -257,6 +257,9 @@ export class EventProcessor {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
         const partitionIds = await this._eventHubClient.getPartitionIds();
+        if (abortSignal.aborted) {
+          return;
+        }
 
         if (partitionIds.length > 0) {
           await this._partitionLoadBalancer.loadBalance(partitionOwnershipMap, partitionIds);
