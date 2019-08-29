@@ -155,6 +155,18 @@ export function getURLPath(url: string): string | undefined {
 }
 
 /**
+ * Get URL scheme from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLScheme(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getScheme();
+}
+
+/**
  * Get URL path and query from an URL string.
  *
  * @export
@@ -342,7 +354,7 @@ export function padStart(
 }
 
 /**
- * If two strings equal case insensitive.
+ * If two strings are equal when compared case insensitive.
  *
  * @export
  * @param {string} str1

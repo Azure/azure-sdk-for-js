@@ -327,7 +327,7 @@ const setAccessControlOperationSpec: msRest.OperationSpec = {
 };
 
 const getAccessControlOperationSpec: msRest.OperationSpec = {
-  httpMethod: "HEAD",
+  httpMethod: "PATCH",
   path: "{filesystem}/{path}",
   urlParameters: [
     Parameters.url

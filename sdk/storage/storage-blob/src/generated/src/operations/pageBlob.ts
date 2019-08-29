@@ -334,10 +334,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.timeout
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -354,6 +351,9 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -379,10 +379,7 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp12,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -393,6 +390,9 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
     Parameters.requestId,
     Parameters.pageWrite0,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
     Parameters.ifSequenceNumberEqualTo,
@@ -469,10 +469,7 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp12,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.sourceUrl,
@@ -484,6 +481,9 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,

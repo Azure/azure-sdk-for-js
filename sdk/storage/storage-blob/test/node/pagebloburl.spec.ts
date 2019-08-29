@@ -7,6 +7,7 @@ import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
 import { bodyToString, getBSU } from "../utils";
 import { delay, record } from "../utils/recorder";
+import { Test_CPK_INFO } from '../utils/constants';
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
@@ -133,6 +134,50 @@ describe("PageBlobURL", () => {
 
     const page1 = await pageBlobURL.download(Aborter.none, 0, 512);
     const page2 = await pageBlobURL.download(Aborter.none, 512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("create, uploadPages, uploadPagesFromURL and download with CPK", async () => {
+    const cResp = await pageBlobURL.create(Aborter.none, 1024, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+
+    // Download without CPK should fail.
+    let exceptionCaught = false;
+    try {
+      await blobURL.download(Aborter.none, 0);
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const content = "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blockBlobName);
+    await blockBlobURL.upload(Aborter.none, content, content.length);
+
+    // Get a SAS for blobURL
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      blobURL.pipeline.factories[blobURL.pipeline.factories.length - 1] as SharedKeyCredential
+    );
+
+    const uResp = await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    const uResp2 = await pageBlobURL.uploadPagesFromURL(Aborter.none, `${blockBlobURL.url}?${sas}`, 0, 512, 512, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+
+    const page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    const page2 = await pageBlobURL.download(Aborter.none, 512, 512, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(page2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
 
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));

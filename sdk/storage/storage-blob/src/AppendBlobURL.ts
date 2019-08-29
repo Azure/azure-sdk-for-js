@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { AppendBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
-import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
+import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata, ensureCpkIfSpecified } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -15,18 +15,21 @@ export interface IAppendBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IAppendBlobAppendBlockOptions {
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IAppendBlobAppendBlockFromURLOptions {
   accessConditions?: IAppendBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   sourceContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -144,12 +147,15 @@ export class AppendBlobURL extends BlobURL {
     options: IAppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.appendBlobContext.create(0, {
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -172,13 +178,16 @@ export class AppendBlobURL extends BlobURL {
     options: IAppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.appendBlobContext.appendBlock(body, contentLength, {
       abortSignal: aborter,
       appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -209,6 +218,7 @@ export class AppendBlobURL extends BlobURL {
   ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     
     return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
       abortSignal: aborter,
@@ -222,7 +232,8 @@ export class AppendBlobURL extends BlobURL {
         sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
         sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      }
+      },
+      cpkInfo: options.customerProvidedKey
     })
   }
 }

@@ -618,10 +618,7 @@ const downloadOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.timeout
   ],
   headerParameters: [
     Parameters.range0,
@@ -630,6 +627,9 @@ const downloadOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -670,15 +670,15 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.timeout
   ],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -764,7 +764,7 @@ const setAccessControlOperationSpec: msRest.OperationSpec = {
 };
 
 const getAccessControlOperationSpec: msRest.OperationSpec = {
-  httpMethod: "HEAD",
+  httpMethod: "PATCH",
   path: "{filesystem}/{path}",
   urlParameters: [
     Parameters.url
@@ -911,16 +911,16 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -1108,15 +1108,15 @@ const createSnapshotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp9,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.metadata,
     Parameters.version,
     Parameters.requestId,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,

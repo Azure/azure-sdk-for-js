@@ -1,5 +1,10 @@
 # Changelog
 
+##2019.09 10.5.0
+
+* Added a new API `ServiceURL.submitBatch` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
+* Added support for customer-provided encryption key.
+
 ## 2019.08 10.4.1
 
 * Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.

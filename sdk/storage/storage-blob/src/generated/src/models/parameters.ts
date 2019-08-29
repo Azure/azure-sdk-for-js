@@ -1426,7 +1426,7 @@ export const version: msRest.OperationParameter = {
     }
   }
 };
-export const xMsEncryptionAlgorithm: msRest.OperationQueryParameter = {
+export const xMsEncryptionAlgorithm: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -1442,7 +1442,7 @@ export const xMsEncryptionAlgorithm: msRest.OperationQueryParameter = {
     }
   }
 };
-export const xMsEncryptionKey: msRest.OperationQueryParameter = {
+export const xMsEncryptionKey: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",
@@ -1455,7 +1455,7 @@ export const xMsEncryptionKey: msRest.OperationQueryParameter = {
     }
   }
 };
-export const xMsEncryptionKeySha256: msRest.OperationQueryParameter = {
+export const xMsEncryptionKeySha256: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "cpkInfo",

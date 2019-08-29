@@ -396,6 +396,18 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   }
 
   /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This value is only returned
+   * when the blob was encrypted with a customer-provided key.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get encryptionKeySha256(): string | undefined {
+    return this.originalResponse.encryptionKeySha256;
+  }
+
+  /**
    * The response body as a browser Blob.
    * Always undefined in node.js.
    *

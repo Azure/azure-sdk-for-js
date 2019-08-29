@@ -8,6 +8,7 @@ import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { bodyToString, getBSU } from "./utils";
 import { delay, record } from "./utils/recorder";
+import { Test_CPK_INFO } from './utils/constants';
 
 dotenv.config({ path: "../.env" });
 
@@ -117,6 +118,78 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(result.contentEncoding, headers.blobContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.blobContentLanguage);
     assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
+  });
+
+  it("setMetadata with CPK on a blob uploaded without CPK should fail", async () => {
+    let exceptionCaught = false;
+    try {
+      await blobURL.setMetadata(Aborter.none, {a: "a"}, {customerProvidedKey: Test_CPK_INFO});
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobURL = BlobURL.fromContainerURL(containerURL, blobName);
+    blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+    await blockBlobURL.upload(Aborter.none, content, content.length, {customerProvidedKey: Test_CPK_INFO});
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    const smResp = await blobURL.setMetadata(Aborter.none, metadata, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+
+    // getProperties without CPK should fail
+    let exceptionCaught = false;
+    try {
+      await blobURL.getProperties(Aborter.none)
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const headers = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentType: "blobContentType"
+    };
+    await blobURL.setHTTPHeaders(Aborter.none, headers, {customerProvidedKey: Test_CPK_INFO});
+
+    const gResp = await blobURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.ok(gResp.date);
+    assert.deepStrictEqual(gResp.blobType, "BlockBlob");
+    assert.ok(gResp.lastModified);
+    assert.deepStrictEqual(gResp.metadata, metadata);
+    assert.deepStrictEqual(gResp.cacheControl, headers.blobCacheControl);
+    assert.deepStrictEqual(gResp.contentType, headers.blobContentType);
+    assert.deepStrictEqual(gResp.contentMD5, headers.blobContentMD5);
+    assert.deepStrictEqual(gResp.contentEncoding, headers.blobContentEncoding);
+    assert.deepStrictEqual(gResp.contentLanguage, headers.blobContentLanguage);
+    assert.deepStrictEqual(gResp.contentDisposition, headers.blobContentDisposition);    
+
+    const csResp = await blobURL.createSnapshot(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256); service side issue?
+    assert.ok(csResp.snapshot);
+
+    const blobSnapshotURL = blobURL.withSnapshot(csResp.snapshot!);
+    await blobSnapshotURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+
+    // getProperties without CPK should fail
+    exceptionCaught = false;
+    try {
+      await blobSnapshotURL.getProperties(Aborter.none)
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("acquireLease", async () => {

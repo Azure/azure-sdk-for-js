@@ -226,10 +226,7 @@ const uploadOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.timeout
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -245,6 +242,9 @@ const uploadOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -282,10 +282,7 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp16,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -293,7 +290,10 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
     Parameters.transactionalContentCrc64,
     Parameters.version,
     Parameters.requestId,
-    Parameters.leaseId0
+    Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm
   ],
   requestBody: {
     parameterPath: "body",
@@ -327,10 +327,7 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp16,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -340,6 +337,9 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
     Parameters.sourceContentcrc64,
     Parameters.version,
     Parameters.requestId,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
@@ -366,10 +366,7 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp17,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp17
   ],
   headerParameters: [
     Parameters.transactionalContentMD5,
@@ -385,6 +382,9 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
     Parameters.blobContentMD5,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,

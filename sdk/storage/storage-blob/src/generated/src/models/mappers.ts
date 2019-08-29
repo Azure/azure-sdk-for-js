@@ -5300,6 +5300,12 @@ export const PageBlobUploadPagesFromURLHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {

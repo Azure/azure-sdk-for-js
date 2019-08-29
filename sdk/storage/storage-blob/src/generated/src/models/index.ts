@@ -5316,6 +5316,11 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
+   * when the pages were encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 

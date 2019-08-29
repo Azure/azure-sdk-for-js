@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata } from "./models";
+import { IBlobAccessConditions, IMetadata, ensureCpkIfSpecified } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
@@ -34,10 +34,13 @@ export interface IBlobDownloadOptions {
    * @memberof IBlobDownloadOptions
    */
   maxRetryRequests?: number;
+
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlobGetPropertiesOptions {
   blobAccessConditions?: IBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlobDeleteOptions {
@@ -47,10 +50,12 @@ export interface IBlobDeleteOptions {
 
 export interface IBlobSetHTTPHeadersOptions {
   blobAccessConditions?: IBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlobSetMetadataOptions {
   blobAccessConditions?: IBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlobAcquireLeaseOptions {
@@ -76,6 +81,7 @@ export interface IBlobBreakLeaseOptions {
 export interface IBlobCreateSnapshotOptions {
   metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlobStartCopyFromURLOptions {
@@ -212,6 +218,7 @@ export class BlobURL extends StorageURL {
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
       options.blobAccessConditions.modifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const res = await this.blobContext.download({
       abortSignal: aborter,
@@ -220,7 +227,8 @@ export class BlobURL extends StorageURL {
       onDownloadProgress: isNode ? undefined : options.progress,
       range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
-      snapshot: options.snapshot
+      snapshot: options.snapshot,
+      cpkInfo: options.customerProvidedKey
     });
 
     // Return browser response immediately
@@ -264,7 +272,8 @@ export class BlobURL extends StorageURL {
             count: offset + res.contentLength! - start,
             offset: start
           }),
-          snapshot: options.snapshot
+          snapshot: options.snapshot,
+          cpkInfo: options.customerProvidedKey
         };
 
         // Debug purpose only
@@ -304,10 +313,12 @@ export class BlobURL extends StorageURL {
     options: IBlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blobContext.getProperties({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -376,11 +387,14 @@ export class BlobURL extends StorageURL {
     options: IBlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
       blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -405,11 +419,14 @@ export class BlobURL extends StorageURL {
     options: IBlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blobContext.setMetadata({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -549,11 +566,14 @@ export class BlobURL extends StorageURL {
     options: IBlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blobContext.createSnapshot({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
