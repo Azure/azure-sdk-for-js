@@ -1,76 +1,81 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156404675323603786","blob":"blob156404675351005146","randomstring":"randomstring156404675351104152"}
+module.exports.testInfo = {"container":"container156585810477207191","blob":"blob156585810505106951","randomstring":"randomstring156585810505200555"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156404675323603786')
+  .put('/container156585810477207191')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'ETag',
-  '"0x8D710E19530B000"',
+  '"0x8D7215AEAD8BAF0"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0c220e9e-701e-012c-2dca-42fafe000000',
+  'cf4b6ed7-b01e-0058-1d43-533aed000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Thu, 25 Jul 2019 09:22:14 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156404675323603786/blob156404675351005146', "randomstring156404675351104152")
-  .reply(201, "", [ 'Content-Length',
+  .put('/container156585810477207191/blob156585810505106951', "randomstring156585810505200555")
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Content-MD5',
-  'Yg8/ceNVqAc9T21nfGuiWQ==',
+  'j2P4Vnxhgxy1tgQQs7DZ2w==',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'ETag',
-  '"0x8D710E1955A8A72"',
+  '"0x8D7215AEB04201E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f503d30d-901e-0126-48ca-42e377000000',
+  '7199c36b-801e-011b-0a43-535651000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Jul 2019 09:22:14 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156404675323603786/blob156404675351005146')
-  .reply(200, "randomstring156404675351104152", [ 'Content-Length',
+  .get('/container156585810477207191/blob156585810505106951')
+  .reply(200, "randomstring156585810505200555", [
+  'Content-Length',
   '30',
   'Content-Type',
   'application/octet-stream',
   'Content-MD5',
-  'Yg8/ceNVqAc9T21nfGuiWQ==',
+  'j2P4Vnxhgxy1tgQQs7DZ2w==',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D710E1955A8A72"',
+  '"0x8D7215AEB04201E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'db46c26c-301e-00ca-11ca-42ad5b000000',
+  'ff612ed4-601e-00f0-6a43-53eef8000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-tag-count',
   '0',
   'x-ms-creation-time',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:06 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -84,24 +89,27 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156404675323603786')
+  .delete('/container156585810477207191')
   .query(true)
-  .reply(202, "", [ 'Content-Length',
+  .reply(202, "", [
+  'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cc5705ed-701e-0001-25ca-423f6b000000',
+  'd27cc0d3-d01e-00e9-1d43-53c290000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Thu, 25 Jul 2019 09:22:15 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 

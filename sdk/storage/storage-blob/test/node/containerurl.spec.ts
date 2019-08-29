@@ -52,4 +52,21 @@ describe("ContainerURL", () => {
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });
+
+  it("setAccessPolicy should work when expiry and start undefined", async () => {
+    const access: PublicAccessType = "blob";
+    const containerAcl = [
+      {
+        accessPolicy: {
+          permission: "rwd",
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await containerURL.setAccessPolicy(Aborter.none, access, containerAcl);
+    const result = await containerURL.getAccessPolicy(Aborter.none);
+    assert.deepEqual(result.signedIdentifiers, containerAcl);
+    assert.deepEqual(result.blobPublicAccess, access);
+  });
 });

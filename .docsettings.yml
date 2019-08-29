@@ -106,6 +106,7 @@ known_content_issues:
   - ["sdk/storage/storage-queue/samples/README.md", "#1583"]
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
   - ["sdk/storage/storage-datalake/README.md", "#1583"]
+  - ["sdk/test-utils/recorder/README.md", "#1583"]
   - ["sdk/core/core-tracing/README.md", "#1583"]
 
 package_indexing_exclusion_list:

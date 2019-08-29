@@ -1,55 +1,60 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156404675433603727","blob":"blob156404675460705888","randomstring":"randomstring156404675460805913"}
+module.exports.testInfo = {"container":"container156585810585801728","blob":"blob156585810613601299","randomstring":"randomstring156585810613709048"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156404675433603727')
+  .put('/container156585810585801728')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'ETag',
-  '"0x8D710E195D87E35"',
+  '"0x8D7215AEB7ED44D"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '63d32740-801e-0139-21ca-423867000000',
+  '3b879224-101e-0115-6543-53ba5a000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156404675433603727/blob156404675460705888', "randomstring156404675460805913")
-  .reply(201, "", [ 'Content-Length',
+  .put('/container156585810585801728/blob156585810613601299', "randomstring156585810613709048")
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Content-MD5',
-  'KzjhnBlCFsFTbOHe6Cb9wA==',
+  '5uiYnhZ8wZJPWlRNoZ9BzA==',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:08 GMT',
   'ETag',
-  '"0x8D710E19601978B"',
+  '"0x8D7215AEBA8BB39"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7c0a7ea8-b01e-00f2-19ca-42ec02000000',
+  'a033bcba-601e-0037-0743-539239000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156404675433603727/blob156404675460705888')
-  .reply(200, ["72616e646f6d737472696e67313536343034363735343630383035393133"], [ 'Cache-Control',
+  .get('/container156585810585801728/blob156585810613601299')
+  .reply(200, ["72616e646f6d737472696e67313536353835383130363133373039303438"], [
+  'Cache-Control',
   'blobCacheControl',
   'Content-Length',
   '30',
@@ -60,17 +65,17 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Content-Language',
   'blobContentLanguage',
   'Content-MD5',
-  'KzjhnBlCFsFTbOHe6Cb9wA==',
+  '5uiYnhZ8wZJPWlRNoZ9BzA==',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:08 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D710E19601978B"',
+  '"0x8D7215AEBA8BB39"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4c1b3cdc-401e-00ce-70ca-4258d9000000',
+  'e10d28f8-d01e-00cb-3f43-53aca6000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-tag-count',
@@ -80,7 +85,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-meta-keyb',
   'valb',
   'x-ms-creation-time',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:08 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -96,24 +101,27 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156404675433603727')
+  .delete('/container156585810585801728')
   .query(true)
-  .reply(202, "", [ 'Content-Length',
+  .reply(202, "", [
+  'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bb75e57f-901e-00c7-35ca-424257000000',
+  'd4637a3f-901e-0104-1743-538d41000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Thu, 25 Jul 2019 09:22:16 GMT',
+  'Thu, 15 Aug 2019 08:31:07 GMT',
   'Connection',
-  'close' ]);
+  'close'
+]);
 
