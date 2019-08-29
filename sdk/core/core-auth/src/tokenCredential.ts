@@ -26,6 +26,10 @@ export interface GetTokenOptions {
    * the token request.
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Timeout for pinging services
+   */
+  timeout?: number;
 }
 
 /**
