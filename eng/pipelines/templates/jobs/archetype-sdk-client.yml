@@ -64,6 +64,37 @@ jobs:
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "current"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
+        displayName: "Download Current Build artifacts"
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "specific"
+          project: "29ec6040-b234-4e31-b139-33dc4287b756" #guid for public project
+          definition: 614 #system.definitionId for js - client -ci
+          buildVersionToDownload: "latest"
+          branchName: "master"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
+        displayName: "Download Latest Master (PipelineTask) artifacts"
+
+      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
+        displayName: "Diff Generated Packages"
+        errorActionPreference: "continue"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
+
       - script: |
           pip install setuptools wheel
           pip install doc-warden
@@ -115,48 +146,6 @@ jobs:
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: "current"
-          artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
-        displayName: "Download Current Build artifacts"
-
-      - script: ls $(System.ArtifactsDirectory)
-        displayName: "Check artifacts directory"
-
-      - script: ls $(System.ArtifactsDirectory)/packagesCurrent
-        displayName: "Check package master"
-
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: "specific"
-          project: "29ec6040-b234-4e31-b139-33dc4287b756"
-          definition: 614
-          buildVersionToDownload: "latest"
-          branchName: "master"
-          artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
-        displayName: "Download Latest Master (PipelineTask) artifacts"
-
-      - script: ls $(System.ArtifactsDirectory)
-        displayName: "Check artifacts directory"
-
-      - script: ls $(System.ArtifactsDirectory)/packagesMaster
-        displayName: "Check package master"
-
-      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
-        displayName: "Diff Generated Packages"
-        errorActionPreference: "continue"
-
-      - task: PublishPipelineArtifact@1
-        condition: succeededOrFailed()
-        displayName: "Publish Report Artifacts"
-        inputs:
-          artifactName: reports
-          path: $(Build.ArtifactStagingDirectory)
 
   - job: "UnitTest"
     strategy:
