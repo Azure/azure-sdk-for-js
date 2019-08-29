@@ -19,7 +19,6 @@ npm install @azure/cognitiveservices-formrecognizer
 
 ##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-azure-js": "^2.0.0"`.
 
 ```bash
 npm install @azure/ms-rest-azure-js@"^2.0.0"
