@@ -34,7 +34,7 @@ try{
   $diffFile = $pathForDiffFile+"/Change_"+$dailyDevBuildNo + ".diff"
   echo "created filename variable $diffFile"
 
-  git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile
+  git diff $pathToMasterPkg $pathToCurrentPkg | tee $diffFile
   if($LastExitCode -ne 0){
     Write-Host "error >> git diff $pathToMasterPkg $pathToCurrentPkg > $diffFile executes with exit code $LastExitCode"
   }
