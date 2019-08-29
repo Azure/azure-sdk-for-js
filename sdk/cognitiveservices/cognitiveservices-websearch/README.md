@@ -17,115 +17,101 @@ npm install @azure/cognitiveservices-websearch
 
 #### nodejs - Authentication, client creation and search web as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { WebSearchClient, WebSearchModels, WebSearchMappers } from "@azure/cognitiveservices-websearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  WebSearchClient,
+  WebSearchModels
+} from "@azure/cognitiveservices-websearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new WebSearchClient(creds, subscriptionId);
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const pragma = "testpragma";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const answerCount = 1;
-  const countryCode = "testcountryCode";
-  const count = 1;
-  const freshness = "Day";
-  const market = "testmarket";
-  const offset = 1;
-  const promote = ["WebPages"];
-  const responseFilter = ["WebPages"];
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  const textDecorations = true;
-  const textFormat = "Raw";
-  client.web.search(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, answerCount, countryCode, count, freshness, market, offset, promote, responseFilter, safeSearch, setLang, textDecorations, textFormat).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const webSearchKey = process.env["webSearchKey"] || "<webSearchKey>";
+  const webSearchEndPoint =
+    process.env["webSearchEndPoint"] || "<webSearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    webSearchKey
+  );
+  const client = new WebSearchClient(cognitiveServiceCredentials, {
+    endpoint: webSearchEndPoint
   });
-}).catch((err) => {
-  console.error(err);
-});
+  const query = "Microsoft Azure";
+  const options: WebSearchModels.WebSearchOptionalParams = {
+    acceptLanguage: "en-US",
+    pragma: "no-cache",
+    location: "westus2"
+  };
+  client.web
+    .search(query, options)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and search web as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-websearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-websearch/dist/cognitiveservices-websearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const webSearchKey = "<YOUR_WEB_SEARCH_KEY>";
+      const webSearchEndPoint = "<YOUR_WEB_SEARCH_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": webSearchKey
         }
-        const client = new Azure.CognitiveservicesWebsearch.WebSearchClient(res.creds, subscriptionId);
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const pragma = "testpragma";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const answerCount = 1;
-        const countryCode = "testcountryCode";
-        const count = 1;
-        const freshness = "Day";
-        const market = "testmarket";
-        const offset = 1;
-        const promote = ["WebPages"];
-        const responseFilter = ["WebPages"];
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        const textDecorations = true;
-        const textFormat = "Raw";
-        client.web.search(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, answerCount, countryCode, count, freshness, market, offset, promote, responseFilter, safeSearch, setLang, textDecorations, textFormat).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesWebsearch.WebSearchClient(
+        cognitiveServiceCredentials,
+        {
+          endpoint: webSearchEndPoint
+        }
+      );
+
+      const query = "Microsoft Azure";
+      const options = {
+        acceptLanguage: "en-US",
+        pragma: "no-cache",
+        location: "westus2"
+      };
+      client.web
+        .search(query, options)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
 </html>
+
 ```
 
 ## Related projects
