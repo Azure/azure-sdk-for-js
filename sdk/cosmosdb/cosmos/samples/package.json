@@ -13,6 +13,6 @@
     "DatabaseManagement": "npx ts-node ./DatabaseManagement",
     "IndexManagement": "npx ts-node ./IndexManagement",
     "ChangeFeed": "npx ts-node ./ChangeFeed",
-    "all-samples": "npm run ContainerManagement && npm run UserManagement && npm run ServerSideScripts && npm run ItemManagement && npm run DatabaseManagement && npm run IndexManagement && npm run ChangeFeed"
+    "all-samples": "npm run ContainerManagement && npm run UserManagement && npm run ServerSideScripts && npm run ItemManagement && npm run DatabaseManagement && npm run ChangeFeed"
   }
 }
