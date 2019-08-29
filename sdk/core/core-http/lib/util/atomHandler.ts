@@ -19,8 +19,6 @@ import { isArray, each, stringIsEmpty, stringStartsWith, isDate, isObject, isNod
 let xmlbuilder: any;
 if (isNode) {
   xmlbuilder = require("xmlbuilder");
-} else {
-  xmlbuilder = {};
 }
 
 export class AtomHandler {
@@ -51,6 +49,8 @@ export class AtomHandler {
    * @param {array}  namespaces  An array of top level namespaces to be defined.
    */
   serializeEntry(content: any, namespaces?: any, properties?: any): any {
+    content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
+
     if (isNode) {
       var doc = xmlbuilder.create();
 
@@ -70,18 +70,18 @@ export class AtomHandler {
 
       doc = doc.ele("updated", new Date().toISOString()).up();
 
-      content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-
       doc = this._writeElementValue(doc, "content", content);
-
       return doc.doc().toString();
     }
 
     const serializer = new XMLSerializer();
     const dom = this.buildNode(content, "content")[0];
-    return (
-      '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
-    );
+    const result =
+      `<?xml version="1.0" encoding="utf-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>${new Date().toISOString()}</updated>` +
+      serializer.serializeToString(dom) +
+      `</entry>`;
+    console.log(result);
+    return result;
   }
 
   buildNode(obj: any, elementName: string): Node[] {

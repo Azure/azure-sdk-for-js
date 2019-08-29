@@ -36,7 +36,7 @@ export function parseXML(str: string): Promise<any> {
   });
 }
 
-export function parseAtomXML(body: any): any {
+export function parseAtomXmlDataToJson(body: any): any {
   var parsed;
   var parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
   parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {

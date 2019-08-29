@@ -10,7 +10,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { Constants } from "../util/constants";
-import { parseAtomXML } from "../util/xml";
+import { parseAtomXmlDataToJson } from "../util/xml";
 import { isString, extend, byteLength } from "../util/utils";
 import { ResourceSerializer } from "../resourceSerializer";
 
@@ -75,7 +75,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
    * @return The normalized responseObject.
    */
   private parseResponse(response: HttpOperationResponse): HttpOperationResponse {
-    const parsedResponse: HttpOperationResponse = this._parseXmlResponse(response);
+    const parsedResponse: HttpOperationResponse = this._parseXmlResponseToJson(response);
 
     if (response.status >= 200 && response.status < 300 && response.errorBody == undefined) {
       return response;
@@ -98,11 +98,11 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     return parsedResponse;
   }
 
-  private _parseXmlResponse(response: HttpOperationResponse): HttpOperationResponse {
-    const parsedResponse = response;
+  private _parseXmlResponseToJson(responseInXml: HttpOperationResponse): HttpOperationResponse {
+    const parsedResponse = responseInXml;
     try {
-      if (response.bodyAsText && byteLength(response.bodyAsText.toString()) > 0) {
-        parsedResponse.parsedBody = parseAtomXML(response.bodyAsText);
+      if (responseInXml.bodyAsText && byteLength(responseInXml.bodyAsText.toString()) > 0) {
+        parsedResponse.parsedBody = parseAtomXmlDataToJson(responseInXml.bodyAsText);
       }
     } catch (e) {
       parsedResponse.errorBody = {
