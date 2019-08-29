@@ -1,18 +1,5 @@
-//
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { isNode } from "./util/utils";
 import { Constants } from "./util/constants";
@@ -20,8 +7,12 @@ import { serializeJsonToAtomXml } from "./util/xml";
 import { parseResultFromAtomResponse } from "./util/atomHandler";
 
 export class AtomResourceSerializerBase {
-  static serializeToAtomXmlRequest(resourceName: any, resource: any, properties: any): any {
-    var content: any = {};
+  static serializeToAtomXmlRequest(
+    resourceName: string,
+    resource: any,
+    properties: string[]
+  ): string {
+    const content: any = {};
     content[resourceName] = {
       $: {
         xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
@@ -30,7 +21,7 @@ export class AtomResourceSerializerBase {
 
     if (resource) {
       // Sort properties according to what is allowed by the service
-      properties.forEach((property: any) => {
+      properties.forEach((property: string) => {
         if (resource[property] !== undefined) {
           content[resourceName][property] = resource[property];
         }
@@ -40,8 +31,8 @@ export class AtomResourceSerializerBase {
     return serializeJsonToAtomXml(content);
   }
 
-  static deserializeAtomResponse(nameProperty: any, atomResponseInJson: any): any {
-    var result = parseResultFromAtomResponse(atomResponseInJson);
+  static deserializeAtomResponse(nameProperty: string[], atomResponseInJson: any): any {
+    const result = parseResultFromAtomResponse(atomResponseInJson);
 
     if (!result) {
       return undefined;
@@ -63,9 +54,9 @@ export class AtomResourceSerializerBase {
     } else {
       parsedUrl = new window.URL(entry[Constants.ATOM_METADATA_MARKER].id);
     }
-    var parts = parsedUrl.pathname!.split("/");
+    const parts = parsedUrl.pathname!.split("/");
 
-    for (var i = 0; i * 2 < parts.length - 1; i++) {
+    for (let i = 0; i * 2 < parts.length - 1; i++) {
       entry[nameProperty[i]] = parts[i * 2 + 1];
     }
   }

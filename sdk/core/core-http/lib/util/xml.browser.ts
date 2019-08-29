@@ -150,7 +150,7 @@ function buildAttributes(doc: any, attrs: { [key: string]: { toString(): string 
   return result;
 }
 
-export function deserializeAtomXmlToJson(body: any): any {
+export function deserializeAtomXmlToJson(body: string): any {
   const dom = parser.parseFromString(body, "text/xml");
   throwIfError(dom);
   const result = domToObject(dom);

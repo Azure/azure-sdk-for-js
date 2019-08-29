@@ -328,18 +328,22 @@ export const isObject = function(value: any) {
   return value === Object(value);
 };
 
-export function byteLength(string: any) {
-  return utf8ToBytes(string).length; // assume utf8
+/**
+ * Computes byte length of given string assuming the encoding to use is "utf-8"
+ * @param str
+ */
+export function byteLength(str: string) {
+  return utf8ToBytes(str).length;
 }
 
-function utf8ToBytes(string: any, units?: any) {
+function utf8ToBytes(string: string, units?: any) {
   units = units || Infinity;
-  var codePoint;
-  var length = string.length;
-  var leadSurrogate = null;
-  var bytes = [];
+  let codePoint;
+  const length = string.length;
+  let leadSurrogate = null;
+  const bytes = [];
 
-  for (var i = 0; i < length; ++i) {
+  for (let i = 0; i < length; ++i) {
     codePoint = string.charCodeAt(i);
 
     // is surrogate component

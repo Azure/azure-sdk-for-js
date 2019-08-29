@@ -39,9 +39,9 @@ export function parseXML(str: string): Promise<any> {
   });
 }
 
-export function deserializeAtomXmlToJson(body: any): any {
-  var parsed;
-  var parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
+export function deserializeAtomXmlToJson(body: string): any {
+  let parsed;
+  const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
   parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
     if (err) {
       throw err;
@@ -55,10 +55,10 @@ export function deserializeAtomXmlToJson(body: any): any {
 /**
  * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
  */
-export function serializeJsonToAtomXml(content: any): any {
+export function serializeJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
 
-  var doc = xmlbuilder.create();
+  let doc = xmlbuilder.create();
 
   doc = doc
     .begin("entry", { version: "1.0", encoding: "utf-8", standalone: "yes" })
@@ -76,7 +76,7 @@ export function serializeJsonToAtomXml(content: any): any {
  * @return {object} The default settings
  */
 function _getDefaultSettingsForAtomXmlOperations(): any {
-  var xml2jsSettings = xml2js.defaults["0.2"];
+  const xml2jsSettings = xml2js.defaults["0.2"];
   xml2jsSettings.normalize = false;
   xml2jsSettings.trim = false;
   xml2jsSettings.attrkey = "$";
@@ -110,8 +110,8 @@ function _removeBOM(str: any) {
  * {Deprecated}
  */
 function _writeElementValue(parentElement: any, name: any, value: any): any {
-  var ignored = false;
-  var propertyTagName = name;
+  let ignored = false;
+  const propertyTagName = name;
 
   if (!contentIsUndefinedOrEmpty(value) && isObject(value) && !isDate(value)) {
     if (Array.isArray(value) && value.length > 0) {
@@ -147,11 +147,11 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
       // XML: <element metadata="value"><property1>hi there</property1><property2>hello there</property2></element>
 
       parentElement = parentElement.ele(propertyTagName);
-      for (var propertyName in value) {
+      Object.keys(value).forEach((propertyName: string) => {
         if (propertyName !== Constants.XML_METADATA_MARKER && value.hasOwnProperty(propertyName)) {
           parentElement = _writeElementValue(parentElement, propertyName, value[propertyName]);
         }
-      }
+      });
     }
   } else {
     parentElement = parentElement.ele(propertyTagName);
@@ -166,7 +166,7 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
 
   if (value && value[Constants.XML_METADATA_MARKER]) {
     // include the metadata
-    var attributeList = value[Constants.XML_METADATA_MARKER];
+    const attributeList = value[Constants.XML_METADATA_MARKER];
     Object.keys(attributeList).forEach(function(attribute) {
       parentElement = parentElement.att(attribute, attributeList[attribute]);
     });

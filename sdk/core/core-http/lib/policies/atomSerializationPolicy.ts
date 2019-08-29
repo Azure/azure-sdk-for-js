@@ -84,7 +84,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     const HttpResponseCodes: any = Constants.HttpResponseCodes;
 
     if (parsedResponse.errorBody == undefined) {
-      var code = Object.keys(HttpResponseCodes).filter(function(name: any): any {
+      const code = Object.keys(HttpResponseCodes).filter(function(name: any): any {
         if (HttpResponseCodes[name] === response.status) {
           return name;
         }
@@ -93,7 +93,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       parsedResponse.errorBody = { error: { code: code[0] } };
     }
 
-    var normalizedError = this._normalizeError(parsedResponse.errorBody, response);
+    const normalizedError = this._normalizeError(parsedResponse.errorBody, response);
     parsedResponse.errorBody = normalizedError;
     return parsedResponse;
   }
@@ -121,7 +121,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       const errorProperties = error.Error || error.error || error["odata.error"] || error;
 
       if (odataErrorFormat) {
-        Object.keys(errorProperties).forEach((property: any) => {
+        Object.keys(errorProperties).forEach((property: string) => {
           let value = null;
           if (
             property === Constants.ODATA_ERROR_MESSAGE &&
@@ -143,10 +143,13 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       } else {
         Object.keys(errorProperties).forEach((property: any) => {
           {
-            var value = null;
-            if (property !== "$") {
-              if (errorProperties[property] && errorProperties[property]["_"]) {
-                value = errorProperties[property]["_"];
+            let value = null;
+            if (property !== Constants.XML_METADATA_MARKER) {
+              if (
+                errorProperties[property] &&
+                errorProperties[property][Constants.XML_VALUE_MARKER]
+              ) {
+                value = errorProperties[property][Constants.XML_VALUE_MARKER];
               } else {
                 value = errorProperties[property];
               }
@@ -155,7 +158,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
           }
         });
       }
-      var errorMessage = normalizedError.code;
+      let errorMessage = normalizedError.code;
       if (normalizedError.detail) {
         errorMessage += " - " + normalizedError.detail;
       }
@@ -170,8 +173,8 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
         }
       }
 
-      var errorObject: any = { error: { code: errorMessage } };
-      Object.keys(normalizedError).forEach((property: any) => {
+      const errorObject: any = { error: { code: errorMessage } };
+      Object.keys(normalizedError).forEach((property: string) => {
         errorObject[property] = normalizedError[property];
       });
       return errorObject;

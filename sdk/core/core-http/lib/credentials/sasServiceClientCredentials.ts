@@ -36,22 +36,8 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     this.keyValue = keyValue;
   }
 
-  private async _generateSignature(targetUri: any, expirationDate: any): Promise<string> {
-    const getValueToAppend = function(value: any, noNewLine?: any): any {
-      var returnValue = "";
-      if (value != null) {
-        returnValue = value;
-      }
-
-      if (noNewLine !== true) {
-        returnValue += "\n";
-      }
-
-      return returnValue;
-    };
-
-    var stringToSign = getValueToAppend(targetUri) + getValueToAppend(expirationDate, true);
-
+  private async _generateSignature(targetUri: string, expirationDate: number): Promise<string> {
+    const stringToSign = `${targetUri}\n${expirationDate}`;
     const result = await generateKey(this.keyValue, stringToSign);
     return result;
   }
@@ -65,16 +51,18 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
   async signRequest(webResource: WebResource): Promise<WebResource> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
 
-    var targetUri = encodeURIComponent(webResource.url.toLowerCase()).toLowerCase();
+    const targetUri = encodeURIComponent(webResource.url.toLowerCase()).toLowerCase();
 
     let date = new Date();
     date.setMinutes(date.getMinutes() + 5);
-    var expirationDate = Math.round(date.valueOf() / 1000);
-    var signature = await this._generateSignature(targetUri, expirationDate);
+    const expirationDate = Math.round(date.valueOf() / 1000);
+    const signature = await this._generateSignature(targetUri, expirationDate);
     webResource.headers.set(
       HeaderConstants.AUTHORIZATION,
       `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this.keyName}&sr=${targetUri}`
     );
+    // TODO: Fix server side configuration on response headers
+    webResource.headers.set("origin", "http://localhost");
     return Promise.resolve(webResource);
   }
 }
