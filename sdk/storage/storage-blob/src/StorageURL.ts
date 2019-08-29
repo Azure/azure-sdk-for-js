@@ -9,7 +9,7 @@ import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { escapeURLPath } from "./utils/utils.common";
+import { escapeURLPath, getURLScheme, iEqual } from "./utils/utils.common";
 
 export { deserializationPolicy };
 
@@ -116,6 +116,13 @@ export abstract class StorageURL {
   protected readonly storageClientContext: StorageClientContext;
 
   /**
+   * If the storage url is using https.
+   * @param url 
+   * @param pipeline 
+   */
+  protected readonly isHttps: boolean;
+
+  /**
    * Creates an instance of StorageURL.
    * @param {string} url
    * @param {Pipeline} pipeline
@@ -129,6 +136,8 @@ export abstract class StorageURL {
       this.url,
       pipeline.toServiceClientOptions()
     );
+
+    this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

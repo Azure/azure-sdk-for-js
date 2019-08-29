@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { BlockBlob } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata } from "./models";
+import { IBlobAccessConditions, IMetadata, ensureCpkIfSpecified } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -16,24 +16,28 @@ export interface IBlockBlobUploadOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   progress?: (progress: TransferProgressEvent) => void;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobStageBlockFromURLOptions {
   range?: IRange;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   sourceContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobCommitBlockListOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobGetBlockListOptions {
@@ -170,13 +174,16 @@ export class BlockBlobURL extends BlobURL {
     options: IBlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.upload(body, contentLength, {
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress
+      onUploadProgress: options.progress,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -201,11 +208,14 @@ export class BlockBlobURL extends BlobURL {
     contentLength: number,
     options: IBlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -241,11 +251,14 @@ export class BlockBlobURL extends BlobURL {
     count?: number,
     options: IBlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
-      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count })
+      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -270,6 +283,8 @@ export class BlockBlobURL extends BlobURL {
     options: IBlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
       {
@@ -277,7 +292,8 @@ export class BlockBlobURL extends BlobURL {
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey
       }
     );
   }

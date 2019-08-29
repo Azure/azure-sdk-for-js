@@ -133,10 +133,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.timeout
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -151,6 +148,9 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -176,10 +176,7 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp15,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -190,6 +187,9 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
     Parameters.leaseId0,
     Parameters.maxSize,
     Parameters.appendPosition,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -226,10 +226,7 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp15,
-    Parameters.xMsEncryptionKey,
-    Parameters.xMsEncryptionKeySha256,
-    Parameters.xMsEncryptionAlgorithm
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.sourceUrl,
@@ -240,6 +237,9 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
     Parameters.transactionalContentMD5,
     Parameters.version,
     Parameters.requestId,
+    Parameters.xMsEncryptionKey,
+    Parameters.xMsEncryptionKeySha256,
+    Parameters.xMsEncryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.maxSize,
     Parameters.appendPosition,

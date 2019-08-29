@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
+import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions, ensureCpkIfSpecified } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -16,18 +16,21 @@ export interface IPageBlobCreateOptions {
   blobSequenceNumber?: number;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobUploadPagesFromURLOptions {
   accessConditions?: IPageBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   sourceContentMD5?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobClearPagesOptions {
@@ -173,13 +176,16 @@ export class PageBlobURL extends BlobURL {
     options: IPageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.pageBlobContext.create(0, size, {
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       blobSequenceNumber: options.blobSequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -204,6 +210,8 @@ export class PageBlobURL extends BlobURL {
     options: IPageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.pageBlobContext.uploadPages(body, count, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
@@ -211,7 +219,8 @@ export class PageBlobURL extends BlobURL {
       onUploadProgress: options.progress,
       range: rangeToString({ offset, count }),
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -240,6 +249,7 @@ export class PageBlobURL extends BlobURL {
   ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     return this.pageBlobContext.uploadPagesFromURL(
       sourceURL,
@@ -257,7 +267,8 @@ export class PageBlobURL extends BlobURL {
           sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-        }
+        },
+        cpkInfo: options.customerProvidedKey
       }
     );
   }
