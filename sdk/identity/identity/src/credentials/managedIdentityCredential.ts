@@ -180,7 +180,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     } else {
       // Ping the IMDS endpoint to see if it's available
-      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId, getTokenOptions?getTokenOptions.timeout:undefined)) {
+      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId, getTokenOptions ? getTokenOptions.timeout : undefined)) {
         // Running in an Azure VM
         authRequestOptions = this.createImdsAuthRequest(resource, clientId);
       } else {
