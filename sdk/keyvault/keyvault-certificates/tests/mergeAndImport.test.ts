@@ -4,7 +4,7 @@
 import fs from "fs";
 import childProcess from "child_process";
 import { CertificatesClient } from "../src";
-import { retry } from "./utils/recorder";
+import { retry, isRecording } from "./utils/recorder";
 import { isNode } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -12,7 +12,7 @@ import TestClient from "./utils/testClient";
 import { SecretsClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 
-describe.only("Certificates client - merge and import certificates", () => {
+describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificatesClient;
@@ -57,7 +57,8 @@ describe.only("Certificates client - merge and import certificates", () => {
     } 
   });
 
-  if (isNode) {
+  // The signed csr will never be the same.
+  if (isNode && isRecording) {
     it("can merge a self signed certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
