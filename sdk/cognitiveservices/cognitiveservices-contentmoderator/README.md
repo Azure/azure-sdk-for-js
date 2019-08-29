@@ -17,75 +17,77 @@ npm install @azure/cognitiveservices-contentmoderator
 
 #### nodejs - Authentication, client creation and getDetails listManagementImageLists as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ContentModeratorClient, ContentModeratorModels, ContentModeratorMappers } from "@azure/cognitiveservices-contentmoderator";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { ContentModeratorClient } from "@azure/cognitiveservices-contentmoderator";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ContentModeratorClient(creds, subscriptionId);
-  const listId = "testlistId";
-  client.listManagementImageLists.getDetails(listId).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const contentModeratorKey = process.env["contentModeratorKey"] || "<contentModeratorKey>";
+  const contentModeratorEndPoint =
+    process.env["contentModeratorEndPoint"] || "<contentModeratorEndPoint>";
+
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(contentModeratorKey);
+  const client = new ContentModeratorClient(cognitiveServiceCredentials, contentModeratorEndPoint);
+
+  client.textModeration
+    .detectLanguage("text/plain", "A Random Text")
+    .then((result) => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and getDetails listManagementImageLists as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-contentmoderator sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-contentmoderator/dist/cognitiveservices-contentmoderator.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const contentModeratorKey = "<YOUR_CONTENT_MODERATOR_KEY>";
+      const contentModeratorEndPoint = "<YOUR_CONTENT_MODERATOR_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": contentModeratorKey
         }
-        const client = new Azure.CognitiveservicesContentmoderator.ContentModeratorClient(res.creds, subscriptionId);
-        const listId = "testlistId";
-        client.listManagementImageLists.getDetails(listId).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesContentmoderator.ContentModeratorClient(
+        cognitiveServiceCredentials,
+        contentModeratorEndPoint
+      );
+
+      client.textModeration
+        .detectLanguage("text/plain", "A Random Text")
+        .then((result) => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
