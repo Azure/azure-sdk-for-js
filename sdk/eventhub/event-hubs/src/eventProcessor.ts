@@ -231,24 +231,6 @@ export class EventProcessor {
     return this._id;
   }
 
-  private async _getInactivePartitions(): Promise<string[]> {
-    try {
-      // get all partition ids on the event hub
-      const partitionIds = await this._eventHubClient.getPartitionIds();
-      // get partitions this EventProcessor is actively processing
-      const activePartitionIds = this._pumpManager.receivingFromPartitions();
-
-      // get a list of partition ids that are not being processed by this EventProcessor
-      const inactivePartitionIds: string[] = partitionIds.filter(
-        (id) => activePartitionIds.indexOf(id) === -1
-      );
-      return inactivePartitionIds;
-    } catch (err) {
-      log.error(`[${this._id}] An error occured when retrieving partition ids: ${err}`);
-      throw err;
-    }
-  }
-
   /**
    * Every loop to this method will result in this EventProcessor owning at most one new partition.
    *
@@ -274,11 +256,10 @@ export class EventProcessor {
         for (const ownership of partitionOwnership) {
           partitionOwnershipMap.set(ownership.partitionId, ownership);
         }
-        // get a list of partition ids that are not being processed by this EventProcessor
-        const partitionsToAdd = await this._getInactivePartitions();
+        const partitionIds = await this._eventHubClient.getPartitionIds();
 
-        if (partitionsToAdd.length > 0) {
-          await this._partitionLoadBalancer.loadBalance(partitionOwnershipMap, partitionsToAdd);
+        if (partitionIds.length > 0) {
+          await this._partitionLoadBalancer.loadBalance(partitionOwnershipMap, partitionIds);
         }
 
         // sleep
