@@ -28,6 +28,7 @@
     "LICENSE.txt",
     "README.md",
     "types/keyvault-secrets.d.ts",
+    "browser/",
     "dist/",
     "dist-esm/",
     "src/",

@@ -174,16 +174,17 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 }
 
 /**
- * Describes the structure of an event to be sent to Event Hub.
+ * `EventData` is the interface that describes the event data to be sent to Event Hub.
+ * A simple instance can be `{ body: "your-data" }`.
  * @interface
  */
 export interface EventData {
   /**
-   * @property The message body that needs to be sent or is received.
+   * @property The message body that needs to be sent.
    */
   body: any;
   /**
-   * @property The application specific properties.
+   * @property Set of key value pairs that can be used to set properties specific to user application.
    */
   properties?: {
     [key: string]: any;

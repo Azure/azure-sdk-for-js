@@ -10,6 +10,24 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
+ * Filters to be applied when traversing a data source.
+ */
+export interface TrainSourceFilter {
+  /**
+   * A case-sensitive prefix string to filter content
+   * under the source location. For e.g., when using a Azure Blob
+   * Uri use the prefix to restrict subfolders for content.
+   */
+  prefix?: string;
+  /**
+   * A flag to indicate if sub folders within the set of
+   * prefix folders will also need to be included when searching
+   * for content to be preprocessed.
+   */
+  includeSubFolders?: boolean;
+}
+
+/**
  * Contract to initiate a train request.
  */
 export interface TrainRequest {
@@ -17,6 +35,11 @@ export interface TrainRequest {
    * Get or set source path.
    */
   source: string;
+  /**
+   * Get or set filter to further search the
+   * source path for content.
+   */
+  sourceFilter?: TrainSourceFilter;
 }
 
 /**
@@ -258,6 +281,209 @@ export interface AnalyzeResult {
 }
 
 /**
+ * An object representing a recognized word.
+ */
+export interface Word {
+  /**
+   * Bounding box of a recognized word.
+   */
+  boundingBox: number[];
+  /**
+   * The text content of the word.
+   */
+  text: string;
+  /**
+   * Qualitative confidence measure. Possible values include: 'High', 'Low'
+   */
+  confidence?: TextRecognitionResultConfidenceClass;
+}
+
+/**
+ * An object representing a recognized text line.
+ */
+export interface Line {
+  /**
+   * Bounding box of a recognized line.
+   */
+  boundingBox?: number[];
+  /**
+   * The text content of the line.
+   */
+  text?: string;
+  /**
+   * List of words in the text line.
+   */
+  words?: Word[];
+}
+
+/**
+ * An object representing a recognized text region
+ */
+export interface TextRecognitionResult {
+  /**
+   * The 1-based page number of the recognition result.
+   */
+  page?: number;
+  /**
+   * The orientation of the image in degrees in the clockwise direction. Range between [0, 360).
+   */
+  clockwiseOrientation?: number;
+  /**
+   * The width of the image in pixels or the PDF in inches.
+   */
+  width?: number;
+  /**
+   * The height of the image in pixels or the PDF in inches.
+   */
+  height?: number;
+  /**
+   * The unit used in the Width, Height and BoundingBox. For images, the unit is 'pixel'. For PDF,
+   * the unit is 'inch'. Possible values include: 'pixel', 'inch'
+   */
+  unit?: TextRecognitionResultDimensionUnit;
+  /**
+   * A list of recognized text lines.
+   */
+  lines: Line[];
+}
+
+/**
+ * Reference to an OCR word.
+ */
+export interface ElementReference {
+  ref?: string;
+}
+
+/**
+ * Contains the possible cases for FieldValue.
+ */
+export type FieldValueUnion = FieldValue | StringValue | NumberValue;
+
+/**
+ * Base class representing a recognized field value.
+ */
+export interface FieldValue {
+  /**
+   * Polymorphic Discriminator
+   */
+  valueType: "fieldValue";
+  /**
+   * OCR text content of the recognized field.
+   */
+  text?: string;
+  /**
+   * List of references to OCR words comprising the recognized field value.
+   */
+  elements?: ElementReference[];
+}
+
+/**
+ * A set of extracted fields corresponding to a semantic object, such as a receipt, in the input
+ * document.
+ */
+export interface UnderstandingResult {
+  /**
+   * List of pages where the document is found.
+   */
+  pages?: number[];
+  /**
+   * Dictionary of recognized field values.
+   */
+  fields?: { [propertyName: string]: FieldValueUnion };
+}
+
+/**
+ * Analysis result of the 'Batch Read Receipt' operation.
+ */
+export interface ReadReceiptResult {
+  /**
+   * Status of the read operation. Possible values include: 'Not Started', 'Running', 'Failed',
+   * 'Succeeded'
+   */
+  status?: TextOperationStatusCodes;
+  /**
+   * Text recognition result of the 'Batch Read Receipt' operation.
+   */
+  recognitionResults?: TextRecognitionResult[];
+  /**
+   * Semantic understanding result of the 'Batch Read Receipt' operation.
+   */
+  understandingResults?: UnderstandingResult[];
+}
+
+/**
+ * Recognized string field value.
+ */
+export interface StringValue {
+  /**
+   * Polymorphic Discriminator
+   */
+  valueType: "stringValue";
+  /**
+   * OCR text content of the recognized field.
+   */
+  text?: string;
+  /**
+   * List of references to OCR words comprising the recognized field value.
+   */
+  elements?: ElementReference[];
+  /**
+   * String value of the recognized field.
+   */
+  value?: string;
+}
+
+/**
+ * Recognized numeric field value.
+ */
+export interface NumberValue {
+  /**
+   * Polymorphic Discriminator
+   */
+  valueType: "numberValue";
+  /**
+   * OCR text content of the recognized field.
+   */
+  text?: string;
+  /**
+   * List of references to OCR words comprising the recognized field value.
+   */
+  elements?: ElementReference[];
+  /**
+   * Numeric value of the recognized field.
+   */
+  value?: number;
+}
+
+/**
+ * Details about the API request error.
+ */
+export interface ComputerVisionError {
+  /**
+   * The error code.
+   */
+  code: any;
+  /**
+   * A message explaining the error reported by the service.
+   */
+  message: string;
+  /**
+   * A unique request identifier.
+   */
+  requestId?: string;
+}
+
+/**
+ * An interface representing ImageUrl.
+ */
+export interface ImageUrl {
+  /**
+   * Publicly reachable URL of an image.
+   */
+  url: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams extends msRest.RequestOptionsBase {
@@ -266,6 +492,50 @@ export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams extend
    */
   keys?: string[];
 }
+
+/**
+ * Defines headers for BatchReadReceipt operation.
+ */
+export interface BatchReadReceiptHeaders {
+  /**
+   * URL to query for status of the operation. The URL will expire in 48 hours.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines headers for BatchReadReceiptInStream operation.
+ */
+export interface BatchReadReceiptInStreamHeaders {
+  /**
+   * URL to query for status of the operation. The URL will expire in 48 hours.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines values for TextOperationStatusCodes.
+ * Possible values include: 'Not Started', 'Running', 'Failed', 'Succeeded'
+ * @readonly
+ * @enum {string}
+ */
+export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
+
+/**
+ * Defines values for TextRecognitionResultDimensionUnit.
+ * Possible values include: 'pixel', 'inch'
+ * @readonly
+ * @enum {string}
+ */
+export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+
+/**
+ * Defines values for TextRecognitionResultConfidenceClass.
+ * Possible values include: 'High', 'Low'
+ * @readonly
+ * @enum {string}
+ */
+export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
 
 /**
  * Defines values for Status.
@@ -388,5 +658,55 @@ export type AnalyzeWithCustomModelResponse = AnalyzeResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AnalyzeResult;
+    };
+};
+
+/**
+ * Contains response data for the batchReadReceipt operation.
+ */
+export type BatchReadReceiptResponse = BatchReadReceiptHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BatchReadReceiptHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getReadReceiptResult operation.
+ */
+export type GetReadReceiptResultResponse = ReadReceiptResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReadReceiptResult;
+    };
+};
+
+/**
+ * Contains response data for the batchReadReceiptInStream operation.
+ */
+export type BatchReadReceiptInStreamResponse = BatchReadReceiptInStreamHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BatchReadReceiptInStreamHeaders;
     };
 };

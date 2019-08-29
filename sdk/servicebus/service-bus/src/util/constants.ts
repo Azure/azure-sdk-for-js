@@ -3,7 +3,7 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.0.3"
+  version: "1.0.4"
 };
 
 

@@ -1,3 +1,33 @@
+parameters:
+  Matrix:
+    Linux_Node8:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "8.x"
+    Linux_Node10:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "10.x"
+    Linux_Node12:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "12.x"
+    macOS_Node8:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "8.x"
+    macOS_Node10:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "10.x"
+    macOS_Node12:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "12.x"
+    Windows_Node8:
+      OSVmImage: "vs2017-win2016"
+      NodeVersion: "8.x"
+    Windows_Node10:
+      OSVmImage: "vs2017-win2016"
+      NodeVersion: "10.x"
+    Windows_Node12:
+      OSVmImage: "vs2017-win2016"
+      NodeVersion: "12.x"
+
 jobs:
   - job: "Build"
     variables:
@@ -119,34 +149,7 @@ jobs:
   - job: "UnitTest"
 
     strategy:
-      matrix:
-        Linux_Node8:
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "8.x"
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "10.x"
-        Linux_Node12:
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "12.x"
-        macOS_Node8:
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "8.x"
-        macOS_Node10:
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "10.x"
-        macOS_Node12:
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "12.x"
-        Windows_Node8:
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "8.x"
-        Windows_Node10:
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "10.x"
-        Windows_Node12:
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "12.x"
+      matrix: ${{parameters.Matrix}}
 
     pool:
       vmImage: "$(OSVmImage)"
