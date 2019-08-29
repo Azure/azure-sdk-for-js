@@ -69,7 +69,7 @@ jobs:
           buildType: "current"
           artifactName: packages
           itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesCurrent"
+          targetPath: "$(Agent.TempDirectory)/packagesCurrent"
         displayName: "Download Current Build artifacts"
 
       - task: DownloadPipelineArtifact@2
@@ -81,10 +81,10 @@ jobs:
           branchName: "master"
           artifactName: packages
           itemPattern: "*.tgz"
-          targetPath: "$(System.ArtifactsDirectory)/packagesMaster"
+          targetPath: "$(Agent.TempDirectory)/packagesMaster"
         displayName: "Download Latest Master (PipelineTask) artifacts"
 
-      - pwsh: eng/tools/compare-packages.ps1 "$(System.ArtifactsDirectory)/packagesMaster" "$(System.ArtifactsDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
+      - pwsh: eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
         displayName: "Diff Generated Packages"
         errorActionPreference: "continue"
 
