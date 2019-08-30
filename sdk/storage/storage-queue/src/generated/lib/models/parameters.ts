@@ -78,12 +78,18 @@ export const include: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "include",
     type: {
-      name: "Enum",
-      allowedValues: [
-        "metadata"
-      ]
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "metadata"
+          ]
+        }
+      }
     }
-  }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const marker: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -251,7 +257,7 @@ export const version: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2018-03-28',
+    defaultValue: '2019-02-02',
     type: {
       name: "String"
     }
