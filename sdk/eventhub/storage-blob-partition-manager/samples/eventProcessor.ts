@@ -28,6 +28,19 @@ class SimplePartitionProcessor {
         this._context.partitionId,
         this._context.consumerGroupName
       );
+      // try {
+      //   // checkpoint using the last event in the batch
+      //   await this._checkpointManager.updateCheckpoint(events[events.length - 1]);
+      //   console.log(
+      //     "Successfully checkpointed event: '%s' from partition: '%s'",
+      //     events[events.length - 1].body,
+      //     this._context.partitionId
+      //   );
+      // } catch (err) {
+      //   console.log(
+      //     `Encountered an error while checkpointing on ${this._context.partitionId}: ${err.message}`
+      //   );
+      // }
     }
   }
 

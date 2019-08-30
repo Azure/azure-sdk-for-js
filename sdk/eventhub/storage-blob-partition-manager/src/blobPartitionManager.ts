@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 import { PartitionManager, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { ContainerClient, Models } from "@azure/storage-blob";
-import { generate_uuid } from "rhea-promise";
+import { ContainerClient } from "@azure/storage-blob";
+import * as log from "./log";
 
 /**
  * A simple in-memory implementation of a `PartitionManager`
  * @class
  */
 export class BlobPartitionManager implements PartitionManager {
-  private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
   private _containerClient: ContainerClient;
 
   constructor(containerClient: ContainerClient) {
@@ -28,19 +27,18 @@ export class BlobPartitionManager implements PartitionManager {
     eventHubName: string,
     consumerGroupName: string
   ): Promise<PartitionOwnership[]> {
-    const partitionOwnership = await this._containerClient.listBlobsFlat({ include: ["metadata"] });
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
-    for await (const ownership of partitionOwnership) {
+    for await (const blob of this._containerClient.listBlobsFlat({ include: ["metadata"] })) {
       const partitionOwnership: PartitionOwnership = {
         eventHubName, // from EventProcessor
         consumerGroupName, // from EventProcessor
-        ownerId: ownership.metadata!["OwnerId"],
-        partitionId: "0", // name of blob
-        offset: parseInt(ownership.metadata!["Offset"], 10),
-        sequenceNumber: parseInt(ownership.metadata!["SequenceNumber"]),
-        lastModifiedTimeInMS: Date.parse(ownership.properties.lastModified.toDateString()),
-        eTag: ownership.properties.etag,
+        ownerId: blob.metadata!["OwnerId"],
+        partitionId: blob.name, // name of blob
+        offset: parseInt(blob.metadata!["Offset"], 10),
+        sequenceNumber: parseInt(blob.metadata!["SequenceNumber"]),
+        lastModifiedTimeInMS: Date.parse(blob.properties.lastModified.toISOString()),
+        eTag: blob.properties.etag,
         ownerLevel: 0
       };
       partitionOwnershipArray.push(partitionOwnership);
@@ -51,26 +49,69 @@ export class BlobPartitionManager implements PartitionManager {
 
   /**
    * Claim ownership of a list of partitions. This will return the list of partitions that were owned
-   * successfully.rus
+   * successfully.
    *
    * @param partitionOwnership The list of partition ownership this instance is claiming to own.
    * @return A list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
+    let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
-      console.log(ownership);
-      const blobName = ownership.partitionId;
-      const blobClient = this._containerClient.getBlobClient(blobName);
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      const uploadBlobResponse = await blockBlobClient.upload("hey", 3);
-      console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-      console.log(blockBlobClient);
-      let i = 1;
+      let blobItem;
       for await (const blob of this._containerClient.listBlobsFlat()) {
-        console.log(`Blob ${i++}: ${blob.name}`);
+        if (blob.name === ownership.partitionId) {
+          blobItem = blob;
+        }
+      }
+      const blobClient = this._containerClient.getBlobClient(ownership.partitionId);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      if (blobItem && blobItem.properties.etag) {
+        const uploadBlobResponse = await blockBlobClient.upload("", 0, {
+          metadata: {
+            OwnerId: ownership.ownerId,
+            SequenceNumber: ownership.sequenceNumber!.toString(),
+            Offset: ownership.offset!.toString()
+          },
+          accessConditions: {
+            modifiedAccessConditions: {
+              ifMatch: blobItem.properties.etag
+            }
+          }
+        });
+        ownership.lastModifiedTimeInMS = Date.parse(uploadBlobResponse.lastModified!.toISOString());
+        ownership.eTag = uploadBlobResponse.eTag;
+        partitionOwnershipArray.push(ownership);
+        log.blobPartitionManager(
+          `Upload block blob ${ownership.partitionId} successfully`,
+          `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
+            uploadBlobResponse.eTag
+          }`
+        );
+      } else {
+        const uploadBlobResponse = await blockBlobClient.upload("", 0, {
+          metadata: {
+            OwnerId: ownership.ownerId,
+            SequenceNumber: ownership.sequenceNumber!.toString(),
+            Offset: ownership.offset!.toString()
+          },
+          accessConditions: {
+            modifiedAccessConditions: {
+              ifNoneMatch: "*"
+            }
+          }
+        });
+        ownership.lastModifiedTimeInMS = Date.parse(uploadBlobResponse.lastModified!.toISOString());
+        ownership.eTag = uploadBlobResponse.eTag;
+        partitionOwnershipArray.push(ownership);
+        log.blobPartitionManager(
+          `Upload block blob ${ownership.partitionId} successfully`,
+          `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
+            uploadBlobResponse.eTag
+          }`
+        );
       }
     }
-    return partitionOwnership;
+    return partitionOwnershipArray;
   }
 
   /**
@@ -80,27 +121,27 @@ export class BlobPartitionManager implements PartitionManager {
    * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
-    const partitionOwnership = this._partitionOwnershipMap.get(checkpoint.partitionId);
-    if (partitionOwnership) {
-      partitionOwnership.sequenceNumber = checkpoint.sequenceNumber;
-      partitionOwnership.offset = checkpoint.offset;
-      partitionOwnership.eTag = generate_uuid();
-      return partitionOwnership.eTag;
-    }
-    return "";
-  }
+    const blobClient = this._containerClient.getBlobClient(checkpoint.partitionId);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadBlobResponse = await blockBlobClient.upload("", 0, {
+      metadata: {
+        OwnerId: checkpoint.ownerId,
+        SequenceNumber: checkpoint.sequenceNumber!.toString(),
+        Offset: checkpoint.offset!.toString()
+      },
+      accessConditions: {
+        modifiedAccessConditions: {
+          ifMatch: checkpoint.eTag
+        }
+      }
+    });
 
-  // A helper method used to read a Node.js readable stream into string
-private async _streamToString(readableStream: NodeJS.ReadableStream): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
-    });
-    readableStream.on("end", () => {
-      resolve(chunks.join(""));
-    });
-    readableStream.on("error", reject);
-  });
-}
+    log.blobPartitionManager(
+      `Upload block blob ${checkpoint.partitionId} successfully`,
+      `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
+        uploadBlobResponse.eTag
+      }`
+    );
+    return uploadBlobResponse.eTag || "";
+  }
 }

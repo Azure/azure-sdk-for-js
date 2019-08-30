@@ -4,16 +4,18 @@
 
 ```ts
 
-import EventEmitter from 'events';
-import { URLBuilder } from '@azure/core-http';
+import { Checkpoint } from '@azure/event-hubs';
+import { ContainerClient } from '@azure/storage-blob';
+import { PartitionManager } from '@azure/event-hubs';
+import { PartitionOwnership } from '@azure/event-hubs';
 
-// @public (undocumented)
-export function createEventEmitter(): EventEmitter;
-
-// @public (undocumented)
-export function (str: string): void;
-
-export { URLBuilder }
+// @public
+export class BlobPartitionManager implements PartitionManager {
+    constructor(containerClient: ContainerClient);
+    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
 
 
 // (No @packageDocumentation comment for this package)
