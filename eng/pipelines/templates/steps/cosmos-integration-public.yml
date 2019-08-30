@@ -11,6 +11,6 @@ steps:
 
   - powershell: |
       Write-Host "Launching Cosmos DB Emulator"
-      Import-Module Import-Module "$env:temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+      Import-Module "$env:temp\Azure Cosmos DB Emulator\SourceDir\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
       Start-CosmosDbEmulator
     displayName: Start Cosmos DB Emulator
