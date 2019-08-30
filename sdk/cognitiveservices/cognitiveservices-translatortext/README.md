@@ -17,46 +17,58 @@ npm install @azure/cognitiveservices-translatortext
 
 #### nodejs - Authentication, client creation and languages translator as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { TranslatorTextClient, TranslatorTextModels, TranslatorTextMappers } from "@azure/cognitiveservices-translatortext";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  TranslatorTextClient,
+  TranslatorTextModels
+} from "@azure/cognitiveservices-translatortext";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new TranslatorTextClient(creds, subscriptionId);
-  const scope = ["translation"];
-  const acceptLanguage = "testacceptLanguage";
-  const xClientTraceId = "testxClientTraceId";
-  client.translator.languages(scope, acceptLanguage, xClientTraceId).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const translatorTextKey =
+    process.env["translatorTextKey"] || "<translatorTextKey>";
+  const translatorTextEndPoint =
+    process.env["translatorTextEndPoint"] || "<translatorTextEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    translatorTextKey
+  );
+  const client = new TranslatorTextClient(
+    cognitiveServiceCredentials,
+    translatorTextEndPoint
+  );
+
+  const text: TranslatorTextModels.DetectTextInput[] = [
+    {
+      text: "Hello World"
+    }
+  ];
+
+  client.translator
+    .detect(text)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and languages translator as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -65,31 +77,38 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-translatortext sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-translatortext/dist/cognitiveservices-translatortext.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const translatorTextKey = "2e99f48c0aa54d8aa2cb9ab0752072af";
+      const translatorTextEndPoint =
+        "https://testtranslatortextsarajama.cognitiveservices.azure.com/sts/v1.0/issuetoken";
+
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": translatorTextKey
         }
-        const client = new Azure.CognitiveservicesTranslatortext.TranslatorTextClient(res.creds, subscriptionId);
-        const scope = ["translation"];
-        const acceptLanguage = "testacceptLanguage";
-        const xClientTraceId = "testxClientTraceId";
-        client.translator.languages(scope, acceptLanguage, xClientTraceId).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesTranslatortext.TranslatorTextClient(
+        cognitiveServiceCredentials,
+        translatorTextEndPoint
+      );
+
+      const text = [
+        {
+          text: "Hello World"
+        }
+      ];
+
+      client.translator
+        .detect(text)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
