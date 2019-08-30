@@ -547,14 +547,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props
@@ -854,12 +854,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(
-      receiver,
-      DispositionType.complete,
-      this.delivery.remote_settled,
-      this.sessionId
-    );
+    this.throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
 
     return receiver!.settleMessage(this, DispositionType.complete);
   }
@@ -907,12 +902,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(
-      receiver,
-      DispositionType.abandon,
-      this.delivery.remote_settled,
-      this.sessionId
-    );
+    this.throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
@@ -962,12 +952,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(
-      receiver,
-      DispositionType.defer,
-      this.delivery.remote_settled,
-      this.sessionId
-    );
+    this.throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
 
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
@@ -1031,12 +1016,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(
-      receiver,
-      DispositionType.deadletter,
-      this.delivery.remote_settled,
-      this.sessionId
-    );
+    this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
@@ -1068,58 +1048,53 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     return clone;
   }
-}
 
-/**
- * @internal
- * Logs and Throws an error if the given message cannot be settled.
- * @param receiver Receiver to be used to settle this message
- * @param operation Settle operation: complete, abandon, defer or deadLetter
- * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
- * @param sessionId sessionId of the message if applicable
- */
-export function throwIfMessageCannotBeSettled(
-  receiver: MessageReceiver | MessageSession | undefined,
-  operation: DispositionType,
-  isRemoteSettled: boolean,
-  sessionId?: string
-): void {
-  let error: Error | undefined;
+  /**
+   * @private
+   * Logs and Throws an error if the given message cannot be settled.
+   * @param receiver Receiver to be used to settle this message
+   * @param operation Settle operation: complete, abandon, defer or deadLetter
+   */
+  private throwIfMessageCannotBeSettled(
+    receiver: MessageReceiver | MessageSession | undefined,
+    operation: DispositionType
+  ): void {
+    let error: Error | undefined;
 
-  if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
-    error = new Error(
-      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-    );
-  } else if (isRemoteSettled) {
-    error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-  } else if (!receiver || !receiver.isOpen()) {
-    const errorMessage =
-      `Failed to ${operation} the message as the AMQP link with which the message was ` +
-      `received is no longer alive.`;
-    if (sessionId != undefined) {
-      error = translate({
-        description: errorMessage,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
-    } else {
-      error = translate({
-        description: errorMessage,
-        condition: ErrorNameConditionMapper.MessageLockLostError
-      });
+    if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+      error = new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
+      );
+    } else if (this.delivery.remote_settled) {
+      error = new Error(`Failed to ${operation} the message as this message is already settled.`);
+    } else if (!receiver || !receiver.isOpen()) {
+      const errorMessage =
+        `Failed to ${operation} the message as the AMQP link with which the message was ` +
+        `received is no longer alive.`;
+      if (this.sessionId != undefined) {
+        error = translate({
+          description: errorMessage,
+          condition: ErrorNameConditionMapper.SessionLockLostError
+        });
+      } else {
+        error = translate({
+          description: errorMessage,
+          condition: ErrorNameConditionMapper.MessageLockLostError
+        });
+      }
     }
-  }
-  if (!error) {
-    return;
-  }
-  if (receiver) {
+    if (!error) {
+      return;
+    }
     log.error(
-      "An error occured when settling a message using the receiver %s: %O",
-      receiver.name,
+      "An error occured when settling a message with id '%s'. " +
+      "This message was received using the receiver %s which %s currently open: %O",
+      this.messageId,
+      this.delivery.link.name,
+      this.delivery.link.is_open() ? "is" : "is not",
       error
     );
-  } else {
-    log.error("An error occured when settling a message: %O", error);
-  }
 
-  throw error;
+    throw error;
+  }
 }
