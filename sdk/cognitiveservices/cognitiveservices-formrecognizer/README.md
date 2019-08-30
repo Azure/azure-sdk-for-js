@@ -54,15 +54,7 @@ main();
 
 #### browser - Authentication, client creation and getExtractedKeys as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 
