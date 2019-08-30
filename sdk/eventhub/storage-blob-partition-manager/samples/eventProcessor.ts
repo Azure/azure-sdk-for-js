@@ -5,19 +5,20 @@ import {
   delay,
   EventProcessor,
   PartitionContext,
-  InMemoryPartitionManager,
   CheckpointManager
 } from "@azure/event-hubs";
+import { BlobPartitionManager } from "./../src";
+import { ContainerClient } from "@azure/storage-blob";
 
 class SimplePartitionProcessor {
   private _context: PartitionContext;
-  private _checkpointManager: CheckpointManager;
+  //private _checkpointManager: CheckpointManager;
   constructor(context: PartitionContext, checkpointManager: CheckpointManager) {
     this._context = context;
-    this._checkpointManager = checkpointManager;
+    // this._checkpointManager = checkpointManager;
   }
   async processEvents(events: ReceivedEventData[]) {
-    if(events.length === 0){
+    if (events.length === 0) {
       return;
     }
     for (const event of events) {
@@ -27,19 +28,6 @@ class SimplePartitionProcessor {
         this._context.partitionId,
         this._context.consumerGroupName
       );
-      try {
-        // checkpoint using the last event in the batch
-        await this._checkpointManager.updateCheckpoint(events[events.length - 1]);
-        console.log(
-          "Successfully checkpointed event: '%s' from partition: '%s'",
-          events[events.length - 1].body,
-          this._context.partitionId
-        );
-      } catch (err) {
-        console.log(
-          `Encountered an error while checkpointing on ${this._context.partitionId}: ${err.message}`
-        );
-      }
     }
   }
 
@@ -57,10 +45,13 @@ class SimplePartitionProcessor {
 }
 
 // Define connection string and related Event Hubs entity name here
-const connectionString = "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
-const eventHubName = "test";
+const connectionString = "";
+const eventHubName = "test-storage";
+const containerClient = new ContainerClient("", "test2");
 
 async function main() {
+  const createContainerResponse = await containerClient.create();
+  console.log(`Create container ${"test2"} successfully`, createContainerResponse.requestId);
   const client = new EventHubClient(connectionString, eventHubName);
 
   const eventProcessorFactory = (context: PartitionContext, checkpoint: CheckpointManager) => {
@@ -71,7 +62,7 @@ async function main() {
     EventHubClient.defaultConsumerGroupName,
     client,
     eventProcessorFactory,
-    new InMemoryPartitionManager(),
+    new BlobPartitionManager(containerClient),
     {
       initialEventPosition: EventPosition.earliest(),
       maxBatchSize: 10,
@@ -79,8 +70,8 @@ async function main() {
     }
   );
   await processor.start();
-  // after 5 seconds stop processing 
-  await delay(5000)
+  // after 5 seconds stop processing
+  await delay(50000);
 
   await processor.stop();
   await client.close();
