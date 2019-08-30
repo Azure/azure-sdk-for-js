@@ -232,7 +232,7 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
-    Parameters.sourceContentcrc64,
+    Parameters.sourceContentCrc64,
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
     Parameters.version,

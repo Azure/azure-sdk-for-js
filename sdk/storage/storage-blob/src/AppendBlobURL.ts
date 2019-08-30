@@ -22,6 +22,7 @@ export interface IAppendBlobAppendBlockOptions {
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -29,6 +30,7 @@ export interface IAppendBlobAppendBlockFromURLOptions {
   accessConditions?: IAppendBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   sourceContentMD5?: Uint8Array;
+  sourceContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -187,6 +189,7 @@ export class AppendBlobURL extends BlobURL {
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
       cpkInfo: options.customerProvidedKey
     });
   }
@@ -224,6 +227,7 @@ export class AppendBlobURL extends BlobURL {
       abortSignal: aborter,
       sourceRange: rangeToString({offset: sourceOffset, count}),
       sourceContentMD5: options.sourceContentMD5,
+      sourceContentCrc64: options.sourceContentCrc64,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,

@@ -15,6 +15,7 @@ import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 export interface IBlobDownloadOptions {
   snapshot?: string;
   rangeGetContentMD5?: boolean;
+  rangeGetContentCRC64?: boolean;
   blobAccessConditions?: IBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -230,6 +231,7 @@ export class BlobURL extends StorageURL {
       onDownloadProgress: isNode ? undefined : options.progress,
       range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
+      rangeGetContentCRC64: options.rangeGetContentCRC64,
       snapshot: options.snapshot,
       cpkInfo: options.customerProvidedKey
     });

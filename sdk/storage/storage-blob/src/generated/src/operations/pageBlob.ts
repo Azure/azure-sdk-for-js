@@ -476,7 +476,7 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
     Parameters.sourceUrl,
     Parameters.sourceRange0,
     Parameters.sourceContentMD5,
-    Parameters.sourceContentcrc64,
+    Parameters.sourceContentCrc64,
     Parameters.contentLength,
     Parameters.range1,
     Parameters.version,

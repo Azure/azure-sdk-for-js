@@ -1209,10 +1209,10 @@ export const snapshot: msRest.OperationQueryParameter = {
     }
   }
 };
-export const sourceContentcrc64: msRest.OperationParameter = {
+export const sourceContentCrc64: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "sourceContentcrc64"
+    "sourceContentCrc64"
   ],
   mapper: {
     serializedName: "x-ms-source-content-crc64",

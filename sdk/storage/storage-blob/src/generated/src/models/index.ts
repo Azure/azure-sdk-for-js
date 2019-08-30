@@ -2244,7 +2244,7 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends msRest.Request
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentcrc64?: Uint8Array;
+  sourceContentCrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2535,7 +2535,7 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends msRest.Reque
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentcrc64?: Uint8Array;
+  sourceContentCrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2669,7 +2669,7 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends msRest.Request
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
-  sourceContentcrc64?: Uint8Array;
+  sourceContentCrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
