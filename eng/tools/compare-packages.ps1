@@ -6,17 +6,14 @@ param (
 )
 
 function ExtractTGZPackages($pathToPkg){
-  #$regExp = "-\d+\.\d+\.\d+(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
-
   $parentExtractDir = Join-Path $pathToPkg "all-contents"
   Write-Host "mkdir $parentExtractDir"
   mkdir $parentExtractDir
 
   foreach ($p in $(dir $pathToPkg -r -i *.tgz)){
-    $regExp = "(?<name>.*?)(-\d+\.\d+\.\d+.*)"
     $extractDir = Join-Path $parentExtractDir $p.BaseName
 
-    if($p.BaseName -match $regExp){
+    if($p.BaseName -match "(?<name>.*?)(-\d+\.\d+\.\d+.*)"){
       $extractDir = Join-Path $parentExtractDir $matches["name"]
     }
     else{
