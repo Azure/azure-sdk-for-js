@@ -89,13 +89,11 @@ export class BatchDeleteRequest extends BatchRequest {
   }
 
   /**
-   * Add a delete operation(subrequest) to mark the specified blob for deletion.
-   * The blob is later deleted during garbage collection. Note that in order to delete a blob,
-   * you must delete all of its snapshots. You can delete both at the same time.
-   * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization
+   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * Note that in order to delete a blob, you must delete all of its snapshots. 
+   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
@@ -142,10 +140,9 @@ export class BatchSetTierRequest extends BatchRequest {
    * storage only). A premium page blob's tier determines the allowed size, IOPS,
    * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
    * storage type. This operation does not update the blob's ETag.
+   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
    * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization
+   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.

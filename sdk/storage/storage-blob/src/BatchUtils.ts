@@ -5,7 +5,7 @@ import { BATCH_MAX_PAYLOAD_IN_BYTES } from "./utils/constants";
 export async function getBodyAsText(
   batchResponse: Models.ServiceSubmitBatchResponse
 ): Promise<string> {
-  let buffer = new Buffer(BATCH_MAX_PAYLOAD_IN_BYTES);
+  let buffer = Buffer.alloc(BATCH_MAX_PAYLOAD_IN_BYTES);
 
   let responseLength = await streamToBuffer2(
     batchResponse.readableStreamBody as NodeJS.ReadableStream,

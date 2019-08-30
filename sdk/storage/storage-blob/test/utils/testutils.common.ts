@@ -1,5 +1,6 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
+import { BlobMetadata } from '../../src/generated/src/models';
 
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
@@ -40,4 +41,24 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
         break;
     }
   }
+}
+
+/**
+ * Validate if m1 is super set of m2.
+ * 
+ * @param m1 BlobMetadata
+ * @param m2 BlobMetadata
+ */
+export function isSuperSet(m1: BlobMetadata, m2: BlobMetadata): boolean {
+  if (!m1 || !m2) {
+    throw new RangeError("m1 or m2 is invalid");
+  }
+
+  for (let p in m2) {
+    if (m1[p] !== m2[p]) {
+      return false;
+    }
+  }
+  
+  return true;
 }

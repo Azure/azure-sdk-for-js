@@ -312,6 +312,7 @@ export class ServiceURL extends StorageURL {
     const res: ServiceGetUserDelegationKeyResponse = {
       _response: response._response,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       date: response.date,
       errorCode: response.errorCode,
@@ -365,6 +366,7 @@ export class ServiceURL extends StorageURL {
       contentType: rawBatchResponse.contentType,
       errorCode: rawBatchResponse.errorCode,
       requestId: rawBatchResponse.requestId,
+      clientRequestId: rawBatchResponse.clientRequestId,
       version: rawBatchResponse.version,
       subResponses: responseSummary.subResponses,
       subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
