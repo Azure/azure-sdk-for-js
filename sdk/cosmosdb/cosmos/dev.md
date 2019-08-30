@@ -12,8 +12,7 @@ npm run test   # runs the tests
 
 ## Pre-reqs
 
-- [Node v6 or above](https://nodejs.org/en/)
-  - Recommend using Node 8 LTS
+- [Node v8 or above](https://nodejs.org/en/)
   - Recommend using a Node version manager ([nvm-windows](https://github.com/coreybutler/nvm-windows/releases), [nvm (mac/linux)](https://github.com/creationix/nvm/), [n (mac/linux)](https://github.com/tj/n))
 - npm (comes with Node)(all tooling is done via npm scripts)
 - All OS's should be supported (emulator only runs on windows)

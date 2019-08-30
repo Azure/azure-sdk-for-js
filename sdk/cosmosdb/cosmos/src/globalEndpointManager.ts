@@ -24,6 +24,7 @@ export class GlobalEndpointManager {
   private locationCache: LocationCache;
   private isRefreshing: boolean;
   private readonly backgroundRefreshTimeIntervalInMS: number;
+  private initPromise: Promise<void>;
 
   /**
    * @constructor GlobalEndpointManager
@@ -46,7 +47,7 @@ export class GlobalEndpointManager {
    */
   public async getReadEndpoint(): Promise<string> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getReadEndpoint();
   }
@@ -56,21 +57,21 @@ export class GlobalEndpointManager {
    */
   public async getWriteEndpoint(): Promise<string> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getWriteEndpoint();
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getReadEndpoints();
   }
 
   public async getWriteEndpoints(): Promise<ReadonlyArray<string>> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getWriteEndpoints();
   }
@@ -88,8 +89,8 @@ export class GlobalEndpointManager {
   }
 
   public async resolveServiceEndpoint(request: RequestContext) {
-    if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+    if (!this.isEndpointCacheInitialized && request.resourceType !== ResourceType.none) {
+      await this.init();
     }
     return this.locationCache.resolveServiceEndpoint(request);
   }
@@ -117,6 +118,13 @@ export class GlobalEndpointManager {
         this.isEndpointCacheInitialized = true;
       }
     }
+  }
+
+  private async init(): Promise<void> {
+    if (this.initPromise === undefined) {
+      this.initPromise = this.refreshEndpointList().catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
+    }
+    return this.initPromise;
   }
 
   private backgroundRefresh() {
