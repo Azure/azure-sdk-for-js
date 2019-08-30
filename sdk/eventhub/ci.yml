@@ -32,7 +32,7 @@ pr:
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: keyvault
+      ServiceDirectory: eventhubs
       Artifacts:
         - name: azure-event-hubs
           safeName: azureeventhubs
