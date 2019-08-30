@@ -24,6 +24,7 @@ describe("ServiceURL", () => {
     const result = await serviceURL.listQueuesSegment(Aborter.none);
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -79,6 +80,7 @@ describe("ServiceURL", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
