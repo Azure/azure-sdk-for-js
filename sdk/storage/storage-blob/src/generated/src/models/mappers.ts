@@ -2004,6 +2004,12 @@ export const ServiceSubmitBatchHeaders: msRest.CompositeMapper = {
     name: "Composite",
     className: "ServiceSubmitBatchHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       contentType: {
         serializedName: "content-type",
         type: {

@@ -2940,6 +2940,11 @@ export interface ServiceGetAccountInfoHeaders {
  */
 export interface ServiceSubmitBatchHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * The media type of the body of the response. For batch requests, this is ' multipart/mixed;
    * boundary=batchresponse_<GUID>'
    */
