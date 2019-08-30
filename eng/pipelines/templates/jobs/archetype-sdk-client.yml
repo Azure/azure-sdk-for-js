@@ -92,7 +92,7 @@ jobs:
         condition: succeededOrFailed()
         displayName: "Publish Report Artifacts"
         inputs:
-          artifactName: reports
+          artifactName: package-diffs
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
@@ -133,7 +133,7 @@ jobs:
         condition: succeededOrFailed()
         displayName: "Publish Report Artifacts"
         inputs:
-          artifactName: lintReports
+          artifactName: reports
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
