@@ -57,6 +57,7 @@ describe("BlobURL", () => {
       rangeGetContentMD5: true
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
+    assert.ok(result.clientRequestId);
   });
 
   it("setMetadata with new metadata set", async () => {
