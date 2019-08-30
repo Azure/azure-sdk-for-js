@@ -23,3 +23,4 @@ stages:
   - template: ../../eng/pipelines/templates/stages/cosmos-sdk-client.yml
     parameters:
       ServiceDirectory: cosmosdb
+      RunUnitTests: false

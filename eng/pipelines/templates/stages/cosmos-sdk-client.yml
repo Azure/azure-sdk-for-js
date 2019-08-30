@@ -1,6 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  RunUnitTests: false
 
 stages:
   - stage: Build
@@ -8,7 +9,7 @@ stages:
       - template: ../jobs/archetype-sdk-client.yml
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
-          Matrix: {}
+          RunUnitTests: ${{ parameters.RunUnitTests }}
 
       - template: ../jobs/archetype-sdk-integration.yml
         parameters:

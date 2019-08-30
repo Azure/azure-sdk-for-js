@@ -1,4 +1,5 @@
 parameters:
+  RunUnitTests: true
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
@@ -178,7 +179,7 @@ jobs:
         displayName: "Component Detection"
 
   # Only run tests if the matrix has entries
-  - ${{ if ne(paramters.Matrix, {}) }}:
+  - ${{ if eq(parameters.RunUnitTests, true) }}:
       - job: "UnitTest"
 
         strategy:
