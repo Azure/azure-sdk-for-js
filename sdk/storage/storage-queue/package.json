@@ -77,7 +77,7 @@
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/core-http": "1.0.0-preview.3",
-    "@azure/core-paging": "1.0.0-preview.1",
+    "@azure/core-paging": "1.0.0-preview.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
