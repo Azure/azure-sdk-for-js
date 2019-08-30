@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 import { CosmosHeaders } from "../index";
 
 /**
