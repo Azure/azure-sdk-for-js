@@ -1087,8 +1087,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     log.error(
-      "An error occured when settling a message with id '%s'. " +
+      "[%s] An error occured when settling a message with id '%s'. " +
       "This message was received using the receiver %s which %s currently open: %O",
+      this._context.namespace.connectionId,
       this.messageId,
       this.delivery.link.name,
       this.delivery.link.is_open() ? "is" : "is not",
