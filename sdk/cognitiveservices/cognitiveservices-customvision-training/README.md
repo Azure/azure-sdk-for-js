@@ -30,7 +30,6 @@ import {
   TrainingAPIClient,
   TrainingAPIModels
 } from "@azure/cognitiveservices-customvision-training";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
 async function main(): Promise<void> {
   const customVisionTrainingKey =
