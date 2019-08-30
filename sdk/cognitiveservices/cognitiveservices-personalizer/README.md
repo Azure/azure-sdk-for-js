@@ -17,47 +17,89 @@ npm install @azure/cognitiveservices-personalizer
 
 #### nodejs - Authentication, client creation and reward events as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { PersonalizerClient, PersonalizerModels, PersonalizerMappers } from "@azure/cognitiveservices-personalizer";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  PersonalizerClient,
+  PersonalizerModels
+} from "@azure/cognitiveservices-personalizer";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new PersonalizerClient(creds, subscriptionId);
-  const eventId = "testeventId";
-  const rewardParameter: PersonalizerModels.RewardRequest = {
-    value: 1.01
+async function main(): Promise<void> {
+  const personalizerKey = process.env["personalizerKey"] || "<personalizerKey>";
+  const personalizerEndPoint =
+    process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    personalizerKey
+  );
+
+  const client = new PersonalizerClient(
+    cognitiveServiceCredentials,
+    personalizerEndPoint
+  );
+
+  const rankRequest: PersonalizerModels.RankRequest = {
+    contextFeatures: [
+      {
+        timeOfDay: "Morning"
+      }
+    ],
+    actions: [
+      {
+        id: "NewsArticle",
+        features: [
+          {
+            type: "News"
+          }
+        ]
+      },
+      {
+        id: "SportsArticle",
+        features: [
+          {
+            type: "Sports"
+          }
+        ]
+      },
+      {
+        id: "EntertainmentArticle",
+        features: [
+          {
+            type: "Entertainment"
+          }
+        ]
+      }
+    ],
+    excludedActions: ["SportsArticle"],
+    eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
+    deferActivation: false
   };
-  client.events.reward(eventId, rewardParameter).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+
+  client
+    .rank(rankRequest)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and reward events as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -66,32 +108,67 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-personalizer sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-personalizer/dist/cognitiveservices-personalizer.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const personalizerKey = "<YOUR_PERSONALIZER_KEY>";
+      const personalizerEndPoint = "<YOUR_PERSONALIZER_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": personalizerKey
         }
-        const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(res.creds, subscriptionId);
-        const eventId = "testeventId";
-        const rewardParameter = {
-          value: 1.01
-        };
-        client.events.reward(eventId, rewardParameter).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(
+        cognitiveServiceCredentials,
+        personalizerEndPoint
+      );
+
+      const rankRequest = {
+        contextFeatures: [
+          {
+            timeOfDay: "Morning"
+          }
+        ],
+        actions: [
+          {
+            id: "NewsArticle",
+            features: [
+              {
+                type: "News"
+              }
+            ]
+          },
+          {
+            id: "SportsArticle",
+            features: [
+              {
+                type: "Sports"
+              }
+            ]
+          },
+          {
+            id: "EntertainmentArticle",
+            features: [
+              {
+                type: "Entertainment"
+              }
+            ]
+          }
+        ],
+        excludedActions: ["SportsArticle"],
+        eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
+        deferActivation: false
+      };
+
+      client
+        .rank(rankRequest)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
