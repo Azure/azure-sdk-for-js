@@ -24,6 +24,7 @@ export interface IBlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -31,6 +32,7 @@ export interface IBlockBlobStageBlockFromURLOptions {
   range?: IRange;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   sourceContentMD5?: Uint8Array;
+  sourceContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -219,6 +221,7 @@ export class BlockBlobURL extends BlobURL {
       leaseAccessConditions: options.leaseAccessConditions,
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
       cpkInfo: options.customerProvidedKey
     });
   }
@@ -261,6 +264,7 @@ export class BlockBlobURL extends BlobURL {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
+      sourceContentCrc64: options.sourceContentCrc64,
       sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       cpkInfo: options.customerProvidedKey
     });

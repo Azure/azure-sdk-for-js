@@ -24,6 +24,7 @@ export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
+  transactionalCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -31,6 +32,7 @@ export interface IPageBlobUploadPagesFromURLOptions {
   accessConditions?: IPageBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   sourceContentMD5?: Uint8Array;
+  sourceCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -222,6 +224,7 @@ export class PageBlobURL extends BlobURL {
       range: rangeToString({ offset, count }),
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
       transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalCrc64,
       cpkInfo: options.customerProvidedKey
     });
   }
@@ -261,6 +264,7 @@ export class PageBlobURL extends BlobURL {
       {
         abortSignal: aborter,
         sourceContentMD5: options.sourceContentMD5,
+        sourceContentCrc64: options.sourceCrc64,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,

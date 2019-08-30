@@ -8,6 +8,7 @@
 * Added support for rehydrate priority with additional option to methods `BlobURL.startCopyFromURL` and `BlobURL.setTier`.
 * APIs `BlobURL.startCopyFromURL`, `BlockBlobURL.upload`, `BlockBlobURL.commitBlockList` and `PageBlobURL.create` now supports set the blob tier within the API call.
 * Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+* Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
 
 ## 2019.08 10.4.1
 

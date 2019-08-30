@@ -334,7 +334,7 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
-    Parameters.sourceContentcrc64,
+    Parameters.sourceContentCrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.xMsEncryptionKey,
