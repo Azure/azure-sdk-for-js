@@ -6,18 +6,21 @@ param (
 )
 
 function ExtractTGZPackages($pathToPkg){
-  $regExp = "-\d+\.\d+\.\d+(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
+  #$regExp = "-\d+\.\d+\.\d+(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
 
   $parentExtractDir = Join-Path $pathToPkg -ChildPath "all-contents"
   Write-Host "mkdir $parentExtractDir"
   mkdir $parentExtractDir
 
   foreach ($p in $(dir $pathToPkg -r -i *.tgz)){
+    $regExp = "(?<name>.*?)(-\d+\.\d+\.\d+.*)"
     $extractDir = Join-Path $parentExtractDir -ChildPath $p.BaseName
 
     if($p.BaseName -match $regExp){
-      $newDirName = ($p.BaseName -split $Matches.0)[0]
-      $extractDir = Join-Path $parentExtractDir $newDirName
+      $extractDir = Join-Path $parentExtractDir $matches["name"]
+    }
+    else{
+      write-error "Package name $($p.BaseName) doesn't match the expected format [<name>-<version>]!"
     }
 
     mkdir "$extractDir"
