@@ -466,7 +466,6 @@ describe("Errors after close()", function(): void {
 
   async function testDisposition(operation: DispositionType): Promise<void> {
     let caughtError: Error | undefined;
-    let expectedError: Error | undefined;
 
     try {
       switch (operation) {
