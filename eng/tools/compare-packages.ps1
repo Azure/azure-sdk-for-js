@@ -8,13 +8,13 @@ param (
 function ExtractTGZPackages($pathToPkg){
   #$regExp = "-\d+\.\d+\.\d+(-\w*\.\d*)?(-dev-$dailyDevBuildNo)?"
 
-  $parentExtractDir = Join-Path $pathToPkg -ChildPath "all-contents"
+  $parentExtractDir = Join-Path $pathToPkg "all-contents"
   Write-Host "mkdir $parentExtractDir"
   mkdir $parentExtractDir
 
   foreach ($p in $(dir $pathToPkg -r -i *.tgz)){
     $regExp = "(?<name>.*?)(-\d+\.\d+\.\d+.*)"
-    $extractDir = Join-Path $parentExtractDir -ChildPath $p.BaseName
+    $extractDir = Join-Path $parentExtractDir $p.BaseName
 
     if($p.BaseName -match $regExp){
       $extractDir = Join-Path $parentExtractDir $matches["name"]
@@ -31,14 +31,14 @@ function ExtractTGZPackages($pathToPkg){
 }
 
 try{
-  $extractMasterDir = Join-Path $pathToMasterPkg -ChildPath "all-contents"
+  $extractMasterDir = Join-Path $pathToMasterPkg "all-contents"
   ExtractTGZPackages($pathToMasterPkg)
 
   if($LastExitCode -ne 0){
     Write-Host "error >> ExtractTGZPackages($pathToMasterPkg) failed with exit code $LastExitCode"
   }
 
-  $extractCurrentDir = Join-Path $pathToCurrentPkg -ChildPath "all-contents"
+  $extractCurrentDir = Join-Path $pathToCurrentPkg "all-contents"
   ExtractTGZPackages($pathToCurrentPkg)
 
   if($LastExitCode -ne 0){
