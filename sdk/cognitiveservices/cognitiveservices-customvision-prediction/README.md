@@ -17,49 +17,51 @@ npm install @azure/cognitiveservices-customvision-prediction
 
 #### nodejs - Authentication, client creation and classifyImageUrl  as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { PredictionAPIClient, PredictionAPIModels, PredictionAPIMappers } from "@azure/cognitiveservices-customvision-prediction";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { PredictionAPIClient } from "@azure/cognitiveservices-customvision-prediction";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new PredictionAPIClient(creds, subscriptionId);
-  const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  const publishedName = "testpublishedName";
-  const imageUrl: PredictionAPIModels.ImageUrl = {
-    url: "testurl"
-  };
-  const application = "testapplication";
-  client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const customVisionPredictionKey =
+    process.env["customVisionPredictionKey"] || "<customVisionPredictionKey>";
+  const customVisionPredictionEndPoint =
+    process.env["customVisionPredictionEndPoint"] ||
+    "<customVisionPredictionEndPoint>";
+  const projectId = process.env["projectId"] || "<projectId>";
+
+  const imageURL =
+    "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
+
+  const client = new PredictionAPIClient(
+    customVisionPredictionKey,
+    customVisionPredictionEndPoint
+  );
+
+  client
+    .detectImageUrlWithNoStore(projectId, "Atlanta Trail", { url: imageURL })
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and classifyImageUrl  as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -68,38 +70,38 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-customvision-prediction sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-customvision-prediction/dist/cognitiveservices-customvision-prediction.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.CognitiveservicesCustomvisionPrediction.PredictionAPIClient(res.creds, subscriptionId);
-        const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-        const publishedName = "testpublishedName";
-        const imageUrl = {
-          url: "testurl"
-        };
-        const application = "testapplication";
-        client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
-          console.log("The result is:");
+      const customVisionPredictionKey = "3351c4738ff748e9929bb998162b0282";
+      const customVisionPredictionEndPoint =
+        "https://westus2.api.cognitive.microsoft.com/";
+      const projectId = "60867256-0e38-498c-b89d-2c6db95f5567";
+
+      const imageURL =
+        "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
+
+      const client = new Azure.CognitiveservicesCustomvisionPrediction.PredictionAPIClient(
+        customVisionPredictionKey,
+        customVisionPredictionEndPoint
+      );
+
+      client
+        .detectImageUrlWithNoStore(projectId, "Atlanta Trail", {
+          url: imageURL
+        })
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
 </html>
+
 ```
 
 ## Related projects
