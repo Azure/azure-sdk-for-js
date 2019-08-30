@@ -17,46 +17,46 @@ npm install @azure/cognitiveservices-face
 
 #### nodejs - Authentication, client creation and list personGroupPerson as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { FaceClient, FaceModels, FaceMappers } from "@azure/cognitiveservices-face";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { FaceClient, FaceModels } from "@azure/cognitiveservices-face";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new FaceClient(creds, subscriptionId);
-  const personGroupId = "testpersonGroupId";
-  const start = "teststart";
-  const top = 1;
-  client.personGroupPerson.list(personGroupId, start, top).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const faceKey = process.env["faceKey"] || "<faceKey>";
+  const faceEndPoint = process.env["faceEndPoint"] || "<faceEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(faceKey);
+  const client = new FaceClient(cognitiveServiceCredentials, faceEndPoint);
+  const url =
+    "https://pbs.twimg.com/profile_images/3354326900/3a5168f2b45c07d0965098be1a4e3007.jpeg";
+  const options: FaceModels.FaceDetectWithUrlOptionalParams = {
+    returnFaceLandmarks: true
+  };
+  client.face
+    .detectWithUrl(url, options)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and list personGroupPerson as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -65,31 +65,35 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-face sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-face/dist/cognitiveservices-face.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const faceKey = "3821e8a46dac493da89a677aeb8b0015";
+      const faceEndPoint = "https://westus2.api.cognitive.microsoft.com/";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": faceKey
         }
-        const client = new Azure.CognitiveservicesFace.FaceClient(res.creds, subscriptionId);
-        const personGroupId = "testpersonGroupId";
-        const start = "teststart";
-        const top = 1;
-        client.personGroupPerson.list(personGroupId, start, top).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesFace.FaceClient(
+        cognitiveServiceCredentials,
+        faceEndPoint
+      );
+
+      const url =
+        "https://pbs.twimg.com/profile_images/3354326900/3a5168f2b45c07d0965098be1a4e3007.jpeg";
+      const options = {
+        returnFaceLandmarks: true
+      };
+      client.face
+        .detectWithUrl(url, options)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
