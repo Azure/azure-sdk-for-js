@@ -17,60 +17,51 @@ npm install @azure/cognitiveservices-newssearch
 
 #### nodejs - Authentication, client creation and search news as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { NewsSearchClient, NewsSearchModels, NewsSearchMappers } from "@azure/cognitiveservices-newssearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  NewsSearchClient,
+  NewsSearchModels
+} from "@azure/cognitiveservices-newssearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new NewsSearchClient(creds, subscriptionId);
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const countryCode = "testcountryCode";
-  const count = 1;
-  const freshness = "Day";
-  const market = "testmarket";
-  const offset = 1;
-  const originalImage = true;
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  const sortBy = "testsortBy";
-  const textDecorations = true;
-  const textFormat = "Raw";
-  client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const newsSearchKey = process.env["newsSearchKey"] || "<newsSearchKey>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    newsSearchKey
+  );
+  const client = new NewsSearchClient(cognitiveServiceCredentials);
+  const query = "Microsoft Azure";
+  const options: NewsSearchModels.NewsSearchOptionalParams = {
+    count: 10,
+    freshness: "Month",
+    safeSearch: "Strict"
+  };
+  client.news
+    .search(query, options)
+    .then(result => {
+      console.log("The result is:");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and search news as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -79,45 +70,34 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-newssearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-newssearch/dist/cognitiveservices-newssearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const newsSearchKey = "<YOUR_NEWS_SEARCH_KEY>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": newsSearchKey
         }
-        const client = new Azure.CognitiveservicesNewssearch.NewsSearchClient(res.creds, subscriptionId);
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const countryCode = "testcountryCode";
-        const count = 1;
-        const freshness = "Day";
-        const market = "testmarket";
-        const offset = 1;
-        const originalImage = true;
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        const sortBy = "testsortBy";
-        const textDecorations = true;
-        const textFormat = "Raw";
-        client.news.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, market, offset, originalImage, safeSearch, setLang, sortBy, textDecorations, textFormat).then((result) => {
+      });
+      const client = new Azure.CognitiveservicesNewssearch.NewsSearchClient(
+        cognitiveServiceCredentials
+      );
+
+      const query = "Microsoft Azure";
+      const options = {
+        count: 10,
+        freshness: "Month",
+        safeSearch: "Strict"
+      };
+      client.news
+        .search(query, options)
+        .then(result => {
           console.log("The result is:");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
