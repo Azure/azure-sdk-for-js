@@ -75,6 +75,9 @@ export class OrderByDocumentProducerComparator {
 
   // TODO: This smells funny
   public compareValue(item1: any, type1: string, item2: any, type2: string) {
+    if (type1 === "object" || type2 === "object") {
+      throw new Error("Tried to compare an object type");
+    }
     const type1Ord = TYPEORDCOMPARATOR[type1].ord;
     const type2Ord = TYPEORDCOMPARATOR[type2].ord;
     const typeCmp = type1Ord - type2Ord;
