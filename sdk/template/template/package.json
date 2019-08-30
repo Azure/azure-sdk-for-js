@@ -58,7 +58,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.3",
     "events": "^3.0.0",
