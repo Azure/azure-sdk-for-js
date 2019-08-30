@@ -133,7 +133,7 @@ jobs:
         condition: succeededOrFailed()
         displayName: "Publish Report Artifacts"
         inputs:
-          artifactName: reports
+          artifactName: lintReports
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
