@@ -51,6 +51,7 @@ describe("ContainerURL", () => {
     assert.ok(result.version);
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
+    assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy 
   });
 
   it("create with default parameters", (done) => {

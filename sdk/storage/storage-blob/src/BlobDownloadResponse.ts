@@ -384,6 +384,18 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   }
 
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get clientRequestId(): string | undefined {
+    return this.originalResponse.clientRequestId;
+  }
+
+  /**
    * Indicates the version of the File service used
    * to execute the request.
    *
