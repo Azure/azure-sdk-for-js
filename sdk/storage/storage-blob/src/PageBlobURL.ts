@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions, ensureCpkIfSpecified } from "./models";
+import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions, ensureCpkIfSpecified, PremiumPageBlobTier, toAccessTier } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -17,6 +17,7 @@ export interface IPageBlobCreateOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   customerProvidedKey?: Models.CpkInfo;
+  tier?: PremiumPageBlobTier | string;
 }
 
 export interface IPageBlobUploadPagesOptions {
@@ -185,7 +186,8 @@ export class PageBlobURL extends BlobURL {
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 

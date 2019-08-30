@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { BlockBlob } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata, ensureCpkIfSpecified } from "./models";
+import { IBlobAccessConditions, IMetadata, ensureCpkIfSpecified, BlockBlobTier, toAccessTier } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -17,6 +17,7 @@ export interface IBlockBlobUploadOptions {
   metadata?: IMetadata;
   progress?: (progress: TransferProgressEvent) => void;
   customerProvidedKey?: Models.CpkInfo;
+  tier?: BlockBlobTier | string;
 }
 
 export interface IBlockBlobStageBlockOptions {
@@ -38,6 +39,8 @@ export interface IBlockBlobCommitBlockListOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   customerProvidedKey?: Models.CpkInfo;
+  accessTier?: Models.AccessTier;
+  tier?: BlockBlobTier | string;
 }
 
 export interface IBlockBlobGetBlockListOptions {
@@ -183,7 +186,8 @@ export class BlockBlobURL extends BlobURL {
       metadata: options.metadata,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
-      cpkInfo: options.customerProvidedKey
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -293,7 +297,8 @@ export class BlockBlobURL extends BlobURL {
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        cpkInfo: options.customerProvidedKey
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier)
       }
     );
   }

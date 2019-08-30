@@ -26,6 +26,7 @@ export * from "./highlevel.common";
 export * from "./highlevel.node";
 export { IIPRange } from "./IIPRange";
 export { IRange } from "./IRange";
+export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./PageBlobURL";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

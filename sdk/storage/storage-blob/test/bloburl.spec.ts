@@ -9,6 +9,7 @@ import { ContainerURL } from "../src/ContainerURL";
 import { bodyToString, getBSU } from "./utils";
 import { delay, record } from "./utils/recorder";
 import { Test_CPK_INFO } from './utils/constants';
+import { BlockBlobTier } from '../src';
 
 dotenv.config({ path: "../.env" });
 
@@ -376,6 +377,31 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(properties2.copySource, blobURL.url);
   });
 
+  it("startCopyFromURL with rehydrate priority", async () => {
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
+    const initialTier = BlockBlobTier.Archive;
+    const result = await newBlobURL.startCopyFromURL(
+      Aborter.none, 
+      blobURL.url, 
+      {
+        tier: initialTier,
+        rehydratePriority: "Standard"
+      });
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobURL.getProperties(Aborter.none);
+    const properties2 = await newBlobURL.getProperties(Aborter.none);
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.deepStrictEqual(properties2.copySource, blobURL.url);
+    assert.equal(properties2.accessTier, initialTier);
+
+    await newBlobURL.setTier(Aborter.none, BlockBlobTier.Hot);
+    const properties3 = await newBlobURL.getProperties(Aborter.none);
+    assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot")
+  });
+
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
@@ -407,6 +433,15 @@ describe("BlobURL", () => {
     properties = await blockBlobURL.getProperties(Aborter.none);
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
+    }
+  });
+
+  it("setTier with rehydrate priority", async () => {
+    await blockBlobURL.setTier(Aborter.none, "Archive", {rehydratePriority: "High"});
+    await blockBlobURL.setTier(Aborter.none, "Cool");
+    const properties = await blockBlobURL.getProperties(Aborter.none);
+    if (properties.archiveStatus) {
+      assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
   });
 });

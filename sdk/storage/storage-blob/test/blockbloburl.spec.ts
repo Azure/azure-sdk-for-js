@@ -7,7 +7,8 @@ import { ContainerURL } from "../src/ContainerURL";
 import { base64encode, bodyToString, getBSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { Test_CPK_INFO } from './utils/constants';
+import { Test_CPK_INFO } from "./utils/constants";
+import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobURL", () => {
@@ -57,7 +58,8 @@ describe("BlockBlobURL", () => {
     };
     await blockBlobURL.upload(Aborter.none, body, body.length, {
       blobHTTPHeaders: options,
-      metadata: options.metadata
+      metadata: options.metadata,
+      tier: BlockBlobTier.Cool
     });
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -67,6 +69,9 @@ describe("BlockBlobURL", () => {
     assert.deepStrictEqual(result.contentLanguage, options.blobContentLanguage);
     assert.deepStrictEqual(result.contentType, options.blobContentType);
     assert.deepStrictEqual(result.metadata, options.metadata);
+
+    const gResp = await blobURL.getProperties(Aborter.none);
+    assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
   it("stageBlock", async () => {
@@ -191,7 +196,8 @@ describe("BlockBlobURL", () => {
     };
     await blockBlobURL.commitBlockList(Aborter.none, [base64encode("1"), base64encode("2")], {
       blobHTTPHeaders: options,
-      metadata: options.metadata
+      metadata: options.metadata,
+      tier: BlockBlobTier.Cool
     });
 
     const listResponse = await blockBlobURL.getBlockList(Aborter.none, "committed");
@@ -209,6 +215,9 @@ describe("BlockBlobURL", () => {
     assert.deepStrictEqual(result.contentLanguage, options.blobContentLanguage);
     assert.deepStrictEqual(result.contentType, options.blobContentType);
     assert.deepStrictEqual(result.metadata, options.metadata);
+
+    const gResp = await blobURL.getProperties(Aborter.none);
+    assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
   it("getBlockList", async () => {
@@ -242,7 +251,9 @@ describe("BlockBlobURL", () => {
       customerProvidedKey: Test_CPK_INFO
     });
     assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
-    const result = await blobURL.download(Aborter.none, 0, undefined, {customerProvidedKey: Test_CPK_INFO});
+    const result = await blobURL.download(Aborter.none, 0, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
     assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
     assert.deepStrictEqual(result.contentDisposition, options.blobContentDisposition);
@@ -272,17 +283,17 @@ describe("BlockBlobURL", () => {
       base64encode("1"),
       body.substring(0, 4),
       4,
-      {customerProvidedKey: Test_CPK_INFO}
-    )
+      { customerProvidedKey: Test_CPK_INFO }
+    );
     assert.equal(sResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
-    
+
     const sResp2 = await newBlockBlobURL.stageBlockFromURL(
       Aborter.none,
       base64encode("2"),
       blockBlobURL.url,
       4,
       4,
-      {customerProvidedKey: Test_CPK_INFO}
+      { customerProvidedKey: Test_CPK_INFO }
     );
     assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
 
@@ -292,7 +303,7 @@ describe("BlockBlobURL", () => {
       blockBlobURL.url,
       8,
       2,
-      {customerProvidedKey: Test_CPK_INFO}
+      { customerProvidedKey: Test_CPK_INFO }
     );
 
     const listResponse = await newBlockBlobURL.getBlockList(Aborter.none, "uncommitted");
@@ -305,23 +316,24 @@ describe("BlockBlobURL", () => {
     assert.equal(listResponse.uncommittedBlocks![2].size, 2);
 
     const cmResp = await newBlockBlobURL.commitBlockList(
-      Aborter.none, 
-      [
-        base64encode("1"),
-        base64encode("2"),
-        base64encode("3"),
-      ],
-      {customerProvidedKey: Test_CPK_INFO});
+      Aborter.none,
+      [base64encode("1"), base64encode("2"), base64encode("3")],
+      { customerProvidedKey: Test_CPK_INFO }
+    );
     assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
 
-    const downloadResponse = await newBlockBlobURL.download(Aborter.none, 0, undefined, {customerProvidedKey: Test_CPK_INFO});
+    const downloadResponse = await newBlockBlobURL.download(Aborter.none, 0, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
     assert.equal(await bodyToString(downloadResponse, 10), body);
   });
 
   it("download without CPK should fail, if upload with CPK", async () => {
     const body: string = recorder.getUniqueName("randomstring");
-    await blockBlobURL.upload(Aborter.none, body, body.length, {customerProvidedKey: Test_CPK_INFO});
-    
+    await blockBlobURL.upload(Aborter.none, body, body.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
     let exceptionCaught = false;
     try {
       await blobURL.download(Aborter.none, 0);
@@ -329,7 +341,7 @@ describe("BlockBlobURL", () => {
       // HTTP/1.1 409 The blob is encrypted with customer specified encryption, but it was not provided in the request.
       exceptionCaught = true;
     }
-    
+
     assert.ok(exceptionCaught);
   });
 });

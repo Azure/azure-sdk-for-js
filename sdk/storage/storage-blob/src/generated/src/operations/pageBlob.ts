@@ -343,6 +343,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobSequenceNumber,
     Parameters.version,
     Parameters.requestId,
+    Parameters.tier0,
     Parameters.blobType0,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
