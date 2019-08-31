@@ -1,9 +1,11 @@
-import atob from "atob";
+//import atob from "atob";
+
+
 import { Constants, getContainerLink, OperationType, ResourceType, trimSlashes } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
-
+const atob = require('atob');
 /** @hidden */
 export class SessionContainer {
   private static readonly EMPTY_SESSION_TOKEN = "";
