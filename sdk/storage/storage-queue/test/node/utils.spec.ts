@@ -6,6 +6,30 @@ dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
   let recorder: any;
+  const protocol = "https";
+  const endpointSuffix = "core.windows.net";
+  const accountName = "myaccount";
+  const accountKey = "myAccountKey";
+  const queueEndpoint = `${protocol}://${accountName}.queue.${endpointSuffix}`;
+
+  function verifyConnectionString(connectionString: string) {
+    const connectionStringParts = extractConnectionStringParts(connectionString);
+    assert.equal(
+      "AccountConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      queueEndpoint,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      accountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  }
 
   beforeEach(async function() {
     recorder = record(this);
@@ -101,5 +125,35 @@ describe("Utility Helpers Node.js only", () => {
         "Connection string error message is different than expected"
       );
     }
+  });
+
+  it("extractConnectionStringParts parses connection string with complete service endpoint for each service", async () => {
+    verifyConnectionString(
+      `DefaultEndpointsProtocol=${protocol};
+          BlobEndpoint=myBlobEndpoint;
+          FileEndpoint=myFileEndpoint;
+          QueueEndpoint=${queueEndpoint};
+          TableEndpoint=myTableEndpoint;
+          AccountName=${accountName};
+          AccountKey=${accountKey}`
+    );
+  });
+
+  it("extractConnectionStringParts parses connection string with an explicit endpoint", async () => {
+    verifyConnectionString(
+      `DefaultEndpointsProtocol=${protocol};
+        QueueEndpoint=${queueEndpoint};
+        AccountName=${accountName};
+        AccountKey=${accountKey}`
+    );
+  });
+
+  it("extractConnectionStringParts parses connection string with an endpoint suffix", async () => {
+    verifyConnectionString(
+      `DefaultEndpointsProtocol=${protocol};
+        AccountName=${accountName};
+        AccountKey=${accountKey};
+        EndpointSuffix=${endpointSuffix};`
+    );
   });
 });
