@@ -1,72 +1,72 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156599442398001705","blob":"blob156599442433402030"}
+module.exports.testInfo = {"container":"container156711965946707281","blob":"blob156711965975604628"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156599442398001705')
+  .put('/container156711965946707281')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:00:59 GMT',
   'ETag',
-  '"0x8D72298DD7A3516"',
+  '"0x8D72CD4C211C2FE"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4eb48a43-d01e-008d-4d81-543637000000',
+  '58d1dbc4-e01e-006b-02bd-5e27c7000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 16 Aug 2019 22:27:03 GMT',
+  'Thu, 29 Aug 2019 23:00:59 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156599442398001705/blob156599442433402030')
+  .put('/container156711965946707281/blob156711965975604628')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:01:00 GMT',
   'ETag',
-  '"0x8D72298DDB0CB5D"',
+  '"0x8D72CD4C24BD09E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '557dcc4d-401e-00ee-6c81-547012000000',
+  '4f1179f0-f01e-0030-76bd-5e20bb000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:00:59 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156599442398001705/blob156599442433402030')
+  .get('/container156711965946707281/blob156711965975604628')
   .reply(200, "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", [ 'Content-Length',
   '512',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:01:00 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D72298DDB0CB5D"',
+  '"0x8D72CD4C24BD09E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '013983ea-401e-004f-2781-54be89000000',
+  '72ccf933-301e-00c3-4abd-5ef3d2000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-tag-count',
   '0',
   'x-ms-creation-time',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:01:00 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -82,24 +82,24 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:01:00 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156599442398001705')
+  .delete('/container156711965946707281')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'c59ccc47-a01e-00c6-7681-5407ad000000',
+  'bcacfbe9-701e-00c4-06bd-5e0557000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 16 Aug 2019 22:27:04 GMT',
+  'Thu, 29 Aug 2019 23:01:00 GMT',
   'Connection',
   'close' ]);
 

@@ -18,9 +18,12 @@ steps:
     displayName: "Build test assets"
 
   - ${{if ne(parameters.PreIntegrationSteps, '')}}:
-    - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
+      - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
   - script: |
       node common/scripts/install-run-rush.js integration-test:${{parameters.TestType}} -t "${{parameters.PackageName}}" --verbose
     displayName: "Integration test libraries"
     env: ${{parameters.EnvVars}}
+
+  - ${{if ne(parameters.PostIntegrationSteps, '')}}:
+      - template: ../steps/${{parameters.PostIntegrationSteps}}.yml

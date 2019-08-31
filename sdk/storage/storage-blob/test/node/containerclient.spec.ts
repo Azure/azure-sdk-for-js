@@ -53,6 +53,23 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(result.blobPublicAccess, access);
   });
 
+  it("setAccessPolicy should work when expiry and start undefined", async () => {
+    const access: PublicAccessType = "blob";
+    const containerAcl = [
+      {
+        accessPolicy: {
+          permission: "rwd"
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await containerClient.setAccessPolicy(access, containerAcl);
+    const result = await containerClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, containerAcl);
+    assert.deepEqual(result.blobPublicAccess, access);
+  });
+
   it("can be created with a url and a credential", async () => {
     const factories = (containerClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;

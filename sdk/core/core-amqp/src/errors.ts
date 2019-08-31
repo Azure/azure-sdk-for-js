@@ -577,7 +577,7 @@ export function translate(err: AmqpError | Error): MessagingError {
     error.info = (err as AmqpError).info;
     error.condition = condition;
     if (condition) {
-      error.name = ConditionErrorNameMapper[condition as any];
+      error.name = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
     if (!error.name) error.name = "MessagingError";
     if (
@@ -601,8 +601,8 @@ export function translate(err: AmqpError | Error): MessagingError {
     error = new MessagingError(description);
     if ((err as any).stack) error.stack = (err as any).stack;
     if (condition) {
-      const amqpErrorCondition = SystemErrorConditionMapper[condition as any];
-      error.name = ConditionErrorNameMapper[amqpErrorCondition as any];
+      const amqpErrorCondition = SystemErrorConditionMapper[condition as keyof typeof SystemErrorConditionMapper];
+      error.name = ConditionErrorNameMapper[amqpErrorCondition as keyof typeof ConditionErrorNameMapper];
     }
     if (!error.name) error.name = "SystemError";
     if (retryableErrors.indexOf(error.name) === -1) {

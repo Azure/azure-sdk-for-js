@@ -423,9 +423,9 @@ describe("BlobServiceClient", () => {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() + 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken.getUserDelegationKey(now, tmr);
     assert.notDeepStrictEqual(response.value, undefined);

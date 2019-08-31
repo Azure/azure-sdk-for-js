@@ -27,15 +27,16 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * The train request must include a source parameter that is either an externally accessible Azure
-   * Storage blob container Uri (preferably a Shared Access Signature Uri) or valid path to a data
-   * folder in a locally mounted drive. When local paths are specified, they must follow the
-   * Linux/Unix path format and be an absolute path rooted to the input mount configuration
+   * Create and train a custom model. The train request must include a source parameter that is
+   * either an externally accessible Azure Storage blob container Uri (preferably a Shared Access
+   * Signature Uri) or valid path to a data folder in a locally mounted drive. When local paths are
+   * specified, they must follow the Linux/Unix path format and be an absolute path rooted to the
+   * input mount configuration
    * setting value e.g., if '{Mounts:Input}' configuration setting value is '/input' then a valid
-   * source path would be '/input/contosodataset'. All data to be trained are expected to be under
-   * the source. Models are trained using documents that are of the following content type -
-   * 'application/pdf', 'image/jpeg' and 'image/png'."
-   * Other content is ignored when training a model.
+   * source path would be '/input/contosodataset'. All data to be trained is expected to be directly
+   * under the source folder. Subfolders are not supported. Models are trained using documents that
+   * are of the following content type - 'application/pdf', 'image/jpeg' and 'image/png'."
+   * Other type of content is ignored.
    * @summary Train Model
    * @param trainRequest Request object for training.
    * @param [options] The optional parameters
@@ -64,8 +65,8 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Use the API to retrieve the keys that were
-   * extracted by the specified model.
+   * Retrieve the keys that were
+   * extracted during the training of the specified model.
    * @summary Get Keys
    * @param id Model identifier.
    * @param [options] The optional parameters
@@ -94,7 +95,7 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Get information about all trained models
+   * Get information about all trained custom models
    * @summary Get Models
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCustomModelsResponse>
@@ -177,9 +178,9 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * The document to analyze must be of a supported content type - 'application/pdf', 'image/jpeg' or
-   * 'image/png'. The response contains not just the extracted information of the analyzed form but
-   * also information about content that was not extracted along with a reason.
+   * Extract key-value pairs from a given document. The input document must be of one of the
+   * supported content types - 'application/pdf', 'image/jpeg' or 'image/png'. A success response is
+   * returned in JSON.
    * @summary Analyze Form
    * @param id Model Identifier to analyze the document with.
    * @param formStream A pdf document or image (jpg,png) file to analyze.
@@ -209,6 +210,98 @@ class FormRecognizerClient extends FormRecognizerClientContext {
       },
       analyzeWithCustomModelOperationSpec,
       callback) as Promise<Models.AnalyzeWithCustomModelResponse>;
+  }
+
+  /**
+   * Batch Read Receipt operation. The response contains a field called 'Operation-Location', which
+   * contains the URL that you must use for your 'Get Read Receipt Result' operation.
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BatchReadReceiptResponse>
+   */
+  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptResponse>;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  batchReadReceipt(url: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  batchReadReceipt(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptResponse> {
+    return this.sendOperationRequest(
+      {
+        url,
+        options
+      },
+      batchReadReceiptOperationSpec,
+      callback) as Promise<Models.BatchReadReceiptResponse>;
+  }
+
+  /**
+   * This interface is used for getting the analysis results of a 'Batch Read Receipt' operation. The
+   * URL to this interface should be retrieved from the 'Operation-Location' field returned from the
+   * 'Batch Read Receipt' operation.
+   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetReadReceiptResultResponse>
+   */
+  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReadReceiptResultResponse>;
+  /**
+   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
+   * operation.
+   * @param callback The callback
+   */
+  getReadReceiptResult(operationId: string, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
+  /**
+   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
+   * operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getReadReceiptResult(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
+  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadReceiptResult>, callback?: msRest.ServiceCallback<Models.ReadReceiptResult>): Promise<Models.GetReadReceiptResultResponse> {
+    return this.sendOperationRequest(
+      {
+        operationId,
+        options
+      },
+      getReadReceiptResultOperationSpec,
+      callback) as Promise<Models.GetReadReceiptResultResponse>;
+  }
+
+  /**
+   * Read Receipt operation. When you use the 'Batch Read Receipt' interface, the response contains a
+   * field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must
+   * use for your 'Get Read Receipt Result' operation.
+   * @param image An image stream.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BatchReadReceiptInStreamResponse>
+   */
+  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptInStreamResponse>;
+  /**
+   * @param image An image stream.
+   * @param callback The callback
+   */
+  batchReadReceiptInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param image An image stream.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  batchReadReceiptInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        image,
+        options
+      },
+      batchReadReceiptInStreamOperationSpec,
+      callback) as Promise<Models.BatchReadReceiptInStreamResponse>;
   }
 }
 
@@ -327,6 +420,78 @@ const analyzeWithCustomModelOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const batchReadReceiptOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "prebuilt/receipt/asyncBatchAnalyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.BatchReadReceiptHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const getReadReceiptResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "prebuilt/receipt/operations/{operationId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.operationId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReadReceiptResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const batchReadReceiptInStreamOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "prebuilt/receipt/asyncBatchAnalyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: "image",
+    mapper: {
+      required: true,
+      serializedName: "Image",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/octet-stream",
+  responses: {
+    202: {
+      headersMapper: Mappers.BatchReadReceiptInStreamHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
     }
   },
   serializer

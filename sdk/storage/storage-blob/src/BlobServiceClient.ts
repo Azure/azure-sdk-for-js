@@ -179,21 +179,21 @@ export interface UserDelegationKey {
    */
   signedOid: string;
   /**
-   * The Azure Active Directory tenant ID in GUID format
+   * The Azure Active Directory tenant ID in GUID format.
    *
    * @type {string}
    * @memberof UserDelegationKey
    */
   signedTid: string;
   /**
-   * The date-time the key is active
+   * The date-time the key is active.
    *
    * @type {Date}
    * @memberof UserDelegationKey
    */
   signedStart: Date;
   /**
-   * The date-time the key expires
+   * The date-time the key expires.
    *
    * @type {Date}
    * @memberof UserDelegationKey
@@ -653,12 +653,11 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Date} start      The start time for the user delegation SAS. Must be within 7 days of the current time
    * @param {Date} expiry     The end time for the user delegation SAS. Must be within 7 days of the current time
    * @returns {Promise<ServiceGetUserDelegationKeyResponse>}
-   * @memberof ServiceURL
+   * @memberof BlobServiceClient
    */
   public async getUserDelegationKey(
     start: Date,
@@ -676,12 +675,7 @@ export class BlobServiceClient extends StorageClient {
       }
     );
 
-    const res: ServiceGetUserDelegationKeyResponse = {
-      _response: response._response,
-      requestId: response.requestId,
-      version: response.version,
-      date: response.date,
-      errorCode: response.errorCode,
+    const userDelegationKey = {
       signedOid: response.signedOid,
       signedTid: response.signedTid,
       signedStart: new Date(response.signedStart),
@@ -689,6 +683,15 @@ export class BlobServiceClient extends StorageClient {
       signedService: response.signedService,
       signedVersion: response.signedVersion,
       value: response.value
+    };
+
+    const res: ServiceGetUserDelegationKeyResponse = {
+      _response: response._response,
+      requestId: response.requestId,
+      version: response.version,
+      date: response.date,
+      errorCode: response.errorCode,
+      ...userDelegationKey
     };
 
     return res;

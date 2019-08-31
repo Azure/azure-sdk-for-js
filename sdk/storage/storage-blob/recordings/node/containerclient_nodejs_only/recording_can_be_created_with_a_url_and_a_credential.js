@@ -1,41 +1,41 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156599437998605738"}
+module.exports.testInfo = {"container":"container156711962535306166"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156599437998605738')
+  .put('/container156711962535306166')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:26:20 GMT',
+  'Thu, 29 Aug 2019 23:00:25 GMT',
   'ETag',
-  '"0x8D72298C340942A"',
+  '"0x8D72CD4ADBCB9AA"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd5108891-201e-0054-0c81-54901b000000',
+  '37f4a01c-201e-001b-2fbd-5e5403000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 16 Aug 2019 22:26:20 GMT',
+  'Thu, 29 Aug 2019 23:00:25 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156599437998605738')
+  .get('/container156711962535306166')
   .query(true)
   .reply(200, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:26:20 GMT',
+  'Thu, 29 Aug 2019 23:00:25 GMT',
   'ETag',
-  '"0x8D72298C340942A"',
+  '"0x8D72CD4ADBCB9AA"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '2e22c0c4-701e-00ed-5781-547315000000',
+  '3e0c77f9-b01e-0073-57bd-5e0a52000000',
   'x-ms-version',
   '2018-11-09',
   'x-ms-lease-status',
@@ -51,24 +51,24 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:26:19 GMT',
+  'Thu, 29 Aug 2019 23:00:25 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156599437998605738')
+  .delete('/container156711962535306166')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b0763a90-801e-0070-3f81-540955000000',
+  '5df38324-b01e-00d9-41bd-5edcbd000000',
   'x-ms-version',
   '2018-11-09',
   'Date',
-  'Fri, 16 Aug 2019 22:26:20 GMT',
+  'Thu, 29 Aug 2019 23:00:25 GMT',
   'Connection',
   'close' ]);
 

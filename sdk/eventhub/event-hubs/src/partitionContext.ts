@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * PartitionContext is passed into an EventProrcessor's initialization handler and contains information
- * about the partition, the EventProcessor will be processing events from.
+ * `PartitionContext` holds information on the partition, consumer group and event hub 
+ * being processed by the `EventProcessor`.
+ * 
+ * User is never meant to create `PartitionContext` directly. It is only passed to user code
+ * by the `EventProcessor`.
  */
 export interface PartitionContext {
   /**

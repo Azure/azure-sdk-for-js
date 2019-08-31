@@ -26,8 +26,11 @@ export {
   DataConnectionValidationResult,
   EventGridDataConnection,
   EventHubDataConnection,
+  IotHubDataConnection,
+  OptimizedAutoscale,
   ProxyResource,
   Resource,
   TrackedResource,
-  TrustedExternalTenant
+  TrustedExternalTenant,
+  VirtualNetworkConfiguration
 } from "../models/mappers";

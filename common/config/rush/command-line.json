@@ -31,6 +31,13 @@
     },
     {
       "commandKind": "bulk",
+      "name": "build:samples",
+      "summary": "Build the samples only in projects",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "build:test",
       "summary": "Build the test targets only in projects",
       "enableParallelism": true,
@@ -98,6 +105,12 @@
       "commandKind": "bulk",
       "name": "test:browser",
       "summary": "Execute browser dev tests defined in projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "test-consumer",
+      "summary": "Execute consumer tests defined in projects",
       "enableParallelism": true
     },
     {

@@ -1,18 +1,18 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"tmr":"2019-08-16T22:27:08.967Z"}
+module.exports.testInfo = {"tmr":"2019-08-29T23:01:04.434Z"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
   .query(true)
-  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationServiceMismatch</Code><Message>This request is not authorized to perform this operation using this service.\nRequestId:24a322d0-001e-00ad-7581-545afb000000\nTime:2019-08-16T22:27:09.2190892Z</Message></Error>", [ 'Content-Length',
+  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationServiceMismatch</Code><Message>This request is not authorized to perform this operation using this service.\nRequestId:743def37-d01e-00c9-48bd-5eea5b000000\nTime:2019-08-29T23:01:04.6524093Z</Message></Error>", [ 'Content-Length',
   '273',
   'Content-Type',
   'application/xml',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '24a322d0-001e-00ad-7581-545afb000000',
+  '743def37-d01e-00c9-48bd-5eea5b000000',
   'x-ms-error-code',
   'AuthorizationServiceMismatch',
   'Access-Control-Expose-Headers',
@@ -20,7 +20,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:27:08 GMT',
+  'Thu, 29 Aug 2019 23:01:03 GMT',
   'Connection',
   'close' ]);
 
