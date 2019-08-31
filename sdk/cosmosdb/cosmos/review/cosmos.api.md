@@ -472,9 +472,11 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    bufferItems?: boolean;
     continuation?: string;
     continuationTokenLimitInKB?: number;
     enableScanInQuery?: boolean;
+    forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
     populateQueryMetrics?: boolean;
@@ -1094,8 +1096,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
-    compareTo(value: TimeSpan): 0 | 1 | -1;
+    static compare(t1: TimeSpan, t2: TimeSpan): 1 | -1 | 0;
+    compareTo(value: TimeSpan): 1 | -1 | 0;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;

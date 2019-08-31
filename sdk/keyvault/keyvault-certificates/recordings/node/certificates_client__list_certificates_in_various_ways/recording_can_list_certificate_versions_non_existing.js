@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/certificates/recoverCertificateName-canlistcertificateversionsnonexisting-/versions')
@@ -22,7 +22,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a87537ec-ddd9-4ba9-b5bc-e62a9aae5cd0',
+  'ad164e05-5175-4061-8787-1e1ee8c86263',
   'x-ms-keyvault-service-version',
   '1.1.0.876',
   'x-ms-keyvault-network-info',
@@ -36,7 +36,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Aug 2019 19:20:56 GMT',
+  'Thu, 29 Aug 2019 22:01:07 GMT',
   'Connection',
   'close' ]);
 
@@ -56,19 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '5a609ab7-9e8e-49eb-98f5-ea28aee30200',
+  '604bf0b5-7816-419e-97ed-afa9a71f0900',
   'x-ms-ests-server',
   '2.1.9316.5 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AgmD1781OA9BguZACpq_Aqs_aSJHAQAAAJgc-tQOAAAA; expires=Sat, 28-Sep-2019 19:20:57 GMT; path=/; secure; HttpOnly',
+  'fpc=ArmTVyjaGcxLo05apdogE3I_aSJHAQAAACNC-tQOAAAA; expires=Sat, 28-Sep-2019 22:01:07 GMT; path=/; secure; HttpOnly',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Thu, 29 Aug 2019 19:20:56 GMT',
+  'Thu, 29 Aug 2019 22:01:07 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -91,7 +91,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a7a77294-6cdb-41cb-b99c-24eb6c895100',
+  '27acec1e-8d8b-4ca7-bb0d-8504c122f472',
   'x-ms-keyvault-service-version',
   '1.1.0.876',
   'x-ms-keyvault-network-info',
@@ -105,7 +105,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Aug 2019 19:20:57 GMT',
+  'Thu, 29 Aug 2019 22:01:07 GMT',
   'Connection',
   'close',
   'Content-Length',

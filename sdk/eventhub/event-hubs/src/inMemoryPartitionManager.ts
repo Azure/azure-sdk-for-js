@@ -6,7 +6,14 @@ import { Checkpoint } from "./checkpointManager";
 import { generate_uuid } from "rhea-promise";
 
 /**
- * A simple in-memory implementation of a `PartitionManager`
+ * The `EventProcessor` relies on a `PartitionManager` to store checkpoints and handle partition
+ * ownerships. `InMemoryPartitionManager` is simple partition manager that stores checkpoints and
+ * partition ownerships in memory of your program.
+ * 
+ * You can use the `InMemoryPartitionManager` to get started with using the `EventProcessor`.
+ * But in production, you should choose an implementation of the `PartitionManager` interface that will
+ * store the checkpoints and partition ownerships to a durable store instead.
+ * 
  * @class
  */
 export class InMemoryPartitionManager implements PartitionManager {
@@ -36,8 +43,13 @@ export class InMemoryPartitionManager implements PartitionManager {
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     for (const ownership of partitionOwnership) {
-      if (!this._partitionOwnershipMap.has(ownership.partitionId)) {
+      if (
+        !this._partitionOwnershipMap.has(ownership.partitionId) ||
+        this._partitionOwnershipMap.get(ownership.partitionId)!.eTag === ownership.eTag
+      ) {
         ownership.eTag = generate_uuid();
+        var date = new Date();
+        ownership.lastModifiedTimeInMS = date.getTime();
         this._partitionOwnershipMap.set(ownership.partitionId, ownership);
       }
     }

@@ -54,6 +54,9 @@ jobs:
           versionSpec: "8.x"
         displayName: "Install Node.js"
 
+      - script: npm install -g npm@6.11.1
+        displayName: (fix)bump to npm@6.11.1
+
       - script: npm install
         displayName: "npm install"
 
@@ -82,6 +85,7 @@ jobs:
           npm run ContainerManagement --prefix ./samples
           npm run ServerSideScripts --prefix ./samples
           npm run ChangeFeed --prefix ./samples
+          npm run BulkUpdateWithSproc --prefix ./samples
         displayName: "Run Samples"
   # - job: NightlyEmulator
   #   pool:

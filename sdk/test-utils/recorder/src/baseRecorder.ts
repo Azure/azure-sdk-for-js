@@ -3,7 +3,6 @@
 
 import fs from "fs-extra";
 import nise from "nise";
-import queryString from "query-string";
 import {
   isBrowser,
   blobToString,
@@ -11,7 +10,8 @@ import {
   env,
   TestInfo,
   isPlaybackMode,
-  isRecordMode
+  isRecordMode,
+  parseUrl
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -218,7 +218,7 @@ export class NiseRecorder extends BaseRecorder {
     // We're not storing Query Parameters because they may contain sensitive information
     // We're ignoring the "_" parameter as well because it's not being added by our code
     // More info on "_": https://stackoverflow.com/questions/3687729/who-add-single-underscore-query-parameter
-    const parsedUrl = queryString.parseUrl(request.url);
+    const parsedUrl = parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
       if (!queryParameters.includes(param) && param !== "_") {
@@ -334,7 +334,7 @@ export class NiseRecorder extends BaseRecorder {
         reqSend.call(req, data);
 
         // formattedRequest contains all the necessary information to look for a match in our recordings
-        const parsedUrl = queryString.parseUrl(req.url);
+        const parsedUrl = parseUrl(req.url);
         const formattedRequest = {
           method: req.method,
           url: parsedUrl.url,

@@ -3,6 +3,7 @@ parameters:
   PackageName: "" # For Rush toolchain only
   PackagePath: "" # For NPM toolchain only
   PreIntegrationSteps: ""
+  PostIntegrationSteps: ""
   ResourceFileLocation: ""
   EnvVars: []
   MaxParallel: 0
@@ -86,6 +87,7 @@ jobs:
           PackageName: ${{parameters.PackageName}}
           PackagePath: ${{parameters.PackagePath}}
           PreIntegrationSteps: ${{parameters.PreIntegrationSteps}}
+          PostIntegrationSteps: ${{parameters.PostIntegrationSteps}}
           TestType: $(TestType)
           EnvVars: ${{parameters.EnvVars}}
 
