@@ -215,7 +215,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificateProperties);
+    await client.createCertificate(certificateName, basicCertificatePolicy);
 
     let getResponse: any;
 
