@@ -581,8 +581,8 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
    */
-  public async updateCertificateOperation(name: string, cancel: boolean, options?: RequestOptions): Promise<CertificateOperation> {
-    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, cancel, options);
+  public async cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
+    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, true, options);
 
     return result._response.parsedBody;
   }
