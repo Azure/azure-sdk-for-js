@@ -1,4 +1,5 @@
-import * as bs from "binary-search-bounds"; // TODO: missing types
+//import * as bs from "binary-search-bounds"; // TODO: missing types
+const bs = require('binary-search-bounds');
 import { Constants } from "../common";
 import { QueryRange } from "./QueryRange";
 

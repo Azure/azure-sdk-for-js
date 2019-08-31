@@ -1,4 +1,5 @@
-import * as bs from "binary-search-bounds";
+//import * as bs from "binary-search-bounds";
+const bs = require('binary-search-bounds');
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
