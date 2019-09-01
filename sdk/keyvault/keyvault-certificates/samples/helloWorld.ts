@@ -14,37 +14,37 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new EnvironmentCredential();
 
-  const cc = new CertificatesClient(url, credential);
+  const client = new CertificatesClient(url, credential);
 
-  let result = await cc.createCertificate("MyCertificate2", { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } });
+  let result = await client.createCertificate("MyCertificate2", { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } });
   console.log("result: ", result);
 
   // await delay(150000);
 
-  let result2 = await cc.getCertificateWithPolicy("MyCertificate2");
+  let result2 = await client.getCertificateWithPolicy("MyCertificate2");
   console.log("result: ", result2);
 
-  for await (let cert of cc.listCertificates()) {
+  for await (let cert of client.listCertificates()) {
     console.log("cert: ", cert);
-    for await (let version of cc.listCertificateVersions(cert.name)) {
+    for await (let version of client.listCertificateVersions(cert.name)) {
       console.log("version: ", version);
 
-      let backedUp = await cc.backupCertificate(cert.name);
+      let backedUp = await client.backupCertificate(cert.name);
       console.log("backedup: ", backedUp);
 
-      let policy = await cc.getCertificatePolicy(cert.name);
+      let policy = await client.getCertificatePolicy(cert.name);
       console.log("policy: ", policy);
 
-      let operation = await cc.getCertificateOperation(cert.name);
+      let operation = await client.getCertificateOperation(cert.name);
       console.log("operation: ", operation);
     }
   }
 
-  for await (let issuer of cc.listCertificateIssuers()) {
+  for await (let issuer of client.listCertificateIssuers()) {
     console.log("issuer: ", issuer);
   }
 
-  // let contacts = await cc.getCertificateContacts();
+  // let contacts = await client.getCertificateContacts();
   // console.log("contact: ", contacts);
 }
 
