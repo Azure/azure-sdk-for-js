@@ -72,9 +72,9 @@ describe("ManagedIdentityCredential", function () {
         "client",
         { mockTimeout: true });
 
-    assert.strictEqual(authDetails.requests[0].timeout, 500);
+    assert.strictEqual(authDetails.requests[0].timeout, 5000);
     assert.strictEqual(authDetails.token, null);
-  });
+  }).timeout(10000);
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
@@ -92,7 +92,7 @@ describe("ManagedIdentityCredential", function () {
     assert.strictEqual(firstGetToken, null);
     assert.strictEqual(secondGetToken, null);
     assert.strictEqual(mockHttpClient.requests.length, 1);
-  });
+  }).timeout(10000);
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
