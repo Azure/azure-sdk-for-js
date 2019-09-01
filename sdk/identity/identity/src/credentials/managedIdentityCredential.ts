@@ -134,7 +134,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     if (timeout) {
       webResource.timeout = timeout;
     } else {
-      webResource.timeout = 5000;
+      webResource.timeout = 500;
     }
 
     try {

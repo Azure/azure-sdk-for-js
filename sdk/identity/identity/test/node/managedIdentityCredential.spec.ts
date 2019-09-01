@@ -72,6 +72,19 @@ describe("ManagedIdentityCredential", function () {
         "client",
         { mockTimeout: true });
 
+    assert.strictEqual(authDetails.requests[0].timeout, 500);
+    assert.strictEqual(authDetails.token, null);
+  });
+
+  it("can extend timeout for IMDS endpoint", async function () {
+    // Mock a timeout so that the endpoint ping fails
+    const authDetails =
+      await getMsiTokenAuthRequest(
+        ["https://service/.default"],
+        "client",
+        { mockTimeout: true },
+        5000); // Set the timeout higher
+
     assert.strictEqual(authDetails.requests[0].timeout, 5000);
     assert.strictEqual(authDetails.token, null);
   }).timeout(10000);
@@ -92,7 +105,7 @@ describe("ManagedIdentityCredential", function () {
     assert.strictEqual(firstGetToken, null);
     assert.strictEqual(secondGetToken, null);
     assert.strictEqual(mockHttpClient.requests.length, 1);
-  }).timeout(10000);
+  });
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
@@ -147,7 +160,8 @@ describe("ManagedIdentityCredential", function () {
   async function getMsiTokenAuthRequest(
     scopes: string | string[],
     clientId?: string,
-    mockAuthOptions?: MockAuthHttpClientOptions
+    mockAuthOptions?: MockAuthHttpClientOptions,
+    timeout?: number,
   ): Promise<AuthRequestDetails> {
     const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
     const credential = new ManagedIdentityCredential(
@@ -155,7 +169,7 @@ describe("ManagedIdentityCredential", function () {
       mockHttpClient.identityClientOptions
     );
 
-    const token = await credential.getToken(scopes);
+    const token = await credential.getToken(scopes, {timeout});
     return {
       token,
       requests: mockHttpClient.requests
