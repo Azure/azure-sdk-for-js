@@ -1,11 +1,11 @@
 # Changelog
 
-## 2019.09 Version 10.3.0
+## 2019.09 10.3.0
 
 * Updated Azure Storage Service API version to 2019-02-02.
 * Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
 
-## 2019.07 Version 10.2.0
+## 2019.07 10.2.0
 
 * Fixed a bug that `Aborter` cannot work during retry interval.
 * Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
@@ -16,7 +16,7 @@
 * A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 * Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 
-## 2019.01 Version 10.1.0
+## 2019.01 10.1.0
 
 * [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 * [Breaking] `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
