@@ -324,8 +324,27 @@ export class ServiceURL extends StorageURL {
 
   /**
    * Submit batch request which consists of multiple subrequests.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
+   * @example
+   * let batchDeleteRequest = new BatchDeleteRequest();
+   * await batchDeleteRequest.addDeleteOperation(blockBlobURL0, credential);
+   * await batchDeleteRequest.addDeleteOperation(blockBlobURL1, credential, {
+   *  deleteSnapshots: "include"
+   * });
+   * const deleteBatchResp = await serviceURL.submitBatch(Aborter.none, batchDeleteRequest);
+   * console.log(deleteBatchResp.subResponsesSucceededCount);
+   * 
+   * @example
+   * let batchSetTierRequest = new BatchSetTierRequest();
+   * await batchSetTierRequest.addSetTierOperation(blockBlobURL0, credential0, "Cool");
+   * await batchSetTierRequest.addSetTierOperation(blockBlobURL1, credential1, "Cool", {
+   *  leaseAccessConditions: { leaseId: leaseId }
+   * });
+   * const setTierBatchResp = await serviceURL.submitBatch(Aborter.none, batchSetTierRequest);
+   * console.log(setTierBatchResp.subResponsesSucceededCount);
+   * 
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * 
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation.
    * @param {BatchRequest} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
@@ -339,7 +358,7 @@ export class ServiceURL extends StorageURL {
     options?: Models.ServiceSubmitBatchOptionalParams
   ): Promise<ServiceSubmitBatchResponse> {
     if (!batchRequest || batchRequest.getSubRequests().size == 0) {
-      throw new RangeError("Batch request should contain one or more sub requests")
+      throw new RangeError("Batch request should contain one or more sub requests.")
     }
 
     const batchRequestBody = batchRequest.getHttpRequestBody();
@@ -354,7 +373,7 @@ export class ServiceURL extends StorageURL {
       }
     );
 
-    // Parse the sub responses result, if the batch request succeeded(with status code 202).
+    // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
     const batchResponseParser = new BatchResponseParser(
       rawBatchResponse,
       batchRequest.getSubRequests()

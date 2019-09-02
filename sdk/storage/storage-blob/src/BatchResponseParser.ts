@@ -86,7 +86,8 @@ export class BatchResponseParser {
             contentId = parseInt(responseLine.split(HTTP_HEADER_DELIMITER)[1]);
           }
 
-          // Http version line with status code indicates the start of sub request's response
+          // Http version line with status code indicates the start of sub request's response.
+          // Example: HTTP/1.1 202 Accepted 
           if (responseLine.startsWith(HTTP_VERSION_1_1)) {
             subRespHeaderStartFound = true;
 
@@ -98,8 +99,8 @@ export class BatchResponseParser {
           continue; // Skip convention headers not specifically for sub request i.e. Content-Type: application/http and Content-ID: *
         }
 
-        // Sub response's header start line already found, and the first empty line indicates header end line found. 
         if (responseLine.trim() === "") {
+          // Sub response's header start line already found, and the first empty line indicates header end line found. 
           if (!subRespHeaderEndFound) {
             subRespHeaderEndFound = true
           }
