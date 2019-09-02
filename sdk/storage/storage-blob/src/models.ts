@@ -56,7 +56,7 @@ export function ensureCpkIfSpecified(cpk: Models.CpkInfo | undefined, isHttps: b
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.")
   }
 
-  if (cpk && !cpk.xMsEncryptionAlgorithm) {
-    cpk.xMsEncryptionAlgorithm = EncryptionAlgorithmAES25;
+  if (cpk && !cpk.encryptionAlgorithm) {
+    cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
 }

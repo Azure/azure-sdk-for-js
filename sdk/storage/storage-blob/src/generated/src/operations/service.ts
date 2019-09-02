@@ -132,7 +132,7 @@ export class Service {
   }
 
   /**
-   * Retrieves a user delgation key for the Blob service. This is only a valid operation when using
+   * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
    * bearer token authentication.
    * @param keyInfo
    * @param [options] The optional parameters

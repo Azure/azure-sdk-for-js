@@ -1631,20 +1631,20 @@ export const CpkInfo: msRest.CompositeMapper = {
     name: "Composite",
     className: "CpkInfo",
     modelProperties: {
-      xMsEncryptionKey: {
-        xmlName: "xMsEncryptionKey",
+      encryptionKey: {
+        xmlName: "encryptionKey",
         type: {
           name: "String"
         }
       },
-      xMsEncryptionKeySha256: {
-        xmlName: "xMsEncryptionKeySha256",
+      encryptionKeySha256: {
+        xmlName: "encryptionKeySha256",
         type: {
           name: "String"
         }
       },
-      xMsEncryptionAlgorithm: {
-        xmlName: "xMsEncryptionAlgorithm",
+      encryptionAlgorithm: {
+        xmlName: "encryptionAlgorithm",
         type: {
           name: "Enum",
           allowedValues: [

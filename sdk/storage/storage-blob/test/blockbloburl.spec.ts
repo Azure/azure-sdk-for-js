@@ -250,7 +250,7 @@ describe("BlockBlobURL", () => {
       metadata: options.metadata,
       customerProvidedKey: Test_CPK_INFO
     });
-    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
     const result = await blobURL.download(Aborter.none, 0, undefined, {
       customerProvidedKey: Test_CPK_INFO
     });
@@ -285,7 +285,7 @@ describe("BlockBlobURL", () => {
       4,
       { customerProvidedKey: Test_CPK_INFO }
     );
-    assert.equal(sResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(sResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const sResp2 = await newBlockBlobURL.stageBlockFromURL(
       Aborter.none,
@@ -295,7 +295,7 @@ describe("BlockBlobURL", () => {
       4,
       { customerProvidedKey: Test_CPK_INFO }
     );
-    assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     await newBlockBlobURL.stageBlockFromURL(
       Aborter.none,
@@ -320,7 +320,7 @@ describe("BlockBlobURL", () => {
       [base64encode("1"), base64encode("2"), base64encode("3")],
       { customerProvidedKey: Test_CPK_INFO }
     );
-    assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const downloadResponse = await newBlockBlobURL.download(Aborter.none, 0, undefined, {
       customerProvidedKey: Test_CPK_INFO

@@ -73,7 +73,7 @@ describe("AppendBlobURL", () => {
 
   it("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
     const cResp = await appendBlobURL.create(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const content = "Hello World!";
     const blockBlobName = recorder.getUniqueName("blockblob");
@@ -94,7 +94,7 @@ describe("AppendBlobURL", () => {
     );
 
     const aResp = await appendBlobURL.appendBlock(Aborter.none, content, content.length, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(aResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(aResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const aResp2 = await appendBlobURL.appendBlockFromURL(
       Aborter.none,
@@ -103,7 +103,7 @@ describe("AppendBlobURL", () => {
       content.length,
       {customerProvidedKey: Test_CPK_INFO}
     );
-    assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const downloadResponse = await appendBlobURL.download(Aborter.none, 0, undefined, {customerProvidedKey: Test_CPK_INFO});
     assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);

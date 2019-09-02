@@ -139,9 +139,9 @@ describe("PageBlobURL", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("create, uploadPages, uploadPagesFromURL and download with CPK", async () => {
+  it.only("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
     const cResp = await pageBlobURL.create(Aborter.none, 1024, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     // Download without CPK should fail.
     let exceptionCaught = false;
@@ -171,15 +171,41 @@ describe("PageBlobURL", () => {
     );
 
     const uResp = await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
     const uResp2 = await pageBlobURL.uploadPagesFromURL(Aborter.none, `${blockBlobURL.url}?${sas}`, 0, 512, 512, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
-    const page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    let page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
     const page2 = await pageBlobURL.download(Aborter.none, 512, 512, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(page2.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(page2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+
+    // Clear page should fail without CPK.
+    exceptionCaught = false;
+    try {
+      await pageBlobURL.clearPages(Aborter.none, 0, 512);
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    await pageBlobURL.clearPages(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    assert.deepStrictEqual(await bodyToString(page1, 512), "\u0000".repeat(512));
+
+    // Clear page should fail without CPK.
+    exceptionCaught = false;
+    try {
+      await pageBlobURL.resize(Aborter.none, 2048);
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    await pageBlobURL.resize(Aborter.none, 2048, {customerProvidedKey: Test_CPK_INFO});
+    const pResp = await pageBlobURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(pResp.contentLength, "2048");
   });
 });
