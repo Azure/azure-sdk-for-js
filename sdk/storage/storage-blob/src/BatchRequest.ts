@@ -51,14 +51,25 @@ export abstract class BatchRequest {
     this.batchRequest = new InnerBatchRequest();
   }
 
+  /**
+   * Get the value of Content-Type for a batch request.
+   * The value must be multipart/mixed with a batch boundary.
+   * Example: multipart/mixed; boundary=batch_a81786c8-e301-4e42-a729-a32ca24ae252
+   */
   public getMultiPartContentType(): string {
     return this.batchRequest.getMultipartContentType();
   }
 
+  /**
+   * Get assembled HTTP request body for sub requests.
+   */
   public getHttpRequestBody(): string {
     return this.batchRequest.getHttpRequestBody();
   }
 
+  /**
+   * Get sub requests that are added into the batch request.
+   */
   public getSubRequests(): Map<number, BatchSubRequest> {
     return this.batchRequest.getSubRequests();
   }
@@ -77,7 +88,7 @@ export abstract class BatchRequest {
 }
 
 /**
- * A BatchDeleteRequest represents a batch delete request, which consist of one or more delete operations.
+ * A BatchDeleteRequest represents a batch delete request, which consists of one or more delete operations.
  *
  * @export
  * @class BatchDeleteRequest
@@ -97,7 +108,7 @@ export class BatchDeleteRequest extends BatchRequest {
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {IBlobDeleteOptions} [options]
+   * @param {IBlobDeleteOptions} [options={}]
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
@@ -122,7 +133,7 @@ export class BatchDeleteRequest extends BatchRequest {
 }
 
 /**
- * A BatchSetTierRequest represents a batch set tier request, which consist of one or more set tier operations.
+ * A BatchSetTierRequest represents a batch set tier request, which consists of one or more set tier operations.
  *
  * @export
  * @class BatchSetTierRequest
@@ -147,7 +158,7 @@ export class BatchSetTierRequest extends BatchRequest {
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
    * @param {Models.AccessTier} tier
-   * @param {IBlobSetTierOptions} [options]
+   * @param {IBlobSetTierOptions} [options={}]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
@@ -252,7 +263,7 @@ class InnerBatchRequest {
       throw new RangeError(`Cannot exceed ${BATCH_MAX_REQUEST} sub requests in a single batch`);
     }
 
-    // Fail fast if url or credential is invalid
+    // Fast fail if url for sub request is invalid
     const path = getURLPath(subRequest.url);
     if ( !path || path == "") {
       throw new RangeError(`Invalid url for sub request: '${subRequest.url}'`);

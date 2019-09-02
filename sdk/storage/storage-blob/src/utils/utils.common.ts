@@ -177,7 +177,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
   const pathString = urlParsed.getPath();
   if (!pathString) {
-    throw new RangeError("invalid url without valid path");
+    throw new RangeError("Invalid url without valid path.");
   }
 
   let queryString = urlParsed.getQuery() || "";
