@@ -610,18 +610,18 @@ export interface CpkInfo {
    * not specified, encryption is performed with the root account encryption key.  For more
    * information, see Encryption at Rest for Azure Storage Services.
    */
-  xMsEncryptionKey?: string;
+  encryptionKey?: string;
   /**
    * The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key
    * header is provided.
    */
-  xMsEncryptionKeySha256?: string;
+  encryptionKeySha256?: string;
   /**
    * The algorithm used to produce the encryption key hash. Currently, the only accepted value is
    * "AES256". Must be provided if the x-ms-encryption-key header is provided. Possible values
    * include: 'AES256'
    */
-  xMsEncryptionAlgorithm?: EncryptionAlgorithmType;
+  encryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
 /**
@@ -2226,6 +2226,10 @@ export interface PageBlobClearPagesOptionalParams extends msRest.RequestOptionsB
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
   /**
    * Additional parameters for the operation
@@ -2378,6 +2382,10 @@ export interface PageBlobResizeOptionalParams extends msRest.RequestOptionsBase 
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2945,8 +2953,8 @@ export interface ServiceSubmitBatchHeaders {
    */
   clientRequestId?: string;
   /**
-   * The media type of the body of the response. For batch requests, this is ' multipart/mixed;
-   * boundary=batchresponse_<GUID>'
+   * The media type of the body of the response. For batch requests, this is multipart/mixed;
+   * boundary=batchresponse_GUID
    */
   contentType?: string;
   /**

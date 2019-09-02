@@ -651,6 +651,48 @@ export const duration: msRest.OperationParameter = {
     }
   }
 };
+export const encryptionAlgorithm: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "cpkInfo",
+    "encryptionAlgorithm"
+  ],
+  mapper: {
+    serializedName: "x-ms-encryption-algorithm",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "AES256"
+      ]
+    }
+  }
+};
+export const encryptionKey: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "cpkInfo",
+    "encryptionKey"
+  ],
+  mapper: {
+    serializedName: "x-ms-encryption-key",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const encryptionKeySha256: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "cpkInfo",
+    "encryptionKeySha256"
+  ],
+  mapper: {
+    serializedName: "x-ms-encryption-key-sha256",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const group: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -1421,48 +1463,6 @@ export const version: msRest.OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-version",
     defaultValue: '2019-02-02',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const xMsEncryptionAlgorithm: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "xMsEncryptionAlgorithm"
-  ],
-  mapper: {
-    serializedName: "x-ms-encryption-algorithm",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "AES256"
-      ]
-    }
-  }
-};
-export const xMsEncryptionKey: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "xMsEncryptionKey"
-  ],
-  mapper: {
-    serializedName: "x-ms-encryption-key",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const xMsEncryptionKeySha256: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "xMsEncryptionKeySha256"
-  ],
-  mapper: {
-    serializedName: "x-ms-encryption-key-sha256",
     type: {
       name: "String"
     }

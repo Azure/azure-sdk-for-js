@@ -38,6 +38,7 @@ export interface IPageBlobUploadPagesFromURLOptions {
 
 export interface IPageBlobClearPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobGetPageRangesOptions {
@@ -51,6 +52,7 @@ export interface IPageBlobGetPageRangesDiffOptions {
 
 export interface IPageBlobResizeOptions {
   accessConditions?: IBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobUpdateSequenceNumberOptions {
@@ -303,7 +305,8 @@ export class PageBlobURL extends BlobURL {
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -384,7 +387,8 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.resize(size, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 

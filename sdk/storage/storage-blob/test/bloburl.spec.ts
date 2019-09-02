@@ -143,7 +143,7 @@ describe("BlobURL", () => {
       b: "b"
     };
     const smResp = await blobURL.setMetadata(Aborter.none, metadata, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     // getProperties without CPK should fail
     let exceptionCaught = false;
@@ -165,7 +165,7 @@ describe("BlobURL", () => {
     await blobURL.setHTTPHeaders(Aborter.none, headers, {customerProvidedKey: Test_CPK_INFO});
 
     const gResp = await blobURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
-    assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256);
+    assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
     assert.ok(gResp.date);
     assert.deepStrictEqual(gResp.blobType, "BlockBlob");
     assert.ok(gResp.lastModified);
@@ -178,7 +178,7 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(gResp.contentDisposition, headers.blobContentDisposition);    
 
     const csResp = await blobURL.createSnapshot(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
-    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.xMsEncryptionKeySha256); service side issue?
+    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
     assert.ok(csResp.snapshot);
 
     const blobSnapshotURL = blobURL.withSnapshot(csResp.snapshot!);
