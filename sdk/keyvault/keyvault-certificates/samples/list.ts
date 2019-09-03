@@ -8,31 +8,31 @@ import { DefaultAzureCredential } from "@azure/identity";
 const includePending = { requestOptions: { includePending: true } };
 
 async function main(): Promise<void> {
-	// If you're using MSI, DefaultAzureCredential should "just work".
+  // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
   const client = new CertificatesClient(url, credential);
 
   // Creating two self-signed certificate
-  const certificate1 = await.createCertificate("MyCertificate1", {
+  const certificate1 = await createCertificate("MyCertificate1", {
     issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" } 
+    x509CertificateProperties: { subject: "cn=MyCert" }
   });
-  const certificate2 = await.createCertificate("MyCertificate2", {
+  const certificate2 = await createCertificate("MyCertificate2", {
     issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" } 
-  }); 
+    x509CertificateProperties: { subject: "cn=MyCert" }
+  });
 
   // Listing all the available certificates in a single call.
   for await (const certificate of client.listCertificates(includePending)) {
     console.log("Certificate from a single call: ", certificate);
-  } 
+  }
 
   // Listing all the available certificates by pages.
   let pages = 0;
@@ -48,8 +48,8 @@ async function main(): Promise<void> {
     tags: {
       customTag: "value"
     }
-  }); 
-  console.log("Updated certificate:", updatedCertificate); 
+  });
+  console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
   for await (const item of client.listCertificateVersions("MyCertificate1", includePending)) {
@@ -70,4 +70,4 @@ main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
-}); 
+});

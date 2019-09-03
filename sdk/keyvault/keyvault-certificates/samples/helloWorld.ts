@@ -5,21 +5,21 @@ import { DefaultAzureCredential } from "@azure/identity";
 // updates the tags of the certificate and finaly deletes the certificate.
 
 async function main(): Promise<void> {
-	// If you're using MSI, DefaultAzureCredential should "just work".
+  // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
   const client = new CertificatesClient(url, credential);
 
   // Creating a self-signed certificate
-  const certificate = await.createCertificate("MyCertificate", {
+  const certificate = await createCertificate("MyCertificate", {
     issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" } 
+    x509CertificateProperties: { subject: "cn=MyCert" }
   });
 
   console.log("Certificate: ", certificate);
@@ -31,7 +31,10 @@ async function main(): Promise<void> {
   console.log("Certificate with policy:", certificateWithPolicy);
 
   // To read a certificate from a specific version:
-  const certificateFromVersion = await client.getCertificate("MyCertificate", certificateWithPolicy.version);
+  const certificateFromVersion = await client.getCertificate(
+    "MyCertificate",
+    certificateWithPolicy.version
+  );
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
@@ -39,7 +42,7 @@ async function main(): Promise<void> {
     tags: {
       customTag: "value"
     }
-  }); 
+  });
   console.log("Updated certificate:", updatedCertificate);
 
   const result = await client.deleteCertificate(certificateName);
