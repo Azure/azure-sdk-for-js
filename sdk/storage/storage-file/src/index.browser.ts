@@ -12,6 +12,8 @@ export * from "./highlevel.browser";
 export * from "./highlevel.common";
 export { IIPRange } from "./IIPRange";
 export { IRange } from "./IRange";
+export { FilePermissionInheritType, FilePermissionPreserveType, TimeNowType, TimePreserveType, FileAttributesPreserveType } from "./models";
+export { FileSystemAttributes } from "./FileSystemAttributes";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

@@ -6,13 +6,24 @@ import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/src/models";
 import { File } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { 
+  IFileHTTPHeaders, 
+  IMetadata, 
+  IFileAndDirectoryCreateCommonOptions, 
+  IFileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+} from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
+import { FileSystemAttributes } from './FileSystemAttributes';
 
-export interface IFileCreateOptions {
+export interface IFileCreateOptions extends IFileAndDirectoryCreateCommonOptions {
   /**
    * File HTTP headers like Content-Type.
    *
@@ -30,6 +41,18 @@ export interface IFileCreateOptions {
    */
   metadata?: IMetadata;
 }
+
+export interface IFileProperties extends IFileAndDirectorySetPropertiesCommonOptions {
+  /**
+   * File HTTP headers like Content-Type.
+   *
+   * @type {IFileHTTPHeaders}
+   * @memberof IFileCreateOptions
+   */
+  fileHTTPHeaders?: IFileHTTPHeaders;
+}
+
+export interface ISetPropertiesResponse extends Models.FileSetHTTPHeadersResponse {}
 
 export interface IFileDownloadOptions {
   /**
@@ -233,12 +256,29 @@ export class FileURL extends StorageURL {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
 
+    options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+
+    if (!options.fileAttributes) {
+      // Set Archive as default value, considering it would be Archive by default in service side if None is set.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.archive = true;
+      options.fileAttributes = attributes;
+    }
+
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
-    return this.context.create(size, {
-      abortSignal: aborter,
-      fileHTTPHeaders: options.fileHTTPHeaders,
-      metadata: options.metadata
-    });
+
+    return this.context.create(
+      size, 
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: options.fileHTTPHeaders,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
@@ -343,6 +383,39 @@ export class FileURL extends StorageURL {
   }
 
   /**
+   * Sets properties on the file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {properties} [IFileProperties] File properties. For file HTTP headers(e.g. Content-Type),
+   *                                       if no values are provided, existing HTTP headers will be removed.
+   *                                       For other file properties(e.g. fileAttributes), if no values are provided,
+   *                                       existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(
+    aborter: Aborter,
+    properties: IFileProperties = {}
+  ): Promise<ISetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    properties.fileHTTPHeaders = properties.fileHTTPHeaders || {};
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: properties.fileHTTPHeaders,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      });
+  }
+
+  /**
    * Removes the file from the storage account.
    * When a file is successfully deleted, it is immediately removed from the storage
    * account's index and is no longer accessible to clients. The file's data is later
@@ -385,10 +458,20 @@ export class FileURL extends StorageURL {
     aborter: Aborter,
     fileHTTPHeaders: IFileHTTPHeaders = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    return this.context.setHTTPHeaders({
-      abortSignal: aborter,
-      fileHTTPHeaders
-    });
+    let options: IFileAndDirectorySetPropertiesCommonOptions = {};
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: fileHTTPHeaders,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
@@ -411,10 +494,21 @@ export class FileURL extends StorageURL {
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
-    return this.context.setHTTPHeaders({
-      abortSignal: aborter,
-      fileContentLength: length
-    });
+
+    let options: IFileAndDirectorySetPropertiesCommonOptions = {};
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
