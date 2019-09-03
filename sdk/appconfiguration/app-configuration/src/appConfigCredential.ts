@@ -10,6 +10,12 @@ export class AppConfigCredential implements ServiceClientCredentials {
     this.secret = secret;
   }
 
+  /**
+   * Signs a request with the values provided in the credential and secret parameter.
+   *
+   * @param {WebResource} webResource The WebResource to be signed.
+   * @returns {Promise<WebResource>} The signed request object.
+   */
   signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase()
     const utcNow = new Date().toUTCString();

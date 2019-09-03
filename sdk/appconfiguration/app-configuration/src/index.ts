@@ -46,7 +46,14 @@ const deserializationContentTypes = {
   ]
 }
 
+// TODO: this is interesting, it's used as a 'mixin' to augment one of the 
+// apparently deficient auto-generated models.
 export interface ETagOption {
+  /**
+   * the ETag (http entity tag) of the ConfigurationSetting. Used to check 
+   * if the configuration setting has changed. Leave as undefined to skip 
+   * the check.
+   */
   etag?: string;
 }
 
@@ -71,6 +78,14 @@ export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfiguratio
 export class AppConfigurationClient {
   private client: ConfigurationClient;
 
+  /**
+   * Initializes a new instance of the AppConfigurationClient class.
+   * @param connectionString Connection string needed for a client to connect to Azure.
+   *//**
+    * Initializes a new instance of the AppConfigurationClient class.
+    * @param uri The base URI for the Azure service
+    * @param credential The credentials to use for authentication.
+     */
   constructor(connectionString: string);
   constructor(uri: string, credential: TokenCredential);
   constructor(uriOrConnectionString: string, credential?: TokenCredential) {
@@ -81,6 +96,8 @@ export class AppConfigurationClient {
         baseUri: regexMatch[1],
         deserializationContentTypes
       });
+    // TODO: if this is a requirement then why isn't the parameter typed as ManagedIdentityCredentials?
+    // (maybe it's just temporary that it only lets one type of credential go through?)  
     } else if (credential && credential.constructor.name === "ManagedIdentityCredential") {
       this.client = new ConfigurationClient(credential, {
         baseUri: uriOrConnectionString,
@@ -91,6 +108,12 @@ export class AppConfigurationClient {
     }
   }
 
+  /**
+   * 
+   * @param key 
+   * @param configSettings 
+   * @param options 
+   */
   addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options: AddConfigurationSettingOptions = {}): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
     // create a copy of the options to avoid modifying the user's options
