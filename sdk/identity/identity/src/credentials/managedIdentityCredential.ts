@@ -117,7 +117,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private async pingImdsEndpoint(resource: string, clientId?: string): Promise<boolean> {
+  private async pingImdsEndpoint(resource: string, clientId?: string, timeout?: number): Promise<boolean> {
     const request = this.createImdsAuthRequest(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
@@ -127,11 +127,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    // Create a request with a 500 msec timeout since we expect that
+    // Create a request with a timeout since we expect that
     // not having a "Metadata" header should cause an error to be
     // returned quickly from the endpoint, proving its availability.
     const webResource = this.identityClient.createWebResource(request);
-    webResource.timeout = 500;
+    if (timeout) {
+      webResource.timeout = timeout;
+    } else {
+      webResource.timeout = 500;
+    }
 
     try {
       await this.identityClient.sendRequest(webResource);
@@ -176,7 +180,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     } else {
       // Ping the IMDS endpoint to see if it's available
-      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId)) {
+      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId, getTokenOptions ? getTokenOptions.timeout : undefined)) {
         // Running in an Azure VM
         authRequestOptions = this.createImdsAuthRequest(resource, clientId);
       } else {

@@ -76,6 +76,19 @@ describe("ManagedIdentityCredential", function () {
     assert.strictEqual(authDetails.token, null);
   });
 
+  it("can extend timeout for IMDS endpoint", async function () {
+    // Mock a timeout so that the endpoint ping fails
+    const authDetails =
+      await getMsiTokenAuthRequest(
+        ["https://service/.default"],
+        "client",
+        { mockTimeout: true },
+        5000); // Set the timeout higher
+
+    assert.strictEqual(authDetails.requests[0].timeout, 5000);
+    assert.strictEqual(authDetails.token, null);
+  }).timeout(10000);
+
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
     const credential = new ManagedIdentityCredential(
@@ -147,7 +160,8 @@ describe("ManagedIdentityCredential", function () {
   async function getMsiTokenAuthRequest(
     scopes: string | string[],
     clientId?: string,
-    mockAuthOptions?: MockAuthHttpClientOptions
+    mockAuthOptions?: MockAuthHttpClientOptions,
+    timeout?: number,
   ): Promise<AuthRequestDetails> {
     const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
     const credential = new ManagedIdentityCredential(
@@ -155,7 +169,7 @@ describe("ManagedIdentityCredential", function () {
       mockHttpClient.identityClientOptions
     );
 
-    const token = await credential.getToken(scopes);
+    const token = await credential.getToken(scopes, {timeout});
     return {
       token,
       requests: mockHttpClient.requests
