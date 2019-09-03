@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
 import { WebResource } from "../webResource";
@@ -33,14 +38,30 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
       return undefined;
     }
   }
-
-  const parsedUrl = URLBuilder.parse(proxyUrl);
-  return {
-    host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
-    port: Number.parseInt(parsedUrl.getPort() || "80")
-  };
+  if (proxyUrl.indexOf("@") > -1) {
+    // If the URL contains username and password
+    const username = proxyUrl.split("://")[1].split(":")[0];
+    const password = proxyUrl
+      .split("://")[1]
+      .split(":")[1]
+      .split("@")[0];
+    const parsedUrl = URLBuilder.parse(proxyUrl.split("://")[0] + "://" + proxyUrl.split("@")[1]);
+    console.log(proxyUrl);
+    console.log(parsedUrl);
+    return {
+      host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
+      port: Number.parseInt(parsedUrl.getPort() || "80"),
+      username: username,
+      password: password
+    };
+  } else {
+    const parsedUrl = URLBuilder.parse(proxyUrl);
+    return {
+      host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
+      port: Number.parseInt(parsedUrl.getPort() || "80")
+    };
+  }
 }
-
 
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
   return {
@@ -53,7 +74,11 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 export class ProxyPolicy extends BaseRequestPolicy {
   proxySettings: ProxySettings;
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, proxySettings: ProxySettings) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    proxySettings: ProxySettings
+  ) {
     super(nextPolicy, options);
     this.proxySettings = proxySettings;
   }
