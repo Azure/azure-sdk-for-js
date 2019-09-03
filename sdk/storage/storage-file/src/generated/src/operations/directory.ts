@@ -28,22 +28,37 @@ export class Directory {
 
   /**
    * Creates a new directory under the specified share or parent directory.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryCreateResponse>
    */
-  create(options?: Models.DirectoryCreateOptionalParams): Promise<Models.DirectoryCreateResponse>;
+  create(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.DirectoryCreateOptionalParams): Promise<Models.DirectoryCreateResponse>;
   /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param callback The callback
    */
-  create(callback: msRest.ServiceCallback<void>): void;
+  create(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: msRest.ServiceCallback<void>): void;
   /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.DirectoryCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.DirectoryCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
+  create(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.DirectoryCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.DirectoryCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
     return this.client.sendOperationRequest(
       {
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime,
         options
       },
       createOperationSpec,
@@ -99,6 +114,45 @@ export class Directory {
       },
       deleteMethodOperationSpec,
       callback) as Promise<Models.DirectoryDeleteResponse>;
+  }
+
+  /**
+   * Sets properties on the directory.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectorySetPropertiesResponse>
+   */
+  setProperties(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.DirectorySetPropertiesOptionalParams): Promise<Models.DirectorySetPropertiesResponse>;
+  /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param callback The callback
+   */
+  setProperties(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  setProperties(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.DirectorySetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setProperties(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.DirectorySetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectorySetPropertiesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime,
+        options
+      },
+      setPropertiesOperationSpec,
+      callback) as Promise<Models.DirectorySetPropertiesResponse>;
   }
 
   /**
@@ -220,7 +274,12 @@ const createOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
-    Parameters.version
+    Parameters.version,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.fileAttributes,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime
   ],
   responses: {
     201: {
@@ -285,6 +344,37 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const setPropertiesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.restype2,
+    Parameters.comp0
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.fileAttributes,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.DirectorySetPropertiesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const setMetadataOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}",
@@ -294,7 +384,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.metadata,
@@ -354,7 +444,7 @@ const listHandlesOperationSpec: msRest.OperationSpec = {
     Parameters.maxresults,
     Parameters.timeout,
     Parameters.sharesnapshot,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.recursive,
@@ -383,7 +473,7 @@ const forceCloseHandlesOperationSpec: msRest.OperationSpec = {
     Parameters.timeout,
     Parameters.marker,
     Parameters.sharesnapshot,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.handleId,

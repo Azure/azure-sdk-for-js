@@ -4,10 +4,12 @@ import * as dotenv from "dotenv";
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
-import { DirectoryForceCloseHandlesResponse } from "../src/generated/src/models";
+import { DirectoryForceCloseHandlesResponse, DirectoryCreateResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
+import { FileSystemAttributes } from '../src/FileSystemAttributes';
+import { truncatedISO8061Date } from '../src/utils/utils.common';
 
 dotenv.config({ path: "../.env" });
 
@@ -17,8 +19,19 @@ describe("DirectoryURL", () => {
   let shareURL: ShareURL;
   let dirName: string;
   let dirURL: DirectoryURL;
+  let defaultDirCreateResp: DirectoryCreateResponse;
 
   let recorder: any;
+
+  let fullDirAttributes = new FileSystemAttributes();
+  fullDirAttributes.readonly = true;
+  fullDirAttributes.hidden = true;
+  fullDirAttributes.system = true;
+  fullDirAttributes.directory = true;
+  fullDirAttributes.archive = true;
+  fullDirAttributes.offline = true;
+  fullDirAttributes.notContentIndexed = true;
+  fullDirAttributes.noScrubData = true;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -29,11 +42,18 @@ describe("DirectoryURL", () => {
 
     dirName = recorder.getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    defaultDirCreateResp = await dirURL.create(Aborter.none);
+    assert.equal(defaultDirCreateResp.errorCode, undefined);
+    assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
+    assert.ok(defaultDirCreateResp.fileChangeTime!);
+    assert.ok(defaultDirCreateResp.fileCreationTime!);
+    assert.ok(defaultDirCreateResp.fileId!);
+    assert.ok(defaultDirCreateResp.fileLastWriteTime!);
+    assert.ok(defaultDirCreateResp.fileParentId!);
+    assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
   afterEach(async () => {
-    await dirURL.delete(Aborter.none);
     await shareURL.delete(Aborter.none);
     recorder.stop();
   });
@@ -68,12 +88,117 @@ describe("DirectoryURL", () => {
     done();
   });
 
-  it("create with all parameters configured", async () => {
-    const cURL = ShareURL.fromServiceURL(serviceURL, recorder.getUniqueName(shareName));
+  it("create with all parameters configured setting filePermissionKey", async () => {
+    const dirURL2 = DirectoryURL.fromShareURL(shareURL, recorder.getUniqueName(dirName));
     const metadata = { key: "value" };
-    await cURL.create(Aborter.none, { metadata });
-    const result = await cURL.getProperties(Aborter.none);
+    const now = recorder.newDate("now");
+    
+    await dirURL2.create(Aborter.none, { 
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionKey: defaultDirCreateResp.filePermissionKey,
+      fileAttributes: fullDirAttributes
+    });
+    
+    const result = await dirURL2.getProperties(Aborter.none);
     assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
+  });
+
+  it("create with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareURL.getPermission(Aborter.none, defaultDirCreateResp.filePermissionKey!);
+    
+    const dirURL2 = DirectoryURL.fromShareURL(shareURL, recorder.getUniqueName(dirName));
+    const metadata = { key: "value" };
+    const now = recorder.newDate("now");
+    
+    await dirURL2.create(Aborter.none, { 
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes
+    });
+    
+    const result = await dirURL2.getProperties(Aborter.none);
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
+  });
+
+  it("setProperties with default parameters", async () => {
+    await dirURL.setProperties(Aborter.none);
+
+    const result = await dirURL.getProperties(Aborter.none);
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(defaultDirCreateResp.fileCreationTime!));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(defaultDirCreateResp.fileLastWriteTime!));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
+  });
+
+  it("setProperties with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareURL.getPermission(Aborter.none, defaultDirCreateResp.filePermissionKey!);
+    
+    const now = recorder.newDate("now");
+    
+    await dirURL.setProperties(Aborter.none, { 
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes
+    });
+    
+    const result = await dirURL.getProperties(Aborter.none);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
   });
 
   it("delete", (done) => {
