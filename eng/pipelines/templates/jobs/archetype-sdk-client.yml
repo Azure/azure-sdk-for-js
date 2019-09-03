@@ -80,7 +80,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
-
+    dependsOn: "Build"
     variables:
       - template: ../variables/globals.yml
 
@@ -93,6 +93,37 @@ jobs:
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "current"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(Agent.TempDirectory)/packagesCurrent"
+        displayName: "Download Current Build artifacts"
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "specific"
+          project: "29ec6040-b234-4e31-b139-33dc4287b756" #guid for public project
+          definition: 614 #system.definitionId for js - client -ci
+          buildVersionToDownload: "latest"
+          branchName: "master"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(Agent.TempDirectory)/packagesMaster"
+        displayName: "Download Latest Master (PipelineTask) artifacts"
+
+      - pwsh: eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
+        displayName: "Diff Generated Packages"
+        errorActionPreference: "continue"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: package-diffs
+          path: $(Build.ArtifactStagingDirectory)
 
       - script: |
           pip install setuptools wheel
@@ -171,9 +202,11 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build --verbose
         displayName: "Build libraries"
+
       - script: |
           node common/scripts/install-run-rush.js build:test --verbose
         displayName: "Build test assets"
+
       - script: |
           node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
         displayName: "Test libraries"
