@@ -69,13 +69,11 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run build:src",
-    "build:src": "npm run build:tsc && npm run build:rollup && npm run build:minify",
-    "build:tsc": "tsc -p tsconfig.es.json",
-    "build:rollup": "rollup -c rollup.config.js 2>&1",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
-    "build:test": "npm run build",
+    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "rollup -c 2>&1",
     "clean": "rimraf dist dist-esm dist-test types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -98,6 +96,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
