@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, SimpleTokenCredential, WebResource, ServiceClient } from "@azure/core-http";
-import { getDelayInSeconds, isFinished } from "../src";
+import { HttpHeaders, HttpOperationResponse, SimpleTokenCredential, WebResource } from "@azure/core-http";
+import { getDelayInSeconds, isFinished, LROServiceClient } from "../src";
 
 describe("LROPollStrategy - utiliites", function () {
   describe("getDelayInSeconds()", function () {
     it("delay from a fake previous response", function () {
-      const serviceClient = new ServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const serviceClient = new LROServiceClient(new SimpleTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -18,7 +18,7 @@ describe("LROPollStrategy - utiliites", function () {
     });
 
     it("with 12 retry-after header", function () {
-      const serviceClient = new ServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const serviceClient = new LROServiceClient(new SimpleTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -28,7 +28,7 @@ describe("LROPollStrategy - utiliites", function () {
     });
 
     it("with spam retry-after header", function () {
-      const serviceClient = new ServiceClient(new SimpleTokenCredential("my-fake-token"));
+      const serviceClient = new LROServiceClient(new SimpleTokenCredential("my-fake-token"));
       const previousResponse: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,

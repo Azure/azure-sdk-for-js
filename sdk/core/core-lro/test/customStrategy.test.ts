@@ -2,26 +2,29 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, SimpleTokenCredential, WebResource, ServiceClient,  HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
-import { getDelayInSeconds, isFinished, LROPollState } from "../src";
+import { SimpleTokenCredential, HttpHeaders, HttpOperationResponse, ServiceClientCredentials, ServiceClientOptions, TokenCredential, WebResource, RestError } from "@azure/core-http";
+import { LROPollState, LROPollStrategy, LROServiceClient } from "../src";
+
+const fakeHttpHeaders: HttpHeaders = new HttpHeaders();
+const fakeRequest: WebResource = new WebResource();
 
 class CustomLROPollStrategy extends LROPollStrategy {
   public sendPollRequest(): Promise<void> {
     const lroPollState: LROPollState = this._pollState;
-    return this.updateOperationStatus(lroPollState.appState?.statusURL!, false).then((response: HttpOperationResponse) => {
+    return this.updateOperationStatus(lroPollState.appState.statusURL || "", false).then((response: HttpOperationResponse) => {
       const statusCode: number = response.status;
       const parsedResponse: any = response.parsedBody;
 
-      if (statusCode !== 200 && statusCode !== 204) {
+      if (statusCode !== 200 && statusCode !== 201 && statusCode !== 204) {
         const error = new RestError(`Invalid status code (${statusCode}) with response body "${response.bodyAsText}" occurred when polling for operation status.`);
         error.statusCode = statusCode;
-        error.request = stripRequest(response.request);
+        error.request = response.request;
         error.response = response;
         error.body = parsedResponse;
         throw error;
       }
 
-      lroPollState.state = parsedResponse.status;
+      lroPollState.state = parsedResponse!.provisioningState;
       lroPollState.mostRecentResponse = response;
       lroPollState.mostRecentRequest = response.request;
     });
@@ -29,53 +32,70 @@ class CustomLROPollStrategy extends LROPollStrategy {
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     const lroPollState: LROPollState = this._pollState;
-    const initialResponse: HttpOperationResponse = lroPollState.initialResponse;
-    const initialRequestMethod: HttpMethods = initialResponse.request.method;
+    const initialResponse: HttpOperationResponse = lroPollState.initialResponse!;
     const initialResponseStatusCode: number = initialResponse.status;
-    return initialResponseStatusCode === 204;
+    return initialResponseStatusCode === 201;
   }
+
+  protected doFinalGetResourceRequest(): Promise<void> {
+    const lroPollState: LROPollState = this._pollState;
+    return this.updateState(lroPollState.appState.statusURL, true);
+  } 
 
   public isFinalStatusAcceptable(): boolean {
     const lroPollState: LROPollState = this._pollState;
-    const mostRecentResponse: HttpOperationResponse = lroPollState.mostRecentResponse;
+    const mostRecentResponse: HttpOperationResponse = lroPollState.mostRecentResponse!;
     const mostRecentResponseStatusCode: number = mostRecentResponse.status;
-    return initialResponseStatusCode === 200;
+    return mostRecentResponseStatusCode === 200;
   }
 } 
 
-class FakeClient extends ServiceClient {
-  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: AzureServiceClientOptions) {
-    super(credentials, options = updateOptionsWithDefaultValues(options));
+class FakeClient extends LROServiceClient {
+  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
+    super(credentials, options);
     this.totalRequests = 0;
 
     this.responses = [{
       status: 204,
+      headers: fakeHttpHeaders,
       parsedBody: {
-        status: "fake service pending"
       },
-      request: {}
+      request: fakeRequest
+    }, {
+      status: 201,
+      headers: fakeHttpHeaders,
+      parsedBody: {
+      },
+      request: fakeRequest
     }, {
       status: 200,
+      headers: fakeHttpHeaders,
       parsedBody: {
-        "status": "fake services succeeded"
+        provisioningState: "Succeeded"
       },
-      request: {}
+      request: fakeRequest
     }];
   }
 
   private totalRequests: number;
 
-  private responses: []HttpOperationResponse;
+  private responses: HttpOperationResponse[];
 
-  async sendRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+  async sendRequest(): Promise<HttpOperationResponse> {
     return this.responses[this.totalRequests++];
   }
 } 
 
 describe("LROPollStrategy - custom strategy", function () {
-  it("Writing a custom strategy", function () {
-    const fakeClient = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  it("Writing a custom strategy", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const lroPollState: LROPollState = {
+      appState: {
+        statusUrl: ""
+      }
+    };
     const strategy = new CustomLROPollStrategy(client, lroPollState);
     await strategy.pollUntilFinished();
+    assert.equal(lroPollState.mostRecentResponse!.parsedBody.provisioningState, "Succeeded");
   });
 }); 
