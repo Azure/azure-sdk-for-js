@@ -93,7 +93,7 @@
     "inherits": "^2.0.3",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^1.1.2",
+    "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
