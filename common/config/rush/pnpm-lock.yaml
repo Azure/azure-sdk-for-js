@@ -156,7 +156,7 @@ dependencies:
   rhea-promise: 0.1.15
   rimraf: 3.0.0
   rollup: 1.20.3
-  rollup-plugin-alias: 1.5.2
+  rollup-plugin-alias: 2.0.0
   rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
   rollup-plugin-inject: 3.0.1
   rollup-plugin-json: 4.0.0
@@ -8056,12 +8056,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
-  /rollup-plugin-alias/1.5.2:
+  /rollup-plugin-alias/2.0.0:
     dependencies:
       slash: 3.0.0
     dev: false
     resolution:
-      integrity: sha512-ODeZXhTxpD48sfcYLAFc1BGrsXKDj7o1CSNH3uYbdK3o0NxyMmaQPTNgW+ko+am92DLC8QSTe4kyxTuEkI5S5w==
+      integrity: sha512-JVwxV9nwzjc0q7JmrV9jvZlJ8FykNd5r7RmYps8i/7v+vcmmVpeMvXrljhCboYErf4VZ2z9FEj+fP7eJlEGfug==
   /rollup-plugin-commonjs/10.1.0_rollup@1.20.3:
     dependencies:
       estree-walker: 0.6.1
@@ -10457,7 +10457,7 @@ packages:
       regenerator-runtime: 0.13.3
       rimraf: 3.0.0
       rollup: 1.20.3
-      rollup-plugin-alias: 1.5.2
+      rollup-plugin-alias: 2.0.0
       rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
       rollup-plugin-json: 4.0.0
       rollup-plugin-multi-entry: 2.1.0
@@ -10484,7 +10484,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-W96t+GkmAe/7axYZLoo3+/ql7zb3KZvQpMnkkvyW2GncYhFQD/HuGBlUyKS2NROqwgrxc1wSGQ1c5GGQ2GnO6A==
+      integrity: sha512-t09yP8/4pkH0U+FI9gfdJzRp4H6Q7Sux7MLJxlg+ndu6UnxO7sODPDCPPnhxUQ74VtkTrfCdX80oS5UwtiaZ3Q==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -11543,7 +11543,7 @@ specifiers:
   rhea-promise: ^0.1.15
   rimraf: ^3.0.0
   rollup: ^1.16.3
-  rollup-plugin-alias: ^1.4.0
+  rollup-plugin-alias: ^2.0.0
   rollup-plugin-commonjs: ^10.0.0
   rollup-plugin-inject: ^3.0.0
   rollup-plugin-json: ^4.0.0
