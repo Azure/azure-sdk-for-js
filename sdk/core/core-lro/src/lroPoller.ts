@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, RequestOptionsBase, RestResponse, flattenResponse } from "@azure/core-http";
-import { AzureServiceClient } from "@azure/core-arm";
-import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromPollState, LROPollState, LROPollStrategy } from "./lroPollStrategy";
+import { HttpOperationResponse, RestResponse, flattenResponse } from "@azure/core-http";
+import { LROPollState, LROPollStrategy } from "./lroPollStrategy";
 import { LongRunningOperationStates } from "./util/constants";
 
 /**
@@ -132,16 +131,6 @@ export class LROPoller {
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
     return !lroPollStrategy ? undefined : lroPollStrategy.getPollState();
   }
-}
-
-export function createLROPollerFromInitialResponse(azureServiceClient: AzureServiceClient, initialResponse: HttpOperationResponse, options?: RequestOptionsBase): LROPoller {
-  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromInitialResponse(initialResponse, azureServiceClient, options);
-  return new LROPoller(lroPollStrategy, initialResponse);
-}
-
-export function createLROPollerFromPollState(azureServiceClient: AzureServiceClient, lroMemento: LROPollState): LROPoller {
-  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromPollState(azureServiceClient, lroMemento);
-  return new LROPoller(lroPollStrategy, lroMemento.initialResponse);
 }
 
 function flattenAzureResponse(response: HttpOperationResponse): RestResponse {
