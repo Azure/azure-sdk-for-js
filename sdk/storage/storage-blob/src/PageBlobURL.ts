@@ -38,7 +38,8 @@ export interface IPageBlobUploadPagesFromURLOptions {
 
 export interface IPageBlobClearPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
-  customerProvidedKey?: Models.CpkInfo;
+
+  // As service support, clear page currently cannot work with/without CPK when blob is encrypted with CPK.
 }
 
 export interface IPageBlobGetPageRangesOptions {
@@ -52,7 +53,6 @@ export interface IPageBlobGetPageRangesDiffOptions {
 
 export interface IPageBlobResizeOptions {
   accessConditions?: IBlobAccessConditions;
-  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobUpdateSequenceNumberOptions {
@@ -305,8 +305,8 @@ export class PageBlobURL extends BlobURL {
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      cpkInfo: options.customerProvidedKey
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
+      //, cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -387,8 +387,8 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.resize(size, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      //, cpkInfo: options.customerProvidedKey
     });
   }
 

@@ -3,10 +3,10 @@
 ## 2019.09 10.5.0
 
 * Updated Azure Storage Service API version to 2019-02-02.
-* A new API `ServiceURL.submitBatch` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
+* A new API `ServiceURL.submitBatch()` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
 * Added support for customer provided encryption key.
-* Added support for rehydrate priority with additional option to methods `BlobURL.startCopyFromURL` and `BlobURL.setTier`.
-* APIs `BlobURL.startCopyFromURL`, `BlockBlobURL.upload`, `BlockBlobURL.commitBlockList` and `PageBlobURL.create` now support set the blob tier within the API call.
+* Added support for rehydrate priority with additional option to methods `BlobURL.startCopyFromURL()` and `BlobURL.setTier()`.
+* APIs `BlobURL.startCopyFromURL()`, `BlockBlobURL.upload()`, `BlockBlobURL.commitBlockList()` and `PageBlobURL.create()` now support set the blob tier within the API call.
 * Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
 * Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
 
