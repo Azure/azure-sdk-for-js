@@ -1,48 +1,80 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"dir empty":"dir empty156404685923605826","file empty":"file empty156404685950506144"}
+module.exports.testInfo = {"dir empty":"dir empty156758488982600376","file empty":"file empty156758489022100079"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash156404685897002385/dir%20empty156404685923605826')
+  .put('/1share-with-dash156758488943009996/dir%20empty156758488982600376')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:24:01 GMT',
+  'Wed, 04 Sep 2019 08:14:50 GMT',
   'ETag',
-  '"0x8D710E1D45EA678"',
+  '"0x8D7310FF4FA8464"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '71a4b8a5-101a-0077-01ca-42bbd7000000',
+  '06cbc403-001a-003a-5bf8-62edfb000000',
+  'x-ms-client-request-id',
+  '148b11d8-207b-4a63-95b4-5feec2b95e7c',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
+  'x-ms-file-change-time',
+  '2019-09-04T08:14:50.0543588Z',
+  'x-ms-file-last-write-time',
+  '2019-09-04T08:14:50.0543588Z',
+  'x-ms-file-creation-time',
+  '2019-09-04T08:14:50.0543588Z',
+  'x-ms-file-permission-key',
+  '1237041589013461953*8787082347076103240',
+  'x-ms-file-attributes',
+  'Directory',
+  'x-ms-file-id',
+  '13835128424026341376',
+  'x-ms-file-parent-id',
+  '0',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Jul 2019 09:24:01 GMT',
+  'Wed, 04 Sep 2019 08:14:49 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash156404685897002385/dir%20empty156404685923605826/file%20empty156404685950506144')
+  .put('/1share-with-dash156758488943009996/dir%20empty156758488982600376/file%20empty156758489022100079')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Jul 2019 09:24:01 GMT',
+  'Wed, 04 Sep 2019 08:14:50 GMT',
   'ETag',
-  '"0x8D710E1D487B9C9"',
+  '"0x8D7310FF536D8B5"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bc280bd0-a01a-0021-4cca-4253a7000000',
+  '4abc64c2-d01a-0154-11f8-6246d9000000',
+  'x-ms-client-request-id',
+  '7b5ec28a-01ed-434c-8081-017835e870f9',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
+  'x-ms-file-change-time',
+  '2019-09-04T08:14:50.4497333Z',
+  'x-ms-file-last-write-time',
+  '2019-09-04T08:14:50.4497333Z',
+  'x-ms-file-creation-time',
+  '2019-09-04T08:14:50.4497333Z',
+  'x-ms-file-permission-key',
+  '15082859266781889734*8787082347076103240',
+  'x-ms-file-attributes',
+  'Archive',
+  'x-ms-file-id',
+  '13835093239654252544',
+  'x-ms-file-parent-id',
+  '13835128424026341376',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Jul 2019 09:24:01 GMT',
+  'Wed, 04 Sep 2019 08:14:50 GMT',
   'Connection',
   'close' ]);
 
