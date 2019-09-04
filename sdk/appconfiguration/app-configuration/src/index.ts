@@ -1,5 +1,5 @@
 import { AppConfigCredential } from "./appConfigCredential";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential, ManagedIdentityCredential } from "@azure/core-http";
 import { ConfigurationClient } from "./generated/configurationClient";
 
 import {
@@ -60,17 +60,22 @@ export interface ETagOption {
 export type AddConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
 export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+
 export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
 export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
+
 export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
 export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
+
 export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
 export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
 export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
 export type ListRevisionsResponse = ModelListRevisionsResponse;
+
 export type SetConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
 export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+
 export type UpdateConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
 export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
@@ -87,8 +92,9 @@ export class AppConfigurationClient {
     * @param credential The credentials to use for authentication.
      */
   constructor(connectionString: string);
-  constructor(uri: string, credential: TokenCredential);
-  constructor(uriOrConnectionString: string, credential?: TokenCredential) {
+  constructor(uri: string, credential: ManagedIdentityCredential);
+  // TODO: just curious why this allows TokenCredential when it won't actually allow it in code?
+  constructor(uriOrConnectionString: string, credential?: ManagedIdentityCredential) {
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
       const credential = new AppConfigCredential(regexMatch[2], regexMatch[3])
@@ -96,9 +102,7 @@ export class AppConfigurationClient {
         baseUri: regexMatch[1],
         deserializationContentTypes
       });
-    // TODO: if this is a requirement then why isn't the parameter typed as ManagedIdentityCredentials?
-    // (maybe it's just temporary that it only lets one type of credential go through?)  
-    } else if (credential && credential.constructor.name === "ManagedIdentityCredential") {
+    } else if (credential) {
       this.client = new ConfigurationClient(credential, {
         baseUri: uriOrConnectionString,
         deserializationContentTypes
@@ -129,7 +133,8 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Delete a setting the Azure App Configuration service.
+   * Delete a setting the Azure App Configuration service, allowing for an optional etag 
+   * to delete only if unmodified.
    * @param key The name of the key.
    * @param options Optional parameters for the value being deleted.
    */
@@ -175,7 +180,7 @@ export class AppConfigurationClient {
    * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
    * @param key The name of the key.
    * @param configSettings A configuration value.
-   * @param options Optional parameters for the key being updated.
+   * @param options Optional parameters for the key being set.
    */
   setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options: SetConfigurationSettingOptions = {}): Promise<SetConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
@@ -197,9 +202,9 @@ export class AppConfigurationClient {
 
   /**
    * Updates the value of a key in the Azure App Configuration service.
-   * @param key 
-   * @param configSettings 
-   * @param options 
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the key being updated.
    */
   async updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options: UpdateConfigurationSettingOptions = {}): Promise<UpdateConfigurationSettingResponse> {
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
@@ -209,9 +214,7 @@ export class AppConfigurationClient {
     });
 
     const updateConfigSettings = { ...configSettings };
-
-    // TODO: why do we check for undefined in this way?
-    
+  
     if (typeof updateConfigSettings.value === "undefined") {
       updateConfigSettings.value = existingConfigurationSettings.value;
     }
