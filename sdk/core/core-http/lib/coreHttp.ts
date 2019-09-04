@@ -28,6 +28,7 @@ export { redirectPolicy } from "./policies/redirectPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
+export { tracingPolicy } from "./policies/tracingPolicy";
 export {
   MapperType, SimpleMapperType, CompositeMapperType, DictionaryMapperType, SequenceMapperType, EnumMapperType,
   Mapper, BaseMapper, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper,
@@ -51,3 +52,4 @@ export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKey
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
+export * from "@azure/core-tracing";

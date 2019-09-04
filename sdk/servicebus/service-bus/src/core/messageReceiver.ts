@@ -766,6 +766,11 @@ export class MessageReceiver extends LinkEntity {
           this.name,
           this.address
         );
+
+        if (options && options.name) {
+          this.name = options.name;
+        }
+
         this.isConnecting = true;
         await this._negotiateClaim();
         if (!options) {
@@ -917,19 +922,9 @@ export class MessageReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
-        const disconnectedReceiverName = this.name;
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
-
-        this.name = options.name!;
-
-        log.receiver(
-          "[%s] Closing the disconnected Receiver '%s' and creating a new one with the name '%s'",
-          this._context.namespace.connectionId,
-          disconnectedReceiverName,
-          this.name
-        );
 
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.

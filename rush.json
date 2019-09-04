@@ -327,6 +327,10 @@
       "projectFolder": "sdk/core/abort-controller"
     },
     {
+      "packageName": "@azure/app-configuration",
+      "projectFolder": "sdk/appconfiguration/app-configuration"
+    },
+    {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp"
     },

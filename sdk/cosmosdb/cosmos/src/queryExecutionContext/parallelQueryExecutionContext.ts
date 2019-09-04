@@ -36,8 +36,6 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * @ignore
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
-    const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
-    const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
-    return a === b ? 0 : a > b ? 1 : -1;
+    return docProd1.generation - docProd2.generation;
   }
 }
