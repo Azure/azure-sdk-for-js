@@ -108,11 +108,19 @@ export class AppConfigurationClient {
     }
   }
 
+
+
+  // REMOVE
+  // https://github.com/Azure/AppConfiguration#rest-api-reference
+
+
+
+
   /**
-   * 
-   * @param key 
-   * @param configSettings 
-   * @param options 
+   * Add a setting into the Azure App Configuration service, failing if it already exists.
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the value being added.
    */
   addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options: AddConfigurationSettingOptions = {}): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
@@ -128,6 +136,11 @@ export class AppConfigurationClient {
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, options);
   }
 
+  /**
+   * Delete a setting the Azure App Configuration service.
+   * @param key The name of the key.
+   * @param options Optional parameters for the value being deleted.
+   */
   deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
@@ -141,18 +154,37 @@ export class AppConfigurationClient {
     return this.client.deleteConfigurationSetting(key, options);
   }
 
+  /**
+   * Get a setting from the Azure App Configuration service.
+   * @param key The name of the key
+   * @param options Optional parameters for the value being retrieved.
+   */
   getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse> {
     return this.client.getConfigurationSetting(key, options);
   }
 
+  /**
+   * Lists the setting from the Azure App Configuration service.
+   * @param options Optional parameters for the values being listed.
+   */
   listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse> {
     return this.client.listConfigurationSettings(options);
   }
 
+  /**
+   * Lists the revisions of a set of keys within the Azure App Configuration service.
+   * @param options Optional parameters for the revisions being listed.
+   */
   listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse> {
     return this.client.listRevisions(options);
   }
 
+  /**
+   * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the key being updated.
+   */
   setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options: SetConfigurationSettingOptions = {}): Promise<SetConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
@@ -171,6 +203,12 @@ export class AppConfigurationClient {
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, { ...options, customHeaders });
   }
 
+  /**
+   * Updates the value of a key in the Azure App Configuration service.
+   * @param key 
+   * @param configSettings 
+   * @param options 
+   */
   async updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options: UpdateConfigurationSettingOptions = {}): Promise<UpdateConfigurationSettingResponse> {
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
     const existingConfigurationSettings = await this.getConfigurationSetting(key, {
@@ -179,6 +217,9 @@ export class AppConfigurationClient {
     });
 
     const updateConfigSettings = { ...configSettings };
+
+    // TODO: why do we check for undefined in this way?
+    
     if (typeof updateConfigSettings.value === "undefined") {
       updateConfigSettings.value = existingConfigurationSettings.value;
     }
