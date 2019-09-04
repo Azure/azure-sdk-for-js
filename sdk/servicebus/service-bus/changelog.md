@@ -1,4 +1,4 @@
-# 2019-08-29 1.0.4
+# 2019-09-04 1.0.4
 
 - Increase timeout value from 20 seconds to 60 seconds when settling messages.
 [PR 4907](https://github.com/Azure/azure-sdk-for-js/pull/4907) related to [bug 3764](https://github.com/Azure/azure-sdk-for-js/issues/3764)
@@ -6,6 +6,8 @@
 [PR 4908](https://github.com/Azure/azure-sdk-for-js/pull/4908) related to [bug 4764](https://github.com/Azure/azure-sdk-for-js/issues/4764)
 - Use user provided timeout value for the entirety of the `receiveMessages()` method.
 [PR 4933](https://github.com/Azure/azure-sdk-for-js/pull/4933) related to [bug 4748](https://github.com/Azure/azure-sdk-for-js/issues/4748) 
+- Improve logging when not able to settle a message due to not having access to the right receiver. [PR 4943](https://github.com/Azure/azure-sdk-for-js/pull/4943)
+- Fix bug where the library consistently fails to settle a message due to having lost reference to the right receiver. [PR 4947](https://github.com/Azure/azure-sdk-for-js/pull/4947)
 
 # 2019-07-18 1.0.3
 
