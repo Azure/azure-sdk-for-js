@@ -29,15 +29,21 @@ export class QueueResourceSerializer implements ResourceSerializer {
       ServiceBusAtomXmlConstants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
       ServiceBusAtomXmlConstants.MAX_DELIVERY_COUNT,
       ServiceBusAtomXmlConstants.ENABLE_BATCHED_OPERATIONS,
+      ServiceBusAtomXmlConstants.STATUS,
+      ServiceBusAtomXmlConstants.FORWARD_TO,
+      ServiceBusAtomXmlConstants.USER_METADATA,
+      ServiceBusAtomXmlConstants.AUTO_DELETE_ON_IDLE,
       ServiceBusAtomXmlConstants.SIZE_IN_BYTES,
       ServiceBusAtomXmlConstants.MESSAGE_COUNT,
-      ServiceBusAtomXmlConstants.ENABLE_PARTITIONING
+      ServiceBusAtomXmlConstants.ENABLE_PARTITIONING,
+      ServiceBusAtomXmlConstants.FORWARD_DEADLETTERED_MESSAGES_TO
     ];
 
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "QueueDescription",
       resource,
-      properties
+      properties,
+      ServiceBusAtomXmlConstants.XML_NAMESPACE
     );
   }
 

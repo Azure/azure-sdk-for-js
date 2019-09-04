@@ -15,6 +15,7 @@
 //
 
 import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
+import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class RuleResourceSerializer implements ResourceSerializer {
   serialize(rule: any): any {
@@ -97,7 +98,8 @@ export class RuleResourceSerializer implements ResourceSerializer {
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "RuleDescription",
       resource,
-      properties
+      properties,
+      ServiceBusAtomXmlConstants.XML_NAMESPACE
     );
   }
 

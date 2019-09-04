@@ -22,8 +22,8 @@ const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new Servi
 const alwaysBeExistingQueue = "alwaysBeExistingQueue";
 const alwaysBeDeletedQueue = "alwaysBeDeletedQueue";
 
-function prettyPrint(result: any) {
-  console.log(`\n\nOperation result -> ${JSON.stringify(result, undefined, 2)}\n\n`);
+function prettyPrint(value: any) {
+  console.log(`\n\nOperation result -> ${JSON.stringify(value, undefined, 2)}\n\n`);
 }
 
 entityType = "Queue";
@@ -41,10 +41,10 @@ describe(`Atom management - Basic CRUD on ${entityType} entities #RunInBrowser`,
       EnableBatchedOperations: "true",
       EnablePartitioning: "false"
     });
-    const result = response.parsedBody;
-    should.equal(result.error, undefined, "Error must be undefined");
-    should.equal(result.result, undefined, "Result must be undefined for create requests");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error, undefined, "Error must be undefined");
+    should.equal(parsedBody.result, undefined, "Result must be undefined for create requests");
+    prettyPrint(parsedBody);
   });
 
   it(`Creating an existent ${entityType} entity throws an error`, async () => {
@@ -58,18 +58,22 @@ describe(`Atom management - Basic CRUD on ${entityType} entities #RunInBrowser`,
       EnableBatchedOperations: "true",
       EnablePartitioning: "false"
     });
-    const result = response.parsedBody;
-    should.equal(result.error == undefined, false, "Error must not be undefined");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error == undefined, false, "Error must not be undefined");
+    prettyPrint(parsedBody);
   });
 
   it(`Lists available ${entityType} entities successfully`, async () => {
     const response = await serviceBusAtomManagementClient.listQueues({ top: 10 });
 
-    const result = response.parsedBody;
-    should.equal(result.error, undefined, "Error must be undefined");
-    should.equal(Array.isArray(result.result), true, "Result must be any array for list requests");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error, undefined, "Error must be undefined");
+    should.equal(
+      Array.isArray(parsedBody.result),
+      true,
+      "Result must be any array for list requests"
+    );
+    prettyPrint(parsedBody);
   });
 
   it(`Updates an existent ${entityType} entity successfully`, async () => {
@@ -93,23 +97,23 @@ describe(`Atom management - Basic CRUD on ${entityType} entities #RunInBrowser`,
   it(`Gets an existent ${entityType} entity successfully`, async () => {
     const response = await serviceBusAtomManagementClient.getQueue(alwaysBeExistingQueue);
 
-    const result = response.parsedBody;
-    should.equal(result.error, undefined, "Error must be undefined");
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error, undefined, "Error must be undefined");
     should.equal(
-      result.result == undefined,
+      parsedBody.result == undefined,
       false,
       "Result must be NOT undefined for successful get request"
     );
-    prettyPrint(result);
+    prettyPrint(parsedBody);
   });
 
   it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
     const response = await serviceBusAtomManagementClient.deleteQueue("notexisting");
 
-    const result = response.parsedBody;
-    should.equal(result.error == undefined, false, "Error must be NOT undefined");
-    should.equal(result.result, undefined, "Result must be undefined for create() requests");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error == undefined, false, "Error must be NOT undefined");
+    should.equal(parsedBody.result, undefined, "Result must be undefined for create() requests");
+    prettyPrint(parsedBody);
   });
 
   it(`Deletes an existent ${entityType} entity successfully`, async () => {
@@ -125,19 +129,19 @@ describe(`Atom management - Basic CRUD on ${entityType} entities #RunInBrowser`,
     });
     const response = await serviceBusAtomManagementClient.deleteQueue(alwaysBeDeletedQueue);
 
-    const result = response.parsedBody;
-    should.equal(result.error, undefined, "Error must be undefined");
-    should.equal(result.result, undefined, "Result must be undefined for delete() requests");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error, undefined, "Error must be undefined");
+    should.equal(parsedBody.result, undefined, "Result must be undefined for delete() requests");
+    prettyPrint(parsedBody);
   });
 
   it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
     const response = await serviceBusAtomManagementClient.getQueue("notexisting");
 
-    const result = response.parsedBody;
-    should.equal(result.error, undefined, "Error must be undefined");
-    should.equal(Array.isArray(result.result), true, "Result is array for empty get requests");
-    should.equal(result.result.length, 0, "Array must be empty");
-    prettyPrint(result);
+    const parsedBody = response.parsedBody;
+    should.equal(parsedBody.error, undefined, "Error must be undefined");
+    should.equal(Array.isArray(parsedBody.result), true, "Result is array for empty get requests");
+    should.equal(parsedBody.result.length, 0, "Array must be empty");
+    prettyPrint(parsedBody);
   });
 });

@@ -10,7 +10,6 @@ export const messageDispositionTimeout = 20000;
 
 export const max32BitNumber = Math.pow(2, 31) - 1;
 
-
 /**
  * Defines constants for use with service bus.
  *
@@ -147,7 +146,7 @@ export const ServiceBusAtomXmlConstants = {
   DEFAULT_RULE_DESCRIPTION: "DefaultRuleDescription",
 
   /**
-   * The queue's size in bytes.
+   * The entity's size in bytes.
    *
    * @const
    * @type {string}
@@ -161,6 +160,22 @@ export const ServiceBusAtomXmlConstants = {
    * @type {string}
    */
   MESSAGE_COUNT: "MessageCount",
+
+  /**
+   * The topic's subscription count.
+   *
+   * @const
+   * @type {string}
+   */
+  SUBSCRIPTION_COUNT: "SubscriptionCount",
+
+  /**
+   * The topic's count details.
+   *
+   * @const
+   * @type {string}
+   */
+  COUNT_DETAILS: "CountDetails",
 
   /**
    * The default rule name.
@@ -203,6 +218,38 @@ export const ServiceBusAtomXmlConstants = {
   AUTO_DELETE_ON_IDLE: "AutoDeleteOnIdle",
 
   /**
+   * The status information on response
+   *
+   * @const
+   * @type {string}
+   */
+  STATUS: "Status",
+
+  /**
+   * The entity to forward to
+   *
+   * @const
+   * @type {string}
+   */
+  FORWARD_TO: "ForwardTo",
+
+  /**
+   * The user meta data information
+   *
+   * @const
+   * @type {string}
+   */
+  USER_METADATA: "UserMetadata",
+
+  /**
+   * Entity to forward deadlettered messages to
+   *
+   * @const
+   * @type {string}
+   */
+  FORWARD_DEADLETTERED_MESSAGES_TO: "ForwardDeadLetteredMessagesTo",
+
+  /**
    * Query string parameter to set Service Bus API version
    *
    * @const
@@ -216,5 +263,10 @@ export const ServiceBusAtomXmlConstants = {
    * @const
    * @type {string}
    */
-  CURRENT_API_VERSION: "2016-07"
+  CURRENT_API_VERSION: "2016-07",
+
+  /**
+   * XML namespace string to use for the Atom based requests
+   */
+  XML_NAMESPACE: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
 };

@@ -27,14 +27,22 @@ export class SubscriptionResourceSerializer implements ResourceSerializer {
       ServiceBusAtomXmlConstants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS,
       ServiceBusAtomXmlConstants.MESSAGE_COUNT,
       ServiceBusAtomXmlConstants.MAX_DELIVERY_COUNT,
+      ServiceBusAtomXmlConstants.STATUS,
       ServiceBusAtomXmlConstants.ENABLE_BATCHED_OPERATIONS,
-      ServiceBusAtomXmlConstants.AUTO_DELETE_ON_IDLE
+      ServiceBusAtomXmlConstants.USER_METADATA,
+      ServiceBusAtomXmlConstants.AUTO_DELETE_ON_IDLE,
+      ServiceBusAtomXmlConstants.FORWARD_TO,
+      ServiceBusAtomXmlConstants.FORWARD_DEADLETTERED_MESSAGES_TO,
+      ServiceBusAtomXmlConstants.MESSAGE_COUNT,
+      ServiceBusAtomXmlConstants.SIZE_IN_BYTES,
+      ServiceBusAtomXmlConstants.COUNT_DETAILS
     ];
 
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "SubscriptionDescription",
       resource,
-      properties
+      properties,
+      ServiceBusAtomXmlConstants.XML_NAMESPACE
     );
   }
 

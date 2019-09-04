@@ -23,12 +23,16 @@ import {
   AtomXmlOperationSpec,
   signingPolicy,
   userAgentPolicy,
+  logPolicy,
+  proxyPolicy,
   atomSerializationPolicy,
   RequestPolicyFactory,
   ResourceSerializer,
   URLBuilder,
-  byteLength
+  ProxySettings
 } from "@azure/core-http";
+
+import { httpAtomXml } from "./log";
 
 import { QueueResourceSerializer } from "./serializers/queueResourceSerializer";
 import { TopicResourceSerializer } from "./serializers/topicResourceSerializer";
@@ -57,7 +61,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param options The parameter options
    */
-  constructor(connectionString: any, options?: ServiceClientOptions) {
+  constructor(connectionString: string, proxySettings?: ProxySettings) {
     const connectionStringObj = ServiceBusAtomManagementClient.parseConnectionString(
       connectionString
     );
@@ -66,19 +70,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       connectionStringObj.SharedAccessKey
     );
 
-    if (!options) {
-      options = {};
-    }
-    const requestPolicyFactories = (options.requestPolicyFactories as RequestPolicyFactory[]) || [];
+    const requestPolicyFactories: RequestPolicyFactory[] = [];
     requestPolicyFactories.push(userAgentPolicy());
+    requestPolicyFactories.push(logPolicy(httpAtomXml));
     requestPolicyFactories.push(atomSerializationPolicy());
     requestPolicyFactories.push(signingPolicy(credentials));
-    options!.requestPolicyFactories = requestPolicyFactories;
-    options = {
+
+    if (proxySettings) {
+      requestPolicyFactories.push(proxyPolicy(proxySettings));
+    }
+    const serviceClientOptions: ServiceClientOptions = {
       requestPolicyFactories: requestPolicyFactories
     };
 
-    super(credentials, options);
+    super(credentials, serviceClientOptions);
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
@@ -395,7 +400,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       webResource.headers.set("If-Match", "*");
     }
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
-    webResource.headers.set("content-length", byteLength(webResource.body));
+    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
       serializer: serializer,

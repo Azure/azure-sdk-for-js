@@ -26,15 +26,23 @@ export class TopicResourceSerializer implements ResourceSerializer {
       ServiceBusAtomXmlConstants.DEFAULT_MESSAGE_TIME_TO_LIVE,
       ServiceBusAtomXmlConstants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
       ServiceBusAtomXmlConstants.ENABLE_BATCHED_OPERATIONS,
+      ServiceBusAtomXmlConstants.STATUS,
+      ServiceBusAtomXmlConstants.USER_METADATA,
+      ServiceBusAtomXmlConstants.AUTO_DELETE_ON_IDLE,
       ServiceBusAtomXmlConstants.SIZE_IN_BYTES,
       ServiceBusAtomXmlConstants.SUPPORT_ORDERING,
-      ServiceBusAtomXmlConstants.ENABLE_PARTITIONING
+      ServiceBusAtomXmlConstants.ENABLE_PARTITIONING,
+      ServiceBusAtomXmlConstants.SIZE_IN_BYTES,
+      ServiceBusAtomXmlConstants.MESSAGE_COUNT,
+      ServiceBusAtomXmlConstants.COUNT_DETAILS,
+      ServiceBusAtomXmlConstants.SUBSCRIPTION_COUNT
     ];
 
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "TopicDescription",
       resource,
-      properties
+      properties,
+      ServiceBusAtomXmlConstants.XML_NAMESPACE
     );
   }
 
