@@ -92,9 +92,8 @@ export class AppConfigurationClient {
     * @param credential The credentials to use for authentication.
      */
   constructor(connectionString: string);
-  constructor(uri: string, credential: ManagedIdentityCredential);
-  // TODO: just curious why this allows TokenCredential when it won't actually allow it in code?
-  constructor(uriOrConnectionString: string, credential?: ManagedIdentityCredential) {
+  constructor(uri: string, credential: TokenCredential);
+  constructor(uriOrConnectionString: string, credential?: TokenCredential) {
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
       const credential = new AppConfigCredential(regexMatch[2], regexMatch[3])
