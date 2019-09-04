@@ -1,12 +1,26 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RestError, stripRequest, WebResource, OperationResponse, OperationSpec, ServiceClient } from "@azure/core-http";
+import {
+  delay,
+  HttpMethods,
+  HttpOperationResponse,
+  RequestOptionsBase,
+  RestError,
+  stripRequest,
+  WebResource,
+  OperationResponse,
+  OperationSpec,
+  ServiceClient
+} from "@azure/core-http";
 import { LongRunningOperationStates } from "./util/constants";
 
 export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
 
-function getOperationResponse(operationSpec: OperationSpec, response: HttpOperationResponse): OperationResponse | undefined {
+function getOperationResponse(
+  operationSpec: OperationSpec,
+  response: HttpOperationResponse
+): OperationResponse | undefined {
   const statusCode: number = response.status;
   const operationResponses: { [statusCode: string]: OperationResponse } = operationSpec.responses;
   let result: OperationResponse | undefined = operationResponses[statusCode];
@@ -18,7 +32,7 @@ function getOperationResponse(operationSpec: OperationSpec, response: HttpOperat
     }
   }
   return result;
-} 
+}
 
 export interface LROPollState {
   initialResponse?: HttpOperationResponse;
@@ -38,8 +52,10 @@ export class LROServiceClient extends ServiceClient {
  * A long-running operation polling strategy base class that other polling strategies should extend.
  */
 export abstract class LROPollStrategy {
-  constructor(private readonly _serviceClient: LROServiceClient, protected readonly _pollState: LROPollState) {
-  }
+  constructor(
+    private readonly _serviceClient: LROServiceClient,
+    protected readonly _pollState: LROPollState
+  ) {}
 
   public getOperationStatus(): LongRunningOperationStates {
     return this._pollState.state!;
@@ -59,7 +75,10 @@ export abstract class LROPollStrategy {
    */
   public async pollUntilFinished(): Promise<boolean> {
     while (!this.isFinished()) {
-      const delayInSeconds: number = getDelayInSeconds(this._serviceClient, this._pollState.mostRecentResponse!);
+      const delayInSeconds: number = getDelayInSeconds(
+        this._serviceClient,
+        this._pollState.mostRecentResponse!
+      );
       await delay(delayInSeconds * 1000);
 
       await this.sendPollRequest();
@@ -77,7 +96,12 @@ export abstract class LROPollStrategy {
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     const initialRequestMethod: HttpMethods = this._pollState.initialResponse!.request.method;
-    return !this._pollState.resource && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH" || initialRequestMethod === "POST");
+    return (
+      !this._pollState.resource &&
+      (initialRequestMethod === "PUT" ||
+        initialRequestMethod === "PATCH" ||
+        initialRequestMethod === "POST")
+    );
   }
 
   protected abstract doFinalGetResourceRequest(): Promise<void>;
@@ -129,30 +153,42 @@ export abstract class LROPollStrategy {
     return error;
   }
 
-  protected updateState(url: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<void> {
-    return this.updateOperationStatus(url, shouldDeserialize).then(result => {
-      this._pollState.state = getProvisioningState(result.parsedBody) || "Succeeded";
-      this._pollState.mostRecentResponse = result;
-      this._pollState.mostRecentRequest = result.request;
-      this._pollState.resource = getResponseBody(result);
-    }).catch((error) => {
-      let resultStatus: number | undefined;
-      if (error.response && error.response.status) {
-        resultStatus = error.response.status;
-        if (this._pollState.initialResponse!.request.method !== "DELETE" || resultStatus! < 400 || 499 < resultStatus!) {
+  protected updateState(
+    url: string,
+    shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)
+  ): Promise<void> {
+    return this.updateOperationStatus(url, shouldDeserialize)
+      .then((result) => {
+        this._pollState.state = getProvisioningState(result.parsedBody) || "Succeeded";
+        this._pollState.mostRecentResponse = result;
+        this._pollState.mostRecentRequest = result.request;
+        this._pollState.resource = getResponseBody(result);
+      })
+      .catch((error) => {
+        let resultStatus: number | undefined;
+        if (error.response && error.response.status) {
+          resultStatus = error.response.status;
+          if (
+            this._pollState.initialResponse!.request.method !== "DELETE" ||
+            resultStatus! < 400 ||
+            499 < resultStatus!
+          ) {
+            throw error;
+          }
+        } else {
           throw error;
         }
-      } else {
-        throw error;
-      }
-    });
+      });
   }
 
   /**
    * Retrieves operation status by querying the operation URL.
    * @param {string} statusUrl URL used to poll operation result.
    */
-  protected updateOperationStatus(statusUrl: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<HttpOperationResponse> {
+  protected updateOperationStatus(
+    statusUrl: string,
+    shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)
+  ): Promise<HttpOperationResponse> {
     const requestUrl: string = statusUrl.replace(" ", "%20");
     const httpRequest = new WebResource(requestUrl, "GET");
     const pollState: LROPollState = this._pollState;
@@ -176,7 +212,10 @@ export abstract class LROPollStrategy {
   }
 }
 
-export function getDelayInSeconds(serviceClient: LROServiceClient, previousResponse: HttpOperationResponse): number {
+export function getDelayInSeconds(
+  serviceClient: LROServiceClient,
+  previousResponse: HttpOperationResponse
+): number {
   let delayInSeconds = 30;
   if (serviceClient.longRunningOperationRetryTimeout != undefined) {
     delayInSeconds = serviceClient.longRunningOperationRetryTimeout;
@@ -222,7 +261,12 @@ function getResponseBody(response: HttpOperationResponse): any {
   return result;
 }
 
-const terminalStates: LongRunningOperationStates[] = ["Succeeded", "Failed", "Canceled", "Cancelled"];
+const terminalStates: LongRunningOperationStates[] = [
+  "Succeeded",
+  "Failed",
+  "Canceled",
+  "Cancelled"
+];
 
 /**
  * Get whether or not a long-running operation with the provided status is finished.
@@ -240,7 +284,10 @@ export function isFinished(status: LongRunningOperationStates): boolean {
   return result;
 }
 
-export function longRunningOperationStatesEqual(lhs: LongRunningOperationStates, rhs: LongRunningOperationStates): boolean {
+export function longRunningOperationStatesEqual(
+  lhs: LongRunningOperationStates,
+  rhs: LongRunningOperationStates
+): boolean {
   const lhsLowerCased: string = lhs && lhs.toLowerCase();
   const rhsLowerCased: string = rhs && rhs.toLowerCase();
   return lhsLowerCased === rhsLowerCased;
