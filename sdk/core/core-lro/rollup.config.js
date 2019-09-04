@@ -1,33 +1,14 @@
-import nodeResolve from "rollup-plugin-node-resolve";
-import visualizer from "rollup-plugin-visualizer";
-import sourcemaps from "rollup-plugin-sourcemaps";
+import * as base from "./rollup.base.config";
 
-const banner = `/** @license @azure/core-lro
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- */`;
+const inputs = [];
 
-/**
- * @type {import('rollup').RollupFileOptions}
- */
-const config = {
-  input: './dist-esm/src/index.js',
-  external: ["@azure/core-http"],
-  output: {
-    file: "./dist/index.js",
-    format: "umd",
-    name: "Azure.Core.LRO",
-    sourcemap: true,
-    globals: {
-      "@azure/core-http": "Azure.Core.HTTP"
-    },
-    banner
-  },
-  plugins: [
-    nodeResolve({ mainFields: ['module'] }),
-    sourcemaps(),
-    visualizer({ filename: "dist/node-stats.html", sourcemap: true })
-  ]
+if (!process.env.ONLY_BROWSER) {
+  inputs.push(base.nodeConfig());
 }
 
-export default config; 
+// Disable this until we are ready to run rollup for the browser.
+if (!process.env.ONLY_NODE) {
+  inputs.push(base.browserConfig());
+}
+
+export default inputs;
