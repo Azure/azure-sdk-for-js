@@ -2,7 +2,6 @@ dependencies:
   '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
-  '@azure/core-tracing': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
@@ -112,7 +111,7 @@ dependencies:
   karma: 4.3.0
   karma-chai: 0.1.0_chai@4.2.0+karma@4.3.0
   karma-chrome-launcher: 3.1.0
-  karma-cli: 1.0.1
+  karma-cli: 2.0.0
   karma-coverage: 1.1.2
   karma-edge-launcher: 0.4.2_karma@4.3.0
   karma-env-preprocessor: 0.1.1
@@ -5541,15 +5540,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3dPs/n7vgz1rxxtynpzZTvb9y/GIaW8xjAwcIGttLbycqoFtI7yo1NGnQi6oFTherRE+GIhCAHZC4vEqWGhNvg==
-  /karma-cli/1.0.1:
+  /karma-cli/2.0.0:
     dependencies:
       resolve: 1.12.0
     dev: false
     engines:
-      node: 0.10 || 0.12 || 4 || 5 || 6
+      node: '>= 6'
     hasBin: true
     resolution:
-      integrity: sha1-rmw8WKMTodALRRZMRVubhs4X+WA=
+      integrity: sha512-1Kb28UILg1ZsfqQmeELbPzuEb5C6GZJfVIk0qOr8LNYQuYWmAaqP16WpbpKEjhejDrDYyYOwwJXSZO6u7q5Pvw==
   /karma-coverage/1.1.2:
     dependencies:
       dateformat: 1.0.12
@@ -10466,7 +10465,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-OW99R0bPL57/S9go3Q7yKxr09+i3vyfT8+bGoikiuw9pACloUuIx+QMK9Ky/3k+SvHZKq95risDhNxnQ3p0PCA==
+      integrity: sha512-W96t+GkmAe/7axYZLoo3+/ql7zb3KZvQpMnkkvyW2GncYhFQD/HuGBlUyKS2NROqwgrxc1wSGQ1c5GGQ2GnO6A==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10560,7 +10559,7 @@ packages:
       fast-json-stable-stringify: 2.0.0
       karma: 4.3.0
       karma-chrome-launcher: 3.1.0
-      karma-cli: 1.0.1
+      karma-cli: 2.0.0
       karma-firefox-launcher: 1.2.0
       karma-mocha: 1.3.0
       karma-mocha-reporter: 2.2.5_karma@4.3.0
@@ -10596,7 +10595,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-NiPreAaTcP1tiyH++PzUd8EO2jhq1i+zBY2OxR6svylImKm8nhBjwTsj+u72viA37kaEmj58uMlZpRGrrXN3vQ==
+      integrity: sha512-xV8UTlWFCDc+LwkakTOYk4k9WiacCGSBQU/f0sRUT53nlHJuanH6Rm0/8nAHMR8ft9xIqmaE3fhT2GsDnMasjg==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -10848,7 +10847,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-uGz1kj/bOU1mRZSDFAZaS9UlVFSAIPzbTd5uHu62md9DFjUHwVDvg6mwOvIRgimpQuOfODYGdcecdVPzFoxSuA==
+      integrity: sha512-FCQmswT2TL2xHf+yTl9xCJND/MbiaEj8tfqoFeZyjDWRklwbELFUPLRAS0eS4RAdpzgn2fri9TfW/QdFv6SMAg==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10916,7 +10915,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-wCauBmckL8OocSwnHukqActaHH9mXZSCIuuG538UiBIWkqySTmByv7WNa0Oh7w5OUDIc2E8MaSmj2vFtedl9CQ==
+      integrity: sha512-iyrXDBZtjHMIMMVMOg07N5kYPEQegi5Kv6Yq1obRbjUTTVkM/EBMbdKlKSu/JlAX6affQRnyrPTL4K7XL24oLg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -11346,7 +11345,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-tOjyuSqDEbemnL7/3exeBk77FZ9RphrCuwch12PmDMn7vg+TkbadsrnARbIV2sw1kI6jyTuGiuArc2T16pgH7A==
+      integrity: sha512-Th4aoKzqBwgHdtM/XEyqo4YRKtwZ0uh2h56dPj74OvTDKFw70L7FT5grx8fZtXuv73M9LIkFJQuoJsPhb7F+8g==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11375,7 +11374,6 @@ specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
-  '@azure/core-tracing': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
   '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
@@ -11485,7 +11483,7 @@ specifiers:
   karma: ^4.0.1
   karma-chai: ^0.1.0
   karma-chrome-launcher: ^3.0.0
-  karma-cli: ^1.0.1
+  karma-cli: ^2.0.0
   karma-coverage: ^1.1.2
   karma-edge-launcher: ^0.4.2
   karma-env-preprocessor: ^0.1.1
